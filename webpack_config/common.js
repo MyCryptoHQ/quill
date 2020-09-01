@@ -237,7 +237,7 @@ module.exports = {
 
     new CopyWebpackPlugin([
       config.path.static,
-      path.join(config.path.assets, 'images/link-preview.png')
+      path.join(config.path.assets, 'images/link-preview.png'),
     ]),
 
     new ForkTsCheckerWebpackPlugin({

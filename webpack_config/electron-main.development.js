@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const config = require('./config');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   target: 'electron-main',
@@ -116,6 +117,10 @@ module.exports = {
     new webpack.EnvironmentPlugin({
       'TARGET_ENV': 'electron'
     }),
+
+    new CopyWebpackPlugin([
+      path.join(config.path.src, 'preload.js')
+    ]),
 
     new ForkTsCheckerWebpackPlugin({
       tsconfig: path.join(config.path.root, 'tsconfig.json'),

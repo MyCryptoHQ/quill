@@ -1,11 +1,13 @@
-import { BrowserWindow, Menu, shell } from 'electron';
-import { URL } from 'url';
+import { BrowserWindow, Menu, shell, ipcMain } from "electron";
+import { URL } from "url";
+import path from "path";
 
-import { IS_DEV } from '../../environment';
+import MENU from "./menu";
+import popupContextMenu from "./contextMenu";
+import { APP_TITLE } from "./constants";
 
-import MENU from './menu';
-import popupContextMenu from './contextMenu';
-import { APP_TITLE } from './constants';
+import { IS_DEV } from "../../environment";
+import { runAPI } from "../api/ws";
 
 // Cached reference, preventing recreations
 let window: BrowserWindow | null;
@@ -18,58 +20,63 @@ export default function getWindow() {
 
   window = new BrowserWindow({
     title: APP_TITLE,
-    backgroundColor: '#fbfbfb',
+    backgroundColor: "#fbfbfb",
     width: 1220,
-    height: process.platform === 'darwin' ? 680 : 720,
+    height: process.platform === "darwin" ? 680 : 720,
     minWidth: 480,
     minHeight: 400,
     webPreferences: {
       devTools: true,
+      preload: path.join(__dirname, "preload.js"),
 
       // For security reasons the following params should not be modified
       // https://electronjs.org/docs/tutorial/security#isolation-for-untrusted-content
       nodeIntegration: false,
-      contextIsolation: true
-    }
+      contextIsolation: true,
+    },
   });
 
-  const appUrl = IS_DEV ? `http://localhost:3000` : `file://${__dirname}/index.html`;
+  const appUrl = IS_DEV
+    ? `http://localhost:3000`
+    : `file://${__dirname}/index.html`;
   window.loadURL(appUrl);
 
-  window.on('closed', () => {
+  window.on("closed", () => {
     window = null;
   });
 
-  window.webContents.on('new-window', (ev: any, urlStr: string) => {
+  window.webContents.on("new-window", (ev: any, urlStr: string) => {
     // Kill all new window requests by default
     ev.preventDefault();
 
     // Only allow HTTPS urls to actually be opened
     const url = new URL(urlStr);
-    if (url.protocol === 'https:') {
+    if (url.protocol === "https:") {
       shell.openExternal(urlStr);
     } else {
-      console.warn(`Blocked request to open new window '${urlStr}', only HTTPS links are allowed`);
+      console.warn(
+        `Blocked request to open new window '${urlStr}', only HTTPS links are allowed`
+      );
     }
   });
 
-  window.webContents.on('context-menu', (_, props) => {
+  window.webContents.on("context-menu", (_, props) => {
     popupContextMenu(window!, IS_DEV, props);
   });
 
-  window.webContents.on('devtools-opened', () => {
+  window.webContents.on("devtools-opened", () => {
     window!.focus();
     setImmediate(() => {
       window!.focus();
     });
   });
 
-  window.webContents.on('will-navigate', (event: any) => {
+  window.webContents.on("will-navigate", (event: any) => {
     event.preventDefault();
   });
 
   if (IS_DEV) {
-    window.webContents.on('did-fail-load', () => {
+    window.webContents.on("did-fail-load", () => {
       setTimeout(() => {
         if (window && window.webContents) {
           window.webContents.reload();
@@ -79,6 +86,9 @@ export default function getWindow() {
   }
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(MENU));
+
+  // Run API
+  runAPI(ipcMain, window.webContents);
 
   return window;
 }
