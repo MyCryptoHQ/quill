@@ -2,14 +2,64 @@
   "name": "signer",
   "version": "1.0.0",
   "main": "main.js",
+  "engines": {
+    "node": "12.14.1",
+    "npm": ">= 6.4.1",
+    "yarn": ">= 1.19.1"
+  },
   "scripts": {
-    "start": "electron ."
+    "start": "yarn run dev:electron",
+    "dev:electron": "cross-env TARGET_ENV=electron concurrently -r --kill-others -n \"RENDERER,MAIN\" \"yarn run dev:electron:renderer\" \"yarn run dev:electron:main\"",
+    "predev:electron": "electron-builder install-app-deps",
+    "dev:electron:main": "webpack --config webpack_config/electron-main.development.js && electron dist/electron-main/main.js",
+    "dev:electron:renderer": "webpack-dev-server --config webpack_config/electron-renderer.development.js"
   },
   "repository": "https://github.com/MyCryptoHQ/signer.git",
   "author": "MyCryptoHQ",
   "license": "MIT",
   "devDependencies": {
+    "@hot-loader/react-dom": "16.11.0",
+    "@babel/core": "7.9.0",
+    "@babel/plugin-proposal-class-properties": "7.10.1",
+    "@babel/plugin-proposal-object-rest-spread": "7.9.0",
+    "@babel/plugin-syntax-dynamic-import": "7.8.3",
+    "@babel/plugin-transform-modules-commonjs": "7.9.0",
+    "@babel/preset-env": "7.9.0",
+    "@babel/preset-react": "7.9.0",
+    "@babel/preset-typescript": "7.9.0",
+    "@types/react": "16.9.49",
+    "@types/react-dom": "16.9.8",
+    "babel-jest": "24.9.0",
+    "babel-loader": "8.0.6",
+    "babel-plugin-styled-components": "1.10.6",
+    "clean-webpack-plugin": "3.0.0",
+    "concurrently": "5.3.0",
+    "copy-webpack-plugin": "5.1.1",
+    "cross-env": "7.0.2",
     "electron": "10.1.0",
-    "electron-builder": "22.8.0"
+    "electron-builder": "22.8.0",
+    "favicons-webpack-plugin": "4.2.0",
+    "fork-ts-checker-webpack-plugin": "3.1.1",
+    "friendly-errors-webpack-plugin": "1.7.0",
+    "html-webpack-plugin": "4.4.1",
+    "react-hot-loader": "4.12.21",
+    "stylelint": "13.7.0",
+    "stylelint-webpack-plugin": "2.1.0",
+    "tsconfig-paths-webpack-plugin": "3.2.0",
+    "tslint": "5.20.1",
+    "tslint-config-prettier": "1.18.0",
+    "tslint-microsoft-contrib": "6.2.0",
+    "tslint-react": "4.1.0",
+    "typescript": "4.0.2",
+    "webpack": "4.41.5",
+    "webpack-bundle-analyzer": "3.8.0",
+    "webpack-cli": "3.3.10",
+    "webpack-dev-server": "3.10.1",
+    "webpack-merge": "4.2.2"
+  },
+  "dependencies": {
+    "@mycrypto/ui": "0.24.1",
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
   }
 }
