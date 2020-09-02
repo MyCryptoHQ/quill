@@ -14,13 +14,14 @@ export const Home = () => {
       setTx(event);
       console.debug(event);
     });
-  });
+  }, []);
 
   const handleSign = async () => {
     if (privKey && tx) {
       const formattedTx = makeTx(tx)
       const signed = await signWithPrivateKey(privKey, formattedTx);
       appRuntime.send("message", signed);
+      setTx(undefined)
     }
   };
 
