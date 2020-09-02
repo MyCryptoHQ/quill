@@ -19,12 +19,11 @@ export const handleRequest = (
         return;
     }
   }
-  // @todo Figure out format and error code
+  // https://www.jsonrpc.org/specification
   reply({
     id: parsed.id,
     jsonrpc: "2.0",
-    result: "",
-    error: { code: "-1", message: "Unsupported operation" },
+    error: { code: "-32601", message: "Unsupported method" },
   });
 };
 
