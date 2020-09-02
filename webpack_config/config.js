@@ -16,7 +16,7 @@ const paths = {
 
 module.exports = {
   // Configuration
-  port: 3000,
+  port: 3001,
   title: 'MyCrypto - Ethereum Wallet Manager',
   // description < 200 characters
   description: 'Securely manage ALL of your crypto accounts with MyCrypto. Swap, send, and buy crypto with your favorite wallets like Ledger, Metamask, and Trezor.',

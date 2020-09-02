@@ -37,7 +37,7 @@ export default function getWindow() {
   });
 
   const appUrl = IS_DEV
-    ? `http://localhost:3000`
+    ? `http://localhost:3001`
     : `file://${__dirname}/index.html`;
   window.loadURL(appUrl);
 
