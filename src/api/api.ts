@@ -15,7 +15,7 @@ export const handleRequest = (
   if (Object.values(SUPPORTED_METHODS).includes(parsed.method)) {
     switch (parsed.method) {
       case SUPPORTED_METHODS.SIGN_TRANSACTION:
-        sendToUI(data);
+        sendToUI(parsed);
         return;
     }
   }

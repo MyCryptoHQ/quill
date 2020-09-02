@@ -1,4 +1,4 @@
-//import "@babel/polyfill";
+import "@babel/polyfill";
 const { app } = require('electron');
 import getWindow from "./window";
 
