@@ -21,7 +21,7 @@ export const handleRequest = (
   }
   // @todo Figure out format and error code
   reply({
-    id: 1,
+    id: parsed.id,
     jsonrpc: "2.0",
     result: "",
     error: { code: "-1", message: "Unsupported operation" },
@@ -29,13 +29,12 @@ export const handleRequest = (
 };
 
 export const handleResponse = (
-  result: string,
+  result: { id: number; result: string },
   reply: (response: JsonRPCResponse) => void
 ) => {
   console.debug(result);
   reply({
-    id: 1,
+    ...result,
     jsonrpc: "2.0",
-    result,
   });
 };

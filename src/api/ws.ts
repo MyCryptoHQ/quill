@@ -19,7 +19,7 @@ export const runAPI = (ipcMain: IpcMain, webContents: WebContents) => {
     ipcMain.on("message", (event, arg) => {
       console.debug(event);
       console.debug(arg);
-      handleResponse(arg as string, reply);
+      handleResponse(arg, reply);
     });
     socket.on("message", (data) => {
       console.debug(data);

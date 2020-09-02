@@ -18,10 +18,10 @@ export const Home = () => {
 
   const handleSign = async () => {
     if (privKey && tx) {
-      const formattedTx = makeTx(tx)
+      const formattedTx = makeTx(tx);
       const signed = await signWithPrivateKey(privKey, formattedTx);
-      appRuntime.send("message", signed);
-      setTx(undefined)
+      appRuntime.send("message", { id: tx.id, result: signed });
+      setTx(undefined);
     }
   };
 
