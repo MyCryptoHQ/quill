@@ -24,7 +24,7 @@ export const Home = () => {
         error: { code: "-32000", message: "User denied transaction" },
       });
       setTx(undefined);
-      setError('')
+      setError("");
     }
   };
 
@@ -35,7 +35,7 @@ export const Home = () => {
         const signed = await signWithPrivateKey(privKey, formattedTx);
         appRuntime.send("message", { id: tx.id, result: signed });
         setTx(undefined);
-        setError('')
+        setError("");
       } catch (err) {
         setError(err.message);
       }
@@ -44,9 +44,15 @@ export const Home = () => {
 
   return (
     <div>
-      {tx ? JSON.stringify(tx) : "Nothing to sign"}
+      {tx ? <pre> {JSON.stringify(tx, null, 2)} </pre> : "Nothing to sign"}
       <br />
-      <input type="text" onChange={(e) => setPrivKey(e.currentTarget.value)} />
+      <label htmlFor="privkey">Private Key</label>
+      <br />
+      <input
+        name="privkey"
+        type="text"
+        onChange={(e) => setPrivKey(e.currentTarget.value)}
+      />
       <br />
       <button disabled={!tx} onClick={handleDeny}>
         Deny
