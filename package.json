@@ -92,8 +92,8 @@
     "@hot-loader/react-dom": "16.13.0",
     "electron-squirrel-startup": "^1.0.0",
     "ethers": "5.0.9",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
+    "react": "16.13.0",
+    "react-dom": "16.13.0",
     "react-hot-loader": "4.12.21",
     "ws": "7.3.1"
   }

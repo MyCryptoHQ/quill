@@ -9,6 +9,9 @@ module.exports = {
     rules: require('./rules'),
   },
   resolve: {
+    alias: {
+      'react-dom': '@hot-loader/react-dom'
+    },
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json']
   },
 };
