@@ -7,7 +7,7 @@ import { JsonRPCResponse } from '../types/jsonRPCResponse';
 export const runAPI = (ipcMain: IpcMain, webContents: WebContents) => {
   console.debug('Spinning up WS');
   const ws = new WebSocket.Server({ host: 'localhost', port: 8000 });
-  ws.on('connection', (socket, _) => {
+  ws.on('connection', (socket) => {
     const reply = (response: JsonRPCResponse) =>
       socket.send(JSON.stringify(response), (err) => {
         if (err) console.error(err);
