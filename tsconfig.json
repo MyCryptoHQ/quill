@@ -1,36 +1,21 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
-    "sourceMap": true,
-    "strictNullChecks": true,
-    "module": "esnext",
-    "jsx": "react",
-    "target": "es2015",
     "allowJs": true,
-    "baseUrl": "./src",
-    "paths": {
-      "shared*": ["../shared*"],
-      "types*": ["../shared/types*"],
-      "test-utils": ["../jest_config/test-utils"],
-      "@fixtures": ["../jest_config/__fixtures__"],
-      "@assets/*": ["assets/*"],
-      "@*": ["./*"]
-    },
-    "lib": ["esnext", "dom"],
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
+    "module": "commonjs",
+    "skipLibCheck": true,
     "esModuleInterop": true,
-    "noEmitOnError": false,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "pretty": true,
-    "noErrorTruncation": true,
     "noImplicitAny": true,
-    "skipLibCheck": true
+    "sourceMap": true,
+    "baseUrl": "./src",
+    "outDir": "dist",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "jsx": "react",
+    "paths": {
+      "@*": ["./*"]
+    }
   },
-  "include": ["./scripts", "./src/", "./electron-app/", "./shared/", "spec", "./jest_config"],
-  "exclude": ["node_modules", "jest_config/__mocks__", "./node-scripts"],
-  "awesomeTypescriptLoaderOptions": {
-    "transpileOnly": true
-  }
+  "include": [
+    "src/**/*"
+  ]
 }

@@ -3,6 +3,6 @@ import { hot } from 'react-hot-loader/root';
 import { Home } from "./components/Home"
 
 
-const Root = () => <Home />
+const App = () => <Home />
 
-export default hot(Root);
+export default hot(App);
