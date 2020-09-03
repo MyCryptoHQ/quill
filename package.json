@@ -44,6 +44,7 @@
         [
           "@electron-forge/plugin-webpack",
           {
+            "port": 3001,
             "mainConfig": "./webpack_config/main.config.js",
             "renderer": {
               "config": "./webpack_config/renderer.config.js",
