@@ -6,7 +6,8 @@ import { makeTx } from "../api/util";
 
 export const Home = () => {
   const [tx, setTx] = useState<JsonRPCRequest | undefined>(undefined);
-  const [privKey, setPrivKey] = useState<string | undefined>(undefined);
+  const [privKey, setPrivKey] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     appRuntime.subscribe("message", (event) => {
@@ -16,12 +17,28 @@ export const Home = () => {
     });
   }, []);
 
-  const handleSign = async () => {
-    if (privKey && tx) {
-      const formattedTx = makeTx(tx);
-      const signed = await signWithPrivateKey(privKey, formattedTx);
-      appRuntime.send("message", { id: tx.id, result: signed });
+  const handleDeny = async () => {
+    if (tx) {
+      appRuntime.send("message", {
+        id: tx.id,
+        error: { code: "-32000", message: "User denied transaction" },
+      });
       setTx(undefined);
+      setError('')
+    }
+  };
+
+  const handleAccept = async () => {
+    if (privKey.length > 0 && tx) {
+      try {
+        const formattedTx = makeTx(tx);
+        const signed = await signWithPrivateKey(privKey, formattedTx);
+        appRuntime.send("message", { id: tx.id, result: signed });
+        setTx(undefined);
+        setError('')
+      } catch (err) {
+        setError(err.message);
+      }
     }
   };
 
@@ -31,7 +48,14 @@ export const Home = () => {
       <br />
       <input type="text" onChange={(e) => setPrivKey(e.currentTarget.value)} />
       <br />
-      <button onClick={handleSign}>Sign</button>
+      <button disabled={!tx} onClick={handleDeny}>
+        Deny
+      </button>
+      <button disabled={!tx || privKey.length === 0} onClick={handleAccept}>
+        Accept
+      </button>
+      <br />
+      {error}
     </div>
   );
 };
