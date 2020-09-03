@@ -1,8 +1,8 @@
 {
-  "name": "signer-bruh",
-  "productName": "signer-bruh",
+  "name": "signer",
+  "productName": "signer",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
@@ -12,10 +12,8 @@
     "lint": "eslint --ext .ts ."
   },
   "keywords": [],
-  "author": {
-    "name": "Guillaume Roux",
-    "email": "guillaumeroux123@gmail.com"
-  },
+  "repository": "https://github.com/MyCryptoHQ/signer.git",
+  "author": "MyCryptoHQ",
   "license": "MIT",
   "config": {
     "forge": {
