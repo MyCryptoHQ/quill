@@ -46,13 +46,15 @@ export const Home = () => {
     <div>
       {tx ? <pre> {JSON.stringify(tx, null, 2)} </pre> : 'Nothing to sign'}
       <br />
-      <label htmlFor="privkey">Private Key</label>
-      <br />
-      <input
-        name="privkey"
-        type="text"
-        onChange={(e) => setPrivKey(e.currentTarget.value)}
-      />
+      <label htmlFor="privkey">
+        Private Key
+        <input
+          id="privkey"
+          name="privkey"
+          type="text"
+          onChange={(e) => setPrivKey(e.currentTarget.value)}
+        />
+      </label>
       <br />
       <button type="button" disabled={!tx} onClick={handleDeny}>
         Deny
