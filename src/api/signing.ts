@@ -1,6 +1,6 @@
-import { Wallet } from "ethers";
-import { TransactionRequest } from "@ethersproject/abstract-provider"
-import { addHexPrefix } from "./util";
+import { Wallet } from 'ethers';
+import { TransactionRequest } from '@ethersproject/abstract-provider';
+import { addHexPrefix } from './util';
 
 // @todo Keystore
 

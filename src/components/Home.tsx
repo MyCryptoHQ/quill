@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { signWithPrivateKey } from "@api/signing";
-import appRuntime from "../appRuntime";
-import { JsonRPCRequest } from "../types/JsonRPCRequest";
-import { makeTx } from "../api/util";
+import React, { useEffect, useState } from 'react';
+import { signWithPrivateKey } from '@api/signing';
+import appRuntime from '../appRuntime';
+import { JsonRPCRequest } from '../types/JsonRPCRequest';
+import { makeTx } from '../api/util';
 
 export const Home = () => {
   const [tx, setTx] = useState<JsonRPCRequest | undefined>(undefined);
-  const [privKey, setPrivKey] = useState("");
-  const [error, setError] = useState("");
+  const [privKey, setPrivKey] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    appRuntime.subscribe("message", (event) => {
+    appRuntime.subscribe('message', (event) => {
       // We expect this to be validated and sanitized JSON RPC request
       setTx(event);
       console.debug(event);
@@ -19,12 +19,12 @@ export const Home = () => {
 
   const handleDeny = async () => {
     if (tx) {
-      appRuntime.send("message", {
+      appRuntime.send('message', {
         id: tx.id,
-        error: { code: "-32000", message: "User denied transaction" },
+        error: { code: '-32000', message: 'User denied transaction' },
       });
       setTx(undefined);
-      setError("");
+      setError('');
     }
   };
 
@@ -33,9 +33,9 @@ export const Home = () => {
       try {
         const formattedTx = makeTx(tx);
         const signed = await signWithPrivateKey(privKey, formattedTx);
-        appRuntime.send("message", { id: tx.id, result: signed });
+        appRuntime.send('message', { id: tx.id, result: signed });
         setTx(undefined);
-        setError("");
+        setError('');
       } catch (err) {
         setError(err.message);
       }
@@ -44,7 +44,7 @@ export const Home = () => {
 
   return (
     <div>
-      {tx ? <pre> {JSON.stringify(tx, null, 2)} </pre> : "Nothing to sign"}
+      {tx ? <pre> {JSON.stringify(tx, null, 2)} </pre> : 'Nothing to sign'}
       <br />
       <label htmlFor="privkey">Private Key</label>
       <br />
@@ -54,10 +54,14 @@ export const Home = () => {
         onChange={(e) => setPrivKey(e.currentTarget.value)}
       />
       <br />
-      <button disabled={!tx} onClick={handleDeny}>
+      <button type="button" disabled={!tx} onClick={handleDeny}>
         Deny
       </button>
-      <button disabled={!tx || privKey.length === 0} onClick={handleAccept}>
+      <button
+        type="button"
+        disabled={!tx || privKey.length === 0}
+        onClick={handleAccept}
+      >
         Accept
       </button>
       <br />

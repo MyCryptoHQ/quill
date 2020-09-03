@@ -3,9 +3,9 @@
 
 // https://dennistretyakov.com/ipc-render-in-cra-managed-app
 
-import { contextBridge, ipcRenderer } from "electron";
+import { contextBridge, ipcRenderer } from 'electron';
 
-contextBridge.exposeInMainWorld("appRuntime", {
+contextBridge.exposeInMainWorld('appRuntime', {
   send: (channel: string, data: any) => {
     ipcRenderer.send(channel, data);
   },

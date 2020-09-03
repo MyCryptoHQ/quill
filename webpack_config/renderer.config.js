@@ -15,9 +15,13 @@ module.exports = {
   plugins: plugins,
   resolve: {
     alias: {
-      'react-dom': '@hot-loader/react-dom'
+      'react-dom': '@hot-loader/react-dom',
     },
-    plugins: [new TsconfigPathsPlugin({ configFile: path.resolve(__dirname, '../tsconfig.json') })],
-    extensions: ['.js', '.ts', '.jsx', '.tsx', '.css']
+    plugins: [
+      new TsconfigPathsPlugin({
+        configFile: path.resolve(__dirname, '../tsconfig.json'),
+      }),
+    ],
+    extensions: ['.js', '.ts', '.jsx', '.tsx', '.css'],
   },
 };
