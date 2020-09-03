@@ -44,7 +44,7 @@ export const Home = () => {
 
   return (
     <div>
-      {tx ? <pre> {JSON.stringify(tx, null, 2)} </pre> : 'Nothing to sign'}
+      {tx ? <pre>{JSON.stringify(tx, null, 2)}</pre> : 'Nothing to sign'}
       <br />
       <label htmlFor="privkey">
         Private Key
