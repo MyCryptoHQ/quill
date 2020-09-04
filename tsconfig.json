@@ -13,7 +13,7 @@
     "jsx": "react",
     "paths": {
       "*": ["node_modules"],
-      "@*": ["./*", "./app"]
+      "@*": ["./*", "./app/*"]
     }
   },
   "exclude": ["node_modules"],

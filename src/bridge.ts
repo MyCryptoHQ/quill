@@ -1,12 +1,14 @@
+import { ipcRenderer as IpcRenderer } from 'electron';
+
 type Unsubscribe = () => void;
 type Listener = (...args: any[]) => void;
 
-interface IpcBridge {
+export interface IpcBridge {
   send(channel: string, data: any): void;
   subscribe(channel: string, listener: Listener): Unsubscribe;
 }
 
-export const IpcBridge = (ipcRenderer) => ({
+export const IpcBridge = (ipcRenderer: typeof IpcRenderer) => ({
   send: (channel: string, data: any) => {
     ipcRenderer.send(channel, data);
   },
@@ -20,4 +22,4 @@ export const IpcBridge = (ipcRenderer) => ({
   },
 });
 
-export const ipcBridge = (window as Window).ipcBridge as IpcBridge;
+export const { ipcBridge } = window;
