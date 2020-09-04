@@ -4,7 +4,7 @@ import { isValidRequest } from './validators';
 
 export const handleRequest = (
   data: string,
-  sendToUI: (message: string) => void,
+  sendToUI: (message: any) => void,
   reply: (response: JsonRPCResponse) => void,
 ) => {
   // @todo: Further sanitation?
@@ -30,7 +30,7 @@ export const handleRequest = (
     }
     switch (request.method) {
       case SUPPORTED_METHODS.SIGN_TRANSACTION:
-        sendToUI(data);
+        sendToUI(request);
         return;
       // @todo Actual account handling
       case SUPPORTED_METHODS.ACCOUNTS:
