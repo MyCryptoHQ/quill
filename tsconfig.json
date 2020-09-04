@@ -13,10 +13,9 @@
     "jsx": "react",
     "paths": {
       "*": ["node_modules"],
-      "@*": ["./*"]
+      "@*": ["./*", "./app/*"]
     }
   },
-  "include": [
-    "src/**/*"
-  ]
+  "exclude": ["node_modules"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
 }

@@ -3,18 +3,7 @@
 
 // https://dennistretyakov.com/ipc-render-in-cra-managed-app
 
-import { contextBridge, ipcRenderer } from "electron";
+import { contextBridge, ipcRenderer } from 'electron';
+import { IpcBridge } from '@bridge';
 
-contextBridge.exposeInMainWorld("appRuntime", {
-  send: (channel: string, data: any) => {
-    ipcRenderer.send(channel, data);
-  },
-  subscribe: (channel: string, listener: (...args: any[]) => void) => {
-    const subscription = (_: any, ...args: any[]) => listener(...args);
-    ipcRenderer.on(channel, subscription);
-
-    return () => {
-      ipcRenderer.removeListener(channel, subscription);
-    };
-  },
-});
+contextBridge.exposeInMainWorld('ipcBridge', IpcBridge(ipcRenderer));

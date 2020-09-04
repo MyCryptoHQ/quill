@@ -28,6 +28,10 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import { hot } from 'react-hot-loader';
+import { Home } from '@screens';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const App = () => <Home />;
+const Hot = hot(module)(App);
+
+ReactDOM.render(<Hot />, document.getElementById('root'));
