@@ -18,7 +18,6 @@ export const handleRequest = (
     return;
   }
   const request = json[1] as JsonRPCRequest;
-  // @todo: VALIDATE
   if (Object.values(SUPPORTED_METHODS).includes(request.method)) {
     if (!isValidRequest(request)) {
       reply({
