@@ -4,16 +4,17 @@ import { JsonRPCRequest } from '@types';
 import { makeTx } from '@utils';
 import { ipcBridge } from '@bridge';
 import { signWithPrivateKey } from '../signing';
+import { useQueue } from '../utils';
 
 export const Home = () => {
-  const [tx, setTx] = useState<JsonRPCRequest | undefined>(undefined);
+  const { first: tx, length, enqueue, dequeue } = useQueue<JsonRPCRequest>();
   const [privKey, setPrivKey] = useState('');
   const [error, setError] = useState('');
 
   useEffect(() => {
     ipcBridge.subscribe('message', (event) => {
       // We expect this to be validated and sanitized JSON RPC request
-      setTx(event);
+      enqueue(event);
       console.debug(event);
     });
   }, []);
@@ -24,7 +25,7 @@ export const Home = () => {
         id: tx.id,
         error: { code: '-32000', message: 'User denied transaction' },
       });
-      setTx(undefined);
+      dequeue();
       setError('');
     }
   };
@@ -35,7 +36,7 @@ export const Home = () => {
         const formattedTx = makeTx(tx);
         const signed = await signWithPrivateKey(privKey, formattedTx);
         ipcBridge.send('message', { id: tx.id, result: signed });
-        setTx(undefined);
+        dequeue();
         setError('');
       } catch (err) {
         setError(err.message);
@@ -45,6 +46,12 @@ export const Home = () => {
 
   return (
     <div>
+      {length > 1 && (
+        <>
+          {`TXs in queue: ${length}`}
+          <br />
+        </>
+      )}
       {tx ? <pre>{JSON.stringify(tx, null, 2)}</pre> : 'Nothing to sign'}
       <br />
       <label htmlFor="privkey">
