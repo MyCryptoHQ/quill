@@ -17,19 +17,50 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  extends: ['airbnb-typescript', 'prettier'],
-  plugins: ['@typescript-eslint', 'react', 'prettier'],
-  rules: {
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    'react/prop-types': 0,
-    'react/no-unescaped-entities': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/no-var-requires': 'off',
-    'no-console': ['warn', { allow: ['warn', 'error', 'debug'] }],
-    'no-confusing-arrow': 'off',
-    'import/no-extraneous-dependencies': 'off',
-    'import/prefer-default-export': 'off',
-    'global-require': 'off',
-  },
+  extends: ['airbnb', 'prettier'],
+  plugins: ['prettier'],
+
+  // https://eslint.org/docs/user-guide/configuring#configuration-based-on-glob-patterns
+  // Glob pattern overrides have higher precedence than the regular configuration in the same config file.
+  // Multiple overrides within the same config are applied in order.
+  // That is, the last override block in a config file always has the highest precedence.
+  overrides: [
+    /**
+     * Config files
+     */
+    {
+      files: ['webpack_config/*.js'],
+      settings: {
+        'import/core-modules': [
+          'fork-ts-checker-webpack-plugin',
+          'tsconfig-paths-webpack-plugin',
+        ],
+      },
+    },
+    /**
+     * Electron specific (eg. node)
+     */
+    {
+      files: ['src/**/*.ts', 'src/**/*.tsx'],
+      extends: ['airbnb-typescript', 'prettier'],
+      plugins: ['@typescript-eslint', 'prettier'],
+      settings: {
+        'import/core-modules': ['electron'],
+      },
+      rules: {
+        'import/prefer-default-export': 'off',
+      },
+    },
+    /**
+     * React specific (eg. browser)
+     */
+    {
+      files: ['src/app/**/*.ts', 'src/app/**/*.tsx'],
+      extends: ['airbnb-typescript', 'prettier'],
+      plugins: ['@typescript-eslint', 'react', 'prettier'],
+      rules: {
+        'import/prefer-default-export': 'off',
+      },
+    },
+  ],
 };

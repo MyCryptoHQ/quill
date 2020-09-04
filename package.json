@@ -9,7 +9,7 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "eslint --ignore-path .gitignore . --ext ts --ext tsx --ext js --ext jsx",
+    "lint": "eslint --ignore-path .gitignore .",
     "lint:fix": "yarn lint --fix",
     "format": "prettier --write src/**/*.{js,jsx}",
     "tsc": "tsc -p ./tsconfig.json"
@@ -25,7 +25,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "signer_bruh"
+            "name": "signer"
           }
         },
         {
@@ -53,8 +53,8 @@
               "config": "./webpack_config/renderer.config.js",
               "entryPoints": [
                 {
-                  "html": "./src/index.html",
-                  "js": "./src/renderer.tsx",
+                  "html": "./src/app/index.html",
+                  "js": "./src/app/index.tsx",
                   "name": "main_window",
                   "preload": {
                     "js": "./src/preload.ts"
