@@ -2,6 +2,7 @@ import { JsonRPCRequest, JsonRPCResponse, SUPPORTED_METHODS } from '@types';
 import { safeJSONParse } from '@utils';
 import { isValidRequest } from './validators';
 
+// Replies follow: https://www.jsonrpc.org/specification
 export const handleRequest = (
   data: string,
   sendToUI: (message: any) => void,
@@ -18,37 +19,37 @@ export const handleRequest = (
     return;
   }
   const request = json[1] as JsonRPCRequest;
-  if (Object.values(SUPPORTED_METHODS).includes(request.method)) {
-    if (!isValidRequest(request)) {
-      reply({
-        id: null,
-        jsonrpc: '2.0',
-        error: { code: '-32600', message: 'Invalid Request' },
-      });
-      return;
-    }
-    switch (request.method) {
-      case SUPPORTED_METHODS.SIGN_TRANSACTION:
-        sendToUI(request);
-        return;
-      // @todo Actual account handling
-      case SUPPORTED_METHODS.ACCOUNTS:
-        reply({
-          id: request.id,
-          jsonrpc: '2.0',
-          result: ['0x82D69476357A03415E92B5780C89e5E9e972Ce75'],
-        });
-        return;
-      default:
-        break;
-    }
+  if (!Object.values(SUPPORTED_METHODS).includes(request.method)) {
+    reply({
+      id: request.id,
+      jsonrpc: '2.0',
+      error: { code: '-32601', message: 'Unsupported method' },
+    });
+    return;
   }
-  // https://www.jsonrpc.org/specification
-  reply({
-    id: request.id,
-    jsonrpc: '2.0',
-    error: { code: '-32601', message: 'Unsupported method' },
-  });
+  if (!isValidRequest(request)) {
+    reply({
+      id: null,
+      jsonrpc: '2.0',
+      error: { code: '-32600', message: 'Invalid Request' },
+    });
+    return;
+  }
+  switch (request.method) {
+    case SUPPORTED_METHODS.SIGN_TRANSACTION:
+      sendToUI(request);
+      break;
+    // @todo Actual account handling
+    case SUPPORTED_METHODS.ACCOUNTS:
+      reply({
+        id: request.id,
+        jsonrpc: '2.0',
+        result: ['0x82D69476357A03415E92B5780C89e5E9e972Ce75'],
+      });
+      break;
+    default:
+      break;
+  }
 };
 
 export const handleResponse = (

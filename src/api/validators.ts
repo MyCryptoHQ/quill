@@ -15,11 +15,6 @@ const requestSchema = {
   },
 };
 
-export const isValidRequest = (request: JsonRPCRequest): boolean => {
-  const result = validator(requestSchema)(request);
-  return result && isValidParams(request);
-};
-
 const paramSchemas = {
   // @todo Further validate that strings are hex?
   [SUPPORTED_METHODS.SIGN_TRANSACTION]: {
@@ -60,4 +55,9 @@ const isValidParams = (request: JsonRPCRequest) => {
   }
   // No schema
   return false;
+};
+
+export const isValidRequest = (request: JsonRPCRequest): boolean => {
+  const result = validator(requestSchema)(request);
+  return result && isValidParams(request);
 };
