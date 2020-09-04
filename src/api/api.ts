@@ -1,10 +1,6 @@
-import { JsonRPCRequest, JsonRPCResponse } from '@types';
+import { JsonRPCRequest, JsonRPCResponse, SUPPORTED_METHODS } from '../types';
 import { safeJSONParse } from '../utils';
-
-const SUPPORTED_METHODS = {
-  SIGN_TRANSACTION: 'eth_signTransaction',
-  ACCOUNTS: 'eth_accounts',
-};
+import { isValidRequest } from './validators';
 
 export const handleRequest = (
   data: string,
@@ -24,6 +20,14 @@ export const handleRequest = (
   const request = json[1] as JsonRPCRequest;
   // @todo: VALIDATE
   if (Object.values(SUPPORTED_METHODS).includes(request.method)) {
+    if (!isValidRequest(request)) {
+      reply({
+        id: null,
+        jsonrpc: '2.0',
+        error: { code: '-32600', message: 'Invalid Request' },
+      });
+      return;
+    }
     switch (request.method) {
       case SUPPORTED_METHODS.SIGN_TRANSACTION:
         sendToUI(data);
