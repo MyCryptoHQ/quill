@@ -1,16 +1,16 @@
-import { validator } from "@exodus/schemasafe";
-import { SUPPORTED_METHODS, JsonRPCRequest } from "../types";
+import { validator } from '@exodus/schemasafe';
+import { SUPPORTED_METHODS, JsonRPCRequest } from '@types';
 
 const requestSchema = {
-  type: "object",
+  type: 'object',
   additionalProperties: true,
-  required: ["jsonrpc", "method", "id"],
+  required: ['jsonrpc', 'method', 'id'],
   properties: {
-    jsonrpc: { type: "string" },
-    method: { type: "string" },
-    id: { type: ["string", "integer"] },
+    jsonrpc: { type: 'string' },
+    method: { type: 'string' },
+    id: { type: ['string', 'integer'] },
     params: {
-      type: "array",
+      type: 'array',
     },
   },
 };
@@ -23,29 +23,29 @@ export const isValidRequest = (request: JsonRPCRequest): boolean => {
 const paramSchemas = {
   // @todo Further validate that strings are hex?
   [SUPPORTED_METHODS.SIGN_TRANSACTION]: {
-    type: "array",
+    type: 'array',
     minItems: 1,
     maxItems: 1,
     items: {
-      type: "object",
+      type: 'object',
       required: [
-        "to",
-        "nonce",
-        "gasLimit",
-        "gasPrice",
-        "data",
-        "value",
-        "chainId",
+        'to',
+        'nonce',
+        'gasLimit',
+        'gasPrice',
+        'data',
+        'value',
+        'chainId',
       ],
       properties: {
-        to: { type: "string" },
-        from: { type: "string" },
-        nonce: { type: "string" },
-        gasLimit: { type: "string" },
-        gasPrice: { type: "string" },
-        data: { type: "string" },
-        value: { type: "string" },
-        chainId: { type: "integer" },
+        to: { type: 'string' },
+        from: { type: 'string' },
+        nonce: { type: 'string' },
+        gasLimit: { type: 'string' },
+        gasPrice: { type: 'string' },
+        data: { type: 'string' },
+        value: { type: 'string' },
+        chainId: { type: 'integer' },
       },
     },
   },
@@ -55,7 +55,7 @@ const paramSchemas = {
 const isValidParams = (request: JsonRPCRequest) => {
   const { method, params } = request;
   if (params && method in paramSchemas) {
-    const schema = paramSchemas[method as SUPPORTED_METHODS];
+    const schema = paramSchemas[method];
     return validator(schema)(params);
   }
   // No schema

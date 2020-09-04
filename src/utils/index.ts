@@ -1,5 +1,5 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider';
-import { JsonRPCRequest } from '../types/JsonRPCRequest';
+import { JsonRPCRequest } from '@types';
 
 export const makeTx = (request: JsonRPCRequest): TransactionRequest =>
   request.params[0];

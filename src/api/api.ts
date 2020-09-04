@@ -1,5 +1,5 @@
-import { JsonRPCRequest, JsonRPCResponse, SUPPORTED_METHODS } from '../types';
-import { safeJSONParse } from '../utils';
+import { JsonRPCRequest, JsonRPCResponse, SUPPORTED_METHODS } from '@types';
+import { safeJSONParse } from '@utils';
 import { isValidRequest } from './validators';
 
 export const handleRequest = (
