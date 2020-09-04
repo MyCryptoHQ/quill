@@ -1,8 +1,8 @@
 import WebSocket from 'ws';
 import { IpcMain, WebContents } from 'electron';
-import { handleRequest, handleResponse } from './api';
 
-import { JsonRPCResponse } from '../types/jsonRPCResponse';
+import { JsonRPCResponse } from '@types';
+import { handleRequest, handleResponse } from './api';
 
 export const runAPI = (ipcMain: IpcMain, webContents: WebContents) => {
   console.debug('Spinning up WS');

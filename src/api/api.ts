@@ -1,4 +1,4 @@
-import { JsonRPCResponse } from '../types/jsonRPCResponse';
+import { JsonRPCResponse } from '@types';
 
 const SUPPORTED_METHODS = {
   SIGN_TRANSACTION: 'eth_signTransaction',

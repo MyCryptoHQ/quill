@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { signWithPrivateKey } from '@api/signing';
-import appRuntime from '../appRuntime';
-import { JsonRPCRequest } from '../types/JsonRPCRequest';
-import { makeTx } from '../api/util';
+
+import { JsonRPCRequest } from '@types';
+import { makeTx } from '@utils';
+import { ipcBridge } from '@bridge';
+import { signWithPrivateKey } from '../signing';
 
 export const Home = () => {
   const [tx, setTx] = useState<JsonRPCRequest | undefined>(undefined);
@@ -10,7 +11,7 @@ export const Home = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    appRuntime.subscribe('message', (event) => {
+    ipcBridge.subscribe('message', (event) => {
       // We expect this to be validated and sanitized JSON RPC request
       setTx(event);
       console.debug(event);
@@ -19,7 +20,7 @@ export const Home = () => {
 
   const handleDeny = async () => {
     if (tx) {
-      appRuntime.send('message', {
+      ipcBridge.send('message', {
         id: tx.id,
         error: { code: '-32000', message: 'User denied transaction' },
       });
@@ -33,7 +34,7 @@ export const Home = () => {
       try {
         const formattedTx = makeTx(tx);
         const signed = await signWithPrivateKey(privKey, formattedTx);
-        appRuntime.send('message', { id: tx.id, result: signed });
+        ipcBridge.send('message', { id: tx.id, result: signed });
         setTx(undefined);
         setError('');
       } catch (err) {
