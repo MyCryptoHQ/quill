@@ -28,6 +28,9 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import { hot } from 'react-hot-loader';
+import { Home } from '@screens';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+export default hot(module)(Home);
+
+ReactDOM.render(<Home />, document.getElementById('root'));
