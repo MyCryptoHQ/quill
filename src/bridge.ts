@@ -3,12 +3,12 @@ import { ipcRenderer as IpcRenderer } from 'electron';
 type Unsubscribe = () => void;
 type Listener = (...args: any[]) => void;
 
-export interface IpcBridge {
+export interface IIpcBridge {
   send(channel: string, data: any): void;
   subscribe(channel: string, listener: Listener): Unsubscribe;
 }
 
-export const IpcBridge = (ipcRenderer: typeof IpcRenderer) => ({
+export const IpcBridge = (ipcRenderer: typeof IpcRenderer): IIpcBridge => ({
   send: (channel: string, data: any) => {
     ipcRenderer.send(channel, data);
   },

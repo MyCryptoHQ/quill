@@ -1,7 +1,7 @@
-import { IpcBridge } from '@bridge';
+import { IIpcBridge } from '@bridge';
 
 declare global {
   interface Window {
-    ipcBridge: IpcBridge;
+    ipcBridge: IIpcBridge;
   }
 }

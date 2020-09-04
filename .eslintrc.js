@@ -42,6 +42,7 @@ module.exports = {
      */
     {
       files: ['src/**/*.ts', 'src/**/*.tsx'],
+      parser: '@typescript-eslint/parser',
       extends: ['airbnb-typescript', 'prettier'],
       plugins: ['@typescript-eslint', 'prettier'],
       settings: {
@@ -56,6 +57,7 @@ module.exports = {
      */
     {
       files: ['src/app/**/*.ts', 'src/app/**/*.tsx'],
+      parser: '@typescript-eslint/parser',
       extends: ['airbnb-typescript', 'prettier'],
       plugins: ['@typescript-eslint', 'react', 'prettier'],
       rules: {
