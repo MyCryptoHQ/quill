@@ -1,41 +1,55 @@
-import { JsonRPCResponse } from '@types';
+import { JsonRPCRequest, JsonRPCResponse, SUPPORTED_METHODS } from '@types';
+import { safeJSONParse } from '@utils';
+import { isValidRequest } from './validators';
 
-const SUPPORTED_METHODS = {
-  SIGN_TRANSACTION: 'eth_signTransaction',
-  ACCOUNTS: 'eth_accounts',
-};
-
+// Replies follow: https://www.jsonrpc.org/specification
 export const handleRequest = (
   data: string,
-  sendToUI: (message: string) => void,
+  sendToUI: (message: any) => void,
   reply: (response: JsonRPCResponse) => void,
 ) => {
-  // @todo: SANITIZE
-  const parsed = JSON.parse(data);
-  // @todo: VALIDATE
-  if (Object.values(SUPPORTED_METHODS).includes(parsed.method)) {
-    switch (parsed.method) {
-      case SUPPORTED_METHODS.SIGN_TRANSACTION:
-        sendToUI(parsed);
-        return;
-      // @todo Actual account handling
-      case SUPPORTED_METHODS.ACCOUNTS:
-        reply({
-          id: parsed.id,
-          jsonrpc: '2.0',
-          result: ['0x82D69476357A03415E92B5780C89e5E9e972Ce75'],
-        });
-        return;
-      default:
-        break;
-    }
+  // @todo: Further sanitation?
+  const json = safeJSONParse(data);
+  if (json[0] !== null) {
+    reply({
+      id: null,
+      jsonrpc: '2.0',
+      error: { code: '-32700', message: 'Parse error' },
+    });
+    return;
   }
-  // https://www.jsonrpc.org/specification
-  reply({
-    id: parsed.id,
-    jsonrpc: '2.0',
-    error: { code: '-32601', message: 'Unsupported method' },
-  });
+  const request = json[1] as JsonRPCRequest;
+  if (!Object.values(SUPPORTED_METHODS).includes(request.method)) {
+    reply({
+      id: request.id,
+      jsonrpc: '2.0',
+      error: { code: '-32601', message: 'Unsupported method' },
+    });
+    return;
+  }
+  if (!isValidRequest(request)) {
+    reply({
+      id: null,
+      jsonrpc: '2.0',
+      error: { code: '-32600', message: 'Invalid Request' },
+    });
+    return;
+  }
+  switch (request.method) {
+    case SUPPORTED_METHODS.SIGN_TRANSACTION:
+      sendToUI(request);
+      break;
+    // @todo Actual account handling
+    case SUPPORTED_METHODS.ACCOUNTS:
+      reply({
+        id: request.id,
+        jsonrpc: '2.0',
+        result: ['0x82D69476357A03415E92B5780C89e5E9e972Ce75'],
+      });
+      break;
+    default:
+      break;
+  }
 };
 
 export const handleResponse = (

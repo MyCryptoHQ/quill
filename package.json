@@ -102,6 +102,7 @@
   },
   "dependencies": {
     "@ethersproject/abstract-provider": "5.0.3",
+    "@exodus/schemasafe": "1.0.0-rc.2",
     "@hot-loader/react-dom": "16.13.0",
     "electron-squirrel-startup": "1.0.0",
     "ethers": "5.0.9",
