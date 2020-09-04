@@ -31,6 +31,7 @@ import ReactDOM from 'react-dom';
 import { hot } from 'react-hot-loader';
 import { Home } from '@screens';
 
-export default hot(module)(Home);
+const App = () => <Home />;
+const Hot = hot(module)(App);
 
-ReactDOM.render(<Home />, document.getElementById('root'));
+ReactDOM.render(<Hot />, document.getElementById('root'));
