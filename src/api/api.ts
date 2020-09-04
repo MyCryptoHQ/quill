@@ -1,4 +1,5 @@
-import { JsonRPCResponse } from '@types';
+import { JsonRPCRequest, JsonRPCResponse } from '@types';
+import { safeJSONParse } from '../utils';
 
 const SUPPORTED_METHODS = {
   SIGN_TRANSACTION: 'eth_signTransaction',
@@ -10,18 +11,27 @@ export const handleRequest = (
   sendToUI: (message: string) => void,
   reply: (response: JsonRPCResponse) => void,
 ) => {
-  // @todo: SANITIZE
-  const parsed = JSON.parse(data);
+  // @todo: Further sanitation?
+  const json = safeJSONParse(data);
+  if (json[0] !== null) {
+    reply({
+      id: null,
+      jsonrpc: '2.0',
+      error: { code: '-32700', message: 'Parse error' },
+    });
+    return;
+  }
+  const request = json[1] as JsonRPCRequest;
   // @todo: VALIDATE
-  if (Object.values(SUPPORTED_METHODS).includes(parsed.method)) {
-    switch (parsed.method) {
+  if (Object.values(SUPPORTED_METHODS).includes(request.method)) {
+    switch (request.method) {
       case SUPPORTED_METHODS.SIGN_TRANSACTION:
-        sendToUI(parsed);
+        sendToUI(data);
         return;
       // @todo Actual account handling
       case SUPPORTED_METHODS.ACCOUNTS:
         reply({
-          id: parsed.id,
+          id: request.id,
           jsonrpc: '2.0',
           result: ['0x82D69476357A03415E92B5780C89e5E9e972Ce75'],
         });
@@ -32,7 +42,7 @@ export const handleRequest = (
   }
   // https://www.jsonrpc.org/specification
   reply({
-    id: parsed.id,
+    id: request.id,
     jsonrpc: '2.0',
     error: { code: '-32601', message: 'Unsupported method' },
   });
