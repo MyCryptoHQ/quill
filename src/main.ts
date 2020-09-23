@@ -25,6 +25,7 @@ const createWindow = (): void => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     backgroundColor: '#fbfbfb',
+    icon: path.join(__dirname, 'favicon.png'),
     width: WIDTH,
     height: HEIGHT,
     fullscreenable: false,
