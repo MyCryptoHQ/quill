@@ -96,6 +96,7 @@
     "@typescript-eslint/eslint-plugin": "4.0.1",
     "@typescript-eslint/parser": "4.0.1",
     "babel-jest": "26.3.0",
+    "copy-webpack-plugin": "6.1.1",
     "css-loader": "4.2.1",
     "electron": "10.1.1",
     "eslint": "7.6.0",
