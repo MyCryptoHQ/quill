@@ -23,7 +23,7 @@ let window: BrowserWindow;
 
 const createWindow = (): void => {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  window = new BrowserWindow({
     backgroundColor: '#fbfbfb',
     icon: path.join(__dirname, 'favicon.png'),
     width: WIDTH,
@@ -42,18 +42,16 @@ const createWindow = (): void => {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+  window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
   //mainWindow.webContents.openDevTools();
 
   // Run API
-  runAPI(mainWindow.webContents);
+  runAPI(window.webContents);
 
   // Run Signing Logic
   runSigningService();
-
-  window = mainWindow;
 };
 
 // Based on https://cdruc.com/positioning-electron-tray-apps-on-windows-taskbar/
@@ -137,6 +135,7 @@ const createTray = () => {
 app.on('ready', () => {
   createWindow();
   createTray();
+  showWindow();
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
