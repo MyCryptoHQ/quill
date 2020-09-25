@@ -94,16 +94,16 @@
     "css-loader": "4.2.1",
     "electron": "10.1.1",
     "eslint": "7.6.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jest": "^24.0.2",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-plugin-import": "2.22.0",
+    "eslint-plugin-jest": "24.0.2",
     "eslint-plugin-prettier": "3.1.4",
-    "eslint-plugin-react": "^7.21.2",
-    "eslint-plugin-react-hooks": "^4.1.2",
+    "eslint-plugin-react": "7.21.2",
+    "eslint-plugin-react-hooks": "4.1.2",
     "fork-ts-checker-webpack-plugin": "5.0.14",
     "husky": "4.2.5",
     "jest": "26.4.2",
-    "lint-staged": "^10.4.0",
+    "lint-staged": "10.4.0",
     "node-loader": "1.0.1",
     "npm-run-all": "4.1.5",
     "prettier": "2.1.1",
@@ -128,7 +128,7 @@
       "prettier --write",
       "eslint --fix"
     ],
-    "*.{json}": [
+    "*.json": [
       "prettier --write"
     ]
   },
