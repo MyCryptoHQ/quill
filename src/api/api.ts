@@ -13,6 +13,7 @@ const requestSigning = (
   webContents: WebContents
 ): Promise<JsonRPCResponse> => {
   // @todo Cleaner way of doing this?
+  // @fixme  Also doesn't work with TX queue, fix!
   return new Promise((resolve, reject) => {
     webContents.send(IPC_CHANNELS.API, request);
 
