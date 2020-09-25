@@ -6,8 +6,7 @@ export const useQueue = <T,>() => {
   const first = queue[0];
   const { length } = queue;
   const enqueue = (item: T) => setQueue((prevState) => [...prevState, item]);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const dequeue = () => setQueue(([_, ...rest]) => [...rest]);
+  const dequeue = () => setQueue(([, ...rest]) => [...rest]);
 
   return { first, length, enqueue, dequeue };
 };
