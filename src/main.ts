@@ -1,5 +1,5 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
-
+import { runService as runSigningService } from '@api/signing';
 import { runAPI } from './api/ws';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
@@ -35,6 +35,9 @@ const createWindow = (): void => {
 
   // Run API
   runAPI(ipcMain, mainWindow.webContents);
+
+  // Run Signing Logic
+  runSigningService(ipcMain);
 };
 
 // This method will be called when Electron has finished

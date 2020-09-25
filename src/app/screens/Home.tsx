@@ -4,11 +4,11 @@ import { ipcBridge } from '@bridge';
 
 import { JsonRPCRequest } from '@types';
 import { makeTx } from '@utils';
-
-import { signWithPrivateKey } from '../signing';
+import { useWalletService } from '@app/services';
 import { useQueue } from '../utils';
 
 export const Home = () => {
+  const { signWithPrivateKey } = useWalletService();
   const { first: tx, length, enqueue, dequeue } = useQueue<JsonRPCRequest>();
   const [privKey, setPrivKey] = useState('');
   const [error, setError] = useState('');
