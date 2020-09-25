@@ -1,1 +1,1 @@
-export { useQueue } from './useQueue'
+export { useQueue } from './useQueue';

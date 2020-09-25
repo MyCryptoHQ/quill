@@ -12,7 +12,10 @@
     "lint": "eslint --ignore-path .gitignore .",
     "lint:fix": "yarn lint --fix",
     "format": "prettier --write src/**/*.{js,jsx}",
-    "tsc": "tsc -p ./tsconfig.json"
+    "tsc": "tsc -p ./tsconfig.json",
+    "validate": "npm-run-all --parallel lint tsc",
+    "test:coverage": "yarn test --coverage",
+    "test": "jest --config=jest_config/jest.config.json --maxWorkers=2"
   },
   "keywords": [],
   "repository": "https://github.com/MyCryptoHQ/signer.git",
@@ -68,6 +71,10 @@
     }
   },
   "devDependencies": {
+    "@babel/core": "7.11.6",
+    "@babel/preset-env": "7.11.5",
+    "@babel/preset-react": "7.10.4",
+    "@babel/preset-typescript": "7.10.4",
     "@electron-forge/cli": "6.0.0-beta.53",
     "@electron-forge/maker-deb": "6.0.0-beta.53",
     "@electron-forge/maker-rpm": "6.0.0-beta.53",
@@ -75,11 +82,13 @@
     "@electron-forge/maker-zip": "6.0.0-beta.53",
     "@electron-forge/plugin-webpack": "6.0.0-beta.53",
     "@marshallofsound/webpack-asset-relocator-loader": "0.5.0",
+    "@types/jest": "26.0.14",
     "@types/react": "16.9.49",
     "@types/react-dom": "16.9.8",
     "@types/ws": "7.2.6",
     "@typescript-eslint/eslint-plugin": "4.0.1",
     "@typescript-eslint/parser": "4.0.1",
+    "babel-jest": "26.3.0",
     "css-loader": "4.2.1",
     "electron": "10.1.1",
     "eslint": "7.6.0",
@@ -92,7 +101,9 @@
     "eslint-plugin-react-hooks": "4.1.0",
     "fork-ts-checker-webpack-plugin": "5.0.14",
     "husky": "4.2.5",
+    "jest": "26.4.2",
     "node-loader": "1.0.1",
+    "npm-run-all": "4.1.5",
     "prettier": "2.1.1",
     "pretty-quick": "3.0.0",
     "style-loader": "1.2.1",
@@ -113,7 +124,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged && yarn lint && yarn tsc"
+      "pre-commit": "pretty-quick --staged && yarn lint && yarn tsc",
+      "pre-push": "yarn test"
     }
   }
 }
