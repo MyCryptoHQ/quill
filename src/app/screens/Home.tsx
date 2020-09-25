@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
+import { ipcBridge } from '@bridge';
+
 import { JsonRPCRequest } from '@types';
 import { makeTx } from '@utils';
-import { ipcBridge } from '@bridge';
+
 import { signWithPrivateKey } from '../signing';
 import { useQueue } from '../utils';
 
@@ -23,7 +25,7 @@ export const Home = () => {
     if (tx) {
       ipcBridge.send('message', {
         id: tx.id,
-        error: { code: '-32000', message: 'User denied transaction' },
+        error: { code: '-32000', message: 'User denied transaction' }
       });
       dequeue();
       setError('');
@@ -67,11 +69,7 @@ export const Home = () => {
       <button type="button" disabled={!tx} onClick={handleDeny}>
         Deny
       </button>
-      <button
-        type="button"
-        disabled={!tx || privKey.length === 0}
-        onClick={handleAccept}
-      >
+      <button type="button" disabled={!tx || privKey.length === 0} onClick={handleAccept}>
         Accept
       </button>
       <br />

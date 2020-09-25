@@ -6,7 +6,7 @@ interface Dependencies {
 
 const dependencies = Object.entries({
   ...(packageJSON.dependencies as Dependencies),
-  ...(packageJSON.devDependencies as Dependencies),
+  ...(packageJSON.devDependencies as Dependencies)
 });
 
 // from https://docs.npmjs.com/files/package.json#dependencies

@@ -19,7 +19,7 @@ export const IpcBridge = (ipcRenderer: typeof IpcRenderer): IIpcBridge => ({
     return () => {
       ipcRenderer.removeListener(channel, subscription);
     };
-  },
+  }
 });
 
 export const { ipcBridge } = window;
