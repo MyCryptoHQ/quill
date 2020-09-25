@@ -1,8 +1,8 @@
 import { IpcMain, WebContents } from 'electron';
 import WebSocket from 'ws';
 
-import { JsonRPCResponse, IPC_CHANNELS } from '@types';
-import { handleRequest, handleResponse } from './api';
+import { JsonRPCResponse } from '@types';
+import { handleRequest } from './api';
 
 export const runAPI = (ipcMain: IpcMain, webContents: WebContents) => {
   console.debug('Spinning up WS');
@@ -13,16 +13,10 @@ export const runAPI = (ipcMain: IpcMain, webContents: WebContents) => {
         if (err) console.error(err);
       });
 
-    const sendToUI = (messageToUI: string) => webContents.send(IPC_CHANNELS.API, messageToUI);
-
-    ipcMain.on(IPC_CHANNELS.API, (event, arg) => {
-      console.debug(event);
-      console.debug(arg);
-      handleResponse(arg, reply);
-    });
-    socket.on('message', (data) => {
+    socket.on('message', async (data) => {
       console.debug(data);
-      handleRequest(data as string, sendToUI, reply);
+      const response = await handleRequest(data as string, ipcMain, webContents);
+      reply(response);
     });
   });
 };

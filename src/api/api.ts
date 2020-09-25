@@ -1,65 +1,67 @@
-import { JsonRPCRequest, JsonRPCResponse, SUPPORTED_METHODS } from '@types';
+import { JsonRPCRequest, JsonRPCResponse, SUPPORTED_METHODS, IPC_CHANNELS } from '@types';
 import { safeJSONParse } from '@utils';
-
+import { IpcMain, WebContents } from 'electron';
 import { isValidRequest } from './validators';
 
+const toJsonRpcResponse = (response: Omit<JsonRPCResponse, 'jsonrpc'>) => {
+  return { jsonrpc: '2.0', ...response };
+};
+
+const requestSigning = (
+  request: JsonRPCRequest,
+  ipcMain: IpcMain,
+  webContents: WebContents
+): Promise<JsonRPCResponse> => {
+  // @todo Cleaner way of doing this?
+  return new Promise((resolve, reject) => {
+    webContents.send(IPC_CHANNELS.API, request);
+
+    ipcMain.once(IPC_CHANNELS.API, (event, arg) => {
+      console.debug(event);
+      console.debug(arg);
+      const response = arg;
+      return resolve(response);
+    });
+  });
+};
+
 // Replies follow: https://www.jsonrpc.org/specification
-export const handleRequest = (
+export const handleRequest = async (
   data: string,
-  sendToUI: (message: any) => void,
-  reply: (response: JsonRPCResponse) => void
-) => {
+  ipcMain: IpcMain,
+  webContents: WebContents
+): Promise<JsonRPCResponse> => {
   // @todo: Further sanitation?
-  const json = safeJSONParse(data);
-  if (json[0] !== null) {
-    reply({
+  const [valid, parsed] = safeJSONParse(data);
+  if (valid !== null) {
+    return toJsonRpcResponse({
       id: null,
-      jsonrpc: '2.0',
       error: { code: '-32700', message: 'Parse error' }
     });
-    return;
   }
-  const request = json[1] as JsonRPCRequest;
+  const request = parsed as JsonRPCRequest;
   if (!Object.values(SUPPORTED_METHODS).includes(request.method)) {
-    reply({
+    return toJsonRpcResponse({
       id: request.id,
-      jsonrpc: '2.0',
       error: { code: '-32601', message: 'Unsupported method' }
     });
-    return;
   }
   if (!isValidRequest(request)) {
-    reply({
+    return toJsonRpcResponse({
       id: null,
-      jsonrpc: '2.0',
       error: { code: '-32600', message: 'Invalid Request' }
     });
-    return;
   }
   switch (request.method) {
     case SUPPORTED_METHODS.SIGN_TRANSACTION:
-      sendToUI(request);
-      break;
+      return requestSigning(request, ipcMain, webContents);
     // @todo Actual account handling
     case SUPPORTED_METHODS.ACCOUNTS:
-      reply({
+      return toJsonRpcResponse({
         id: request.id,
-        jsonrpc: '2.0',
         result: ['0x82D69476357A03415E92B5780C89e5E9e972Ce75']
       });
-      break;
     default:
-      break;
+      return Promise.reject(new Error('Unexpected error'));
   }
-};
-
-export const handleResponse = (
-  result: { id: number; result: string },
-  reply: (response: JsonRPCResponse) => void
-): void => {
-  console.debug(result);
-  reply({
-    ...result,
-    jsonrpc: '2.0'
-  });
 };
