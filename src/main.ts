@@ -5,7 +5,6 @@ import { runService as runSigningService } from '@api/sign';
 
 import { runAPI } from './api/ws';
 
-
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: any;
 
@@ -25,7 +24,7 @@ const createWindow = (): void => {
   // Create the browser window.
   window = new BrowserWindow({
     backgroundColor: '#fbfbfb',
-    icon: path.join(__dirname, 'favicon.png'),
+    icon: path.join(__dirname, 'icon.png'),
     width: WIDTH,
     height: HEIGHT,
     fullscreenable: false,

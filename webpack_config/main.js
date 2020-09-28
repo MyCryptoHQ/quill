@@ -9,16 +9,9 @@ module.exports = merge(common, {
   plugins: [
     new CopyWebpackPlugin({
       patterns: [
-        path.resolve(
-          __dirname,
-          '../',
-          'src',
-          'app',
-          'assets',
-          'images',
-          'favicon.png',
-        ),
-      ],
-    }),
-  ],
+        path.resolve(__dirname, '../', 'src', 'app', 'assets', 'images', 'favicon.png'),
+        path.resolve(__dirname, '../', 'src', 'app', 'assets', 'images', 'icon.png')
+      ]
+    })
+  ]
 });
