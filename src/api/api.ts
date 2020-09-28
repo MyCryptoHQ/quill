@@ -13,15 +13,15 @@ const requestSigning = (
   webContents: WebContents
 ): Promise<JsonRPCResponse> => {
   // @todo Cleaner way of doing this?
-  // @fixme  Also doesn't work with TX queue, fix!
+  // @todo Reject?
   return new Promise((resolve, reject) => {
     webContents.send(IPC_CHANNELS.API, request);
 
-    ipcMain.once(IPC_CHANNELS.API, (event, arg) => {
-      console.debug(event);
-      console.debug(arg);
-      const response = arg;
-      return resolve(response);
+    ipcMain.on(IPC_CHANNELS.API, (_event, arg) => {
+      const response = arg as JsonRPCResponse;
+      if (response.id === request.id) {
+        resolve(response);
+      }
     });
   });
 };
