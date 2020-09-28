@@ -1,7 +1,8 @@
-import WebSocket from 'ws';
 import { IpcMain, WebContents } from 'electron';
+import WebSocket from 'ws';
 
 import { JsonRPCResponse } from '@types';
+
 import { handleRequest, handleResponse } from './api';
 
 export const runAPI = (ipcMain: IpcMain, webContents: WebContents) => {
@@ -13,8 +14,7 @@ export const runAPI = (ipcMain: IpcMain, webContents: WebContents) => {
         if (err) console.error(err);
       });
 
-    const sendToUI = (messageToUI: string) =>
-      webContents.send('message', messageToUI);
+    const sendToUI = (messageToUI: string) => webContents.send('message', messageToUI);
 
     ipcMain.on('message', (event, arg) => {
       console.debug(event);

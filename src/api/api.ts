@@ -1,12 +1,13 @@
 import { JsonRPCRequest, JsonRPCResponse, SUPPORTED_METHODS } from '@types';
 import { safeJSONParse } from '@utils';
+
 import { isValidRequest } from './validators';
 
 // Replies follow: https://www.jsonrpc.org/specification
 export const handleRequest = (
   data: string,
   sendToUI: (message: any) => void,
-  reply: (response: JsonRPCResponse) => void,
+  reply: (response: JsonRPCResponse) => void
 ) => {
   // @todo: Further sanitation?
   const json = safeJSONParse(data);
@@ -14,7 +15,7 @@ export const handleRequest = (
     reply({
       id: null,
       jsonrpc: '2.0',
-      error: { code: '-32700', message: 'Parse error' },
+      error: { code: '-32700', message: 'Parse error' }
     });
     return;
   }
@@ -23,7 +24,7 @@ export const handleRequest = (
     reply({
       id: request.id,
       jsonrpc: '2.0',
-      error: { code: '-32601', message: 'Unsupported method' },
+      error: { code: '-32601', message: 'Unsupported method' }
     });
     return;
   }
@@ -31,7 +32,7 @@ export const handleRequest = (
     reply({
       id: null,
       jsonrpc: '2.0',
-      error: { code: '-32600', message: 'Invalid Request' },
+      error: { code: '-32600', message: 'Invalid Request' }
     });
     return;
   }
@@ -44,7 +45,7 @@ export const handleRequest = (
       reply({
         id: request.id,
         jsonrpc: '2.0',
-        result: ['0x82D69476357A03415E92B5780C89e5E9e972Ce75'],
+        result: ['0x82D69476357A03415E92B5780C89e5E9e972Ce75']
       });
       break;
     default:
@@ -54,11 +55,11 @@ export const handleRequest = (
 
 export const handleResponse = (
   result: { id: number; result: string },
-  reply: (response: JsonRPCResponse) => void,
+  reply: (response: JsonRPCResponse) => void
 ): void => {
   console.debug(result);
   reply({
     ...result,
-    jsonrpc: '2.0',
+    jsonrpc: '2.0'
   });
 };

@@ -1,5 +1,6 @@
 import { validator } from '@exodus/schemasafe';
-import { SUPPORTED_METHODS, JsonRPCRequest } from '@types';
+
+import { JsonRPCRequest, SUPPORTED_METHODS } from '@types';
 
 const requestSchema = {
   type: 'object',
@@ -10,9 +11,9 @@ const requestSchema = {
     method: { type: 'string' },
     id: { type: ['string', 'integer'] },
     params: {
-      type: 'array',
-    },
-  },
+      type: 'array'
+    }
+  }
 };
 
 const paramSchemas = {
@@ -23,15 +24,7 @@ const paramSchemas = {
     maxItems: 1,
     items: {
       type: 'object',
-      required: [
-        'to',
-        'nonce',
-        'gasLimit',
-        'gasPrice',
-        'data',
-        'value',
-        'chainId',
-      ],
+      required: ['to', 'nonce', 'gasLimit', 'gasPrice', 'data', 'value', 'chainId'],
       properties: {
         to: { type: 'string' },
         from: { type: 'string' },
@@ -40,11 +33,11 @@ const paramSchemas = {
         gasPrice: { type: 'string' },
         data: { type: 'string' },
         value: { type: 'string' },
-        chainId: { type: 'integer' },
-      },
-    },
+        chainId: { type: 'integer' }
+      }
+    }
   },
-  [SUPPORTED_METHODS.ACCOUNTS]: {},
+  [SUPPORTED_METHODS.ACCOUNTS]: {}
 };
 
 const isValidParams = (request: JsonRPCRequest) => {

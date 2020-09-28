@@ -1,4 +1,5 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
+
 import { runAPI } from './api/ws';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
@@ -22,8 +23,8 @@ const createWindow = (): void => {
       // For security reasons the following params should not be modified
       // https://electronjs.org/docs/tutorial/security#isolation-for-untrusted-content
       nodeIntegration: false,
-      contextIsolation: true,
-    },
+      contextIsolation: true
+    }
   });
 
   // and load the index.html of the app.

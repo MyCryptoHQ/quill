@@ -27,8 +27,10 @@
  */
 
 import React from 'react';
+
 import ReactDOM from 'react-dom';
 import { hot } from 'react-hot-loader';
+
 import { Home } from '@screens';
 
 const App = () => <Home />;
