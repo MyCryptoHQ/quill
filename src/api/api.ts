@@ -3,7 +3,7 @@ import { ipcMain, WebContents } from 'electron';
 import { IPC_CHANNELS, JsonRPCRequest, JsonRPCResponse, SUPPORTED_METHODS } from '@types';
 import { safeJSONParse } from '@utils';
 
-import { isValidRequest } from './validators';
+import { isValidMethod, isValidRequest } from './validators';
 
 const toJsonRpcResponse = (response: Omit<JsonRPCResponse, 'jsonrpc'>) => {
   return { jsonrpc: '2.0', ...response };
@@ -36,15 +36,14 @@ export const handleRequest = async (
   webContents: WebContents
 ): Promise<JsonRPCResponse> => {
   // @todo: Further sanitation?
-  const [valid, parsed] = safeJSONParse(data);
+  const [valid, request] = safeJSONParse(data) as [any, JsonRPCRequest];
   if (valid !== null) {
     return toJsonRpcResponse({
       id: null,
       error: { code: '-32700', message: 'Parse error' }
     });
   }
-  const request = parsed as JsonRPCRequest;
-  if (!Object.values(SUPPORTED_METHODS).includes(request.method)) {
+  if (!isValidMethod(request.method)) {
     return toJsonRpcResponse({
       id: request.id,
       error: { code: '-32601', message: 'Unsupported method' }

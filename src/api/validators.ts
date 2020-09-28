@@ -54,3 +54,7 @@ export const isValidRequest = (request: JsonRPCRequest): boolean => {
   const result = validator(requestSchema)(request);
   return result && isValidParams(request);
 };
+
+export const isValidMethod = (method: string): boolean => {
+  return Object.values(SUPPORTED_METHODS).includes(method);
+};

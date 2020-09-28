@@ -14,7 +14,6 @@ export function useApiService() {
       // We expect this to be validated and sanitized JSON RPC request
       const tx = args[0];
       enqueue(tx);
-      console.debug(tx);
     });
     return () => unsubscribe();
   }, []);
