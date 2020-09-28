@@ -1,2 +1,2 @@
-export { useWalletService } from './WalletService';
+export { signWithPrivateKey } from './WalletService';
 export { useApiService } from './ApiService';

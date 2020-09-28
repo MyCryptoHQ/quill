@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 
-import { useApiService, useWalletService } from '@app/services';
+import { signWithPrivateKey, useApiService } from '@app/services';
 import { makeTx } from '@utils';
 
 export const Home = () => {
   const { approveCurrent, denyCurrent, currentTx, txQueueLength } = useApiService();
-  const { signWithPrivateKey } = useWalletService();
   const [privKey, setPrivKey] = useState('');
   const [error, setError] = useState('');
 
