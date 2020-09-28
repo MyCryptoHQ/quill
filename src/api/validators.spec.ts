@@ -24,7 +24,7 @@ describe('isValidRequest', () => {
     expect(valid).toBe(true);
   });
 
-  it('detects invalid requests', () => {
+  it('detects invalid request if params dont match method schema', () => {
     const valid = isValidRequest({
       id: 1,
       method: SUPPORTED_METHODS.SIGN_TRANSACTION,

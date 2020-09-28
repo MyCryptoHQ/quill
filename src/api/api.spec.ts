@@ -32,7 +32,7 @@ describe('handleRequest', () => {
     );
   });
 
-  it('fails with invalid request', async () => {
+  it('fails with request with no params', async () => {
     const request = { method: SUPPORTED_METHODS.SIGN_TRANSACTION };
     const result = await handleRequest(
       JSON.stringify(request),
