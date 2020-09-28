@@ -1,4 +1,4 @@
-import { IpcMain, WebContents } from 'electron';
+import { ipcMain, WebContents } from 'electron';
 
 import { IPC_CHANNELS, JsonRPCRequest, JsonRPCResponse, SUPPORTED_METHODS } from '@types';
 import { safeJSONParse } from '@utils';
@@ -11,7 +11,6 @@ const toJsonRpcResponse = (response: Omit<JsonRPCResponse, 'jsonrpc'>) => {
 
 const requestSigning = (
   request: JsonRPCRequest,
-  ipcMain: IpcMain,
   webContents: WebContents
 ): Promise<JsonRPCResponse> => {
   // @todo Cleaner way of doing this?
@@ -31,7 +30,6 @@ const requestSigning = (
 // Replies follow: https://www.jsonrpc.org/specification
 export const handleRequest = async (
   data: string,
-  ipcMain: IpcMain,
   webContents: WebContents
 ): Promise<JsonRPCResponse> => {
   // @todo: Further sanitation?
@@ -57,7 +55,7 @@ export const handleRequest = async (
   }
   switch (request.method) {
     case SUPPORTED_METHODS.SIGN_TRANSACTION:
-      return requestSigning(request, ipcMain, webContents);
+      return requestSigning(request, webContents);
     // @todo Actual account handling
     case SUPPORTED_METHODS.ACCOUNTS:
       return toJsonRpcResponse({

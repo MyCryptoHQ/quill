@@ -1,20 +1,21 @@
 import { waitFor } from '@testing-library/react';
-import { IpcMain, WebContents } from 'electron';
+import { WebContents } from 'electron';
 
 import { IPC_CHANNELS, SUPPORTED_METHODS } from '@types';
 
 import { handleRequest } from './api';
 
-const mockIpcMain = { on: jest.fn() };
+jest.mock('electron', () => ({
+  ipcMain: {
+    on: jest.fn()
+  }
+}));
+
 const mockWebContents = { send: jest.fn() };
 
 describe('handleRequest', () => {
   it('fails with invalid json', async () => {
-    const result = await handleRequest(
-      '',
-      (mockIpcMain as unknown) as IpcMain,
-      (mockWebContents as unknown) as WebContents
-    );
+    const result = await handleRequest('', (mockWebContents as unknown) as WebContents);
     expect(result).toStrictEqual(
       expect.objectContaining({ error: expect.objectContaining({ code: '-32700' }) })
     );
@@ -24,7 +25,6 @@ describe('handleRequest', () => {
     const request = { method: 'bla' };
     const result = await handleRequest(
       JSON.stringify(request),
-      (mockIpcMain as unknown) as IpcMain,
       (mockWebContents as unknown) as WebContents
     );
     expect(result).toStrictEqual(
@@ -36,7 +36,6 @@ describe('handleRequest', () => {
     const request = { method: SUPPORTED_METHODS.SIGN_TRANSACTION };
     const result = await handleRequest(
       JSON.stringify(request),
-      (mockIpcMain as unknown) as IpcMain,
       (mockWebContents as unknown) as WebContents
     );
     expect(result).toStrictEqual(
@@ -62,14 +61,9 @@ describe('handleRequest', () => {
         }
       ]
     };
-    handleRequest(
-      JSON.stringify(request),
-      (mockIpcMain as unknown) as IpcMain,
-      (mockWebContents as unknown) as WebContents
-    );
+    handleRequest(JSON.stringify(request), (mockWebContents as unknown) as WebContents);
     await waitFor(() =>
       expect(mockWebContents.send).toHaveBeenCalledWith(IPC_CHANNELS.API, request)
     );
-    expect(mockIpcMain.on).toHaveBeenCalled();
   });
 });

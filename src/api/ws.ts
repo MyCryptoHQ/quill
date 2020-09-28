@@ -1,11 +1,11 @@
-import { IpcMain, WebContents } from 'electron';
+import { WebContents } from 'electron';
 import WebSocket from 'ws';
 
 import { JsonRPCResponse } from '@types';
 
 import { handleRequest } from './api';
 
-export const runAPI = (ipcMain: IpcMain, webContents: WebContents) => {
+export const runAPI = (webContents: WebContents) => {
   console.debug('Spinning up WS');
   const ws = new WebSocket.Server({ host: 'localhost', port: 8000 });
   ws.on('connection', (socket) => {
@@ -16,7 +16,7 @@ export const runAPI = (ipcMain: IpcMain, webContents: WebContents) => {
 
     socket.on('message', async (data) => {
       console.debug(data);
-      const response = await handleRequest(data as string, ipcMain, webContents);
+      const response = await handleRequest(data as string, webContents);
       reply(response);
     });
   });
