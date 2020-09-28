@@ -1,6 +1,8 @@
-import { JsonRPCRequest, JsonRPCResponse, SUPPORTED_METHODS, IPC_CHANNELS } from '@types';
-import { safeJSONParse } from '@utils';
 import { IpcMain, WebContents } from 'electron';
+
+import { IPC_CHANNELS, JsonRPCRequest, JsonRPCResponse, SUPPORTED_METHODS } from '@types';
+import { safeJSONParse } from '@utils';
+
 import { isValidRequest } from './validators';
 
 const toJsonRpcResponse = (response: Omit<JsonRPCResponse, 'jsonrpc'>) => {
@@ -14,7 +16,7 @@ const requestSigning = (
 ): Promise<JsonRPCResponse> => {
   // @todo Cleaner way of doing this?
   // @todo Reject?
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, _reject) => {
     webContents.send(IPC_CHANNELS.API, request);
 
     ipcMain.on(IPC_CHANNELS.API, (_event, arg) => {

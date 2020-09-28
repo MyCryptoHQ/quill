@@ -1,8 +1,9 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider';
 import { Wallet } from '@ethersproject/wallet';
-import { addHexPrefix } from '@utils';
-import { IPC_CHANNELS } from '@types';
 import { IpcMain } from 'electron';
+
+import { IPC_CHANNELS } from '@types';
+import { addHexPrefix } from '@utils';
 
 // @todo Keystore
 

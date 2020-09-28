@@ -1,13 +1,13 @@
-import { ipcBridge } from '@bridge';
-import { TransactionResponse } from '@ethersproject/abstract-provider';
-import { IPC_CHANNELS, JsonRPCRequest, JsonRPCResponse } from '@types';
-import { useQueue } from '@app/utils';
 import { useEffect } from 'react';
 
+import { ipcBridge } from '@bridge';
+import { TransactionResponse } from '@ethersproject/abstract-provider';
+
+import { useQueue } from '@app/utils';
+import { IPC_CHANNELS, JsonRPCRequest, JsonRPCResponse } from '@types';
+
 export function useApiService() {
-  const { first: currentTx, length, enqueue, dequeue } = useQueue<
-    JsonRPCRequest
-  >();
+  const { first: currentTx, length, enqueue, dequeue } = useQueue<JsonRPCRequest>();
 
   useEffect(() => {
     const unsubscribe = ipcBridge.subscribe(IPC_CHANNELS.API, (...args) => {
@@ -30,7 +30,7 @@ export function useApiService() {
 
   const denyCurrent = () => {
     respondCurrentTx({
-      error: { code: '-32000', message: 'User denied transaction' },
+      error: { code: '-32000', message: 'User denied transaction' }
     });
     dequeue();
   };

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
+import { useApiService, useWalletService } from '@app/services';
 import { makeTx } from '@utils';
-import { useWalletService, useApiService } from '@app/services';
 
 export const Home = () => {
   const { approveCurrent, denyCurrent, currentTx, txQueueLength } = useApiService();

@@ -1,4 +1,5 @@
 import { ipcRenderer as IpcRenderer } from 'electron';
+
 import { IPC_CHANNELS } from '@types';
 
 type Unsubscribe = () => void;

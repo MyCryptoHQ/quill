@@ -2,6 +2,7 @@ import { IpcMain, WebContents } from 'electron';
 import WebSocket from 'ws';
 
 import { JsonRPCResponse } from '@types';
+
 import { handleRequest } from './api';
 
 export const runAPI = (ipcMain: IpcMain, webContents: WebContents) => {

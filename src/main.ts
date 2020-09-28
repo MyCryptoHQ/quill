@@ -1,5 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
+
 import { runService as runSigningService } from '@api/signing';
+
 import { runAPI } from './api/ws';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
