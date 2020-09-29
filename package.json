@@ -42,10 +42,6 @@
         {
           "name": "@electron-forge/maker-deb",
           "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
         }
       ],
       "plugins": [
@@ -84,6 +80,8 @@
     "@electron-forge/maker-zip": "6.0.0-beta.53",
     "@electron-forge/plugin-webpack": "6.0.0-beta.53",
     "@marshallofsound/webpack-asset-relocator-loader": "0.5.0",
+    "@sindresorhus/is": "3.1.2",
+    "@szmarczak/http-timer": "4.0.5",
     "@testing-library/react": "11.0.4",
     "@testing-library/react-hooks": "3.4.1",
     "@types/jest": "26.0.14",
