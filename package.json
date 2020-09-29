@@ -121,6 +121,7 @@
     "@ethersproject/wallet": "5.0.4",
     "@exodus/schemasafe": "1.0.0-rc.2",
     "@hot-loader/react-dom": "16.13.0",
+    "electron-log": "4.2.4",
     "electron-squirrel-startup": "1.0.0",
     "react": "16.13.0",
     "react-dom": "16.13.0",
