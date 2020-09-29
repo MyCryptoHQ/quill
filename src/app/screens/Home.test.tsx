@@ -6,7 +6,7 @@ import { Home } from '.';
 
 jest.mock('@bridge', () => ({
   ipcBridge: {
-    subscribe: () => {
+    subscribeToRequests: () => {
       return () => true;
     }
   }
