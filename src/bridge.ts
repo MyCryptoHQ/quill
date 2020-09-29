@@ -1,24 +1,35 @@
-import { ipcRenderer as IpcRenderer } from 'electron';
+import { IPC_CHANNELS } from '@config';
+import { TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider';
+import { ipcRenderer as IpcRenderer, IpcRendererEvent } from 'electron';
+
+import { JsonRPCRequest, JsonRPCResponse } from '@types';
 
 type Unsubscribe = () => void;
-type Listener = (...args: any[]) => void;
 
 export interface IIpcBridge {
-  send(channel: string, data: any): void;
-  subscribe(channel: string, listener: Listener): Unsubscribe;
+  sendResponse(data: Omit<JsonRPCResponse, 'jsonrpc'>): void;
+  subscribeToRequests(listener: (request: JsonRPCRequest) => void): Unsubscribe;
+  signTransaction(obj: {
+    privateKey: string;
+    tx: TransactionRequest;
+  }): Promise<TransactionResponse>;
 }
 
+// Locked down according to: https://www.electronjs.org/docs/tutorial/context-isolation
 export const IpcBridge = (ipcRenderer: typeof IpcRenderer): IIpcBridge => ({
-  send: (channel: string, data: any) => {
-    ipcRenderer.send(channel, data);
+  sendResponse: (data: Omit<JsonRPCResponse, 'jsonrpc'>) => {
+    ipcRenderer.send(IPC_CHANNELS.API, data);
   },
-  subscribe: (channel: string, listener: (...args: any[]) => void) => {
-    const subscription = (_: any, ...args: any[]) => listener(...args);
-    ipcRenderer.on(channel, subscription);
+  subscribeToRequests: (listener: (request: JsonRPCRequest) => void) => {
+    const subscription = (_: IpcRendererEvent, request: JsonRPCRequest) => listener(request);
+    ipcRenderer.on(IPC_CHANNELS.API, subscription);
 
     return () => {
-      ipcRenderer.removeListener(channel, subscription);
+      ipcRenderer.removeListener(IPC_CHANNELS.API, subscription);
     };
+  },
+  signTransaction: ({ privateKey, tx }) => {
+    return ipcRenderer.invoke(IPC_CHANNELS.CRYPTO, { privateKey, tx });
   }
 });
 

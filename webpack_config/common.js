@@ -35,6 +35,9 @@ module.exports = {
 
   resolve: {
     extensions: ['.js', '.ts', '.json'],
+    alias: {
+      '@fixtures': path.join(__dirname, '../jest_config/__fixtures__')
+    },
     plugins: [
       new TsconfigPathsPlugin({
         configFile: path.resolve(__dirname, '../tsconfig.json')

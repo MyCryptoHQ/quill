@@ -1,3 +1,4 @@
 export { JsonRPCRequest } from './jsonRPCRequest';
 export { JsonRPCResponse } from './jsonRPCResponse';
-export { SUPPORTED_METHODS } from './methods';
+export { ISUPPORTED_METHODS } from './methods';
+export { IIPC_CHANNELS } from './ipc';

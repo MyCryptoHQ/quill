@@ -1,44 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import { ipcBridge } from '@bridge';
-
-import { JsonRPCRequest } from '@types';
+import { signWithPrivateKey, useApiService } from '@app/services';
 import { makeTx } from '@utils';
 
-import { signWithPrivateKey } from '../signing';
-import { useQueue } from '../utils';
-
 export const Home = () => {
-  const { first: tx, length, enqueue, dequeue } = useQueue<JsonRPCRequest>();
+  const { approveCurrent, denyCurrent, currentTx, txQueueLength } = useApiService();
   const [privKey, setPrivKey] = useState('');
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    ipcBridge.subscribe('message', (event) => {
-      // We expect this to be validated and sanitized JSON RPC request
-      enqueue(event);
-      console.debug(event);
-    });
-  }, []);
-
   const handleDeny = async () => {
-    if (tx) {
-      ipcBridge.send('message', {
-        id: tx.id,
-        error: { code: '-32000', message: 'User denied transaction' }
-      });
-      dequeue();
+    if (currentTx) {
+      denyCurrent();
       setError('');
     }
   };
 
   const handleAccept = async () => {
-    if (privKey.length > 0 && tx) {
+    if (privKey.length > 0 && currentTx) {
       try {
-        const formattedTx = makeTx(tx);
+        const formattedTx = makeTx(currentTx);
         const signed = await signWithPrivateKey(privKey, formattedTx);
-        ipcBridge.send('message', { id: tx.id, result: signed });
-        dequeue();
+        approveCurrent(signed);
         setError('');
       } catch (err) {
         setError(err.message);
@@ -48,13 +30,13 @@ export const Home = () => {
 
   return (
     <div>
-      {length > 1 && (
+      {txQueueLength > 1 && (
         <>
-          {`TXs in queue: ${length}`}
+          {`TXs in queue: ${txQueueLength}`}
           <br />
         </>
       )}
-      {tx ? <pre>{JSON.stringify(tx, null, 2)}</pre> : 'Nothing to sign'}
+      {currentTx ? <pre>{JSON.stringify(currentTx, null, 2)}</pre> : 'Nothing to sign'}
       <br />
       <label htmlFor="privkey">
         Private Key
@@ -66,10 +48,10 @@ export const Home = () => {
         />
       </label>
       <br />
-      <button type="button" disabled={!tx} onClick={handleDeny}>
+      <button type="button" disabled={!currentTx} onClick={handleDeny}>
         Deny
       </button>
-      <button type="button" disabled={!tx || privKey.length === 0} onClick={handleAccept}>
+      <button type="button" disabled={!currentTx || privKey.length === 0} onClick={handleAccept}>
         Accept
       </button>
       <br />

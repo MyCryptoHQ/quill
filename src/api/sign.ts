@@ -1,5 +1,7 @@
+import { IPC_CHANNELS } from '@config';
 import { TransactionRequest } from '@ethersproject/abstract-provider';
-import { Wallet } from 'ethers';
+import { Wallet } from '@ethersproject/wallet';
+import { ipcMain } from 'electron';
 
 import { addHexPrefix } from '@utils';
 
@@ -15,4 +17,11 @@ export const signWithMnemonic = (mnemonicPhrase: string, dPath: string, tx: Tran
 
 export const signWithPrivateKey = (privateKey: string, tx: TransactionRequest) => {
   return sign(new Wallet(addHexPrefix(privateKey)), tx);
+};
+
+export const runService = () => {
+  ipcMain.handle(IPC_CHANNELS.CRYPTO, (e, ...args) => {
+    const { privateKey, tx } = args[0];
+    return signWithPrivateKey(privateKey, tx);
+  });
 };
