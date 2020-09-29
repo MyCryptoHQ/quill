@@ -14,7 +14,8 @@ console.log(electronPath);
 const app = new Application({
   path: electronPath,
   args: [appPath],
-  webdriverLogPath: logPath
+  webdriverLogPath: logPath,
+  chromeDriverArgs: ['–remote-debugging-port=12209']
 });
 
 export default app;
