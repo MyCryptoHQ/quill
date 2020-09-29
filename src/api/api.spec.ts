@@ -1,7 +1,6 @@
+import { IPC_CHANNELS, SUPPORTED_METHODS } from '@config';
 import { waitFor } from '@testing-library/react';
 import { WebContents } from 'electron';
-
-import { IPC_CHANNELS, SUPPORTED_METHODS } from '@types';
 
 import { handleRequest } from './api';
 

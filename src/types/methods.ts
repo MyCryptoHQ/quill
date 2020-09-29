@@ -1,4 +1,3 @@
-export const SUPPORTED_METHODS = {
-  SIGN_TRANSACTION: 'eth_signTransaction',
-  ACCOUNTS: 'eth_accounts'
-};
+import { SUPPORTED_METHODS } from '@config';
+
+export type ISUPPORTED_METHODS = typeof SUPPORTED_METHODS;

@@ -1,8 +1,8 @@
+import { IPC_CHANNELS } from '@config';
 import { TransactionRequest } from '@ethersproject/abstract-provider';
 import { Wallet } from '@ethersproject/wallet';
 import { ipcMain } from 'electron';
 
-import { IPC_CHANNELS } from '@types';
 import { addHexPrefix } from '@utils';
 
 // @todo Keystore

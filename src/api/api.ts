@@ -1,6 +1,7 @@
+import { IPC_CHANNELS, SUPPORTED_METHODS } from '@config';
 import { ipcMain, WebContents } from 'electron';
 
-import { IPC_CHANNELS, JsonRPCRequest, JsonRPCResponse, SUPPORTED_METHODS } from '@types';
+import { JsonRPCRequest, JsonRPCResponse } from '@types';
 import { safeJSONParse } from '@utils';
 
 import { isValidMethod, isValidRequest } from './validators';

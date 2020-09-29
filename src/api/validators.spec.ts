@@ -1,4 +1,4 @@
-import { SUPPORTED_METHODS } from '@types';
+import { SUPPORTED_METHODS } from '@config';
 
 import { isValidRequest } from './validators';
 

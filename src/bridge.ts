@@ -1,14 +1,14 @@
+import { IPC_CHANNELS } from '@config';
 import { TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider';
 import { ipcRenderer as IpcRenderer, IpcRendererEvent } from 'electron';
 
-import { IPC_CHANNELS, JsonRPCRequest, JsonRPCResponse } from '@types';
+import { JsonRPCRequest, JsonRPCResponse } from '@types';
 
 type Unsubscribe = () => void;
-type Listener = (...args: any[]) => void;
 
 export interface IIpcBridge {
   sendResponse(data: Omit<JsonRPCResponse, 'jsonrpc'>): void;
-  subscribeToRequests(listener: Listener): Unsubscribe;
+  subscribeToRequests(listener: (request: JsonRPCRequest) => void): Unsubscribe;
   signTransaction(obj: {
     privateKey: string;
     tx: TransactionRequest;

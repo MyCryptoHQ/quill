@@ -1,5 +1,3 @@
-export const IPC_CHANNELS = {
-  CRYPTO: 'crypto',
-  API: 'api',
-  DATABASE: 'db'
-};
+import { IPC_CHANNELS } from '@config';
+
+export type IIPC_CHANNELS = typeof IPC_CHANNELS;
