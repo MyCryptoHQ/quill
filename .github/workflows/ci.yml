@@ -49,6 +49,9 @@ jobs:
 
       - name: yarn validate
         run: yarn validate
+      
+      - name: yarn package
+        run: yarn package
 
       - name: yarn test:coverage
         run: yarn test:coverage
