@@ -4,22 +4,22 @@ import { ipcBridge } from '@bridge';
 import { TransactionResponse } from '@ethersproject/abstract-provider';
 
 import { useQueue } from '@app/utils';
-import { IPC_CHANNELS, JsonRPCRequest, JsonRPCResponse } from '@types';
+import { JsonRPCRequest, JsonRPCResponse } from '@types';
 
 export function useApiService() {
+  // @todo Move to global state
   const { first: currentTx, length, enqueue, dequeue } = useQueue<JsonRPCRequest>();
 
   useEffect(() => {
-    const unsubscribe = ipcBridge.subscribe(IPC_CHANNELS.API, (...args) => {
+    const unsubscribe = ipcBridge.subscribeToRequests((request) => {
       // We expect this to be validated and sanitized JSON RPC request
-      const tx = args[0];
-      enqueue(tx);
+      enqueue(request);
     });
     return () => unsubscribe();
   }, []);
 
   const respondCurrentTx = (obj: Omit<JsonRPCResponse, 'id' | 'jsonrpc'>) => {
-    ipcBridge.send(IPC_CHANNELS.API, { id: currentTx.id, ...obj });
+    ipcBridge.sendResponse({ id: currentTx.id, ...obj });
   };
 
   const approveCurrent = (signedTx: TransactionResponse) => {

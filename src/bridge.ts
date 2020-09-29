@@ -1,45 +1,35 @@
-import { ipcRenderer as IpcRenderer } from 'electron';
+import { TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider';
+import { ipcRenderer as IpcRenderer, IpcRendererEvent } from 'electron';
 
-import { IPC_CHANNELS } from '@types';
+import { IPC_CHANNELS, JsonRPCRequest, JsonRPCResponse } from '@types';
 
 type Unsubscribe = () => void;
 type Listener = (...args: any[]) => void;
 
 export interface IIpcBridge {
-  send(channel: string, data: any): void;
-  subscribe(channel: string, listener: Listener): Unsubscribe;
-  invoke(channel: string, ...args: any[]): Promise<any>;
+  sendResponse(data: Omit<JsonRPCResponse, 'jsonrpc'>): void;
+  subscribeToRequests(listener: Listener): Unsubscribe;
+  signTransaction(obj: {
+    privateKey: string;
+    tx: TransactionRequest;
+  }): Promise<TransactionResponse>;
 }
 
-const isValidChannel = (channel: string) => Object.values(IPC_CHANNELS).includes(channel);
-
-// @todo LOCK DOWN MORE
+// Locked down according to: https://www.electronjs.org/docs/tutorial/context-isolation
 export const IpcBridge = (ipcRenderer: typeof IpcRenderer): IIpcBridge => ({
-  send: (channel: string, data: any) => {
-    if (!isValidChannel(channel)) {
-      // Fail hard here so we don't forget to use static channels
-      throw Error('Invalid Channel');
-    }
-    ipcRenderer.send(channel, data);
+  sendResponse: (data: Omit<JsonRPCResponse, 'jsonrpc'>) => {
+    ipcRenderer.send(IPC_CHANNELS.API, data);
   },
-  subscribe: (channel: string, listener: (...args: any[]) => void) => {
-    if (!isValidChannel(channel)) {
-      // Fail hard here so we don't forget to use static channels
-      throw Error('Invalid Channel');
-    }
-    const subscription = (_: any, ...args: any[]) => listener(...args);
-    ipcRenderer.on(channel, subscription);
+  subscribeToRequests: (listener: (request: JsonRPCRequest) => void) => {
+    const subscription = (_: IpcRendererEvent, request: JsonRPCRequest) => listener(request);
+    ipcRenderer.on(IPC_CHANNELS.API, subscription);
 
     return () => {
-      ipcRenderer.removeListener(channel, subscription);
+      ipcRenderer.removeListener(IPC_CHANNELS.API, subscription);
     };
   },
-  invoke: (channel: string, ...args: any[]) => {
-    if (!isValidChannel(channel)) {
-      // Fail hard here so we don't forget to use static channels
-      throw Error('Invalid Channel');
-    }
-    return ipcRenderer.invoke(channel, ...args);
+  signTransaction: ({ privateKey, tx }) => {
+    return ipcRenderer.invoke(IPC_CHANNELS.CRYPTO, { privateKey, tx });
   }
 });
 
