@@ -31,6 +31,21 @@ const requestSigning = (
   });
 };
 
+const handleValidRequest = (request: JsonRPCRequest, webContents: WebContents) => {
+  switch (request.method) {
+    case SUPPORTED_METHODS.SIGN_TRANSACTION:
+      return requestSigning(request, webContents);
+    // @todo Actual account handling
+    case SUPPORTED_METHODS.ACCOUNTS:
+      return toJsonRpcResponse({
+        id: request.id,
+        result: ['0x82D69476357A03415E92B5780C89e5E9e972Ce75']
+      });
+    default:
+      return Promise.reject(new Error('Unexpected error'));
+  }
+};
+
 // Replies follow: https://www.jsonrpc.org/specification
 export const handleRequest = async (
   data: string,
@@ -56,16 +71,6 @@ export const handleRequest = async (
       error: { code: '-32600', message: 'Invalid Request' }
     });
   }
-  switch (request.method) {
-    case SUPPORTED_METHODS.SIGN_TRANSACTION:
-      return requestSigning(request, webContents);
-    // @todo Actual account handling
-    case SUPPORTED_METHODS.ACCOUNTS:
-      return toJsonRpcResponse({
-        id: request.id,
-        result: ['0x82D69476357A03415E92B5780C89e5E9e972Ce75']
-      });
-    default:
-      return Promise.reject(new Error('Unexpected error'));
-  }
+  // No errors found, handle as valid request
+  return handleValidRequest(request, webContents);
 };
