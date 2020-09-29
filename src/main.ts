@@ -1,6 +1,6 @@
 import { app, BrowserWindow } from 'electron';
 
-import { runService as runSigningService } from '@api/signing';
+import { runService as runSigningService } from '@api/sign';
 
 import { runAPI } from './api/ws';
 
