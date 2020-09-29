@@ -111,13 +111,7 @@ const showWindow = () => {
   window.focus();
 };
 
-const toggleWindow = () => {
-  if (window.isVisible()) {
-    window.hide();
-  } else {
-    showWindow();
-  }
-};
+const toggleWindow = () => (window.isVisible() ? window.hide() : showWindow());
 
 const createTray = () => {
   tray = new Tray(path.join(__dirname, 'favicon.png'));
