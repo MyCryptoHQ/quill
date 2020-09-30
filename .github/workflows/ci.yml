@@ -50,13 +50,16 @@ jobs:
       - name: yarn validate
         run: yarn validate
 
-      - name: yarn package
-        run: yarn package
-
       - name: yarn test:coverage
-        uses: GabrielBB/xvfb-action@v1
-        with:
-          run: yarn test:coverage
+        run: yarn test:coverage
 
       - name: CodeCov
         uses: codecov/codecov-action@v1
+
+      - name: yarn package
+        run: yarn package
+
+      - name: yarn test:e2e
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          run: yarn test:e2e
