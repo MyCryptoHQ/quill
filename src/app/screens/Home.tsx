@@ -48,10 +48,15 @@ export const Home = () => {
         />
       </label>
       <br />
-      <button type="button" disabled={!currentTx} onClick={handleDeny}>
+      <button id="deny_button" type="button" disabled={!currentTx} onClick={handleDeny}>
         Deny
       </button>
-      <button type="button" disabled={!currentTx || privKey.length === 0} onClick={handleAccept}>
+      <button
+        id="accept_button"
+        type="button"
+        disabled={!currentTx || privKey.length === 0}
+        onClick={handleAccept}
+      >
         Accept
       </button>
       <br />

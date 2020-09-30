@@ -17,7 +17,8 @@
     "tsc": "tsc -p ./tsconfig.json",
     "validate": "npm-run-all --parallel lint tsc",
     "test:coverage": "yarn test --coverage",
-    "test": "jest --config=jest_config/jest.config.json --maxWorkers=2"
+    "test": "jest --config=jest_config/jest.config.json --maxWorkers=2 --testPathIgnorePatterns e2e",
+    "test:e2e": "yarn package && jest --config=jest_config/jest.config.json --maxWorkers=2 e2e"
   },
   "keywords": [],
   "repository": "https://github.com/MyCryptoHQ/signer.git",
@@ -84,6 +85,8 @@
     "@electron-forge/maker-zip": "6.0.0-beta.53",
     "@electron-forge/plugin-webpack": "6.0.0-beta.53",
     "@marshallofsound/webpack-asset-relocator-loader": "0.5.0",
+    "@sindresorhus/is": "3.1.2",
+    "@szmarczak/http-timer": "4.0.5",
     "@testing-library/react": "11.0.4",
     "@testing-library/react-hooks": "3.4.1",
     "@types/jest": "26.0.14",
@@ -110,6 +113,7 @@
     "npm-run-all": "4.1.5",
     "prettier": "2.1.1",
     "react-test-renderer": "16.13.1",
+    "spectron": "12.0.0",
     "style-loader": "1.2.1",
     "ts-loader": "8.0.2",
     "tsconfig-paths-webpack-plugin": "3.3.0",
