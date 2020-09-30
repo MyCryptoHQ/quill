@@ -12,7 +12,7 @@
     "\\.worker.(ts|tsx)": "<rootDir>/jest_config/__mocks__/workerMock.js",
     "^@(.+)$": ["<rootDir>/node_modules/$0", "<rootDir>/src/$1"]
   },
-  "testPathIgnorePatterns": ["/node_modules/", "<rootDir>/dist", "/*\\.(stories)/", "e2e"],
+  "testPathIgnorePatterns": ["/node_modules/", "<rootDir>/dist", "/*\\.(stories)/"],
   "automock": false,
   "collectCoverageFrom": [
     "**/src/**/*.{js,jsx,ts,tsx}",
