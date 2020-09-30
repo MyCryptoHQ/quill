@@ -13,17 +13,17 @@ describe('Basic E2E tests', () => {
     }
   });
 
-  it('Opens a window', async function () {
+  it('opens a window', async () => {
     const count = await app.client.getWindowCount();
     expect(count).toEqual(1);
   });
 
-  it('Has the correct title', async () => {
+  it('has the correct title', async () => {
     const title = await app.client.getTitle();
     expect(title).toEqual('Signer');
   });
 
-  it('Renders the initial view', async () => {
+  it('renders the initial view', async () => {
     const btn = await app.client.$('#accept_button');
     const text = await btn.getText();
     expect(text).toBe('Accept');
