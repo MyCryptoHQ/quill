@@ -56,9 +56,6 @@ jobs:
       - name: CodeCov
         uses: codecov/codecov-action@v1
 
-      - name: yarn package
-        run: yarn package
-
       - name: yarn test:e2e
         uses: GabrielBB/xvfb-action@v1
         with:
