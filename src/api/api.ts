@@ -1,3 +1,4 @@
+import { ipcBridgeMain } from '@bridge';
 import { IPC_CHANNELS, SUPPORTED_METHODS } from '@config';
 import { ipcMain, WebContents } from 'electron';
 
@@ -19,8 +20,7 @@ const requestSigning = (
   return new Promise((resolve, _reject) => {
     webContents.send(IPC_CHANNELS.API, request);
 
-    ipcMain.on(IPC_CHANNELS.API, function _listener(_event, arg) {
-      const response = arg as Omit<JsonRPCResponse, 'jsonrpc'>;
+    ipcBridgeMain(ipcMain).api.on(function _listener(_event, response) {
       if (response.id === request.id) {
         // Resolve promise and remove listener if response matches request
         // Since it is then the actual result of the JSON RPC request in question

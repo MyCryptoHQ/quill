@@ -1,4 +1,4 @@
-import { IPC_CHANNELS } from '@config';
+import { ipcBridgeMain } from '@bridge';
 import { TransactionRequest } from '@ethersproject/abstract-provider';
 import { Wallet } from '@ethersproject/wallet';
 import { ipcMain } from 'electron';
@@ -20,8 +20,8 @@ export const signWithPrivateKey = (privateKey: string, tx: TransactionRequest) =
 };
 
 export const runService = () => {
-  ipcMain.handle(IPC_CHANNELS.CRYPTO, (e, ...args) => {
-    const { privateKey, tx } = args[0];
+  ipcBridgeMain(ipcMain).crypto.handle((e, request) => {
+    const { privateKey, tx } = request;
     return signWithPrivateKey(privateKey, tx);
   });
 };

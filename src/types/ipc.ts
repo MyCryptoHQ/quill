@@ -1,3 +1,8 @@
-import { IPC_CHANNELS } from '@config';
+import { TransactionRequest } from '@ethersproject/abstract-provider';
 
-export type IIPC_CHANNELS = typeof IPC_CHANNELS;
+export interface CryptoRequest {
+  privateKey: string;
+  tx: TransactionRequest;
+}
+
+export type CryptoResponse = string;

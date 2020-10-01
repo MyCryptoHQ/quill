@@ -1,10 +1,12 @@
-import { ipcBridge } from '@bridge';
+import { ipcBridgeRenderer } from '@bridge';
 
 import { signWithPrivateKey } from './WalletService';
 
 jest.mock('@bridge', () => ({
-  ipcBridge: {
-    signTransaction: jest.fn()
+  ipcBridgeRenderer: {
+    crypto: {
+      invoke: jest.fn()
+    }
   }
 }));
 
@@ -15,6 +17,6 @@ describe('WalletService', () => {
 
   it('calls ipcBridge sign transaction function', () => {
     signWithPrivateKey('privkey', {});
-    expect(ipcBridge.signTransaction).toHaveBeenCalledWith({ privateKey: 'privkey', tx: {} });
+    expect(ipcBridgeRenderer.crypto.invoke).toHaveBeenCalledWith({ privateKey: 'privkey', tx: {} });
   });
 });
