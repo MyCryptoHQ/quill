@@ -1,36 +1,66 @@
 import { IPC_CHANNELS } from '@config';
-import { TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider';
-import { ipcRenderer as IpcRenderer, IpcRendererEvent } from 'electron';
+import { IpcMain, IpcRenderer, IpcRendererEvent } from 'electron';
 
-import { JsonRPCRequest, JsonRPCResponse } from '@types';
+import { CryptoRequest, CryptoResponse, JsonRPCRequest, JsonRPCResponse } from '@types';
 
-type Unsubscribe = () => void;
+const getAPIChannel = () => {
+  const asRenderer = (ipcRenderer: IpcRenderer) => ({
+    sendResponse: (data: Omit<JsonRPCResponse, 'jsonrpc'>) => {
+      ipcRenderer.send(IPC_CHANNELS.API, data);
+    },
+    subscribeToRequests: (listener: (request: JsonRPCRequest) => void) => {
+      const subscription = (_: IpcRendererEvent, request: JsonRPCRequest) => listener(request);
+      ipcRenderer.on(IPC_CHANNELS.API, subscription);
 
-export interface IIpcBridge {
-  sendResponse(data: Omit<JsonRPCResponse, 'jsonrpc'>): void;
-  subscribeToRequests(listener: (request: JsonRPCRequest) => void): Unsubscribe;
-  signTransaction(obj: {
-    privateKey: string;
-    tx: TransactionRequest;
-  }): Promise<TransactionResponse>;
-}
+      return () => {
+        ipcRenderer.removeListener(IPC_CHANNELS.API, subscription);
+      };
+    }
+  });
+
+  const asMain = (ipcMain: IpcMain) => ({
+    on: (
+      handler: (event: Electron.IpcMainEvent, response: Omit<JsonRPCResponse, 'jsonrpc'>) => void
+    ) => ipcMain.on(IPC_CHANNELS.API, handler)
+  });
+
+  return {
+    asRenderer,
+    asMain
+  };
+};
+
+const getChannel = <A, B>(channel: IPC_CHANNELS) => {
+  // @todo: CHECK CHANNEL VALIDITY
+
+  const asRenderer = (ipcRenderer: IpcRenderer) => ({
+    invoke: (request: A) => ipcRenderer.invoke(channel, request)
+  });
+
+  const asMain = (ipcMain: IpcMain) => ({
+    handle: (handler: (event: Electron.IpcMainEvent, request: A) => Promise<B>) =>
+      ipcMain.handle(channel, handler)
+  });
+
+  return { asRenderer, asMain };
+};
 
 // Locked down according to: https://www.electronjs.org/docs/tutorial/context-isolation
-export const IpcBridge = (ipcRenderer: typeof IpcRenderer): IIpcBridge => ({
-  sendResponse: (data: Omit<JsonRPCResponse, 'jsonrpc'>) => {
-    ipcRenderer.send(IPC_CHANNELS.API, data);
-  },
-  subscribeToRequests: (listener: (request: JsonRPCRequest) => void) => {
-    const subscription = (_: IpcRendererEvent, request: JsonRPCRequest) => listener(request);
-    ipcRenderer.on(IPC_CHANNELS.API, subscription);
-
-    return () => {
-      ipcRenderer.removeListener(IPC_CHANNELS.API, subscription);
-    };
-  },
-  signTransaction: ({ privateKey, tx }) => {
-    return ipcRenderer.invoke(IPC_CHANNELS.CRYPTO, { privateKey, tx });
-  }
+export const IpcBridgeRenderer = (ipcRenderer: IpcRenderer) => ({
+  // These are constants as to not leak the ipcRenderer
+  api: getAPIChannel().asRenderer(ipcRenderer),
+  crypto: getChannel<CryptoRequest, CryptoResponse>(IPC_CHANNELS.CRYPTO).asRenderer(ipcRenderer)
 });
 
-export const { ipcBridge } = window;
+export const ipcBridgeRenderer = (typeof window !== 'undefined'
+  ? window.ipcBridge
+  : undefined) as IIpcBridgeRenderer;
+
+export const ipcBridgeMain = (ipcMain: IpcMain) => ({
+  api: getAPIChannel().asMain(ipcMain),
+  crypto: getChannel<CryptoRequest, CryptoResponse>(IPC_CHANNELS.CRYPTO).asMain(ipcMain)
+});
+
+export type IIpcBridgeRenderer = ReturnType<typeof IpcBridgeRenderer>;
+
+export type IIpcBridgeMain = ReturnType<typeof ipcBridgeMain>;

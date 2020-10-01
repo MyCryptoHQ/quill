@@ -5,9 +5,11 @@ import { render } from '@testing-library/react';
 import { Home } from '.';
 
 jest.mock('@bridge', () => ({
-  ipcBridge: {
-    subscribeToRequests: () => {
-      return () => true;
+  ipcBridgeRenderer: {
+    api: {
+      subscribeToRequests: () => {
+        return () => true;
+      }
     }
   }
 }));
