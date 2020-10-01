@@ -20,12 +20,12 @@ const requestSigning = (
   return new Promise((resolve, _reject) => {
     webContents.send(IPC_CHANNELS.API, request);
 
-    ipcBridgeMain(ipcMain).api.on(function _listener(_event, response) {
+    ipcBridgeMain(ipcMain).api.on(function listener(_event, response) {
       if (response.id === request.id) {
         // Resolve promise and remove listener if response matches request
         // Since it is then the actual result of the JSON RPC request in question
         resolve(toJsonRpcResponse(response));
-        ipcMain.removeListener(IPC_CHANNELS.API, _listener);
+        ipcMain.removeListener(IPC_CHANNELS.API, listener);
       }
     });
   });
