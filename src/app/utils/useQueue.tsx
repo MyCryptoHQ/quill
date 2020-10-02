@@ -1,12 +1,24 @@
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-export const useQueue = <T,>() => {
-  const [queue, setQueue] = useState<T[]>([]);
+import { ApplicationState } from '@app/store';
+import { dequeue, enqueue } from '@app/store/txqueue';
+import { JsonRPCRequest } from '@types';
 
-  const first = queue[0];
-  const { length } = queue;
-  const enqueue = (item: T) => setQueue((prevState) => [...prevState, item]);
-  const dequeue = () => setQueue(([, ...rest]) => [...rest]);
+export const useQueue = (
+  selector: (state: ApplicationState) => JsonRPCRequest[]
+): {
+  first: JsonRPCRequest;
+  length: number;
+  enqueue(obj: JsonRPCRequest): void;
+  dequeue(): void;
+} => {
+  const queue = useSelector(selector);
+  const dispatch = useDispatch();
 
-  return { first, length, enqueue, dequeue };
+  return {
+    first: queue[0],
+    length: queue.length,
+    enqueue: (obj: JsonRPCRequest) => dispatch(enqueue(obj)),
+    dequeue: () => dispatch(dequeue())
+  };
 };

@@ -1,7 +1,7 @@
-import { ipcBridgeMain } from '@bridge';
-import { IPC_CHANNELS, SUPPORTED_METHODS } from '@config';
 import { ipcMain, WebContents } from 'electron';
 
+import { ipcBridgeMain } from '@bridge';
+import { IPC_CHANNELS, SUPPORTED_METHODS } from '@config';
 import { JsonRPCRequest, JsonRPCResponse } from '@types';
 import { safeJSONParse } from '@utils';
 

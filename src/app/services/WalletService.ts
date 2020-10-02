@@ -1,5 +1,6 @@
-import { ipcBridgeRenderer } from '@bridge';
 import { TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider';
+
+import { ipcBridgeRenderer } from '@bridge';
 
 export const signWithPrivateKey = (
   privateKey: string,

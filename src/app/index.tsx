@@ -30,10 +30,19 @@ import React from 'react';
 
 import ReactDOM from 'react-dom';
 import { hot } from 'react-hot-loader';
+import { Provider } from 'react-redux';
 
 import { Home } from '@screens';
 
-const App = () => <Home />;
+import { createStore } from './store';
+
+const store = createStore();
+
+const App = () => (
+  <Provider store={store}>
+    <Home />
+  </Provider>
+);
 const Hot = hot(module)(App);
 
 ReactDOM.render(<Hot />, document.getElementById('root'));

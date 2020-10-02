@@ -1,6 +1,9 @@
 import React from 'react';
 
 import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+
+import { createStore } from '@app/store';
 
 import { Home } from '.';
 
@@ -15,7 +18,11 @@ jest.mock('@bridge', () => ({
 }));
 
 function getComponent() {
-  return render(<Home />);
+  return render(
+    <Provider store={createStore()}>
+      <Home />
+    </Provider>
+  );
 }
 
 describe('Home', () => {

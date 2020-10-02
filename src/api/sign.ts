@@ -1,8 +1,8 @@
-import { ipcBridgeMain } from '@bridge';
 import { TransactionRequest } from '@ethersproject/abstract-provider';
 import { Wallet } from '@ethersproject/wallet';
 import { ipcMain } from 'electron';
 
+import { ipcBridgeMain } from '@bridge';
 import { addHexPrefix } from '@utils';
 
 // @todo Keystore
