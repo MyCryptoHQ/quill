@@ -29,6 +29,7 @@ const createWindow = (): void => {
     height: HEIGHT,
     fullscreenable: false,
     resizable: false,
+    frame: false,
     transparent: true,
     webPreferences: {
       devTools: true,
