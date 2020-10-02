@@ -14,6 +14,3 @@ export const createStore = (): EnhancedStore<ApplicationState> => {
     reducer
   });
 };
-
-// Default export for `gatsby-plugin-react-redux`
-export default createStore;

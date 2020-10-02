@@ -7,7 +7,7 @@ import { useQueue } from '@app/utils';
 import { JsonRPCResponse } from '@types';
 
 export function useApiService() {
-  const { first: currentTx, length, enqueue, dequeue } = useQueue((state) => state.queue.queue);
+  const { first: currentTx, length, enqueue, dequeue } = useQueue((state) => state.queue);
 
   useEffect(() => {
     const unsubscribe = ipcBridgeRenderer.api.subscribeToRequests((request) => {
