@@ -7,7 +7,6 @@ import { useQueue } from '@app/utils';
 import { JsonRPCResponse } from '@types';
 
 export function useApiService() {
-  // @todo Move to global state
   const { first: currentTx, length, enqueue, dequeue } = useQueue((state) => state.queue.queue);
 
   useEffect(() => {
