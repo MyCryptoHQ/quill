@@ -1,7 +1,7 @@
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
 
 import reducer from './reducer';
-import { TXQueueState } from './txqueue/txqueue';
+import { TXQueueState } from './txqueue';
 
 export interface ApplicationState {
   queue: TXQueueState;
