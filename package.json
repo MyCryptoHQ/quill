@@ -92,6 +92,7 @@
     "@types/jest": "26.0.14",
     "@types/react": "16.9.49",
     "@types/react-dom": "16.9.8",
+    "@types/react-redux": "7.1.9",
     "@types/ws": "7.2.6",
     "@typescript-eslint/eslint-plugin": "4.0.1",
     "@typescript-eslint/parser": "4.0.1",
@@ -126,11 +127,13 @@
     "@ethersproject/wallet": "5.0.4",
     "@exodus/schemasafe": "1.0.0-rc.2",
     "@hot-loader/react-dom": "16.13.0",
+    "@reduxjs/toolkit": "1.4.0",
     "electron-log": "4.2.4",
     "electron-squirrel-startup": "1.0.0",
     "react": "16.13.0",
     "react-dom": "16.13.0",
     "react-hot-loader": "4.12.21",
+    "react-redux": "7.2.1",
     "ws": "7.3.1"
   },
   "lint-staged": {

@@ -4,11 +4,11 @@ import { ipcBridgeRenderer } from '@bridge';
 import { TransactionResponse } from '@ethersproject/abstract-provider';
 
 import { useQueue } from '@app/utils';
-import { JsonRPCRequest, JsonRPCResponse } from '@types';
+import { JsonRPCResponse } from '@types';
 
 export function useApiService() {
   // @todo Move to global state
-  const { first: currentTx, length, enqueue, dequeue } = useQueue<JsonRPCRequest>();
+  const { first: currentTx, length, enqueue, dequeue } = useQueue((state) => state.queue.queue);
 
   useEffect(() => {
     const unsubscribe = ipcBridgeRenderer.api.subscribeToRequests((request) => {
