@@ -3,7 +3,8 @@
 
 // https://dennistretyakov.com/ipc-render-in-cra-managed-app
 
-import { IpcBridgeRenderer } from '@bridge';
 import { contextBridge, ipcRenderer } from 'electron';
+
+import { IpcBridgeRenderer } from '@bridge';
 
 contextBridge.exposeInMainWorld('ipcBridge', IpcBridgeRenderer(ipcRenderer));

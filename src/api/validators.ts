@@ -1,6 +1,6 @@
-import { SUPPORTED_METHODS } from '@config';
 import { validator } from '@exodus/schemasafe';
 
+import { SUPPORTED_METHODS } from '@config';
 import { JsonRPCRequest } from '@types';
 
 const requestSchema = {

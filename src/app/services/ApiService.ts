@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 
-import { ipcBridgeRenderer } from '@bridge';
 import { TransactionResponse } from '@ethersproject/abstract-provider';
 
 import { useQueue } from '@app/utils';
+import { ipcBridgeRenderer } from '@bridge';
 import { JsonRPCResponse } from '@types';
 
 export function useApiService() {

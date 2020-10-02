@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { ipcBridgeRenderer } from '@bridge';
-import { fTxResponse } from '@fixtures';
 import { renderHook } from '@testing-library/react-hooks';
 import { Provider } from 'react-redux';
 
 import { createStore } from '@app/store';
+import { ipcBridgeRenderer } from '@bridge';
+import { fTxResponse } from '@fixtures';
 import { JsonRPCRequest } from '@types';
 
 import { useApiService } from './ApiService';

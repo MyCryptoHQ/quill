@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { SUPPORTED_METHODS } from '@config';
 import { act, renderHook } from '@testing-library/react-hooks';
 import { Provider } from 'react-redux';
 
 import { createStore } from '@app/store';
+import { SUPPORTED_METHODS } from '@config';
 import { JsonRPCRequest } from '@types';
 
 import { useQueue } from './useQueue';

@@ -1,6 +1,6 @@
-import { IPC_CHANNELS } from '@config';
 import { IpcMain, IpcRenderer, IpcRendererEvent } from 'electron';
 
+import { IPC_CHANNELS } from '@config';
 import { CryptoRequest, CryptoResponse, JsonRPCRequest, JsonRPCResponse } from '@types';
 
 const getAPIChannel = () => {
