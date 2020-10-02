@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen, Tray } from 'electron';
+import { app, BrowserWindow, Menu, screen, Tray } from 'electron';
 import path from 'path';
 
 import { runService as runSigningService } from '@api/sign';
@@ -116,7 +116,11 @@ const toggleWindow = () => (window.isVisible() ? window.hide() : showWindow());
 
 const createTray = () => {
   tray = new Tray(path.join(__dirname, 'favicon.png'));
-  tray.on('right-click', toggleWindow);
+  const contextMenu = Menu.buildFromTemplate([
+    { label: 'Quit', role: 'close', click: () => app.quit() }
+  ]);
+  tray.setToolTip('Signer');
+  tray.setContextMenu(contextMenu);
   tray.on('double-click', toggleWindow);
   tray.on('click', () => {
     toggleWindow();
