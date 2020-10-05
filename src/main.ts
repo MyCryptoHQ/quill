@@ -49,7 +49,7 @@ const createWindow = (): void => {
   window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
-  //mainWindow.webContents.openDevTools();
+  window.webContents.openDevTools();
 
   // Run API
   runAPI(window.webContents);
