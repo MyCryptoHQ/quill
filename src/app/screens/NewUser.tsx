@@ -32,7 +32,12 @@ export const NewUser = () => {
         />
       </label>
       <br />
-      <button type="button" disabled={password.length === 0} onClick={handleCreate}>
+      <button
+        id="create_button"
+        type="button"
+        disabled={password.length === 0}
+        onClick={handleCreate}
+      >
         Create
       </button>
       <br />

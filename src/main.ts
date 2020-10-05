@@ -34,7 +34,6 @@ const createWindow = (): void => {
     // We don't use NODE_ENV as it is controlled by electron-forge
     frame: process.env.IS_TEST === 'true',
     transparent: true,
-    frame: false,
     webPreferences: {
       devTools: true,
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
@@ -49,7 +48,7 @@ const createWindow = (): void => {
   window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
-  window.webContents.openDevTools();
+  //window.webContents.openDevTools();
 
   // Run API
   runAPI(window.webContents);

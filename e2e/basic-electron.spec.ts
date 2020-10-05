@@ -24,8 +24,8 @@ describe('Basic E2E tests', () => {
   });
 
   it('renders the initial view', async () => {
-    const btn = await app.client.$('#accept_button');
+    const btn = await app.client.$('#create_button');
     const text = await btn.getText();
-    expect(text).toBe('Accept');
+    expect(text).toBe('Create');
   });
 });
