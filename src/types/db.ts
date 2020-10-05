@@ -8,16 +8,16 @@ export enum DBRequestType {
 }
 
 export enum LoginState {
-    NEW_USER,
-    LOGGED_IN,
-    LOGGED_OUT
+  NEW_USER,
+  LOGGED_IN,
+  LOGGED_OUT
 }
 
 interface BaseRequest {
   type: DBRequestType;
 }
 
-type InitRequest  = Overwrite<LoginRequest, { type: DBRequestType.LOGIN }>
+type InitRequest = Overwrite<LoginRequest, { type: DBRequestType.INIT }>;
 
 interface LoginRequest extends Overwrite<BaseRequest, { type: DBRequestType.LOGIN }> {
   password: string;

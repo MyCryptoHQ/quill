@@ -33,10 +33,10 @@ import { hot } from 'react-hot-loader';
 import { Provider } from 'react-redux';
 
 import { Home, Login, NewUser } from '@screens';
-import { LoginState } from '@types/db';
+import { LoginState } from '@types';
 
-import { createStore, useSelector, useDispatch } from './store';
 import { getLoginState } from './services';
+import { createStore, useDispatch, useSelector } from './store';
 import { setLoginState } from './store/loggedin';
 
 const store = createStore();
@@ -56,7 +56,7 @@ const App = () => {
       dispatch(setLoginState(state));
     });
   }, []);
-  
+
   return (
     <>
       {loginState === LoginState.LOGGED_IN && <Home />}

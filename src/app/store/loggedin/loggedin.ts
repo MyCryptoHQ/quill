@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
-import { LoginState } from '@types/db';
+
+import { LoginState } from '@types';
 
 export type LoggedInState = LoginState;
 

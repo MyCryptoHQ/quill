@@ -1,6 +1,9 @@
 import { ipcBridgeRenderer } from '@bridge';
-import { DBRequestType } from '@types';
-import { LoginState } from '@types/db';
+import { DBRequestType, LoginState } from '@types';
+
+export const init = (password: string): Promise<boolean> => {
+  return ipcBridgeRenderer.db.invoke({ type: DBRequestType.INIT, password });
+};
 
 export const login = (password: string): Promise<boolean> => {
   return ipcBridgeRenderer.db.invoke({ type: DBRequestType.LOGIN, password });

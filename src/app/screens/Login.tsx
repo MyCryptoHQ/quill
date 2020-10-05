@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-import { login } from '@app/services';
+import { login } from '@app/services/DatabaseService';
 import { useDispatch } from '@app/store';
 import { setLoginState } from '@app/store/loggedin';
-import { LoginState } from '@types/db';
+import { LoginState } from '@types';
 
 export const Login = () => {
   const [password, setPassword] = useState('');

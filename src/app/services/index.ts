@@ -1,3 +1,3 @@
 export { signWithPrivateKey } from './WalletService';
 export { useApiService } from './ApiService';
-export * from './DatabaseService'
+export { getAccounts, getLoginState } from './DatabaseService';
