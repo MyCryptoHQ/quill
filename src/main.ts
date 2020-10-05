@@ -1,6 +1,7 @@
 import { app, BrowserWindow, Menu, screen, Tray } from 'electron';
 import path from 'path';
 
+import { runService as runDatabaseService } from '@api/db';
 import { runService as runSigningService } from '@api/sign';
 
 import { runAPI } from './api/ws';
@@ -33,6 +34,7 @@ const createWindow = (): void => {
     // We don't use NODE_ENV as it is controlled by electron-forge
     frame: process.env.IS_TEST === 'true',
     transparent: true,
+    frame: false,
     webPreferences: {
       devTools: true,
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
@@ -54,6 +56,9 @@ const createWindow = (): void => {
 
   // Run Signing Logic
   runSigningService();
+
+  // Run Database Service
+  runDatabaseService();
 };
 
 // Based on https://cdruc.com/positioning-electron-tray-apps-on-windows-taskbar/
