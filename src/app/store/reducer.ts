@@ -6,7 +6,7 @@ import { txQueueReducer } from './txqueue';
 
 const reducer = combineReducers<ApplicationState>({
   queue: txQueueReducer,
-  loggedIn: loggedInReducer,
+  loggedIn: loggedInReducer
 });
 
 export default reducer;
