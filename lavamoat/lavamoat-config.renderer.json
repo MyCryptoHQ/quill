@@ -1,0 +1,202 @@
+{
+  "resources": {
+    "<root>": {
+      "packages": {
+        "@hot-loader": true,
+        "@reduxjs": true,
+        "react": true,
+        "react-hot-loader": true,
+        "react-redux": true,
+        "redux": true
+      }
+    },
+    "@hot-loader": {
+      "globals": {
+        "MSApp": true,
+        "__REACT_DEVTOOLS_GLOBAL_HOOK__": true,
+        "addEventListener": true,
+        "clearTimeout": true,
+        "clipboardData": true,
+        "console": true,
+        "dispatchEvent": true,
+        "document": true,
+        "event": "write",
+        "firstCurrentHook": "write",
+        "hasOwnProperty": true,
+        "jest": true,
+        "location.protocol": true,
+        "navigator.userAgent.indexOf": true,
+        "nextCurrentHook": "write",
+        "performance": true,
+        "process.env.NODE_ENV": true,
+        "removeEventListener": true,
+        "resetHooks": true,
+        "self": true,
+        "setTimeout": true,
+        "top": true
+      },
+      "packages": {
+        "object-assign": true,
+        "prop-types": true,
+        "react": true,
+        "scheduler": true
+      }
+    },
+    "@reduxjs": {
+      "globals": {
+        "AbortController": true,
+        "__REDUX_DEVTOOLS_EXTENSION_COMPOSE__": true,
+        "console.error": true,
+        "console.info": true,
+        "console.warn": true,
+        "process.env.NODE_ENV": true
+      },
+      "packages": {
+        "immer": true,
+        "redux": true,
+        "redux-thunk": true,
+        "reselect": true
+      }
+    },
+    "fast-levenshtein": {
+      "globals": {
+        "Intl": true,
+        "Levenshtein": "write",
+        "console.log": true,
+        "define": true,
+        "importScripts": true,
+        "postMessage": true
+      }
+    },
+    "hoist-non-react-statics": {
+      "packages": {
+        "react-is": true
+      }
+    },
+    "immer": {
+      "globals": {
+        "process.env.NODE_ENV": true
+      }
+    },
+    "prop-types": {
+      "globals": {
+        "console": true,
+        "process.env.NODE_ENV": true
+      },
+      "packages": {
+        "object-assign": true,
+        "react-is": true
+      }
+    },
+    "react": {
+      "globals": {
+        "console": true,
+        "process.env.NODE_ENV": true
+      },
+      "packages": {
+        "object-assign": true,
+        "prop-types": true
+      }
+    },
+    "react-hot-loader": {
+      "globals": {
+        "__non_webpack_require__": true,
+        "__webpack_require__": true,
+        "clearTimeout": true,
+        "console": true,
+        "document": true,
+        "process.env.NODE_ENV": true,
+        "reactHotLoaderGlobal": "write",
+        "setTimeout": true
+      },
+      "packages": {
+        "@hot-loader": true,
+        "fast-levenshtein": true,
+        "hoist-non-react-statics": true,
+        "prop-types": true,
+        "react": true,
+        "react-lifecycles-compat": true,
+        "shallowequal": true
+      }
+    },
+    "react-is": {
+      "globals": {
+        "console": true,
+        "process.env.NODE_ENV": true
+      }
+    },
+    "react-redux": {
+      "globals": {
+        "console": true,
+        "document": true,
+        "process.env.NODE_ENV": true
+      },
+      "packages": {
+        "@babel": true,
+        "@hot-loader": true,
+        "hoist-non-react-statics": true,
+        "prop-types": true,
+        "react": true,
+        "react-is": true,
+        "redux": true
+      }
+    },
+    "redux": {
+      "globals": {
+        "console": true,
+        "process.env.NODE_ENV": true
+      },
+      "packages": {
+        "symbol-observable": true
+      }
+    },
+    "scheduler": {
+      "globals": {
+        "MessageChannel": true,
+        "SharedArrayBuffer": true,
+        "cancelAnimationFrame": true,
+        "clearTimeout": true,
+        "console": true,
+        "performance": true,
+        "process.env.NODE_ENV": true,
+        "requestAnimationFrame": true,
+        "setTimeout": true
+      }
+    },
+    "strip-ansi": {
+      "packages": {
+        "ansi-regex": true
+      }
+    },
+    "undefined": {
+      "packages": {
+        "<root>": true,
+        "webpack-hot-middleware": true
+      }
+    },
+    "webpack-hot-middleware": {
+      "globals": {
+        "EventSource": true,
+        "__resourceQuery": true,
+        "__webpack_hash__": true,
+        "__webpack_public_path__": true,
+        "__whmEventSourceWrapper": "write",
+        "clearInterval": true,
+        "console.error": true,
+        "console.group": true,
+        "console.groupEnd": true,
+        "console.log": true,
+        "console.warn": true,
+        "document": true,
+        "location.reload": true,
+        "setInterval": true,
+        "setTimeout": true
+      },
+      "packages": {
+        "ansi-html": true,
+        "html-entities": true,
+        "strip-ansi": true
+      }
+    }
+  }
+}

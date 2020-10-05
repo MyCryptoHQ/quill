@@ -1,0 +1,180 @@
+{
+  "resources": {
+    "<root>": {
+      "packages": {
+        "@ethersproject": true,
+        "@exodus": true,
+        "electron-log": true,
+        "electron-squirrel-startup": true,
+        "undefined": true,
+        "ws": true
+      }
+    },
+    "@ethersproject": {
+      "globals": {
+        "Buffer.from": true,
+        "console": true
+      },
+      "packages": {
+        "aes-js": true,
+        "bn.js": true,
+        "elliptic": true,
+        "js-sha3": true,
+        "scrypt-js": true,
+        "undefined": true
+      }
+    },
+    "@exodus": {
+      "globals": {
+        "Buffer": true,
+        "TextDecoder": true,
+        "URL": true,
+        "atob": true
+      }
+    },
+    "aes-js": {
+      "globals": {
+        "define": true
+      }
+    },
+    "bn.js": {
+      "packages": {
+        "undefined": true
+      }
+    },
+    "brorand": {
+      "globals": {
+        "crypto": true,
+        "msCrypto": true
+      },
+      "packages": {
+        "undefined": true
+      }
+    },
+    "debug": {
+      "globals": {
+        "console": true,
+        "document": true,
+        "localStorage": true,
+        "navigator": true,
+        "process": true
+      },
+      "packages": {
+        "ms": true,
+        "supports-color": true,
+        "undefined": true
+      }
+    },
+    "electron-log": {
+      "globals": {
+        "Buffer.alloc": true,
+        "Buffer.byteLength": true,
+        "__non_webpack_require__.main": true,
+        "addEventListener": true,
+        "console": true,
+        "process.cwd": true,
+        "process.env.APPDATA": true,
+        "process.env.ELECTRON_IS_DEV": true,
+        "process.env.FORCE_STYLES": true,
+        "process.env.HOME": true,
+        "process.env.XDG_CONFIG_HOME": true,
+        "process.on": true,
+        "process.platform": true,
+        "process.removeListener": true,
+        "process.resourcesPath": true,
+        "process.stderr": true,
+        "process.stdout": true,
+        "process.type": true,
+        "process.version.match": true,
+        "process.versions": true,
+        "removeEventListener": true,
+        "setTimeout": true
+      },
+      "packages": {
+        "undefined": true
+      }
+    },
+    "electron-squirrel-startup": {
+      "globals": {
+        "process.argv": true,
+        "process.execPath": true,
+        "process.platform": true
+      },
+      "packages": {
+        "debug": true,
+        "undefined": true
+      }
+    },
+    "elliptic": {
+      "packages": {
+        "bn.js": true,
+        "brorand": true,
+        "hash.js": true,
+        "hmac-drbg": true,
+        "inherits": true,
+        "minimalistic-assert": true,
+        "minimalistic-crypto-utils": true
+      }
+    },
+    "has-flag": {
+      "globals": {
+        "process.argv": true
+      }
+    },
+    "hash.js": {
+      "packages": {
+        "inherits": true,
+        "minimalistic-assert": true
+      }
+    },
+    "hmac-drbg": {
+      "packages": {
+        "hash.js": true,
+        "minimalistic-assert": true,
+        "minimalistic-crypto-utils": true
+      }
+    },
+    "inherits": {
+      "packages": {
+        "undefined": true
+      }
+    },
+    "js-sha3": {
+      "globals": {
+        "process": true
+      }
+    },
+    "scrypt-js": {
+      "globals": {
+        "define": true,
+        "setImmediate": true,
+        "setTimeout": true
+      }
+    },
+    "supports-color": {
+      "globals": {
+        "process.env": true,
+        "process.platform": true
+      },
+      "packages": {
+        "has-flag": true,
+        "undefined": true
+      }
+    },
+    "ws": {
+      "globals": {
+        "Buffer.alloc": true,
+        "Buffer.allocUnsafe": true,
+        "Buffer.byteLength": true,
+        "Buffer.from": true,
+        "Buffer.isBuffer": true,
+        "clearTimeout": true,
+        "process.nextTick": true,
+        "setTimeout": true
+      },
+      "packages": {
+        "undefined": true
+      }
+    }
+  }
+}
