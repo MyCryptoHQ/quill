@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 
-import { loggedInReducer } from './loggedin';
+import { loginReducer } from './login';
 import { ApplicationState } from './store';
 import { txQueueReducer } from './txqueue';
 
 const reducer = combineReducers<ApplicationState>({
   queue: txQueueReducer,
-  loggedIn: loggedInReducer
+  login: loginReducer
 });
 
 export default reducer;
