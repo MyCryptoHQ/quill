@@ -132,7 +132,7 @@
     "@reduxjs/toolkit": "1.4.0",
     "electron-log": "4.2.4",
     "electron-squirrel-startup": "1.0.0",
-    "electron-store": "6.0.0",
+    "electron-store": "6.0.1",
     "react": "16.13.0",
     "react-dom": "16.13.0",
     "react-hot-loader": "4.12.21",
