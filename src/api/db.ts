@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { IPC_CHANNELS } from '@config';
-import { DBRequest, DBRequestType, LoginState } from '@types';
+import { DBRequest, DBRequestType, DBResponse, IAccount, LoginState } from '@types';
 
 let store: Store;
 
@@ -48,22 +48,26 @@ const getLoginState = async () => {
 };
 
 const getAccounts = () => {
-  return store.get('accounts');
+  return store.get('accounts') as IAccount[];
 };
 
+const handleRequest = (request: DBRequest): Promise<DBResponse> => {
+  switch (request.type) {
+    case DBRequestType.INIT:
+      return Promise.resolve(init(request.password));
+    case DBRequestType.LOGIN:
+      return Promise.resolve(login(request.password));
+    case DBRequestType.GET_LOGIN_STATE:
+      return getLoginState();
+    case DBRequestType.GET_ACCOUNTS:
+      return Promise.resolve(getAccounts());
+    default:
+      throw new Error('Undefined request type');
+  }
+};
+
+export const testables = { handleRequest };
+
 export const runService = () => {
-  ipcMain.handle(IPC_CHANNELS.DATABASE, (_e, request: DBRequest) => {
-    switch (request.type) {
-      case DBRequestType.INIT:
-        return init(request.password);
-      case DBRequestType.LOGIN:
-        return login(request.password);
-      case DBRequestType.GET_LOGIN_STATE:
-        return getLoginState();
-      case DBRequestType.GET_ACCOUNTS:
-        return getAccounts();
-      default:
-        throw new Error('Undefined request type');
-    }
-  });
+  ipcMain.handle(IPC_CHANNELS.DATABASE, (_e, request: DBRequest) => handleRequest(request));
 };

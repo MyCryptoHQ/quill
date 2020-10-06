@@ -1,5 +1,7 @@
 import { Overwrite } from 'utility-types';
 
+import { IAccount } from './account';
+
 export enum DBRequestType {
   INIT,
   LOGIN,
@@ -29,4 +31,4 @@ type GetAccountsRequest = Overwrite<BaseRequest, { type: DBRequestType.GET_ACCOU
 
 export type DBRequest = InitRequest | LoginRequest | GetLoginStateRequest | GetAccountsRequest;
 
-export type DBResponse = string | boolean;
+export type DBResponse = string | boolean | LoginState | IAccount[];
