@@ -31,7 +31,7 @@ const createWindow = (): void => {
     resizable: false,
     // Spectron fails randomly when the app is frameless
     // We don't use NODE_ENV as it is controlled by electron-forge
-    frame: process.env.isTest === 'true',
+    frame: process.env.IS_TEST === 'true',
     transparent: true,
     webPreferences: {
       devTools: true,

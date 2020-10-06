@@ -18,7 +18,7 @@
     "validate": "npm-run-all --parallel lint tsc",
     "test:coverage": "yarn test --coverage",
     "test": "jest --config=jest_config/jest.config.json --maxWorkers=2 --testPathIgnorePatterns e2e",
-    "test:e2e": "yarn package && cross-env isTest=true jest --config=jest_config/jest.config.json --maxWorkers=2 e2e"
+    "test:e2e": "yarn package && cross-env IS_TEST=true jest --config=jest_config/jest.config.json --maxWorkers=2 e2e"
   },
   "keywords": [],
   "repository": "https://github.com/MyCryptoHQ/signer.git",
