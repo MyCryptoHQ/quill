@@ -14,6 +14,16 @@ jest.mock('electron', () => ({
   }
 }));
 
+jest.mock('fs', () => ({
+  promises: {
+    stat: jest
+      .fn()
+      .mockImplementationOnce(() => Promise.resolve(true))
+      .mockImplementationOnce(() => Promise.resolve(false))
+      .mockImplementation(() => Promise.resolve(true))
+  }
+}));
+
 jest.mock('electron-store', () => {
   return jest.fn().mockImplementation(() => ({
     get: jest.fn().mockImplementation((key: string) => {
@@ -27,6 +37,11 @@ jest.mock('electron-store', () => {
 });
 
 describe('handleRequest', () => {
+  it('get login state returns logged out correctly', async () => {
+    const result = await handleRequest({ type: DBRequestType.GET_LOGIN_STATE });
+    expect(result).toBe(LoginState.LOGGED_OUT);
+  });
+
   it('init succesfully initializes the electron-store', async () => {
     const result = await handleRequest({ type: DBRequestType.INIT, password: 'password' });
     expect(result).toBe(true);
@@ -41,8 +56,14 @@ describe('handleRequest', () => {
 
   it('get login state returns new user by default', async () => {
     const result = await handleRequest({ type: DBRequestType.GET_LOGIN_STATE });
-    // @todo Test other cases
     expect(result).toBe(LoginState.NEW_USER);
+  });
+
+  it('get login state returns logged in correctly', async () => {
+    const initResult = await handleRequest({ type: DBRequestType.INIT, password: 'password' });
+    expect(initResult).toBe(true);
+    const result = await handleRequest({ type: DBRequestType.GET_LOGIN_STATE });
+    expect(result).toBe(LoginState.LOGGED_IN);
   });
 
   it('get accounts', async () => {
