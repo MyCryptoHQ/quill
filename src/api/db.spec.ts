@@ -2,9 +2,7 @@ import Store from 'electron-store';
 
 import { DBRequestType, LoginState } from '@types';
 
-import { testables } from './db';
-
-const handleRequest = testables.handleRequest;
+import { handleRequest } from './db';
 
 jest.mock('path');
 

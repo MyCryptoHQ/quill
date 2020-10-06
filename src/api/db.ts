@@ -51,7 +51,7 @@ const getAccounts = () => {
   return store.get('accounts') as IAccount[];
 };
 
-const handleRequest = (request: DBRequest): Promise<DBResponse> => {
+export const handleRequest = (request: DBRequest): Promise<DBResponse> => {
   switch (request.type) {
     case DBRequestType.INIT:
       return Promise.resolve(init(request.password));
@@ -65,8 +65,6 @@ const handleRequest = (request: DBRequest): Promise<DBResponse> => {
       throw new Error('Undefined request type');
   }
 };
-
-export const testables = { handleRequest };
 
 export const runService = () => {
   ipcMain.handle(IPC_CHANNELS.DATABASE, (_e, request: DBRequest) => handleRequest(request));
