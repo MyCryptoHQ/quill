@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 
 import { login } from '@app/services/DatabaseService';
 import { useDispatch } from '@app/store';
-import { setLoginState } from '@app/store/auth';
-import { LoginState } from '@types';
+import { setLoggedIn } from '@app/store/auth';
 
 export const Login = () => {
   const [password, setPassword] = useState('');
@@ -13,7 +12,7 @@ export const Login = () => {
   const handleLogin = async () => {
     try {
       const result = await login(password);
-      dispatch(setLoginState(result ? LoginState.LOGGED_IN : LoginState.LOGGED_OUT));
+      dispatch(setLoggedIn(result));
       if (!result) {
         setError('An error occurred');
       }

@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { IPC_CHANNELS } from '@config';
-import { DBRequest, DBRequestType, DBResponse, IAccount, LoginState } from '@types';
+import { DBRequest, DBRequestType, DBResponse, IAccount } from '@types';
 
 let store: Store;
 
@@ -38,27 +38,20 @@ const storeExists = async () => {
 
 const isLoggedIn = () => store !== undefined;
 
-const getLoginState = async () => {
-  if (!(await storeExists())) {
-    return LoginState.NEW_USER;
-  } else if (isLoggedIn()) {
-    return LoginState.LOGGED_IN;
-  }
-  return LoginState.LOGGED_OUT;
-};
-
 const getAccounts = () => {
   return store.get('accounts') as IAccount[];
 };
 
-export const handleRequest = (request: DBRequest): Promise<DBResponse> => {
+export const handleRequest = async (request: DBRequest): Promise<DBResponse> => {
   switch (request.type) {
     case DBRequestType.INIT:
       return Promise.resolve(init(request.password));
     case DBRequestType.LOGIN:
       return Promise.resolve(login(request.password));
-    case DBRequestType.GET_LOGIN_STATE:
-      return getLoginState();
+    case DBRequestType.IS_LOGGED_IN:
+      return Promise.resolve(isLoggedIn());
+    case DBRequestType.IS_NEW_USER:
+      return !(await storeExists());
     case DBRequestType.GET_ACCOUNTS:
       return Promise.resolve(getAccounts());
     default:

@@ -3,14 +3,9 @@ import { IAccount } from './account';
 export enum DBRequestType {
   INIT = 'INIT',
   LOGIN = 'LOGIN',
-  GET_LOGIN_STATE = 'GET_LOGIN_STATE',
+  IS_NEW_USER = 'IS_NEW_USER',
+  IS_LOGGED_IN = 'IS_LOGGED_IN',
   GET_ACCOUNTS = 'GET_ACCOUNTS'
-}
-
-export enum LoginState {
-  NEW_USER = 'NEW_USER',
-  LOGGED_IN = 'LOGGED_IN',
-  LOGGED_OUT = 'LOGGED_OUT'
 }
 
 interface BaseRequest<Type extends DBRequestType> {
@@ -25,10 +20,17 @@ type InitRequest = PasswordRequest<DBRequestType.INIT>;
 
 type LoginRequest = PasswordRequest<DBRequestType.LOGIN>;
 
-type GetLoginStateRequest = BaseRequest<DBRequestType.GET_LOGIN_STATE>;
+type GetLoginStateRequest = BaseRequest<DBRequestType.IS_LOGGED_IN>;
+
+type GetNewUserStateRequest = BaseRequest<DBRequestType.IS_NEW_USER>;
 
 type GetAccountsRequest = BaseRequest<DBRequestType.GET_ACCOUNTS>;
 
-export type DBRequest = InitRequest | LoginRequest | GetLoginStateRequest | GetAccountsRequest;
+export type DBRequest =
+  | InitRequest
+  | LoginRequest
+  | GetLoginStateRequest
+  | GetNewUserStateRequest
+  | GetAccountsRequest;
 
-export type DBResponse = string | boolean | LoginState | IAccount[];
+export type DBResponse = string | boolean | IAccount[];

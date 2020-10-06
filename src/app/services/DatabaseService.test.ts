@@ -1,7 +1,7 @@
 import { ipcBridgeRenderer } from '@bridge';
 import { DBRequestType } from '@types';
 
-import { getAccounts, getLoginState, init, login } from './DatabaseService';
+import { getAccounts, init, isLoggedIn, isNewUser, login } from './DatabaseService';
 
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {
@@ -32,10 +32,17 @@ describe('DatabaseService', () => {
     });
   });
 
-  it('getLoginState calls ipcBridge', () => {
-    getLoginState();
+  it('isLoggedIn calls ipcBridge', () => {
+    isLoggedIn();
     expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith({
-      type: DBRequestType.GET_LOGIN_STATE
+      type: DBRequestType.IS_LOGGED_IN
+    });
+  });
+
+  it('isNewUser calls ipcBridge', () => {
+    isNewUser();
+    expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith({
+      type: DBRequestType.IS_NEW_USER
     });
   });
 

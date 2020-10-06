@@ -1,11 +1,11 @@
 import { createAction } from '@reduxjs/toolkit';
 
-import { LoginState } from '@types';
-
 export interface AuthState {
-  state: LoginState;
+  newUser: boolean;
+  loggedIn: boolean;
 }
 
-export const INITIAL_STATE: AuthState = { state: LoginState.LOGGED_OUT };
+export const INITIAL_STATE: AuthState = { newUser: true, loggedIn: false };
 
-export const setLoginState = createAction<LoginState>('auth/setLoginState');
+export const setNewUser = createAction<boolean>('auth/setNewUser');
+export const setLoggedIn = createAction<boolean>('auth/setLoggedIn');

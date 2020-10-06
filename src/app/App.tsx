@@ -1,27 +1,30 @@
 import React, { useEffect } from 'react';
 
-import { LoginState } from '@types';
-
 import { Home, Login, NewUser } from './screens';
-import { getLoginState } from './services';
+import { isLoggedIn, isNewUser } from './services';
 import { useDispatch, useSelector } from './store';
-import { setLoginState } from './store/auth';
+import { setLoggedIn, setNewUser } from './store/auth';
 
 export const App = () => {
-  const { state: loginState } = useSelector((state) => state.auth);
+  const { loggedIn, newUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getLoginState().then((state) => {
-      dispatch(setLoginState(state));
+    isNewUser().then((state) => {
+      dispatch(setNewUser(state));
+    });
+    isLoggedIn().then((state) => {
+      dispatch(setLoggedIn(state));
     });
   }, []);
 
-  return (
-    <>
-      {loginState === LoginState.LOGGED_IN && <Home />}
-      {loginState === LoginState.LOGGED_OUT && <Login />}
-      {loginState === LoginState.NEW_USER && <NewUser />}
-    </>
-  );
+  if (newUser) {
+    return <NewUser />;
+  }
+
+  if (loggedIn) {
+    return <Home />;
+  }
+
+  return <Login />;
 };

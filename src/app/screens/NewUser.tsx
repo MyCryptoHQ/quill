@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 
 import { init } from '@app/services/DatabaseService';
 import { useDispatch } from '@app/store';
-import { setLoginState } from '@app/store/auth';
-import { LoginState } from '@types';
+import { setLoggedIn, setNewUser } from '@app/store/auth';
 
 export const NewUser = () => {
   const [password, setPassword] = useState('');
@@ -13,7 +12,8 @@ export const NewUser = () => {
   const handleCreate = async () => {
     try {
       const result = await init(password);
-      dispatch(setLoginState(result ? LoginState.LOGGED_IN : LoginState.NEW_USER));
+      dispatch(setNewUser(!result));
+      dispatch(setLoggedIn(true));
       if (!result) {
         setError('An error occurred');
       }
