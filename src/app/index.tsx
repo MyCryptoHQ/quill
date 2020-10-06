@@ -26,18 +26,14 @@
  * ```
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import ReactDOM from 'react-dom';
 import { hot } from 'react-hot-loader';
 import { Provider } from 'react-redux';
 
-import { Home, Login, NewUser } from '@screens';
-import { LoginState } from '@types';
-
-import { getLoginState } from './services';
-import { createStore, useDispatch, useSelector } from './store';
-import { setLoginState } from './store/auth';
+import { App } from './App';
+import { createStore } from './store';
 
 const store = createStore();
 
@@ -47,25 +43,6 @@ const Root = () => (
   </Provider>
 );
 
-const App = () => {
-  const authState = useSelector((state) => state.auth);
-  const loginState = authState.state;
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    getLoginState().then((state) => {
-      dispatch(setLoginState(state));
-    });
-  }, []);
-
-  return (
-    <>
-      {loginState === LoginState.LOGGED_IN && <Home />}
-      {loginState === LoginState.LOGGED_OUT && <Login />}
-      {loginState === LoginState.NEW_USER && <NewUser />}
-    </>
-  );
-};
 const Hot = hot(module)(Root);
 
 ReactDOM.render(<Hot />, document.getElementById('root'));
