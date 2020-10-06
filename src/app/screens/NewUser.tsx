@@ -22,7 +22,7 @@ export const NewUser = () => {
     <div>
       Welcome!
       <br />
-      <label htmlFor="password">
+      <label>
         Enter a new master password
         <input
           id="password"

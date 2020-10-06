@@ -20,7 +20,7 @@ export const Login = () => {
 
   return (
     <div>
-      <label htmlFor="password">
+      <label>
         Master Password
         <input
           id="password"
