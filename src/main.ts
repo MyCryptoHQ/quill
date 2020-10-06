@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen, Tray } from 'electron';
+import { app, BrowserWindow, Menu, screen, Tray } from 'electron';
 import path from 'path';
 
 import { runService as runSigningService } from '@api/sign';
@@ -29,6 +29,9 @@ const createWindow = (): void => {
     height: HEIGHT,
     fullscreenable: false,
     resizable: false,
+    // Spectron fails randomly when the app is frameless
+    // We don't use NODE_ENV as it is controlled by electron-forge
+    frame: process.env.IS_TEST === 'true',
     transparent: true,
     webPreferences: {
       devTools: true,
@@ -115,9 +118,17 @@ const toggleWindow = () => (window.isVisible() ? window.hide() : showWindow());
 
 const createTray = () => {
   tray = new Tray(path.join(__dirname, 'favicon.png'));
-  tray.on('right-click', toggleWindow);
+  const contextMenu = Menu.buildFromTemplate([
+    { label: 'Quit', role: 'close', click: () => app.quit() }
+  ]);
+  tray.setToolTip('Signer');
   tray.on('double-click', toggleWindow);
-  tray.on('click', () => {
+  tray.on('right-click', (e) => {
+    e.preventDefault();
+    tray.popUpContextMenu(contextMenu);
+  });
+  tray.on('click', (e) => {
+    e.preventDefault();
     toggleWindow();
   });
 };

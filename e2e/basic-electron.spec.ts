@@ -3,13 +3,13 @@ import app from './setupElectron';
 jest.setTimeout(10000);
 
 describe('Basic E2E tests', () => {
-  beforeAll(() => {
-    return app.start();
+  beforeAll(async () => {
+    await app.start();
   });
 
-  afterAll(() => {
+  afterAll(async () => {
     if (app && app.isRunning()) {
-      return app.stop();
+      await app.stop();
     }
   });
 
