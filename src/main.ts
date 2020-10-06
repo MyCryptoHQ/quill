@@ -122,9 +122,13 @@ const createTray = () => {
     { label: 'Quit', role: 'close', click: () => app.quit() }
   ]);
   tray.setToolTip('Signer');
-  tray.setContextMenu(contextMenu);
   tray.on('double-click', toggleWindow);
-  tray.on('click', () => {
+  tray.on('right-click', (e) => {
+    e.preventDefault();
+    tray.popUpContextMenu(contextMenu);
+  });
+  tray.on('click', (e) => {
+    e.preventDefault();
     toggleWindow();
   });
 };
