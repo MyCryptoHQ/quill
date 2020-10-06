@@ -1,12 +1,11 @@
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
 
-import { LoginState } from '@types';
-
+import { AuthState } from './auth';
 import reducer from './reducer';
 import { TXQueueState } from './txqueue';
 
 export interface ApplicationState {
-  login: LoginState;
+  auth: AuthState;
   queue: TXQueueState;
 }
 

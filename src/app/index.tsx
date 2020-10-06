@@ -37,7 +37,7 @@ import { LoginState } from '@types';
 
 import { getLoginState } from './services';
 import { createStore, useDispatch, useSelector } from './store';
-import { setLoginState } from './store/login';
+import { setLoginState } from './store/auth';
 
 const store = createStore();
 
@@ -48,7 +48,8 @@ const Root = () => (
 );
 
 const App = () => {
-  const loginState = useSelector((state) => state.login);
+  const authState = useSelector((state) => state.auth);
+  const loginState = authState.state;
   const dispatch = useDispatch();
 
   useEffect(() => {

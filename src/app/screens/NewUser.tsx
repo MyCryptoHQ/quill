@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { init } from '@app/services/DatabaseService';
 import { useDispatch } from '@app/store';
-import { setLoginState } from '@app/store/login';
+import { setLoginState } from '@app/store/auth';
 import { LoginState } from '@types';
 
 export const NewUser = () => {
