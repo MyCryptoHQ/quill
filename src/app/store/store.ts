@@ -1,9 +1,11 @@
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
 
+import { AuthState } from './auth';
 import reducer from './reducer';
 import { TXQueueState } from './txqueue';
 
 export interface ApplicationState {
+  auth: AuthState;
   queue: TXQueueState;
 }
 

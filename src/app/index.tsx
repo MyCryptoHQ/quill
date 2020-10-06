@@ -32,17 +32,17 @@ import ReactDOM from 'react-dom';
 import { hot } from 'react-hot-loader';
 import { Provider } from 'react-redux';
 
-import { Home } from '@screens';
-
+import { App } from './App';
 import { createStore } from './store';
 
 const store = createStore();
 
-const App = () => (
+const Root = () => (
   <Provider store={store}>
-    <Home />
+    <App />
   </Provider>
 );
-const Hot = hot(module)(App);
+
+const Hot = hot(module)(Root);
 
 ReactDOM.render(<Hot />, document.getElementById('root'));

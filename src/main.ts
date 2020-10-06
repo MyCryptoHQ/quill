@@ -1,6 +1,7 @@
 import { app, BrowserWindow, Menu, screen, Tray } from 'electron';
 import path from 'path';
 
+import { runService as runDatabaseService } from '@api/db';
 import { runService as runSigningService } from '@api/sign';
 
 import { runAPI } from './api/ws';
@@ -46,14 +47,14 @@ const createWindow = (): void => {
   // and load the index.html of the app.
   window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-  // Open the DevTools.
-  //mainWindow.webContents.openDevTools();
-
   // Run API
   runAPI(window.webContents);
 
   // Run Signing Logic
   runSigningService();
+
+  // Run Database Service
+  runDatabaseService();
 };
 
 // Based on https://cdruc.com/positioning-electron-tray-apps-on-windows-taskbar/

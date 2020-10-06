@@ -26,7 +26,7 @@ function getComponent() {
 }
 
 describe('Home', () => {
-  test('it renders', async () => {
+  it('renders', async () => {
     const { getByText } = getComponent();
     expect(getByText('Accept').textContent).toBeDefined();
   });
