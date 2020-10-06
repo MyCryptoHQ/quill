@@ -28,6 +28,9 @@ export const Home = () => {
     }
   };
 
+  const changePrivateKey = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setPrivKey(e.currentTarget.value);
+
   return (
     <div>
       {txQueueLength > 1 && (
@@ -40,12 +43,7 @@ export const Home = () => {
       <br />
       <label htmlFor="privkey">Private Key</label>
       <br />
-      <input
-        id="privkey"
-        name="privkey"
-        type="text"
-        onChange={(e) => setPrivKey(e.currentTarget.value)}
-      />
+      <input id="privkey" name="privkey" type="text" onChange={changePrivateKey} />
 
       <br />
       <button id="deny_button" type="button" disabled={!currentTx} onClick={handleDeny}>

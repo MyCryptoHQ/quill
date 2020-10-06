@@ -18,16 +18,14 @@ export const Login = () => {
     }
   };
 
+  const changePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setPassword(e.currentTarget.value);
+
   return (
     <div>
       <label>
         Master Password
-        <input
-          id="password"
-          name="password"
-          type="password"
-          onChange={(e) => setPassword(e.currentTarget.value)}
-        />
+        <input id="password" name="password" type="password" onChange={changePassword} />
       </label>
       <br />
       <button type="button" disabled={password.length === 0} onClick={handleLogin}>

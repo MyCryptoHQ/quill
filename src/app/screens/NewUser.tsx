@@ -18,18 +18,16 @@ export const NewUser = () => {
     }
   };
 
+  const changePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setPassword(e.currentTarget.value);
+
   return (
     <div>
       Welcome!
       <br />
       <label>
         Enter a new master password
-        <input
-          id="password"
-          name="password"
-          type="password"
-          onChange={(e) => setPassword(e.currentTarget.value)}
-        />
+        <input id="password" name="password" type="password" onChange={changePassword} />
       </label>
       <br />
       <button
