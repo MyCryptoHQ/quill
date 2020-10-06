@@ -1,33 +1,33 @@
-import { Overwrite } from 'utility-types';
-
 import { IAccount } from './account';
 
 export enum DBRequestType {
-  INIT,
-  LOGIN,
-  GET_LOGIN_STATE,
-  GET_ACCOUNTS
+  INIT = 'INIT',
+  LOGIN = 'LOGIN',
+  GET_LOGIN_STATE = 'GET_LOGIN_STATE',
+  GET_ACCOUNTS = 'GET_ACCOUNTS'
 }
 
 export enum LoginState {
-  NEW_USER,
-  LOGGED_IN,
-  LOGGED_OUT
+  NEW_USER = 'NEW_USER',
+  LOGGED_IN = 'LOGGED_IN',
+  LOGGED_OUT = 'LOGGED_OUT'
 }
 
-interface BaseRequest {
-  type: DBRequestType;
+interface BaseRequest<Type extends DBRequestType> {
+  type: Type;
 }
 
-type InitRequest = Overwrite<LoginRequest, { type: DBRequestType.INIT }>;
-
-interface LoginRequest extends Overwrite<BaseRequest, { type: DBRequestType.LOGIN }> {
+interface PasswordRequest<Type extends DBRequestType> extends BaseRequest<Type> {
   password: string;
 }
 
-type GetLoginStateRequest = Overwrite<BaseRequest, { type: DBRequestType.GET_LOGIN_STATE }>;
+type InitRequest = PasswordRequest<DBRequestType.INIT>;
 
-type GetAccountsRequest = Overwrite<BaseRequest, { type: DBRequestType.GET_ACCOUNTS }>;
+type LoginRequest = PasswordRequest<DBRequestType.LOGIN>;
+
+type GetLoginStateRequest = BaseRequest<DBRequestType.GET_LOGIN_STATE>;
+
+type GetAccountsRequest = BaseRequest<DBRequestType.GET_ACCOUNTS>;
 
 export type DBRequest = InitRequest | LoginRequest | GetLoginStateRequest | GetAccountsRequest;
 
