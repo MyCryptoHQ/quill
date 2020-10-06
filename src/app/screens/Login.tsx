@@ -11,10 +11,14 @@ export const Login = () => {
   const dispatch = useDispatch();
 
   const handleLogin = async () => {
-    const result = await login(password);
-    dispatch(setLoginState(result ? LoginState.LOGGED_IN : LoginState.LOGGED_OUT));
-    if (!result) {
-      setError('An error occurred');
+    try {
+      const result = await login(password);
+      dispatch(setLoginState(result ? LoginState.LOGGED_IN : LoginState.LOGGED_OUT));
+      if (!result) {
+        setError('An error occurred');
+      }
+    } catch (err) {
+      setError(err.message);
     }
   };
 

@@ -11,10 +11,14 @@ export const NewUser = () => {
   const dispatch = useDispatch();
 
   const handleCreate = async () => {
-    const result = await init(password);
-    dispatch(setLoginState(result ? LoginState.LOGGED_IN : LoginState.NEW_USER));
-    if (!result) {
-      setError('An error occurred');
+    try {
+      const result = await init(password);
+      dispatch(setLoginState(result ? LoginState.LOGGED_IN : LoginState.NEW_USER));
+      if (!result) {
+        setError('An error occurred');
+      }
+    } catch (err) {
+      setError(err.message);
     }
   };
 
