@@ -14,6 +14,7 @@ const persistConfig = {
   key: 'accounts',
   keyPrefix: '',
   storage,
+  serialize: false,
   deserialize: false
 };
 

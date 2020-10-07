@@ -42,6 +42,10 @@ const getAccounts = () => {
   return store.get('accounts') as Record<TUuid, IAccount>[];
 };
 
+const setAccounts = (accounts: Record<TUuid, IAccount>) => {
+  return store.set('accounts', accounts);
+};
+
 export const handleRequest = async (request: DBRequest): Promise<DBResponse> => {
   switch (request.type) {
     case DBRequestType.INIT:
@@ -54,6 +58,8 @@ export const handleRequest = async (request: DBRequest): Promise<DBResponse> => 
       return !(await storeExists());
     case DBRequestType.GET_ACCOUNTS:
       return Promise.resolve(getAccounts());
+    case DBRequestType.SET_ACCOUNTS:
+      return Promise.resolve(setAccounts(request.accounts));
     default:
       throw new Error('Undefined request type');
   }

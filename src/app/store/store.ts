@@ -14,8 +14,7 @@ export interface ApplicationState {
 export type ApplicationDispatch = ReturnType<typeof createStore>['dispatch'];
 
 export const createStore = (): EnhancedStore<ApplicationState> => {
-  const store = configureStore({
+  return configureStore({
     reducer
   });
-  return store;
 };

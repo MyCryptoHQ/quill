@@ -20,3 +20,7 @@ export const isLoggedIn = (): Promise<boolean> => {
 export const getAccounts = (): Promise<Record<TUuid, IAccount>> => {
   return ipcBridgeRenderer.db.invoke({ type: DBRequestType.GET_ACCOUNTS });
 };
+
+export const setAccounts = (accounts: Record<TUuid, IAccount>): Promise<void> => {
+  return ipcBridgeRenderer.db.invoke({ type: DBRequestType.SET_ACCOUNTS, accounts });
+};

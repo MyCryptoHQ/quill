@@ -1,4 +1,4 @@
-import { getAccounts } from '@app/services';
+import { getAccounts, setAccounts } from '@app/services';
 
 export const storage = {
   getItem: (key: string) => {
@@ -7,10 +7,10 @@ export const storage = {
     }
     throw new Error('Invalid key');
   },
-  setItem: (key: string, _value: any) => {
+  setItem: (key: string, value: any) => {
     if (key === 'accounts') {
       // @todo
-      return Promise.resolve();
+      return setAccounts(value);
     }
     throw new Error('Invalid key');
   },
