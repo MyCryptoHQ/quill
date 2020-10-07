@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { IPC_CHANNELS } from '@config';
-import { DBRequest, DBRequestType, DBResponse, IAccount } from '@types';
+import { DBRequest, DBRequestType, DBResponse, IAccount, TUuid } from '@types';
 
 let store: Store;
 
@@ -12,7 +12,7 @@ const init = (password: string) => {
   try {
     store = new Store({ encryptionKey: password, clearInvalidConfig: true });
     // Write something to the store to actually create the file
-    store.set('accounts', []);
+    store.set('accounts', {});
   } catch (err) {
     console.error(err);
     return false;
@@ -39,7 +39,7 @@ const storeExists = async () => {
 const isLoggedIn = () => store !== undefined;
 
 const getAccounts = () => {
-  return store.get('accounts') as IAccount[];
+  return store.get('accounts') as Record<TUuid, IAccount>[];
 };
 
 export const handleRequest = async (request: DBRequest): Promise<DBResponse> => {

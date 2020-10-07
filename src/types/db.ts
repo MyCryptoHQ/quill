@@ -1,4 +1,5 @@
 import { IAccount } from './account';
+import { TUuid } from './uuid';
 
 export enum DBRequestType {
   INIT = 'INIT',
@@ -33,4 +34,4 @@ export type DBRequest =
   | GetNewUserStateRequest
   | GetAccountsRequest;
 
-export type DBResponse = string | boolean | IAccount[];
+export type DBResponse = string | boolean | Record<TUuid, IAccount>;
