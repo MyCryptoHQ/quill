@@ -1,5 +1,4 @@
 import { IAccount } from './account';
-import { TUuid } from './uuid';
 
 export enum DBRequestType {
   INIT = 'INIT',
@@ -29,7 +28,7 @@ type GetNewUserStateRequest = BaseRequest<DBRequestType.IS_NEW_USER>;
 type GetAccountsRequest = BaseRequest<DBRequestType.GET_ACCOUNTS>;
 
 interface SetAccountsRequest extends BaseRequest<DBRequestType.SET_ACCOUNTS> {
-  accounts: Record<TUuid, IAccount>;
+  accounts: Record<string, IAccount>;
 }
 
 export type DBRequest =
@@ -40,4 +39,4 @@ export type DBRequest =
   | GetAccountsRequest
   | SetAccountsRequest;
 
-export type DBResponse = string | boolean | Record<TUuid, IAccount> | void;
+export type DBResponse = string | boolean | Record<string, IAccount> | void;

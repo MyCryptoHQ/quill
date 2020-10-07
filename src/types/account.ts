@@ -1,4 +1,5 @@
 import { TAddress } from './address';
+import { TUuid } from './uuid';
 
 enum AccountType {
   PRIVATE_KEY = 'PRIVATE_KEY',
@@ -7,6 +8,7 @@ enum AccountType {
 }
 
 export interface IAccount {
+  uuid: TUuid;
   type: AccountType;
   address: TAddress;
   persistent: boolean;

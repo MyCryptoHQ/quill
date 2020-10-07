@@ -2,8 +2,9 @@ import { createAction } from '@reduxjs/toolkit';
 
 import { IAccount } from '@types';
 
-export type AccountsState = IAccount[];
+export type AccountsState = Record<string, IAccount>;
 
-export const INITIAL_STATE: AccountsState = [];
+export const INITIAL_STATE: AccountsState = {};
 
-export const setAccounts = createAction<IAccount[]>('account/setAccounts');
+export const addAccount = createAction<IAccount>('account/addAccount');
+export const removeAccount = createAction<IAccount>('account/removeAccount');

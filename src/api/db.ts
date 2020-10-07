@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { IPC_CHANNELS } from '@config';
-import { DBRequest, DBRequestType, DBResponse, IAccount, TUuid } from '@types';
+import { DBRequest, DBRequestType, DBResponse, IAccount } from '@types';
 
 let store: Store;
 
@@ -39,10 +39,10 @@ const storeExists = async () => {
 const isLoggedIn = () => store !== undefined;
 
 const getAccounts = () => {
-  return store.get('accounts') as Record<TUuid, IAccount>[];
+  return store.get('accounts') as Record<string, IAccount>;
 };
 
-const setAccounts = (accounts: Record<TUuid, IAccount>) => {
+const setAccounts = (accounts: Record<string, IAccount>) => {
   return store.set('accounts', accounts);
 };
 
