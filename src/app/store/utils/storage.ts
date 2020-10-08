@@ -1,4 +1,5 @@
 import { getAccounts, setAccounts } from '@app/services';
+import { IAccount } from '@types';
 
 export const storage = {
   getItem: (key: string) => {
@@ -7,9 +8,9 @@ export const storage = {
     }
     throw new Error('Invalid key');
   },
-  setItem: (key: string, value: any) => {
+  setItem: (key: string, value: unknown) => {
     if (key === 'accounts') {
-      return setAccounts(value);
+      return setAccounts(value as Record<string, IAccount>);
     }
     throw new Error('Invalid key');
   },

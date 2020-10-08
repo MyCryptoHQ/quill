@@ -26,7 +26,8 @@ jest.mock('electron-store', () => {
       }
       return {};
     }),
-    set: jest.fn()
+    set: jest.fn(),
+    clear: jest.fn()
   }));
 });
 
