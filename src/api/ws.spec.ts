@@ -14,7 +14,7 @@ jest.mock('./api', () => ({
 const mockWebContents = { send: jest.fn() };
 
 describe('runAPI', () => {
-  it('bla', async () => {
+  it('passes information to handleRequest', async () => {
     const stop = runAPI((mockWebContents as unknown) as WebContents);
 
     const client = new WebSocket(`ws://localhost:${WS_PORT}`);
