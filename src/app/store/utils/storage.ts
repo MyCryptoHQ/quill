@@ -9,16 +9,12 @@ export const storage = {
   },
   setItem: (key: string, value: any) => {
     if (key === 'accounts') {
-      // @todo
       return setAccounts(value);
     }
     throw new Error('Invalid key');
   },
-  removeItem: (key: string) => {
-    if (key === 'accounts') {
-      // @todo
-      return;
-    }
+  removeItem: (_key: string) => {
+    // @todo If needed
     throw new Error('Invalid key');
   }
 };
