@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { ROUTES } from '@app/routes';
+import { ROUTE_PATHS } from '@app/routePaths';
 import { signWithPrivateKey, useApiService } from '@app/services';
 import { useSelector } from '@app/store';
 import { makeTx } from '@utils';
@@ -40,7 +40,7 @@ export const Home = () => {
   return (
     <div>
       {JSON.stringify(accounts)}
-      <Link to={ROUTES.ADD_ACCOUNT.path}>+</Link>
+      <Link to={ROUTE_PATHS.ADD_ACCOUNT}>+</Link>
       <br />
       {txQueueLength > 1 && (
         <>

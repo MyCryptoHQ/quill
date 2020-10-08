@@ -2,6 +2,7 @@ import React from 'react';
 
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import { MemoryRouter as Router } from 'react-router-dom';
 
 import { createStore } from '@app/store';
 
@@ -19,9 +20,11 @@ jest.mock('@bridge', () => ({
 
 function getComponent() {
   return render(
-    <Provider store={createStore()}>
-      <Home />
-    </Provider>
+    <Router>
+      <Provider store={createStore()}>
+        <Home />
+      </Provider>
+    </Router>
   );
 }
 

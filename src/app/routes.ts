@@ -1,8 +1,9 @@
 import { Route } from '@types';
 
+import { ROUTE_PATHS } from './routePaths';
 import { AddAccount, Home } from './screens';
 
 export const ROUTES: Record<string, Route> = {
-  HOME: { path: '/', component: Home, exact: true },
-  ADD_ACCOUNT: { path: '/add-account', component: AddAccount, exact: true }
+  HOME: { path: ROUTE_PATHS.HOME, component: Home, exact: true },
+  ADD_ACCOUNT: { path: ROUTE_PATHS.ADD_ACCOUNT, component: AddAccount, exact: true }
 };
