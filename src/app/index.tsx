@@ -33,13 +33,13 @@ import { hot } from 'react-hot-loader';
 import { Provider } from 'react-redux';
 
 import { App } from './App';
-import { createStore } from './store';
+import { createPersistor, createStore } from './store';
 
 const store = createStore();
 
 const Root = () => (
   <Provider store={store}>
-    <App />
+    <App persistor={createPersistor(store)} />
   </Provider>
 );
 

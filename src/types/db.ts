@@ -5,7 +5,8 @@ export enum DBRequestType {
   LOGIN = 'LOGIN',
   IS_NEW_USER = 'IS_NEW_USER',
   IS_LOGGED_IN = 'IS_LOGGED_IN',
-  GET_ACCOUNTS = 'GET_ACCOUNTS'
+  GET_ACCOUNTS = 'GET_ACCOUNTS',
+  SET_ACCOUNTS = 'SET_ACCOUNTS'
 }
 
 interface BaseRequest<Type extends DBRequestType> {
@@ -26,11 +27,16 @@ type GetNewUserStateRequest = BaseRequest<DBRequestType.IS_NEW_USER>;
 
 type GetAccountsRequest = BaseRequest<DBRequestType.GET_ACCOUNTS>;
 
+interface SetAccountsRequest extends BaseRequest<DBRequestType.SET_ACCOUNTS> {
+  accounts: Record<string, IAccount>;
+}
+
 export type DBRequest =
   | InitRequest
   | LoginRequest
   | GetLoginStateRequest
   | GetNewUserStateRequest
-  | GetAccountsRequest;
+  | GetAccountsRequest
+  | SetAccountsRequest;
 
-export type DBResponse = string | boolean | IAccount[];
+export type DBResponse = string | boolean | Record<string, IAccount> | void;

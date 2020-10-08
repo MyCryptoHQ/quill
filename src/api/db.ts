@@ -11,8 +11,10 @@ let store: Store;
 const init = (password: string) => {
   try {
     store = new Store({ encryptionKey: password, clearInvalidConfig: true });
+    // Clear in case the store already contains data
+    store.clear();
     // Write something to the store to actually create the file
-    store.set('accounts', []);
+    store.set('accounts', {});
   } catch (err) {
     console.error(err);
     return false;
@@ -38,8 +40,12 @@ const storeExists = async () => {
 
 const isLoggedIn = () => store !== undefined;
 
-const getAccounts = () => {
-  return store.get('accounts') as IAccount[];
+export const getAccounts = () => {
+  return store.get('accounts') as Record<string, IAccount>;
+};
+
+const setAccounts = (accounts: Record<string, IAccount>) => {
+  return store.set('accounts', accounts);
 };
 
 export const handleRequest = async (request: DBRequest): Promise<DBResponse> => {
@@ -54,6 +60,8 @@ export const handleRequest = async (request: DBRequest): Promise<DBResponse> => 
       return !(await storeExists());
     case DBRequestType.GET_ACCOUNTS:
       return Promise.resolve(getAccounts());
+    case DBRequestType.SET_ACCOUNTS:
+      return Promise.resolve(setAccounts(request.accounts));
     default:
       throw new Error('Undefined request type');
   }

@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 
 import { signWithPrivateKey, useApiService } from '@app/services';
+import { useSelector } from '@app/store';
 import { makeTx } from '@utils';
 
 export const Home = () => {
   const { approveCurrent, denyCurrent, currentTx, txQueueLength } = useApiService();
   const [privKey, setPrivKey] = useState('');
   const [error, setError] = useState('');
+
+  const accounts = useSelector((state) => state.accounts);
 
   const handleDeny = async () => {
     if (currentTx) {
@@ -33,6 +36,8 @@ export const Home = () => {
 
   return (
     <div>
+      {JSON.stringify(accounts)}
+      <br />
       {txQueueLength > 1 && (
         <>
           {`TXs in queue: ${txQueueLength}`}
