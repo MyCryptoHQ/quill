@@ -14,7 +14,15 @@ export interface ApplicationState {
 export type ApplicationDispatch = ReturnType<typeof createStore>['dispatch'];
 
 export const createStore = (): EnhancedStore<ApplicationState> => {
-  return configureStore({
+  const store = configureStore({
     reducer
   });
+
+  if (module.hot) {
+    module.hot.accept('./reducer', () => {
+      import('./reducer').then(({ default: nextReducer }) => store.replaceReducer(nextReducer));
+    });
+  }
+
+  return store;
 };

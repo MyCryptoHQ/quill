@@ -29,10 +29,9 @@
 import React from 'react';
 
 import ReactDOM from 'react-dom';
-import { hot } from 'react-hot-loader';
 import { Provider } from 'react-redux';
 
-import { App } from './App';
+import App from './App';
 import { createPersistor, createStore } from './store';
 
 const store = createStore();
@@ -43,6 +42,4 @@ const Root = () => (
   </Provider>
 );
 
-const Hot = hot(module)(Root);
-
-ReactDOM.render(<Hot />, document.getElementById('root'));
+ReactDOM.render(<Root />, document.getElementById('root'));
