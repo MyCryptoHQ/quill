@@ -93,6 +93,7 @@
     "@types/react": "16.9.49",
     "@types/react-dom": "16.9.8",
     "@types/react-redux": "7.1.9",
+    "@types/react-router-dom": "5.1.6",    
     "@types/webpack-env": "1.15.3",
     "@types/ws": "7.2.6",
     "@typescript-eslint/eslint-plugin": "4.0.1",
@@ -112,6 +113,7 @@
     "fork-ts-checker-webpack-plugin": "5.0.14",
     "husky": "4.2.5",
     "jest": "26.4.2",
+    "jest-websocket-mock": "2.2.0",
     "lint-staged": "10.4.0",
     "node-loader": "1.0.1",
     "npm-run-all": "4.1.5",
@@ -138,6 +140,7 @@
     "react-dom": "16.13.0",
     "react-hot-loader": "4.12.21",
     "react-redux": "7.2.1",
+    "react-router-dom": "5.2.0",
     "redux-persist": "6.0.0-pre2.1",
     "ws": "7.3.1"
   },

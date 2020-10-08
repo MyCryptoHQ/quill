@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+import { Link } from 'react-router-dom';
+
+import { ROUTES } from '@app/routes';
 import { signWithPrivateKey, useApiService } from '@app/services';
 import { useSelector } from '@app/store';
 import { makeTx } from '@utils';
@@ -37,6 +40,7 @@ export const Home = () => {
   return (
     <div>
       {JSON.stringify(accounts)}
+      <Link to={ROUTES.ADD_ACCOUNT.path}>+</Link>
       <br />
       {txQueueLength > 1 && (
         <>
