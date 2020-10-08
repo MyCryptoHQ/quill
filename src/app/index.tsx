@@ -31,19 +31,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { hot } from 'react-hot-loader';
 import { Provider } from 'react-redux';
-import { persistStore } from 'redux-persist';
 
 import { App } from './App';
-import { createStore } from './store';
+import { createPersistor, createStore } from './store';
 
 const store = createStore();
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const persistor = persistStore(store, { manualPersist: true });
 
 const Root = () => (
   <Provider store={store}>
-    <App persistor={persistor} />
+    <App persistor={createPersistor(store)} />
   </Provider>
 );
 

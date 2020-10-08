@@ -38,7 +38,7 @@ const storeExists = async () => {
 
 const isLoggedIn = () => store !== undefined;
 
-const getAccounts = () => {
+export const getAccounts = () => {
   return store.get('accounts') as Record<string, IAccount>;
 };
 
