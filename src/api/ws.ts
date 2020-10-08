@@ -2,11 +2,13 @@ import { WebContents } from 'electron';
 import log from 'electron-log';
 import WebSocket from 'ws';
 
+import { WS_PORT } from '@config';
+
 import { handleRequest } from './api';
 
 export const runAPI = (webContents: WebContents) => {
   log.debug('Spinning up WS');
-  const ws = new WebSocket.Server({ host: 'localhost', port: 8000 });
+  const ws = new WebSocket.Server({ host: 'localhost', port: WS_PORT });
   ws.on('connection', (socket) => {
     socket.on('message', async (data) => {
       log.debug(data);
@@ -17,4 +19,5 @@ export const runAPI = (webContents: WebContents) => {
       });
     });
   });
+  return () => ws.close();
 };

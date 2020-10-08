@@ -2,12 +2,37 @@ import { waitFor } from '@testing-library/react';
 import { WebContents } from 'electron';
 
 import { IPC_CHANNELS, SUPPORTED_METHODS } from '@config';
+import { fTxResponse } from '@fixtures';
 
 import { handleRequest } from './api';
 
 jest.mock('electron', () => ({
   ipcMain: {
-    on: jest.fn()
+    on: jest.fn().mockImplementation((_channel, callback) => {
+      callback(undefined, {
+        id: 1,
+        result: {
+          nonce: 6,
+          gasPrice: {
+            _hex: '0x012a05f200'
+          },
+          gasLimit: {
+            _hex: '0x5208'
+          },
+          to: '0xb2bb2b958AFa2e96dab3f3Ce7162b87daEa39017',
+          value: {
+            _hex: '0x2386f26fc10000'
+          },
+          data: '0x',
+          chainId: 3,
+          v: 42,
+          r: '0x2bd827ea378f4856ff2ea5997f48ea63045da64bb09ce494c886c1934d29d627',
+          s: '0x0af001168b5e8db5cc47ff1f985629ddad535b334060846facb8a7c43cf9c6f1',
+          from: '0xb2bb2b958AFa2e96dab3f3Ce7162b87daEa39017',
+          hash: '0x33d9b1b88cc48ca6da01310ab3acc86ae4cc2527bb3fc8662fd308cd63f303b1'
+        }
+      });
+    })
   }
 }));
 
@@ -61,9 +86,14 @@ describe('handleRequest', () => {
         }
       ]
     };
-    handleRequest(JSON.stringify(request), (mockWebContents as unknown) as WebContents);
+    const promise = handleRequest(
+      JSON.stringify(request),
+      (mockWebContents as unknown) as WebContents
+    );
     await waitFor(() =>
       expect(mockWebContents.send).toHaveBeenCalledWith(IPC_CHANNELS.API, request)
     );
+    const result = await promise;
+    expect(result).toStrictEqual({ id: 1, jsonrpc: '2.0', result: fTxResponse });
   });
 });
