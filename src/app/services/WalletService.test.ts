@@ -1,4 +1,5 @@
 import { ipcBridgeRenderer } from '@bridge';
+import { CryptoRequestType } from '@types';
 
 import { signWithPrivateKey } from './WalletService';
 
@@ -17,6 +18,10 @@ describe('WalletService', () => {
 
   it('calls ipcBridge sign transaction function', () => {
     signWithPrivateKey('privkey', {});
-    expect(ipcBridgeRenderer.crypto.invoke).toHaveBeenCalledWith({ privateKey: 'privkey', tx: {} });
+    expect(ipcBridgeRenderer.crypto.invoke).toHaveBeenCalledWith({
+      type: CryptoRequestType.SIGN,
+      privateKey: 'privkey',
+      tx: {}
+    });
   });
 });
