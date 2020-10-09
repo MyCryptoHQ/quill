@@ -1,12 +1,21 @@
+import { ipcMain } from 'electron';
+
+import { IPC_CHANNELS } from '@config';
 import { CryptoRequestType } from '@types';
 
-import { handleRequest } from './crypto';
+import { handleRequest, runService } from './crypto';
 
 jest.mock('@ethersproject/wallet', () => ({
   Wallet: jest.fn().mockImplementation(() => ({
     address: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520',
     signTransaction: jest.fn().mockImplementation(() => Promise.resolve('signed'))
   }))
+}));
+
+jest.mock('electron', () => ({
+  ipcMain: {
+    handle: jest.fn()
+  }
 }));
 
 describe('handleRequest', () => {
@@ -30,5 +39,12 @@ describe('handleRequest', () => {
     });
 
     expect(response).toBe('signed');
+  });
+});
+
+describe('runService', () => {
+  it('calls ipcMain handle', () => {
+    runService();
+    expect(ipcMain.handle).toHaveBeenCalledWith(IPC_CHANNELS.CRYPTO, expect.any(Function));
   });
 });
