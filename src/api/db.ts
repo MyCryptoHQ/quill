@@ -8,7 +8,7 @@ import { DBRequest, DBRequestType, DBResponse, IAccount } from '@types';
 
 let store: Store;
 
-const init = (password: string) => {
+export const init = (password: string) => {
   try {
     store = new Store({ encryptionKey: password, clearInvalidConfig: true });
     // Clear in case the store already contains data

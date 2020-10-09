@@ -1,10 +1,12 @@
 import { waitFor } from '@testing-library/react';
 import { WebContents } from 'electron';
+import Store from 'electron-store';
 
 import { IPC_CHANNELS, SUPPORTED_METHODS } from '@config';
 import { fTxResponse } from '@fixtures';
 
 import { handleRequest } from './api';
+import { init } from './db';
 
 jest.mock('electron', () => ({
   ipcMain: {
@@ -35,6 +37,16 @@ jest.mock('electron', () => ({
     })
   }
 }));
+
+jest.mock('electron-store', () => {
+  return jest.fn().mockImplementation(() => ({
+    get: jest.fn().mockImplementation(() => {
+      return [{ address: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520' }];
+    }),
+    set: jest.fn(),
+    clear: jest.fn()
+  }));
+});
 
 const mockWebContents = { send: jest.fn() };
 
@@ -95,5 +107,27 @@ describe('handleRequest', () => {
     );
     const result = await promise;
     expect(result).toStrictEqual({ id: 1, jsonrpc: '2.0', result: fTxResponse });
+  });
+
+  it('returns accounts with valid request', async () => {
+    // Better way to do this? Store has to be initialized
+    await init('');
+    expect(Store).toHaveBeenCalled();
+    const request = {
+      id: 1,
+      jsonrpc: '2.0',
+      method: SUPPORTED_METHODS.ACCOUNTS,
+      params: [] as number[]
+    };
+    const promise = handleRequest(
+      JSON.stringify(request),
+      (mockWebContents as unknown) as WebContents
+    );
+    const result = await promise;
+    expect(result).toStrictEqual({
+      id: 1,
+      jsonrpc: '2.0',
+      result: expect.arrayContaining(['0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520'])
+    });
   });
 });
