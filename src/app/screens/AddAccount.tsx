@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { useAccounts } from '@app/hooks';
 import { ROUTE_PATHS } from '@app/routePaths';
 
-export const AddAccount = () => {
+const AddAccount = ({ history }: RouteComponentProps) => {
   const { addAccountFromPrivateKey } = useAccounts();
   const [privKey, setPrivKey] = useState('');
   const [persistence, setPersistence] = useState(false);
@@ -18,6 +18,7 @@ export const AddAccount = () => {
 
   const handleSubmit = () => {
     addAccountFromPrivateKey(privKey, persistence);
+    history.replace(ROUTE_PATHS.HOME);
   };
 
   return (
@@ -38,3 +39,5 @@ export const AddAccount = () => {
     </>
   );
 };
+
+export default withRouter(AddAccount);

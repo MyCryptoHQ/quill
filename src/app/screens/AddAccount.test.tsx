@@ -8,7 +8,7 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import { getAddressFromPrivateKey } from '@app/services/WalletService';
 import { ApplicationState, createStore } from '@app/store';
 
-import { AddAccount } from './AddAccount';
+import { AddAccount } from '.';
 
 jest.mock('@app/services/WalletService', () => ({
   getAddressFromPrivateKey: jest
