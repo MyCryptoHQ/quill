@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { TransactionResponse } from '@ethersproject/abstract-provider';
 
-import { useQueue } from '@app/utils';
+import { useQueue } from '@app/hooks';
 import { ipcBridgeRenderer } from '@bridge';
 import { JsonRPCResponse } from '@types';
 
