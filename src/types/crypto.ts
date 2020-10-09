@@ -1,18 +1,27 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider';
 
+import { TAddress } from './address';
+import { TUuid } from './uuid';
+
 export enum CryptoRequestType {
-  SIGN = 'SIGN'
+  SIGN = 'SIGN',
+  GET_ADDRESS = 'GET_ADDRESS'
 }
 
 interface BaseRequest<Type extends CryptoRequestType> {
   type: Type;
 }
 
-interface SignTxRequest extends BaseRequest<CryptoRequestType.SIGN> {
+interface PrivKeyRequest<Type extends CryptoRequestType> extends BaseRequest<Type> {
   privateKey: string;
+}
+
+interface SignTxRequest extends PrivKeyRequest<CryptoRequestType.SIGN> {
   tx: TransactionRequest;
 }
 
-export type CryptoRequest = SignTxRequest;
+type GetAddressRequest = PrivKeyRequest<CryptoRequestType.GET_ADDRESS>;
 
-export type CryptoResponse = string;
+export type CryptoRequest = SignTxRequest | GetAddressRequest;
+
+export type CryptoResponse = string | { address: TAddress; uuid: TUuid };

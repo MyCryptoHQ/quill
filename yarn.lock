@@ -1305,6 +1305,18 @@
     "@ethersproject/logger" "^5.0.5"
     "@ethersproject/properties" "^5.0.3"
 
+"@ethersproject/address@5.0.5":
+  version "5.0.5"
+  resolved "https://registry.yarnpkg.com/@ethersproject/address/-/address-5.0.5.tgz#2caa65f6b7125015395b1b54c985ee0b27059cc7"
+  integrity sha512-DpkQ6rwk9jTefrRsJzEm6nhRiJd9pvhn1xN0rw5N/jswXG5r7BLk/GVA0mMAVWAsYfvi2xSc5L41FMox43RYEA==
+  dependencies:
+    "@ethersproject/bignumber" "^5.0.7"
+    "@ethersproject/bytes" "^5.0.4"
+    "@ethersproject/keccak256" "^5.0.3"
+    "@ethersproject/logger" "^5.0.5"
+    "@ethersproject/rlp" "^5.0.3"
+    bn.js "^4.4.0"
+
 "@ethersproject/address@^5.0.4":
   version "5.0.4"
   resolved "https://registry.yarnpkg.com/@ethersproject/address/-/address-5.0.4.tgz#8669bcbd02f4b64f4cede0a10e84df6d964ec9d3"
@@ -2151,6 +2163,13 @@
   integrity sha512-KswB5C7Kwduwjj04Ykz+AjvPcfgv/37Za24O2EDzYNbwyzOo8+ydtvzUfZ5UMguiVu29Gx44l1A6VsPPcmYu9w==
   dependencies:
     source-map "^0.6.1"
+
+"@types/uuid@3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-3.4.0.tgz#91639516fbb892ed3737a2bdc1b030d02b4a09c1"
+  integrity sha512-Vd+WmnrQKrrfVJ+9LWyOWqlBQJFsfi8rhKRm3ag3ZrOjY5SmzZkGmxbkgRIk9jpZt4dpvE21cmbBSp1dCV7/fw==
+  dependencies:
+    "@types/node" "*"
 
 "@types/webpack-env@1.15.3":
   version "1.15.3"
@@ -6949,6 +6968,14 @@ jest@26.4.2:
     import-local "^3.0.2"
     jest-cli "^26.4.2"
 
+js-md5@MyCryptoHQ/js-md5#b300da8:
+  version "0.7.3"
+  resolved "https://codeload.github.com/MyCryptoHQ/js-md5/tar.gz/b300da833e5e2c83dae186359b72c69e1711acd2"
+
+js-sha1@MyCryptoHQ/js-sha1#7474a64:
+  version "0.6.0"
+  resolved "https://codeload.github.com/MyCryptoHQ/js-sha1/tar.gz/7474a6478649ff9a784e565a71c2c97ab18ef634"
+
 js-sha3@0.5.7:
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/js-sha3/-/js-sha3-0.5.7.tgz#0d4ffd8002d5333aabaf4a23eed2f6374c9f28e7"
@@ -10971,6 +10998,18 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
+
+uuid-by-string@MyCryptoHQ/uuid-by-string#36afddc:
+  version "3.0.2"
+  resolved "https://codeload.github.com/MyCryptoHQ/uuid-by-string/tar.gz/36afddcb930e9934ecc5b7fca85ca8036613e6dc"
+  dependencies:
+    js-md5 MyCryptoHQ/js-md5#b300da8
+    js-sha1 MyCryptoHQ/js-sha1#7474a64
+
+uuid@3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
+  integrity sha512-jZnMwlb9Iku/O3smGWvZhauCf6cvvpKi4BKRiliS3cxnI+Gz9j5MEpTz2UFuXiKPJocb7gnsLHwiS05ige5BEA==
 
 uuid@^3.3.2:
   version "3.4.0"

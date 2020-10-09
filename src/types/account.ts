@@ -1,7 +1,7 @@
 import { TAddress } from './address';
 import { TUuid } from './uuid';
 
-enum AccountType {
+export enum AccountType {
   PRIVATE_KEY = 'PRIVATE_KEY',
   KEYSTORE = 'KEYSTORE',
   MNEMONIC = 'MNEMONIC'

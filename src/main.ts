@@ -1,8 +1,8 @@
 import { app, BrowserWindow, Menu, screen, Tray } from 'electron';
 import path from 'path';
 
+import { runService as runCryptoService } from '@api/crypto';
 import { runService as runDatabaseService } from '@api/db';
-import { runService as runSigningService } from '@api/sign';
 
 import { runAPI } from './api/ws';
 
@@ -51,7 +51,7 @@ const createWindow = (): void => {
   runAPI(window.webContents);
 
   // Run Signing Logic
-  runSigningService();
+  runCryptoService();
 
   // Run Database Service
   runDatabaseService();
