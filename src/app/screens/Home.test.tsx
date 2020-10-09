@@ -10,7 +10,6 @@ import { JsonRPCRequest } from '@types';
 
 import { Home } from '.';
 
-
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {
     api: {
