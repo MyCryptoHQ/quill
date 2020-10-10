@@ -7,11 +7,13 @@ import { AccountsState, addAccount, INITIAL_STATE, removeAccount } from './accou
 const rawReducer = createReducer<AccountsState>(INITIAL_STATE, (builder) =>
   builder
     .addCase(addAccount, (state, action) => {
-      return { ...state, [action.payload.uuid]: action.payload };
+      return { ...state, accounts: { [action.payload.uuid]: action.payload } };
     })
     .addCase(removeAccount, (state, action) => {
-      const { [action.payload.uuid]: toDelete, ...rest } = state;
-      return rest;
+      const {
+        accounts: { [action.payload.uuid]: toDelete, ...rest }
+      } = state;
+      return { ...state, accounts: rest };
     })
 );
 

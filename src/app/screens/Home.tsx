@@ -2,17 +2,16 @@ import React, { useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
+import { useAccounts } from '@app/hooks';
 import { ROUTE_PATHS } from '@app/routePaths';
 import { signWithPrivateKey, useApiService } from '@app/services';
-import { useSelector } from '@app/store';
 import { makeTx } from '@utils';
 
 export const Home = () => {
   const { approveCurrent, denyCurrent, currentTx, txQueueLength } = useApiService();
+  const { accounts } = useAccounts();
   const [privKey, setPrivKey] = useState('');
   const [error, setError] = useState('');
-
-  const accounts = useSelector((state) => state.accounts);
 
   const handleDeny = async () => {
     if (currentTx) {

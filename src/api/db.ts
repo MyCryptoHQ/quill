@@ -3,8 +3,9 @@ import Store from 'electron-store';
 import fs from 'fs';
 import path from 'path';
 
+import { AccountsState } from '@app/store/account';
 import { IPC_CHANNELS } from '@config';
-import { DBRequest, DBRequestType, DBResponse, IAccount } from '@types';
+import { DBRequest, DBRequestType, DBResponse } from '@types';
 
 let store: Store;
 
@@ -41,10 +42,10 @@ const storeExists = async () => {
 const isLoggedIn = () => store !== undefined;
 
 export const getAccounts = () => {
-  return store.get('accounts') as Record<string, IAccount>;
+  return store.get('accounts') as AccountsState;
 };
 
-const setAccounts = (accounts: Record<string, IAccount>) => {
+const setAccounts = (accounts: AccountsState) => {
   return store.set('accounts', accounts);
 };
 

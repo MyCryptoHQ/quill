@@ -8,7 +8,7 @@ import {
 } from '../store/account';
 
 export function useAccounts() {
-  const accounts = useSelector((state) => state.accounts);
+  const accounts = useSelector((state) => state.accounts.accounts);
   const dispatch = useDispatch();
 
   const addAccount = (account: IAccount) => {

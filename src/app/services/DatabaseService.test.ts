@@ -52,10 +52,10 @@ describe('DatabaseService', () => {
   });
 
   it('setAccounts calls ipcBridge', () => {
-    setAccounts({});
+    setAccounts({ accounts: {} });
     expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith({
       type: DBRequestType.SET_ACCOUNTS,
-      accounts: {}
+      accounts: { accounts: {} }
     });
   });
 });
