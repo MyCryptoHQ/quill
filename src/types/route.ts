@@ -1,5 +1,5 @@
 export interface Route {
   path: string;
-  component: React.ComponentType<any>;
+  component: React.ComponentType<unknown>;
   exact?: boolean;
 }
