@@ -1,5 +1,6 @@
+import { AccountsState } from '@app/store/account';
 import { ipcBridgeRenderer } from '@bridge';
-import { DBRequestType, IAccount } from '@types';
+import { DBRequestType } from '@types';
 
 export const init = (password: string): Promise<boolean> => {
   return ipcBridgeRenderer.db.invoke({ type: DBRequestType.INIT, password });
@@ -17,10 +18,10 @@ export const isLoggedIn = (): Promise<boolean> => {
   return ipcBridgeRenderer.db.invoke({ type: DBRequestType.IS_LOGGED_IN });
 };
 
-export const getAccounts = (): Promise<Record<string, IAccount>> => {
+export const getAccounts = (): Promise<AccountsState> => {
   return ipcBridgeRenderer.db.invoke({ type: DBRequestType.GET_ACCOUNTS });
 };
 
-export const setAccounts = (accounts: Record<string, IAccount>): Promise<void> => {
+export const setAccounts = (accounts: AccountsState): Promise<void> => {
   return ipcBridgeRenderer.db.invoke({ type: DBRequestType.SET_ACCOUNTS, accounts });
 };

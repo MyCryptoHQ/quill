@@ -1,14 +1,19 @@
+import { ipcMain } from 'electron';
 import Store from 'electron-store';
 
+import { IPC_CHANNELS } from '@config';
 import { DBRequestType } from '@types';
 
-import { handleRequest } from './db';
+import { handleRequest, runService } from './db';
 
 jest.mock('path');
 
 jest.mock('electron', () => ({
   app: {
     getPath: jest.fn()
+  },
+  ipcMain: {
+    handle: jest.fn()
   }
 }));
 
@@ -65,5 +70,12 @@ describe('handleRequest', () => {
     const result = await handleRequest({ type: DBRequestType.GET_ACCOUNTS });
     // @todo
     expect(result).toStrictEqual([]);
+  });
+});
+
+describe('runService', () => {
+  it('calls ipcMain handle', () => {
+    runService();
+    expect(ipcMain.handle).toHaveBeenCalledWith(IPC_CHANNELS.DATABASE, expect.any(Function));
   });
 });

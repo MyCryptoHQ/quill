@@ -3,7 +3,8 @@ import React, { useEffect } from 'react';
 import { hot } from 'react-hot-loader';
 import { Persistor } from 'redux-persist';
 
-import { Home, Login, NewUser } from './screens';
+import { AppRoutes } from './AppRoutes';
+import { Login, NewUser } from './screens';
 import { isLoggedIn, isNewUser } from './services';
 import { useDispatch, useSelector } from './store';
 import { setLoggedIn, setNewUser } from './store/auth';
@@ -32,7 +33,7 @@ const App = ({ persistor }: { persistor: Persistor }) => {
   }
 
   if (loggedIn) {
-    return <Home />;
+    return <AppRoutes />;
   }
 
   return <Login />;

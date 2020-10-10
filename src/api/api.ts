@@ -5,6 +5,7 @@ import { IPC_CHANNELS, SUPPORTED_METHODS } from '@config';
 import { JsonRPCRequest, JsonRPCResponse } from '@types';
 import { safeJSONParse } from '@utils';
 
+import { getAccounts } from './db';
 import { isValidMethod, isValidRequest } from './validators';
 
 const toJsonRpcResponse = (response: Omit<JsonRPCResponse, 'jsonrpc'>) => {
@@ -36,15 +37,16 @@ const requestSigning = (
   });
 };
 
-const handleValidRequest = (request: JsonRPCRequest, webContents: WebContents) => {
+const handleValidRequest = async (request: JsonRPCRequest, webContents: WebContents) => {
   switch (request.method) {
     case SUPPORTED_METHODS.SIGN_TRANSACTION:
       return requestSigning(request, webContents);
-    // @todo Actual account handling
+    // @todo Dont expose all accounts at once?
+    // @todo Decide whether to fetch directly from store?
     case SUPPORTED_METHODS.ACCOUNTS:
       return toJsonRpcResponse({
         id: request.id,
-        result: ['0x82D69476357A03415E92B5780C89e5E9e972Ce75']
+        result: Object.values(await getAccounts().accounts).map((a) => a.address)
       });
     default:
       return Promise.reject(new Error('Unexpected error'));
