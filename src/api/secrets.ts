@@ -13,8 +13,11 @@ const SavePrivateKey = (uuid: TUuid, password: string, privateKey: string) => {
 
 const GetPrivateKey = async (uuid: TUuid, password: string) => {
   const result = await keytar.getPassword(KEYTAR_SERVICE, uuid);
-  const hashedPassword = hashPassword(password);
-  return decrypt(result, hashedPassword);
+  if (result) {
+    const hashedPassword = hashPassword(password);
+    return decrypt(result, hashedPassword);
+  }
+  return null;
 };
 
 const DeletePrivateKey = async (uuid: TUuid) => {

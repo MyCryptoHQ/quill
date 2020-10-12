@@ -7,6 +7,7 @@ import { MemoryRouter as Router } from 'react-router-dom';
 
 import { getAddressFromPrivateKey } from '@app/services/WalletService';
 import { ApplicationState, createStore } from '@app/store';
+import { ipcBridgeRenderer } from '@bridge';
 
 import { AddAccount } from '.';
 
@@ -17,6 +18,12 @@ jest.mock('@app/services/WalletService', () => ({
       address: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520'
     })
   )
+}));
+
+jest.mock('@bridge', () => ({
+  ipcBridgeRenderer: {
+    secrets: { invoke: jest.fn() }
+  }
 }));
 
 function getComponent(store: EnhancedStore<ApplicationState> = createStore()) {
@@ -42,10 +49,15 @@ describe('AddAccount', () => {
     expect(privKeyInput).toBeDefined();
     fireEvent.change(privKeyInput, { target: { value: 'privkey' } });
 
+    const persistenceInput = getByLabelText('Persistence');
+    fireEvent.click(persistenceInput);
+
     const submitButton = getByText('Submit');
     expect(submitButton).toBeDefined();
     fireEvent.click(submitButton);
     expect(getAddressFromPrivateKey).toHaveBeenCalledWith('privkey');
     await waitFor(() => expect(Object.keys(store.getState().accounts)).toHaveLength(1));
+
+    expect(ipcBridgeRenderer.secrets.invoke).toHaveBeenCalled();
   });
 });
