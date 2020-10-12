@@ -3,6 +3,7 @@ export { JsonRPCResponse } from './jsonRPCResponse';
 export { ISUPPORTED_METHODS } from './methods';
 export { CryptoRequest, CryptoResponse, CryptoRequestType } from './crypto';
 export { DBRequest, DBResponse, DBRequestType } from './db';
+export { SecretsRequest, SecretsResponse, SecretsRequestType } from './secrets';
 export { IAccount, AccountType } from './account';
 export { TAddress } from './address';
 export { TUuid } from './uuid';

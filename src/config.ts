@@ -1,7 +1,8 @@
 export enum IPC_CHANNELS {
   CRYPTO = 'crypto',
   API = 'api',
-  DATABASE = 'db'
+  DATABASE = 'db',
+  SECRETS = 'secrets'
 }
 
 export const SUPPORTED_METHODS = {
@@ -10,3 +11,5 @@ export const SUPPORTED_METHODS = {
 };
 
 export const WS_PORT = 8000;
+
+export const KEYTAR_SERVICE = 'MYC_Signer';
