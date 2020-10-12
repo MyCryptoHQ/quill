@@ -21,7 +21,8 @@ jest.mock('@bridge', () => ({
       },
       sendResponse: jest.fn()
     },
-    crypto: { invoke: jest.fn() }
+    crypto: { invoke: jest.fn() },
+    secrets: { invoke: jest.fn() }
   }
 }));
 
