@@ -3,6 +3,7 @@ const { merge } = require('webpack-merge');
 const common = require('./common');
 
 module.exports = merge(common, {
+  target: 'electron-renderer',
   module: {
     rules: [
       {

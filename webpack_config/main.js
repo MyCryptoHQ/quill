@@ -6,6 +6,7 @@ const common = require('./common');
 
 module.exports = merge(common, {
   entry: './src/main.ts',
+  target: 'electron-main',
   plugins: [
     new CopyWebpackPlugin({
       patterns: [
