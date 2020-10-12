@@ -1,4 +1,5 @@
 import { getAddressFromPrivateKey } from '@app/services';
+import { savePrivateKey } from '@app/services/SecretsService';
 import { useDispatch, useSelector } from '@app/store';
 import { AccountType, IAccount } from '@types';
 
@@ -17,7 +18,9 @@ export function useAccounts() {
 
   const addAccountFromPrivateKey = async (privateKey: string, persistent: boolean) => {
     const { address, uuid } = await getAddressFromPrivateKey(privateKey);
-    // @todo Handle persistence
+    if (persistent) {
+      await savePrivateKey(uuid, 'test', privateKey);
+    }
     addAccount({
       uuid,
       type: AccountType.PRIVATE_KEY,

@@ -7,7 +7,9 @@ import {
   DBRequest,
   DBResponse,
   JsonRPCRequest,
-  JsonRPCResponse
+  JsonRPCResponse,
+  SecretsRequest,
+  SecretsResponse
 } from '@types';
 
 const getAPIChannel = () => {
@@ -57,7 +59,8 @@ export const IpcBridgeRenderer = (ipcRenderer: IpcRenderer) => ({
   // These are constants as to not leak the ipcRenderer
   api: getAPIChannel().asRenderer(ipcRenderer),
   crypto: getChannel<CryptoRequest, CryptoResponse>(IPC_CHANNELS.CRYPTO).asRenderer(ipcRenderer),
-  db: getChannel<DBRequest, DBResponse>(IPC_CHANNELS.DATABASE).asRenderer(ipcRenderer)
+  db: getChannel<DBRequest, DBResponse>(IPC_CHANNELS.DATABASE).asRenderer(ipcRenderer),
+  secrets: getChannel<SecretsRequest, SecretsResponse>(IPC_CHANNELS.SECRETS).asRenderer(ipcRenderer)
 });
 
 export const ipcBridgeRenderer = (typeof window !== 'undefined'
@@ -67,7 +70,8 @@ export const ipcBridgeRenderer = (typeof window !== 'undefined'
 export const ipcBridgeMain = (ipcMain: IpcMain) => ({
   api: getAPIChannel().asMain(ipcMain),
   crypto: getChannel<CryptoRequest, CryptoResponse>(IPC_CHANNELS.CRYPTO).asMain(ipcMain),
-  db: getChannel<DBRequest, DBResponse>(IPC_CHANNELS.DATABASE).asMain(ipcMain)
+  db: getChannel<DBRequest, DBResponse>(IPC_CHANNELS.DATABASE).asMain(ipcMain),
+  secrets: getChannel<SecretsRequest, SecretsResponse>(IPC_CHANNELS.SECRETS).asMain(ipcMain)
 });
 
 export type IIpcBridgeRenderer = ReturnType<typeof IpcBridgeRenderer>;
