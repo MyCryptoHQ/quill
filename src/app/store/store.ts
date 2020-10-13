@@ -1,4 +1,4 @@
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
+import { configureStore, ConfigureStoreOptions, EnhancedStore } from '@reduxjs/toolkit';
 
 import { AccountsState } from './account';
 import { AuthState } from './auth';
@@ -13,9 +13,12 @@ export interface ApplicationState {
 
 export type ApplicationDispatch = ReturnType<typeof createStore>['dispatch'];
 
-export const createStore = (): EnhancedStore<ApplicationState> => {
+export const createStore = (
+  config?: Omit<ConfigureStoreOptions<ApplicationState>, 'reducer'>
+): EnhancedStore<ApplicationState> => {
   const store = configureStore({
-    reducer
+    reducer,
+    ...config
   });
 
   if (module.hot) {
