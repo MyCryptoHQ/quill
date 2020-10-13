@@ -11,6 +11,9 @@ export const SUPPORTED_METHODS = {
 
 export const WS_PORT = 8000;
 
+export const HEIGHT = 450;
+export const WIDTH = 300;
+
 // @todo Change to another name?
 export const KEYTAR_SERVICE = 'MyCrypto Signer';
 
