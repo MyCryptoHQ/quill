@@ -19,16 +19,20 @@ jest.mock('keytar', () => ({
 }));
 
 const uuid = 'a259a13e-936b-5945-8c80-7f757e808507' as TUuid;
-const password = 'password';
+const encryptionKey = 'password';
 const privateKey = 'privkey';
 const encryptedPrivKey = '4245ceb5ab93dd';
 
 describe('handleRequest', () => {
   it('SAVE_PRIVATE_KEY calls setPassword with encrypted privkey', async () => {
     await handleRequest({
+      type: SecretsRequestType.SET_ENCRYPTION_KEY,
+      encryptionKey
+    });
+
+    await handleRequest({
       type: SecretsRequestType.SAVE_PRIVATE_KEY,
       uuid,
-      password,
       privateKey
     });
 
@@ -36,10 +40,14 @@ describe('handleRequest', () => {
   });
 
   it('GET_PRIVATE_KEY returns decrypted private key', async () => {
+    await handleRequest({
+      type: SecretsRequestType.SET_ENCRYPTION_KEY,
+      encryptionKey
+    });
+
     const response = await handleRequest({
       type: SecretsRequestType.GET_PRIVATE_KEY,
-      uuid,
-      password
+      uuid
     });
 
     expect(keytar.getPassword).toHaveBeenCalledWith(KEYTAR_SERVICE, uuid);

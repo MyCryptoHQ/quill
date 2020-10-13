@@ -1,6 +1,7 @@
 import { TUuid } from './uuid';
 
 export enum SecretsRequestType {
+  SET_ENCRYPTION_KEY = 'SET_ENCRYPTION_KEY',
   SAVE_PRIVATE_KEY = 'SAVE_PRIVATE_KEY',
   GET_PRIVATE_KEY = 'GET_PRIVATE_KEY',
   DELETE_PRIVATE_KEY = 'DELETE_PRIVATE_KEY'
@@ -8,21 +9,28 @@ export enum SecretsRequestType {
 
 interface BaseRequest<Type extends SecretsRequestType> {
   type: Type;
+}
+
+interface UuidRequest<Type extends SecretsRequestType> extends BaseRequest<Type> {
   uuid: TUuid;
 }
 
-interface PasswordRequest<Type extends SecretsRequestType> extends BaseRequest<Type> {
-  password: string;
+interface SetEncryptionKeyRequest extends BaseRequest<SecretsRequestType.SET_ENCRYPTION_KEY> {
+  encryptionKey: string;
 }
 
-interface SavePrivateKeyRequest extends PasswordRequest<SecretsRequestType.SAVE_PRIVATE_KEY> {
+interface SavePrivateKeyRequest extends UuidRequest<SecretsRequestType.SAVE_PRIVATE_KEY> {
   privateKey: string;
 }
 
-type GetPrivateKeyRequest = PasswordRequest<SecretsRequestType.GET_PRIVATE_KEY>;
+type GetPrivateKeyRequest = UuidRequest<SecretsRequestType.GET_PRIVATE_KEY>;
 
-type DeletePrivateKeyRequest = BaseRequest<SecretsRequestType.DELETE_PRIVATE_KEY>;
+type DeletePrivateKeyRequest = UuidRequest<SecretsRequestType.DELETE_PRIVATE_KEY>;
 
-export type SecretsRequest = SavePrivateKeyRequest | GetPrivateKeyRequest | DeletePrivateKeyRequest;
+export type SecretsRequest =
+  | SetEncryptionKeyRequest
+  | SavePrivateKeyRequest
+  | GetPrivateKeyRequest
+  | DeletePrivateKeyRequest;
 
 export type SecretsResponse = string | void | boolean;

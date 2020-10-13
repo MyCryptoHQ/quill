@@ -19,7 +19,7 @@ export function useAccounts() {
   const addAccountFromPrivateKey = async (privateKey: string, persistent: boolean) => {
     const { address, uuid } = await getAddressFromPrivateKey(privateKey);
     if (persistent) {
-      await savePrivateKey(uuid, 'test', privateKey);
+      await savePrivateKey(uuid, privateKey);
     }
     addAccount({
       uuid,

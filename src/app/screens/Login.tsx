@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { login } from '@app/services/DatabaseService';
+import { setEncryptionKey } from '@app/services/SecretsService';
 import { useDispatch } from '@app/store';
 import { setLoggedIn } from '@app/store/auth';
 
@@ -12,10 +13,12 @@ export const Login = () => {
   const handleLogin = async () => {
     try {
       const result = await login(password);
-      dispatch(setLoggedIn(result));
       if (!result) {
         setError('An error occurred');
+      } else {
+        await setEncryptionKey(password);
       }
+      dispatch(setLoggedIn(result));
     } catch (err) {
       setError(err.message);
     }

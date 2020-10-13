@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { init } from '@app/services/DatabaseService';
+import { setEncryptionKey } from '@app/services/SecretsService';
 import { useDispatch } from '@app/store';
 import { setLoggedIn, setNewUser } from '@app/store/auth';
 
@@ -13,10 +14,12 @@ export const NewUser = () => {
     try {
       const result = await init(password);
       dispatch(setNewUser(!result));
-      dispatch(setLoggedIn(true));
       if (!result) {
         setError('An error occurred');
+      } else {
+        await setEncryptionKey(password);
       }
+      dispatch(setLoggedIn(true));
     } catch (err) {
       setError(err.message);
     }

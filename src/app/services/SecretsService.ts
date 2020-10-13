@@ -1,24 +1,25 @@
 import { ipcBridgeRenderer } from '@bridge';
 import { SecretsRequestType, TUuid } from '@types';
 
-export const savePrivateKey = (
-  uuid: TUuid,
-  password: string,
-  privateKey: string
-): Promise<void> => {
+export const setEncryptionKey = (encryptionKey: string): Promise<void> => {
+  return ipcBridgeRenderer.secrets.invoke({
+    type: SecretsRequestType.SET_ENCRYPTION_KEY,
+    encryptionKey
+  });
+};
+
+export const savePrivateKey = (uuid: TUuid, privateKey: string): Promise<void> => {
   return ipcBridgeRenderer.secrets.invoke({
     type: SecretsRequestType.SAVE_PRIVATE_KEY,
     uuid,
-    password,
     privateKey
   });
 };
 
-export const getPrivateKey = (uuid: TUuid, password: string): Promise<string | null> => {
+export const getPrivateKey = (uuid: TUuid): Promise<string | null> => {
   return ipcBridgeRenderer.secrets.invoke({
     type: SecretsRequestType.GET_PRIVATE_KEY,
-    uuid,
-    password
+    uuid
   });
 };
 
