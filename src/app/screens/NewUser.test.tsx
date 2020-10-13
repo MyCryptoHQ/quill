@@ -9,7 +9,11 @@ import { createStore } from '@app/store';
 import { NewUser } from '.';
 
 jest.mock('@app/services/DatabaseService', () => ({
-  init: jest.fn()
+  init: jest.fn().mockImplementation(() => Promise.resolve(true))
+}));
+
+jest.mock('@app/services', () => ({
+  setEncryptionKey: jest.fn().mockImplementation(() => Promise.resolve())
 }));
 
 function getComponent() {
