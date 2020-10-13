@@ -58,12 +58,7 @@ const createWindow = (): void => {
 
 const showWindow = () => {
   const trayBounds = tray.getBounds();
-  console.log(trayBounds);
-  const trayScreen = screen.getDisplayNearestPoint({
-    x: trayBounds.x,
-    y: trayBounds.y
-  });
-  console.log(trayScreen);
+  const trayScreen = screen.getDisplayNearestPoint(trayBounds);
   const position = getWindowPosition(trayBounds, trayScreen);
   window.setPosition(position.x, position.y, false);
   // Added because setPosition would sometimes squeeze the sizing
