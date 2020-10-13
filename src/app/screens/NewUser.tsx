@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
+import { setEncryptionKey } from '@app/services';
 import { init } from '@app/services/DatabaseService';
-import { setEncryptionKey } from '@app/services/SecretsService';
 import { useDispatch } from '@app/store';
 import { setLoggedIn, setNewUser } from '@app/store/auth';
 

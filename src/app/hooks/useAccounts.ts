@@ -1,5 +1,4 @@
-import { getAddressFromPrivateKey } from '@app/services';
-import { savePrivateKey } from '@app/services/SecretsService';
+import { getAddressFromPrivateKey, savePrivateKey } from '@app/services';
 import { useDispatch, useSelector } from '@app/store';
 import { AccountType, IAccount } from '@types';
 
@@ -33,5 +32,5 @@ export function useAccounts() {
     dispatch(removeAccountRedux(account));
   };
 
-  return { accounts, addAccount, addAccountFromPrivateKey, removeAccount };
+  return { accounts: Object.values(accounts), addAccount, addAccountFromPrivateKey, removeAccount };
 }

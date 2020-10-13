@@ -4,12 +4,14 @@ import { Link } from 'react-router-dom';
 
 import { useAccounts } from '@app/hooks';
 import { ROUTE_PATHS } from '@app/routePaths';
-import { signWithPrivateKey, useApiService } from '@app/services';
+import { getPrivateKey, signWithPrivateKey, useApiService } from '@app/services';
 import { makeTx } from '@utils';
 
 export const Home = () => {
   const { approveCurrent, denyCurrent, currentTx, txQueueLength } = useApiService();
   const { accounts } = useAccounts();
+  const formattedTx = currentTx && makeTx(currentTx);
+  const currentAccount = formattedTx && accounts.find((a) => a.address === formattedTx.from);
   const [privKey, setPrivKey] = useState('');
   const [error, setError] = useState('');
 
@@ -21,10 +23,12 @@ export const Home = () => {
   };
 
   const handleAccept = async () => {
-    if (privKey.length > 0 && currentTx) {
+    const privateKey = currentAccount.persistent
+      ? await getPrivateKey(currentAccount.uuid)
+      : privKey;
+    if (privateKey.length > 0 && currentTx) {
       try {
-        const formattedTx = makeTx(currentTx);
-        const signed = await signWithPrivateKey(privKey, formattedTx);
+        const signed = await signWithPrivateKey(privateKey, formattedTx);
         approveCurrent(signed);
         setError('');
       } catch (err) {
@@ -38,7 +42,7 @@ export const Home = () => {
 
   return (
     <div>
-      {JSON.stringify(accounts)}
+      {currentAccount && currentAccount.address}
       <Link to={ROUTE_PATHS.ADD_ACCOUNT}>+</Link>
       <br />
       {txQueueLength > 1 && (
@@ -49,18 +53,21 @@ export const Home = () => {
       )}
       {currentTx ? <pre>{JSON.stringify(currentTx, null, 2)}</pre> : 'Nothing to sign'}
       <br />
-      <label htmlFor="privkey">Private Key</label>
-      <br />
-      <input id="privkey" name="privkey" type="text" onChange={changePrivateKey} />
-
-      <br />
+      {currentAccount && !currentAccount.persistent && (
+        <>
+          <label htmlFor="privkey">Private Key</label>
+          <br />
+          <input id="privkey" name="privkey" type="text" onChange={changePrivateKey} />
+          <br />
+        </>
+      )}
       <button id="deny_button" type="button" disabled={!currentTx} onClick={handleDeny}>
         Deny
       </button>
       <button
         id="accept_button"
         type="button"
-        disabled={!currentTx || privKey.length === 0}
+        disabled={!currentTx || (privKey.length === 0 && !currentAccount.persistent)}
         onClick={handleAccept}
       >
         Accept
