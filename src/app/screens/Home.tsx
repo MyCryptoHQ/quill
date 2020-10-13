@@ -42,7 +42,7 @@ export const Home = () => {
 
   return (
     <div>
-      {currentAccount && currentAccount.address}
+      {`Current Account: ${currentAccount && currentAccount.address}`}
       <Link to={ROUTE_PATHS.ADD_ACCOUNT}>+</Link>
       <br />
       {txQueueLength > 1 && (
