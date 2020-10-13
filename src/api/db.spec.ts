@@ -15,16 +15,22 @@ jest.mock('electron', () => ({
     getPath: jest.fn()
   },
   ipcMain: {
-    handle: jest.fn()
+    handle: jest.fn().mockImplementation((_e, callback) => {
+      callback();
+    })
   }
 }));
 
 jest.mock('fs', () => ({
   promises: {
-    stat: jest.fn().mockImplementation(() => Promise.resolve(false))
+    stat: jest
+      .fn()
+      .mockImplementationOnce(() => Promise.reject())
+      .mockImplementation(() => Promise.resolve(true))
   }
 }));
 
+const mockSet = jest.fn();
 jest.mock('electron-store', () => {
   return jest.fn().mockImplementation(() => ({
     get: jest.fn().mockImplementation((key: string) => {
@@ -33,7 +39,7 @@ jest.mock('electron-store', () => {
       }
       return {};
     }),
-    set: jest.fn(),
+    set: mockSet,
     clear: jest.fn()
   }));
 });
@@ -70,6 +76,11 @@ describe('handleRequest', () => {
   it('get new user state returns true default', async () => {
     const result = await handleRequest({ type: DBRequestType.IS_NEW_USER });
     expect(result).toBe(true);
+  });
+
+  it('get new user state returns false afterwards', async () => {
+    const result = await handleRequest({ type: DBRequestType.IS_NEW_USER });
+    expect(result).toBe(false);
   });
 
   it('get login state returns logged in correctly', async () => {
@@ -123,6 +134,21 @@ describe('handleRequest', () => {
     });
 
     expect(keytar.deletePassword).toHaveBeenCalledWith(KEYTAR_SERVICE, uuid);
+  });
+
+  it('set accounts', async () => {
+    // @todo Use Fixture
+    await handleRequest({ type: DBRequestType.SET_ACCOUNTS, accounts: { accounts: {} } });
+    expect(mockSet).toHaveBeenCalledWith('accounts', {});
+  });
+
+  it('errors if non supported type is passed', async () => {
+    await expect(
+      handleRequest({
+        type: 'bla' as DBRequestType,
+        privateKey: 'privkey'
+      } as any)
+    ).rejects.toBeDefined();
   });
 });
 

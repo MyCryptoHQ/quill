@@ -20,7 +20,9 @@ jest.mock('@ethersproject/wallet', () => ({
 
 jest.mock('electron', () => ({
   ipcMain: {
-    handle: jest.fn()
+    handle: jest.fn().mockImplementation((_e, callback) => {
+      callback();
+    })
   }
 }));
 
@@ -47,6 +49,15 @@ describe('handleRequest', () => {
     expect(response).toBe(
       '0xf86b1885012a05f200825208945197b5b062288bbf29008c92b08010a92dd677cd872386f26fc10000802aa0f59ba7d53009466f5acc79fc76a51818107c3ff3d8340ce91a1c99f272854104a01336d15b3ea9e66458d94d71a2a5bee498c176edb79e97c6ed12f2e47b74fac6'
     );
+  });
+
+  it('errors if non supported type is passed', async () => {
+    await expect(
+      handleRequest({
+        type: 'bla' as CryptoRequestType,
+        privateKey: 'privkey'
+      } as any)
+    ).rejects.toBeDefined();
   });
 });
 
