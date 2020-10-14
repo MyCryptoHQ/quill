@@ -14,14 +14,14 @@ jest.mock('electron', () => ({
 
 jest.mock('keytar', () => ({
   setPassword: jest.fn(),
-  getPassword: jest.fn().mockImplementation(() => '4245ceb5ab93dd'),
+  getPassword: jest.fn().mockImplementation(() => 'd28327f4f5af82'),
   deletePassword: jest.fn()
 }));
 
 const uuid = 'a259a13e-936b-5945-8c80-7f757e808507' as TUuid;
 const encryptionKey = 'password';
 const privateKey = 'privkey';
-const encryptedPrivKey = '4245ceb5ab93dd';
+const encryptedPrivKey = 'd28327f4f5af82';
 
 describe('handleRequest', () => {
   it('SAVE_PRIVATE_KEY calls setPassword with encrypted privkey', async () => {
