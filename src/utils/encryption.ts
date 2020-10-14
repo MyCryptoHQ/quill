@@ -1,5 +1,7 @@
 import { ModeOfOperation, utils } from 'aes-js';
-import SHA256 from 'sha256';
+import { pbkdf2 } from 'pbkdf2';
+
+const SALT = 'w//Vd(FlSLgm';
 
 export const decrypt = (data: string, key: string) => {
   const aes = new ModeOfOperation.ctr(utils.hex.toBytes(key));
@@ -13,6 +15,13 @@ export const encrypt = (data: string, key: string) => {
   return utils.hex.fromBytes(encryptedBytes);
 };
 
-export const hashPassword = (password: string) => {
-  return utils.hex.fromBytes(SHA256(password, { asBytes: true }));
+export const hashPassword = (password: string): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    pbkdf2(password, SALT, 5000, 32, (error, key) => {
+      if (error) {
+        reject(error);
+      }
+      resolve(utils.hex.fromBytes(key));
+    });
+  });
 };

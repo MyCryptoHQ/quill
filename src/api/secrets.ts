@@ -8,7 +8,7 @@ import { decrypt, encrypt, hashPassword } from '@utils/encryption';
 // @todo STORES HASHED PASSWORD FOR ENCRYPTION - THINK ABOUT THIS
 let encryptionKey: string;
 
-const setEncryptionKey = (key: string) => (encryptionKey = hashPassword(key));
+const setEncryptionKey = async (key: string) => (encryptionKey = await hashPassword(key));
 
 const savePrivateKey = (uuid: TUuid, privateKey: string) => {
   const encryptedPKey = encrypt(privateKey, encryptionKey);
