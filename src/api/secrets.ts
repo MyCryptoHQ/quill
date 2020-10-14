@@ -8,14 +8,14 @@ import { decrypt, encrypt, hashPassword } from '@utils/encryption';
 // @todo STORES HASHED PASSWORD FOR ENCRYPTION - THINK ABOUT THIS
 let encryptionKey: string;
 
-const SetEncryptionKey = (key: string) => (encryptionKey = hashPassword(key));
+const setEncryptionKey = (key: string) => (encryptionKey = hashPassword(key));
 
-const SavePrivateKey = (uuid: TUuid, privateKey: string) => {
+const savePrivateKey = (uuid: TUuid, privateKey: string) => {
   const encryptedPKey = encrypt(privateKey, encryptionKey);
   return keytar.setPassword(KEYTAR_SERVICE, uuid, encryptedPKey);
 };
 
-const GetPrivateKey = async (uuid: TUuid) => {
+const getPrivateKey = async (uuid: TUuid) => {
   const result = await keytar.getPassword(KEYTAR_SERVICE, uuid);
   if (result) {
     return decrypt(result, encryptionKey);
@@ -23,20 +23,20 @@ const GetPrivateKey = async (uuid: TUuid) => {
   return null;
 };
 
-const DeletePrivateKey = async (uuid: TUuid) => {
+const deletePrivateKey = async (uuid: TUuid) => {
   return keytar.deletePassword(KEYTAR_SERVICE, uuid);
 };
 
 export const handleRequest = async (request: SecretsRequest): Promise<SecretsResponse> => {
   switch (request.type) {
     case SecretsRequestType.SET_ENCRYPTION_KEY:
-      return SetEncryptionKey(request.encryptionKey);
+      return setEncryptionKey(request.encryptionKey);
     case SecretsRequestType.SAVE_PRIVATE_KEY:
-      return SavePrivateKey(request.uuid, request.privateKey);
+      return savePrivateKey(request.uuid, request.privateKey);
     case SecretsRequestType.GET_PRIVATE_KEY:
-      return GetPrivateKey(request.uuid);
+      return getPrivateKey(request.uuid);
     case SecretsRequestType.DELETE_PRIVATE_KEY:
-      return DeletePrivateKey(request.uuid);
+      return deletePrivateKey(request.uuid);
     default:
       throw new Error('Undefined request type');
   }
