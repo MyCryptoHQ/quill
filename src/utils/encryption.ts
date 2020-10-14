@@ -4,7 +4,7 @@ import crypto from 'crypto';
 const SALT = 'w//Vd(FlSLgm';
 const ITERATIONS = 5000;
 const KEY_LENGTH = 32;
-const HASH_ALGORITHM = 'sha512'
+const HASH_ALGORITHM = 'sha512';
 
 export const decrypt = (data: string, key: string) => {
   const aes = new ModeOfOperation.ctr(utils.hex.toBytes(key));
