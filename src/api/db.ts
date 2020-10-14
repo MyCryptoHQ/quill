@@ -32,7 +32,8 @@ export const init = async (password: string) => {
 };
 
 const login = async (password: string) => {
-  if (!(await checkPassword(password))) {
+  const hashedPassword = hashPassword(password);
+  if (!checkPassword(await hashedPassword)) {
     return false;
   }
   try {
@@ -52,18 +53,18 @@ const storeExists = async () => {
 
 const isLoggedIn = () => checkPassword(encryptionKey);
 
-const checkPassword = async (password?: string) => {
-  if (!password || password.length === 0) {
+const checkPassword = (hashedPassword?: string) => {
+  if (!hashedPassword || hashedPassword.length === 0) {
     return false;
   }
-  return getFromStore('accounts', await hashPassword(password)) !== null;
+  return getFromStore('accounts', hashedPassword) !== null;
 };
 
 const getFromStore = <T>(key: string, password = encryptionKey): T | null => {
   const result = store.get(key) as string;
   const decrypted = decrypt(result, password);
   const [valid, parsed] = safeJSONParse(decrypted);
-  return valid !== null ? parsed : null;
+  return valid === null ? parsed : null;
 };
 
 const setInStore = <T>(key: string, obj: T) => {

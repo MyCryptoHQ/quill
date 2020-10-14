@@ -46,7 +46,7 @@ const handleValidRequest = async (request: JsonRPCRequest, webContents: WebConte
     case SUPPORTED_METHODS.ACCOUNTS:
       return toJsonRpcResponse({
         id: request.id,
-        result: Object.values(await getAccounts().accounts).map((a) => a.address)
+        result: Object.values((await getAccounts()).accounts).map((a) => a.address)
       });
     default:
       return Promise.reject(new Error('Unexpected error'));
