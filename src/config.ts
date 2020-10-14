@@ -1,8 +1,7 @@
 export enum IPC_CHANNELS {
   CRYPTO = 'crypto',
   API = 'api',
-  DATABASE = 'db',
-  SECRETS = 'secrets'
+  DATABASE = 'db'
 }
 
 export const SUPPORTED_METHODS = {

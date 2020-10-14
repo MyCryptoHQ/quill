@@ -3,7 +3,6 @@ import path from 'path';
 
 import { runService as runCryptoService } from '@api/crypto';
 import { runService as runDatabaseService } from '@api/db';
-import { runService as runSecretsService } from '@api/secrets';
 
 import { runAPI } from './api/ws';
 
@@ -56,9 +55,6 @@ const createWindow = (): void => {
 
   // Run Database Service
   runDatabaseService();
-
-  // Run Secrets Service
-  runSecretsService();
 };
 
 // Based on https://cdruc.com/positioning-electron-tray-apps-on-windows-taskbar/

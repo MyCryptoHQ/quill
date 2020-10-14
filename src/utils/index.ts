@@ -17,3 +17,4 @@ export const safeJSONParse = (str: string) => {
 
 export * from './generateUUID';
 export { toChecksumAddress } from './toChecksumAddress';
+export * from './encryption';

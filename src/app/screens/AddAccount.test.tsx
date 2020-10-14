@@ -22,7 +22,7 @@ jest.mock('@app/services/WalletService', () => ({
 
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {
-    secrets: { invoke: jest.fn() }
+    db: { invoke: jest.fn() }
   }
 }));
 
@@ -58,6 +58,6 @@ describe('AddAccount', () => {
     expect(getAddressFromPrivateKey).toHaveBeenCalledWith('privkey');
     await waitFor(() => expect(Object.keys(store.getState().accounts)).toHaveLength(1));
 
-    expect(ipcBridgeRenderer.secrets.invoke).toHaveBeenCalled();
+    expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalled();
   });
 });

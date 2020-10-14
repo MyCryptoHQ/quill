@@ -1,8 +1,9 @@
 import { ipcMain } from 'electron';
 import Store from 'electron-store';
+import keytar from 'keytar';
 
-import { IPC_CHANNELS } from '@config';
-import { DBRequestType } from '@types';
+import { IPC_CHANNELS, KEYTAR_SERVICE } from '@config';
+import { DBRequestType, TUuid } from '@types';
 
 import { handleRequest, runService } from './db';
 
@@ -35,6 +36,17 @@ jest.mock('electron-store', () => {
     clear: jest.fn()
   }));
 });
+
+jest.mock('keytar', () => ({
+  setPassword: jest.fn(),
+  getPassword: jest.fn().mockImplementation(() => 'd28327f4f5af82'),
+  deletePassword: jest.fn()
+}));
+
+const uuid = 'a259a13e-936b-5945-8c80-7f757e808507' as TUuid;
+const password = 'password';
+const privateKey = 'privkey';
+const encryptedPrivKey = 'd28327f4f5af82';
 
 describe('handleRequest', () => {
   it('get login state returns logged out correctly', async () => {
@@ -70,6 +82,45 @@ describe('handleRequest', () => {
     const result = await handleRequest({ type: DBRequestType.GET_ACCOUNTS });
     // @todo
     expect(result).toStrictEqual([]);
+  });
+
+  it('SAVE_PRIVATE_KEY calls setPassword with encrypted privkey', async () => {
+    await handleRequest({
+      type: DBRequestType.INIT,
+      password
+    });
+
+    await handleRequest({
+      type: DBRequestType.SAVE_PRIVATE_KEY,
+      uuid,
+      privateKey
+    });
+
+    expect(keytar.setPassword).toHaveBeenCalledWith(KEYTAR_SERVICE, uuid, encryptedPrivKey);
+  });
+
+  it('GET_PRIVATE_KEY returns decrypted private key', async () => {
+    await handleRequest({
+      type: DBRequestType.INIT,
+      password
+    });
+
+    const response = await handleRequest({
+      type: DBRequestType.GET_PRIVATE_KEY,
+      uuid
+    });
+
+    expect(keytar.getPassword).toHaveBeenCalledWith(KEYTAR_SERVICE, uuid);
+    expect(response).toBe(privateKey);
+  });
+
+  it('DELETE_PRIVATE_KEY calls deletePassword', async () => {
+    await handleRequest({
+      type: DBRequestType.DELETE_PRIVATE_KEY,
+      uuid
+    });
+
+    expect(keytar.deletePassword).toHaveBeenCalledWith(KEYTAR_SERVICE, uuid);
   });
 });
 
