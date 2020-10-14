@@ -39,14 +39,14 @@ jest.mock('electron-store', () => {
 
 jest.mock('keytar', () => ({
   setPassword: jest.fn(),
-  getPassword: jest.fn().mockImplementation(() => 'd28327f4f5af82'),
+  getPassword: jest.fn().mockImplementation(() => 'e250a3146ae9c2'),
   deletePassword: jest.fn()
 }));
 
 const uuid = 'a259a13e-936b-5945-8c80-7f757e808507' as TUuid;
 const password = 'password';
 const privateKey = 'privkey';
-const encryptedPrivKey = 'd28327f4f5af82';
+const encryptedPrivKey = 'e250a3146ae9c2';
 
 describe('handleRequest', () => {
   it('get login state returns logged out correctly', async () => {

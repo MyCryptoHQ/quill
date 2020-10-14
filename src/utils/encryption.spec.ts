@@ -1,9 +1,9 @@
 import { decrypt, encrypt, hashPassword } from './encryption';
 
 const password = 'test';
-const hashedPassword = '8c09b774b0d1eb6f58be42250700c9decbadc832cb2903d552f2ab6f8a314b04';
+const hashedPassword = 'e9a0c40b5c85fc2b5eb8f6084f68b144854cbd38397c947ad49a213ff1fb7e62';
 const data = 'data';
-const encryptedData = 'ab1be0f1';
+const encryptedData = '3d753ef4';
 
 describe('hashPassword', () => {
   it('correctly SHA256 hashes a string', async () => {

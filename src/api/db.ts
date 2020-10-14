@@ -7,9 +7,10 @@ import path from 'path';
 import { AccountsState } from '@app/store/account';
 import { IPC_CHANNELS, KEYTAR_SERVICE } from '@config';
 import { DBRequest, DBRequestType, DBResponse, TUuid } from '@types';
-import { decrypt, encrypt, hashPassword } from '@utils';
+import { safeJSONParse } from '@utils';
+import { decrypt, encrypt, hashPassword } from '@utils/encryption';
 
-let store: Store;
+const store = new Store();
 
 // @todo STORES HASHED PASSWORD FOR ENCRYPTION - THINK ABOUT THIS
 let encryptionKey: string;
@@ -18,12 +19,11 @@ const setEncryptionKey = async (key: string) => (encryptionKey = await hashPassw
 
 export const init = async (password: string) => {
   try {
-    store = new Store({ encryptionKey: password, clearInvalidConfig: true });
     await setEncryptionKey(password);
     // Clear in case the store already contains data
     store.clear();
     // Write something to the store to actually create the file
-    store.set('accounts', {});
+    setInStore('accounts', {});
   } catch (err) {
     console.error(err);
     return false;
@@ -32,8 +32,10 @@ export const init = async (password: string) => {
 };
 
 const login = async (password: string) => {
+  if (!(await checkPassword(password))) {
+    return false;
+  }
   try {
-    store = new Store({ encryptionKey: password, clearInvalidConfig: false });
     await setEncryptionKey(password);
   } catch (err) {
     console.error(err);
@@ -48,14 +50,34 @@ const storeExists = async () => {
   return !!(await fs.promises.stat(configPath).catch(() => false));
 };
 
-const isLoggedIn = () => store !== undefined;
+const isLoggedIn = () => checkPassword(encryptionKey);
+
+const checkPassword = async (password?: string) => {
+  if (!password || password.length === 0) {
+    return false;
+  }
+  return getFromStore('accounts', await hashPassword(password)) !== null;
+};
+
+const getFromStore = <T>(key: string, password = encryptionKey): T | null => {
+  const result = store.get(key) as string;
+  const decrypted = decrypt(result, password);
+  const [valid, parsed] = safeJSONParse(decrypted);
+  return valid !== null ? parsed : null;
+};
+
+const setInStore = <T>(key: string, obj: T) => {
+  const json = JSON.stringify(obj);
+  const encrypted = encrypt(json, encryptionKey);
+  store.set(key, encrypted);
+};
 
 export const getAccounts = () => {
-  return store.get('accounts') as AccountsState;
+  return getFromStore<AccountsState>('accounts');
 };
 
 const setAccounts = (accounts: AccountsState) => {
-  return store.set('accounts', accounts);
+  return setInStore('accounts', accounts);
 };
 
 const savePrivateKey = (uuid: TUuid, privateKey: string) => {
