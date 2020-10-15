@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
 
+import zxcvbn from 'zxcvbn';
+
 import { init } from '@app/services/DatabaseService';
 import { useDispatch } from '@app/store';
 import { setLoggedIn, setNewUser } from '@app/store/auth';
+
+const REQUIRED_PASSWORD_STRENGTH = 3;
 
 export const NewUser = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const dispatch = useDispatch();
+
+  const passwordValidation = password.length > 0 ? zxcvbn(password) : null;
+
+  const isPasswordStrong = passwordValidation
+    ? passwordValidation.score >= REQUIRED_PASSWORD_STRENGTH
+    : false;
 
   const handleCreate = async () => {
     try {
@@ -34,10 +44,14 @@ export const NewUser = () => {
         <input id="password" name="password" type="password" onChange={changePassword} />
       </label>
       <br />
+      {`Password Strength: ${isPasswordStrong ? 'OK' : ''} ${
+        !isPasswordStrong && passwordValidation ? passwordValidation.feedback.warning : ''
+      }`}
+      <br />
       <button
         id="create_button"
         type="button"
-        disabled={password.length === 0}
+        disabled={password.length === 0 || !isPasswordStrong}
         onClick={handleCreate}
       >
         Create
