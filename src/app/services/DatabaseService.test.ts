@@ -1,7 +1,17 @@
 import { ipcBridgeRenderer } from '@bridge';
-import { DBRequestType } from '@types';
+import { DBRequestType, TUuid } from '@types';
 
-import { getAccounts, init, isLoggedIn, isNewUser, login, setAccounts } from './DatabaseService';
+import {
+  deletePrivateKey,
+  getAccounts,
+  getPrivateKey,
+  init,
+  isLoggedIn,
+  isNewUser,
+  login,
+  savePrivateKey,
+  setAccounts
+} from './DatabaseService';
 
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {
@@ -10,6 +20,9 @@ jest.mock('@bridge', () => ({
     }
   }
 }));
+
+const uuid = 'a259a13e-936b-5945-8c80-7f757e808507' as TUuid;
+const privateKey = 'privkey';
 
 describe('DatabaseService', () => {
   afterEach(() => {
@@ -56,6 +69,31 @@ describe('DatabaseService', () => {
     expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith({
       type: DBRequestType.SET_ACCOUNTS,
       accounts: { accounts: {} }
+    });
+  });
+
+  it('calls ipcBridge with savePrivateKey', () => {
+    savePrivateKey(uuid, privateKey);
+    expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith({
+      type: DBRequestType.SAVE_PRIVATE_KEY,
+      privateKey,
+      uuid
+    });
+  });
+
+  it('calls ipcBridge with getPrivateKey', () => {
+    getPrivateKey(uuid);
+    expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith({
+      type: DBRequestType.GET_PRIVATE_KEY,
+      uuid
+    });
+  });
+
+  it('calls ipcBridge with deletePrivateKey', () => {
+    deletePrivateKey(uuid);
+    expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith({
+      type: DBRequestType.DELETE_PRIVATE_KEY,
+      uuid
     });
   });
 });

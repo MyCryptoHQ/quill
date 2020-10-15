@@ -12,10 +12,10 @@ export const Login = () => {
   const handleLogin = async () => {
     try {
       const result = await login(password);
-      dispatch(setLoggedIn(result));
       if (!result) {
         setError('An error occurred');
       }
+      dispatch(setLoggedIn(result));
     } catch (err) {
       setError(err.message);
     }

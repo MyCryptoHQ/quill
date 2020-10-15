@@ -1,21 +1,29 @@
 import { app, ipcMain } from 'electron';
 import Store from 'electron-store';
 import fs from 'fs';
+import keytar from 'keytar';
 import path from 'path';
 
 import { AccountsState } from '@app/store/account';
-import { IPC_CHANNELS } from '@config';
-import { DBRequest, DBRequestType, DBResponse } from '@types';
+import { IPC_CHANNELS, KEYTAR_SERVICE } from '@config';
+import { DBRequest, DBRequestType, DBResponse, TUuid } from '@types';
+import { safeJSONParse } from '@utils';
+import { decrypt, encrypt, hashPassword } from '@utils/encryption';
 
-let store: Store;
+const store = new Store();
 
-export const init = (password: string) => {
+// @todo STORES HASHED PASSWORD FOR ENCRYPTION - THINK ABOUT THIS
+let encryptionKey: string;
+
+const setEncryptionKey = async (key: string) => (encryptionKey = await hashPassword(key));
+
+export const init = async (password: string) => {
   try {
-    store = new Store({ encryptionKey: password, clearInvalidConfig: true });
+    await setEncryptionKey(password);
     // Clear in case the store already contains data
     store.clear();
     // Write something to the store to actually create the file
-    store.set('accounts', {});
+    setInStore('accounts', {});
   } catch (err) {
     console.error(err);
     return false;
@@ -23,9 +31,13 @@ export const init = (password: string) => {
   return true;
 };
 
-const login = (password: string) => {
+const login = async (password: string) => {
+  const hashedPassword = hashPassword(password);
+  if (!checkPassword(await hashedPassword)) {
+    return false;
+  }
   try {
-    store = new Store({ encryptionKey: password, clearInvalidConfig: false });
+    await setEncryptionKey(password);
   } catch (err) {
     console.error(err);
     return false;
@@ -39,14 +51,51 @@ const storeExists = async () => {
   return !!(await fs.promises.stat(configPath).catch(() => false));
 };
 
-const isLoggedIn = () => store !== undefined;
+const isLoggedIn = () => checkPassword(encryptionKey);
+
+const checkPassword = (hashedPassword?: string) => {
+  if (!hashedPassword || hashedPassword.length === 0) {
+    return false;
+  }
+  return getFromStore('accounts', hashedPassword) !== null;
+};
+
+const getFromStore = <T>(key: string, password = encryptionKey): T | null => {
+  const result = store.get(key) as string;
+  const decrypted = decrypt(result, password);
+  const [valid, parsed] = safeJSONParse(decrypted);
+  return valid === null ? parsed : null;
+};
+
+const setInStore = <T>(key: string, obj: T) => {
+  const json = JSON.stringify(obj);
+  const encrypted = encrypt(json, encryptionKey);
+  store.set(key, encrypted);
+};
 
 export const getAccounts = () => {
-  return store.get('accounts') as AccountsState;
+  return getFromStore<AccountsState>('accounts');
 };
 
 const setAccounts = (accounts: AccountsState) => {
-  return store.set('accounts', accounts);
+  return setInStore('accounts', accounts);
+};
+
+const savePrivateKey = (uuid: TUuid, privateKey: string) => {
+  const encryptedPKey = encrypt(privateKey, encryptionKey);
+  return keytar.setPassword(KEYTAR_SERVICE, uuid, encryptedPKey);
+};
+
+const getPrivateKey = async (uuid: TUuid) => {
+  const result = await keytar.getPassword(KEYTAR_SERVICE, uuid);
+  if (result) {
+    return decrypt(result, encryptionKey);
+  }
+  return null;
+};
+
+const deletePrivateKey = async (uuid: TUuid) => {
+  return keytar.deletePassword(KEYTAR_SERVICE, uuid);
 };
 
 export const handleRequest = async (request: DBRequest): Promise<DBResponse> => {
@@ -63,6 +112,12 @@ export const handleRequest = async (request: DBRequest): Promise<DBResponse> => 
       return Promise.resolve(getAccounts());
     case DBRequestType.SET_ACCOUNTS:
       return Promise.resolve(setAccounts(request.accounts));
+    case DBRequestType.SAVE_PRIVATE_KEY:
+      return savePrivateKey(request.uuid, request.privateKey);
+    case DBRequestType.GET_PRIVATE_KEY:
+      return getPrivateKey(request.uuid);
+    case DBRequestType.DELETE_PRIVATE_KEY:
+      return deletePrivateKey(request.uuid);
     default:
       throw new Error('Undefined request type');
   }

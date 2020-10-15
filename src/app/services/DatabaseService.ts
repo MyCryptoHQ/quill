@@ -1,6 +1,6 @@
 import { AccountsState } from '@app/store/account';
 import { ipcBridgeRenderer } from '@bridge';
-import { DBRequestType } from '@types';
+import { DBRequestType, TUuid } from '@types';
 
 export const init = (password: string): Promise<boolean> => {
   return ipcBridgeRenderer.db.invoke({ type: DBRequestType.INIT, password });
@@ -24,4 +24,26 @@ export const getAccounts = (): Promise<AccountsState> => {
 
 export const setAccounts = (accounts: AccountsState): Promise<void> => {
   return ipcBridgeRenderer.db.invoke({ type: DBRequestType.SET_ACCOUNTS, accounts });
+};
+
+export const savePrivateKey = (uuid: TUuid, privateKey: string): Promise<void> => {
+  return ipcBridgeRenderer.db.invoke({
+    type: DBRequestType.SAVE_PRIVATE_KEY,
+    uuid,
+    privateKey
+  });
+};
+
+export const getPrivateKey = (uuid: TUuid): Promise<string | null> => {
+  return ipcBridgeRenderer.db.invoke({
+    type: DBRequestType.GET_PRIVATE_KEY,
+    uuid
+  });
+};
+
+export const deletePrivateKey = (uuid: TUuid): Promise<boolean> => {
+  return ipcBridgeRenderer.db.invoke({
+    type: DBRequestType.DELETE_PRIVATE_KEY,
+    uuid
+  });
 };

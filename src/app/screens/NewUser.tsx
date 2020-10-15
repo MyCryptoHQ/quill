@@ -13,10 +13,10 @@ export const NewUser = () => {
     try {
       const result = await init(password);
       dispatch(setNewUser(!result));
-      dispatch(setLoggedIn(true));
       if (!result) {
         setError('An error occurred');
       }
+      dispatch(setLoggedIn(true));
     } catch (err) {
       setError(err.message);
     }

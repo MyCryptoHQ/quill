@@ -10,3 +10,6 @@ export const SUPPORTED_METHODS = {
 };
 
 export const WS_PORT = 8000;
+
+// @todo Change to another name?
+export const KEYTAR_SERVICE = 'MyCrypto Signer';
