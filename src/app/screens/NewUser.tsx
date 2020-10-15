@@ -35,6 +35,9 @@ export const NewUser = () => {
   const changePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
     setPassword(e.currentTarget.value);
 
+  const passwordFeedback =
+    !isPasswordStrong && passwordValidation ? passwordValidation.feedback.warning : '';
+
   return (
     <div>
       Welcome!
@@ -45,8 +48,8 @@ export const NewUser = () => {
       </label>
       <br />
       {`Password Strength: ${isPasswordStrong ? 'OK' : ''} ${
-        !isPasswordStrong && passwordValidation ? passwordValidation.feedback.warning : ''
-      }`}
+        !isPasswordStrong && passwordValidation ? 'Password too weak' : ''
+      } ${passwordFeedback}`}
       <br />
       <button
         id="create_button"
