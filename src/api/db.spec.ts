@@ -6,6 +6,8 @@ import { IPC_CHANNELS, KEYTAR_SERVICE } from '@config';
 import { fAccount } from '@fixtures';
 import { DBRequestType, TUuid } from '@types';
 
+import { handleRequest as _handleRequest, runService as _runService } from './db';
+
 jest.mock('path');
 
 jest.mock('electron', () => ({
@@ -53,7 +55,10 @@ const password = 'password';
 const privateKey = 'privkey';
 const encryptedPrivKey = 'e250a3146ae9c2';
 
-const { handleRequest, runService } = jest.requireActual('./db');
+const { handleRequest, runService } = jest.requireActual<{
+  handleRequest: typeof _handleRequest;
+  runService: typeof _runService;
+}>('./db');
 
 describe('handleRequest', () => {
   it('get login state returns logged out correctly', async () => {
@@ -152,9 +157,10 @@ describe('handleRequest', () => {
   it('errors if non supported type is passed', async () => {
     await expect(
       handleRequest({
-        type: 'bla' as DBRequestType,
+        // @ts-expect-error Unsupported type
+        type: 'bla',
         privateKey: 'privkey'
-      } as any)
+      })
     ).rejects.toBeDefined();
   });
 });

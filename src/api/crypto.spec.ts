@@ -1,7 +1,7 @@
 import { ipcMain } from 'electron';
 
 import { IPC_CHANNELS } from '@config';
-import { CryptoRequest, CryptoRequestType } from '@types';
+import { CryptoRequestType } from '@types';
 
 import { handleRequest, runService } from './crypto';
 
@@ -54,9 +54,10 @@ describe('handleRequest', () => {
   it('errors if non supported type is passed', async () => {
     await expect(
       handleRequest({
-        type: 'bla' as CryptoRequestType,
+        // @ts-expect-error Unsupported type
+        type: 'bla',
         privateKey: 'privkey'
-      } as CryptoRequest)
+      })
     ).rejects.toBeDefined();
   });
 });
