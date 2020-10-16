@@ -5,8 +5,7 @@ import zxcvbn from 'zxcvbn';
 import { init } from '@app/services/DatabaseService';
 import { useDispatch } from '@app/store';
 import { setLoggedIn, setNewUser } from '@app/store/auth';
-
-const REQUIRED_PASSWORD_STRENGTH = 3;
+import { REQUIRED_PASSWORD_STRENGTH } from '@config';
 
 export const NewUser = () => {
   const [password, setPassword] = useState('');
