@@ -1,7 +1,7 @@
 import { ipcMain } from 'electron';
 
 import { IPC_CHANNELS } from '@config';
-import { CryptoRequestType } from '@types';
+import { CryptoRequest, CryptoRequestType } from '@types';
 
 import { handleRequest, runService } from './crypto';
 
@@ -56,7 +56,7 @@ describe('handleRequest', () => {
       handleRequest({
         type: 'bla' as CryptoRequestType,
         privateKey: 'privkey'
-      } as any)
+      } as CryptoRequest)
     ).rejects.toBeDefined();
   });
 });
