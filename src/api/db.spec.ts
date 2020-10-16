@@ -6,8 +6,6 @@ import { IPC_CHANNELS, KEYTAR_SERVICE } from '@config';
 import { fAccount } from '@fixtures';
 import { DBRequestType, TUuid } from '@types';
 
-import { handleRequest, runService } from './db';
-
 jest.mock('path');
 
 jest.mock('electron', () => ({
@@ -35,7 +33,7 @@ jest.mock('electron-store', () => {
   return jest.fn().mockImplementation(() => ({
     get: jest.fn().mockImplementation((key: string) => {
       if (key === 'accounts') {
-        return 'e900fe0064bf8376f1f77b0b9fb598326c77d5959e32f31ab5f8f5b5e42275686c1d91e7d4cf6a1764ccd687eb2c185362e4744080a94efb620e44f4c06ec9bf3be1fc6b3a0e5d7071fe30fedfc33cca5d464206f0ee2fe96110f43a0be71561a538e8966168687427e57de3c83587be6e40059c739dcfa0d29c914a632064af04da6f4eda99ac9364278e487b4a9fc0dde27d1a05c8590d56b60f399d6fed05d4d39b3dd010f2feedb4b92d9f1d09b0506bfa21297610';
+        return 'e900ab0162e3ce2dbcb2740480aecf7d3c27dd918a3cbb1fe5eca7a1b570266e731392b2d2d679147bdfc0c5b07e5c0c72e4341fc8b30eb73d4753aadb3986ef6be9f87f3446582065ac24af8d903ad553451700e9fd3aaf3117a77a58f20371ab38f4cc346e6e6307d43ef7c472f3f6636050b873bbcfa186bfe6431f2736de75886f3dfebead9c1057d9486d508df0e2f32a0e0edf3b6f3dcc6c19a140c362b7d3e74de923c1d9c198860da84b07a8466fe421257819ff8177475034731dd61a8c37c4';
       }
       return {};
     }),
@@ -54,6 +52,8 @@ const uuid = 'a259a13e-936b-5945-8c80-7f757e808507' as TUuid;
 const password = 'password';
 const privateKey = 'privkey';
 const encryptedPrivKey = 'e250a3146ae9c2';
+
+const { handleRequest, runService } = jest.requireActual('./db');
 
 describe('handleRequest', () => {
   it('get login state returns logged out correctly', async () => {
@@ -94,7 +94,20 @@ describe('handleRequest', () => {
     const initResult = await handleRequest({ type: DBRequestType.INIT, password });
     expect(initResult).toBe(true);
     const result = await handleRequest({ type: DBRequestType.GET_ACCOUNTS });
-    expect(result).toStrictEqual({ [fAccount.uuid]: fAccount });
+    expect(result).toStrictEqual({ accounts: { [fAccount.uuid]: fAccount } });
+  });
+
+  it('set accounts', async () => {
+    const initResult = await handleRequest({ type: DBRequestType.INIT, password });
+    expect(initResult).toBe(true);
+    await handleRequest({
+      type: DBRequestType.SET_ACCOUNTS,
+      accounts: { accounts: { [fAccount.uuid]: fAccount } }
+    });
+    expect(mockSet).toHaveBeenCalledWith(
+      'accounts',
+      'e900ab0162e3ce2dbcb2740480aecf7d3c27dd918a3cbb1fe5eca7a1b570266e731392b2d2d679147bdfc0c5b07e5c0c72e4341fc8b30eb73d4753aadb3986ef6be9f87f3446582065ac24af8d903ad553451700e9fd3aaf3117a77a58f20371ab38f4cc346e6e6307d43ef7c472f3f6636050b873bbcfa186bfe6431f2736de75886f3dfebead9c1057d9486d508df0e2f32a0e0edf3b6f3dcc6c19a140c362b7d3e74de923c1d9c198860da84b07a8466fe421257819ff8177475034731dd61a8c37c4'
+    );
   });
 
   it('SAVE_PRIVATE_KEY calls setPassword with encrypted privkey', async () => {
@@ -134,12 +147,6 @@ describe('handleRequest', () => {
     });
 
     expect(keytar.deletePassword).toHaveBeenCalledWith(KEYTAR_SERVICE, uuid);
-  });
-
-  it('set accounts', async () => {
-    // @todo Use Fixture
-    await handleRequest({ type: DBRequestType.SET_ACCOUNTS, accounts: { accounts: {} } });
-    expect(mockSet).toHaveBeenCalledWith('accounts', {});
   });
 
   it('errors if non supported type is passed', async () => {
