@@ -56,7 +56,7 @@ describe('AddAccount', () => {
     expect(submitButton).toBeDefined();
     fireEvent.click(submitButton);
     expect(getAddressFromPrivateKey).toHaveBeenCalledWith('privkey');
-    await waitFor(() => expect(Object.keys(store.getState().accounts)).toHaveLength(1));
+    await waitFor(() => expect(Object.keys(store.getState().accounts.accounts)).toHaveLength(1));
 
     expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalled();
   });
