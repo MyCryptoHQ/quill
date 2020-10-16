@@ -1,4 +1,4 @@
-import { getAddressFromPrivateKey, savePrivateKey } from '@app/services';
+import { deletePrivateKey, getAddressFromPrivateKey, savePrivateKey } from '@app/services';
 import { useDispatch, useSelector } from '@app/store';
 import { AccountType, IAccount } from '@types';
 
@@ -28,8 +28,11 @@ export function useAccounts() {
     });
   };
 
-  const removeAccount = (account: IAccount) => {
+  const removeAccount = async (account: IAccount) => {
     dispatch(removeAccountRedux(account));
+    if (account.persistent) {
+      await deletePrivateKey(account.uuid);
+    }
   };
 
   return { accounts: Object.values(accounts), addAccount, addAccountFromPrivateKey, removeAccount };
