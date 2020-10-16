@@ -31,14 +31,16 @@ describe('NewUser', () => {
   });
 
   it('can login', async () => {
+    // Use randomly generated secure pw to meet pw requirements
+    const password = 'm8A5fc26bH8Z';
     const { getByLabelText, getByText } = getComponent();
     const passwordInput = getByLabelText('Enter a new master password');
     expect(passwordInput).toBeDefined();
-    fireEvent.change(passwordInput, { target: { value: 'password' } });
+    fireEvent.change(passwordInput, { target: { value: password } });
 
     const loginButton = getByText('Create');
     expect(loginButton).toBeDefined();
     fireEvent.click(loginButton);
-    expect(init).toHaveBeenCalledWith('password');
+    expect(init).toHaveBeenCalledWith(password);
   });
 });
