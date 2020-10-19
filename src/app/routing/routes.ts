@@ -1,6 +1,6 @@
 import { Route } from '@types';
 
-import { Accounts, AddAccount, Home, Locked } from '../screens';
+import { Accounts, AddAccount, ForgotPassword, Home, Locked } from '../screens';
 import { ROUTE_PATHS } from './routePaths';
 
 export const ROUTES: Record<string, Route> = {
@@ -15,7 +15,7 @@ export const ROUTES: Record<string, Route> = {
   ACCOUNTS: { path: ROUTE_PATHS.ACCOUNTS, component: Accounts, exact: true, requireLogin: true },
   FORGOT_PASSWORD: {
     path: ROUTE_PATHS.FORGOT_PASSWORD,
-    component: Accounts,
+    component: ForgotPassword,
     exact: true,
     requireLogin: false
   }

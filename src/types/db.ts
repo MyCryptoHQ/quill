@@ -4,6 +4,7 @@ import { TUuid } from '@types';
 export enum DBRequestType {
   INIT = 'INIT',
   LOGIN = 'LOGIN',
+  RESET = 'RESET',
   IS_NEW_USER = 'IS_NEW_USER',
   IS_LOGGED_IN = 'IS_LOGGED_IN',
   GET_ACCOUNTS = 'GET_ACCOUNTS',
@@ -24,6 +25,8 @@ interface PasswordRequest<Type extends DBRequestType> extends BaseRequest<Type> 
 type InitRequest = PasswordRequest<DBRequestType.INIT>;
 
 type LoginRequest = PasswordRequest<DBRequestType.LOGIN>;
+
+type ResetRequest = BaseRequest<DBRequestType.RESET>;
 
 type GetLoginStateRequest = BaseRequest<DBRequestType.IS_LOGGED_IN>;
 
@@ -50,6 +53,7 @@ type DeletePrivateKeyRequest = UuidRequest<DBRequestType.DELETE_PRIVATE_KEY>;
 export type DBRequest =
   | InitRequest
   | LoginRequest
+  | ResetRequest
   | GetLoginStateRequest
   | GetNewUserStateRequest
   | GetAccountsRequest
