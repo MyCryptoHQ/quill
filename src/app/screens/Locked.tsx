@@ -9,7 +9,8 @@ import { Login } from './Login';
 import { NewUser } from './NewUser';
 
 export const Locked = () => {
-  const { newUser, loggedIn } = useSelector((state) => state.auth);
+  const newUser = useSelector((state) => state.auth.newUser);
+  const loggedIn = useSelector((state) => state.auth.loggedIn);
   const history = useHistory();
 
   useEffect(() => {

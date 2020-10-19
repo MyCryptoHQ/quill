@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from './store';
 import { setLoggedIn, setNewUser } from './store/auth';
 
 const App = ({ persistor }: { persistor: Persistor }) => {
-  const { loggedIn } = useSelector((state) => state.auth);
+  const loggedIn = useSelector((state) => state.auth.loggedIn);
   const dispatch = useDispatch();
 
   useEffect(() => {

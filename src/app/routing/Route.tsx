@@ -9,7 +9,7 @@ import { ROUTE_PATHS } from './routePaths';
 type Props = RouteProps & { requireLogin: boolean };
 
 export const Route = ({ component: Component, requireLogin, ...rest }: Props) => {
-  const { loggedIn } = useSelector((state) => state.auth);
+  const loggedIn = useSelector((state) => state.auth.loggedIn);
   return (
     <ActualRoute
       {...rest}
