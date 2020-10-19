@@ -1,13 +1,14 @@
 import React from 'react';
 
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import { ROUTE_PATHS } from '@app/routing';
 import { reset } from '@app/services/DatabaseService';
 import { useDispatch } from '@app/store';
 import { setNewUser } from '@app/store/auth';
 
-export const ForgotPassword = withRouter(({ history }) => {
+export const ForgotPassword = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const handleReset = () => {
@@ -28,4 +29,4 @@ export const ForgotPassword = withRouter(({ history }) => {
       <button onClick={redirectBack}>No</button>
     </>
   );
-});
+};
