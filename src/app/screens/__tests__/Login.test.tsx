@@ -2,11 +2,12 @@ import React from 'react';
 
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import { MemoryRouter as Router } from 'react-router-dom';
 
 import { login as loginFunc } from '@app/services/DatabaseService';
 import { createStore } from '@app/store';
 
-import { Login } from '.';
+import { Login } from '../Login';
 
 jest.mock('@app/services/DatabaseService', () => ({
   login: jest.fn().mockImplementation((password: string) => password === 'password')
@@ -14,9 +15,11 @@ jest.mock('@app/services/DatabaseService', () => ({
 
 function getComponent() {
   return render(
-    <Provider store={createStore()}>
-      <Login />
-    </Provider>
+    <Router>
+      <Provider store={createStore()}>
+        <Login />
+      </Provider>
+    </Router>
   );
 }
 

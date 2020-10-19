@@ -32,11 +32,11 @@ export const init = async (password: string) => {
 };
 
 const login = async (password: string) => {
-  const hashedPassword = hashPassword(password);
-  if (!checkPassword(await hashedPassword)) {
-    return false;
-  }
   try {
+    const hashedPassword = await hashPassword(password);
+    if (!checkPassword(hashedPassword)) {
+      return false;
+    }
     await setEncryptionKey(password);
   } catch (err) {
     console.error(err);
@@ -45,8 +45,16 @@ const login = async (password: string) => {
   return true;
 };
 
+const reset = () => {
+  encryptionKey = undefined;
+  store.clear();
+  return fs.promises.unlink(getStorePath());
+};
+
+const getStorePath = () => path.join(app.getPath('userData'), 'config.json');
+
 const storeExists = async () => {
-  const configPath = path.join(app.getPath('userData'), 'config.json');
+  const configPath = getStorePath();
   // Is new user if config file doesn't exist
   return !!(await fs.promises.stat(configPath).catch(() => false));
 };
@@ -104,6 +112,8 @@ export const handleRequest = async (request: DBRequest): Promise<DBResponse> => 
       return Promise.resolve(init(request.password));
     case DBRequestType.LOGIN:
       return Promise.resolve(login(request.password));
+    case DBRequestType.RESET:
+      return reset();
     case DBRequestType.IS_LOGGED_IN:
       return Promise.resolve(isLoggedIn());
     case DBRequestType.IS_NEW_USER:

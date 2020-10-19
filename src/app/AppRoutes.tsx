@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { Route, HashRouter as Router, Switch } from 'react-router-dom';
+import { HashRouter as Router, Switch } from 'react-router-dom';
 
-import { ROUTES } from './routes';
+import { Route } from './routing';
+import { ROUTES } from './routing/routes';
 
 export const AppRoutes = () => (
   <Router>

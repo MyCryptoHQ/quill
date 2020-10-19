@@ -9,7 +9,7 @@ import { ipcBridgeRenderer } from '@bridge';
 import { fAccount } from '@fixtures';
 import { JsonRPCRequest } from '@types';
 
-import { Home } from '.';
+import { Home } from '../Home';
 
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {

@@ -20,11 +20,17 @@ export const encrypt = (data: string, key: string) => {
 
 export const hashPassword = (password: string): Promise<string> => {
   return new Promise((resolve, reject) => {
+    if (!password || password.length === 0) {
+      console.log(password);
+      reject(new Error('Password is undefined or of zero length'));
+      return;
+    }
     crypto.pbkdf2(password, SALT, ITERATIONS, KEY_LENGTH, HASH_ALGORITHM, (error, key) => {
       if (error) {
         reject(error);
+      } else {
+        resolve(utils.hex.fromBytes(key));
       }
-      resolve(utils.hex.fromBytes(key));
     });
   });
 };

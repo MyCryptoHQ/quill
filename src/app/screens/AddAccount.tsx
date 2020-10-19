@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 
-import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { useAccounts } from '@app/hooks';
-import { ROUTE_PATHS } from '@app/routePaths';
+import { ROUTE_PATHS } from '@app/routing';
 
-const AddAccount = ({ history }: RouteComponentProps) => {
+export const AddAccount = () => {
   const { addAccountFromPrivateKey } = useAccounts();
+  const history = useHistory();
   const [privKey, setPrivKey] = useState('');
   const [persistence, setPersistence] = useState(false);
 
@@ -39,5 +40,3 @@ const AddAccount = ({ history }: RouteComponentProps) => {
     </>
   );
 };
-
-export default withRouter(AddAccount);

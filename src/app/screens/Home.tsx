@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useAccounts } from '@app/hooks';
-import { ROUTE_PATHS } from '@app/routePaths';
+import { ROUTE_PATHS } from '@app/routing';
 import { getPrivateKey, signWithPrivateKey, useApiService } from '@app/services';
 import { makeTx } from '@utils';
 

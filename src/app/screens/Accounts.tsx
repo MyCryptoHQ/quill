@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { useAccounts } from '@app/hooks';
-import { ROUTE_PATHS } from '@app/routePaths';
+import { ROUTE_PATHS } from '@app/routing';
 
 export const Accounts = () => {
   const { accounts, removeAccount } = useAccounts();

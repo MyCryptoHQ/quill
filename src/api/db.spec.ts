@@ -1,5 +1,6 @@
 import { ipcMain } from 'electron';
 import Store from 'electron-store';
+import fs from 'fs';
 import keytar from 'keytar';
 
 import { IPC_CHANNELS, KEYTAR_SERVICE } from '@config';
@@ -26,11 +27,13 @@ jest.mock('fs', () => ({
     stat: jest
       .fn()
       .mockImplementationOnce(() => Promise.reject())
-      .mockImplementation(() => Promise.resolve(true))
+      .mockImplementation(() => Promise.resolve(true)),
+    unlink: jest.fn().mockImplementation(() => Promise.resolve())
   }
 }));
 
 const mockSet = jest.fn();
+const mockClear = jest.fn();
 jest.mock('electron-store', () => {
   return jest.fn().mockImplementation(() => ({
     get: jest.fn().mockImplementation((key: string) => {
@@ -40,7 +43,7 @@ jest.mock('electron-store', () => {
       return {};
     }),
     set: mockSet,
-    clear: jest.fn()
+    clear: mockClear
   }));
 });
 
@@ -67,15 +70,36 @@ describe('handleRequest', () => {
   });
 
   it('init succesfully initializes the electron-store', async () => {
-    const result = await handleRequest({ type: DBRequestType.INIT, password: 'password' });
+    const result = await handleRequest({ type: DBRequestType.INIT, password });
     expect(result).toBe(true);
     expect(Store).toHaveBeenCalled();
+  });
+
+  it('init fails with no input', async () => {
+    const result = await handleRequest({ type: DBRequestType.INIT, password: '' });
+    expect(result).toBe(false);
   });
 
   it('login succesfully initializes the electron-store', async () => {
     const result = await handleRequest({ type: DBRequestType.LOGIN, password });
     expect(result).toBe(true);
     expect(Store).toHaveBeenCalled();
+  });
+
+  it('login fails with wrong password', async () => {
+    const result = await handleRequest({ type: DBRequestType.LOGIN, password: 'bla' });
+    expect(result).toBe(false);
+  });
+
+  it('login fails with empty password', async () => {
+    const result = await handleRequest({ type: DBRequestType.LOGIN, password: '' });
+    expect(result).toBe(false);
+  });
+
+  it('reset correctly resets the Store', async () => {
+    await handleRequest({ type: DBRequestType.RESET });
+    expect(fs.promises.unlink).toHaveBeenCalled();
+    expect(mockClear).toHaveBeenCalled();
   });
 
   it('get new user state returns true default', async () => {

@@ -10,6 +10,10 @@ export const login = (password: string): Promise<boolean> => {
   return ipcBridgeRenderer.db.invoke({ type: DBRequestType.LOGIN, password });
 };
 
+export const reset = (): Promise<boolean> => {
+  return ipcBridgeRenderer.db.invoke({ type: DBRequestType.RESET });
+};
+
 export const isNewUser = (): Promise<boolean> => {
   return ipcBridgeRenderer.db.invoke({ type: DBRequestType.IS_NEW_USER });
 };

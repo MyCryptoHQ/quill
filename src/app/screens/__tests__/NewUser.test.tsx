@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { init } from '@app/services/DatabaseService';
 import { createStore } from '@app/store';
 
-import { NewUser } from '.';
+import { NewUser } from '../NewUser';
 
 jest.mock('@app/services/DatabaseService', () => ({
   init: jest.fn().mockImplementation(() => Promise.resolve(true))
