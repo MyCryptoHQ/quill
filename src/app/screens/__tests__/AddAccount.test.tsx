@@ -9,7 +9,7 @@ import { getAddressFromPrivateKey } from '@app/services/WalletService';
 import { ApplicationState, createStore } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
 
-import { AddAccount } from '.';
+import { default as AddAccount } from '../AddAccount';
 
 jest.mock('@app/services/WalletService', () => ({
   getAddressFromPrivateKey: jest.fn().mockImplementation(() =>

@@ -7,7 +7,7 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import { login as loginFunc } from '@app/services/DatabaseService';
 import { createStore } from '@app/store';
 
-import { Login } from '.';
+import { Login } from '../Login';
 
 jest.mock('@app/services/DatabaseService', () => ({
   login: jest.fn().mockImplementation((password: string) => password === 'password')

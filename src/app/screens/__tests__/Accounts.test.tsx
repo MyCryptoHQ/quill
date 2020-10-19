@@ -10,7 +10,7 @@ import { ipcBridgeRenderer } from '@bridge';
 import { fAccount } from '@fixtures';
 import { DBRequestType } from '@types';
 
-import { Accounts } from './Accounts';
+import { Accounts } from '../Accounts';
 
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {
