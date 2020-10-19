@@ -70,15 +70,30 @@ describe('handleRequest', () => {
   });
 
   it('init succesfully initializes the electron-store', async () => {
-    const result = await handleRequest({ type: DBRequestType.INIT, password: 'password' });
+    const result = await handleRequest({ type: DBRequestType.INIT, password });
     expect(result).toBe(true);
     expect(Store).toHaveBeenCalled();
+  });
+
+  it('init fails with no input', async () => {
+    const result = await handleRequest({ type: DBRequestType.INIT, password: '' });
+    expect(result).toBe(false);
   });
 
   it('login succesfully initializes the electron-store', async () => {
     const result = await handleRequest({ type: DBRequestType.LOGIN, password });
     expect(result).toBe(true);
     expect(Store).toHaveBeenCalled();
+  });
+
+  it('login fails with wrong password', async () => {
+    const result = await handleRequest({ type: DBRequestType.LOGIN, password: 'bla' });
+    expect(result).toBe(false);
+  });
+
+  it('login fails with empty password', async () => {
+    const result = await handleRequest({ type: DBRequestType.LOGIN, password: '' });
+    expect(result).toBe(false);
   });
 
   it('reset correctly resets the Store', async () => {

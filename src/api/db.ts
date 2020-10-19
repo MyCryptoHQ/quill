@@ -32,11 +32,11 @@ export const init = async (password: string) => {
 };
 
 const login = async (password: string) => {
-  const hashedPassword = hashPassword(password);
-  if (!checkPassword(await hashedPassword)) {
-    return false;
-  }
   try {
+    const hashedPassword = await hashPassword(password);
+    if (!checkPassword(hashedPassword)) {
+      return false;
+    }
     await setEncryptionKey(password);
   } catch (err) {
     console.error(err);
