@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+import { Link } from 'react-router-dom';
+
+import { ROUTE_PATHS } from '@app/routing';
 import { login } from '@app/services/DatabaseService';
 import { useDispatch } from '@app/store';
 import { setLoggedIn } from '@app/store/auth';
@@ -34,6 +37,8 @@ export const Login = () => {
       <button type="button" disabled={password.length === 0} onClick={handleLogin}>
         Login
       </button>
+      <br />
+      <Link to={ROUTE_PATHS.FORGOT_PASSWORD}>Forgot Password?</Link>
       <br />
       {error}
     </div>

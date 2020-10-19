@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { useAccounts } from '@app/hooks';
-import { ROUTE_PATHS } from '@app/routePaths';
+import { ROUTE_PATHS } from '@app/routing';
 
 const AddAccount = ({ history }: RouteComponentProps) => {
   const { addAccountFromPrivateKey } = useAccounts();
