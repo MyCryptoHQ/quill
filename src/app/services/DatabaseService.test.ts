@@ -9,6 +9,7 @@ import {
   isLoggedIn,
   isNewUser,
   login,
+  reset,
   savePrivateKey,
   setAccounts
 } from './DatabaseService';
@@ -42,6 +43,13 @@ describe('DatabaseService', () => {
     expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith({
       type: DBRequestType.LOGIN,
       password: 'password'
+    });
+  });
+
+  it('reset calls ipcBridge', () => {
+    reset();
+    expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith({
+      type: DBRequestType.RESET
     });
   });
 
