@@ -3,8 +3,7 @@ import React, { useEffect } from 'react';
 import { hot } from 'react-hot-loader';
 import { Persistor } from 'redux-persist';
 
-import { AppRoutes } from '@app/routing';
-
+import { AppRoutes } from './AppRoutes';
 import { isLoggedIn, isNewUser } from './services';
 import { useDispatch, useSelector } from './store';
 import { setLoggedIn, setNewUser } from './store/auth';

@@ -1,10 +1,11 @@
 import React from 'react';
 
+import { EnhancedStore } from '@reduxjs/toolkit';
 import { render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
 import App from './App';
-import { createPersistor, createStore } from './store';
+import { ApplicationState, createPersistor, createStore } from './store';
 
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {
@@ -30,8 +31,7 @@ jest.mock('@app/services/DatabaseService', () => ({
   setAccounts: jest.fn().mockImplementation(() => Promise.resolve())
 }));
 
-function getComponent() {
-  const store = createStore();
+function getComponent(store: EnhancedStore<ApplicationState> = createStore()) {
   const persistor = createPersistor(store);
   return render(
     <Provider store={store}>
@@ -41,6 +41,13 @@ function getComponent() {
 }
 
 describe('App', () => {
+  it('renders Home if user has config and is logged in', async () => {
+    const { getByText } = getComponent(
+      createStore({ preloadedState: { auth: { loggedIn: true, newUser: false } } })
+    );
+    await waitFor(() => expect(getByText('Accept').textContent).toBeDefined());
+  });
+
   it('renders NewUser if user has no config', async () => {
     const { getByText } = getComponent();
     await waitFor(() => expect(getByText('Create').textContent).toBeDefined());
@@ -49,10 +56,5 @@ describe('App', () => {
   it('renders Login if user has config and is not logged in', async () => {
     const { getByText } = getComponent();
     await waitFor(() => expect(getByText('Login').textContent).toBeDefined());
-  });
-
-  it('renders Home if user has config and is logged in', async () => {
-    const { getByText } = getComponent();
-    await waitFor(() => expect(getByText('Accept').textContent).toBeDefined());
   });
 });
