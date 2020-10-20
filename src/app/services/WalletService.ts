@@ -1,7 +1,7 @@
 import { TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider';
 
 import { ipcBridgeRenderer } from '@bridge';
-import { AccountType, CryptoRequestType, TAddress, TUuid } from '@types';
+import { CryptoRequestType, TAddress, TUuid, WalletType } from '@types';
 
 export const signWithPrivateKey = (
   privateKey: string,
@@ -19,6 +19,6 @@ export const getAddressFromPrivateKey = (
 export const createMnemonic = (): Promise<string> => {
   return ipcBridgeRenderer.crypto.invoke({
     type: CryptoRequestType.CREATE_WALLET,
-    wallet: AccountType.MNEMONIC
+    wallet: WalletType.MNEMONIC
   });
 };

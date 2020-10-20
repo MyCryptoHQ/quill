@@ -1,8 +1,8 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider';
 
-import { AccountType } from './account';
 import { TAddress } from './address';
 import { TUuid } from './uuid';
+import { WalletType } from './wallet';
 
 export enum CryptoRequestType {
   SIGN = 'SIGN',
@@ -23,7 +23,7 @@ interface SignTxRequest extends PrivKeyRequest<CryptoRequestType.SIGN> {
 }
 
 interface CreateWalletRequest extends BaseRequest<CryptoRequestType.CREATE_WALLET> {
-  wallet: AccountType;
+  wallet: WalletType;
 }
 
 type GetAddressRequest = PrivKeyRequest<CryptoRequestType.GET_ADDRESS>;

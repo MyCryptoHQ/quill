@@ -1,6 +1,6 @@
 import { deletePrivateKey, getAddressFromPrivateKey, savePrivateKey } from '@app/services';
 import { useDispatch, useSelector } from '@app/store';
-import { AccountType, IAccount } from '@types';
+import { IAccount, WalletType } from '@types';
 
 import {
   addAccount as addAccountRedux,
@@ -22,7 +22,7 @@ export function useAccounts() {
     }
     addAccount({
       uuid,
-      type: AccountType.PRIVATE_KEY,
+      type: WalletType.PRIVATE_KEY,
       address,
       persistent
     });

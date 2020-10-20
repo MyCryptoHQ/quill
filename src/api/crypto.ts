@@ -6,7 +6,7 @@ import { ipcMain } from 'electron';
 
 import { ipcBridgeMain } from '@bridge';
 import { MNEMONIC_ENTROPY_BYTES } from '@config';
-import { AccountType, CryptoRequest, CryptoRequestType, CryptoResponse, TAddress } from '@types';
+import { CryptoRequest, CryptoRequestType, CryptoResponse, TAddress, WalletType } from '@types';
 import { addHexPrefix, generateDeterministicAddressUUID } from '@utils';
 
 const sign = (wallet: Wallet, tx: TransactionRequest) => {
@@ -39,7 +39,7 @@ export const handleRequest = async (request: CryptoRequest): Promise<CryptoRespo
     }
     case CryptoRequestType.CREATE_WALLET: {
       const { wallet } = request;
-      if (wallet === AccountType.MNEMONIC) {
+      if (wallet === WalletType.MNEMONIC) {
         return createMnemonicWallet();
       }
       throw new Error('Unsupported wallet type');
