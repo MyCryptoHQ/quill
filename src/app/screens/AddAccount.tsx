@@ -26,6 +26,8 @@ export const AddAccount = () => {
     <>
       <Link to={ROUTE_PATHS.HOME}>Back</Link>
       <br />
+      <Link to={ROUTE_PATHS.CREATE_WALLET}>Create New Wallet</Link>
+      <br />
       <label>
         Private Key
         <input type="text" onChange={changePrivateKey} />

@@ -3,5 +3,6 @@ export const ROUTE_PATHS = {
   LOCKED: '/locked',
   ADD_ACCOUNT: '/add-account',
   ACCOUNTS: '/accounts',
-  FORGOT_PASSWORD: '/forgot-password'
+  FORGOT_PASSWORD: '/forgot-password',
+  CREATE_WALLET: '/create-wallet'
 };
