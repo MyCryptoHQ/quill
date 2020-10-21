@@ -21,7 +21,6 @@ export const encrypt = (data: string, key: string) => {
 export const hashPassword = (password: string): Promise<string> => {
   return new Promise((resolve, reject) => {
     if (!password || password.length === 0) {
-      console.log(password);
       reject(new Error('Password is undefined or of zero length'));
       return;
     }

@@ -8,17 +8,34 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import { getAddress } from '@app/services/WalletService';
 import { ApplicationState, createStore } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
+import { fMnemonicPhrase } from '@fixtures';
 import { WalletType } from '@types';
 
 import { AddAccount } from '../AddAccount';
 
 jest.mock('@app/services/WalletService', () => ({
-  getAddress: jest.fn().mockImplementation(() =>
-    Promise.resolve({
-      uuid: '4be38596-5d9c-5c01-8e04-19d1c726fe24',
-      address: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520'
-    })
-  )
+  getAddress: jest
+    .fn()
+    .mockImplementationOnce(() =>
+      Promise.resolve({
+        uuid: '4be38596-5d9c-5c01-8e04-19d1c726fe24',
+        address: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520'
+      })
+    )
+    .mockImplementationOnce(() =>
+      Promise.resolve([
+        {
+          uuid: '9b902e45-84be-5e97-b3a8-f937588397b4',
+          address: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f'
+        }
+      ])
+    )
+    .mockImplementationOnce(() =>
+      Promise.resolve({
+        uuid: '9b902e45-84be-5e97-b3a8-f937588397b4',
+        address: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f'
+      })
+    )
 }));
 
 jest.mock('@bridge', () => ({
@@ -57,6 +74,37 @@ describe('AddAccount', () => {
     expect(submitButton).toBeDefined();
     fireEvent.click(submitButton);
     expect(getAddress).toHaveBeenCalledWith({ wallet: WalletType.PRIVATE_KEY, args: 'privkey' });
+    await waitFor(() => expect(Object.keys(store.getState().accounts.accounts)).toHaveLength(1));
+
+    expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalled();
+  });
+
+  it('can submit mnemonic', async () => {
+    const store = createStore();
+    const { getByLabelText, getByText } = getComponent(store);
+    const walletTypeInput = getByLabelText('Type');
+    expect(walletTypeInput).toBeDefined();
+    fireEvent.change(walletTypeInput, { target: { value: 'MNEMONIC' } });
+
+    const mnemonicInput = getByLabelText('Mnemonic Phrase');
+    expect(mnemonicInput).toBeDefined();
+    fireEvent.change(mnemonicInput, { target: { value: fMnemonicPhrase } });
+
+    const persistenceInput = getByLabelText('Persistence');
+    fireEvent.click(persistenceInput);
+
+    const submitButton = getByText('Next');
+    expect(submitButton).toBeDefined();
+    fireEvent.click(submitButton);
+
+    const address = '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f';
+    await waitFor(() => expect(getByText(address)).toBeDefined());
+    fireEvent.click(getByText(address));
+
+    expect(getAddress).toHaveBeenCalledWith({
+      wallet: WalletType.MNEMONIC,
+      args: expect.objectContaining({ phrase: fMnemonicPhrase })
+    });
     await waitFor(() => expect(Object.keys(store.getState().accounts.accounts)).toHaveLength(1));
 
     expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalled();

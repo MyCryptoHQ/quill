@@ -37,7 +37,7 @@ const createMnemonicWallet = () => {
 const getMnemonicAddresses = ({
   dPathBase,
   limit,
-  offset,
+  offset = 0,
   phrase,
   password
 }: {
