@@ -8,6 +8,7 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import { getAddress } from '@app/services/WalletService';
 import { ApplicationState, createStore } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
+import { WalletType } from '@types';
 
 import { AddAccount } from '../AddAccount';
 
@@ -55,7 +56,7 @@ describe('AddAccount', () => {
     const submitButton = getByText('Submit');
     expect(submitButton).toBeDefined();
     fireEvent.click(submitButton);
-    expect(getAddress).toHaveBeenCalledWith('privkey');
+    expect(getAddress).toHaveBeenCalledWith({ wallet: WalletType.PRIVATE_KEY, args: 'privkey' });
     await waitFor(() => expect(Object.keys(store.getState().accounts.accounts)).toHaveLength(1));
 
     expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalled();

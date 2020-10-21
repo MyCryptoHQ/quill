@@ -26,10 +26,11 @@ describe('WalletService', () => {
   });
 
   it('calls ipcBridge get address function', () => {
-    getAddress({ wallet: WalletType.PRIVATE_KEY, args: 'privkey' });
+    const request = { wallet: WalletType.PRIVATE_KEY, args: 'privkey' };
+    getAddress(request);
     expect(ipcBridgeRenderer.crypto.invoke).toHaveBeenCalledWith({
       type: CryptoRequestType.GET_ADDRESS,
-      privateKey: 'privkey'
+      ...request
     });
   });
 });
