@@ -1,4 +1,4 @@
-import { deletePrivateKey, getAddressFromPrivateKey, savePrivateKey } from '@app/services';
+import { deletePrivateKey, getAddress, savePrivateKey } from '@app/services';
 import { useDispatch, useSelector } from '@app/store';
 import { IAccount, WalletType } from '@types';
 
@@ -15,16 +15,25 @@ export function useAccounts() {
     dispatch(addAccountRedux(account));
   };
 
-  const addAccountFromPrivateKey = async (privateKey: string, persistent: boolean) => {
-    const { address, uuid } = await getAddressFromPrivateKey(privateKey);
+  const addAccountFromPrivateKey = async (
+    wallet: WalletType,
+    privateKey: string,
+    persistent: boolean,
+    dPath?: string
+  ) => {
+    const { address, uuid } = await getAddress({
+      wallet: WalletType.PRIVATE_KEY,
+      args: privateKey
+    });
     if (persistent) {
       await savePrivateKey(uuid, privateKey);
     }
     addAccount({
       uuid,
-      type: WalletType.PRIVATE_KEY,
+      type: wallet,
       address,
-      persistent
+      persistent,
+      dPath
     });
   };
 

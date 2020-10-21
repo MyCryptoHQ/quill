@@ -2,7 +2,7 @@ import { IpcRenderer } from 'electron';
 
 import { IpcBridgeRenderer } from '@bridge';
 import { IPC_CHANNELS } from '@config';
-import { CryptoRequest, CryptoRequestType } from '@types';
+import { CryptoRequest, CryptoRequestType, WalletType } from '@types';
 
 const mockIpcRenderer = ({
   send: jest.fn(),
@@ -34,7 +34,11 @@ describe('IpcBridgeRenderer', () => {
   });
 
   it('crypto.invoke calls ipcRenderer.invoke', async () => {
-    const request: CryptoRequest = { type: CryptoRequestType.GET_ADDRESS, privateKey: 'privKey' };
+    const request: CryptoRequest = {
+      type: CryptoRequestType.GET_ADDRESS,
+      wallet: WalletType.PRIVATE_KEY,
+      args: 'privKey'
+    };
     IpcBridgeRenderer(mockIpcRenderer).crypto.invoke(request);
     expect(mockIpcRenderer.invoke).toHaveBeenCalledWith(IPC_CHANNELS.CRYPTO, request);
   });

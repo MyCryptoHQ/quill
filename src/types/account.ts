@@ -7,4 +7,5 @@ export interface IAccount {
   type: WalletType;
   address: TAddress;
   persistent: boolean;
+  dPath?: string;
 }

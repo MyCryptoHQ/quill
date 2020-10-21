@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import { useAccounts } from '@app/hooks';
 import { ROUTE_PATHS } from '@app/routing';
+import { WalletType } from '@types';
 
-export const AddAccount = () => {
+export const AddAccountPrivateKey = () => {
   const { addAccountFromPrivateKey } = useAccounts();
   const history = useHistory();
   const [privKey, setPrivKey] = useState('');
@@ -18,16 +19,12 @@ export const AddAccount = () => {
     setPersistence(e.currentTarget.checked);
 
   const handleSubmit = () => {
-    addAccountFromPrivateKey(privKey, persistence);
+    addAccountFromPrivateKey(WalletType.PRIVATE_KEY, privKey, persistence);
     history.replace(ROUTE_PATHS.HOME);
   };
 
   return (
     <>
-      <Link to={ROUTE_PATHS.HOME}>Back</Link>
-      <br />
-      <Link to={ROUTE_PATHS.CREATE_WALLET}>Create New Wallet</Link>
-      <br />
       <label>
         Private Key
         <input type="text" onChange={changePrivateKey} />

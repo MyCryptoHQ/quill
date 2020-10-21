@@ -1,6 +1,7 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider';
 
 import { TAddress } from './address';
+import { GetMnemonicAddressesArgs, GetMnemonicAddressesResult } from './mnemonic';
 import { TUuid } from './uuid';
 import { WalletType } from './wallet';
 
@@ -26,8 +27,14 @@ interface CreateWalletRequest extends BaseRequest<CryptoRequestType.CREATE_WALLE
   wallet: WalletType;
 }
 
-type GetAddressRequest = PrivKeyRequest<CryptoRequestType.GET_ADDRESS>;
+export interface GetAddressRequest extends BaseRequest<CryptoRequestType.GET_ADDRESS> {
+  wallet: WalletType;
+  args: string | GetMnemonicAddressesArgs;
+}
 
 export type CryptoRequest = SignTxRequest | GetAddressRequest | CreateWalletRequest;
 
-export type CryptoResponse = string | { address: TAddress; uuid: TUuid };
+export type CryptoResponse =
+  | string
+  | { address: TAddress; uuid: TUuid }
+  | GetMnemonicAddressesResult[];

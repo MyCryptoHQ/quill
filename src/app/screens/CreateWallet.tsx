@@ -15,7 +15,7 @@ export const CreateWallet = () => {
   };
 
   const handleOK = () => {
-    history.replace(ROUTE_PATHS.HOME);
+    history.replace(ROUTE_PATHS.ADD_ACCOUNT);
   };
 
   return (

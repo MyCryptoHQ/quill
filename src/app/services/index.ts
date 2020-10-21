@@ -1,4 +1,4 @@
-export { signWithPrivateKey, getAddressFromPrivateKey } from './WalletService';
+export { signWithPrivateKey, getAddress } from './WalletService';
 export { useApiService } from './ApiService';
 export {
   getAccounts,

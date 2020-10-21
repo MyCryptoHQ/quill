@@ -1,13 +1,20 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider';
-import { entropyToMnemonic } from '@ethersproject/hdnode';
+import { entropyToMnemonic, HDNode } from '@ethersproject/hdnode';
 import { randomBytes } from '@ethersproject/random';
 import { Wallet } from '@ethersproject/wallet';
 import { ipcMain } from 'electron';
 
 import { ipcBridgeMain } from '@bridge';
 import { MNEMONIC_ENTROPY_BYTES } from '@config';
-import { CryptoRequest, CryptoRequestType, CryptoResponse, TAddress, WalletType } from '@types';
-import { addHexPrefix, generateDeterministicAddressUUID } from '@utils';
+import {
+  CryptoRequest,
+  CryptoRequestType,
+  CryptoResponse,
+  GetMnemonicAddressesArgs,
+  TAddress,
+  WalletType
+} from '@types';
+import { addHexPrefix, generateDeterministicAddressUUID, toChecksumAddress } from '@utils';
 
 const sign = (wallet: Wallet, tx: TransactionRequest) => {
   return wallet.signTransaction(tx);
@@ -17,7 +24,7 @@ const signWithPrivateKey = (privateKey: string, tx: TransactionRequest) => {
   return sign(new Wallet(addHexPrefix(privateKey)), tx);
 };
 
-const getAddress = (privateKey: string) => {
+const getPrivateKeyAddress = (privateKey: string) => {
   const address = new Wallet(addHexPrefix(privateKey)).address as TAddress;
   return { address, uuid: generateDeterministicAddressUUID(address) };
 };
@@ -27,6 +34,37 @@ const createMnemonicWallet = () => {
   return entropyToMnemonic(entropy);
 };
 
+const getMnemonicAddresses = ({
+  dPathBase,
+  limit,
+  offset,
+  phrase,
+  password
+}: {
+  dPathBase: string;
+  phrase: string;
+  password?: string;
+  offset?: number;
+  limit: number;
+}) => {
+  const rootNode = HDNode.fromMnemonic(phrase, password);
+  const addresses = [];
+  for (let i = 0; i < limit; i++) {
+    const index = i + offset;
+    const dPath = `${dPathBase}/${index}`;
+    const node = rootNode.derivePath(dPath);
+    const address = toChecksumAddress(node.address) as TAddress;
+    addresses.push({
+      index,
+      address,
+      uuid: generateDeterministicAddressUUID(address),
+      privateKey: node.privateKey,
+      dPath
+    });
+  }
+  return addresses;
+};
+
 export const handleRequest = async (request: CryptoRequest): Promise<CryptoResponse> => {
   switch (request.type) {
     case CryptoRequestType.SIGN: {
@@ -34,8 +72,14 @@ export const handleRequest = async (request: CryptoRequest): Promise<CryptoRespo
       return signWithPrivateKey(privateKey, tx);
     }
     case CryptoRequestType.GET_ADDRESS: {
-      const { privateKey } = request;
-      return getAddress(privateKey);
+      const { args, wallet } = request;
+      if (wallet === WalletType.PRIVATE_KEY) {
+        return getPrivateKeyAddress(args as string);
+      } else if (wallet === WalletType.MNEMONIC) {
+        return getMnemonicAddresses(args as GetMnemonicAddressesArgs);
+      }
+
+      throw new Error('Unsupported wallet type');
     }
     case CryptoRequestType.CREATE_WALLET: {
       const { wallet } = request;

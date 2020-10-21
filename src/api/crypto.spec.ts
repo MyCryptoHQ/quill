@@ -1,7 +1,7 @@
 import { ipcMain } from 'electron';
 
 import { IPC_CHANNELS } from '@config';
-import { CryptoRequestType } from '@types';
+import { CryptoRequestType, WalletType } from '@types';
 
 import { handleRequest, runService } from './crypto';
 
@@ -30,7 +30,8 @@ describe('handleRequest', () => {
   it('GET_ADDRESS returns address and uuid', async () => {
     const response = await handleRequest({
       type: CryptoRequestType.GET_ADDRESS,
-      privateKey: 'privkey'
+      wallet: WalletType.PRIVATE_KEY,
+      args: 'privkey'
     });
 
     expect(response).toStrictEqual({

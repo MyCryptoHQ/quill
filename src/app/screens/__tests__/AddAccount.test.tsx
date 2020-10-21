@@ -5,14 +5,14 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 
-import { getAddressFromPrivateKey } from '@app/services/WalletService';
+import { getAddress } from '@app/services/WalletService';
 import { ApplicationState, createStore } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
 
 import { AddAccount } from '../AddAccount';
 
 jest.mock('@app/services/WalletService', () => ({
-  getAddressFromPrivateKey: jest.fn().mockImplementation(() =>
+  getAddress: jest.fn().mockImplementation(() =>
     Promise.resolve({
       uuid: '4be38596-5d9c-5c01-8e04-19d1c726fe24',
       address: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520'
@@ -55,7 +55,7 @@ describe('AddAccount', () => {
     const submitButton = getByText('Submit');
     expect(submitButton).toBeDefined();
     fireEvent.click(submitButton);
-    expect(getAddressFromPrivateKey).toHaveBeenCalledWith('privkey');
+    expect(getAddress).toHaveBeenCalledWith('privkey');
     await waitFor(() => expect(Object.keys(store.getState().accounts.accounts)).toHaveLength(1));
 
     expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalled();
