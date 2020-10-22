@@ -1,7 +1,7 @@
 import { ipcBridgeRenderer } from '@bridge';
 import { CryptoRequestType, WalletType } from '@types';
 
-import { getAddress, signWithPrivateKey } from './WalletService';
+import { createMnemonic, getAddress, signWithPrivateKey } from './WalletService';
 
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {
@@ -31,6 +31,14 @@ describe('WalletService', () => {
     expect(ipcBridgeRenderer.crypto.invoke).toHaveBeenCalledWith({
       type: CryptoRequestType.GET_ADDRESS,
       ...request
+    });
+  });
+
+  it('calls ipcBridge create mnemonic', () => {
+    createMnemonic();
+    expect(ipcBridgeRenderer.crypto.invoke).toHaveBeenCalledWith({
+      type: CryptoRequestType.CREATE_WALLET,
+      wallet: WalletType.MNEMONIC
     });
   });
 });

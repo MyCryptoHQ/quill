@@ -6,3 +6,14 @@ export const fAccount: IAccount = {
   type: WalletType.PRIVATE_KEY,
   persistent: false
 };
+
+export const fAccounts: IAccount[] = [
+  fAccount,
+  {
+    uuid: '9b902e45-84be-5e97-b3a8-f937588397b4' as TUuid,
+    address: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f' as TAddress,
+    type: WalletType.MNEMONIC,
+    persistent: false,
+    dPath: "m/44'/60'/0'/0/0"
+  }
+];

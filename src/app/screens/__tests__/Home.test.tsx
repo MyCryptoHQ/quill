@@ -1,11 +1,10 @@
 import React from 'react';
 
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 
 import { createStore } from '@app/store';
-import { ipcBridgeRenderer } from '@bridge';
 import { fAccount } from '@fixtures';
 import { JsonRPCRequest } from '@types';
 
@@ -27,8 +26,7 @@ jest.mock('@bridge', () => ({
       },
       sendResponse: jest.fn()
     },
-    crypto: { invoke: jest.fn() },
-    secrets: { invoke: jest.fn() }
+    crypto: { invoke: jest.fn() }
   }
 }));
 
@@ -58,38 +56,6 @@ describe('Home', () => {
 
   it('renders', async () => {
     const { getByText } = getComponent();
-    expect(getByText('Accept').textContent).toBeDefined();
-  });
-
-  it('can deny tx', async () => {
-    const { getByText } = getComponent();
-    const denyButton = getByText('Deny');
-    expect(denyButton.textContent).toBeDefined();
-
-    fireEvent.click(denyButton);
-
-    expect(ipcBridgeRenderer.api.sendResponse).toHaveBeenCalledWith(
-      expect.objectContaining({ id: 1, error: expect.objectContaining({ code: '-32000' }) })
-    );
-  });
-
-  it('can accept tx', async () => {
-    const { getByText, getByLabelText } = getComponent();
-    const acceptButton = getByText('Accept');
-    expect(acceptButton.textContent).toBeDefined();
-
-    const privkeyInput = getByLabelText('Private Key');
-    expect(privkeyInput).toBeDefined();
-    fireEvent.change(privkeyInput, { target: { value: 'privkey' } });
-
-    fireEvent.click(acceptButton);
-
-    expect(ipcBridgeRenderer.crypto.invoke).toHaveBeenCalled();
-
-    await waitFor(() =>
-      expect(ipcBridgeRenderer.api.sendResponse).toHaveBeenCalledWith(
-        expect.objectContaining({ id: 1 })
-      )
-    );
+    expect(getByText('Manage').textContent).toBeDefined();
   });
 });

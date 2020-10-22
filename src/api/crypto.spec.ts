@@ -80,6 +80,21 @@ describe('handleRequest', () => {
     });
   });
 
+  it('GET_ADDRESS returns a single address for MNEMONIC', async () => {
+    const response = await handleRequest({
+      type: CryptoRequestType.GET_ADDRESS,
+      wallet: WalletType.MNEMONIC,
+      args: { phrase: fMnemonicPhrase, dPath: "m/44'/60'/0'/0/0" }
+    });
+
+    expect(response).toStrictEqual({
+      address: '0x34cB7016d4A6c13eFF9bb580B1Da6D3c46feeB10',
+      dPath: "m/44'/60'/0'/0/0",
+      privateKey: '0x827207adb7a16d059733b097c5afdcb5373e746007a87e041a9d9d8e926abc93',
+      uuid: 'b3625398-2e6d-5a71-ae1f-1122814753c0'
+    });
+  });
+
   it('GET_ADDRESS returns multiple addresses for MNEMONIC', async () => {
     const response = await handleRequest({
       type: CryptoRequestType.GET_ADDRESS,
