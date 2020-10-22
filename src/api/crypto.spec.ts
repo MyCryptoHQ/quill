@@ -91,21 +91,18 @@ describe('handleRequest', () => {
       {
         address: '0x34cB7016d4A6c13eFF9bb580B1Da6D3c46feeB10',
         dPath: "m/44'/60'/0'/0/0",
-        index: 0,
         privateKey: '0x827207adb7a16d059733b097c5afdcb5373e746007a87e041a9d9d8e926abc93',
         uuid: 'b3625398-2e6d-5a71-ae1f-1122814753c0'
       },
       {
         address: '0xF0850b736BB0DE14AE95718569A5032C944e86C8',
         dPath: "m/44'/60'/0'/0/1",
-        index: 1,
         privateKey: '0x33c7aaa433700ce3a8485b306e9e3a7e029533847167ea7ec3e99e49d3b577c0',
         uuid: '4175e739-2c60-5717-8e8a-a4f9974dcee2'
       },
       {
         address: '0xCB958551c3CfF671a1D712BCb03367A7C5F09340',
         dPath: "m/44'/60'/0'/0/2",
-        index: 2,
         privateKey: '0xefca6a916e4c6ebe7d57da4aae2cf32d830330fb9d934fdc6f3a3f13db29f3f8',
         uuid: '20f9f970-b801-5cfb-9476-f8c0001c5acc'
       }

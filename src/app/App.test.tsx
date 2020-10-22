@@ -45,7 +45,7 @@ describe('App', () => {
     const { getByText } = getComponent(
       createStore({ preloadedState: { auth: { loggedIn: true, newUser: false } } })
     );
-    await waitFor(() => expect(getByText('Accept').textContent).toBeDefined());
+    await waitFor(() => expect(getByText('Manage').textContent).toBeDefined());
   });
 
   it('renders NewUser if user has no config', async () => {
