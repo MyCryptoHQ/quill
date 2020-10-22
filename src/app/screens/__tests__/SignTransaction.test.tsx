@@ -35,7 +35,7 @@ jest.mock('@bridge', () => ({
           });
           return () => true;
         })
-        .mockImplementation((callback: (request: JsonRPCRequest) => void) => {
+        .mockImplementationOnce((callback: (request: JsonRPCRequest) => void) => {
           callback({
             id: 3,
             jsonrpc: '2.0',
@@ -43,10 +43,20 @@ jest.mock('@bridge', () => ({
             params: [{ from: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f' }]
           });
           return () => true;
+        })
+        .mockImplementation((callback: (request: JsonRPCRequest) => void) => {
+          callback({
+            id: 4,
+            jsonrpc: '2.0',
+            method: 'eth_signTransaction',
+            params: [{ from: '0xF0850b736BB0DE14AE95718569A5032C944e86C8' }]
+          });
+          return () => true;
         }),
       sendResponse: jest.fn()
     },
-    crypto: { invoke: jest.fn() }
+    crypto: { invoke: jest.fn() },
+    db: { invoke: jest.fn().mockImplementation(() => Promise.resolve('privatekey')) }
   }
 }));
 
@@ -65,7 +75,8 @@ jest.mock('@app/services/WalletService', () => ({
 // Cast to unknown due to type weirdness - possibly a bug in Brand
 const accounts: Record<string, unknown> = {
   '4be38596-5d9c-5c01-8e04-19d1c726fe24': fAccount,
-  '9b902e45-84be-5e97-b3a8-f937588397b4': fAccounts[1]
+  '9b902e45-84be-5e97-b3a8-f937588397b4': fAccounts[1],
+  '4175e739-2c60-5717-8e8a-a4f9974dcee2': fAccounts[2]
 };
 
 function getComponent() {
@@ -85,10 +96,6 @@ function getComponent() {
 }
 
 describe('SignTransaction', () => {
-  afterEach(() => {
-    //jest.resetAllMocks();
-  });
-
   it('renders', async () => {
     const { getByText } = getComponent();
     expect(getByText('Accept').textContent).toBeDefined();
@@ -123,6 +130,9 @@ describe('SignTransaction', () => {
     expect(mnemonicInput).toBeDefined();
     fireEvent.change(mnemonicInput, { target: { value: fMnemonicPhrase } });
 
+    const passwordInput = getByLabelText('Password');
+    fireEvent.change(passwordInput, { target: { value: 'password' } });
+
     fireEvent.click(acceptButton);
 
     expect(getAddress).toHaveBeenCalled();
@@ -130,6 +140,22 @@ describe('SignTransaction', () => {
     await waitFor(() =>
       expect(ipcBridgeRenderer.api.sendResponse).toHaveBeenCalledWith(
         expect.objectContaining({ id: 3 })
+      )
+    );
+  });
+
+  it('can accept tx with a persistent private key', async () => {
+    const { getByText } = getComponent();
+    const acceptButton = getByText('Accept');
+    expect(acceptButton.textContent).toBeDefined();
+
+    fireEvent.click(acceptButton);
+
+    expect(getAddress).toHaveBeenCalled();
+
+    await waitFor(() =>
+      expect(ipcBridgeRenderer.api.sendResponse).toHaveBeenCalledWith(
+        expect.objectContaining({ id: 4 })
       )
     );
   });
@@ -142,7 +168,7 @@ describe('SignTransaction', () => {
     fireEvent.click(denyButton);
 
     expect(ipcBridgeRenderer.api.sendResponse).toHaveBeenCalledWith(
-      expect.objectContaining({ id: 3, error: expect.objectContaining({ code: '-32000' }) })
+      expect.objectContaining({ id: 4, error: expect.objectContaining({ code: '-32000' }) })
     );
   });
 });

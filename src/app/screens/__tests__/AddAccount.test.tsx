@@ -90,6 +90,9 @@ describe('AddAccount', () => {
     expect(mnemonicInput).toBeDefined();
     fireEvent.change(mnemonicInput, { target: { value: fMnemonicPhrase } });
 
+    const passwordInput = getByLabelText('Password');
+    fireEvent.change(passwordInput, { target: { value: 'password' } });
+
     const persistenceInput = getByLabelText('Persistence');
     fireEvent.click(persistenceInput);
 
