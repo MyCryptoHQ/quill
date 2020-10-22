@@ -9,3 +9,5 @@ export { TUuid } from './uuid';
 export { Route } from './route';
 export { WalletType } from './wallet';
 export * from './mnemonic';
+export * from './privatekey';
+export { SignTransactionProps } from './transactionProps';

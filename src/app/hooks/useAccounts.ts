@@ -1,6 +1,6 @@
 import { deletePrivateKey, getAddress, savePrivateKey } from '@app/services';
 import { useDispatch, useSelector } from '@app/store';
-import { IAccount, WalletType } from '@types';
+import { GetPrivateKeyAddressResult, IAccount, WalletType } from '@types';
 
 import {
   addAccount as addAccountRedux,
@@ -21,10 +21,10 @@ export function useAccounts() {
     persistent: boolean,
     dPath?: string
   ) => {
-    const { address, uuid } = await getAddress({
+    const { address, uuid } = (await getAddress({
       wallet: WalletType.PRIVATE_KEY,
       args: privateKey
-    });
+    })) as GetPrivateKeyAddressResult;
     if (persistent) {
       await savePrivateKey(uuid, privateKey);
     }

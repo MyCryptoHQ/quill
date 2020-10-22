@@ -10,6 +10,7 @@ import {
   CryptoRequest,
   CryptoRequestType,
   CryptoResponse,
+  GetMnemonicAddressArgs,
   GetMnemonicAddressesArgs,
   TAddress,
   WalletType
@@ -34,6 +35,26 @@ const createMnemonicWallet = () => {
   return entropyToMnemonic(entropy);
 };
 
+const getMnemonicAddress = ({
+  dPath,
+  phrase,
+  password
+}: {
+  dPath: string;
+  phrase: string;
+  password?: string;
+}) => {
+  const rootNode = HDNode.fromMnemonic(phrase, password);
+  const node = rootNode.derivePath(dPath);
+  const address = toChecksumAddress(node.address) as TAddress;
+  return {
+    address,
+    uuid: generateDeterministicAddressUUID(address),
+    privateKey: node.privateKey,
+    dPath
+  };
+};
+
 const getMnemonicAddresses = ({
   dPathBase,
   limit,
@@ -55,7 +76,6 @@ const getMnemonicAddresses = ({
     const node = rootNode.derivePath(dPath);
     const address = toChecksumAddress(node.address) as TAddress;
     addresses.push({
-      index,
       address,
       uuid: generateDeterministicAddressUUID(address),
       privateKey: node.privateKey,
@@ -76,6 +96,9 @@ export const handleRequest = async (request: CryptoRequest): Promise<CryptoRespo
       if (wallet === WalletType.PRIVATE_KEY) {
         return getPrivateKeyAddress(args as string);
       } else if (wallet === WalletType.MNEMONIC) {
+        if ((args as GetMnemonicAddressArgs).dPath) {
+          return getMnemonicAddress(args as GetMnemonicAddressArgs);
+        }
         return getMnemonicAddresses(args as GetMnemonicAddressesArgs);
       }
 

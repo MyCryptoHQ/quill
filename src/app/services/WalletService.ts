@@ -5,8 +5,7 @@ import {
   CryptoRequestType,
   GetAddressRequest,
   GetMnemonicAddressesResult,
-  TAddress,
-  TUuid,
+  GetPrivateKeyAddressResult,
   WalletType
 } from '@types';
 
@@ -21,7 +20,7 @@ export const getAddress = ({
   wallet,
   args
 }: Omit<GetAddressRequest, 'type'>): Promise<
-  { uuid: TUuid; address: TAddress } | GetMnemonicAddressesResult
+  GetPrivateKeyAddressResult | GetMnemonicAddressesResult | GetMnemonicAddressesResult[]
 > => {
   return ipcBridgeRenderer.crypto.invoke({ type: CryptoRequestType.GET_ADDRESS, wallet, args });
 };
