@@ -1268,20 +1268,7 @@
     global-agent "^2.0.2"
     global-tunnel-ng "^2.7.1"
 
-"@ethersproject/abstract-provider@5.0.3":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@ethersproject/abstract-provider/-/abstract-provider-5.0.3.tgz#be3dd880bb24c15cd7eb14daeae56ba9e00d967e"
-  integrity sha512-0dVq0IcJd6/qTjT+bhJw6ooJuCJDNWTL8SKRFBnqr4OgDW7p1AXX2l7lQd7vX9RpbnDzurSM+fTBKCVWjdm3Vw==
-  dependencies:
-    "@ethersproject/bignumber" "^5.0.6"
-    "@ethersproject/bytes" "^5.0.4"
-    "@ethersproject/logger" "^5.0.5"
-    "@ethersproject/networks" "^5.0.3"
-    "@ethersproject/properties" "^5.0.3"
-    "@ethersproject/transactions" "^5.0.3"
-    "@ethersproject/web" "^5.0.4"
-
-"@ethersproject/abstract-provider@^5.0.4":
+"@ethersproject/abstract-provider@5.0.4", "@ethersproject/abstract-provider@^5.0.4":
   version "5.0.4"
   resolved "https://registry.yarnpkg.com/@ethersproject/abstract-provider/-/abstract-provider-5.0.4.tgz#ef12df8cb5e66d0d47b567ad6ed642d682043773"
   integrity sha512-EOCHUTS8jOE3WZlA1pq9b/vQwKDyDzMy4gXeAv0wZecH1kwUkD0++x8avxeSYoWI+aJn62P1FVV9B6r9pM56kQ==
@@ -1344,7 +1331,7 @@
     "@ethersproject/bytes" "^5.0.4"
     "@ethersproject/properties" "^5.0.3"
 
-"@ethersproject/bignumber@^5.0.6", "@ethersproject/bignumber@^5.0.7":
+"@ethersproject/bignumber@^5.0.7":
   version "5.0.7"
   resolved "https://registry.yarnpkg.com/@ethersproject/bignumber/-/bignumber-5.0.7.tgz#720b3e3df3e125a99669ee869478106d0afe7b76"
   integrity sha512-wwKgDJ+KA7IpgJwc8Fc0AjKIRuDskKA2cque29/+SgII9/1K/38JpqVNPKIovkLwTC2DDofIyzHcxeaKpMFouQ==
@@ -1493,7 +1480,7 @@
     "@ethersproject/constants" "^5.0.4"
     "@ethersproject/logger" "^5.0.5"
 
-"@ethersproject/transactions@^5.0.3", "@ethersproject/transactions@^5.0.5":
+"@ethersproject/transactions@^5.0.5":
   version "5.0.5"
   resolved "https://registry.yarnpkg.com/@ethersproject/transactions/-/transactions-5.0.5.tgz#9a966f9ef4817b1752265d4efee0f1e9fd6aeaad"
   integrity sha512-1Ga/QmbcB74DItggP8/DK1tggu4ErEvwTkIwIlUXUcvIAuRNXXE7kgQhlp+w1xA/SAQFhv56SqCoyqPiiLCvVA==
@@ -1529,7 +1516,7 @@
     "@ethersproject/transactions" "^5.0.5"
     "@ethersproject/wordlists" "^5.0.4"
 
-"@ethersproject/web@^5.0.4", "@ethersproject/web@^5.0.6":
+"@ethersproject/web@^5.0.6":
   version "5.0.7"
   resolved "https://registry.yarnpkg.com/@ethersproject/web/-/web-5.0.7.tgz#ab8ccffa9cee9469a8b49af8b8fee30e384e59d8"
   integrity sha512-BM8FdGrzdcULYaOIyMXDKvxv+qOwGne8FKpPxUrifZIWAWPrq/y+oBOZlzadIKsP3wvYbAcMN2CgOLO1E3yIfw==
