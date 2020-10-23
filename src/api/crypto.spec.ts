@@ -23,38 +23,38 @@ jest.mock('@ethersproject/random', () => ({
   randomBytes: jest
     .fn()
     .mockImplementation(() => [
-      35,
-      172,
-      13,
-      85,
+      223,
+      155,
+      243,
+      126,
+      111,
+      205,
+      249,
       191,
-      174,
-      100,
-      193,
-      46,
-      250,
-      255,
-      101,
-      60,
-      158,
-      172,
-      159,
-      18,
-      185,
-      177,
-      36,
-      172,
-      116,
-      115,
-      141,
-      163,
-      207,
-      142,
-      92,
-      32,
-      216,
-      18,
-      107
+      55,
+      230,
+      252,
+      223,
+      155,
+      243,
+      126,
+      111,
+      205,
+      249,
+      191,
+      55,
+      230,
+      252,
+      223,
+      155,
+      243,
+      126,
+      111,
+      205,
+      249,
+      191,
+      55,
+      224
     ])
 }));
 
@@ -88,10 +88,10 @@ describe('handleRequest', () => {
     });
 
     expect(response).toStrictEqual({
-      address: '0x34cB7016d4A6c13eFF9bb580B1Da6D3c46feeB10',
+      address: '0x0961Ca10D49B9B8e371aA0Bcf77fE5730b18f2E4',
       dPath: "m/44'/60'/0'/0/0",
-      privateKey: '0x827207adb7a16d059733b097c5afdcb5373e746007a87e041a9d9d8e926abc93',
-      uuid: 'b3625398-2e6d-5a71-ae1f-1122814753c0'
+      privateKey: '0x93b3701cf8eeb6f7d3b22211c691734f24816a02efa933f67f34d37053182577',
+      uuid: '304a57a4-1752-53db-8861-67785534e98e'
     });
   });
 
@@ -104,22 +104,22 @@ describe('handleRequest', () => {
 
     expect(response).toStrictEqual([
       {
-        address: '0x34cB7016d4A6c13eFF9bb580B1Da6D3c46feeB10',
+        address: '0x0961Ca10D49B9B8e371aA0Bcf77fE5730b18f2E4',
         dPath: "m/44'/60'/0'/0/0",
-        privateKey: '0x827207adb7a16d059733b097c5afdcb5373e746007a87e041a9d9d8e926abc93',
-        uuid: 'b3625398-2e6d-5a71-ae1f-1122814753c0'
+        privateKey: '0x93b3701cf8eeb6f7d3b22211c691734f24816a02efa933f67f34d37053182577',
+        uuid: '304a57a4-1752-53db-8861-67785534e98e'
       },
       {
-        address: '0xF0850b736BB0DE14AE95718569A5032C944e86C8',
+        address: '0xa34F236d4Ead4D668b9335891f1BC4011A92B2CD',
         dPath: "m/44'/60'/0'/0/1",
-        privateKey: '0x33c7aaa433700ce3a8485b306e9e3a7e029533847167ea7ec3e99e49d3b577c0',
-        uuid: '4175e739-2c60-5717-8e8a-a4f9974dcee2'
+        privateKey: '0xe5beed1478ba8ac07b84dda32f4e21b492582f6ffac0ec1e9cab157145cc7a9e',
+        uuid: 'c0c919d6-444c-5a35-870a-dc520182d266'
       },
       {
-        address: '0xCB958551c3CfF671a1D712BCb03367A7C5F09340',
+        address: '0x5e147f4A4224428c2978dca3A95aee7625FDB3Fd',
         dPath: "m/44'/60'/0'/0/2",
-        privateKey: '0xefca6a916e4c6ebe7d57da4aae2cf32d830330fb9d934fdc6f3a3f13db29f3f8',
-        uuid: '20f9f970-b801-5cfb-9476-f8c0001c5acc'
+        privateKey: '0x58852fb0f48eca12d50fa96509d65a8ee14875514b76f5ce869e1e267f761c13',
+        uuid: '1dc59f57-b8d8-598a-83ac-8eb0b76e8b3a'
       }
     ]);
   });
