@@ -3,8 +3,9 @@ import { TransactionRequest, TransactionResponse } from '@ethersproject/abstract
 import { ipcBridgeRenderer } from '@bridge';
 import {
   CryptoRequestType,
-  GetAddressRequest,
   GetMnemonicAddressesResult,
+  GetMnemonicAddressRequest,
+  GetPrivateKeyAddressRequest,
   GetPrivateKeyAddressResult,
   WalletType
 } from '@types';
@@ -16,13 +17,12 @@ export const signWithPrivateKey = (
   return ipcBridgeRenderer.crypto.invoke({ type: CryptoRequestType.SIGN, privateKey, tx });
 };
 
-export const getAddress = ({
-  wallet,
-  args
-}: Omit<GetAddressRequest, 'type'>): Promise<
+export const getAddress = (
+  request: GetPrivateKeyAddressRequest | GetMnemonicAddressRequest
+): Promise<
   GetPrivateKeyAddressResult | GetMnemonicAddressesResult | GetMnemonicAddressesResult[]
 > => {
-  return ipcBridgeRenderer.crypto.invoke({ type: CryptoRequestType.GET_ADDRESS, wallet, args });
+  return ipcBridgeRenderer.crypto.invoke({ type: CryptoRequestType.GET_ADDRESS, ...request });
 };
 
 export const createMnemonic = (): Promise<string> => {
