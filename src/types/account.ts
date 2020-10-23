@@ -1,15 +1,11 @@
 import { TAddress } from './address';
 import { TUuid } from './uuid';
-
-export enum AccountType {
-  PRIVATE_KEY = 'PRIVATE_KEY',
-  KEYSTORE = 'KEYSTORE',
-  MNEMONIC = 'MNEMONIC'
-}
+import { WalletType } from './wallet';
 
 export interface IAccount {
   uuid: TUuid;
-  type: AccountType;
+  type: WalletType;
   address: TAddress;
   persistent: boolean;
+  dPath?: string;
 }

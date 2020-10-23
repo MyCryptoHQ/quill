@@ -5,3 +5,4 @@ export { AddAccount } from './AddAccount';
 export { Accounts } from './Accounts';
 export { Locked } from './Locked';
 export { ForgotPassword } from './ForgotPassword';
+export { CreateWallet } from './CreateWallet';

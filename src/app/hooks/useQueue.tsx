@@ -7,7 +7,7 @@ import { JsonRPCRequest } from '@types';
 export const useQueue = (
   selector: (state: ApplicationState) => JsonRPCRequest[]
 ): {
-  first: JsonRPCRequest;
+  first?: JsonRPCRequest;
   length: number;
   enqueue(obj: JsonRPCRequest): void;
   dequeue(): void;

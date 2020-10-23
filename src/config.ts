@@ -18,3 +18,5 @@ export const WIDTH = 300;
 export const KEYTAR_SERVICE = 'MyCrypto Signer';
 
 export const REQUIRED_PASSWORD_STRENGTH = 3;
+
+export const MNEMONIC_ENTROPY_BYTES = 32;

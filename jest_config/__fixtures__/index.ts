@@ -1,2 +1,3 @@
 export { fTxResponse } from './transaction';
-export { fAccount } from './account';
+export { fAccount, fAccounts } from './account';
+export { fMnemonicPhrase } from './mnemonic';
