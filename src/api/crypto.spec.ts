@@ -128,7 +128,9 @@ describe('handleRequest', () => {
     await expect(
       handleRequest({
         type: CryptoRequestType.GET_ADDRESS,
+        // @ts-expect-error Invalid query for testing purposes
         wallet: WalletType.KEYSTORE,
+        // @ts-expect-error Invalid query for testing purposes
         args: ''
       })
     ).rejects.toBeDefined();

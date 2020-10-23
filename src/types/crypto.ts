@@ -31,10 +31,16 @@ interface CreateWalletRequest extends BaseRequest<CryptoRequestType.CREATE_WALLE
   wallet: WalletType;
 }
 
-export interface GetAddressRequest extends BaseRequest<CryptoRequestType.GET_ADDRESS> {
-  wallet: WalletType;
-  args: string | GetMnemonicAddressesArgs | GetMnemonicAddressArgs;
+interface GetPrivateKeyAddressRequest extends BaseRequest<CryptoRequestType.GET_ADDRESS> {
+  wallet: WalletType.PRIVATE_KEY;
+  args: string;
 }
+interface GetMnemonicAddressRequest extends BaseRequest<CryptoRequestType.GET_ADDRESS> {
+  wallet: WalletType.MNEMONIC;
+  args: GetMnemonicAddressArgs | GetMnemonicAddressesArgs;
+}
+
+export type GetAddressRequest = GetPrivateKeyAddressRequest | GetMnemonicAddressRequest;
 
 export type CryptoRequest = SignTxRequest | GetAddressRequest | CreateWalletRequest;
 
