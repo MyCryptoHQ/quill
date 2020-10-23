@@ -148,7 +148,7 @@
     "react-hot-loader": "4.12.21",
     "react-redux": "7.2.1",
     "react-router-dom": "5.2.0",
-    "redux-persist": "6.0.0-pre2.1",
+    "redux-persist": "6.0.0",
     "uuid-by-string": "MyCryptoHQ/uuid-by-string#36afddc",
     "ws": "7.3.1",
     "zxcvbn": "4.4.2"
