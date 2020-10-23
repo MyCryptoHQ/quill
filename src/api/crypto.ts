@@ -69,11 +69,12 @@ const getMnemonicAddresses = ({
   limit: number;
 }) => {
   const rootNode = HDNode.fromMnemonic(phrase, password);
+  const baseNode = rootNode.derivePath(dPathBase);
   const addresses = [];
   for (let i = 0; i < limit; i++) {
     const index = i + offset;
     const dPath = `${dPathBase}/${index}`;
-    const node = rootNode.derivePath(dPath);
+    const node = baseNode.derivePath(`${index}`);
     const address = toChecksumAddress(node.address) as TAddress;
     addresses.push({
       address,
