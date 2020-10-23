@@ -8,4 +8,5 @@ export interface SignTransactionProps {
   hasPersistentPrivateKey: boolean;
   currentAccount?: IAccount;
   tx: TransactionRequest;
+  setError?(error: string): void;
 }

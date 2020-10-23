@@ -8,7 +8,8 @@ export const SignTransactionMnemonic = ({
   onDeny,
   hasPersistentPrivateKey,
   currentAccount,
-  tx
+  tx,
+  setError
 }: SignTransactionProps) => {
   const [phrase, setPhrase] = useState('');
   const [password, setPassword] = useState('');
@@ -21,11 +22,15 @@ export const SignTransactionMnemonic = ({
 
   const handleAccept = async () => {
     if (!hasPersistentPrivateKey) {
-      const { privateKey } = (await getAddress({
-        wallet: WalletType.MNEMONIC,
-        args: { dPath: currentAccount.dPath, phrase, password }
-      })) as GetMnemonicAddressesResult;
-      onAccept(privateKey);
+      try {
+        const { privateKey } = (await getAddress({
+          wallet: WalletType.MNEMONIC,
+          args: { dPath: currentAccount.dPath, phrase, password }
+        })) as GetMnemonicAddressesResult;
+        onAccept(privateKey);
+      } catch (err) {
+        setError(err.message);
+      }
     } else {
       onAccept('');
     }

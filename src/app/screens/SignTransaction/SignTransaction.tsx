@@ -56,6 +56,7 @@ export const SignTransaction = () => {
           onAccept={handleAccept}
           tx={formattedTx}
           currentAccount={currentAccount}
+          setError={setError}
         />
       )}
       <br />
