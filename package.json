@@ -134,7 +134,7 @@
   "dependencies": {
     "@ethersproject/abstract-provider": "5.0.4",
     "@ethersproject/address": "5.0.5",
-    "@ethersproject/wallet": "5.0.4",
+    "@ethersproject/wallet": "5.0.5",
     "@exodus/schemasafe": "1.0.0-rc.2",
     "@hot-loader/react-dom": "16.13.0",
     "@reduxjs/toolkit": "1.4.0",

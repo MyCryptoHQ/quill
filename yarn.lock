@@ -1495,10 +1495,10 @@
     "@ethersproject/rlp" "^5.0.3"
     "@ethersproject/signing-key" "^5.0.4"
 
-"@ethersproject/wallet@5.0.4":
-  version "5.0.4"
-  resolved "https://registry.yarnpkg.com/@ethersproject/wallet/-/wallet-5.0.4.tgz#b414ae2870fc0ea10808330f0ab3c5a1ac9e34e1"
-  integrity sha512-h/3mdy6HZVketHbs6ZP/WjHDz+rtTIE3qZrko2MVeafjgDcYWaHcVmhsPq4LGqxginhr191a4dkJDNeQrQZWOw==
+"@ethersproject/wallet@5.0.5":
+  version "5.0.5"
+  resolved "https://registry.yarnpkg.com/@ethersproject/wallet/-/wallet-5.0.5.tgz#93973d919e75bbc5422f11d1c3f39695f1a27e71"
+  integrity sha512-NbrKmsW3w+5dVOEyVCN5VAAIp3y8ckutW6AV7Lo0Hn8RO9mLT8ZFzLGp4lzgJoxkm+EV8BE+x1N6NdiOgUzRng==
   dependencies:
     "@ethersproject/abstract-provider" "^5.0.4"
     "@ethersproject/abstract-signer" "^5.0.4"
