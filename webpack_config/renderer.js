@@ -1,3 +1,4 @@
+const path = require('path');
 const { merge } = require('webpack-merge');
 
 const common = require('./common');
@@ -8,7 +9,8 @@ module.exports = merge(common, {
     rules: [
       {
         test: /\.css$/,
-        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }]
+        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
+        include: [path.join(__dirname, '../node_modules/typeface-lato')]
       }
     ]
   },

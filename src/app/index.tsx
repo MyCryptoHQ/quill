@@ -30,15 +30,20 @@ import React from 'react';
 
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { ThemeProvider } from 'styled-components';
 
 import App from './App';
 import { createPersistor, createStore } from './store';
+import { GlobalStyle, theme } from './theme';
 
 const store = createStore();
 
 const Root = () => (
   <Provider store={store}>
-    <App persistor={createPersistor(store)} />
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <App persistor={createPersistor(store)} />
+    </ThemeProvider>
   </Provider>
 );
 
