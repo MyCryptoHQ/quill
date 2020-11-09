@@ -1,4 +1,3 @@
-import { textVariants, TextVariants } from '@theme';
 import styled from 'styled-components';
 import {
   color,
@@ -18,6 +17,8 @@ import {
   typography,
   TypographyProps
 } from 'styled-system';
+
+import { textVariants, TextVariants } from '@theme';
 
 export type TextProps = SpaceProps &
   LineHeightProps &

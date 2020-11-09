@@ -18,6 +18,7 @@
     "validate": "npm-run-all --parallel lint tsc",
     "test:coverage": "yarn test --coverage",
     "test": "jest --config=jest_config/jest.config.json --maxWorkers=2 --testPathIgnorePatterns e2e",
+    "test:single": "cross-env DEBUG_PRINT_LIMIT=50000 yarn test --coverage=false --watch",
     "test:e2e": "yarn package && cross-env IS_TEST=true jest --config=jest_config/jest.config.json --maxWorkers=2 e2e"
   },
   "keywords": [],
@@ -103,8 +104,8 @@
     "@types/webpack-env": "1.15.3",
     "@types/ws": "7.2.6",
     "@types/zxcvbn": "4.4.0",
-    "@typescript-eslint/eslint-plugin": "4.0.1",
-    "@typescript-eslint/parser": "4.0.1",
+    "@typescript-eslint/eslint-plugin": "4.1.0",
+    "@typescript-eslint/parser": "4.1.0",
     "babel-jest": "26.3.0",
     "copy-webpack-plugin": "6.1.1",
     "cross-env": "7.0.2",

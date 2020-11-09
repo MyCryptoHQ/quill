@@ -54,7 +54,7 @@ const TEXT_VARIANTS = {
 // Global styling for default elements
 
 export const GlobalStyle = createGlobalStyle`
-  body {
+  :root {
     color: ${(p) => p.theme.colors.BODY};
     font-family: ${(props) => props.theme.fontFamily};
     font-size: ${(props) => props.theme.fontSizes[2]};

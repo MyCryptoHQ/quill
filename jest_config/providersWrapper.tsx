@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { theme } from '@theme';
 import { ThemeProvider } from 'styled-components';
+
+import { theme } from '@theme';
 
 /*
   Custom wrapper to enable rendered tests to consume providers data
