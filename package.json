@@ -5,7 +5,7 @@
   "description": "",
   "main": ".webpack/main",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "cross-env NODE_ENV=development electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
@@ -109,6 +109,7 @@
     "babel-jest": "26.3.0",
     "copy-webpack-plugin": "6.1.1",
     "cross-env": "7.0.2",
+    "csp-html-webpack-plugin": "4.0.0",
     "css-loader": "4.2.1",
     "electron": "10.1.1",
     "eslint": "7.6.0",

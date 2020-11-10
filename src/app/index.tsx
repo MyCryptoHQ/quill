@@ -36,6 +36,8 @@ import App from './App';
 import { createPersistor, createStore } from './store';
 import { GlobalStyle, theme } from './theme';
 
+__webpack_nonce__ = window.__webpack_nonce__;
+
 const store = createStore();
 
 const Root = () => (
