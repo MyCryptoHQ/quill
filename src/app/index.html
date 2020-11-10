@@ -2,9 +2,11 @@
 <html>
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="<%= htmlWebpackPlugin.options.metaCsp %>" />
     <title>Signer</title>
   </head>
   <body>
     <div id="root"></div>
   </body>
+  <script src="../main_window/index.js"></script>
 </html>

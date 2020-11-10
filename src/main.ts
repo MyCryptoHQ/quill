@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, screen, session, Tray } from 'electron';
+import { app, BrowserWindow, Menu, screen, Tray } from 'electron';
 import path from 'path';
 
 import { runService as runCryptoService } from '@api/crypto';
@@ -91,19 +91,6 @@ const createTray = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-  // CSP
-  const csp =
-    process.env.NODE_ENV === 'production' ? ["default-src 'self'", "script-src 'self'"] : [];
-  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
-    callback({
-      responseHeaders: {
-        ...details.responseHeaders,
-        'Content-Security-Policy': csp,
-        'X-Content-Security-Policy': csp
-      }
-    });
-  });
-
   createWindow();
   createTray();
   showWindow();
