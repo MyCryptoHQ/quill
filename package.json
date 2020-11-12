@@ -19,7 +19,8 @@
     "test:coverage": "yarn test --coverage",
     "test": "jest --config=jest_config/jest.config.json --maxWorkers=2 --testPathIgnorePatterns e2e",
     "test:single": "cross-env DEBUG_PRINT_LIMIT=50000 yarn test --coverage=false --watch",
-    "test:e2e": "yarn package && cross-env IS_TEST=true jest --config=jest_config/jest.config.json --maxWorkers=2 e2e"
+    "test:e2e": "yarn package && cross-env IS_TEST=true jest --config=jest_config/jest.config.json --maxWorkers=2 e2e",
+    "lint:styles": "stylelint ./src/app/**/*.tsx"
   },
   "keywords": [],
   "repository": "https://github.com/MyCryptoHQ/signer.git",
@@ -123,6 +124,7 @@
     "html-webpack-plugin": "4.5.0",
     "husky": "4.2.5",
     "jest": "26.4.2",
+    "jest-styled-components": "7.0.3",
     "lint-staged": "10.4.0",
     "node-loader": "1.0.1",
     "npm-run-all": "4.1.5",
@@ -130,9 +132,14 @@
     "react-test-renderer": "16.13.1",
     "spectron": "12.0.0",
     "style-loader": "1.2.1",
+    "stylelint": "13.7.2",
+    "stylelint-config-recommended": "3.0.0",
+    "stylelint-config-styled-components": "0.1.1",
+    "stylelint-processor-styled-components": "1.10.0",
     "ts-loader": "8.0.2",
     "tsconfig-paths-webpack-plugin": "3.3.0",
     "typescript": "4.0.2",
+    "typescript-plugin-styled-components": "1.4.4",
     "utility-types": "3.10.0",
     "webpack-merge": "5.1.4"
   },
@@ -163,7 +170,8 @@
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
       "prettier --write",
-      "eslint --fix"
+      "eslint --fix",
+      "yarn lint:styles"
     ],
     "*.json": [
       "prettier --write"

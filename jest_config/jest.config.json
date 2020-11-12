@@ -15,6 +15,7 @@
   },
   "testPathIgnorePatterns": ["/node_modules/", "<rootDir>/dist", "/*\\.(stories)/"],
   "automock": false,
+  "setupFiles": ["<rootDir>/jest_config/setupJest.ts"],
   "collectCoverageFrom": [
     "**/src/**/*.{js,jsx,ts,tsx}",
     "!**/src/types/**",
