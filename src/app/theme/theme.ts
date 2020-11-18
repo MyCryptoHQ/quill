@@ -1,6 +1,6 @@
-import { Theme } from 'theme-ui';
+import { createGlobalStyle, DefaultTheme } from 'styled-components';
 
-export const theme: Theme = {
+export const theme: DefaultTheme = {
   colors: {
     // BLUE
     BLUE: '#027796',
@@ -10,8 +10,8 @@ export const theme: Theme = {
     // BLACK
     BODY: '#424242',
 
-    // WHITE
-    WHITE: '#FFFFFF',
+    // GREY
+    BG_GREY: '#C4C4C4',
 
     // ORANGE
     ORANGE: '#FA873F',
@@ -26,7 +26,7 @@ export const theme: Theme = {
     PURPLE: '#A682FF'
   },
   fonts: {
-    default: 'Lato, sans-serif'
+    default: "'Lato', sans-serif"
   },
   fontSizes: ['10px', '12px', '16px', '18px', '20px', '40px'],
   lineHeights: ['16px', '24px', '48px'],
@@ -48,14 +48,15 @@ export const theme: Theme = {
       lineHeight: 1,
       color: 'BODY'
     }
-  },
-  styles: {
-    root: {
-      fontFamily: 'default',
-      color: 'BODY',
-      fontSize: 2,
-      lineHeight: 1,
-      backgroundColor: 'WHITE'
-    }
   }
 };
+
+// Global styling for default elements
+export const GlobalStyle = createGlobalStyle`
+  :root {
+    color: ${(p) => p.theme.colors.BODY};
+    font-family: ${(props) => props.theme.fonts.default};
+    font-size: ${(props) => props.theme.fontSizes[2]};
+    line-height: ${(props) => props.theme.lineHeights[1]};
+  }
+`;

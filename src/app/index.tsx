@@ -30,11 +30,11 @@ import React from 'react';
 
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { ThemeProvider } from 'theme-ui';
+import { ThemeProvider } from 'styled-components';
 
 import App from './App';
 import { createPersistor, createStore } from './store';
-import { theme } from './theme';
+import { GlobalStyle, theme } from './theme';
 
 __webpack_nonce__ = window.__webpack_nonce__;
 
@@ -43,6 +43,7 @@ const store = createStore();
 const Root = () => (
   <Provider store={store}>
     <ThemeProvider theme={theme}>
+      <GlobalStyle />
       <App persistor={createPersistor(store)} />
     </ThemeProvider>
   </Provider>

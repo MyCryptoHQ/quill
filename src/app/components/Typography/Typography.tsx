@@ -1,25 +1,20 @@
-import React, { Ref } from 'react';
+import React from 'react';
 
-import { Text, TextProps } from 'theme-ui';
+import { HeadingProps, Text, TextProps } from 'rebass';
 
-interface TypographyProps extends TextProps {
-  children: React.ReactNode;
-  ref: Ref<HTMLDivElement>;
-}
-
-export const Heading = ({ children, as = 'h1', ...props }: TypographyProps) => (
-  <Text as={as} variant="heading" {...props}>
+export const Heading = ({ children, as = 'h1', ...props }: HeadingProps) => (
+  <Heading as={as} variant="heading" {...props}>
     {children}
-  </Text>
+  </Heading>
 );
 
-export const SubHeading = ({ children, as = 'h2', ...props }: TypographyProps) => (
-  <Text as={as} variant="subHeading" {...props}>
+export const SubHeading = ({ children, as = 'h2', ...props }: TextProps) => (
+  <Heading as={as} variant="subHeading" {...props}>
     {children}
-  </Text>
+  </Heading>
 );
 
-export const Body = ({ children, as = 'p', ...props }: TypographyProps) => (
+export const Body = ({ children, as = 'p', ...props }: TextProps) => (
   <Text as={as} variant="body" {...props}>
     {children}
   </Text>
