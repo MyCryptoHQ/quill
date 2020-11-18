@@ -1,1 +1,1 @@
-export { theme, textVariants, TextVariants, GlobalStyle } from './theme';
+export { theme } from './theme';
