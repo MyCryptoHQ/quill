@@ -14,6 +14,7 @@
     "paths": {
       "*": ["node_modules"],
       "@fixtures": ["../jest_config/__fixtures__"],
+      "test-utils": ["../jest_config/test-utils"],
       "@*": ["./*", "./app/*"]
     }
   },

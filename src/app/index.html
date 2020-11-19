@@ -2,9 +2,15 @@
 <html>
   <head>
     <meta charset="UTF-8" />
+    <meta property="csp-nonce" content="<%= htmlWebpackPlugin.options.nonce %>" />
+    <!-- Inject nonce in window so renderer can catch it -->
+    <script nonce="<%= htmlWebpackPlugin.options.nonce %>">
+      window.__webpack_nonce__ = '<%= htmlWebpackPlugin.options.nonce %>';
+    </script>
     <title>Signer</title>
   </head>
   <body>
     <div id="root"></div>
   </body>
+  <script src="../main_window/index.js"></script>
 </html>

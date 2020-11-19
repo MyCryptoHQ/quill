@@ -5,7 +5,7 @@
   "description": "",
   "main": ".webpack/main",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "cross-env NODE_ENV=development electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
@@ -18,7 +18,9 @@
     "validate": "npm-run-all --parallel lint tsc",
     "test:coverage": "yarn test --coverage",
     "test": "jest --config=jest_config/jest.config.json --maxWorkers=2 --testPathIgnorePatterns e2e",
-    "test:e2e": "yarn package && cross-env IS_TEST=true jest --config=jest_config/jest.config.json --maxWorkers=2 e2e"
+    "test:single": "cross-env DEBUG_PRINT_LIMIT=50000 yarn test --coverage=false --watch",
+    "test:e2e": "yarn package && cross-env IS_TEST=true jest --config=jest_config/jest.config.json --maxWorkers=2 e2e",
+    "lint:styles": "stylelint ./src/app/**/*.tsx"
   },
   "keywords": [],
   "repository": "https://github.com/MyCryptoHQ/signer.git",
@@ -87,7 +89,7 @@
     "@marshallofsound/webpack-asset-relocator-loader": "0.5.0",
     "@sindresorhus/is": "3.1.2",
     "@szmarczak/http-timer": "4.0.5",
-    "@testing-library/react": "11.0.4",
+    "@testing-library/react": "11.1.1",
     "@testing-library/react-hooks": "3.4.1",
     "@types/aes-js": "3.1.1",
     "@types/jest": "26.0.14",
@@ -96,16 +98,20 @@
     "@types/react-dom": "16.9.8",
     "@types/react-redux": "7.1.9",
     "@types/react-router-dom": "5.1.6",
+    "@types/rebass": "4.0.7",
     "@types/sha256": "0.2.0",
+    "@types/styled-components": "5.1.4",
+    "@types/styled-system": "5.1.10",
     "@types/uuid": "3.4.0",
     "@types/webpack-env": "1.15.3",
     "@types/ws": "7.2.6",
     "@types/zxcvbn": "4.4.0",
-    "@typescript-eslint/eslint-plugin": "4.0.1",
-    "@typescript-eslint/parser": "4.0.1",
+    "@typescript-eslint/eslint-plugin": "4.1.0",
+    "@typescript-eslint/parser": "4.1.0",
     "babel-jest": "26.3.0",
     "copy-webpack-plugin": "6.1.1",
     "cross-env": "7.0.2",
+    "csp-html-webpack-plugin": "4.0.0",
     "css-loader": "4.2.1",
     "electron": "10.1.1",
     "eslint": "7.6.0",
@@ -116,8 +122,10 @@
     "eslint-plugin-react": "7.21.2",
     "eslint-plugin-react-hooks": "4.1.2",
     "fork-ts-checker-webpack-plugin": "5.0.14",
+    "html-webpack-plugin": "4.5.0",
     "husky": "4.2.5",
     "jest": "26.4.2",
+    "jest-styled-components": "7.0.3",
     "lint-staged": "10.4.0",
     "node-loader": "1.0.1",
     "npm-run-all": "4.1.5",
@@ -125,9 +133,14 @@
     "react-test-renderer": "16.13.1",
     "spectron": "12.0.0",
     "style-loader": "1.2.1",
+    "stylelint": "13.7.2",
+    "stylelint-config-recommended": "3.0.0",
+    "stylelint-config-styled-components": "0.1.1",
+    "stylelint-processor-styled-components": "1.10.0",
     "ts-loader": "8.0.2",
     "tsconfig-paths-webpack-plugin": "3.3.0",
     "typescript": "4.0.2",
+    "typescript-plugin-styled-components": "1.4.4",
     "utility-types": "3.10.0",
     "webpack-merge": "5.1.4"
   },
@@ -148,7 +161,10 @@
     "react-hot-loader": "4.13.0",
     "react-redux": "7.2.1",
     "react-router-dom": "5.2.0",
+    "rebass": "4.0.7",
     "redux-persist": "6.0.0",
+    "styled-components": "5.2.0",
+    "styled-system": "5.1.5",
     "uuid-by-string": "MyCryptoHQ/uuid-by-string#36afddc",
     "ws": "7.3.1",
     "zxcvbn": "4.4.2"
@@ -156,7 +172,8 @@
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
       "prettier --write",
-      "eslint --fix"
+      "eslint --fix",
+      "yarn lint:styles"
     ],
     "*.json": [
       "prettier --write"
