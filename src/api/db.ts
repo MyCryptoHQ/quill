@@ -67,6 +67,7 @@ const checkPassword = (hashedPassword?: string) => {
   return getFromStore('accounts', hashedPassword) !== null;
 };
 
+// @todo Improve typing?
 export const getFromStore = <T>(key: string, password = encryptionKey): T | null => {
   const result = store.get(key) as string;
   const decrypted = decrypt(result, password);

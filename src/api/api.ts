@@ -1,5 +1,6 @@
 import { ipcMain, WebContents } from 'electron';
 
+import { AccountsState } from '@app/store/account';
 import { ipcBridgeMain } from '@bridge';
 import { IPC_CHANNELS, SUPPORTED_METHODS } from '@config';
 import { JsonRPCRequest, JsonRPCResponse } from '@types';
@@ -46,7 +47,9 @@ const handleValidRequest = async (request: JsonRPCRequest, webContents: WebConte
     case SUPPORTED_METHODS.ACCOUNTS:
       return toJsonRpcResponse({
         id: request.id,
-        result: Object.values((await getFromStore('accounts')).accounts).map((a) => a.address)
+        result: Object.values(((await getFromStore('accounts')) as AccountsState).accounts).map(
+          (a) => a.address
+        )
       });
     default:
       return Promise.reject(new Error('Unexpected error'));
