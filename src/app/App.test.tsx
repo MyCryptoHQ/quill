@@ -13,6 +13,11 @@ jest.mock('@bridge', () => ({
       subscribeToRequests: () => {
         return () => true;
       }
+    },
+    db: {
+      invoke: () => {
+        return Promise.resolve({});
+      }
     }
   }
 }));
@@ -26,9 +31,7 @@ jest.mock('@app/services/DatabaseService', () => ({
     .fn()
     .mockImplementationOnce(() => Promise.resolve(false))
     .mockImplementationOnce(() => Promise.resolve(false))
-    .mockImplementation(() => Promise.resolve(true)),
-  getAccounts: jest.fn().mockImplementation(() => Promise.resolve({})),
-  setAccounts: jest.fn().mockImplementation(() => Promise.resolve())
+    .mockImplementation(() => Promise.resolve(true))
 }));
 
 function getComponent(store: EnhancedStore<ApplicationState> = createStore()) {

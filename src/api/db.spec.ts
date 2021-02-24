@@ -119,19 +119,20 @@ describe('handleRequest', () => {
     expect(result).toBe(true);
   });
 
-  it('get accounts', async () => {
+  it('get from store', async () => {
     const initResult = await handleRequest({ type: DBRequestType.INIT, password });
     expect(initResult).toBe(true);
-    const result = await handleRequest({ type: DBRequestType.GET_ACCOUNTS });
+    const result = await handleRequest({ type: DBRequestType.GET_FROM_STORE, key: 'accounts' });
     expect(result).toStrictEqual({ accounts: { [fAccount.uuid]: fAccount } });
   });
 
-  it('set accounts', async () => {
+  it('set in store', async () => {
     const initResult = await handleRequest({ type: DBRequestType.INIT, password });
     expect(initResult).toBe(true);
     await handleRequest({
-      type: DBRequestType.SET_ACCOUNTS,
-      accounts: { accounts: { [fAccount.uuid]: fAccount } }
+      type: DBRequestType.SET_IN_STORE,
+      key: 'accounts',
+      payload: { accounts: { [fAccount.uuid]: fAccount } }
     });
     expect(mockSet).toHaveBeenCalledWith(
       'accounts',
