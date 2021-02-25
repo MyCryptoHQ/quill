@@ -23,11 +23,11 @@ interface PrivKeyRequest<Type extends CryptoRequestType> extends BaseRequest<Typ
   privateKey: string;
 }
 
-export interface SignTxRequest extends PrivKeyRequest<CryptoRequestType.SIGN> {
+interface SignTxRequest extends PrivKeyRequest<CryptoRequestType.SIGN> {
   tx: TransactionRequest;
 }
 
-export interface CreateWalletRequest extends BaseRequest<CryptoRequestType.CREATE_WALLET> {
+interface CreateWalletRequest extends BaseRequest<CryptoRequestType.CREATE_WALLET> {
   wallet: WalletType;
 }
 
