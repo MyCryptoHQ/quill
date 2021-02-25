@@ -6,7 +6,14 @@ import { ipcMain } from 'electron';
 
 import { ipcBridgeMain } from '@bridge';
 import { MNEMONIC_ENTROPY_BYTES } from '@config';
-import { CryptoRequest, CryptoRequestType, CryptoResponse, TAddress, WalletType } from '@types';
+import {
+  CryptoRequest,
+  CryptoRequestType,
+  CryptoResponse,
+  GetAddressRequest,
+  TAddress,
+  WalletType
+} from '@types';
 import { addHexPrefix, generateDeterministicAddressUUID, toChecksumAddress } from '@utils';
 
 const sign = (wallet: Wallet, tx: TransactionRequest) => {
@@ -78,6 +85,19 @@ const getMnemonicAddresses = ({
   return addresses;
 };
 
+const handleGetAddress = (request: GetAddressRequest) => {
+  if (request.wallet === WalletType.PRIVATE_KEY) {
+    return getPrivateKeyAddress(request.args);
+  } else if (request.wallet === WalletType.MNEMONIC) {
+    if ('dPath' in request.args) {
+      return getMnemonicAddress(request.args);
+    }
+    return getMnemonicAddresses(request.args);
+  }
+
+  throw new Error('Unsupported wallet type');
+};
+
 export const handleRequest = async (request: CryptoRequest): Promise<CryptoResponse> => {
   switch (request.type) {
     case CryptoRequestType.SIGN: {
@@ -85,16 +105,7 @@ export const handleRequest = async (request: CryptoRequest): Promise<CryptoRespo
       return signWithPrivateKey(privateKey, tx);
     }
     case CryptoRequestType.GET_ADDRESS: {
-      if (request.wallet === WalletType.PRIVATE_KEY) {
-        return getPrivateKeyAddress(request.args);
-      } else if (request.wallet === WalletType.MNEMONIC) {
-        if ('dPath' in request.args) {
-          return getMnemonicAddress(request.args);
-        }
-        return getMnemonicAddresses(request.args);
-      }
-
-      throw new Error('Unsupported wallet type');
+      return handleGetAddress(request);
     }
     case CryptoRequestType.CREATE_WALLET: {
       const { wallet } = request;
