@@ -1,11 +1,7 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider';
 
 import { TAddress } from './address';
-import {
-  GetMnemonicAddressArgs,
-  GetMnemonicAddressesArgs,
-  GetAddressesResult
-} from './mnemonic';
+import { GetAddressesResult } from './mnemonic';
 import { TUuid } from './uuid';
 import { WalletType } from './wallet';
 
@@ -17,12 +13,12 @@ export enum CryptoRequestType {
 }
 
 interface InitialisePrivateKey {
-  walletType: WalletType.PRIVATE_KEY,
+  walletType: WalletType.PRIVATE_KEY;
   privateKey: string;
 }
 
 interface InitialiseMnemonicPhrase {
-  walletType: WalletType.MNEMONIC,
+  walletType: WalletType.MNEMONIC;
   mnemonicPhrase: string;
   passphrase?: string;
   path: string;
@@ -31,7 +27,7 @@ interface InitialiseMnemonicPhrase {
 export type InitialiseWallet = InitialisePrivateKey | InitialiseMnemonicPhrase;
 
 interface InitialiseDeterministicMnemonicPhrase {
-  walletType: WalletType.MNEMONIC,
+  walletType: WalletType.MNEMONIC;
   mnemonicPhrase: string;
   passphrase?: string;
 }
@@ -42,29 +38,30 @@ interface BaseRequest<Type extends CryptoRequestType> {
   type: Type;
 }
 
-export interface SignTxRequest extends BaseRequest<CryptoRequestType.SIGN> {
+interface SignTxRequest extends BaseRequest<CryptoRequestType.SIGN> {
   wallet: InitialiseWallet;
   tx: TransactionRequest;
 }
 
-export interface CreateWalletRequest extends BaseRequest<CryptoRequestType.CREATE_WALLET> {
+interface CreateWalletRequest extends BaseRequest<CryptoRequestType.CREATE_WALLET> {
   wallet: WalletType;
 }
 
 export type GetAddressRequest = BaseRequest<CryptoRequestType.GET_ADDRESS> & {
   wallet: InitialiseWallet;
-}
+};
 
 export type GetAddressesRequest = BaseRequest<CryptoRequestType.GET_ADDRESSES> & {
   wallet: InitialiseDeterministicWallet;
   path: string;
   limit: number;
   offset: number;
-}
+};
 
-export type CryptoRequest = SignTxRequest | GetAddressRequest | GetAddressesRequest | CreateWalletRequest;
+export type CryptoRequest =
+  | SignTxRequest
+  | GetAddressRequest
+  | GetAddressesRequest
+  | CreateWalletRequest;
 
-export type CryptoResponse =
-  | string
-  | { address: TAddress; uuid: TUuid }
-  | GetAddressesResult[];
+export type CryptoResponse = string | { address: TAddress; uuid: TUuid } | GetAddressesResult[];
