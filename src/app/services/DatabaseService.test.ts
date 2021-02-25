@@ -3,15 +3,13 @@ import { DBRequestType, TUuid } from '@types';
 
 import {
   deletePrivateKey,
-  getAccounts,
   getPrivateKey,
   init,
   isLoggedIn,
   isNewUser,
   login,
   reset,
-  savePrivateKey,
-  setAccounts
+  savePrivateKey
 } from './DatabaseService';
 
 jest.mock('@bridge', () => ({
@@ -64,19 +62,6 @@ describe('DatabaseService', () => {
     isNewUser();
     expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith({
       type: DBRequestType.IS_NEW_USER
-    });
-  });
-
-  it('getAccounts calls ipcBridge', () => {
-    getAccounts();
-    expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith({ type: DBRequestType.GET_ACCOUNTS });
-  });
-
-  it('setAccounts calls ipcBridge', () => {
-    setAccounts({ accounts: {} });
-    expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith({
-      type: DBRequestType.SET_ACCOUNTS,
-      accounts: { accounts: {} }
     });
   });
 

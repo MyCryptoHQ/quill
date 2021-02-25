@@ -7,8 +7,8 @@ export enum DBRequestType {
   RESET = 'RESET',
   IS_NEW_USER = 'IS_NEW_USER',
   IS_LOGGED_IN = 'IS_LOGGED_IN',
-  GET_ACCOUNTS = 'GET_ACCOUNTS',
-  SET_ACCOUNTS = 'SET_ACCOUNTS',
+  GET_FROM_STORE = 'GET_FROM_STORE',
+  SET_IN_STORE = 'SET_IN_STORE',
   SAVE_PRIVATE_KEY = 'SAVE_PRIVATE_KEY',
   GET_PRIVATE_KEY = 'GET_PRIVATE_KEY',
   DELETE_PRIVATE_KEY = 'DELETE_PRIVATE_KEY'
@@ -32,10 +32,13 @@ type GetLoginStateRequest = BaseRequest<DBRequestType.IS_LOGGED_IN>;
 
 type GetNewUserStateRequest = BaseRequest<DBRequestType.IS_NEW_USER>;
 
-type GetAccountsRequest = BaseRequest<DBRequestType.GET_ACCOUNTS>;
+interface GetFromStoreRequest extends BaseRequest<DBRequestType.GET_FROM_STORE> {
+  key: string;
+}
 
-interface SetAccountsRequest extends BaseRequest<DBRequestType.SET_ACCOUNTS> {
-  accounts: AccountsState;
+interface SetInStoreRequest extends BaseRequest<DBRequestType.SET_IN_STORE> {
+  key: string;
+  payload: any;
 }
 
 interface UuidRequest<Type extends DBRequestType> extends BaseRequest<Type> {
@@ -56,8 +59,8 @@ export type DBRequest =
   | ResetRequest
   | GetLoginStateRequest
   | GetNewUserStateRequest
-  | GetAccountsRequest
-  | SetAccountsRequest
+  | GetFromStoreRequest
+  | SetInStoreRequest
   | SavePrivateKeyRequest
   | GetPrivateKeyRequest
   | DeletePrivateKeyRequest;

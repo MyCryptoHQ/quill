@@ -37,7 +37,7 @@ jest.mock('electron', () => ({
 }));
 
 jest.mock('./db', () => ({
-  getAccounts: jest.fn().mockImplementation(() => {
+  getFromStore: jest.fn().mockImplementation(() => {
     return Promise.resolve({
       accounts: {
         '4be38596-5d9c-5c01-8e04-19d1c726fe24': {

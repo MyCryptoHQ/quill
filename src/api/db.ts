@@ -4,7 +4,6 @@ import fs from 'fs';
 import keytar from 'keytar';
 import path from 'path';
 
-import { AccountsState } from '@app/store/account';
 import { IPC_CHANNELS, KEYTAR_SERVICE } from '@config';
 import { DBRequest, DBRequestType, DBResponse, TUuid } from '@types';
 import { safeJSONParse } from '@utils';
@@ -68,25 +67,18 @@ const checkPassword = (hashedPassword?: string) => {
   return getFromStore('accounts', hashedPassword) !== null;
 };
 
-const getFromStore = <T>(key: string, password = encryptionKey): T | null => {
+// @todo Improve typing?
+export const getFromStore = <T>(key: string, password = encryptionKey): T | null => {
   const result = store.get(key) as string;
   const decrypted = decrypt(result, password);
   const [valid, parsed] = safeJSONParse(decrypted);
   return valid === null ? parsed : null;
 };
 
-const setInStore = <T>(key: string, obj: T) => {
+export const setInStore = <T>(key: string, obj: T) => {
   const json = JSON.stringify(obj);
   const encrypted = encrypt(json, encryptionKey);
   store.set(key, encrypted);
-};
-
-export const getAccounts = () => {
-  return getFromStore<AccountsState>('accounts');
-};
-
-const setAccounts = (accounts: AccountsState) => {
-  return setInStore('accounts', accounts);
 };
 
 const savePrivateKey = (uuid: TUuid, privateKey: string) => {
@@ -118,10 +110,10 @@ export const handleRequest = async (request: DBRequest): Promise<DBResponse> => 
       return Promise.resolve(isLoggedIn());
     case DBRequestType.IS_NEW_USER:
       return !(await storeExists());
-    case DBRequestType.GET_ACCOUNTS:
-      return Promise.resolve(getAccounts());
-    case DBRequestType.SET_ACCOUNTS:
-      return Promise.resolve(setAccounts(request.accounts));
+    case DBRequestType.GET_FROM_STORE:
+      return Promise.resolve(getFromStore(request.key));
+    case DBRequestType.SET_IN_STORE:
+      return Promise.resolve(setInStore(request.key, request.payload));
     case DBRequestType.SAVE_PRIVATE_KEY:
       return savePrivateKey(request.uuid, request.privateKey);
     case DBRequestType.GET_PRIVATE_KEY:

@@ -1,19 +1,12 @@
-import { getAccounts, setAccounts } from '@app/services';
-
-import { AccountsState } from '../account';
+import { ipcBridgeRenderer } from '@bridge';
+import { DBRequestType } from '@types';
 
 export const storage = {
   getItem: (key: string) => {
-    if (key === 'accounts') {
-      return getAccounts();
-    }
-    throw new Error('Invalid key');
+    return ipcBridgeRenderer.db.invoke({ type: DBRequestType.GET_FROM_STORE, key });
   },
   setItem: (key: string, value: unknown) => {
-    if (key === 'accounts') {
-      return setAccounts(value as AccountsState);
-    }
-    throw new Error('Invalid key');
+    return ipcBridgeRenderer.db.invoke({ type: DBRequestType.SET_IN_STORE, key, payload: value });
   },
   removeItem: (_key: string) => {
     // @todo If needed

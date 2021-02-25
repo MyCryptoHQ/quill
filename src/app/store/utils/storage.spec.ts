@@ -1,29 +1,28 @@
-import { getAccounts, setAccounts } from '@app/services';
+import { ipcBridgeRenderer } from '@bridge';
+import { DBRequestType } from '@types';
 
 import { storage } from './storage';
 
-jest.mock('@app/services', () => ({
-  getAccounts: jest.fn(),
-  setAccounts: jest.fn()
+jest.mock('@bridge', () => ({
+  ipcBridgeRenderer: { db: { invoke: jest.fn() } }
 }));
 
 describe('storage', () => {
-  it('getItem errors with invalid key', async () => {
-    expect(() => storage.getItem('bla')).toThrow();
-  });
-
-  it('getItem calls getAccounts with accounts key', async () => {
+  it('getItem calls db getFromStore with accounts key', async () => {
     storage.getItem('accounts');
-    expect(getAccounts).toHaveBeenCalledWith();
+    expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith({
+      type: DBRequestType.GET_FROM_STORE,
+      key: 'accounts'
+    });
   });
 
-  it('setItem errors with invalid key', async () => {
-    expect(() => storage.setItem('bla', {})).toThrow();
-  });
-
-  it('setItem calls setAccounts with accounts key', async () => {
+  it('setItem calls db setInStore with accounts key', async () => {
     storage.setItem('accounts', {});
-    expect(setAccounts).toHaveBeenCalledWith({});
+    expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith({
+      type: DBRequestType.SET_IN_STORE,
+      key: 'accounts',
+      payload: {}
+    });
   });
 
   it('removeItem errors with invalid key', async () => {
