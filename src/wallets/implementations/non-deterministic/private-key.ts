@@ -12,4 +12,9 @@ export class PrivateKey implements Wallet {
     const wallet = new EthersWallet(addHexPrefix(this.privateKey));
     return wallet.signTransaction(transaction);
   }
+
+  getAddress (): Promise<string> {
+    const wallet = new EthersWallet(addHexPrefix(this.privateKey));
+    return wallet.getAddress();
+  }
 }

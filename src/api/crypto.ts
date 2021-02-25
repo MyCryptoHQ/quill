@@ -1,118 +1,33 @@
-import { TransactionRequest } from '@ethersproject/abstract-provider';
-import { entropyToMnemonic, HDNode } from '@ethersproject/hdnode';
-import { Wallet } from '@ethersproject/wallet';
-import crypto from 'crypto';
+import { MnemonicPhrase } from '@wallets/implementations/deterministic/mnemonic-phrase';
+import { getDeterministicWallet, getWallet } from '@wallets/wallet-initialisation';
 import { ipcMain } from 'electron';
 
 import { ipcBridgeMain } from '@bridge';
-import { MNEMONIC_ENTROPY_BYTES } from '@config';
-import {
-  CryptoRequest,
-  CryptoRequestType,
-  CryptoResponse,
-  GetAddressRequest,
-  TAddress,
-  WalletType
-} from '@types';
-import { addHexPrefix, generateDeterministicAddressUUID, toChecksumAddress } from '@utils';
-
-const sign = (wallet: Wallet, tx: TransactionRequest) => {
-  return wallet.signTransaction(tx);
-};
-
-const signWithPrivateKey = (privateKey: string, tx: TransactionRequest) => {
-  return sign(new Wallet(addHexPrefix(privateKey)), tx);
-};
-
-const getPrivateKeyAddress = (privateKey: string) => {
-  const address = new Wallet(addHexPrefix(privateKey)).address as TAddress;
-  return { address, uuid: generateDeterministicAddressUUID(address) };
-};
-
-const createMnemonicWallet = () => {
-  const entropy = crypto.randomBytes(MNEMONIC_ENTROPY_BYTES);
-  return entropyToMnemonic(entropy);
-};
-
-const getMnemonicAddress = ({
-  dPath,
-  phrase,
-  password
-}: {
-  dPath: string;
-  phrase: string;
-  password?: string;
-}) => {
-  const rootNode = HDNode.fromMnemonic(phrase, password);
-  const node = rootNode.derivePath(dPath);
-  const address = toChecksumAddress(node.address) as TAddress;
-  return {
-    address,
-    uuid: generateDeterministicAddressUUID(address),
-    privateKey: node.privateKey,
-    dPath
-  };
-};
-
-const getMnemonicAddresses = ({
-  dPathBase,
-  limit,
-  offset = 0,
-  phrase,
-  password
-}: {
-  dPathBase: string;
-  phrase: string;
-  password?: string;
-  offset?: number;
-  limit: number;
-}) => {
-  const rootNode = HDNode.fromMnemonic(phrase, password);
-  const baseNode = rootNode.derivePath(dPathBase);
-  const addresses = [];
-  for (let i = 0; i < limit; i++) {
-    const index = i + offset;
-    const dPath = `${dPathBase}/${index}`;
-    const node = baseNode.derivePath(`${index}`);
-    const address = toChecksumAddress(node.address) as TAddress;
-    addresses.push({
-      address,
-      uuid: generateDeterministicAddressUUID(address),
-      privateKey: node.privateKey,
-      dPath
-    });
-  }
-  return addresses;
-};
-
-const handleGetAddress = (request: GetAddressRequest) => {
-  if (request.wallet === WalletType.PRIVATE_KEY) {
-    return getPrivateKeyAddress(request.args);
-  } else if (request.wallet === WalletType.MNEMONIC) {
-    if ('dPath' in request.args) {
-      return getMnemonicAddress(request.args);
-    }
-    return getMnemonicAddresses(request.args);
-  }
-
-  throw new Error('Unsupported wallet type');
-};
+import { CryptoRequest, CryptoRequestType, CryptoResponse, WalletType } from '@types';
 
 export const handleRequest = async (request: CryptoRequest): Promise<CryptoResponse> => {
   switch (request.type) {
     case CryptoRequestType.SIGN: {
-      const { privateKey, tx } = request;
-      return signWithPrivateKey(privateKey, tx);
+      const { wallet, tx } = request;
+      const initialisedWallet = await getWallet(wallet);
+      return initialisedWallet.signTransaction(tx);
     }
     case CryptoRequestType.GET_ADDRESS: {
-      return handleGetAddress(request);
+      const { wallet } = request;
+      const initialisedWallet = await getWallet(wallet);
+      return initialisedWallet.getAddress();
     }
     case CryptoRequestType.CREATE_WALLET: {
       const { wallet } = request;
       if (wallet === WalletType.MNEMONIC) {
-        return createMnemonicWallet();
+        return MnemonicPhrase.create().mnemonicPhrase;
       }
       throw new Error('Unsupported wallet type');
+    }
+    case CryptoRequestType.GET_ADDRESSES: {
+      const { wallet, limit, offset, path } = request;
+      const initialisedWallet = await getDeterministicWallet(wallet);
+      return initialisedWallet.getAddresses({ path, limit, offset });
     }
     default:
       throw new Error('Undefined request type');

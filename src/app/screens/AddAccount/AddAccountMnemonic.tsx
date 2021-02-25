@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { useAccounts } from '@app/hooks';
 import { ROUTE_PATHS } from '@app/routing';
 import { ipcBridgeRenderer } from '@bridge';
-import { CryptoRequestType, GetMnemonicAddressesResult, WalletType } from '@types';
+import { CryptoRequestType, GetAddressesResult, WalletType } from '@types';
 
 const dPathBase = "m/44'/60'/0'/0";
 
@@ -15,7 +15,7 @@ export const AddAccountMnemonic = () => {
   const [phrase, setPhrase] = useState('');
   const [password, setPassword] = useState('');
   const [persistence, setPersistence] = useState(false);
-  const [addresses, setAddresses] = useState<GetMnemonicAddressesResult[]>([]);
+  const [addresses, setAddresses] = useState<GetAddressesResult[]>([]);
 
   const changeMnemonicPhrase = (e: React.ChangeEvent<HTMLInputElement>) =>
     setPhrase(e.currentTarget.value);
@@ -28,14 +28,20 @@ export const AddAccountMnemonic = () => {
 
   const handleSubmit = async () => {
     const result = await ipcBridgeRenderer.crypto.invoke({
-      type: CryptoRequestType.GET_ADDRESS,
-      wallet: WalletType.MNEMONIC,
-      args: { dPathBase, phrase, password, limit: 10, offset: 0 }
+      type: CryptoRequestType.GET_ADDRESSES,
+      wallet: {
+        walletType: WalletType.MNEMONIC,
+        mnemonicPhrase: phrase,
+        passphrase: password
+      },
+      path: dPathBase,
+      limit: 10,
+      offset: 0
     });
-    setAddresses((result as unknown) as GetMnemonicAddressesResult[]);
+    setAddresses((result as unknown) as GetAddressesResult[]);
   };
 
-  const addAddress = ({ privateKey, dPath }: GetMnemonicAddressesResult) => {
+  const addAddress = ({ privateKey, dPath }: GetAddressesResult) => {
     addAccountFromPrivateKey(WalletType.MNEMONIC, privateKey, persistence, dPath);
     history.replace(ROUTE_PATHS.HOME);
   };
