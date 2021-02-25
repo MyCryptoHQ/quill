@@ -59,6 +59,17 @@ describe('handleRequest', () => {
     );
   });
 
+  it('fails with invalid request', async () => {
+    const request = { id: 0, jsonrpc: '1.0', method: 'bla' };
+    const result = await handleRequest(
+      JSON.stringify(request),
+      (mockWebContents as unknown) as WebContents
+    );
+    expect(result).toStrictEqual(
+      expect.objectContaining({ error: expect.objectContaining({ code: '-32600' }) })
+    );
+  });
+
   it('fails with invalid method', async () => {
     const request = { id: 0, jsonrpc: '2.0', method: 'bla' };
     const result = await handleRequest(
