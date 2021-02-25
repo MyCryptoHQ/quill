@@ -1,59 +1,19 @@
-import { validator } from '@exodus/schemasafe';
+import { is, unknown } from 'superstruct';
 
 import { SUPPORTED_METHODS } from '@config';
-import { JsonRPCRequest } from '@types';
-
-const requestSchema = {
-  type: 'object',
-  additionalProperties: true,
-  required: ['jsonrpc', 'method', 'id'],
-  properties: {
-    jsonrpc: { type: 'string' },
-    method: { type: 'string' },
-    id: { type: ['string', 'integer'] },
-    params: {
-      type: 'array'
-    }
-  }
-};
+import { JsonRPCRequest, JSONRPCRequestStruct, SignTransactionStruct } from '@types';
 
 const paramSchemas = {
-  // @todo Further validate that strings are hex?
-  [SUPPORTED_METHODS.SIGN_TRANSACTION]: {
-    type: 'array',
-    minItems: 1,
-    maxItems: 1,
-    items: {
-      type: 'object',
-      required: ['to', 'nonce', 'gasLimit', 'gasPrice', 'data', 'value', 'chainId'],
-      properties: {
-        to: { type: 'string' },
-        from: { type: 'string' },
-        nonce: { type: 'string' },
-        gasLimit: { type: 'string' },
-        gasPrice: { type: 'string' },
-        data: { type: 'string' },
-        value: { type: 'string' },
-        chainId: { type: 'integer' }
-      }
-    }
-  },
-  [SUPPORTED_METHODS.ACCOUNTS]: {}
+  [SUPPORTED_METHODS.SIGN_TRANSACTION]: SignTransactionStruct,
+  [SUPPORTED_METHODS.ACCOUNTS]: unknown()
 };
 
-const isValidParams = (request: JsonRPCRequest) => {
-  const { method, params } = request;
-  if (params && method in paramSchemas) {
-    const schema = paramSchemas[method];
-    return validator(schema)(params);
-  }
-  // No schema
-  return false;
+export const isValidParams = (request: JsonRPCRequest) => {
+  return is(request.params, paramSchemas[request.method]);
 };
 
 export const isValidRequest = (request: JsonRPCRequest): boolean => {
-  const result = validator(requestSchema)(request);
-  return result && isValidParams(request);
+  return is(request, JSONRPCRequestStruct);
 };
 
 export const isValidMethod = (method: string): boolean => {

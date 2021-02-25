@@ -16,7 +16,7 @@ jest.mock('@bridge', () => ({
       subscribeToRequests: (callback: (request: JsonRPCRequest) => void) => {
         const request = {
           id: 1,
-          jsonrpc: '2.0',
+          jsonrpc: '2.0' as const,
           method: 'eth_signTransaction',
           params: [{ from: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520' }]
         };

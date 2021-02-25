@@ -71,7 +71,7 @@ const checkPassword = (hashedPassword?: string) => {
 export const getFromStore = <T>(key: string, password = encryptionKey): T | null => {
   const result = store.get(key) as string;
   const decrypted = decrypt(result, password);
-  const [valid, parsed] = safeJSONParse(decrypted);
+  const [valid, parsed] = safeJSONParse<T>(decrypted);
   return valid === null ? parsed : null;
 };
 

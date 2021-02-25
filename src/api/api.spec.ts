@@ -59,8 +59,19 @@ describe('handleRequest', () => {
     );
   });
 
+  it('fails with invalid request', async () => {
+    const request = { id: 0, jsonrpc: '1.0', method: 'bla' };
+    const result = await handleRequest(
+      JSON.stringify(request),
+      (mockWebContents as unknown) as WebContents
+    );
+    expect(result).toStrictEqual(
+      expect.objectContaining({ error: expect.objectContaining({ code: '-32600' }) })
+    );
+  });
+
   it('fails with invalid method', async () => {
-    const request = { method: 'bla' };
+    const request = { id: 0, jsonrpc: '2.0', method: 'bla' };
     const result = await handleRequest(
       JSON.stringify(request),
       (mockWebContents as unknown) as WebContents
@@ -71,13 +82,39 @@ describe('handleRequest', () => {
   });
 
   it('fails with request with no params', async () => {
-    const request = { method: SUPPORTED_METHODS.SIGN_TRANSACTION };
+    const request = { id: 0, jsonrpc: '2.0', method: SUPPORTED_METHODS.SIGN_TRANSACTION };
     const result = await handleRequest(
       JSON.stringify(request),
       (mockWebContents as unknown) as WebContents
     );
     expect(result).toStrictEqual(
-      expect.objectContaining({ error: expect.objectContaining({ code: '-32600' }) })
+      expect.objectContaining({ error: expect.objectContaining({ code: '-32602' }) })
+    );
+  });
+
+  it('fails with request with invalid params', async () => {
+    const request = {
+      id: 1,
+      jsonrpc: '2.0',
+      method: SUPPORTED_METHODS.SIGN_TRANSACTION,
+      params: [
+        {
+          to: '0x',
+          from: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520',
+          nonce: '0x1',
+          gasLimit: '0x1',
+          gasPrice: '0x1',
+          data: '0x',
+          value: '0x1',
+          chainId: 3
+        }
+      ]
+    };
+
+    await expect(
+      handleRequest(JSON.stringify(request), (mockWebContents as unknown) as WebContents)
+    ).resolves.toStrictEqual(
+      expect.objectContaining({ error: expect.objectContaining({ code: '-32602' }) })
     );
   });
 
@@ -88,13 +125,13 @@ describe('handleRequest', () => {
       method: SUPPORTED_METHODS.SIGN_TRANSACTION,
       params: [
         {
-          to: '0x',
-          from: '0x',
+          to: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520',
+          from: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520',
           nonce: '0x1',
-          gasLimit: '0x',
-          gasPrice: '0x',
+          gasLimit: '0x1',
+          gasPrice: '0x1',
           data: '0x',
-          value: '0x',
+          value: '0x1',
           chainId: 3
         }
       ]
@@ -106,6 +143,7 @@ describe('handleRequest', () => {
     await waitFor(() =>
       expect(mockWebContents.send).toHaveBeenCalledWith(IPC_CHANNELS.API, request)
     );
+
     const result = await promise;
     expect(result).toStrictEqual({ id: 1, jsonrpc: '2.0', result: fTxResponse });
   });

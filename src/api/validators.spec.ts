@@ -1,6 +1,6 @@
 import { SUPPORTED_METHODS } from '@config';
 
-import { isValidRequest } from './validators';
+import { isValidParams, isValidRequest } from './validators';
 
 describe('isValidRequest', () => {
   it('detects valid requests', () => {
@@ -23,9 +23,11 @@ describe('isValidRequest', () => {
     });
     expect(valid).toBe(true);
   });
+});
 
+describe('isValidParams', () => {
   it('detects invalid request if params dont match method schema', () => {
-    const valid = isValidRequest({
+    const valid = isValidParams({
       id: 1,
       method: SUPPORTED_METHODS.SIGN_TRANSACTION,
       jsonrpc: '2.0',
@@ -35,7 +37,7 @@ describe('isValidRequest', () => {
   });
 
   it('detects invalid requests without params', () => {
-    const valid = isValidRequest({
+    const valid = isValidParams({
       id: 1,
       method: SUPPORTED_METHODS.SIGN_TRANSACTION,
       jsonrpc: '2.0'
