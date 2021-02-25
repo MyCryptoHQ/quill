@@ -36,8 +36,10 @@ describe('IpcBridgeRenderer', () => {
   it('crypto.invoke calls ipcRenderer.invoke', async () => {
     const request: CryptoRequest = {
       type: CryptoRequestType.GET_ADDRESS,
-      wallet: WalletType.PRIVATE_KEY,
-      args: 'privKey'
+      wallet: {
+        walletType: WalletType.PRIVATE_KEY,
+        privateKey: '0x93b3701cf8eeb6f7d3b22211c691734f24816a02efa933f67f34d37053182577'
+      }
     };
     IpcBridgeRenderer(mockIpcRenderer).crypto.invoke(request);
     expect(mockIpcRenderer.invoke).toHaveBeenCalledWith(IPC_CHANNELS.CRYPTO, request);
