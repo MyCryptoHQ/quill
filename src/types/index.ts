@@ -1,5 +1,5 @@
-export { JsonRPCRequest } from './jsonRPCRequest';
-export { JsonRPCResponse } from './jsonRPCResponse';
+export * from './jsonRPCRequest';
+export * from './jsonRPCResponse';
 export { ISUPPORTED_METHODS } from './methods';
 export {
   CryptoRequest,

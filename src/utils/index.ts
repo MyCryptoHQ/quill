@@ -6,12 +6,11 @@ export const makeTx = (request: JsonRPCRequest): TransactionRequest => request.p
 
 export const addHexPrefix = (str: string) => (str.slice(0, 2) === '0x' ? str : `0x${str}`);
 
-export const safeJSONParse = (str: string) => {
+export const safeJSONParse = <T>(str: string): [null, T] | [Error, null] => {
   try {
     return [null, JSON.parse(str)];
   } catch (err) {
-    console.error(err);
-    return [err];
+    return [err, null];
   }
 };
 

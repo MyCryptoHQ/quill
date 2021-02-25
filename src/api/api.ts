@@ -7,7 +7,7 @@ import { JsonRPCRequest, JsonRPCResponse } from '@types';
 import { safeJSONParse } from '@utils';
 
 import { getFromStore } from './db';
-import { isValidMethod, isValidRequest } from './validators';
+import { isValidMethod, isValidParams, isValidRequest } from './validators';
 
 const toJsonRpcResponse = (response: Omit<JsonRPCResponse, 'jsonrpc'>) => {
   return { jsonrpc: '2.0', ...response };
@@ -62,25 +62,35 @@ export const handleRequest = async (
   webContents: WebContents
 ): Promise<JsonRPCResponse> => {
   // @todo: Further sanitation?
-  const [valid, request] = safeJSONParse(data) as [any, JsonRPCRequest];
+  const [valid, request] = safeJSONParse<JsonRPCRequest>(data);
   if (valid !== null) {
     return toJsonRpcResponse({
       id: null,
       error: { code: '-32700', message: 'Parse error' }
     });
   }
-  if (!isValidMethod(request.method)) {
-    return toJsonRpcResponse({
-      id: request.id,
-      error: { code: '-32601', message: 'Unsupported method' }
-    });
-  }
+
   if (!isValidRequest(request)) {
     return toJsonRpcResponse({
       id: null,
       error: { code: '-32600', message: 'Invalid Request' }
     });
   }
+
+  if (!isValidMethod(request.method)) {
+    return toJsonRpcResponse({
+      id: request.id,
+      error: { code: '-32601', message: 'Unsupported Method' }
+    });
+  }
+
+  if (!isValidParams(request)) {
+    return toJsonRpcResponse({
+      id: request.id,
+      error: { code: '-32602', message: 'Invalid Params' }
+    });
+  }
+
   // No errors found, handle as valid request
   return handleValidRequest(request, webContents);
 };
