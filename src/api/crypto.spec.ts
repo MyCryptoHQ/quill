@@ -19,7 +19,8 @@ jest.mock('@ethersproject/wallet', () => ({
   }))
 }));
 
-jest.mock('@ethersproject/random', () => ({
+jest.mock('crypto', () => ({
+  ...jest.requireActual('crypto'),
   randomBytes: jest
     .fn()
     .mockImplementation(() => [

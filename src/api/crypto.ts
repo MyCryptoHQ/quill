@@ -1,7 +1,7 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider';
 import { entropyToMnemonic, HDNode } from '@ethersproject/hdnode';
-import { randomBytes } from '@ethersproject/random';
 import { Wallet } from '@ethersproject/wallet';
+import crypto from 'crypto';
 import { ipcMain } from 'electron';
 
 import { ipcBridgeMain } from '@bridge';
@@ -23,7 +23,7 @@ const getPrivateKeyAddress = (privateKey: string) => {
 };
 
 const createMnemonicWallet = () => {
-  const entropy = randomBytes(MNEMONIC_ENTROPY_BYTES);
+  const entropy = crypto.randomBytes(MNEMONIC_ENTROPY_BYTES);
   return entropyToMnemonic(entropy);
 };
 
