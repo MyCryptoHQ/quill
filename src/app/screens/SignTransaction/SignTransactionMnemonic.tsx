@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { ipcBridgeRenderer } from '@bridge';
 import {
   CryptoRequestType,
-  GetMnemonicAddressesResult,
   SignTransactionProps,
   WalletType
 } from '@types';
@@ -28,11 +27,15 @@ export const SignTransactionMnemonic = ({
   const handleAccept = async () => {
     if (!hasPersistentPrivateKey) {
       try {
-        const { privateKey } = (await ipcBridgeRenderer.crypto.invoke({
+        const { privateKey } = await ipcBridgeRenderer.crypto.invoke({
           type: CryptoRequestType.GET_ADDRESS,
-          wallet: WalletType.MNEMONIC,
-          args: { dPath: currentAccount.dPath, phrase, password }
-        })) as GetMnemonicAddressesResult;
+          wallet: {
+            walletType: WalletType.MNEMONIC,
+            mnemonicPhrase: phrase,
+            passphrase: password
+          },
+          path: currentAccount.dPath
+        });
         onAccept(privateKey);
       } catch (err) {
         setError(err.message);

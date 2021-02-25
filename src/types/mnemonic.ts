@@ -15,9 +15,7 @@ export interface GetMnemonicAddressesArgs {
   limit: number;
 }
 
-export interface GetMnemonicAddressesResult {
+export interface GetAddressesResult {
   dPath: string;
-  uuid: TUuid;
   address: TAddress;
-  privateKey: string;
 }
