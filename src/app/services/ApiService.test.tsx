@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 
 import { createStore } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
-import { fTxResponse } from '@fixtures';
 import { JsonRPCRequest } from '@types';
 
 import { useApiService } from './ApiService';
