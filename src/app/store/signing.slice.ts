@@ -46,9 +46,9 @@ export function* signWorker({
 
   yield put(signSuccess());
 
-  const currentTx = yield select(getCurrentTransaction)
+  const currentTx = yield select(getCurrentTransaction);
 
-  yield call(ipcBridgeRenderer.api.sendResponse, { id: currentTx.id, result: signedTx })
+  yield call(ipcBridgeRenderer.api.sendResponse, { id: currentTx.id, result: signedTx });
 
-  yield put(dequeue())
+  yield put(dequeue());
 }

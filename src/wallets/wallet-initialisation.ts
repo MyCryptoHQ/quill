@@ -20,7 +20,9 @@ export const getWallet = async (initialiseWallet: InitialiseWallet): Promise<Wal
   throw new Error('Invalid wallet type');
 };
 
-export const getDeterministicWallet = async (initialiseWallet: InitialiseDeterministicWallet): Promise<DeterministicWallet> => {
+export const getDeterministicWallet = async (
+  initialiseWallet: InitialiseDeterministicWallet
+): Promise<DeterministicWallet> => {
   switch (initialiseWallet.walletType) {
     case WalletType.MNEMONIC: {
       const { mnemonicPhrase, passphrase } = initialiseWallet;
