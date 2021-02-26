@@ -1,6 +1,6 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { eventChannel } from 'redux-saga';
-import { all, call, put, take } from 'redux-saga/effects';
+import { all, call, put, take, takeLatest } from 'redux-saga/effects';
 
 import { ipcBridgeRenderer } from '@bridge';
 import { JsonRPCRequest } from '@types';
@@ -20,11 +20,14 @@ const slice = createSlice({
     },
     dequeue(state) {
       state.queue.shift();
+    },
+    denyCurrentTransaction(_, __: PayloadAction<JsonRPCRequest>) {
+      // noop
     }
   }
 });
 
-export const { enqueue, dequeue } = slice.actions;
+export const { enqueue, dequeue, denyCurrentTransaction } = slice.actions;
 
 export default slice;
 
@@ -33,11 +36,19 @@ export const getCurrentTransaction = createSelector(
   (transactions) => transactions.queue[0]
 );
 
+export const getQueueLength = createSelector(
+  (state: ApplicationState) => state.transactions.queue,
+  (queue) => queue.length
+);
+
 /**
  * Sagas
  */
 export function* transactionsSaga() {
-  yield all([transactionsWorker()]);
+  yield all([
+    transactionsWorker(),
+    takeLatest(denyCurrentTransaction.name, denyCurrentTransactionWorker)
+  ]);
 }
 
 const subscribe = () => {
@@ -59,4 +70,13 @@ export function* transactionsWorker() {
     const request = yield take(channel);
     yield put(enqueue(request));
   }
+}
+
+export function* denyCurrentTransactionWorker({ payload }: PayloadAction<JsonRPCRequest>) {
+  ipcBridgeRenderer.api.sendResponse({
+    id: payload.id,
+    error: { code: '-32000', message: 'User denied transaction' }
+  });
+
+  yield put(dequeue());
 }

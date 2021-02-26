@@ -16,10 +16,6 @@ jest.mock('@bridge', () => ({
   }
 }));
 
-jest.mock('@app/services', () => ({
-  setEncryptionKey: jest.fn().mockImplementation(() => Promise.resolve())
-}));
-
 function getComponent() {
   return render(
     <Provider store={createStore()}>
