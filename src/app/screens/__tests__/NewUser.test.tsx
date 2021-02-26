@@ -3,13 +3,17 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
-import { init } from '@app/services/DatabaseService';
 import { createStore } from '@app/store';
+import { ipcBridgeRenderer } from '@bridge';
 
 import { NewUser } from '../NewUser';
 
-jest.mock('@app/services/DatabaseService', () => ({
-  init: jest.fn().mockImplementation(() => Promise.resolve(true))
+jest.mock('@bridge', () => ({
+  ipcBridgeRenderer: {
+    db: {
+      invoke: jest.fn().mockImplementation(() => Promise.resolve(true))
+    }
+  }
 }));
 
 jest.mock('@app/services', () => ({
@@ -41,6 +45,6 @@ describe('NewUser', () => {
     const loginButton = getByText('Create');
     expect(loginButton).toBeDefined();
     fireEvent.click(loginButton);
-    expect(init).toHaveBeenCalledWith(password);
+    expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith(expect.objectContaining({ password }));
   });
 });

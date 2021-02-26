@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 
 import { useAccounts } from '@app/hooks';
-import { getPrivateKey, signWithPrivateKey, useApiService } from '@app/services';
-import { WalletType } from '@types';
+import { useApiService } from '@app/services';
+import { ipcBridgeRenderer } from '@bridge';
+import { CryptoRequestType, DBRequestType, WalletType } from '@types';
 import { makeTx } from '@utils';
 
 import { SignTransactionMnemonic } from './SignTransactionMnemonic';
@@ -24,10 +25,19 @@ export const SignTransaction = () => {
   };
 
   const handleAccept = async (privKey: string) => {
-    const privateKey = hasPersistentPrivateKey ? await getPrivateKey(currentAccount.uuid) : privKey;
+    const privateKey = hasPersistentPrivateKey
+      ? await ipcBridgeRenderer.db.invoke({
+          type: DBRequestType.GET_PRIVATE_KEY,
+          uuid: currentAccount.uuid
+        })
+      : privKey;
     if (privateKey.length > 0 && currentTx) {
       try {
-        const signed = await signWithPrivateKey(privateKey, formattedTx);
+        const signed = await ipcBridgeRenderer.crypto.invoke({
+          type: CryptoRequestType.SIGN,
+          privateKey,
+          tx: formattedTx
+        });
         approveCurrent(signed);
         setError('');
       } catch (err) {

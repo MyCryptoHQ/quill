@@ -4,7 +4,6 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 
-import { getAddress } from '@app/services';
 import { createStore } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
 import { fAccount, fAccounts, fMnemonicPhrase } from '@fixtures';
@@ -55,21 +54,18 @@ jest.mock('@bridge', () => ({
         }),
       sendResponse: jest.fn()
     },
-    crypto: { invoke: jest.fn() },
+    crypto: {
+      invoke: jest.fn().mockImplementation(() =>
+        Promise.resolve({
+          uuid: '9b902e45-84be-5e97-b3a8-f937588397b4',
+          address: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f',
+          dPath: "m/44'/60'/0'/0/0",
+          privateKey: '0x827207adb7a16d059733b097c5afdcb5373e746007a87e041a9d9d8e926abc93'
+        })
+      )
+    },
     db: { invoke: jest.fn().mockImplementation(() => Promise.resolve('privatekey')) }
   }
-}));
-
-jest.mock('@app/services/WalletService', () => ({
-  ...jest.requireActual('@app/services/WalletService'),
-  getAddress: jest.fn().mockImplementation(() =>
-    Promise.resolve({
-      uuid: '9b902e45-84be-5e97-b3a8-f937588397b4',
-      address: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f',
-      dPath: "m/44'/60'/0'/0/0",
-      privateKey: '0x827207adb7a16d059733b097c5afdcb5373e746007a87e041a9d9d8e926abc93'
-    })
-  )
 }));
 
 // Cast to unknown due to type weirdness - possibly a bug in Brand
@@ -135,7 +131,7 @@ describe('SignTransaction', () => {
 
     fireEvent.click(acceptButton);
 
-    expect(getAddress).toHaveBeenCalled();
+    expect(ipcBridgeRenderer.crypto.invoke).toHaveBeenCalled();
 
     await waitFor(() =>
       expect(ipcBridgeRenderer.api.sendResponse).toHaveBeenCalledWith(
@@ -151,7 +147,7 @@ describe('SignTransaction', () => {
 
     fireEvent.click(acceptButton);
 
-    expect(getAddress).toHaveBeenCalled();
+    expect(ipcBridgeRenderer.crypto.invoke).toHaveBeenCalled();
 
     await waitFor(() =>
       expect(ipcBridgeRenderer.api.sendResponse).toHaveBeenCalledWith(

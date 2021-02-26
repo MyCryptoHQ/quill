@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { ROUTE_PATHS } from '@app/routing';
-import { login } from '@app/services/DatabaseService';
 import { useDispatch } from '@app/store';
 import { setLoggedIn } from '@app/store/auth';
+import { ipcBridgeRenderer } from '@bridge';
+import { DBRequestType } from '@types';
 
 export const Login = () => {
   const [password, setPassword] = useState('');
@@ -14,7 +15,7 @@ export const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const result = await login(password);
+      const result = await ipcBridgeRenderer.db.invoke({ type: DBRequestType.LOGIN, password });
       if (!result) {
         setError('An error occurred');
       }

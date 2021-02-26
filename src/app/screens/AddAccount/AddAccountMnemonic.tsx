@@ -4,8 +4,8 @@ import { useHistory } from 'react-router-dom';
 
 import { useAccounts } from '@app/hooks';
 import { ROUTE_PATHS } from '@app/routing';
-import { getAddress } from '@app/services';
-import { GetMnemonicAddressesResult, WalletType } from '@types';
+import { ipcBridgeRenderer } from '@bridge';
+import { CryptoRequestType, GetMnemonicAddressesResult, WalletType } from '@types';
 
 const dPathBase = "m/44'/60'/0'/0";
 
@@ -27,7 +27,8 @@ export const AddAccountMnemonic = () => {
     setPersistence(e.currentTarget.checked);
 
   const handleSubmit = async () => {
-    const result = await getAddress({
+    const result = await ipcBridgeRenderer.crypto.invoke({
+      type: CryptoRequestType.GET_ADDRESS,
       wallet: WalletType.MNEMONIC,
       args: { dPathBase, phrase, password, limit: 10, offset: 0 }
     });

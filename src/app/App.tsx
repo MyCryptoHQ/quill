@@ -3,8 +3,10 @@ import React, { useEffect } from 'react';
 import { hot } from 'react-hot-loader';
 import { Persistor } from 'redux-persist';
 
+import { ipcBridgeRenderer } from '@bridge';
+import { DBRequestType } from '@types';
+
 import { AppRoutes } from './AppRoutes';
-import { isLoggedIn, isNewUser } from './services';
 import { useDispatch, useSelector } from './store';
 import { setLoggedIn, setNewUser } from './store/auth';
 
@@ -13,10 +15,10 @@ const App = ({ persistor }: { persistor: Persistor }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    isNewUser().then((state) => {
+    ipcBridgeRenderer.db.invoke({ type: DBRequestType.IS_NEW_USER }).then((state) => {
       dispatch(setNewUser(state));
     });
-    isLoggedIn().then((state) => {
+    ipcBridgeRenderer.db.invoke({ type: DBRequestType.IS_LOGGED_IN }).then((state) => {
       dispatch(setLoggedIn(state));
     });
   }, []);
