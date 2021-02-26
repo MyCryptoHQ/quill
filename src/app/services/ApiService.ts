@@ -1,21 +1,9 @@
-import { useEffect } from 'react';
-
 import { useQueue } from '@app/hooks';
 import { ipcBridgeRenderer } from '@bridge';
 import { JsonRPCResponse } from '@types';
 
 export function useApiService() {
-  const { first: currentTx, length, enqueue, dequeue } = useQueue(
-    (state) => state.transactions.queue
-  );
-
-  useEffect(() => {
-    const unsubscribe = ipcBridgeRenderer.api.subscribeToRequests((request) => {
-      // We expect this to be validated and sanitized JSON RPC request
-      enqueue(request);
-    });
-    return () => unsubscribe();
-  }, []);
+  const { first: currentTx, length, dequeue } = useQueue((state) => state.transactions.queue);
 
   const respondCurrentTx = (obj: Omit<JsonRPCResponse, 'id' | 'jsonrpc'>) => {
     ipcBridgeRenderer.api.sendResponse({ id: currentTx.id, ...obj });
