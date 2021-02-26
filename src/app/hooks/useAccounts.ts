@@ -8,13 +8,10 @@ import {
   WalletType
 } from '@types';
 
-import {
-  addAccount as addAccountRedux,
-  removeAccount as removeAccountRedux
-} from '../store/account';
+import { addAccount as addAccountRedux, removeAccount as removeAccountRedux } from '../store';
 
 export function useAccounts() {
-  const accounts = useSelector((state) => state.accounts.accounts);
+  const accounts = useSelector((state) => state.accounts);
   const dispatch = useDispatch();
 
   const addAccount = (account: IAccount) => {

@@ -74,7 +74,7 @@ describe('AddAccount', () => {
     expect(ipcBridgeRenderer.crypto.invoke).toHaveBeenCalledWith(
       expect.objectContaining({ wallet: WalletType.PRIVATE_KEY, args: 'privkey' })
     );
-    await waitFor(() => expect(Object.keys(store.getState().accounts.accounts)).toHaveLength(1));
+    await waitFor(() => expect(Object.keys(store.getState().accounts)).toHaveLength(1));
 
     expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalled();
   });
@@ -110,7 +110,7 @@ describe('AddAccount', () => {
         args: expect.objectContaining({ phrase: fMnemonicPhrase })
       })
     );
-    await waitFor(() => expect(Object.keys(store.getState().accounts.accounts)).toHaveLength(1));
+    await waitFor(() => expect(Object.keys(store.getState().accounts)).toHaveLength(1));
 
     expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalled();
   });

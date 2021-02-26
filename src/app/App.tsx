@@ -7,8 +7,7 @@ import { ipcBridgeRenderer } from '@bridge';
 import { DBRequestType } from '@types';
 
 import { AppRoutes } from './AppRoutes';
-import { useDispatch, useSelector } from './store';
-import { setLoggedIn, setNewUser } from './store/auth';
+import { setLoggedIn, setNewUser, useDispatch, useSelector } from './store';
 
 const App = ({ persistor }: { persistor: Persistor }) => {
   const loggedIn = useSelector((state) => state.auth.loggedIn);

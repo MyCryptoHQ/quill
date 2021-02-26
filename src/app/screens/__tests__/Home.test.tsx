@@ -30,16 +30,14 @@ jest.mock('@bridge', () => ({
   }
 }));
 
-// Cast to unknown due to type weirdness - possibly a bug in Brand
-const accounts: Record<string, unknown> = { '4be38596-5d9c-5c01-8e04-19d1c726fe24': fAccount };
-
 function getComponent() {
   return render(
     <Router>
       <Provider
         store={createStore({
           preloadedState: {
-            accounts: { accounts }
+            // @ts-expect-error Brand bug with DeepPartial
+            accounts: [fAccount]
           }
         })}
       >

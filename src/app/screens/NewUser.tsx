@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 
 import zxcvbn from 'zxcvbn';
 
-import { useDispatch } from '@app/store';
-import { setLoggedIn, setNewUser } from '@app/store/auth';
+import { setLoggedIn, setNewUser, useDispatch } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
 import { REQUIRED_PASSWORD_STRENGTH } from '@config';
 import { DBRequestType } from '@types';

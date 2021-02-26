@@ -11,7 +11,7 @@ import { useQueue } from './useQueue';
 
 const renderUseQueue = () => {
   const wrapper: React.FC = ({ children }) => <Provider store={createStore()}>{children}</Provider>;
-  return renderHook(() => useQueue((state) => state.queue), { wrapper });
+  return renderHook(() => useQueue((state) => state.transactions.queue), { wrapper });
 };
 
 const requests: JsonRPCRequest[] = [

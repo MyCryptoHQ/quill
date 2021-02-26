@@ -1,14 +1,13 @@
 import { combineReducers } from 'redux';
 
-import { accountsReducer } from './account';
-import { authReducer } from './auth';
-import { ApplicationState } from './store';
-import { txQueueReducer } from './txqueue';
+import accountSlice, { reducer as accountsReducer } from './account.slice';
+import authSlice from './auth.slice';
+import transactionsSlice from './transactions.slice';
 
-const reducer = combineReducers<ApplicationState>({
-  auth: authReducer,
-  accounts: accountsReducer,
-  queue: txQueueReducer
+const reducer = combineReducers({
+  [authSlice.name]: authSlice.reducer,
+  [accountSlice.name]: accountsReducer,
+  [transactionsSlice.name]: transactionsSlice.reducer
 });
 
 export default reducer;

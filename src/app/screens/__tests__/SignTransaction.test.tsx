@@ -6,7 +6,7 @@ import { MemoryRouter as Router } from 'react-router-dom';
 
 import { createStore } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
-import { fAccount, fAccounts, fMnemonicPhrase } from '@fixtures';
+import { fAccounts, fMnemonicPhrase } from '@fixtures';
 import { JsonRPCRequest } from '@types';
 
 import { SignTransaction } from '../SignTransaction';
@@ -68,20 +68,14 @@ jest.mock('@bridge', () => ({
   }
 }));
 
-// Cast to unknown due to type weirdness - possibly a bug in Brand
-const accounts: Record<string, unknown> = {
-  '4be38596-5d9c-5c01-8e04-19d1c726fe24': fAccount,
-  '9b902e45-84be-5e97-b3a8-f937588397b4': fAccounts[1],
-  '4175e739-2c60-5717-8e8a-a4f9974dcee2': fAccounts[2]
-};
-
 function getComponent() {
   return render(
     <Router>
       <Provider
         store={createStore({
           preloadedState: {
-            accounts: { accounts }
+            // @ts-expect-error Brand bug with DeepPartial
+            accounts: fAccounts
           }
         })}
       >

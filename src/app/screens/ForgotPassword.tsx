@@ -3,8 +3,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { ROUTE_PATHS } from '@app/routing';
-import { useDispatch } from '@app/store';
-import { setNewUser } from '@app/store/auth';
+import { setNewUser, useDispatch } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
 import { DBRequestType } from '@types';
 
