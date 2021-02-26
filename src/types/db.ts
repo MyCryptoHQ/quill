@@ -1,5 +1,6 @@
-import { AccountsState } from '@app/store/account';
 import { TUuid } from '@types';
+
+import { IAccount } from './account';
 
 export enum DBRequestType {
   INIT = 'INIT',
@@ -65,4 +66,4 @@ export type DBRequest =
   | GetPrivateKeyRequest
   | DeletePrivateKeyRequest;
 
-export type DBResponse = string | boolean | AccountsState | void;
+export type DBResponse = string | boolean | IAccount[] | void;

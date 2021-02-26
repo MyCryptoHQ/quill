@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { ROUTE_PATHS } from '@app/routing';
-import { useDispatch } from '@app/store';
-import { setLoggedIn } from '@app/store/auth';
+import { setLoggedIn, useDispatch } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
 import { DBRequestType } from '@types';
 

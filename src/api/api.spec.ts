@@ -38,14 +38,12 @@ jest.mock('electron', () => ({
 
 jest.mock('./db', () => ({
   getFromStore: jest.fn().mockImplementation(() => {
-    return Promise.resolve({
-      accounts: {
-        '4be38596-5d9c-5c01-8e04-19d1c726fe24': {
-          uuid: '4be38596-5d9c-5c01-8e04-19d1c726fe24',
-          address: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520'
-        }
+    return Promise.resolve([
+      {
+        uuid: '4be38596-5d9c-5c01-8e04-19d1c726fe24',
+        address: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520'
       }
-    });
+    ]);
   })
 }));
 

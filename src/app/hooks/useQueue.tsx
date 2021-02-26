@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ApplicationState } from '@app/store';
-import { dequeue, enqueue } from '@app/store/txqueue';
+import { ApplicationState, dequeue, enqueue } from '@app/store';
 import { JsonRPCRequest } from '@types';
 
 export const useQueue = (

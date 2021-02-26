@@ -28,11 +28,6 @@ function getComponent(store: EnhancedStore<ApplicationState> = createStore()) {
   );
 }
 
-// Cast to unknown due to type weirdness - possibly a bug in Brand
-const accounts: Record<string, unknown> = {
-  '4be38596-5d9c-5c01-8e04-19d1c726fe24': { ...fAccount, persistent: true }
-};
-
 describe('Accounts', () => {
   it('renders', async () => {
     const { getByText } = getComponent();
@@ -42,9 +37,8 @@ describe('Accounts', () => {
   it('can delete account', async () => {
     const store = createStore({
       preloadedState: {
-        accounts: {
-          accounts
-        }
+        // @ts-expect-error Brand bug with DeepPartial
+        accounts: [{ ...fAccount, persistent: true }]
       }
     });
     const { getByTestId, getByText } = getComponent(store);
@@ -60,6 +54,6 @@ describe('Accounts', () => {
         uuid: fAccount.uuid
       })
     );
-    await waitFor(() => expect(Object.keys(store.getState().accounts.accounts)).toHaveLength(0));
+    await waitFor(() => expect(Object.keys(store.getState().accounts)).toHaveLength(0));
   });
 });
