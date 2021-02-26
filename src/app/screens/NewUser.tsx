@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 
 import zxcvbn from 'zxcvbn';
 
-import { init } from '@app/services/DatabaseService';
 import { useDispatch } from '@app/store';
 import { setLoggedIn, setNewUser } from '@app/store/auth';
+import { ipcBridgeRenderer } from '@bridge';
 import { REQUIRED_PASSWORD_STRENGTH } from '@config';
+import { DBRequestType } from '@types';
 
 export const NewUser = () => {
   const [password, setPassword] = useState('');
@@ -20,7 +21,7 @@ export const NewUser = () => {
 
   const handleCreate = async () => {
     try {
-      const result = await init(password);
+      const result = await ipcBridgeRenderer.db.invoke({ type: DBRequestType.INIT, password });
       dispatch(setNewUser(!result));
       if (!result) {
         setError('An error occurred');

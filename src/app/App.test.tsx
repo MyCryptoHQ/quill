@@ -4,6 +4,9 @@ import { EnhancedStore } from '@reduxjs/toolkit';
 import { render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
+import { ipcBridgeRenderer } from '@bridge';
+import { DBRequestType } from '@types';
+
 import App from './App';
 import { ApplicationState, createPersistor, createStore } from './store';
 
@@ -15,23 +18,9 @@ jest.mock('@bridge', () => ({
       }
     },
     db: {
-      invoke: () => {
-        return Promise.resolve({});
-      }
+      invoke: jest.fn()
     }
   }
-}));
-
-jest.mock('@app/services/DatabaseService', () => ({
-  isNewUser: jest
-    .fn()
-    .mockImplementationOnce(() => Promise.resolve(true))
-    .mockImplementation(() => Promise.resolve(false)),
-  isLoggedIn: jest
-    .fn()
-    .mockImplementationOnce(() => Promise.resolve(false))
-    .mockImplementationOnce(() => Promise.resolve(false))
-    .mockImplementation(() => Promise.resolve(true))
 }));
 
 function getComponent(store: EnhancedStore<ApplicationState> = createStore()) {
@@ -44,7 +33,13 @@ function getComponent(store: EnhancedStore<ApplicationState> = createStore()) {
 }
 
 describe('App', () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
   it('renders Home if user has config and is logged in', async () => {
+    (ipcBridgeRenderer.db.invoke as jest.Mock).mockImplementation(({ type }) =>
+      Promise.resolve(type !== DBRequestType.IS_NEW_USER)
+    );
     const { getByText } = getComponent(
       createStore({ preloadedState: { auth: { loggedIn: true, newUser: false } } })
     );
@@ -52,11 +47,17 @@ describe('App', () => {
   });
 
   it('renders NewUser if user has no config', async () => {
+    (ipcBridgeRenderer.db.invoke as jest.Mock).mockImplementation(({ type }) =>
+      Promise.resolve(type === DBRequestType.IS_NEW_USER)
+    );
     const { getByText } = getComponent();
     await waitFor(() => expect(getByText('Create').textContent).toBeDefined());
   });
 
   it('renders Login if user has config and is not logged in', async () => {
+    (ipcBridgeRenderer.db.invoke as jest.Mock).mockImplementation(({ type }) =>
+      Promise.resolve(type === DBRequestType.IS_LOGGED_IN)
+    );
     const { getByText } = getComponent();
     await waitFor(() => expect(getByText('Login').textContent).toBeDefined());
   });

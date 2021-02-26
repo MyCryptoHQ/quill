@@ -1,6 +1,12 @@
-import { deletePrivateKey, getAddress, savePrivateKey } from '@app/services';
 import { useDispatch, useSelector } from '@app/store';
-import { GetPrivateKeyAddressResult, IAccount, WalletType } from '@types';
+import { ipcBridgeRenderer } from '@bridge';
+import {
+  CryptoRequestType,
+  DBRequestType,
+  GetPrivateKeyAddressResult,
+  IAccount,
+  WalletType
+} from '@types';
 
 import {
   addAccount as addAccountRedux,
@@ -21,12 +27,13 @@ export function useAccounts() {
     persistent: boolean,
     dPath?: string
   ) => {
-    const { address, uuid } = (await getAddress({
+    const { address, uuid } = (await ipcBridgeRenderer.crypto.invoke({
+      type: CryptoRequestType.GET_ADDRESS,
       wallet: WalletType.PRIVATE_KEY,
       args: privateKey
     })) as GetPrivateKeyAddressResult;
     if (persistent) {
-      await savePrivateKey(uuid, privateKey);
+      await ipcBridgeRenderer.db.invoke({ type: DBRequestType.SAVE_PRIVATE_KEY, uuid, privateKey });
     }
     addAccount({
       uuid,
@@ -40,7 +47,10 @@ export function useAccounts() {
   const removeAccount = async (account: IAccount) => {
     dispatch(removeAccountRedux(account));
     if (account.persistent) {
-      await deletePrivateKey(account.uuid);
+      await ipcBridgeRenderer.db.invoke({
+        type: DBRequestType.DELETE_PRIVATE_KEY,
+        uuid: account.uuid
+      });
     }
   };
 

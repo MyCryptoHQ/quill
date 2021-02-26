@@ -4,13 +4,17 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 
-import { login as loginFunc } from '@app/services/DatabaseService';
 import { createStore } from '@app/store';
+import { ipcBridgeRenderer } from '@bridge';
 
 import { Login } from '../Login';
 
-jest.mock('@app/services/DatabaseService', () => ({
-  login: jest.fn().mockImplementation((password: string) => password === 'password')
+jest.mock('@bridge', () => ({
+  ipcBridgeRenderer: {
+    db: {
+      invoke: jest.fn().mockImplementation((password: string) => password === 'password')
+    }
+  }
 }));
 
 function getComponent() {
@@ -38,7 +42,9 @@ describe('Login', () => {
     const loginButton = getByText('Login');
     expect(loginButton).toBeDefined();
     fireEvent.click(loginButton);
-    expect(loginFunc).toHaveBeenCalledWith('password');
+    expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith(
+      expect.objectContaining({ password: 'password' })
+    );
   });
 
   it('can fail login with wrong password', async () => {
@@ -50,7 +56,9 @@ describe('Login', () => {
     const loginButton = getByText('Login');
     expect(loginButton).toBeDefined();
     fireEvent.click(loginButton);
-    expect(loginFunc).toHaveBeenCalledWith('password');
+    expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith(
+      expect.objectContaining({ password: 'password1' })
+    );
 
     waitFor(() => expect(getByText('An error occurred')).toBeDefined());
   });

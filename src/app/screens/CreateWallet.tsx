@@ -3,14 +3,18 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { ROUTE_PATHS } from '@app/routing';
-import { createMnemonic } from '@app/services/WalletService';
+import { ipcBridgeRenderer } from '@bridge';
+import { CryptoRequestType, WalletType } from '@types';
 
 export const CreateWallet = () => {
   const [phrase, setMnemonicPhrase] = useState('');
   const history = useHistory();
 
   const handleCreateMnemonic = async () => {
-    const result = await createMnemonic();
+    const result = await ipcBridgeRenderer.crypto.invoke({
+      type: CryptoRequestType.CREATE_WALLET,
+      wallet: WalletType.MNEMONIC
+    });
     setMnemonicPhrase(result);
   };
 

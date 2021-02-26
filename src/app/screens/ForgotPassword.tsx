@@ -3,16 +3,17 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { ROUTE_PATHS } from '@app/routing';
-import { reset } from '@app/services/DatabaseService';
 import { useDispatch } from '@app/store';
 import { setNewUser } from '@app/store/auth';
+import { ipcBridgeRenderer } from '@bridge';
+import { DBRequestType } from '@types';
 
 export const ForgotPassword = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
   const handleReset = () => {
-    reset();
+    ipcBridgeRenderer.db.invoke({ type: DBRequestType.RESET });
     dispatch(setNewUser(true));
     redirectBack();
   };

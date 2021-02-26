@@ -5,7 +5,6 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 
-import { getAddress } from '@app/services/WalletService';
 import { ApplicationState, createStore } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
 import { fMnemonicPhrase } from '@fixtures';
@@ -13,34 +12,33 @@ import { WalletType } from '@types';
 
 import { AddAccount } from '../AddAccount';
 
-jest.mock('@app/services/WalletService', () => ({
-  getAddress: jest
-    .fn()
-    .mockImplementationOnce(() =>
-      Promise.resolve({
-        uuid: '4be38596-5d9c-5c01-8e04-19d1c726fe24',
-        address: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520'
-      })
-    )
-    .mockImplementationOnce(() =>
-      Promise.resolve([
-        {
-          uuid: '9b902e45-84be-5e97-b3a8-f937588397b4',
-          address: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f'
-        }
-      ])
-    )
-    .mockImplementationOnce(() =>
-      Promise.resolve({
-        uuid: '9b902e45-84be-5e97-b3a8-f937588397b4',
-        address: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f'
-      })
-    )
-}));
-
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {
-    db: { invoke: jest.fn() }
+    db: { invoke: jest.fn() },
+    crypto: {
+      invoke: jest
+        .fn()
+        .mockImplementationOnce(() =>
+          Promise.resolve({
+            uuid: '4be38596-5d9c-5c01-8e04-19d1c726fe24',
+            address: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520'
+          })
+        )
+        .mockImplementationOnce(() =>
+          Promise.resolve([
+            {
+              uuid: '9b902e45-84be-5e97-b3a8-f937588397b4',
+              address: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f'
+            }
+          ])
+        )
+        .mockImplementationOnce(() =>
+          Promise.resolve({
+            uuid: '9b902e45-84be-5e97-b3a8-f937588397b4',
+            address: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f'
+          })
+        )
+    }
   }
 }));
 
@@ -73,7 +71,9 @@ describe('AddAccount', () => {
     const submitButton = getByText('Submit');
     expect(submitButton).toBeDefined();
     fireEvent.click(submitButton);
-    expect(getAddress).toHaveBeenCalledWith({ wallet: WalletType.PRIVATE_KEY, args: 'privkey' });
+    expect(ipcBridgeRenderer.crypto.invoke).toHaveBeenCalledWith(
+      expect.objectContaining({ wallet: WalletType.PRIVATE_KEY, args: 'privkey' })
+    );
     await waitFor(() => expect(Object.keys(store.getState().accounts.accounts)).toHaveLength(1));
 
     expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalled();
@@ -104,10 +104,12 @@ describe('AddAccount', () => {
     await waitFor(() => expect(getByText(address)).toBeDefined());
     fireEvent.click(getByText(address));
 
-    expect(getAddress).toHaveBeenCalledWith({
-      wallet: WalletType.MNEMONIC,
-      args: expect.objectContaining({ phrase: fMnemonicPhrase })
-    });
+    expect(ipcBridgeRenderer.crypto.invoke).toHaveBeenCalledWith(
+      expect.objectContaining({
+        wallet: WalletType.MNEMONIC,
+        args: expect.objectContaining({ phrase: fMnemonicPhrase })
+      })
+    );
     await waitFor(() => expect(Object.keys(store.getState().accounts.accounts)).toHaveLength(1));
 
     expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalled();

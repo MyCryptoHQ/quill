@@ -4,13 +4,17 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 
-import { createMnemonic } from '@app/services/WalletService';
 import { createStore } from '@app/store';
+import { ipcBridgeRenderer } from '@bridge';
 
 import { CreateWallet } from '../CreateWallet';
 
-jest.mock('@app/services/WalletService', () => ({
-  createMnemonic: jest.fn().mockReturnValue('mnemonic phrase')
+jest.mock('@bridge', () => ({
+  ipcBridgeRenderer: {
+    crypto: {
+      invoke: jest.fn().mockReturnValue('mnemonic phrase')
+    }
+  }
 }));
 
 const mockReplace = jest.fn();
@@ -43,7 +47,7 @@ describe('CreateWallet', () => {
     const createButton = getByText('Create Mnemonic Phrase');
     expect(createButton).toBeDefined();
     fireEvent.click(createButton);
-    expect(createMnemonic).toHaveBeenCalled();
+    expect(ipcBridgeRenderer.crypto.invoke).toHaveBeenCalled();
 
     await waitFor(() => expect(getByText('OK')).toBeDefined());
     const okButton = getByText('OK');
