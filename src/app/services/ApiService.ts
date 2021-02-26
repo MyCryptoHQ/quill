@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 
-
 import { useQueue } from '@app/hooks';
 import { ipcBridgeRenderer } from '@bridge';
 import { JsonRPCResponse } from '@types';

@@ -7,7 +7,8 @@ export const SignTransactionMnemonic = ({
   onDeny,
   hasPersistentPrivateKey,
   currentAccount,
-  tx}: SignTransactionProps) => {
+  tx
+}: SignTransactionProps) => {
   const dispatch = useDispatch();
   const [phrase, setPhrase] = useState('');
   const [password, setPassword] = useState('');

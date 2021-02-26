@@ -7,7 +7,7 @@ import { toChecksumAddress } from '@utils';
 export abstract class DeterministicWallet {
   abstract async getAddress(path: string): Promise<TAddress>;
   abstract async getWallet(path: string): Promise<Wallet>;
-  protected abstract async getHDNode (path: string): Promise<HDNode>;
+  protected abstract async getHDNode(path: string): Promise<HDNode>;
 
   async getAddresses({ path, limit, offset = 0 }: { path: string; limit: number; offset: number }) {
     const masterNode = await this.getHDNode(path);
