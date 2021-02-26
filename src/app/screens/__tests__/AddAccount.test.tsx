@@ -18,25 +18,15 @@ jest.mock('@bridge', () => ({
     crypto: {
       invoke: jest
         .fn()
-        .mockImplementationOnce(() =>
-          Promise.resolve({
-            uuid: '4be38596-5d9c-5c01-8e04-19d1c726fe24',
-            address: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520'
-          })
-        )
-        .mockImplementationOnce(() =>
-          Promise.resolve([
-            {
-              uuid: '9b902e45-84be-5e97-b3a8-f937588397b4',
-              address: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f'
-            }
-          ])
-        )
-        .mockImplementationOnce(() =>
-          Promise.resolve({
-            uuid: '9b902e45-84be-5e97-b3a8-f937588397b4',
-            address: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f'
-          })
+        .mockImplementation(({ type }) =>
+          Promise.resolve(
+            type === 'GET_ADDRESSES'
+              ? [
+                  { address: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520' },
+                  { address: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f' }
+                ]
+              : '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520'
+          )
         )
     }
   }
@@ -72,11 +62,11 @@ describe('AddAccount', () => {
     expect(submitButton).toBeDefined();
     fireEvent.click(submitButton);
     expect(ipcBridgeRenderer.crypto.invoke).toHaveBeenCalledWith(
-      expect.objectContaining({ wallet: WalletType.PRIVATE_KEY, args: 'privkey' })
+      expect.objectContaining({
+        wallet: { walletType: WalletType.PRIVATE_KEY, privateKey: 'privkey' }
+      })
     );
-    await waitFor(() => expect(Object.keys(store.getState().accounts)).toHaveLength(1));
-
-    expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalled();
+    await waitFor(() => expect(Object.keys(store.getState().accounts.accounts)).toHaveLength(1));
   });
 
   it('can submit mnemonic', async () => {
@@ -106,12 +96,12 @@ describe('AddAccount', () => {
 
     expect(ipcBridgeRenderer.crypto.invoke).toHaveBeenCalledWith(
       expect.objectContaining({
-        wallet: WalletType.MNEMONIC,
-        args: expect.objectContaining({ phrase: fMnemonicPhrase })
+        wallet: expect.objectContaining({
+          walletType: WalletType.MNEMONIC,
+          mnemonicPhrase: fMnemonicPhrase
+        })
       })
     );
-    await waitFor(() => expect(Object.keys(store.getState().accounts)).toHaveLength(1));
-
-    expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalled();
+    await waitFor(() => expect(Object.keys(store.getState().accounts.accounts)).toHaveLength(1));
   });
 });

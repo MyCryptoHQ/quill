@@ -38,7 +38,7 @@ describe('Accounts', () => {
     const store = createStore({
       preloadedState: {
         // @ts-expect-error Brand bug with DeepPartial
-        accounts: [{ ...fAccount, persistent: true }]
+        accounts: { accounts: [{ ...fAccount, persistent: true }] }
       }
     });
     const { getByTestId, getByText } = getComponent(store);
@@ -54,6 +54,6 @@ describe('Accounts', () => {
         uuid: fAccount.uuid
       })
     );
-    await waitFor(() => expect(Object.keys(store.getState().accounts)).toHaveLength(0));
+    await waitFor(() => expect(Object.keys(store.getState().accounts.accounts)).toHaveLength(0));
   });
 });
