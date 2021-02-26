@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 
-import { SignTransactionProps } from '@types';
+import { sign, useDispatch } from '@app/store';
+import { SignTransactionProps, WalletType } from '@types';
 
 export const SignTransactionPrivateKey = ({
-  onAccept,
   onDeny,
   hasPersistentPrivateKey,
   currentAccount,
   tx
 }: SignTransactionProps) => {
+  const dispatch = useDispatch();
   const [privKey, setPrivKey] = useState('');
 
   const changePrivateKey = (e: React.ChangeEvent<HTMLInputElement>) =>
     setPrivKey(e.currentTarget.value);
 
   const handleAccept = () => {
-    onAccept(privKey);
+    dispatch(sign({ wallet: { walletType: WalletType.PRIVATE_KEY, privateKey: privKey }, tx }));
   };
 
   return (
