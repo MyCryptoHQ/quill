@@ -32,14 +32,6 @@ describe('ApiService', () => {
     jest.resetAllMocks();
   });
 
-  it('sends the correct response when user approves tx', () => {
-    const { result } = renderUseApiService();
-    result.current.approveCurrent(fTxResponse);
-    expect(ipcBridgeRenderer.api.sendResponse).toHaveBeenCalledWith(
-      expect.objectContaining({ result: fTxResponse })
-    );
-  });
-
   it('sends the correct response when user denies tx', () => {
     const { result } = renderUseApiService();
     result.current.denyCurrent();

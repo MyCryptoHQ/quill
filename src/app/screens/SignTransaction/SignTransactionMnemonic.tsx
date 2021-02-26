@@ -1,20 +1,14 @@
 import React, { useState } from 'react';
 
-import { ipcBridgeRenderer } from '@bridge';
-import {
-  CryptoRequestType,
-  SignTransactionProps,
-  WalletType
-} from '@types';
+import { sign, useDispatch } from '@app/store';
+import { SignTransactionProps, WalletType } from '@types';
 
 export const SignTransactionMnemonic = ({
-  onAccept,
   onDeny,
   hasPersistentPrivateKey,
   currentAccount,
-  tx,
-  setError
-}: SignTransactionProps) => {
+  tx}: SignTransactionProps) => {
+  const dispatch = useDispatch();
   const [phrase, setPhrase] = useState('');
   const [password, setPassword] = useState('');
 
@@ -25,24 +19,17 @@ export const SignTransactionMnemonic = ({
     setPassword(e.currentTarget.value);
 
   const handleAccept = async () => {
-    if (!hasPersistentPrivateKey) {
-      try {
-        const { privateKey } = await ipcBridgeRenderer.crypto.invoke({
-          type: CryptoRequestType.GET_ADDRESS,
-          wallet: {
-            walletType: WalletType.MNEMONIC,
-            mnemonicPhrase: phrase,
-            passphrase: password
-          },
-          path: currentAccount.dPath
-        });
-        onAccept(privateKey);
-      } catch (err) {
-        setError(err.message);
-      }
-    } else {
-      onAccept('');
-    }
+    dispatch(
+      sign({
+        wallet: {
+          walletType: WalletType.MNEMONIC,
+          mnemonicPhrase: phrase,
+          passphrase: password,
+          path: currentAccount.dPath!
+        },
+        tx
+      })
+    );
   };
 
   return (

@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 
-import { TransactionResponse } from '@ethersproject/abstract-provider';
 
 import { useQueue } from '@app/hooks';
 import { ipcBridgeRenderer } from '@bridge';
@@ -23,11 +22,6 @@ export function useApiService() {
     ipcBridgeRenderer.api.sendResponse({ id: currentTx.id, ...obj });
   };
 
-  const approveCurrent = (signedTx: TransactionResponse) => {
-    respondCurrentTx({ result: signedTx });
-    dequeue();
-  };
-
   const denyCurrent = () => {
     respondCurrentTx({
       error: { code: '-32000', message: 'User denied transaction' }
@@ -35,5 +29,5 @@ export function useApiService() {
     dequeue();
   };
 
-  return { currentTx, txQueueLength: length, approveCurrent, denyCurrent };
+  return { currentTx, txQueueLength: length, denyCurrent };
 }
