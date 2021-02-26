@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import { useAccounts } from '@app/hooks';
 import { ROUTE_PATHS } from '@app/routing';
+import { fetchAccount, useDispatch } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
 import { CryptoRequestType, GetAddressesResult, WalletType } from '@types';
 
 const dPathBase = "m/44'/60'/0'/0";
 
 export const AddAccountMnemonic = () => {
-  const { addAccountFromPrivateKey } = useAccounts();
+  const dispatch = useDispatch();
   const history = useHistory();
   const [phrase, setPhrase] = useState('');
   const [password, setPassword] = useState('');
@@ -41,8 +41,16 @@ export const AddAccountMnemonic = () => {
     setAddresses((result as unknown) as GetAddressesResult[]);
   };
 
-  const addAddress = ({ privateKey, dPath }: GetAddressesResult) => {
-    addAccountFromPrivateKey(WalletType.MNEMONIC, privateKey, persistence, dPath);
+  const addAddress = ({ dPath }: GetAddressesResult) => {
+    // @todo Handle persistence
+    dispatch(
+      fetchAccount({
+        walletType: WalletType.MNEMONIC,
+        mnemonicPhrase: phrase,
+        passphrase: password,
+        path: dPath
+      })
+    );
     history.replace(ROUTE_PATHS.HOME);
   };
 

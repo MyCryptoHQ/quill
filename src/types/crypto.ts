@@ -12,12 +12,12 @@ export enum CryptoRequestType {
   CREATE_WALLET = 'CREATE_WALLET'
 }
 
-interface InitialisePrivateKey {
+export interface InitialisePrivateKey {
   walletType: WalletType.PRIVATE_KEY;
   privateKey: string;
 }
 
-interface InitialiseMnemonicPhrase {
+export interface InitialiseMnemonicPhrase {
   walletType: WalletType.MNEMONIC;
   mnemonicPhrase: string;
   passphrase?: string;

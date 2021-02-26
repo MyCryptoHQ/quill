@@ -37,7 +37,7 @@ function getComponent() {
         store={createStore({
           preloadedState: {
             // @ts-expect-error Brand bug with DeepPartial
-            accounts: [fAccount]
+            accounts: { accounts: [fAccount] }
           }
         })}
       >

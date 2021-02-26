@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import { useAccounts } from '@app/hooks';
 import { ROUTE_PATHS } from '@app/routing';
+import { fetchAccount, useDispatch } from '@app/store';
 import { WalletType } from '@types';
 
 export const AddAccountPrivateKey = () => {
-  const { addAccountFromPrivateKey } = useAccounts();
+  const dispatch = useDispatch();
   const history = useHistory();
   const [privKey, setPrivKey] = useState('');
   const [persistence, setPersistence] = useState(false);
@@ -19,7 +19,8 @@ export const AddAccountPrivateKey = () => {
     setPersistence(e.currentTarget.checked);
 
   const handleSubmit = () => {
-    addAccountFromPrivateKey(WalletType.PRIVATE_KEY, privKey, persistence);
+    // @todo Handle persistence
+    dispatch(fetchAccount({ walletType: WalletType.PRIVATE_KEY, privateKey: privKey }));
     history.replace(ROUTE_PATHS.HOME);
   };
 

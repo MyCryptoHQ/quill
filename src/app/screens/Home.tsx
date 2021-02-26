@@ -1,17 +1,18 @@
 import React from 'react';
 
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { useAccounts } from '@app/hooks';
 import { ROUTE_PATHS } from '@app/routing';
 import { useApiService } from '@app/services';
+import { getAccounts } from '@app/store';
 import { makeTx } from '@utils';
 
 import { SignTransaction } from './SignTransaction';
 
 export const Home = () => {
   const { currentTx, txQueueLength } = useApiService();
-  const { accounts } = useAccounts();
+  const accounts = useSelector(getAccounts);
   const formattedTx = currentTx && makeTx(currentTx);
   const currentAccount = formattedTx && accounts.find((a) => a.address === formattedTx.from);
 

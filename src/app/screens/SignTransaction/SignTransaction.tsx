@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 
-import { useAccounts } from '@app/hooks';
+import { useSelector } from 'react-redux';
+
 import { useApiService } from '@app/services';
+import { getAccounts } from '@app/store';
 import { WalletType } from '@types';
 import { makeTx } from '@utils';
 
@@ -10,7 +12,7 @@ import { SignTransactionPrivateKey } from './SignTransactionPrivateKey';
 
 export const SignTransaction = () => {
   const { denyCurrent, currentTx } = useApiService();
-  const { accounts } = useAccounts();
+  const accounts = useSelector(getAccounts);
   const formattedTx = currentTx && makeTx(currentTx);
   const currentAccount = formattedTx && accounts.find((a) => a.address === formattedTx.from);
   const hasPersistentPrivateKey = currentAccount && currentAccount.persistent;
@@ -22,7 +24,6 @@ export const SignTransaction = () => {
       setError('');
     }
   };
-
 
   return (
     <>
