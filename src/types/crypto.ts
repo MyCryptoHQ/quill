@@ -24,7 +24,16 @@ export interface InitialiseMnemonicPhrase {
   path: string;
 }
 
+export interface InitialisePersistentAccount {
+  persistent: true;
+  uuid: TUuid;
+}
+
 export type SerializedWallet = InitialisePrivateKey | InitialiseMnemonicPhrase;
+export type SerializedOptionalPersistentWallet =
+  | (InitialisePrivateKey & { persistent?: false })
+  | (InitialiseMnemonicPhrase & { persistent?: false })
+  | InitialisePersistentAccount;
 
 interface InitialiseDeterministicMnemonicPhrase {
   walletType: WalletType.MNEMONIC;
@@ -39,7 +48,7 @@ interface BaseRequest<Type extends CryptoRequestType> {
 }
 
 interface SignTxRequest extends BaseRequest<CryptoRequestType.SIGN> {
-  wallet: SerializedWallet;
+  wallet: SerializedOptionalPersistentWallet;
   tx: TransactionRequest;
 }
 

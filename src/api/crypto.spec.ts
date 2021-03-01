@@ -54,6 +54,14 @@ jest.mock('electron', () => ({
   }
 }));
 
+jest.mock('electron-store', () => {
+  return jest.fn().mockImplementation(() => ({
+    get: jest.fn(),
+    set: jest.fn(),
+    clear: jest.fn()
+  }));
+});
+
 describe('handleRequest', () => {
   it('GET_ADDRESS returns address for PRIVATE_KEY', async () => {
     const response = await handleRequest({
