@@ -1,10 +1,10 @@
 import React from 'react';
 
-import configureStore from 'redux-mock-store';
 import { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
+import configureStore from 'redux-mock-store';
 
 import { ApplicationState, removeAccount } from '@app/store';
 import { fAccount } from '@fixtures';

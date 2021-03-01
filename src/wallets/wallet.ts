@@ -1,4 +1,5 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider';
+
 import { TAddress } from '@types';
 
 export interface Wallet {
