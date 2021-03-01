@@ -38,4 +38,6 @@ export const JSONRPCRequestStruct = object({
   params: optional(array())
 });
 
-export type JsonRPCRequest = Infer<typeof JSONRPCRequestStruct>;
+export type JsonRPCRequest<T = unknown[]> = Infer<typeof JSONRPCRequestStruct> & {
+  params: T;
+};
