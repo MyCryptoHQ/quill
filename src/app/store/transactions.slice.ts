@@ -1,4 +1,4 @@
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAction, createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { eventChannel } from 'redux-saga';
 import { all, call, put, take, takeLatest } from 'redux-saga/effects';
 
@@ -20,14 +20,15 @@ const slice = createSlice({
     },
     dequeue(state) {
       state.queue.shift();
-    },
-    denyCurrentTransaction(_, __: PayloadAction<JsonRPCRequest>) {
-      // noop
     }
   }
 });
 
-export const { enqueue, dequeue, denyCurrentTransaction } = slice.actions;
+export const denyCurrentTransaction = createAction<JsonRPCRequest>(
+  `${slice.name}/denyCurrentTransaction`
+);
+
+export const { enqueue, dequeue } = slice.actions;
 
 export default slice;
 
@@ -51,7 +52,7 @@ export function* transactionsSaga() {
   ]);
 }
 
-const subscribe = () => {
+export const subscribe = () => {
   return eventChannel((emitter) => {
     const unsubcribe = ipcBridgeRenderer.api.subscribeToRequests((request) => {
       // We expect this to be validated and sanitized JSON RPC request
@@ -64,6 +65,7 @@ const subscribe = () => {
   });
 };
 
+// @todo Figure out how to test this
 export function* transactionsWorker() {
   const channel = yield call(subscribe);
   while (true) {
@@ -73,7 +75,7 @@ export function* transactionsWorker() {
 }
 
 export function* denyCurrentTransactionWorker({ payload }: PayloadAction<JsonRPCRequest>) {
-  ipcBridgeRenderer.api.sendResponse({
+  yield call(ipcBridgeRenderer.api.sendResponse, {
     id: payload.id,
     error: { code: '-32000', message: 'User denied transaction' }
   });
