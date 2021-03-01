@@ -49,14 +49,20 @@ jest.mock('electron-store', () => {
 
 jest.mock('keytar', () => ({
   setPassword: jest.fn(),
-  getPassword: jest.fn().mockImplementation(() => 'a25af35163bf8c73f9a230069ee999293f238197d138a418b0e4a7bab922216c6a4dc5b6deca7e4c2fdcc694e371095a26e6214380a51ff1631344a3c835d6bf6fe6'),
+  getPassword: jest
+    .fn()
+    .mockImplementation(
+      () =>
+        'a25af35163bf8c73f9a230069ee999293f238197d138a418b0e4a7bab922216c6a4dc5b6deca7e4c2fdcc694e371095a26e6214380a51ff1631344a3c835d6bf6fe6'
+    ),
   deletePassword: jest.fn()
 }));
 
 const uuid = '304a57a4-1752-53db-8861-67785534e98e' as TUuid;
 const password = 'password';
 const privateKey = '0x93b3701cf8eeb6f7d3b22211c691734f24816a02efa933f67f34d37053182577';
-const encryptedPrivKey = 'a25af35163bf8c73f9a230069ee999293f238197d138a418b0e4a7bab922216c6a4dc5b6deca7e4c2fdcc694e371095a26e6214380a51ff1631344a3c835d6bf6fe6';
+const encryptedPrivKey =
+  'a25af35163bf8c73f9a230069ee999293f238197d138a418b0e4a7bab922216c6a4dc5b6deca7e4c2fdcc694e371095a26e6214380a51ff1631344a3c835d6bf6fe6';
 
 const { handleRequest, runService } = jest.requireActual<{
   handleRequest: typeof _handleRequest;
