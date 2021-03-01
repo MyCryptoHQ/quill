@@ -5,7 +5,7 @@ import keytar from 'keytar';
 
 import { IPC_CHANNELS, KEYTAR_SERVICE } from '@config';
 import { fAccount } from '@fixtures';
-import { DBRequestType, TUuid } from '@types';
+import { DBRequestType, TUuid, WalletType } from '@types';
 
 import { handleRequest as _handleRequest, runService as _runService } from './db';
 
@@ -49,14 +49,14 @@ jest.mock('electron-store', () => {
 
 jest.mock('keytar', () => ({
   setPassword: jest.fn(),
-  getPassword: jest.fn().mockImplementation(() => 'e250a3146ae9c2'),
+  getPassword: jest.fn().mockImplementation(() => 'a25af35163bf8c73f9a230069ee999293f238197d138a418b0e4a7bab922216c6a4dc5b6deca7e4c2fdcc694e371095a26e6214380a51ff1631344a3c835d6bf6fe6'),
   deletePassword: jest.fn()
 }));
 
-const uuid = 'a259a13e-936b-5945-8c80-7f757e808507' as TUuid;
+const uuid = '304a57a4-1752-53db-8861-67785534e98e' as TUuid;
 const password = 'password';
-const privateKey = 'privkey';
-const encryptedPrivKey = 'e250a3146ae9c2';
+const privateKey = '0x93b3701cf8eeb6f7d3b22211c691734f24816a02efa933f67f34d37053182577';
+const encryptedPrivKey = 'a25af35163bf8c73f9a230069ee999293f238197d138a418b0e4a7bab922216c6a4dc5b6deca7e4c2fdcc694e371095a26e6214380a51ff1631344a3c835d6bf6fe6';
 
 const { handleRequest, runService } = jest.requireActual<{
   handleRequest: typeof _handleRequest;
@@ -140,16 +140,18 @@ describe('handleRequest', () => {
     );
   });
 
-  it('SAVE_PRIVATE_KEY calls setPassword with encrypted privkey', async () => {
+  it('SAVE_ACCOUNT_SECRETS calls setPassword with encrypted privkey', async () => {
     await handleRequest({
       type: DBRequestType.INIT,
       password
     });
 
     await handleRequest({
-      type: DBRequestType.SAVE_PRIVATE_KEY,
-      uuid,
-      privateKey
+      type: DBRequestType.SAVE_ACCOUNT_SECRETS,
+      wallet: {
+        walletType: WalletType.PRIVATE_KEY,
+        privateKey
+      }
     });
 
     expect(keytar.setPassword).toHaveBeenCalledWith(KEYTAR_SERVICE, uuid, encryptedPrivKey);
@@ -170,9 +172,9 @@ describe('handleRequest', () => {
     expect(response).toBe(privateKey);
   });
 
-  it('DELETE_PRIVATE_KEY calls deletePassword', async () => {
+  it('DELETE_ACCOUNT_SECRETS calls deletePassword', async () => {
     await handleRequest({
-      type: DBRequestType.DELETE_PRIVATE_KEY,
+      type: DBRequestType.DELETE_ACCOUNT_SECRETS,
       uuid
     });
 

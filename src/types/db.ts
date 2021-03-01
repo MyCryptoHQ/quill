@@ -1,4 +1,4 @@
-import { TUuid } from '@types';
+import { SerializedWallet, TUuid } from '@types';
 
 import { IAccount } from './account';
 
@@ -10,9 +10,9 @@ export enum DBRequestType {
   IS_LOGGED_IN = 'IS_LOGGED_IN',
   GET_FROM_STORE = 'GET_FROM_STORE',
   SET_IN_STORE = 'SET_IN_STORE',
-  SAVE_PRIVATE_KEY = 'SAVE_PRIVATE_KEY',
+  SAVE_ACCOUNT_SECRETS = 'SAVE_ACCOUNT_SECRETS',
   GET_PRIVATE_KEY = 'GET_PRIVATE_KEY',
-  DELETE_PRIVATE_KEY = 'DELETE_PRIVATE_KEY'
+  DELETE_ACCOUNT_SECRETS = 'DELETE_ACCOUNT_SECRETS'
 }
 
 interface BaseRequest<Type extends DBRequestType> {
@@ -46,13 +46,13 @@ interface UuidRequest<Type extends DBRequestType> extends BaseRequest<Type> {
   uuid: TUuid;
 }
 
-interface SavePrivateKeyRequest extends UuidRequest<DBRequestType.SAVE_PRIVATE_KEY> {
-  privateKey: string;
+interface SaveAccountSecretsRequest extends BaseRequest<DBRequestType.SAVE_ACCOUNT_SECRETS> {
+  wallet: SerializedWallet;
 }
 
 type GetPrivateKeyRequest = UuidRequest<DBRequestType.GET_PRIVATE_KEY>;
 
-type DeletePrivateKeyRequest = UuidRequest<DBRequestType.DELETE_PRIVATE_KEY>;
+type DeletePrivateKeyRequest = UuidRequest<DBRequestType.DELETE_ACCOUNT_SECRETS>;
 
 export type DBRequest =
   | InitRequest
@@ -62,7 +62,7 @@ export type DBRequest =
   | GetNewUserStateRequest
   | GetFromStoreRequest
   | SetInStoreRequest
-  | SavePrivateKeyRequest
+  | SaveAccountSecretsRequest
   | GetPrivateKeyRequest
   | DeletePrivateKeyRequest;
 

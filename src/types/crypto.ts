@@ -24,7 +24,7 @@ export interface InitialiseMnemonicPhrase {
   path: string;
 }
 
-export type InitialiseWallet = InitialisePrivateKey | InitialiseMnemonicPhrase;
+export type SerializedWallet = InitialisePrivateKey | InitialiseMnemonicPhrase;
 
 interface InitialiseDeterministicMnemonicPhrase {
   walletType: WalletType.MNEMONIC;
@@ -39,7 +39,7 @@ interface BaseRequest<Type extends CryptoRequestType> {
 }
 
 interface SignTxRequest extends BaseRequest<CryptoRequestType.SIGN> {
-  wallet: InitialiseWallet;
+  wallet: SerializedWallet;
   tx: TransactionRequest;
 }
 
@@ -48,7 +48,7 @@ interface CreateWalletRequest extends BaseRequest<CryptoRequestType.CREATE_WALLE
 }
 
 export type GetAddressRequest = BaseRequest<CryptoRequestType.GET_ADDRESS> & {
-  wallet: InitialiseWallet;
+  wallet: SerializedWallet;
 };
 
 export type GetAddressesRequest = BaseRequest<CryptoRequestType.GET_ADDRESSES> & {

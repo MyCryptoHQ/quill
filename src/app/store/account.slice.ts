@@ -8,7 +8,7 @@ import {
   DBRequestType,
   IAccount,
   InitialiseMnemonicPhrase,
-  InitialiseWallet,
+  SerializedWallet,
   TAddress
 } from '@types';
 import { generateDeterministicAddressUUID } from '@utils';
@@ -32,7 +32,7 @@ const slice = createSlice({
       const idx = state.accounts.findIndex((a) => a.uuid === action.payload.uuid);
       state.accounts.splice(idx, 1);
     },
-    fetchAccount(state, _: PayloadAction<InitialiseWallet>) {
+    fetchAccount(state, _: PayloadAction<SerializedWallet & { persistent: boolean }>) {
       state.isFetching = true;
     }
   }
@@ -67,7 +67,7 @@ export function* accountsSaga() {
   ]);
 }
 
-export function* fetchAccountWorker({ payload: wallet }: PayloadAction<InitialiseWallet>) {
+export function* fetchAccountWorker({ payload: wallet }: PayloadAction<SerializedWallet & { persistent: boolean }>) {
   const address: TAddress = yield call(ipcBridgeRenderer.crypto.invoke, {
     type: CryptoRequestType.GET_ADDRESS,
     wallet
@@ -75,14 +75,20 @@ export function* fetchAccountWorker({ payload: wallet }: PayloadAction<Initialis
 
   const uuid = generateDeterministicAddressUUID(address);
 
-  // @todo Handle persistence
+  if (wallet.persistent) {
+    yield call(ipcBridgeRenderer.db.invoke, {
+      type: DBRequestType.SAVE_ACCOUNT_SECRETS,
+      wallet
+    })
+  }
+
   yield put(
     addAccount({
       type: wallet.walletType,
       address,
       uuid,
       dPath: (wallet as InitialiseMnemonicPhrase).path,
-      persistent: false
+      persistent: wallet.persistent
     })
   );
 }
@@ -90,7 +96,7 @@ export function* fetchAccountWorker({ payload: wallet }: PayloadAction<Initialis
 export function* removeAccountWorker({ payload: account }: PayloadAction<IAccount>) {
   if (account.persistent) {
     yield call(ipcBridgeRenderer.db.invoke, {
-      type: DBRequestType.DELETE_PRIVATE_KEY,
+      type: DBRequestType.DELETE_ACCOUNT_SECRETS,
       uuid: account.uuid
     });
   }
