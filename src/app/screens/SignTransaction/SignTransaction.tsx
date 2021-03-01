@@ -20,7 +20,6 @@ export const SignTransaction = () => {
   const currentTransaction = useSelector(getCurrentTransaction);
   const formattedTx = currentTransaction && makeTx(currentTransaction);
   const currentAccount = formattedTx && accounts.find((a) => a.address === formattedTx.from);
-  const hasPersistentPrivateKey = currentAccount && currentAccount.persistent;
   const [error, setError] = useState('');
 
   const handleDeny = async () => {
@@ -40,7 +39,6 @@ export const SignTransaction = () => {
       <br />
       {currentAccount && currentAccount.type === WalletType.PRIVATE_KEY && (
         <SignTransactionPrivateKey
-          hasPersistentPrivateKey={hasPersistentPrivateKey}
           onDeny={handleDeny}
           tx={formattedTx}
           currentAccount={currentAccount}
@@ -48,7 +46,6 @@ export const SignTransaction = () => {
       )}
       {currentAccount && currentAccount.type === WalletType.MNEMONIC && (
         <SignTransactionMnemonic
-          hasPersistentPrivateKey={hasPersistentPrivateKey}
           onDeny={handleDeny}
           tx={formattedTx}
           currentAccount={currentAccount}

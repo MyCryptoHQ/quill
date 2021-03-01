@@ -1,3 +1,4 @@
+import { getWallet } from '@wallets/wallet-initialisation';
 import { app, ipcMain } from 'electron';
 import Store from 'electron-store';
 import fs from 'fs';
@@ -8,7 +9,6 @@ import { IPC_CHANNELS, KEYTAR_SERVICE } from '@config';
 import { DBRequest, DBRequestType, DBResponse, SerializedWallet, TUuid } from '@types';
 import { generateDeterministicAddressUUID, safeJSONParse } from '@utils';
 import { decrypt, encrypt, hashPassword } from '@utils/encryption';
-import { getWallet } from '@wallets/wallet-initialisation';
 
 const store = new Store();
 
@@ -87,7 +87,7 @@ const savePrivateKey = (uuid: TUuid, privateKey: string) => {
   return keytar.setPassword(KEYTAR_SERVICE, uuid, encryptedPKey);
 };
 
-const getPrivateKey = async (uuid: TUuid) => {
+export const getPrivateKey = async (uuid: TUuid) => {
   const result = await keytar.getPassword(KEYTAR_SERVICE, uuid);
   if (result) {
     return decrypt(result, encryptionKey);

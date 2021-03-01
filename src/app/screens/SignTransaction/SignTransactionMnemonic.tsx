@@ -3,12 +3,7 @@ import React, { useState } from 'react';
 import { sign, useDispatch } from '@app/store';
 import { SignTransactionProps, WalletType } from '@types';
 
-export const SignTransactionMnemonic = ({
-  onDeny,
-  hasPersistentPrivateKey,
-  currentAccount,
-  tx
-}: SignTransactionProps) => {
+export const SignTransactionMnemonic = ({ onDeny, currentAccount, tx }: SignTransactionProps) => {
   const dispatch = useDispatch();
   const [phrase, setPhrase] = useState('');
   const [password, setPassword] = useState('');
@@ -20,6 +15,18 @@ export const SignTransactionMnemonic = ({
     setPassword(e.currentTarget.value);
 
   const handleAccept = async () => {
+    if (currentAccount.persistent) {
+      return dispatch(
+        sign({
+          wallet: {
+            persistent: true,
+            uuid: currentAccount.uuid
+          },
+          tx
+        })
+      );
+    }
+
     dispatch(
       sign({
         wallet: {
@@ -35,7 +42,7 @@ export const SignTransactionMnemonic = ({
 
   return (
     <>
-      {currentAccount && !hasPersistentPrivateKey && (
+      {currentAccount && !currentAccount.persistent && (
         <>
           <label htmlFor="mnemonic">Mnemonic Phrase</label>
           <br />
@@ -53,7 +60,7 @@ export const SignTransactionMnemonic = ({
       <button
         id="accept_button"
         type="button"
-        disabled={!tx || (phrase.length === 0 && !hasPersistentPrivateKey)}
+        disabled={!tx || (phrase.length === 0 && !currentAccount.persistent)}
         onClick={handleAccept}
       >
         Accept

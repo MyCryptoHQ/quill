@@ -1,15 +1,31 @@
 import { MnemonicPhrase } from '@wallets/implementations/deterministic/mnemonic-phrase';
+import { PrivateKey } from '@wallets/implementations/non-deterministic/private-key';
 import { getDeterministicWallet, getWallet } from '@wallets/wallet-initialisation';
 import { ipcMain } from 'electron';
 
+import { getPrivateKey } from '@api/db';
 import { ipcBridgeMain } from '@bridge';
-import { CryptoRequest, CryptoRequestType, CryptoResponse, WalletType } from '@types';
+import {
+  CryptoRequest,
+  CryptoRequestType,
+  CryptoResponse,
+  SerializedWallet,
+  TUuid,
+  WalletType
+} from '@types';
+
+const getPersistentWallet = async (uuid: TUuid): Promise<PrivateKey> => {
+  const privateKey = await getPrivateKey(uuid);
+  return new PrivateKey(privateKey);
+};
 
 export const handleRequest = async (request: CryptoRequest): Promise<CryptoResponse> => {
   switch (request.type) {
     case CryptoRequestType.SIGN: {
       const { wallet, tx } = request;
-      const initialisedWallet = await getWallet(wallet);
+      const initialisedWallet = wallet.persistent
+        ? await getPersistentWallet(wallet.uuid)
+        : await getWallet(wallet as SerializedWallet);
       return initialisedWallet.signTransaction(tx);
     }
     case CryptoRequestType.GET_ADDRESS: {

@@ -1,18 +1,17 @@
 import React from 'react';
 
+import { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
+import configureStore from 'redux-mock-store';
 
 import { ApplicationState, denyCurrentTransaction, sign } from '@app/store';
-import { ipcBridgeRenderer } from '@bridge';
 import { fAccount, fAccounts, fMnemonicPhrase, fTxRequest, getTransactionRequest } from '@fixtures';
-
-import { SignTransaction } from '../SignTransaction';
-import configureStore from 'redux-mock-store';
-import { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
 import { IAccount, WalletType } from '@types';
 import { makeTx } from '@utils';
+
+import { SignTransaction } from '../SignTransaction';
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
@@ -44,12 +43,17 @@ const getComponentWithStore = (account: IAccount = fAccount) => {
 
 describe('SignTransaction', () => {
   it('renders', async () => {
-    const { component: { getByText } } = getComponentWithStore();
+    const {
+      component: { getByText }
+    } = getComponentWithStore();
     expect(getByText('Accept').textContent).toBeDefined();
   });
 
   it('can accept tx with private key', async () => {
-    const { component: { getByText, getByLabelText }, mockStore } = getComponentWithStore();
+    const {
+      component: { getByText, getByLabelText },
+      mockStore
+    } = getComponentWithStore();
     await waitFor(() => expect(getByText('Accept')?.textContent).toBeDefined());
 
     const privkeyInput = getByLabelText('Private Key');
@@ -59,17 +63,22 @@ describe('SignTransaction', () => {
     const acceptButton = getByText('Accept');
     fireEvent.click(acceptButton);
 
-    expect(mockStore.getActions()).toContainEqual(sign({
-      wallet: {
-        walletType: WalletType.PRIVATE_KEY,
-        privateKey: 'privkey'
-      },
-      tx: makeTx(fTxRequest)
-    }))
+    expect(mockStore.getActions()).toContainEqual(
+      sign({
+        wallet: {
+          walletType: WalletType.PRIVATE_KEY,
+          privateKey: 'privkey'
+        },
+        tx: makeTx(fTxRequest)
+      })
+    );
   });
 
   it('can accept tx with mnemonic', async () => {
-    const { component: { getByText, getByLabelText }, mockStore } = getComponentWithStore(fAccounts[1]);
+    const {
+      component: { getByText, getByLabelText },
+      mockStore
+    } = getComponentWithStore(fAccounts[1]);
     const acceptButton = getByText('Accept');
     expect(acceptButton.textContent).toBeDefined();
 
@@ -83,35 +92,46 @@ describe('SignTransaction', () => {
     fireEvent.click(acceptButton);
 
     const transactionRequest = getTransactionRequest(fAccounts[1].address);
-    expect(mockStore.getActions()).toContainEqual(sign({
-      wallet: {
-        walletType: WalletType.MNEMONIC,
-        mnemonicPhrase: fMnemonicPhrase,
-        passphrase: 'password',
-        path: fAccounts[1].dPath
-      },
-      tx: makeTx(transactionRequest)
-    }))
+    expect(mockStore.getActions()).toContainEqual(
+      sign({
+        wallet: {
+          walletType: WalletType.MNEMONIC,
+          mnemonicPhrase: fMnemonicPhrase,
+          passphrase: 'password',
+          path: fAccounts[1].dPath
+        },
+        tx: makeTx(transactionRequest)
+      })
+    );
   });
 
   it('can accept tx with a persistent private key', async () => {
-    const { component: { getByText } } = getComponentWithStore();
+    const {
+      component: { getByText },
+      mockStore
+    } = getComponentWithStore(fAccounts[2]);
     const acceptButton = getByText('Accept');
     expect(acceptButton.textContent).toBeDefined();
 
     fireEvent.click(acceptButton);
 
-    expect(ipcBridgeRenderer.crypto.invoke).toHaveBeenCalled();
-
-    await waitFor(() =>
-      expect(ipcBridgeRenderer.api.sendResponse).toHaveBeenCalledWith(
-        expect.objectContaining({ id: 4 })
-      )
+    const transactionRequest = getTransactionRequest(fAccounts[2].address);
+    expect(mockStore.getActions()).toContainEqual(
+      sign({
+        wallet: {
+          persistent: true,
+          uuid: fAccounts[2].uuid
+        },
+        tx: makeTx(transactionRequest)
+      })
     );
   });
 
   it('can deny tx', async () => {
-    const { component: { getByText }, mockStore } = getComponentWithStore();
+    const {
+      component: { getByText },
+      mockStore
+    } = getComponentWithStore();
     const denyButton = getByText('Deny');
     expect(denyButton.textContent).toBeDefined();
 
