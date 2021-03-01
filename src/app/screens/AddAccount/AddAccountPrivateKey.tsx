@@ -9,18 +9,18 @@ import { WalletType } from '@types';
 export const AddAccountPrivateKey = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [privKey, setPrivKey] = useState('');
-  const [persistence, setPersistence] = useState(false);
+  const [privateKey, setPrivateKey] = useState('');
+  const [persistent, setPersistent] = useState(false);
 
   const changePrivateKey = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setPrivKey(e.currentTarget.value);
+    setPrivateKey(e.currentTarget.value);
 
   const changePersistence = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setPersistence(e.currentTarget.checked);
+    setPersistent(e.currentTarget.checked);
 
   const handleSubmit = () => {
     // @todo Handle persistence
-    dispatch(fetchAccount({ walletType: WalletType.PRIVATE_KEY, privateKey: privKey }));
+    dispatch(fetchAccount({ walletType: WalletType.PRIVATE_KEY, privateKey, persistent }));
     history.replace(ROUTE_PATHS.HOME);
   };
 
@@ -33,7 +33,7 @@ export const AddAccountPrivateKey = () => {
       <br />
       <label>
         Persistence
-        <input type="checkbox" onChange={changePersistence} checked={persistence} />
+        <input type="checkbox" onChange={changePersistence} checked={persistent} />
       </label>
       <br />
       <input type="submit" value="Submit" onClick={handleSubmit} />

@@ -4,13 +4,13 @@ import { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
+import configureStore from 'redux-mock-store';
 
 import { ApplicationState, fetchAccount } from '@app/store';
 import { fMnemonicPhrase } from '@fixtures';
 import { WalletType } from '@types';
 
 import { AddAccount } from '../AddAccount';
-import configureStore from 'redux-mock-store';
 
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {
@@ -55,11 +55,11 @@ describe('AddAccount', () => {
     expect(submitButton).toBeDefined();
     fireEvent.click(submitButton);
 
-    //
     expect(mockStore.getActions()).toContainEqual(
       fetchAccount({
         walletType: WalletType.PRIVATE_KEY,
-        privateKey: 'privkey'
+        privateKey: 'privkey',
+        persistent: true
       })
     );
   });
@@ -93,7 +93,8 @@ describe('AddAccount', () => {
         walletType: WalletType.MNEMONIC,
         mnemonicPhrase: fMnemonicPhrase,
         passphrase: 'password',
-        path: "m/44'/60'/0'/0/0"
+        path: "m/44'/60'/0'/0/0",
+        persistent: true
       })
     );
   });

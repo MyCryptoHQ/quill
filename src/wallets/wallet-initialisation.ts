@@ -3,9 +3,9 @@ import { MnemonicPhrase } from '@wallets/implementations/deterministic/mnemonic-
 import { PrivateKey } from '@wallets/implementations/non-deterministic/private-key';
 import { Wallet } from '@wallets/wallet';
 
-import { InitialiseDeterministicWallet, InitialiseWallet, WalletType } from '@types';
+import { InitialiseDeterministicWallet, SerializedWallet, WalletType } from '@types';
 
-export const getWallet = async (initialiseWallet: InitialiseWallet): Promise<Wallet> => {
+export const getWallet = async (initialiseWallet: SerializedWallet): Promise<Wallet> => {
   switch (initialiseWallet.walletType) {
     case WalletType.MNEMONIC: {
       const { mnemonicPhrase, passphrase, path } = initialiseWallet;

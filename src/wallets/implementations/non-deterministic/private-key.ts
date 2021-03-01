@@ -3,6 +3,7 @@ import { Wallet as EthersWallet } from '@ethersproject/wallet';
 import { Wallet } from '@wallets/wallet';
 
 import { addHexPrefix } from '@utils';
+import { TAddress } from '@types';
 
 export class PrivateKey implements Wallet {
   constructor(private readonly privateKey: string) {}
@@ -12,8 +13,12 @@ export class PrivateKey implements Wallet {
     return wallet.signTransaction(transaction);
   }
 
-  getAddress(): Promise<string> {
+  async getAddress(): Promise<TAddress> {
     const wallet = new EthersWallet(addHexPrefix(this.privateKey));
-    return wallet.getAddress();
+    return (await wallet.getAddress()) as TAddress;
+  }
+
+  async getPrivateKey(): Promise<string> {
+    return this.privateKey;
   }
 }

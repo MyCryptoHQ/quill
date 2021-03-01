@@ -14,7 +14,7 @@ export const AddAccountMnemonic = () => {
   const history = useHistory();
   const [phrase, setPhrase] = useState('');
   const [password, setPassword] = useState('');
-  const [persistence, setPersistence] = useState(false);
+  const [persistent, setPersistent] = useState(false);
   const [addresses, setAddresses] = useState<GetAddressesResult[]>([]);
 
   const changeMnemonicPhrase = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -24,7 +24,7 @@ export const AddAccountMnemonic = () => {
     setPassword(e.currentTarget.value);
 
   const changePersistence = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setPersistence(e.currentTarget.checked);
+    setPersistent(e.currentTarget.checked);
 
   const handleSubmit = async () => {
     const result = await ipcBridgeRenderer.crypto.invoke({
@@ -42,13 +42,13 @@ export const AddAccountMnemonic = () => {
   };
 
   const addAddress = ({ dPath }: GetAddressesResult) => {
-    // @todo Handle persistence
     dispatch(
       fetchAccount({
         walletType: WalletType.MNEMONIC,
         mnemonicPhrase: phrase,
         passphrase: password,
-        path: dPath
+        path: dPath,
+        persistent
       })
     );
     history.replace(ROUTE_PATHS.HOME);
@@ -70,7 +70,7 @@ export const AddAccountMnemonic = () => {
       <br />
       <label>
         Persistence
-        <input type="checkbox" onChange={changePersistence} checked={persistence} />
+        <input type="checkbox" onChange={changePersistence} checked={persistent} />
       </label>
       <br />
       <input type="submit" value="Next" onClick={handleSubmit} />
