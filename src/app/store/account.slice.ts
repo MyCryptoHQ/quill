@@ -42,6 +42,8 @@ export const { addAccount, removeAccount, fetchAccount } = slice.actions;
 
 export default slice;
 
+export type AccountsState = ReturnType<typeof slice.reducer>;
+
 const persistConfig = {
   key: sliceName,
   keyPrefix: '',
