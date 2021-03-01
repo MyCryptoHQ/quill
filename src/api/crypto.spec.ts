@@ -1,10 +1,13 @@
 import { ipcMain } from 'electron';
 
+import { getPrivateKey } from '@api/db';
 import { IPC_CHANNELS } from '@config';
 import { fMnemonicPhrase } from '@fixtures';
-import { CryptoRequestType, WalletType } from '@types';
+import { CryptoRequestType, TUuid, WalletType } from '@types';
 
 import { handleRequest, runService } from './crypto';
+
+const mockPrivateKey = '0x93b3701cf8eeb6f7d3b22211c691734f24816a02efa933f67f34d37053182577';
 
 jest.mock('crypto', () => ({
   ...jest.requireActual('crypto'),
@@ -62,12 +65,16 @@ jest.mock('electron-store', () => {
   }));
 });
 
+jest.mock('@api/db', () => ({
+  getPrivateKey: jest.fn().mockImplementation(() => mockPrivateKey)
+}));
+
 describe('handleRequest', () => {
   it('GET_ADDRESS returns address for PRIVATE_KEY', async () => {
     const response = await handleRequest({
       wallet: {
         walletType: WalletType.PRIVATE_KEY,
-        privateKey: '0x93b3701cf8eeb6f7d3b22211c691734f24816a02efa933f67f34d37053182577'
+        privateKey: mockPrivateKey
       },
       type: CryptoRequestType.GET_ADDRESS
     });
@@ -133,7 +140,7 @@ describe('handleRequest', () => {
       type: CryptoRequestType.SIGN,
       wallet: {
         walletType: WalletType.PRIVATE_KEY,
-        privateKey: '0x93b3701cf8eeb6f7d3b22211c691734f24816a02efa933f67f34d37053182577'
+        privateKey: mockPrivateKey
       },
       tx: {
         nonce: 6,
@@ -146,6 +153,30 @@ describe('handleRequest', () => {
       }
     });
 
+    expect(response).toBe(
+      '0xf86b0685012a05f20082520894b2bb2b958afa2e96dab3f3ce7162b87daea39017872386f26fc10000802aa0686df061021262b4e75eb1608c8baaf043cca2b5ac68fb24420ede62d13a8a7fa035389237414433ac06a33d95c863b8221fe2c797a9c650c47a555255be0234f3'
+    );
+  });
+
+  it('SIGN returns signed transaction for persistent accounts', async () => {
+    const response = await handleRequest({
+      type: CryptoRequestType.SIGN,
+      wallet: {
+        persistent: true,
+        uuid: '709879a4-2241-4c07-8c83-16048e47d502' as TUuid
+      },
+      tx: {
+        nonce: 6,
+        gasPrice: '0x012a05f200',
+        gasLimit: '0x5208',
+        to: '0xb2bb2b958AFa2e96dab3f3Ce7162b87daEa39017',
+        value: '0x2386f26fc10000',
+        data: '0x',
+        chainId: 3
+      }
+    });
+
+    expect(getPrivateKey).toHaveBeenCalledWith('709879a4-2241-4c07-8c83-16048e47d502');
     expect(response).toBe(
       '0xf86b0685012a05f20082520894b2bb2b958afa2e96dab3f3ce7162b87daea39017872386f26fc10000802aa0686df061021262b4e75eb1608c8baaf043cca2b5ac68fb24420ede62d13a8a7fa035389237414433ac06a33d95c863b8221fe2c797a9c650c47a555255be0234f3'
     );
