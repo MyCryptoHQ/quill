@@ -4,115 +4,72 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 
-import { createStore } from '@app/store';
+import { ApplicationState, denyCurrentTransaction, sign } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
-import { fAccounts, fMnemonicPhrase } from '@fixtures';
-import { JsonRPCRequest } from '@types';
+import { fAccount, fAccounts, fMnemonicPhrase, fTxRequest, getTransactionRequest } from '@fixtures';
 
 import { SignTransaction } from '../SignTransaction';
+import configureStore from 'redux-mock-store';
+import { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
+import { IAccount, WalletType } from '@types';
+import { makeTx } from '@utils';
 
-jest.mock('@bridge', () => ({
-  ipcBridgeRenderer: {
-    api: {
-      subscribeToRequests: jest
-        .fn()
-        .mockImplementationOnce((callback: (request: JsonRPCRequest) => void) => {
-          callback({
-            id: 1,
-            jsonrpc: '2.0',
-            method: 'eth_signTransaction',
-            params: [{ from: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520' }]
-          });
-          return () => true;
-        })
-        .mockImplementationOnce((callback: (request: JsonRPCRequest) => void) => {
-          callback({
-            id: 2,
-            jsonrpc: '2.0',
-            method: 'eth_signTransaction',
-            params: [{ from: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520' }]
-          });
-          return () => true;
-        })
-        .mockImplementationOnce((callback: (request: JsonRPCRequest) => void) => {
-          callback({
-            id: 3,
-            jsonrpc: '2.0',
-            method: 'eth_signTransaction',
-            params: [{ from: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f' }]
-          });
-          return () => true;
-        })
-        .mockImplementation((callback: (request: JsonRPCRequest) => void) => {
-          callback({
-            id: 4,
-            jsonrpc: '2.0',
-            method: 'eth_signTransaction',
-            params: [{ from: '0xF0850b736BB0DE14AE95718569A5032C944e86C8' }]
-          });
-          return () => true;
-        }),
-      sendResponse: jest.fn()
-    },
-    crypto: {
-      invoke: jest.fn().mockImplementation(() =>
-        Promise.resolve({
-          uuid: '9b902e45-84be-5e97-b3a8-f937588397b4',
-          address: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f',
-          dPath: "m/44'/60'/0'/0/0",
-          privateKey: '0x827207adb7a16d059733b097c5afdcb5373e746007a87e041a9d9d8e926abc93'
-        })
-      )
-    },
-    db: { invoke: jest.fn().mockImplementation(() => Promise.resolve('privatekey')) }
-  }
-}));
+const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
-function getComponent() {
+function getComponent(store: EnhancedStore<DeepPartial<ApplicationState>>) {
   return render(
     <Router>
-      <Provider
-        store={createStore({
-          preloadedState: {
-            // @ts-expect-error Brand bug with DeepPartial
-            accounts: { accounts: fAccounts }
-          }
-        })}
-      >
+      <Provider store={store}>
         <SignTransaction />
       </Provider>
     </Router>
   );
 }
 
+const getComponentWithStore = (account: IAccount = fAccount) => {
+  const transactionRequest = getTransactionRequest(account.address);
+  const mockStore = createMockStore({
+    accounts: {
+      // @ts-expect-error Brand bug with DeepPartial
+      accounts: [account]
+    },
+    transactions: {
+      queue: [transactionRequest]
+    }
+  });
+
+  const component = getComponent(mockStore);
+  return { component, mockStore };
+};
+
 describe('SignTransaction', () => {
   it('renders', async () => {
-    const { getByText } = getComponent();
+    const { component: { getByText } } = getComponentWithStore();
     expect(getByText('Accept').textContent).toBeDefined();
   });
 
   it('can accept tx with private key', async () => {
-    const { getByText, getByLabelText } = getComponent();
-    const acceptButton = getByText('Accept');
-    expect(acceptButton.textContent).toBeDefined();
+    const { component: { getByText, getByLabelText }, mockStore } = getComponentWithStore();
+    await waitFor(() => expect(getByText('Accept')?.textContent).toBeDefined());
 
     const privkeyInput = getByLabelText('Private Key');
     expect(privkeyInput).toBeDefined();
     fireEvent.change(privkeyInput, { target: { value: 'privkey' } });
 
+    const acceptButton = getByText('Accept');
     fireEvent.click(acceptButton);
 
-    expect(ipcBridgeRenderer.crypto.invoke).toHaveBeenCalled();
-
-    await waitFor(() =>
-      expect(ipcBridgeRenderer.api.sendResponse).toHaveBeenCalledWith(
-        expect.objectContaining({ id: 2 })
-      )
-    );
+    expect(mockStore.getActions()).toContainEqual(sign({
+      wallet: {
+        walletType: WalletType.PRIVATE_KEY,
+        privateKey: 'privkey'
+      },
+      tx: makeTx(fTxRequest)
+    }))
   });
 
   it('can accept tx with mnemonic', async () => {
-    const { getByText, getByLabelText } = getComponent();
+    const { component: { getByText, getByLabelText }, mockStore } = getComponentWithStore(fAccounts[1]);
     const acceptButton = getByText('Accept');
     expect(acceptButton.textContent).toBeDefined();
 
@@ -125,17 +82,20 @@ describe('SignTransaction', () => {
 
     fireEvent.click(acceptButton);
 
-    expect(ipcBridgeRenderer.crypto.invoke).toHaveBeenCalled();
-
-    await waitFor(() =>
-      expect(ipcBridgeRenderer.api.sendResponse).toHaveBeenCalledWith(
-        expect.objectContaining({ id: 3 })
-      )
-    );
+    const transactionRequest = getTransactionRequest(fAccounts[1].address);
+    expect(mockStore.getActions()).toContainEqual(sign({
+      wallet: {
+        walletType: WalletType.MNEMONIC,
+        mnemonicPhrase: fMnemonicPhrase,
+        passphrase: 'password',
+        path: fAccounts[1].dPath
+      },
+      tx: makeTx(transactionRequest)
+    }))
   });
 
   it('can accept tx with a persistent private key', async () => {
-    const { getByText } = getComponent();
+    const { component: { getByText } } = getComponentWithStore();
     const acceptButton = getByText('Accept');
     expect(acceptButton.textContent).toBeDefined();
 
@@ -151,14 +111,12 @@ describe('SignTransaction', () => {
   });
 
   it('can deny tx', async () => {
-    const { getByText } = getComponent();
+    const { component: { getByText }, mockStore } = getComponentWithStore();
     const denyButton = getByText('Deny');
     expect(denyButton.textContent).toBeDefined();
 
     fireEvent.click(denyButton);
 
-    expect(ipcBridgeRenderer.api.sendResponse).toHaveBeenCalledWith(
-      expect.objectContaining({ id: 4, error: expect.objectContaining({ code: '-32000' }) })
-    );
+    expect(mockStore.getActions()).toContainEqual(denyCurrentTransaction());
   });
 });

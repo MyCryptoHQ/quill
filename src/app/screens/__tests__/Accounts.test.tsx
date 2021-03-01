@@ -1,24 +1,25 @@
 import React from 'react';
 
-import { EnhancedStore } from '@reduxjs/toolkit';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import configureStore from 'redux-mock-store';
+import { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
+import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 
-import { ApplicationState, createStore } from '@app/store';
-import { ipcBridgeRenderer } from '@bridge';
+import { ApplicationState, removeAccount } from '@app/store';
 import { fAccount } from '@fixtures';
-import { DBRequestType } from '@types';
 
 import { Accounts } from '../Accounts';
 
-jest.mock('@bridge', () => ({
-  ipcBridgeRenderer: {
-    db: { invoke: jest.fn() }
+const createMockStore = configureStore<DeepPartial<ApplicationState>>();
+const mockStore = createMockStore({
+  accounts: {
+    // @ts-expect-error Brand bug with DeepPartial
+    accounts: [fAccount]
   }
-}));
+});
 
-function getComponent(store: EnhancedStore<ApplicationState> = createStore()) {
+function getComponent(store: EnhancedStore<DeepPartial<ApplicationState>> = mockStore) {
   return render(
     <Router>
       <Provider store={store}>
@@ -35,25 +36,13 @@ describe('Accounts', () => {
   });
 
   it('can delete account', async () => {
-    const store = createStore({
-      preloadedState: {
-        // @ts-expect-error Brand bug with DeepPartial
-        accounts: { accounts: [{ ...fAccount, persistent: true }] }
-      }
-    });
-    const { getByTestId, getByText } = getComponent(store);
+    const { getByTestId, getByText } = getComponent();
     const addressText = getByText(fAccount.address);
     expect(addressText).toBeDefined();
     const deleteButton = getByTestId(`delete-${fAccount.address}`);
     expect(deleteButton).toBeDefined();
     fireEvent.click(deleteButton);
 
-    await waitFor(() =>
-      expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith({
-        type: DBRequestType.DELETE_PRIVATE_KEY,
-        uuid: fAccount.uuid
-      })
-    );
-    await waitFor(() => expect(Object.keys(store.getState().accounts.accounts)).toHaveLength(0));
+    expect(mockStore.getActions()).toContainEqual(removeAccount(fAccount));
   });
 });

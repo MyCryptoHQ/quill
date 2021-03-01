@@ -1,38 +1,32 @@
 import React from 'react';
 
-import { EnhancedStore } from '@reduxjs/toolkit';
+import { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 
-import { ApplicationState, createStore } from '@app/store';
-import { ipcBridgeRenderer } from '@bridge';
+import { ApplicationState, fetchAccount } from '@app/store';
 import { fMnemonicPhrase } from '@fixtures';
 import { WalletType } from '@types';
 
 import { AddAccount } from '../AddAccount';
+import configureStore from 'redux-mock-store';
 
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {
-    db: { invoke: jest.fn() },
     crypto: {
-      invoke: jest
-        .fn()
-        .mockImplementation(({ type }) =>
-          Promise.resolve(
-            type === 'GET_ADDRESSES'
-              ? [
-                  { address: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520' },
-                  { address: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f' }
-                ]
-              : '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520'
-          )
-        )
+      invoke: jest.fn(() => ([{
+        address: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f',
+        dPath: "m/44'/60'/0'/0/0"
+      }]))
     }
   }
-}));
+}))
 
-function getComponent(store: EnhancedStore<ApplicationState> = createStore()) {
+const createMockStore = configureStore<DeepPartial<ApplicationState>>();
+const mockStore = createMockStore();
+
+function getComponent(store: EnhancedStore<DeepPartial<ApplicationState>> = mockStore) {
   return render(
     <Router>
       <Provider store={store}>
@@ -49,8 +43,7 @@ describe('AddAccount', () => {
   });
 
   it('can submit private key', async () => {
-    const store = createStore();
-    const { getByLabelText, getByText } = getComponent(store);
+    const { getByLabelText, getByText } = getComponent();
     const privKeyInput = getByLabelText('Private Key');
     expect(privKeyInput).toBeDefined();
     fireEvent.change(privKeyInput, { target: { value: 'privkey' } });
@@ -61,17 +54,18 @@ describe('AddAccount', () => {
     const submitButton = getByText('Submit');
     expect(submitButton).toBeDefined();
     fireEvent.click(submitButton);
-    expect(ipcBridgeRenderer.crypto.invoke).toHaveBeenCalledWith(
-      expect.objectContaining({
-        wallet: { walletType: WalletType.PRIVATE_KEY, privateKey: 'privkey' }
+
+    //
+    expect(mockStore.getActions()).toContainEqual(
+      fetchAccount({
+        walletType: WalletType.PRIVATE_KEY,
+        privateKey: 'privkey'
       })
     );
-    await waitFor(() => expect(Object.keys(store.getState().accounts.accounts)).toHaveLength(1));
   });
 
   it('can submit mnemonic', async () => {
-    const store = createStore();
-    const { getByLabelText, getByText } = getComponent(store);
+    const { getByLabelText, getByText } = getComponent();
     const walletTypeInput = getByLabelText('Type');
     expect(walletTypeInput).toBeDefined();
     fireEvent.change(walletTypeInput, { target: { value: 'MNEMONIC' } });
@@ -94,14 +88,13 @@ describe('AddAccount', () => {
     await waitFor(() => expect(getByText(address)).toBeDefined());
     fireEvent.click(getByText(address));
 
-    expect(ipcBridgeRenderer.crypto.invoke).toHaveBeenCalledWith(
-      expect.objectContaining({
-        wallet: expect.objectContaining({
-          walletType: WalletType.MNEMONIC,
-          mnemonicPhrase: fMnemonicPhrase
-        })
+    expect(mockStore.getActions()).toContainEqual(
+      fetchAccount({
+        walletType: WalletType.MNEMONIC,
+        mnemonicPhrase: fMnemonicPhrase,
+        passphrase: 'password',
+        path: "m/44'/60'/0'/0/0"
       })
     );
-    await waitFor(() => expect(Object.keys(store.getState().accounts.accounts)).toHaveLength(1));
   });
 });
