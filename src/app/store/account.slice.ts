@@ -67,7 +67,9 @@ export function* accountsSaga() {
   ]);
 }
 
-export function* fetchAccountWorker({ payload: wallet }: PayloadAction<SerializedWallet & { persistent: boolean }>) {
+export function* fetchAccountWorker({
+  payload: wallet
+}: PayloadAction<SerializedWallet & { persistent: boolean }>) {
   const address: TAddress = yield call(ipcBridgeRenderer.crypto.invoke, {
     type: CryptoRequestType.GET_ADDRESS,
     wallet
@@ -79,7 +81,7 @@ export function* fetchAccountWorker({ payload: wallet }: PayloadAction<Serialize
     yield call(ipcBridgeRenderer.db.invoke, {
       type: DBRequestType.SAVE_ACCOUNT_SECRETS,
       wallet
-    })
+    });
   }
 
   yield put(
