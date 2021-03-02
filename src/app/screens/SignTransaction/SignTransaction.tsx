@@ -6,9 +6,10 @@ import {
   denyCurrentTransaction,
   getAccounts,
   getCurrentTransaction,
+  sign,
   useDispatch
 } from '@app/store';
-import { WalletType } from '@types';
+import { SerializedWallet, WalletType } from '@types';
 import { makeTx } from '@utils';
 
 import { SignTransactionMnemonic } from './SignTransactionMnemonic';
@@ -21,6 +22,20 @@ export const SignTransaction = () => {
   const formattedTx = currentTransaction && makeTx(currentTransaction);
   const currentAccount = formattedTx && accounts.find((a) => a.address === formattedTx.from);
   const [error, setError] = useState('');
+
+  const handleAccept = async (wallet: SerializedWallet) => {
+    return dispatch(
+      sign({
+        wallet: currentAccount.persistent
+          ? {
+              persistent: true,
+              uuid: currentAccount.uuid
+            }
+          : wallet,
+        tx: formattedTx
+      })
+    );
+  };
 
   const handleDeny = async () => {
     if (currentTransaction) {
@@ -39,6 +54,7 @@ export const SignTransaction = () => {
       <br />
       {currentAccount && currentAccount.type === WalletType.PRIVATE_KEY && (
         <SignTransactionPrivateKey
+          onAccept={handleAccept}
           onDeny={handleDeny}
           tx={formattedTx}
           currentAccount={currentAccount}
@@ -46,6 +62,7 @@ export const SignTransaction = () => {
       )}
       {currentAccount && currentAccount.type === WalletType.MNEMONIC && (
         <SignTransactionMnemonic
+          onAccept={handleAccept}
           onDeny={handleDeny}
           tx={formattedTx}
           currentAccount={currentAccount}
