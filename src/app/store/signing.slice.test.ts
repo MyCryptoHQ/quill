@@ -3,7 +3,7 @@ import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
 import { ipcBridgeRenderer } from '@bridge';
-import { fTxRequest, fTxResponse } from '@fixtures';
+import { fSignedTx, fTxRequest } from '@fixtures';
 import { CryptoRequestType, SerializedWallet, WalletType } from '@types';
 import { makeTx } from '@utils';
 
@@ -45,10 +45,10 @@ describe('signWorker()', () => {
       })
     )
       .withState({ transactions: { queue: [fTxRequest] } })
-      .provide([[call.fn(ipcBridgeRenderer.crypto.invoke), fTxResponse]])
+      .provide([[call.fn(ipcBridgeRenderer.crypto.invoke), fSignedTx]])
       .call(ipcBridgeRenderer.crypto.invoke, { type: CryptoRequestType.SIGN, wallet, tx })
       .put(signSuccess())
-      .call(ipcBridgeRenderer.api.sendResponse, { id: fTxRequest.id, result: fTxResponse })
+      .call(ipcBridgeRenderer.api.sendResponse, { id: fTxRequest.id, result: fSignedTx })
       .put(dequeue())
       .silentRun();
   });
