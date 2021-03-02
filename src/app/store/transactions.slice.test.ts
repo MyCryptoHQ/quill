@@ -3,8 +3,17 @@ import { expectSaga } from 'redux-saga-test-plan';
 
 import { ipcBridgeRenderer } from '@bridge';
 import { fTxRequest } from '@fixtures';
+import { TxHistoryResult } from '@types';
+import { makeTx } from '@utils';
 
-import slice, { denyCurrentTransactionWorker, dequeue, enqueue } from './transactions.slice';
+import slice, {
+  addToHistory,
+  denyCurrentTransactionWorker,
+  dequeue,
+  enqueue
+} from './transactions.slice';
+
+Date.now = jest.fn(() => 1607602775360);
 
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {
@@ -38,6 +47,18 @@ describe('TransactionsSlice', () => {
     );
     expect(result.queue).toStrictEqual([{ ...fTxRequest, id: 2 }]);
   });
+
+  it('addToTxHistory(): adds item to tx history', () => {
+    const entry = { tx: makeTx(fTxRequest), result: TxHistoryResult.DENIED, timestamp: Date.now() };
+    const result = slice.reducer(
+      {
+        queue: [],
+        history: []
+      },
+      addToHistory(entry)
+    );
+    expect(result.history).toStrictEqual([entry]);
+  });
 });
 
 describe('denyCurrentTransactionWorker()', () => {
@@ -49,6 +70,13 @@ describe('denyCurrentTransactionWorker()', () => {
         error: { code: '-32000', message: 'User denied transaction' }
       })
       .put(dequeue())
+      .put(
+        addToHistory({
+          tx: makeTx(fTxRequest),
+          timestamp: Date.now(),
+          result: TxHistoryResult.DENIED
+        })
+      )
       .silentRun();
   });
 });
