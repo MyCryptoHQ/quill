@@ -4,12 +4,7 @@ import { expectSaga } from 'redux-saga-test-plan';
 import { ipcBridgeRenderer } from '@bridge';
 import { fTxRequest } from '@fixtures';
 
-import slice, {
-  denyCurrentTransaction,
-  denyCurrentTransactionWorker,
-  dequeue,
-  enqueue
-} from './transactions.slice';
+import slice, { denyCurrentTransactionWorker, dequeue, enqueue } from './transactions.slice';
 
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {
@@ -21,7 +16,7 @@ jest.mock('@bridge', () => ({
 describe('TransactionsSlice', () => {
   it('enqueue(): adds item to queue', () => {
     const result = slice.reducer(
-      { queue: [{ ...fTxRequest, id: 1 }] },
+      { queue: [{ ...fTxRequest, id: 1 }], history: [] },
       enqueue({ ...fTxRequest, id: 2 })
     );
     expect(result.queue).toStrictEqual([
@@ -36,7 +31,8 @@ describe('TransactionsSlice', () => {
         queue: [
           { ...fTxRequest, id: 1 },
           { ...fTxRequest, id: 2 }
-        ]
+        ],
+        history: []
       },
       dequeue()
     );
@@ -46,7 +42,7 @@ describe('TransactionsSlice', () => {
 
 describe('denyCurrentTransactionWorker()', () => {
   it('handles denying a tx', () => {
-    return expectSaga(denyCurrentTransactionWorker, denyCurrentTransaction(fTxRequest))
+    return expectSaga(denyCurrentTransactionWorker)
       .withState({ transactions: { queue: [fTxRequest] } })
       .call(ipcBridgeRenderer.api.sendResponse, {
         id: fTxRequest.id,

@@ -1,13 +1,14 @@
 import { createAction, createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { eventChannel } from 'redux-saga';
-import { all, call, put, take, takeLatest } from 'redux-saga/effects';
+import { all, call, put, select, take, takeLatest } from 'redux-saga/effects';
 
 import { ipcBridgeRenderer } from '@bridge';
-import { JsonRPCRequest } from '@types';
+import { JsonRPCRequest, TxHistoryEntry, TxHistoryResult } from '@types';
+import { makeTx } from '@utils';
 
 import { ApplicationState } from './store';
 
-export const initialState = { queue: [] as JsonRPCRequest[] };
+export const initialState = { queue: [] as JsonRPCRequest[], history: [] as TxHistoryEntry[] };
 
 const sliceName = 'transactions';
 
@@ -20,15 +21,16 @@ const slice = createSlice({
     },
     dequeue(state) {
       state.queue.shift();
+    },
+    addToHistory(state, action: PayloadAction<TxHistoryEntry>) {
+      state.history.push(action.payload);
     }
   }
 });
 
-export const denyCurrentTransaction = createAction<JsonRPCRequest>(
-  `${slice.name}/denyCurrentTransaction`
-);
+export const denyCurrentTransaction = createAction(`${slice.name}/denyCurrentTransaction`);
 
-export const { enqueue, dequeue } = slice.actions;
+export const { enqueue, dequeue, addToHistory } = slice.actions;
 
 export default slice;
 
@@ -42,13 +44,18 @@ export const getQueueLength = createSelector(
   (queue) => queue.length
 );
 
+export const getTxHistory = createSelector(
+  (state: ApplicationState) => state.transactions,
+  (transactions) => transactions.history
+);
+
 /**
  * Sagas
  */
 export function* transactionsSaga() {
   yield all([
     transactionsWorker(),
-    takeLatest(denyCurrentTransaction.name, denyCurrentTransactionWorker)
+    takeLatest(denyCurrentTransaction.type, denyCurrentTransactionWorker)
   ]);
 }
 
@@ -74,11 +81,17 @@ export function* transactionsWorker() {
   }
 }
 
-export function* denyCurrentTransactionWorker({ payload }: PayloadAction<JsonRPCRequest>) {
+export function* denyCurrentTransactionWorker() {
+  const currentTx = yield select(getCurrentTransaction);
+
   yield call(ipcBridgeRenderer.api.sendResponse, {
-    id: payload.id,
+    id: currentTx.id,
     error: { code: '-32000', message: 'User denied transaction' }
   });
 
   yield put(dequeue());
+
+  const tx = makeTx(currentTx);
+
+  yield put(addToHistory({ tx, timestamp: Date.now(), result: TxHistoryResult.DENIED }));
 }
