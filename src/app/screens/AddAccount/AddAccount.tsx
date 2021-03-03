@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { ROUTE_PATHS } from '@app/routing';
+import { AddAccountKeystore } from '@screens/AddAccount/AddAccountKeystore';
 import { WalletType } from '@types';
 
 import { AddAccountMnemonic } from './AddAccountMnemonic';
@@ -34,6 +35,7 @@ export const AddAccount = () => {
       <br />
       {walletType === WalletType.PRIVATE_KEY && <AddAccountPrivateKey />}
       {walletType === WalletType.MNEMONIC && <AddAccountMnemonic />}
+      {walletType === WalletType.KEYSTORE && <AddAccountKeystore />}
     </>
   );
 };
