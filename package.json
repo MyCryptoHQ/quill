@@ -17,9 +17,9 @@
     "tsc": "tsc -p ./tsconfig.json",
     "validate": "npm-run-all --parallel lint tsc",
     "test:coverage": "yarn test --coverage",
-    "test": "jest --config=jest_config/jest.config.json --maxWorkers=2 --testPathIgnorePatterns e2e",
+    "test": "jest --maxWorkers=2 --testPathIgnorePatterns e2e",
     "test:single": "cross-env DEBUG_PRINT_LIMIT=50000 yarn test --coverage=false --watch",
-    "test:e2e": "yarn package && cross-env IS_TEST=true jest --config=jest_config/jest.config.json --maxWorkers=2 e2e",
+    "test:e2e": "yarn package && cross-env IS_TEST=true jest --maxWorkers=2 e2e",
     "lint:styles": "stylelint ./src/app/**/*.tsx"
   },
   "keywords": [],
