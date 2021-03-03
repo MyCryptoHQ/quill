@@ -30,6 +30,7 @@ import React from 'react';
 
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { HashRouter as Router } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import { createPersistor, createStore } from './store';
@@ -47,7 +48,9 @@ const render = () => {
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <App persistor={createPersistor(store)} />
+        <Router>
+          <App persistor={createPersistor(store)} />
+        </Router>
       </ThemeProvider>
     </Provider>,
     document.getElementById('root')
