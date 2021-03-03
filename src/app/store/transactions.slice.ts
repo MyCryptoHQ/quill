@@ -1,4 +1,5 @@
 import { createAction, createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { persistReducer } from 'redux-persist';
 import { eventChannel } from 'redux-saga';
 import { all, call, put, select, take, takeLatest } from 'redux-saga/effects';
 
@@ -7,6 +8,7 @@ import { JsonRPCRequest, TxHistoryEntry, TxHistoryResult } from '@types';
 import { makeTx } from '@utils';
 
 import { ApplicationState } from './store';
+import { storage } from './utils';
 
 export const initialState = { queue: [] as JsonRPCRequest[], history: [] as TxHistoryEntry[] };
 
@@ -31,6 +33,16 @@ const slice = createSlice({
 export const denyCurrentTransaction = createAction(`${slice.name}/denyCurrentTransaction`);
 
 export const { enqueue, dequeue, addToHistory } = slice.actions;
+
+const persistConfig = {
+  key: sliceName,
+  keyPrefix: '',
+  storage,
+  serialize: false,
+  deserialize: false
+};
+
+export const reducer = persistReducer(persistConfig, slice.reducer);
 
 export default slice;
 
