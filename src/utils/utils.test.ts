@@ -1,5 +1,5 @@
 import { SUPPORTED_METHODS } from '@config';
-import { fTxResponse } from '@fixtures';
+import { fTxRequest } from '@fixtures';
 import { addHexPrefix, makeTx } from '@utils';
 
 describe('addHexPrefix', () => {
@@ -23,8 +23,8 @@ describe('makeTx', () => {
         id: 1,
         jsonrpc: '2.0',
         method: SUPPORTED_METHODS.SIGN_TRANSACTION,
-        params: [fTxResponse]
+        params: [fTxRequest]
       })
-    ).toBe(fTxResponse);
+    ).toBe(fTxRequest);
   });
 });

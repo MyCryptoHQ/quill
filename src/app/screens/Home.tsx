@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getQueueLength } from '@store/transactions.slice';
+import { getQueueLength, getTxHistory } from '@store/transactions.slice';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -14,6 +14,7 @@ export const Home = () => {
   const accounts = useSelector(getAccounts);
   const currentTransaction = useSelector(getCurrentTransaction);
   const transactionQueueLength = useSelector(getQueueLength);
+  const txHistory = useSelector(getTxHistory);
   const formattedTx = currentTransaction && makeTx(currentTransaction);
   const currentAccount = formattedTx && accounts.find((a) => a.address === formattedTx.from);
 
@@ -30,6 +31,7 @@ export const Home = () => {
         </>
       )}
       <SignTransaction />
+      {`History: ${JSON.stringify(txHistory)}`}
     </div>
   );
 };

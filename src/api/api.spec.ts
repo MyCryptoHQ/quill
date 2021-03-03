@@ -2,7 +2,7 @@ import { waitFor } from '@testing-library/react';
 import { WebContents } from 'electron';
 
 import { IPC_CHANNELS, SUPPORTED_METHODS } from '@config';
-import { fTxResponse } from '@fixtures';
+import { fSignedTx } from '@fixtures';
 
 import { handleRequest } from './api';
 
@@ -11,26 +11,8 @@ jest.mock('electron', () => ({
     on: jest.fn().mockImplementation((_channel, callback) => {
       callback(undefined, {
         id: 1,
-        result: {
-          nonce: 6,
-          gasPrice: {
-            _hex: '0x012a05f200'
-          },
-          gasLimit: {
-            _hex: '0x5208'
-          },
-          to: '0xb2bb2b958AFa2e96dab3f3Ce7162b87daEa39017',
-          value: {
-            _hex: '0x2386f26fc10000'
-          },
-          data: '0x',
-          chainId: 3,
-          v: 42,
-          r: '0x2bd827ea378f4856ff2ea5997f48ea63045da64bb09ce494c886c1934d29d627',
-          s: '0x0af001168b5e8db5cc47ff1f985629ddad535b334060846facb8a7c43cf9c6f1',
-          from: '0xb2bb2b958AFa2e96dab3f3Ce7162b87daEa39017',
-          hash: '0x33d9b1b88cc48ca6da01310ab3acc86ae4cc2527bb3fc8662fd308cd63f303b1'
-        }
+        result:
+          '0xf86b0685012a05f20082520894b2bb2b958afa2e96dab3f3ce7162b87daea39017872386f26fc10000802aa0686df061021262b4e75eb1608c8baaf043cca2b5ac68fb24420ede62d13a8a7fa035389237414433ac06a33d95c863b8221fe2c797a9c650c47a555255be0234f3'
       });
     })
   }
@@ -145,7 +127,7 @@ describe('handleRequest', () => {
     );
 
     const result = await promise;
-    expect(result).toStrictEqual({ id: 1, jsonrpc: '2.0', result: fTxResponse });
+    expect(result).toStrictEqual({ id: 1, jsonrpc: '2.0', result: fSignedTx });
   });
 
   it('returns accounts with valid request', async () => {

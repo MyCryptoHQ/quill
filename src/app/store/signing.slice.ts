@@ -1,11 +1,17 @@
-import { TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider';
+import { TransactionRequest } from '@ethersproject/abstract-provider';
+import { parse } from '@ethersproject/transactions';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 
 import { ipcBridgeRenderer } from '@bridge';
-import { CryptoRequestType, InitialisePersistentAccount, SerializedWallet } from '@types';
+import {
+  CryptoRequestType,
+  InitialisePersistentAccount,
+  SerializedWallet,
+  TxHistoryResult
+} from '@types';
 
-import { dequeue, getCurrentTransaction } from './transactions.slice';
+import { addToHistory, dequeue, getCurrentTransaction } from './transactions.slice';
 
 export const initialState = { isSigning: false };
 
@@ -47,7 +53,7 @@ export function* signWorker({
   wallet: SerializedWallet | InitialisePersistentAccount;
   tx: TransactionRequest;
 }>) {
-  const signedTx: TransactionResponse = yield call(ipcBridgeRenderer.crypto.invoke, {
+  const signedTx: string = yield call(ipcBridgeRenderer.crypto.invoke, {
     type: CryptoRequestType.SIGN,
     wallet,
     tx
@@ -60,4 +66,15 @@ export function* signWorker({
   yield call(ipcBridgeRenderer.api.sendResponse, { id: currentTx.id, result: signedTx });
 
   yield put(dequeue());
+
+  const parsedTx = parse(signedTx);
+
+  yield put(
+    addToHistory({
+      tx,
+      signedTx: parsedTx,
+      timestamp: Date.now(),
+      result: TxHistoryResult.APPROVED
+    })
+  );
 }
