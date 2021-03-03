@@ -20,21 +20,22 @@ if (require('electron-squirrel-startup')) {
 let tray: Tray;
 let window: BrowserWindow;
 
+const isDev = process.env.NODE_ENV === 'development';
+
 const createWindow = (): void => {
   // Create the browser window.
   window = new BrowserWindow({
-    backgroundColor: '#fbfbfb',
     icon: path.join(__dirname, 'icon.png'),
     width: WIDTH,
     height: HEIGHT,
     fullscreenable: false,
-    resizable: false,
+    resizable: isDev,
     // Spectron fails randomly when the app is frameless
     // We don't use NODE_ENV as it is controlled by electron-forge
     frame: process.env.IS_TEST === 'true',
     transparent: true,
     webPreferences: {
-      devTools: true,
+      devTools: isDev,
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       // For security reasons the following params should not be modified
       // https://electronjs.org/docs/tutorial/security#isolation-for-untrusted-content
@@ -66,6 +67,9 @@ const showWindow = () => {
   window.setSize(WIDTH, HEIGHT, false);
   window.show();
   window.focus();
+  if (isDev) {
+    window.webContents.openDevTools({ mode: 'undocked' });
+  }
 };
 
 const toggleWindow = () => (window.isVisible() ? window.hide() : showWindow());
