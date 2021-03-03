@@ -7,10 +7,9 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import { ApplicationState, fetchAccount } from '@app/store';
-import { fMnemonicPhrase } from '@fixtures';
+import { fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey } from '@fixtures';
+import { AddAccount } from '@screens';
 import { WalletType } from '@types';
-
-import { AddAccount } from '../AddAccount';
 
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {
@@ -48,7 +47,7 @@ describe('AddAccount', () => {
     const { getByLabelText, getByText } = getComponent();
     const privKeyInput = getByLabelText('Private Key');
     expect(privKeyInput).toBeDefined();
-    fireEvent.change(privKeyInput, { target: { value: 'privkey' } });
+    fireEvent.change(privKeyInput, { target: { value: fPrivateKey } });
 
     const persistenceInput = getByLabelText('Persistence');
     fireEvent.click(persistenceInput);
@@ -60,7 +59,41 @@ describe('AddAccount', () => {
     expect(mockStore.getActions()).toContainEqual(
       fetchAccount({
         walletType: WalletType.PRIVATE_KEY,
-        privateKey: 'privkey',
+        privateKey: fPrivateKey,
+        persistent: true
+      })
+    );
+  });
+
+  it('can submit keystore file', async () => {
+    const { getByLabelText, getByText } = getComponent();
+    const walletTypeInput = getByLabelText('Type');
+    expect(walletTypeInput).toBeDefined();
+    fireEvent.change(walletTypeInput, { target: { value: WalletType.KEYSTORE } });
+
+    const keystoreFile = new Blob([fKeystore], { type: 'application/json' });
+    keystoreFile.text = async () => fKeystore;
+
+    const keystoreInput = getByLabelText('Keystore');
+    expect(keystoreInput).toBeDefined();
+    fireEvent.change(keystoreInput, { target: { files: [keystoreFile] } });
+
+    const passwordInput = getByLabelText('Password');
+    expect(passwordInput).toBeDefined();
+    fireEvent.change(passwordInput, { target: { value: fKeystorePassword } });
+
+    const persistenceInput = getByLabelText('Persistence');
+    fireEvent.click(persistenceInput);
+
+    const submitButton = getByText('Submit');
+    expect(submitButton).toBeDefined();
+    await waitFor(() => fireEvent.click(submitButton));
+
+    expect(mockStore.getActions()).toContainEqual(
+      fetchAccount({
+        walletType: WalletType.KEYSTORE,
+        keystore: fKeystore,
+        password: fKeystorePassword,
         persistent: true
       })
     );
@@ -70,7 +103,7 @@ describe('AddAccount', () => {
     const { getByLabelText, getByText } = getComponent();
     const walletTypeInput = getByLabelText('Type');
     expect(walletTypeInput).toBeDefined();
-    fireEvent.change(walletTypeInput, { target: { value: 'MNEMONIC' } });
+    fireEvent.change(walletTypeInput, { target: { value: WalletType.MNEMONIC } });
 
     const mnemonicInput = getByLabelText('Mnemonic Phrase');
     expect(mnemonicInput).toBeDefined();

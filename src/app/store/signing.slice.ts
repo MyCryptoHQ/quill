@@ -6,7 +6,7 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { ipcBridgeRenderer } from '@bridge';
 import {
   CryptoRequestType,
-  InitialisePersistentAccount,
+  SerializedPersistentAccount,
   SerializedWallet,
   TxHistoryResult
 } from '@types';
@@ -24,7 +24,7 @@ const slice = createSlice({
     sign(
       state,
       _: PayloadAction<{
-        wallet: SerializedWallet | InitialisePersistentAccount;
+        wallet: SerializedWallet | SerializedPersistentAccount;
         tx: TransactionRequest;
       }>
     ) {
@@ -50,7 +50,7 @@ export function* signingSaga() {
 export function* signWorker({
   payload: { wallet, tx }
 }: PayloadAction<{
-  wallet: SerializedWallet | InitialisePersistentAccount;
+  wallet: SerializedWallet | SerializedPersistentAccount;
   tx: TransactionRequest;
 }>) {
   const signedTx: string = yield call(ipcBridgeRenderer.crypto.invoke, {

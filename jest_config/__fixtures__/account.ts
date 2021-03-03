@@ -22,5 +22,11 @@ export const fAccounts: IAccount[] = [
     type: WalletType.MNEMONIC,
     persistent: true,
     dPath: "m/44'/60'/0'/0/1"
+  },
+  {
+    uuid: '635a7d0a-4865-4f12-aafe-706b6ca6a99d' as TUuid,
+    address: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520' as TAddress,
+    type: WalletType.KEYSTORE,
+    persistent: false
   }
 ];

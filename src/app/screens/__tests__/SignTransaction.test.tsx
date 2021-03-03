@@ -7,7 +7,16 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import { ApplicationState, denyCurrentTransaction, sign } from '@app/store';
-import { fAccount, fAccounts, fMnemonicPhrase, fTxRequest, getTransactionRequest } from '@fixtures';
+import {
+  fAccount,
+  fAccounts,
+  fKeystore,
+  fKeystorePassword,
+  fMnemonicPhrase,
+  fPrivateKey,
+  fTxRequest,
+  getTransactionRequest
+} from '@fixtures';
 import { IAccount, WalletType } from '@types';
 import { makeTx } from '@utils';
 
@@ -58,7 +67,7 @@ describe('SignTransaction', () => {
 
     const privkeyInput = getByLabelText('Private Key');
     expect(privkeyInput).toBeDefined();
-    fireEvent.change(privkeyInput, { target: { value: 'privkey' } });
+    fireEvent.change(privkeyInput, { target: { value: fPrivateKey } });
 
     const acceptButton = getByText('Accept');
     fireEvent.click(acceptButton);
@@ -67,7 +76,40 @@ describe('SignTransaction', () => {
       sign({
         wallet: {
           walletType: WalletType.PRIVATE_KEY,
-          privateKey: 'privkey'
+          privateKey: fPrivateKey
+        },
+        tx: makeTx(fTxRequest)
+      })
+    );
+  });
+
+  it('can accept tx with keystore', async () => {
+    const {
+      component: { getByText, getByLabelText },
+      mockStore
+    } = getComponentWithStore(fAccounts[3]);
+    await waitFor(() => expect(getByText('Accept')?.textContent).toBeDefined());
+
+    const keystoreFile = new Blob([fKeystore], { type: 'application/json' });
+    keystoreFile.text = async () => fKeystore;
+
+    const keystoreInput = getByLabelText('Keystore');
+    expect(keystoreInput).toBeDefined();
+    fireEvent.change(keystoreInput, { target: { files: [keystoreFile] } });
+
+    const passwordInput = getByLabelText('Password');
+    expect(passwordInput).toBeDefined();
+    fireEvent.change(passwordInput, { target: { value: fKeystorePassword } });
+
+    const acceptButton = getByText('Accept');
+    await waitFor(() => fireEvent.click(acceptButton));
+
+    expect(mockStore.getActions()).toContainEqual(
+      sign({
+        wallet: {
+          walletType: WalletType.KEYSTORE,
+          keystore: fKeystore,
+          password: fKeystorePassword
         },
         tx: makeTx(fTxRequest)
       })

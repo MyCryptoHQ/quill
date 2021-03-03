@@ -9,6 +9,7 @@ import {
   sign,
   useDispatch
 } from '@app/store';
+import { SignTransactionKeystore } from '@screens/SignTransaction/SignTransactionKeystore';
 import { SerializedWallet, WalletType } from '@types';
 import { makeTx } from '@utils';
 
@@ -67,6 +68,14 @@ export const SignTransaction = () => {
           tx={formattedTx}
           currentAccount={currentAccount}
           setError={setError}
+        />
+      )}
+      {currentAccount && currentAccount.type === WalletType.KEYSTORE && (
+        <SignTransactionKeystore
+          onAccept={handleAccept}
+          onDeny={handleDeny}
+          tx={formattedTx}
+          currentAccount={currentAccount}
         />
       )}
       <br />

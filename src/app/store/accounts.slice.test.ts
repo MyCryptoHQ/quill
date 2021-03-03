@@ -3,7 +3,7 @@ import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
 import { ipcBridgeRenderer } from '@bridge';
-import { fAccount } from '@fixtures';
+import { fAccount, fPrivateKey } from '@fixtures';
 import { CryptoRequestType, DBRequestType, SerializedWallet, WalletType } from '@types';
 
 import slice, {
@@ -21,10 +21,10 @@ jest.mock('@bridge', () => ({
   }
 }));
 
-const wallet = {
+const wallet: SerializedWallet = {
   walletType: WalletType.PRIVATE_KEY,
-  privateKey: 'privkey'
-} as SerializedWallet;
+  privateKey: fPrivateKey
+};
 
 describe('AccountSlice', () => {
   it('addAccount(): adds account to state', () => {

@@ -3,7 +3,7 @@ import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
 import { ipcBridgeRenderer } from '@bridge';
-import { fSignedTx, fTxRequest } from '@fixtures';
+import { fPrivateKey, fSignedTx, fTxRequest } from '@fixtures';
 import { CryptoRequestType, SerializedWallet, WalletType } from '@types';
 import { makeTx } from '@utils';
 
@@ -19,7 +19,7 @@ jest.mock('@bridge', () => ({
 
 const wallet = {
   walletType: WalletType.PRIVATE_KEY,
-  privateKey: 'privkey'
+  privateKey: fPrivateKey
 } as SerializedWallet;
 const tx = makeTx(fTxRequest);
 
