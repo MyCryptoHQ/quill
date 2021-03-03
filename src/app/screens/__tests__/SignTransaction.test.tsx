@@ -13,6 +13,7 @@ import {
   fKeystore,
   fKeystorePassword,
   fMnemonicPhrase,
+  fPrivateKey,
   fTxRequest,
   getTransactionRequest
 } from '@fixtures';
@@ -66,7 +67,7 @@ describe('SignTransaction', () => {
 
     const privkeyInput = getByLabelText('Private Key');
     expect(privkeyInput).toBeDefined();
-    fireEvent.change(privkeyInput, { target: { value: 'privkey' } });
+    fireEvent.change(privkeyInput, { target: { value: fPrivateKey } });
 
     const acceptButton = getByText('Accept');
     fireEvent.click(acceptButton);
@@ -75,7 +76,7 @@ describe('SignTransaction', () => {
       sign({
         wallet: {
           walletType: WalletType.PRIVATE_KEY,
-          privateKey: 'privkey'
+          privateKey: fPrivateKey
         },
         tx: makeTx(fTxRequest)
       })

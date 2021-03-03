@@ -228,7 +228,7 @@ describe('handleRequest', () => {
       handleRequest({
         // @ts-expect-error Unsupported type
         type: 'bla',
-        privateKey: 'privkey'
+        privateKey: fPrivateKey
       })
     ).rejects.toBeDefined();
   });

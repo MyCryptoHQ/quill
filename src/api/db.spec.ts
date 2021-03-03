@@ -4,7 +4,7 @@ import fs from 'fs';
 import keytar from 'keytar';
 
 import { IPC_CHANNELS, KEYTAR_SERVICE } from '@config';
-import { fAccount } from '@fixtures';
+import { fAccount, fPrivateKey } from '@fixtures';
 import { DBRequestType, TUuid, WalletType } from '@types';
 
 import { handleRequest as _handleRequest, runService as _runService } from './db';
@@ -192,7 +192,7 @@ describe('handleRequest', () => {
       handleRequest({
         // @ts-expect-error Unsupported type
         type: 'bla',
-        privateKey: 'privkey'
+        privateKey: fPrivateKey
       })
     ).rejects.toBeDefined();
   });
