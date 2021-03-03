@@ -1,10 +1,13 @@
 {
-  "rootDir": "../",
-  "verbose": true,
   "testRegex": "/*.*/?(.*).(spec|test).(jsx?|tsx?)$",
   "moduleDirectories": ["node_modules", "src"],
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "worker.ts", "worker.tsx"],
-  "modulePathIgnorePatterns": ["<rootDir>/dist", "<rootDir>/src/types", "<rootDir>/src/assets"],
+  "modulePathIgnorePatterns": [
+    "<rootDir>/dist",
+    "<rootDir>/src/types",
+    "<rootDir>/src/assets",
+    "<rootDir>/out"
+  ],
   "moduleNameMapper": {
     "fixtures": "<rootDir>/jest_config/__fixtures__",
     "test-utils": "<rootDir>/jest_config/test-utils",
