@@ -1,1 +1,1 @@
-export { theme, GlobalStyle } from './theme';
+export * from './theme';

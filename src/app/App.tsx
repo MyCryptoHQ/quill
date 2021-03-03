@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 
 import { hot } from 'react-hot-loader';
+import { Box } from 'rebass';
 import { Persistor } from 'redux-persist';
 
 import { ipcBridgeRenderer } from '@bridge';
 import { DBRequestType } from '@types';
 
 import { AppRoutes } from './AppRoutes';
+import { Navigation } from './components';
 import { setLoggedIn, setNewUser, useDispatch, useSelector } from './store';
 
 const App = ({ persistor }: { persistor: Persistor }) => {
@@ -28,7 +30,14 @@ const App = ({ persistor }: { persistor: Persistor }) => {
     }
   }, [loggedIn]);
 
-  return <AppRoutes />;
+  return (
+    <Box height="100vh">
+      <Navigation isLoggedIn={loggedIn} />
+      <Box height="100%" p="1" backgroundColor="#fbfbfb">
+        <AppRoutes />
+      </Box>
+    </Box>
+  );
 };
 
 export default hot(module)(App);
