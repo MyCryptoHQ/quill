@@ -12,36 +12,41 @@ export enum CryptoRequestType {
   CREATE_WALLET = 'CREATE_WALLET'
 }
 
-export interface InitialisePrivateKey {
+export interface SerializedPrivateKey {
   walletType: WalletType.PRIVATE_KEY;
   privateKey: string;
 }
 
-export interface InitialiseMnemonicPhrase {
+export interface SerializedMnemonicPhrase {
   walletType: WalletType.MNEMONIC;
   mnemonicPhrase: string;
   passphrase?: string;
   path: string;
 }
 
-export interface InitialisePersistentAccount {
+export interface SerializedKeystore {
+  walletType: WalletType.KEYSTORE;
+  keystore: string;
+  password: string;
+}
+
+export interface SerializedPersistentAccount {
   persistent: true;
   uuid: TUuid;
 }
 
-export type SerializedWallet = InitialisePrivateKey | InitialiseMnemonicPhrase;
+export type SerializedWallet = SerializedPrivateKey | SerializedMnemonicPhrase | SerializedKeystore;
 export type SerializedOptionalPersistentWallet =
-  | (InitialisePrivateKey & { persistent?: false })
-  | (InitialiseMnemonicPhrase & { persistent?: false })
-  | InitialisePersistentAccount;
+  | (SerializedWallet & { persistent?: false })
+  | SerializedPersistentAccount;
 
-interface InitialiseDeterministicMnemonicPhrase {
+interface SerializedDeterministicMnemonicPhrase {
   walletType: WalletType.MNEMONIC;
   mnemonicPhrase: string;
   passphrase?: string;
 }
 
-export type InitialiseDeterministicWallet = InitialiseDeterministicMnemonicPhrase;
+export type SerializedDeterministicWallet = SerializedDeterministicMnemonicPhrase;
 
 interface BaseRequest<Type extends CryptoRequestType> {
   type: Type;
@@ -61,7 +66,7 @@ export type GetAddressRequest = BaseRequest<CryptoRequestType.GET_ADDRESS> & {
 };
 
 export type GetAddressesRequest = BaseRequest<CryptoRequestType.GET_ADDRESSES> & {
-  wallet: InitialiseDeterministicWallet;
+  wallet: SerializedDeterministicWallet;
   path: string;
   limit: number;
   offset: number;

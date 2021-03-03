@@ -7,7 +7,7 @@ import {
   CryptoRequestType,
   DBRequestType,
   IAccount,
-  InitialiseMnemonicPhrase,
+  SerializedMnemonicPhrase,
   SerializedWallet,
   TAddress
 } from '@types';
@@ -91,7 +91,7 @@ export function* fetchAccountWorker({
       type: wallet.walletType,
       address,
       uuid,
-      dPath: (wallet as InitialiseMnemonicPhrase).path,
+      dPath: (wallet as SerializedMnemonicPhrase).path,
       persistent: wallet.persistent
     })
   );

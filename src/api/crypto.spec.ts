@@ -2,12 +2,10 @@ import { ipcMain } from 'electron';
 
 import { getPrivateKey } from '@api/db';
 import { IPC_CHANNELS } from '@config';
-import { fMnemonicPhrase } from '@fixtures';
+import { fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey } from '@fixtures';
 import { CryptoRequestType, TUuid, WalletType } from '@types';
 
 import { handleRequest, runService } from './crypto';
-
-const mockPrivateKey = '0x93b3701cf8eeb6f7d3b22211c691734f24816a02efa933f67f34d37053182577';
 
 jest.mock('crypto', () => ({
   ...jest.requireActual('crypto'),
@@ -65,6 +63,7 @@ jest.mock('electron-store', () => {
   }));
 });
 
+const mockPrivateKey = fPrivateKey;
 jest.mock('@api/db', () => ({
   getPrivateKey: jest.fn().mockImplementation(() => mockPrivateKey)
 }));
@@ -74,7 +73,20 @@ describe('handleRequest', () => {
     const response = await handleRequest({
       wallet: {
         walletType: WalletType.PRIVATE_KEY,
-        privateKey: mockPrivateKey
+        privateKey: fPrivateKey
+      },
+      type: CryptoRequestType.GET_ADDRESS
+    });
+
+    expect(response).toBe('0x0961Ca10D49B9B8e371aA0Bcf77fE5730b18f2E4');
+  });
+
+  it('GET_ADDRESS returns address for KEYSTORE', async () => {
+    const response = await handleRequest({
+      wallet: {
+        walletType: WalletType.KEYSTORE,
+        keystore: fKeystore,
+        password: fKeystorePassword
       },
       type: CryptoRequestType.GET_ADDRESS
     });
@@ -125,11 +137,13 @@ describe('handleRequest', () => {
 
   it('GET_ADDRESSES fails with KEYSTORE', async () => {
     await expect(
+      // @ts-expect-error Invalid wallet type
       handleRequest({
         type: CryptoRequestType.GET_ADDRESSES,
         wallet: {
-          // @ts-expect-error Invalid wallet type
-          walletType: WalletType.KEYSTORE
+          walletType: WalletType.KEYSTORE,
+          keystore: fKeystore,
+          password: fKeystorePassword
         }
       })
     ).rejects.toBeDefined();
@@ -140,7 +154,7 @@ describe('handleRequest', () => {
       type: CryptoRequestType.SIGN,
       wallet: {
         walletType: WalletType.PRIVATE_KEY,
-        privateKey: mockPrivateKey
+        privateKey: fPrivateKey
       },
       tx: {
         nonce: 6,
