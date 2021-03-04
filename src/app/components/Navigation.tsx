@@ -21,6 +21,8 @@ const NavIcon = ({ icon, href }: { icon: string; href: string }) => (
 
 export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => (
   <Box
+    position="sticky"
+    top="0"
     width="100%"
     height="65px"
     backgroundColor="BLUE_DARK_SLATE"

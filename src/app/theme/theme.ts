@@ -57,7 +57,6 @@ export const theme: DefaultTheme = {
 export const GlobalStyle = createGlobalStyle`
   body { 
     margin: 0;
-    overflow: hidden;
   }
 
   :root {
