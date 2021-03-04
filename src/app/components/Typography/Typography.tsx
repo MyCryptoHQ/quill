@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { HeadingProps, Text, TextProps } from 'rebass';
+import { HeadingProps, Text, TextProps } from 'rebass/styled-components';
 
 export const Heading = ({ children, as = 'h1', ...props }: HeadingProps) => (
   <Heading as={as} variant="heading" {...props}>

@@ -4,13 +4,16 @@ import { eventChannel } from 'redux-saga';
 import { all, call, put, select, take, takeLatest } from 'redux-saga/effects';
 
 import { ipcBridgeRenderer } from '@bridge';
-import { JsonRPCRequest, TxHistoryEntry, TxHistoryResult } from '@types';
+import { JsonRPCRequest, TSignTransaction, TxHistoryEntry, TxHistoryResult } from '@types';
 import { makeTx } from '@utils';
 
 import { ApplicationState } from './store';
 import { storage } from './utils';
 
-export const initialState = { queue: [] as JsonRPCRequest[], history: [] as TxHistoryEntry[] };
+export const initialState = {
+  queue: [] as JsonRPCRequest<TSignTransaction>[],
+  history: [] as TxHistoryEntry[]
+};
 
 const sliceName = 'transactions';
 
@@ -18,7 +21,7 @@ const slice = createSlice({
   name: sliceName,
   initialState,
   reducers: {
-    enqueue(state, action: PayloadAction<JsonRPCRequest>) {
+    enqueue(state, action: PayloadAction<JsonRPCRequest<TSignTransaction>>) {
       state.queue.push(action.payload);
     },
     dequeue(state) {
@@ -46,19 +49,18 @@ export const reducer = persistReducer(persistConfig, slice.reducer);
 
 export default slice;
 
-export const getCurrentTransaction = createSelector(
+export const getQueue = createSelector(
   (state: ApplicationState) => state.transactions,
-  (transactions) => transactions.queue[0]
+  (transactions) => transactions.queue
 );
 
-export const getQueueLength = createSelector(
-  (state: ApplicationState) => state.transactions.queue,
-  (queue) => queue.length
-);
+export const getCurrentTransaction = createSelector(getQueue, (queue) => queue[0]);
+
+export const getQueueLength = createSelector(getQueue, (queue) => queue.length);
 
 export const getTxHistory = createSelector(
-  (state: ApplicationState) => state.transactions,
-  (transactions) => transactions.history
+  (state: ApplicationState) => state.transactions.history.sort((a,b) => b.timestamp - a.timestamp),
+  (h) => h
 );
 
 /**

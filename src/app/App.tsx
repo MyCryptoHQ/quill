@@ -32,7 +32,14 @@ const App = ({ persistor }: { persistor: Persistor }) => {
   return (
     <Box height="100vh" overflow="hidden">
       <Navigation isLoggedIn={loggedIn} />
-      <Box height="100%" p="1" mt="65px" backgroundColor="DEFAULT_BACKGROUND" overflow="scroll">
+      <Box
+        height="100%"
+        py="1"
+        px="24px"
+        mt="65px"
+        backgroundColor="DEFAULT_BACKGROUND"
+        overflow="scroll"
+      >
         <AppRoutes />
       </Box>
     </Box>
