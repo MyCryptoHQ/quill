@@ -35,6 +35,61 @@ const FLEX_VARIANTS = {
 
 export type FlexVariants = keyof typeof FLEX_VARIANTS;
 
+const LINK_RECIPES = {
+  default: {
+    cursor: 'pointer',
+    transition: 'all 120ms ease',
+    textDecoration: 'none',
+    // https://mayashavin.com/articles/svg-icons-currentcolor
+    svg: {
+      fill: 'currentColor'
+    },
+    '&:hover svg': {
+      fill: 'currentColor'
+    }
+  }
+};
+
+export const LINK_VARIANTS = {
+  barren: {
+    ...LINK_RECIPES.default,
+    color: 'inherit'
+  },
+  underlineLink: {
+    ...LINK_RECIPES.default,
+    color: 'inherit',
+    textDecoration: 'underline',
+    '&:hover': {
+      textDecoration: 'none'
+    }
+  },
+  opacityLink: {
+    ...LINK_RECIPES.default,
+    color: 'BLUE_SKY',
+    '&:hover': {
+      opacity: '0.8'
+    },
+    '&:hover svg': {
+      opacity: '0.8'
+    }
+  },
+  defaultLink: {
+    ...LINK_RECIPES.default,
+    fontSize: { _: 0, sm: 1 },
+    lineHeight: { _: 0, sm: 1 },
+    color: 'BLUE_BRIGHT',
+    '&:hover': {
+      color: 'BLUE_LIGHT_DARKISH'
+    },
+    '&:active': {
+      opacity: 1
+    },
+    '&:focus': {
+      opacity: 1
+    }
+  }
+};
+
 export const theme: DefaultTheme = {
   colors: {
     // BLUE
@@ -86,11 +141,10 @@ export const theme: DefaultTheme = {
     }
   },
   variants: {
-    ...FLEX_VARIANTS
+    ...FLEX_VARIANTS,
+    ...LINK_VARIANTS
   }
 };
-
-console.log(theme);
 
 // Global styling for default elements
 export const GlobalStyle = createGlobalStyle`

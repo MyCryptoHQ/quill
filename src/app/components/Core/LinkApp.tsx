@@ -24,6 +24,9 @@ import {
   variant
 } from 'styled-system';
 
+import { Link } from '@app/components';
+import { LINK_VARIANTS } from '@app/theme';
+
 type LinkStyleProps = SpaceProps &
   LineHeightProps &
   FontStyleProps &
@@ -38,84 +41,7 @@ type LinkStyleProps = SpaceProps &
     $textTransform?: 'uppercase' | 'capitalize' | 'lowercase';
   };
 
-const LINK_RECIPES = {
-  default: {
-    cursor: 'pointer',
-    transition: 'all 120ms ease',
-    textDecoration: 'none',
-    // https://mayashavin.com/articles/svg-icons-currentcolor
-    svg: {
-      fill: 'currentColor'
-    },
-    '&:hover svg': {
-      fill: 'currentColor'
-    }
-  }
-};
-
-const LINK_VARIANTS = {
-  barren: {
-    ...LINK_RECIPES.default,
-    color: 'inherit'
-  },
-  underlineLink: {
-    ...LINK_RECIPES.default,
-    color: 'inherit',
-    textDecoration: 'underline',
-    '&:hover': {
-      textDecoration: 'none'
-    }
-  },
-  opacityLink: {
-    ...LINK_RECIPES.default,
-    color: 'BLUE_SKY',
-    '&:hover': {
-      opacity: '0.8'
-    },
-    '&:hover svg': {
-      opacity: '0.8'
-    }
-  },
-  defaultLink: {
-    ...LINK_RECIPES.default,
-    fontSize: { _: 0, sm: 1 },
-    lineHeight: { _: 0, sm: 1 },
-    color: 'BLUE_BRIGHT',
-    '&:hover': {
-      color: 'BLUE_LIGHT_DARKISH'
-    },
-    '&:active': {
-      opacity: 1
-    },
-    '&:focus': {
-      opacity: 1
-    }
-  }
-};
-
-const SLink = styled('a')<LinkStyleProps & React.AnchorHTMLAttributes<HTMLAnchorElement>>`
-  /** Overide @mycrypto/ui global styles */
-  &&& {
-    ${variant({
-      variants: LINK_VARIANTS
-    })}
-  }
-
-  ${space}
-  ${fontStyle}
-  ${color}
-  ${size}
-  ${colorStyle}
-  ${textStyle}
-  ${lineHeight}
-  ${typography}
-  ${layout}
-  ${({
-    $textTransform
-  }) => $textTransform && { 'text-transform': $textTransform }}
-  ${({ $underline }) =>
-    $underline && { 'text-decoration': 'underline' }};
-`;
+const SLink = Link;
 
 const SRouterLink = styled(RouterLink)<LinkStyleProps & RouterLinkProps>`
   /** Overide @mycrypto/ui global styles */
@@ -156,6 +82,7 @@ const LinkApp: React.FC<Props> = ({
   isExternal = false,
   variant = 'defaultLink',
   onClick,
+  as,
   ...props
 }) => {
   if (!isExternal && isUrl(href)) {
@@ -174,7 +101,7 @@ const LinkApp: React.FC<Props> = ({
       rel="noreferrer"
     />
   ) : (
-    <SRouterLink to={href} variant={variant} onClick={onClick} {...props} />
+    <SRouterLink as={as} to={href} variant={variant} onClick={onClick} {...props} />
   );
 };
 
