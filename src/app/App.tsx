@@ -3,12 +3,11 @@ import React, { useEffect } from 'react';
 import { hot } from 'react-hot-loader';
 import { Persistor } from 'redux-persist';
 
-import { Box } from '@app/components';
+import { Box, Navigation } from '@app/components';
 import { ipcBridgeRenderer } from '@bridge';
 import { DBRequestType } from '@types';
 
 import { AppRoutes } from './AppRoutes';
-import { Navigation } from './components';
 import { setLoggedIn, setNewUser, useDispatch, useSelector } from './store';
 
 const App = ({ persistor }: { persistor: Persistor }) => {

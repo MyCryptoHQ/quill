@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom';
+import { Link } from 'rebass/styled-components';
 import styled from 'styled-components';
 import {
   color,
@@ -24,7 +25,6 @@ import {
   variant
 } from 'styled-system';
 
-import { Link } from '@app/components';
 import { LINK_VARIANTS } from '@app/theme';
 
 type LinkStyleProps = SpaceProps &
