@@ -2,9 +2,7 @@ import React from 'react';
 
 import { getQueueLength, getTxHistory } from '@store/transactions.slice';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
-import { ROUTE_PATHS } from '@app/routing';
 import { getAccounts, getCurrentTransaction } from '@app/store';
 import { makeTx } from '@utils';
 
@@ -21,8 +19,6 @@ export const Home = () => {
   return (
     <div>
       {`Current Account: ${currentAccount && currentAccount.address}`}
-      <Link to={ROUTE_PATHS.ADD_ACCOUNT}>+</Link>
-      <Link to={ROUTE_PATHS.ACCOUNTS}>Manage</Link>
       <br />
       {transactionQueueLength > 1 && (
         <>

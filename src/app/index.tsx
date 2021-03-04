@@ -30,9 +30,9 @@ import React from 'react';
 
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { HashRouter as Router } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
-import App from './App';
 import { createPersistor, createStore } from './store';
 import { GlobalStyle, theme } from './theme';
 
@@ -40,13 +40,25 @@ __webpack_nonce__ = window.__webpack_nonce__;
 
 const store = createStore();
 
-const Root = () => (
-  <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <App persistor={createPersistor(store)} />
-    </ThemeProvider>
-  </Provider>
-);
+// Hack to make react-hot-loader work
+const render = () => {
+  /* eslint-disable-next-line  @typescript-eslint/no-var-requires */
+  const App = require('./App').default;
+  ReactDOM.render(
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <Router>
+          <App persistor={createPersistor(store)} />
+        </Router>
+      </ThemeProvider>
+    </Provider>,
+    document.getElementById('root')
+  );
+};
 
-ReactDOM.render(<Root />, document.getElementById('root'));
+render();
+
+if (module.hot) {
+  module.hot.accept('./App', render);
+}

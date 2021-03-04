@@ -3,6 +3,7 @@ import React from 'react';
 import { EnhancedStore } from '@reduxjs/toolkit';
 import { render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import { MemoryRouter as Router } from 'react-router-dom';
 
 import { ipcBridgeRenderer } from '@bridge';
 import { DBRequestType } from '@types';
@@ -27,7 +28,9 @@ function getComponent(store: EnhancedStore<ApplicationState> = createStore()) {
   const persistor = createPersistor(store);
   return render(
     <Provider store={store}>
-      <App persistor={persistor} />
+      <Router>
+        <App persistor={persistor} />
+      </Router>
     </Provider>
   );
 }
@@ -43,7 +46,9 @@ describe('App', () => {
     const { getByText } = getComponent(
       createStore({ preloadedState: { auth: { loggedIn: true, newUser: false } } })
     );
-    await waitFor(() => expect(getByText('Manage').textContent).toBeDefined());
+    await waitFor(() =>
+      expect(getByText('Nothing to sign', { exact: false }).textContent).toBeDefined()
+    );
   });
 
   it('renders NewUser if user has no config', async () => {

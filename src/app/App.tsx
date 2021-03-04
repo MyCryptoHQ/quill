@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { hot } from 'react-hot-loader';
 import { Persistor } from 'redux-persist';
 
+import { Box, Navigation } from '@app/components';
 import { ipcBridgeRenderer } from '@bridge';
 import { DBRequestType } from '@types';
 
@@ -28,7 +29,14 @@ const App = ({ persistor }: { persistor: Persistor }) => {
     }
   }, [loggedIn]);
 
-  return <AppRoutes />;
+  return (
+    <Box height="100vh" overflow="hidden">
+      <Navigation isLoggedIn={loggedIn} />
+      <Box height="100%" p="1" mt="65px" backgroundColor="DEFAULT_BACKGROUND" overflow="scroll">
+        <AppRoutes />
+      </Box>
+    </Box>
+  );
 };
 
 export default hot(module)(App);

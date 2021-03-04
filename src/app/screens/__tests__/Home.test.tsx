@@ -54,6 +54,6 @@ describe('Home', () => {
 
   it('renders', async () => {
     const { getByText } = getComponent();
-    expect(getByText('Manage').textContent).toBeDefined();
+    expect(getByText('Nothing to sign', { exact: false })).toBeDefined();
   });
 });

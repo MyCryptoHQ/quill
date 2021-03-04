@@ -17,6 +17,24 @@ module.exports = merge(common, {
         test: /\.css$/,
         use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
         include: [path.join(__dirname, '../node_modules/typeface-lato')]
+      },
+
+      /**
+       * Images
+       */
+      {
+        test: /\.(gif|png|jpe?g|svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              hash: 'sha512',
+              digest: 'hex',
+              name: 'src/app/assets/[name].[contenthash].[ext]'
+            }
+          }
+        ],
+        include: [path.resolve(__dirname, '../', 'src', 'app', 'assets')]
       }
     ]
   },
