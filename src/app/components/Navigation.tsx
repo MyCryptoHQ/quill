@@ -21,7 +21,7 @@ export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => (
   <Box
     variant="rowAlign"
     sx={{
-      position: 'sticky',
+      position: 'fixed',
       top: 0,
       borderTopLeftRadius: '5px',
       borderTopRightRadius: '5px',

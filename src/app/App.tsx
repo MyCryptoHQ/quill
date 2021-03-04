@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 
 import { hot } from 'react-hot-loader';
-import { Box } from 'rebass';
 import { Persistor } from 'redux-persist';
 
+import { Box } from '@app/components';
 import { ipcBridgeRenderer } from '@bridge';
 import { DBRequestType } from '@types';
 
@@ -31,9 +31,9 @@ const App = ({ persistor }: { persistor: Persistor }) => {
   }, [loggedIn]);
 
   return (
-    <Box height="100vh">
+    <Box height="100vh" overflow="hidden">
       <Navigation isLoggedIn={loggedIn} />
-      <Box height="100%" p="1" backgroundColor="#fbfbfb">
+      <Box height="100%" p="1" mt="65px" backgroundColor="#fbfbfb" overflow="scroll">
         <AppRoutes />
       </Box>
     </Box>
