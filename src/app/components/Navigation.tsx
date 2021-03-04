@@ -1,14 +1,12 @@
 import React from 'react';
 
-import { Image } from 'rebass';
-
+import { Box, Image } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import add from '@assets/icons/add.svg';
 import lock from '@assets/icons/lock.svg';
 import profile from '@assets/icons/profile.svg';
 import logo from '@assets/images/icon.png';
 
-import { Box } from '.';
 import LinkApp from './Core/LinkApp';
 
 const NavIcon = ({ icon, href }: { icon: string; href: string }) => (
@@ -21,14 +19,17 @@ const NavIcon = ({ icon, href }: { icon: string; href: string }) => (
 
 export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => (
   <Box
-    position="sticky"
-    top="0"
+    variant="rowAlign"
+    sx={{
+      position: 'sticky',
+      top: 0,
+      borderTopLeftRadius: '5px',
+      borderTopRightRadius: '5px',
+      bg: 'BLUE_DARK_SLATE'
+    }}
     width="100%"
     height="65px"
-    backgroundColor="BLUE_DARK_SLATE"
-    variant="rowAlign"
-    borderTopLeftRadius="5px"
-    borderTopRightRadius="5px"
+    overflow="hidden"
   >
     <Box variant="rowAlign">
       <LinkApp href={ROUTE_PATHS.HOME}>

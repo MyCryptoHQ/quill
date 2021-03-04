@@ -1,5 +1,39 @@
 import { createGlobalStyle, DefaultTheme } from 'styled-components';
-import { variant } from 'styled-system';
+
+const FLEX_RECIPES = {
+  align: {
+    alignItems: 'center'
+  },
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+};
+
+const FLEX_VARIANTS = {
+  rowAlign: {
+    display: 'flex',
+    flexDirection: 'row',
+    ...FLEX_RECIPES.align
+  },
+  rowCenter: {
+    display: 'flex',
+    flexDirection: 'row',
+    ...FLEX_RECIPES.center
+  },
+  columnAlign: {
+    display: 'flex',
+    flexDirection: 'column',
+    ...FLEX_RECIPES.align
+  },
+  columnCenter: {
+    display: 'flex',
+    flexDirection: 'column',
+    ...FLEX_RECIPES.center
+  }
+};
+
+export type FlexVariants = keyof typeof FLEX_VARIANTS;
 
 export const theme: DefaultTheme = {
   colors: {
@@ -50,8 +84,13 @@ export const theme: DefaultTheme = {
       lineHeight: 1,
       color: 'BODY'
     }
+  },
+  variants: {
+    ...FLEX_VARIANTS
   }
 };
+
+console.log(theme);
 
 // Global styling for default elements
 export const GlobalStyle = createGlobalStyle`
@@ -66,42 +105,3 @@ export const GlobalStyle = createGlobalStyle`
     line-height: ${(props) => props.theme.lineHeights[1]};
   }
 `;
-
-// FROM CORE, DELETE WHEN COMPONENT SHARING
-const FLEX_RECIPES = {
-  align: {
-    alignItems: 'center'
-  },
-  center: {
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-};
-
-const FLEX_VARIANTS = {
-  rowAlign: {
-    display: 'flex',
-    flexDirection: 'row',
-    ...FLEX_RECIPES.align
-  },
-  rowCenter: {
-    display: 'flex',
-    flexDirection: 'row',
-    ...FLEX_RECIPES.center
-  },
-  columnAlign: {
-    display: 'flex',
-    flexDirection: 'column',
-    ...FLEX_RECIPES.align
-  },
-  columnCenter: {
-    display: 'flex',
-    flexDirection: 'column',
-    ...FLEX_RECIPES.center
-  }
-};
-
-export type FlexVariants = keyof typeof FLEX_VARIANTS;
-export const flexVariants = variant({
-  variants: FLEX_VARIANTS
-});
