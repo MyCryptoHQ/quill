@@ -92,6 +92,8 @@ export const LINK_VARIANTS = {
 
 export const theme: DefaultTheme = {
   colors: {
+    DEFAULT_BACKGROUND: '#fbfbfb',
+
     // BLUE
     BLUE: '#027796',
     DARK_BLUE: '#1c314e',
