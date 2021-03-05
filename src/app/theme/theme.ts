@@ -107,6 +107,7 @@ export const theme: DefaultTheme = {
     // GREY
     BG_GREY: '#C4C4C4',
     GREY_ATHENS: '#e8eaed',
+    GREY_LIGHTEST: '#f7f7f7',
 
     // ORANGE
     ORANGE: '#FA873F',
@@ -151,6 +152,9 @@ export const theme: DefaultTheme = {
       bg: 'GREY_ATHENS',
       width: '100%',
       height: '1px'
+    },
+    avatar: {
+      borderRadius: '50%'
     }
   }
 };
