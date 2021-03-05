@@ -2,8 +2,8 @@ import React from 'react';
 
 import { TxHistoryEntry } from '@types';
 
-import { TxHistoryCard } from './TxHistoryCard';
 import { Divider } from '../Divider';
+import { TxHistoryCard } from './TxHistoryCard';
 
 export const TxHistory = ({ history }: { history: TxHistoryEntry[] }) => (
   <>

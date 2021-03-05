@@ -10,9 +10,14 @@ import { makeTx } from '@utils';
 import { ApplicationState } from './store';
 import { storage } from './utils';
 
-export const initialState = {
-  queue: [] as JsonRPCRequest<TSignTransaction>[],
-  history: [] as TxHistoryEntry[]
+export const initialState: {
+  queue: JsonRPCRequest<TSignTransaction>[];
+  history: TxHistoryEntry[];
+  currentTransaction?: JsonRPCRequest<TSignTransaction>;
+} = {
+  queue: [],
+  history: [],
+  currentTransaction: undefined
 };
 
 const sliceName = 'transactions';
@@ -29,13 +34,16 @@ const slice = createSlice({
     },
     addToHistory(state, action: PayloadAction<TxHistoryEntry>) {
       state.history.push(action.payload);
+    },
+    selectTransaction(state, action: PayloadAction<JsonRPCRequest<TSignTransaction>>) {
+      state.currentTransaction = action.payload;
     }
   }
 });
 
 export const denyCurrentTransaction = createAction(`${slice.name}/denyCurrentTransaction`);
 
-export const { enqueue, dequeue, addToHistory } = slice.actions;
+export const { enqueue, dequeue, addToHistory, selectTransaction } = slice.actions;
 
 const persistConfig = {
   key: sliceName,
@@ -54,12 +62,15 @@ export const getQueue = createSelector(
   (transactions) => transactions.queue
 );
 
-export const getCurrentTransaction = createSelector(getQueue, (queue) => queue[0]);
+export const getCurrentTransaction = createSelector(
+  (state: ApplicationState) => state.transactions.currentTransaction,
+  (t) => t
+);
 
 export const getQueueLength = createSelector(getQueue, (queue) => queue.length);
 
 export const getTxHistory = createSelector(
-  (state: ApplicationState) => state.transactions.history.sort((a,b) => b.timestamp - a.timestamp),
+  (state: ApplicationState) => state.transactions.history.sort((a, b) => b.timestamp - a.timestamp),
   (h) => h
 );
 

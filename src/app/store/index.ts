@@ -13,6 +13,7 @@ export {
   enqueue,
   dequeue,
   getCurrentTransaction,
-  denyCurrentTransaction
+  denyCurrentTransaction,
+  selectTransaction
 } from './transactions.slice';
 export { sign } from './signing.slice';

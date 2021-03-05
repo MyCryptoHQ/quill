@@ -10,9 +10,9 @@ export const Home = () => {
   const txHistory = useSelector(getTxHistory);
 
   return (
-    <div>
+    <>
       <TxQueue queue={queue} />
       <TxHistory history={txHistory} />
-    </div>
+    </>
   );
 };
