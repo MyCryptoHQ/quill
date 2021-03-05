@@ -7,11 +7,14 @@ import { TxHistoryCard } from './TxHistoryCard';
 
 export const TxHistory = ({ history }: { history: TxHistoryEntry[] }) => (
   <>
-    {history.map((h) => (
-      <>
-        <TxHistoryCard item={h} />
-        <Divider />
-      </>
-    ))}
+    {history
+      .slice()
+      .sort((a, b) => b.timestamp - a.timestamp)
+      .map((h) => (
+        <>
+          <TxHistoryCard item={h} />
+          <Divider />
+        </>
+      ))}
   </>
 );

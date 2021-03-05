@@ -11,7 +11,6 @@ import {
 } from '@app/store';
 import { SignTransactionKeystore } from '@screens/SignTransaction/SignTransactionKeystore';
 import { SerializedWallet, WalletType } from '@types';
-import { makeTx } from '@utils';
 
 import { SignTransactionMnemonic } from './SignTransactionMnemonic';
 import { SignTransactionPrivateKey } from './SignTransactionPrivateKey';
@@ -19,9 +18,8 @@ import { SignTransactionPrivateKey } from './SignTransactionPrivateKey';
 export const SignTransaction = () => {
   const dispatch = useDispatch();
   const accounts = useSelector(getAccounts);
-  const currentTransaction = useSelector(getCurrentTransaction);
-  const formattedTx = currentTransaction && makeTx(currentTransaction);
-  const currentAccount = formattedTx && accounts.find((a) => a.address === formattedTx.from);
+  const { tx, signedTx } = useSelector(getCurrentTransaction);
+  const currentAccount = tx && accounts.find((a) => a.address === tx.from);
   const [error, setError] = useState('');
 
   const handleAccept = async (wallet: SerializedWallet) => {
@@ -33,13 +31,13 @@ export const SignTransaction = () => {
               uuid: currentAccount.uuid
             }
           : wallet,
-        tx: formattedTx
+        tx
       })
     );
   };
 
   const handleDeny = async () => {
-    if (currentTransaction) {
+    if (tx) {
       dispatch(denyCurrentTransaction());
       setError('');
     }
@@ -47,34 +45,30 @@ export const SignTransaction = () => {
 
   return (
     <>
-      {currentTransaction ? (
-        <pre>{JSON.stringify(currentTransaction, null, 2)}</pre>
-      ) : (
-        'Nothing to sign'
-      )}
+      {tx && <pre>{JSON.stringify(tx, null, 2)}</pre>}
       <br />
-      {currentAccount && currentAccount.type === WalletType.PRIVATE_KEY && (
+      {!signedTx && currentAccount && currentAccount.type === WalletType.PRIVATE_KEY && (
         <SignTransactionPrivateKey
           onAccept={handleAccept}
           onDeny={handleDeny}
-          tx={formattedTx}
+          tx={tx}
           currentAccount={currentAccount}
         />
       )}
-      {currentAccount && currentAccount.type === WalletType.MNEMONIC && (
+      {!signedTx && currentAccount && currentAccount.type === WalletType.MNEMONIC && (
         <SignTransactionMnemonic
           onAccept={handleAccept}
           onDeny={handleDeny}
-          tx={formattedTx}
+          tx={tx}
           currentAccount={currentAccount}
           setError={setError}
         />
       )}
-      {currentAccount && currentAccount.type === WalletType.KEYSTORE && (
+      {!signedTx && currentAccount && currentAccount.type === WalletType.KEYSTORE && (
         <SignTransactionKeystore
           onAccept={handleAccept}
           onDeny={handleDeny}
-          tx={formattedTx}
+          tx={tx}
           currentAccount={currentAccount}
         />
       )}

@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { JsonRPCRequest, TSignTransaction } from '@types';
+import { TxQueueEntry } from '@types';
 
 import { Divider } from '../Divider';
 import { TxQueueCard } from './TxQueueCard';
 
-export const TxQueue = ({ queue }: { queue: JsonRPCRequest<TSignTransaction>[] }) => (
+export const TxQueue = ({ queue }: { queue: TxQueueEntry[] }) => (
   <>
     {queue.map((q) => (
       <>

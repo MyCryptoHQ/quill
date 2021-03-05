@@ -7,13 +7,12 @@ import { ROUTE_PATHS } from '@app/routing';
 import { selectTransaction, useDispatch } from '@app/store';
 import circleArrow from '@assets/icons/circle-arrow.svg';
 import waiting from '@assets/icons/queue-waiting.svg';
-import { JsonRPCRequest, TAddress, TSignTransaction } from '@types';
-import { makeTx } from '@utils';
+import { TAddress, TxQueueEntry } from '@types';
 
-export const TxQueueCard = ({ item }: { item: JsonRPCRequest<TSignTransaction> }) => {
+export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {
   const dispatch = useDispatch();
 
-  const tx = makeTx(item);
+  const { tx } = item;
 
   return (
     <Box py="16px">

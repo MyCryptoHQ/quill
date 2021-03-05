@@ -4,16 +4,16 @@ import { eventChannel } from 'redux-saga';
 import { all, call, put, select, take, takeLatest } from 'redux-saga/effects';
 
 import { ipcBridgeRenderer } from '@bridge';
-import { JsonRPCRequest, TSignTransaction, TxHistoryEntry, TxHistoryResult } from '@types';
+import { JsonRPCRequest, TSignTransaction, TxHistoryEntry, TxQueueEntry, TxResult } from '@types';
 import { makeTx } from '@utils';
 
 import { ApplicationState } from './store';
 import { storage } from './utils';
 
 export const initialState: {
-  queue: JsonRPCRequest<TSignTransaction>[];
+  queue: TxQueueEntry[];
   history: TxHistoryEntry[];
-  currentTransaction?: JsonRPCRequest<TSignTransaction>;
+  currentTransaction?: TxQueueEntry | TxHistoryEntry;
 } = {
   queue: [],
   history: [],
@@ -27,7 +27,13 @@ const slice = createSlice({
   initialState,
   reducers: {
     enqueue(state, action: PayloadAction<JsonRPCRequest<TSignTransaction>>) {
-      state.queue.push(action.payload);
+      state.queue.push({
+        id: action.payload.id,
+        tx: makeTx(action.payload),
+        signedTx: undefined,
+        result: TxResult.WAITING,
+        timestamp: Date.now()
+      });
     },
     dequeue(state) {
       state.queue.shift();
@@ -35,7 +41,7 @@ const slice = createSlice({
     addToHistory(state, action: PayloadAction<TxHistoryEntry>) {
       state.history.push(action.payload);
     },
-    selectTransaction(state, action: PayloadAction<JsonRPCRequest<TSignTransaction>>) {
+    selectTransaction(state, action: PayloadAction<TxHistoryEntry>) {
       state.currentTransaction = action.payload;
     }
   }
@@ -70,7 +76,7 @@ export const getCurrentTransaction = createSelector(
 export const getQueueLength = createSelector(getQueue, (queue) => queue.length);
 
 export const getTxHistory = createSelector(
-  (state: ApplicationState) => state.transactions.history.sort((a, b) => b.timestamp - a.timestamp),
+  (state: ApplicationState) => state.transactions.history,
   (h) => h
 );
 
@@ -118,5 +124,5 @@ export function* denyCurrentTransactionWorker() {
 
   const tx = makeTx(currentTx);
 
-  yield put(addToHistory({ tx, timestamp: Date.now(), result: TxHistoryResult.DENIED }));
+  yield put(addToHistory({ tx, timestamp: Date.now(), result: TxResult.DENIED }));
 }

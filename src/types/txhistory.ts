@@ -1,14 +1,25 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider';
 import { Transaction } from '@ethersproject/transactions';
 
-export enum TxHistoryResult {
+import { JsonRPCRequest } from './jsonRPCRequest';
+
+export enum TxResult {
   APPROVED = 'APPROVED',
-  DENIED = 'DENIED'
+  DENIED = 'DENIED',
+  WAITING = 'WAITING'
 }
 
 export interface TxHistoryEntry {
   tx: TransactionRequest;
   signedTx?: Transaction;
   timestamp: number;
-  result: TxHistoryResult;
+  result: TxResult;
+}
+
+export interface TxQueueEntry {
+  id: JsonRPCRequest['id'];
+  tx: TransactionRequest;
+  signedTx: undefined;
+  timestamp: number;
+  result: TxResult.WAITING;
 }
