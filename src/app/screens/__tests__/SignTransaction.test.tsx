@@ -18,7 +18,7 @@ import {
   getTransactionRequest
 } from '@fixtures';
 import { IAccount, WalletType } from '@types';
-import { makeTx } from '@utils';
+import { makeQueueTx, makeTx } from '@utils';
 
 import { SignTransaction } from '../SignTransaction';
 
@@ -35,14 +35,16 @@ function getComponent(store: EnhancedStore<DeepPartial<ApplicationState>>) {
 }
 
 const getComponentWithStore = (account: IAccount = fAccount) => {
-  const transactionRequest = getTransactionRequest(account.address);
+  const transactionRequest = makeQueueTx(getTransactionRequest(account.address));
   const mockStore = createMockStore({
     accounts: {
       // @ts-expect-error Brand bug with DeepPartial
       accounts: [account]
     },
     transactions: {
-      queue: [transactionRequest]
+      // @ts-expect-error Brand bug with DeepPartial
+      queue: [transactionRequest],
+      currentTransaction: transactionRequest
     }
   });
 

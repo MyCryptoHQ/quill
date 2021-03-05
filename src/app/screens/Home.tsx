@@ -11,8 +11,14 @@ export const Home = () => {
 
   return (
     <>
-      <TxQueue queue={queue} />
-      <TxHistory history={txHistory} />
+      {queue.length === 0 && txHistory.length === 0 ? (
+        <>There are no transactions in your Signer at this time</>
+      ) : (
+        <>
+          <TxQueue queue={queue} />
+          <TxHistory history={txHistory} />
+        </>
+      )}
     </>
   );
 };

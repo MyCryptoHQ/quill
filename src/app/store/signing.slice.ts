@@ -5,6 +5,7 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 
 import { ipcBridgeRenderer } from '@bridge';
 import { CryptoRequestType, SerializedPersistentAccount, SerializedWallet, TxResult } from '@types';
+import { makeHistoryTx } from '@utils';
 
 import {
   addToHistory,
@@ -69,12 +70,7 @@ export function* signWorker({
 
   const parsedTx = parse(signedTx);
 
-  const txEntry = {
-    tx,
-    signedTx: parsedTx,
-    timestamp: Date.now(),
-    result: TxResult.APPROVED
-  };
+  const txEntry = makeHistoryTx(currentTx, TxResult.APPROVED, parsedTx);
 
   yield put(addToHistory(txEntry));
 

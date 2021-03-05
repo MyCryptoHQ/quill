@@ -5,7 +5,7 @@ import { all, call, put, select, take, takeLatest } from 'redux-saga/effects';
 
 import { ipcBridgeRenderer } from '@bridge';
 import { JsonRPCRequest, TSignTransaction, TxHistoryEntry, TxQueueEntry, TxResult } from '@types';
-import { makeTx } from '@utils';
+import { makeHistoryTx, makeQueueTx } from '@utils';
 
 import { ApplicationState } from './store';
 import { storage } from './utils';
@@ -27,13 +27,7 @@ const slice = createSlice({
   initialState,
   reducers: {
     enqueue(state, action: PayloadAction<JsonRPCRequest<TSignTransaction>>) {
-      state.queue.push({
-        id: action.payload.id,
-        tx: makeTx(action.payload),
-        signedTx: undefined,
-        result: TxResult.WAITING,
-        timestamp: Date.now()
-      });
+      state.queue.push(makeQueueTx(action.payload));
     },
     dequeue(state) {
       state.queue.shift();
@@ -122,7 +116,5 @@ export function* denyCurrentTransactionWorker() {
 
   yield put(dequeue());
 
-  const tx = makeTx(currentTx);
-
-  yield put(addToHistory({ tx, timestamp: Date.now(), result: TxResult.DENIED }));
+  yield put(addToHistory(makeHistoryTx(currentTx, TxResult.DENIED)));
 }

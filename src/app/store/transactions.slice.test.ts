@@ -3,8 +3,8 @@ import { expectSaga } from 'redux-saga-test-plan';
 
 import { ipcBridgeRenderer } from '@bridge';
 import { fTxRequest } from '@fixtures';
-import { TxHistoryResult } from '@types';
-import { makeTx } from '@utils';
+import { TxResult } from '@types';
+import { makeHistoryTx, makeQueueTx, makeTx } from '@utils';
 
 import slice, {
   addToHistory,
@@ -25,12 +25,12 @@ jest.mock('@bridge', () => ({
 describe('TransactionsSlice', () => {
   it('enqueue(): adds item to queue', () => {
     const result = slice.reducer(
-      { queue: [{ ...fTxRequest, id: 1 }], history: [] },
+      { queue: [{ ...makeQueueTx(fTxRequest), id: 1 }], history: [] },
       enqueue({ ...fTxRequest, id: 2 })
     );
     expect(result.queue).toStrictEqual([
-      { ...fTxRequest, id: 1 },
-      { ...fTxRequest, id: 2 }
+      { ...makeQueueTx(fTxRequest), id: 1 },
+      { ...makeQueueTx(fTxRequest), id: 2 }
     ]);
   });
 
@@ -38,18 +38,18 @@ describe('TransactionsSlice', () => {
     const result = slice.reducer(
       {
         queue: [
-          { ...fTxRequest, id: 1 },
-          { ...fTxRequest, id: 2 }
+          { ...makeQueueTx(fTxRequest), id: 1 },
+          { ...makeQueueTx(fTxRequest), id: 2 }
         ],
         history: []
       },
       dequeue()
     );
-    expect(result.queue).toStrictEqual([{ ...fTxRequest, id: 2 }]);
+    expect(result.queue).toStrictEqual([{ ...makeQueueTx(fTxRequest), id: 2 }]);
   });
 
   it('addToTxHistory(): adds item to tx history', () => {
-    const entry = { tx: makeTx(fTxRequest), result: TxHistoryResult.DENIED, timestamp: Date.now() };
+    const entry = { tx: makeTx(fTxRequest), result: TxResult.DENIED, timestamp: Date.now() };
     const result = slice.reducer(
       {
         queue: [],
@@ -63,20 +63,15 @@ describe('TransactionsSlice', () => {
 
 describe('denyCurrentTransactionWorker()', () => {
   it('handles denying a tx', () => {
+    const tx = makeQueueTx(fTxRequest);
     return expectSaga(denyCurrentTransactionWorker)
-      .withState({ transactions: { queue: [fTxRequest] } })
+      .withState({ transactions: { queue: [tx], currentTransaction: tx } })
       .call(ipcBridgeRenderer.api.sendResponse, {
         id: fTxRequest.id,
         error: { code: '-32000', message: 'User denied transaction' }
       })
       .put(dequeue())
-      .put(
-        addToHistory({
-          tx: makeTx(fTxRequest),
-          timestamp: Date.now(),
-          result: TxHistoryResult.DENIED
-        })
-      )
+      .put(addToHistory(makeHistoryTx(tx, TxResult.DENIED)))
       .silentRun();
   });
 });

@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { EnhancedStore } from '@reduxjs/toolkit';
+import { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
 import { render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
+import configureStore from 'redux-mock-store';
 
 import { ipcBridgeRenderer } from '@bridge';
 import { DBRequestType } from '@types';
@@ -14,15 +15,15 @@ import { ApplicationState, createPersistor, createStore } from './store';
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {
     api: {
-      subscribeToRequests: () => {
-        return () => true;
-      }
+      subscribeToRequests: jest.fn()
     },
     db: {
       invoke: jest.fn()
     }
   }
 }));
+
+const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
 function getComponent(store: EnhancedStore<ApplicationState> = createStore()) {
   const persistor = createPersistor(store);
@@ -43,11 +44,19 @@ describe('App', () => {
     (ipcBridgeRenderer.db.invoke as jest.Mock).mockImplementation(({ type }) =>
       Promise.resolve(type !== DBRequestType.IS_NEW_USER)
     );
-    const { getByText } = getComponent(
-      createStore({ preloadedState: { auth: { loggedIn: true, newUser: false } } })
+    const { getByText, container } = getComponent(
+      // @ts-expect-error Brand bug with DeepPartial
+      createMockStore({
+        auth: { loggedIn: true, newUser: false },
+        transactions: { queue: [], history: [] }
+      })
     );
+    console.log(container.innerHTML);
     await waitFor(() =>
-      expect(getByText('Nothing to sign', { exact: false }).textContent).toBeDefined()
+      expect(
+        getByText('There are no transactions in your Signer at this time', { exact: false })
+          .textContent
+      ).toBeDefined()
     );
   });
 
