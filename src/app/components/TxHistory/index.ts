@@ -1,1 +1,1 @@
-export * from './TxHistory'
+export * from './TxHistory';
