@@ -176,6 +176,7 @@
     "styled-components": "5.2.0",
     "styled-system": "5.1.5",
     "superstruct": "0.14.2",
+    "uuid": "3.2.1",
     "uuid-by-string": "MyCryptoHQ/uuid-by-string#36afddc",
     "ws": "7.3.1",
     "zxcvbn": "4.4.2"
