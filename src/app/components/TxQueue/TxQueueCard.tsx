@@ -22,7 +22,12 @@ export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {
       </Box>
       <Box variant="rowAlign" mt="2">
         <FromToAccount sender={tx.from as TAddress} recipient={tx.to as TAddress} />
-        <LinkApp href={ROUTE_PATHS.TX} ml="auto" onClick={() => dispatch(selectTransaction(item))}>
+        <LinkApp
+          href={ROUTE_PATHS.TX}
+          ml="auto"
+          data-testid={`select-tx-${item.id}`}
+          onClick={() => dispatch(selectTransaction(item))}
+        >
           <Image height="20px" width="20px" src={circleArrow} />
         </LinkApp>
       </Box>

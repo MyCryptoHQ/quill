@@ -44,14 +44,13 @@ describe('App', () => {
     (ipcBridgeRenderer.db.invoke as jest.Mock).mockImplementation(({ type }) =>
       Promise.resolve(type !== DBRequestType.IS_NEW_USER)
     );
-    const { getByText, container } = getComponent(
+    const { getByText } = getComponent(
       // @ts-expect-error Brand bug with DeepPartial
       createMockStore({
         auth: { loggedIn: true, newUser: false },
         transactions: { queue: [], history: [] }
       })
     );
-    console.log(container.innerHTML);
     await waitFor(() =>
       expect(
         getByText('There are no transactions in your Signer at this time', { exact: false })

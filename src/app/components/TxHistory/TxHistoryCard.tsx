@@ -27,7 +27,11 @@ export const TxHistoryCard = ({ item }: { item: TxHistoryEntry }) => {
         >
           <TimeElapsed value={item.timestamp} />
         </Body>
-        <LinkApp href={ROUTE_PATHS.TX} onClick={() => dispatch(selectTransaction(item))}>
+        <LinkApp
+          href={ROUTE_PATHS.TX}
+          data-testid={`select-tx-history`}
+          onClick={() => dispatch(selectTransaction(item))}
+        >
           <Image height="20px" width="20px" src={circleArrow} />
         </LinkApp>
       </Box>

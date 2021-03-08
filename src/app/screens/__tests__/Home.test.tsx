@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
-import { ApplicationState } from '@app/store';
+import { ApplicationState, selectTransaction } from '@app/store';
 import { fAccount, fTxRequest } from '@fixtures';
 import { TxResult } from '@types';
 import { makeHistoryTx, makeQueueTx } from '@utils';
@@ -43,10 +43,16 @@ describe('Home', () => {
     jest.resetAllMocks();
   });
 
-  it('renders', async () => {
-    const { getByText, getAllByText } = getComponent();
+  it('renders and allows selection of queue and history items', async () => {
+    const { getByText, getAllByText, getByTestId, getAllByTestId } = getComponent();
     expect(getByText('WAITING ON ACTION', { exact: false })).toBeDefined();
     expect(getAllByText('DENIED', { exact: false })).toBeDefined();
+
+    fireEvent.click(getAllByTestId('select-tx-history')[0]);
+    fireEvent.click(getByTestId(`select-tx-${queueTx.id}`));
+
+    expect(mockStore.getActions()).toContainEqual(selectTransaction(queueTx));
+    expect(mockStore.getActions()).toContainEqual(selectTransaction(historyTx));
   });
 
   it('renders empty state', async () => {
