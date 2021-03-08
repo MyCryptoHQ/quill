@@ -30,7 +30,9 @@ export const TxHistoryCard = ({ item }: { item: TxHistoryEntry }) => {
           <TimeElapsed value={item.timestamp} />
         </Body>
         <LinkApp href={ROUTE_PATHS.TX} data-testid={`select-tx-history`} onClick={handleSelect}>
-          <Image height="20px" width="20px" src={circleArrow} />
+          <Box variant="rowAlign">
+            <Image height="20px" width="20px" src={circleArrow} />
+          </Box>
         </LinkApp>
       </Box>
     </Box>

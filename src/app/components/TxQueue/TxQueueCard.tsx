@@ -28,7 +28,9 @@ export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {
           data-testid={`select-tx-${item.id}`}
           onClick={handleSelect}
         >
-          <Image height="20px" width="20px" src={circleArrow} />
+          <Box variant="rowAlign">
+            <Image height="20px" width="20px" src={circleArrow} />
+          </Box>
         </LinkApp>
       </Box>
       <Box variant="rowAlign" mt="1">
