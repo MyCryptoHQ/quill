@@ -36,7 +36,7 @@ export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {
           {formatEther(tx.value)} ETH
         </Body>
         <Body fontSize="1" ml="1" color="BLUE_GREY">
-          <TimeElapsed value={0} />
+          <TimeElapsed value={item.timestamp} />
         </Body>
       </Box>
     </Box>
