@@ -10,7 +10,7 @@ import {
   useDispatch
 } from '@app/store';
 import { SignTransactionKeystore } from '@screens/SignTransaction/SignTransactionKeystore';
-import { SerializedWallet, WalletType } from '@types';
+import { SerializedWallet, TxResult, WalletType } from '@types';
 
 import { SignTransactionMnemonic } from './SignTransactionMnemonic';
 import { SignTransactionPrivateKey } from './SignTransactionPrivateKey';
@@ -18,9 +18,10 @@ import { SignTransactionPrivateKey } from './SignTransactionPrivateKey';
 export const SignTransaction = () => {
   const dispatch = useDispatch();
   const accounts = useSelector(getAccounts);
-  const { tx, signedTx } = useSelector(getCurrentTransaction);
+  const { tx, result } = useSelector(getCurrentTransaction);
   const currentAccount = tx && accounts.find((a) => a.address === tx.from);
   const [error, setError] = useState('');
+  const isWaiting = result === TxResult.WAITING;
 
   const handleAccept = async (wallet: SerializedWallet) => {
     return dispatch(
@@ -47,7 +48,7 @@ export const SignTransaction = () => {
     <>
       {tx && <pre>{JSON.stringify(tx, null, 2)}</pre>}
       <br />
-      {!signedTx && currentAccount && currentAccount.type === WalletType.PRIVATE_KEY && (
+      {isWaiting && currentAccount && currentAccount.type === WalletType.PRIVATE_KEY && (
         <SignTransactionPrivateKey
           onAccept={handleAccept}
           onDeny={handleDeny}
@@ -55,7 +56,7 @@ export const SignTransaction = () => {
           currentAccount={currentAccount}
         />
       )}
-      {!signedTx && currentAccount && currentAccount.type === WalletType.MNEMONIC && (
+      {isWaiting && currentAccount && currentAccount.type === WalletType.MNEMONIC && (
         <SignTransactionMnemonic
           onAccept={handleAccept}
           onDeny={handleDeny}
@@ -64,7 +65,7 @@ export const SignTransaction = () => {
           setError={setError}
         />
       )}
-      {!signedTx && currentAccount && currentAccount.type === WalletType.KEYSTORE && (
+      {isWaiting && currentAccount && currentAccount.type === WalletType.KEYSTORE && (
         <SignTransactionKeystore
           onAccept={handleAccept}
           onDeny={handleDeny}

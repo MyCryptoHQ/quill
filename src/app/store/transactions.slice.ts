@@ -116,5 +116,9 @@ export function* denyCurrentTransactionWorker() {
 
   yield put(dequeue());
 
-  yield put(addToHistory(makeHistoryTx(currentTx, TxResult.DENIED)));
+  const txEntry = makeHistoryTx(currentTx, TxResult.DENIED);
+
+  yield put(addToHistory(txEntry));
+
+  yield put(selectTransaction(txEntry));
 }
