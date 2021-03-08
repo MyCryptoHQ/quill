@@ -10,7 +10,8 @@ import slice, {
   addToHistory,
   denyCurrentTransactionWorker,
   dequeue,
-  enqueue
+  enqueue,
+  selectTransaction
 } from './transactions.slice';
 
 Date.now = jest.fn(() => 1607602775360);
@@ -58,6 +59,19 @@ describe('TransactionsSlice', () => {
       addToHistory(entry)
     );
     expect(result.history).toStrictEqual([entry]);
+  });
+
+  it('selectTransaction(): sets selected transaction', () => {
+    const entry = { tx: makeTx(fTxRequest), result: TxResult.DENIED, timestamp: Date.now() };
+    const result = slice.reducer(
+      {
+        queue: [],
+        history: [],
+        currentTransaction: undefined
+      },
+      selectTransaction(entry)
+    );
+    expect(result.currentTransaction).toStrictEqual(entry);
   });
 });
 

@@ -1,15 +1,18 @@
 import React from 'react';
 
 import { Box, Image } from '@app/components';
+import { ROUTE_PATHS } from '@app/routing';
+import { selectTransaction, useDispatch } from '@app/store';
 import circleArrow from '@assets/icons/circle-arrow.svg';
 import approved from '@assets/icons/queue-approved.svg';
 import denied from '@assets/icons/queue-denied.svg';
 import { TxHistoryEntry, TxResult } from '@types';
 
-import { TimeElapsed } from '../Core';
+import { LinkApp, TimeElapsed } from '../Core';
 import { Body } from '../Typography';
 
 export const TxHistoryCard = ({ item }: { item: TxHistoryEntry }) => {
+  const dispatch = useDispatch();
   const isApproved = item.result === TxResult.APPROVED;
   return (
     <Box variant="rowAlign" py="16px">
@@ -24,7 +27,9 @@ export const TxHistoryCard = ({ item }: { item: TxHistoryEntry }) => {
         >
           <TimeElapsed value={item.timestamp} />
         </Body>
-        <Image height="20px" width="20px" src={circleArrow} />
+        <LinkApp href={ROUTE_PATHS.TX} onClick={() => dispatch(selectTransaction(item))}>
+          <Image height="20px" width="20px" src={circleArrow} />
+        </LinkApp>
       </Box>
     </Box>
   );
