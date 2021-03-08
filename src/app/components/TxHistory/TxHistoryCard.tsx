@@ -14,6 +14,8 @@ import { Body } from '../Typography';
 export const TxHistoryCard = ({ item }: { item: TxHistoryEntry }) => {
   const dispatch = useDispatch();
   const isApproved = item.result === TxResult.APPROVED;
+  const handleSelect = () => dispatch(selectTransaction(item));
+
   return (
     <Box variant="rowAlign" py="16px">
       <Image height="20px" width="20px" src={isApproved ? approved : denied} mr="8px" />
@@ -27,11 +29,7 @@ export const TxHistoryCard = ({ item }: { item: TxHistoryEntry }) => {
         >
           <TimeElapsed value={item.timestamp} />
         </Body>
-        <LinkApp
-          href={ROUTE_PATHS.TX}
-          data-testid={`select-tx-history`}
-          onClick={() => dispatch(selectTransaction(item))}
-        >
+        <LinkApp href={ROUTE_PATHS.TX} data-testid={`select-tx-history`} onClick={handleSelect}>
           <Image height="20px" width="20px" src={circleArrow} />
         </LinkApp>
       </Box>

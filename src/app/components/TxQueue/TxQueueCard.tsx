@@ -11,8 +11,8 @@ import { TAddress, TxQueueEntry } from '@types';
 
 export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {
   const dispatch = useDispatch();
-
   const { tx } = item;
+  const handleSelect = () => dispatch(selectTransaction(item));
 
   return (
     <Box py="16px">
@@ -26,7 +26,7 @@ export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {
           href={ROUTE_PATHS.TX}
           ml="auto"
           data-testid={`select-tx-${item.id}`}
-          onClick={() => dispatch(selectTransaction(item))}
+          onClick={handleSelect}
         >
           <Image height="20px" width="20px" src={circleArrow} />
         </LinkApp>

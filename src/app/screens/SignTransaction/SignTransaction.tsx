@@ -44,33 +44,25 @@ export const SignTransaction = () => {
     }
   };
 
+  const components = {
+    [WalletType.PRIVATE_KEY]: SignTransactionPrivateKey,
+    [WalletType.MNEMONIC]: SignTransactionMnemonic,
+    [WalletType.KEYSTORE]: SignTransactionKeystore
+  };
+
+  const SignComponent = currentAccount && components[currentAccount.type];
+
   return (
     <>
       {tx && <pre>{JSON.stringify(tx, null, 2)}</pre>}
       <br />
-      {isWaiting && currentAccount && currentAccount.type === WalletType.PRIVATE_KEY && (
-        <SignTransactionPrivateKey
-          onAccept={handleAccept}
-          onDeny={handleDeny}
-          tx={tx}
-          currentAccount={currentAccount}
-        />
-      )}
-      {isWaiting && currentAccount && currentAccount.type === WalletType.MNEMONIC && (
-        <SignTransactionMnemonic
+      {isWaiting && currentAccount && (
+        <SignComponent
           onAccept={handleAccept}
           onDeny={handleDeny}
           tx={tx}
           currentAccount={currentAccount}
           setError={setError}
-        />
-      )}
-      {isWaiting && currentAccount && currentAccount.type === WalletType.KEYSTORE && (
-        <SignTransactionKeystore
-          onAccept={handleAccept}
-          onDeny={handleDeny}
-          tx={tx}
-          currentAccount={currentAccount}
         />
       )}
       <br />
