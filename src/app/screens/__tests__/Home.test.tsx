@@ -24,6 +24,7 @@ const mockStore = createMockStore({
   transactions: {
     // @ts-expect-error Brand bug with DeepPartial
     queue: [queueTx],
+    // @ts-expect-error Brand bug with DeepPartial
     history: [historyTx, historyTx]
   }
 });

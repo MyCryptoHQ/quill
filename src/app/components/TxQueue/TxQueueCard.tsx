@@ -7,7 +7,7 @@ import { ROUTE_PATHS } from '@app/routing';
 import { selectTransaction, useDispatch } from '@app/store';
 import circleArrow from '@assets/icons/circle-arrow.svg';
 import waiting from '@assets/icons/queue-waiting.svg';
-import { TAddress, TxQueueEntry } from '@types';
+import { TxQueueEntry } from '@types';
 
 export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {
   const dispatch = useDispatch();
@@ -21,7 +21,7 @@ export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {
         <Body color="PURPLE">WAITING ON ACTION</Body>
       </Box>
       <Box variant="rowAlign" mt="2">
-        <FromToAccount sender={tx.from as TAddress} recipient={tx.to as TAddress} />
+        <FromToAccount sender={tx.from} recipient={tx.to} />
         <LinkApp
           href={ROUTE_PATHS.TX}
           ml="auto"

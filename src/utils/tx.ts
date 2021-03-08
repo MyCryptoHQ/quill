@@ -1,9 +1,16 @@
-import { TransactionRequest } from '@ethersproject/abstract-provider';
 import { Transaction } from '@ethersproject/transactions';
 
-import { JsonRPCRequest, TSignTransaction, TxHistoryEntry, TxQueueEntry, TxResult } from '@types';
+import {
+  JsonRPCRequest,
+  TransactionRequest,
+  TSignTransaction,
+  TxHistoryEntry,
+  TxQueueEntry,
+  TxResult
+} from '@types';
 
-export const makeTx = (request: JsonRPCRequest): TransactionRequest => request.params[0];
+export const makeTx = (request: JsonRPCRequest): TransactionRequest =>
+  request.params[0] as TransactionRequest;
 
 export const makeQueueTx = (payload: JsonRPCRequest<TSignTransaction>): TxQueueEntry => ({
   id: payload.id,

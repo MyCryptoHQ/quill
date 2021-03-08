@@ -44,6 +44,7 @@ const getComponentWithStore = (account: IAccount = fAccount) => {
     transactions: {
       // @ts-expect-error Brand bug with DeepPartial
       queue: [transactionRequest],
+      // @ts-expect-error Brand bug with DeepPartial
       currentTransaction: transactionRequest
     }
   });
