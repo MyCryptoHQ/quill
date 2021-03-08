@@ -9,10 +9,13 @@ import {
   TxResult
 } from '@types';
 
+import { generateUUID } from './generateUUID';
+
 export const makeTx = (request: JsonRPCRequest): TransactionRequest =>
   request.params[0] as TransactionRequest;
 
 export const makeQueueTx = (payload: JsonRPCRequest<TSignTransaction>): TxQueueEntry => ({
+  uuid: generateUUID(),
   id: payload.id,
   tx: makeTx(payload),
   signedTx: undefined,
@@ -25,6 +28,7 @@ export const makeHistoryTx = (
   result: TxResult,
   signedTx?: Transaction
 ): TxHistoryEntry => ({
+  uuid: prev.uuid,
   tx: prev.tx,
   signedTx,
   result,

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { TxHistoryEntry } from '@types';
-import { generateUUID } from '@utils';
 
 import { Divider } from '../Divider';
 import { TxHistoryCard } from './TxHistoryCard';
@@ -12,7 +11,7 @@ export const TxHistory = ({ history }: { history: TxHistoryEntry[] }) => (
       .slice()
       .sort((a, b) => b.timestamp - a.timestamp)
       .map((h) => (
-        <React.Fragment key={generateUUID()}>
+        <React.Fragment key={h.uuid}>
           <TxHistoryCard item={h} />
           <Divider />
         </React.Fragment>

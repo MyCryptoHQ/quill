@@ -15,7 +15,7 @@ export const Accounts = () => {
       <Link to={ROUTE_PATHS.HOME}>Back</Link>
       <br />
       {accounts.map((a) => (
-        <div key={a.address}>
+        <div key={a.uuid}>
           {a.address}
           <button data-testid={`delete-${a.address}`} onClick={() => dispatch(removeAccount(a))}>
             Delete

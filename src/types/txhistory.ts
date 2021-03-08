@@ -4,6 +4,7 @@ import { Overwrite } from 'utility-types';
 
 import { TAddress } from './address';
 import { JsonRPCRequest } from './jsonRPCRequest';
+import { TUuid } from './uuid';
 
 export enum TxResult {
   APPROVED = 'APPROVED',
@@ -17,6 +18,7 @@ export type TransactionRequest = Overwrite<
 >;
 
 export interface TxHistoryEntry {
+  uuid: TUuid;
   tx: TransactionRequest;
   signedTx?: Transaction;
   timestamp: number;
@@ -24,6 +26,7 @@ export interface TxHistoryEntry {
 }
 
 export interface TxQueueEntry {
+  uuid: TUuid;
   id: JsonRPCRequest['id'];
   tx: TransactionRequest;
   signedTx: undefined;

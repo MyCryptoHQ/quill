@@ -3,7 +3,7 @@ import { expectSaga } from 'redux-saga-test-plan';
 
 import { ipcBridgeRenderer } from '@bridge';
 import { fTxRequest } from '@fixtures';
-import { TxResult } from '@types';
+import { TUuid, TxResult } from '@types';
 import { makeHistoryTx, makeQueueTx, makeTx } from '@utils';
 
 import slice, {
@@ -25,17 +25,19 @@ jest.mock('@bridge', () => ({
 
 describe('TransactionsSlice', () => {
   it('enqueue(): adds item to queue', () => {
+    const { uuid, ...tx } = makeQueueTx(fTxRequest);
     const result = slice.reducer(
       { queue: [{ ...makeQueueTx(fTxRequest), id: 1 }], history: [] },
       enqueue({ ...fTxRequest, id: 2 })
     );
     expect(result.queue).toStrictEqual([
-      { ...makeQueueTx(fTxRequest), id: 1 },
-      { ...makeQueueTx(fTxRequest), id: 2 }
+      expect.objectContaining({ ...tx, id: 1 }),
+      expect.objectContaining({ ...tx, id: 2 })
     ]);
   });
 
   it('dequeue(): removes item from queue', () => {
+    const { uuid, ...tx } = makeQueueTx(fTxRequest);
     const result = slice.reducer(
       {
         queue: [
@@ -46,11 +48,16 @@ describe('TransactionsSlice', () => {
       },
       dequeue()
     );
-    expect(result.queue).toStrictEqual([{ ...makeQueueTx(fTxRequest), id: 2 }]);
+    expect(result.queue).toStrictEqual([expect.objectContaining({ ...tx, id: 2 })]);
   });
 
   it('addToTxHistory(): adds item to tx history', () => {
-    const entry = { tx: makeTx(fTxRequest), result: TxResult.DENIED, timestamp: Date.now() };
+    const entry = {
+      uuid: 'uuid' as TUuid,
+      tx: makeTx(fTxRequest),
+      result: TxResult.DENIED,
+      timestamp: Date.now()
+    };
     const result = slice.reducer(
       {
         queue: [],
@@ -62,7 +69,12 @@ describe('TransactionsSlice', () => {
   });
 
   it('selectTransaction(): sets selected transaction', () => {
-    const entry = { tx: makeTx(fTxRequest), result: TxResult.DENIED, timestamp: Date.now() };
+    const entry = {
+      uuid: 'uuid' as TUuid,
+      tx: makeTx(fTxRequest),
+      result: TxResult.DENIED,
+      timestamp: Date.now()
+    };
     const result = slice.reducer(
       {
         queue: [],
