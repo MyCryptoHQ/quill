@@ -10,11 +10,11 @@ export const TxHistory = ({ history }: { history: TxHistoryEntry[] }) => (
     {history
       .slice()
       .sort((a, b) => b.timestamp - a.timestamp)
-      .map((h) => (
-        <>
+      .map((h, i) => (
+        <React.Fragment key={i}>
           <TxHistoryCard item={h} />
           <Divider />
-        </>
+        </React.Fragment>
       ))}
   </>
 );
