@@ -1,10 +1,10 @@
-import { app, BrowserWindow, Menu, screen, Tray } from 'electron';
+import { app, BrowserWindow, Menu, Tray } from 'electron';
+import positioner from 'electron-traywindow-positioner';
 import path from 'path';
 
 import { runService as runCryptoService } from '@api/crypto';
 import { runService as runDatabaseService } from '@api/db';
 import { HEIGHT, WIDTH } from '@config';
-import { getWindowPosition } from '@utils';
 
 import { runAPI } from './api/ws';
 
@@ -59,9 +59,9 @@ const createWindow = (): void => {
 };
 
 const showWindow = () => {
+  const windowBounds = window.getBounds();
   const trayBounds = tray.getBounds();
-  const trayScreen = screen.getDisplayNearestPoint(trayBounds);
-  const position = getWindowPosition(trayBounds, trayScreen);
+  const position = positioner.calculate(windowBounds, trayBounds);
   window.setPosition(position.x, position.y, false);
   // Added because setPosition would sometimes squeeze the sizing
   window.setSize(WIDTH, HEIGHT, false);

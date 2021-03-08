@@ -10,6 +10,5 @@ export const safeJSONParse = <T>(str: string): [null, T] | [Error, null] => {
 
 export * from './generateUUID';
 export { toChecksumAddress } from './toChecksumAddress';
-export { getWindowPosition } from './getWindowPosition';
 export * from './truncate';
 export * from './tx';
