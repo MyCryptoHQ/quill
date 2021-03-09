@@ -36,7 +36,7 @@ const App = ({ persistor }: { persistor: Persistor }) => {
         py="1"
         px="24px"
         backgroundColor="DEFAULT_BACKGROUND"
-        overflow="scroll"
+        overflowY="scroll"
         sx={{ flex: '1' }}
       >
         <AppRoutes />
