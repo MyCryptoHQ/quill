@@ -158,6 +158,7 @@
     "@hot-loader/react-dom": "16.13.0",
     "@reduxjs/toolkit": "1.5.0",
     "aes-js": "3.1.2",
+    "bignumber.js": "9.0.1",
     "date-fns": "2.18.0",
     "electron-log": "4.2.4",
     "electron-squirrel-startup": "1.0.0",

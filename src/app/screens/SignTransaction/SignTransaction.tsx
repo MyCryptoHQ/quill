@@ -54,8 +54,6 @@ export const SignTransaction = () => {
 
   return (
     <>
-      {tx && <pre>{JSON.stringify(tx, null, 2)}</pre>}
-      <br />
       {isWaiting && currentAccount && (
         <SignComponent
           onAccept={handleAccept}

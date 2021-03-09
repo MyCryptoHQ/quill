@@ -5,3 +5,4 @@ export * from './tx';
 export * from './hexPrefix';
 export * from './json';
 export * from './date';
+export * from './bigify';
