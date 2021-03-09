@@ -7,6 +7,7 @@ import {
   ForgotPassword,
   Home,
   Locked,
+  Menu,
   Transaction
 } from '../screens';
 import { ROUTE_PATHS } from './routePaths';
@@ -31,6 +32,12 @@ export const ROUTES: Record<string, Route> = {
   CREATE_WALLET: {
     path: ROUTE_PATHS.CREATE_WALLET,
     component: CreateWallet,
+    exact: true,
+    requireLogin: true
+  },
+  MENU: {
+    path: ROUTE_PATHS.MENU,
+    component: Menu,
     exact: true,
     requireLogin: true
   }

@@ -1,9 +1,7 @@
 import React from 'react';
 
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
-import { ROUTE_PATHS } from '@app/routing';
 import { getAccounts, removeAccount, useDispatch } from '@app/store';
 
 export const Accounts = () => {
@@ -12,8 +10,6 @@ export const Accounts = () => {
 
   return (
     <>
-      <Link to={ROUTE_PATHS.HOME}>Back</Link>
-      <br />
       {accounts.map((a) => (
         <div key={a.uuid}>
           {a.address}

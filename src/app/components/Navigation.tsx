@@ -42,7 +42,7 @@ export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => (
       <Box display="flex" ml="auto" variant="rowAlign">
         <NavIcon icon={lock} href="#" />
         <NavIcon icon={profile} href={ROUTE_PATHS.ACCOUNTS} />
-        <NavIcon icon={add} href={ROUTE_PATHS.ADD_ACCOUNT} />
+        <NavIcon icon={add} href={ROUTE_PATHS.MENU} />
       </Box>
     )}
   </Box>
