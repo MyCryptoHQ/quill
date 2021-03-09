@@ -49,6 +49,6 @@ describe('Transaction', () => {
     const { getByText } = getComponentWithStore();
     expect(getByText('This transaction is waiting on action').textContent).toBeDefined();
     expect(getByText('Gas Limit', { exact: false }).textContent).toBeDefined();
-    expect(getByText('307835323038', { exact: false }).textContent).toBeDefined();
+    expect(getByText('21000', { exact: false }).textContent).toBeDefined();
   });
 });
