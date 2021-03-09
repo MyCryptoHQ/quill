@@ -1649,7 +1649,7 @@
     "@ethersproject/transactions" "^5.0.9"
     "@ethersproject/wordlists" "^5.0.8"
 
-"@ethersproject/json-wallets@^5.0.10", "@ethersproject/json-wallets@^5.0.11":
+"@ethersproject/json-wallets@5.0.11", "@ethersproject/json-wallets@^5.0.10":
   version "5.0.11"
   resolved "https://registry.yarnpkg.com/@ethersproject/json-wallets/-/json-wallets-5.0.11.tgz#86fdc41b7762acb443d6a896f6c61231ab2aee5d"
   integrity sha512-0GhWScWUlXXb4qJNp0wmkU95QS3YdN9UMOfMSEl76CRANWWrmyzxcBVSXSBu5iQ0/W8wO+xGlJJ3tpA6v3mbIw==
@@ -1761,6 +1761,15 @@
     "@ethersproject/properties" "^5.0.7"
     "@ethersproject/rlp" "^5.0.7"
     "@ethersproject/signing-key" "^5.0.8"
+
+"@ethersproject/units@5.0.10":
+  version "5.0.10"
+  resolved "https://registry.yarnpkg.com/@ethersproject/units/-/units-5.0.10.tgz#9cca3b65cd0c92fab1bd33f2abd233546dd61987"
+  integrity sha512-eaiHi9ham5lbC7qpqxpae7OY/nHJUnRUnFFuEwi2VB5Nwe3Np468OAV+e+HR+jAK4fHXQE6PFBTxWGtnZuO37g==
+  dependencies:
+    "@ethersproject/bignumber" "^5.0.13"
+    "@ethersproject/constants" "^5.0.8"
+    "@ethersproject/logger" "^5.0.8"
 
 "@ethersproject/wallet@5.0.11":
   version "5.0.11"
@@ -4794,6 +4803,11 @@ data-urls@^2.0.0:
     whatwg-mimetype "^2.3.0"
     whatwg-url "^8.0.0"
 
+date-fns@2.18.0:
+  version "2.18.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.18.0.tgz#08e50aee300ad0d2c5e054e3f0d10d8f9cdfe09e"
+  integrity sha512-NYyAg4wRmGVU4miKq5ivRACOODdZRY3q5WLmOJSq8djyzftYphU7dTHLcEtLqEvfqMKQ0jVv91P4BAwIjsXIcw==
+
 debounce-fn@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/debounce-fn/-/debounce-fn-4.0.0.tgz#ed76d206d8a50e60de0dd66d494d82835ffe61c7"
@@ -5303,6 +5317,11 @@ electron-to-chromium@^1.3.571:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.576.tgz#2e70234484e03d7c7e90310d7d79fd3775379c34"
   integrity sha512-uSEI0XZ//5ic+0NdOqlxp0liCD44ck20OAGyLMSymIWTEAtHKVJi6JM18acOnRgUgX7Q65QqnI+sNncNvIy8ew==
 
+electron-traywindow-positioner@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/electron-traywindow-positioner/-/electron-traywindow-positioner-1.1.0.tgz#f8f13760db0ece036e5a6749cfc61a6a78f1fa1b"
+  integrity sha512-/i1jh1L8qyUJAZ1KVT67SEK/OZ+3F2Qfe8mCfuXHSVC5tAOuw3U971LuxMvAsJJS/yNW0oSQ9pCbVzqGlNCeJQ==
+
 electron-winstaller@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/electron-winstaller/-/electron-winstaller-4.0.1.tgz#69da2a439a6986210c3106305f921a522369207d"
@@ -5699,6 +5718,13 @@ etag@~1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
+
+ethereum-blockies-base64@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/ethereum-blockies-base64/-/ethereum-blockies-base64-1.0.2.tgz#4aebca52142bf4d16a3144e6e2b59303e39ed2b3"
+  integrity sha512-Vg2HTm7slcWNKaRhCUl/L3b4KrB8ohQXdd5Pu3OI897EcR6tVRvUqdTwAyx+dnmoDzj8e2bwBLDQ50ByFmcz6w==
+  dependencies:
+    pnglib "0.0.1"
 
 events@^3.0.0:
   version "3.2.0"
@@ -9765,6 +9791,11 @@ plist@^3.0.0, plist@^3.0.1:
     xmlbuilder "^9.0.7"
     xmldom "0.1.x"
 
+pnglib@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/pnglib/-/pnglib-0.0.1.tgz#f9ab6f9c688f4a9d579ad8be28878a716e30c096"
+  integrity sha1-+atvnGiPSp1Xmti+KIeKcW4wwJY=
+
 posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
@@ -12577,6 +12608,11 @@ uuid-by-string@MyCryptoHQ/uuid-by-string#36afddc:
   dependencies:
     js-md5 MyCryptoHQ/js-md5#b300da8
     js-sha1 MyCryptoHQ/js-sha1#7474a64
+
+uuid@3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
+  integrity sha512-jZnMwlb9Iku/O3smGWvZhauCf6cvvpKi4BKRiliS3cxnI+Gz9j5MEpTz2UFuXiKPJocb7gnsLHwiS05ige5BEA==
 
 uuid@^3.3.2:
   version "3.4.0"

@@ -1,5 +1,6 @@
 export const ROUTE_PATHS = {
   HOME: '/',
+  TX: '/tx',
   LOCKED: '/locked',
   ADD_ACCOUNT: '/add-account',
   ACCOUNTS: '/accounts',

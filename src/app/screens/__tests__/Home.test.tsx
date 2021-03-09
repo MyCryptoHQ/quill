@@ -1,46 +1,38 @@
 import React from 'react';
 
-import { render } from '@testing-library/react';
+import { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
+import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
+import configureStore from 'redux-mock-store';
 
-import { createStore } from '@app/store';
-import { fAccount } from '@fixtures';
-import { JsonRPCRequest } from '@types';
+import { ApplicationState, selectTransaction } from '@app/store';
+import { fAccount, fTxRequest } from '@fixtures';
+import { TxResult } from '@types';
+import { makeHistoryTx, makeQueueTx } from '@utils';
 
 import { Home } from '../Home';
 
-jest.mock('@bridge', () => ({
-  ipcBridgeRenderer: {
-    api: {
-      subscribeToRequests: (callback: (request: JsonRPCRequest) => void) => {
-        const request = {
-          id: 1,
-          jsonrpc: '2.0' as const,
-          method: 'eth_signTransaction',
-          params: [{ from: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520' }]
-        };
-        callback(request);
-        callback({ id: 2, ...request });
-        return () => true;
-      },
-      sendResponse: jest.fn()
-    },
-    crypto: { invoke: jest.fn() }
+const createMockStore = configureStore<DeepPartial<ApplicationState>>();
+const queueTx = makeQueueTx(fTxRequest);
+const historyTx = makeHistoryTx(queueTx, TxResult.DENIED);
+const mockStore = createMockStore({
+  accounts: {
+    // @ts-expect-error Brand bug with DeepPartial
+    accounts: [fAccount]
+  },
+  transactions: {
+    // @ts-expect-error Brand bug with DeepPartial
+    queue: [queueTx],
+    // @ts-expect-error Brand bug with DeepPartial
+    history: [historyTx, historyTx]
   }
-}));
+});
 
-function getComponent() {
+function getComponent(store: EnhancedStore<DeepPartial<ApplicationState>> = mockStore) {
   return render(
     <Router>
-      <Provider
-        store={createStore({
-          preloadedState: {
-            // @ts-expect-error Brand bug with DeepPartial
-            accounts: { accounts: [fAccount] }
-          }
-        })}
-      >
+      <Provider store={store}>
         <Home />
       </Provider>
     </Router>
@@ -52,8 +44,25 @@ describe('Home', () => {
     jest.resetAllMocks();
   });
 
-  it('renders', async () => {
-    const { getByText } = getComponent();
-    expect(getByText('Nothing to sign', { exact: false })).toBeDefined();
+  it('renders and allows selection of queue and history items', async () => {
+    const { getByText, getAllByText, getByTestId, getAllByTestId } = getComponent();
+    expect(getByText('WAITING ON ACTION', { exact: false })).toBeDefined();
+    expect(getAllByText('DENIED', { exact: false })).toBeDefined();
+
+    fireEvent.click(getAllByTestId('select-tx-history')[0]);
+    fireEvent.click(getByTestId(`select-tx-${queueTx.id}`));
+
+    expect(mockStore.getActions()).toContainEqual(selectTransaction(queueTx));
+    expect(mockStore.getActions()).toContainEqual(selectTransaction(historyTx));
+  });
+
+  it('renders empty state', async () => {
+    const { getByText } = getComponent(
+      // @ts-expect-error Brand bug with DeepPartial
+      createMockStore({ accounts: [fAccount], transactions: { queue: [], history: [] } })
+    );
+    expect(
+      getByText('There are no transactions in your Signer at this time', { exact: false })
+    ).toBeDefined();
   });
 });

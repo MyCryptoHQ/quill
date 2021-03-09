@@ -44,7 +44,7 @@ describe('signWorker()', () => {
         tx
       })
     )
-      .withState({ transactions: { queue: [fTxRequest] } })
+      .withState({ transactions: { queue: [fTxRequest], currentTransaction: fTxRequest } })
       .provide([[call.fn(ipcBridgeRenderer.crypto.invoke), fSignedTx]])
       .call(ipcBridgeRenderer.crypto.invoke, { type: CryptoRequestType.SIGN, wallet, tx })
       .put(signSuccess())

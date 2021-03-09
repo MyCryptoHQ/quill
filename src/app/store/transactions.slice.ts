@@ -4,13 +4,21 @@ import { eventChannel } from 'redux-saga';
 import { all, call, put, select, take, takeLatest } from 'redux-saga/effects';
 
 import { ipcBridgeRenderer } from '@bridge';
-import { JsonRPCRequest, TxHistoryEntry, TxHistoryResult } from '@types';
-import { makeTx } from '@utils';
+import { JsonRPCRequest, TSignTransaction, TxHistoryEntry, TxQueueEntry, TxResult } from '@types';
+import { makeHistoryTx, makeQueueTx } from '@utils';
 
 import { ApplicationState } from './store';
 import { storage } from './utils';
 
-export const initialState = { queue: [] as JsonRPCRequest[], history: [] as TxHistoryEntry[] };
+export const initialState: {
+  queue: TxQueueEntry[];
+  history: TxHistoryEntry[];
+  currentTransaction?: TxQueueEntry | TxHistoryEntry;
+} = {
+  queue: [],
+  history: [],
+  currentTransaction: undefined
+};
 
 const sliceName = 'transactions';
 
@@ -18,21 +26,24 @@ const slice = createSlice({
   name: sliceName,
   initialState,
   reducers: {
-    enqueue(state, action: PayloadAction<JsonRPCRequest>) {
-      state.queue.push(action.payload);
+    enqueue(state, action: PayloadAction<JsonRPCRequest<TSignTransaction>>) {
+      state.queue.push(makeQueueTx(action.payload));
     },
     dequeue(state) {
       state.queue.shift();
     },
     addToHistory(state, action: PayloadAction<TxHistoryEntry>) {
       state.history.push(action.payload);
+    },
+    selectTransaction(state, action: PayloadAction<TxHistoryEntry>) {
+      state.currentTransaction = action.payload;
     }
   }
 });
 
 export const denyCurrentTransaction = createAction(`${slice.name}/denyCurrentTransaction`);
 
-export const { enqueue, dequeue, addToHistory } = slice.actions;
+export const { enqueue, dequeue, addToHistory, selectTransaction } = slice.actions;
 
 const persistConfig = {
   key: sliceName,
@@ -46,19 +57,21 @@ export const reducer = persistReducer(persistConfig, slice.reducer);
 
 export default slice;
 
-export const getCurrentTransaction = createSelector(
+export const getQueue = createSelector(
   (state: ApplicationState) => state.transactions,
-  (transactions) => transactions.queue[0]
+  (transactions) => transactions.queue
 );
 
-export const getQueueLength = createSelector(
-  (state: ApplicationState) => state.transactions.queue,
-  (queue) => queue.length
+export const getCurrentTransaction = createSelector(
+  (state: ApplicationState) => state.transactions.currentTransaction,
+  (t) => t
 );
+
+export const getQueueLength = createSelector(getQueue, (queue) => queue.length);
 
 export const getTxHistory = createSelector(
-  (state: ApplicationState) => state.transactions,
-  (transactions) => transactions.history
+  (state: ApplicationState) => state.transactions.history,
+  (h) => h
 );
 
 /**
@@ -103,7 +116,9 @@ export function* denyCurrentTransactionWorker() {
 
   yield put(dequeue());
 
-  const tx = makeTx(currentTx);
+  const txEntry = makeHistoryTx(currentTx, TxResult.DENIED);
 
-  yield put(addToHistory({ tx, timestamp: Date.now(), result: TxHistoryResult.DENIED }));
+  yield put(addToHistory(txEntry));
+
+  yield put(selectTransaction(txEntry));
 }

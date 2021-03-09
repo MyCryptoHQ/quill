@@ -99,12 +99,15 @@ export const theme: DefaultTheme = {
     DARK_BLUE: '#1c314e',
     LIGHT_BLUE: '#55B6E2',
     BLUE_DARK_SLATE: '#163150',
+    BLUE_GREY: '#B5BFC7',
 
     // BLACK
     BODY: '#424242',
 
     // GREY
     BG_GREY: '#C4C4C4',
+    GREY_ATHENS: '#e8eaed',
+    GREY_LIGHTEST: '#f7f7f7',
 
     // ORANGE
     ORANGE: '#FA873F',
@@ -144,7 +147,15 @@ export const theme: DefaultTheme = {
   },
   variants: {
     ...FLEX_VARIANTS,
-    ...LINK_VARIANTS
+    ...LINK_VARIANTS,
+    divider: {
+      bg: 'GREY_ATHENS',
+      width: '100%',
+      height: '1px'
+    },
+    avatar: {
+      borderRadius: '50%'
+    }
   }
 };
 

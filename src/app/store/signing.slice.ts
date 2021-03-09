@@ -4,14 +4,15 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 
 import { ipcBridgeRenderer } from '@bridge';
-import {
-  CryptoRequestType,
-  SerializedPersistentAccount,
-  SerializedWallet,
-  TxHistoryResult
-} from '@types';
+import { CryptoRequestType, SerializedPersistentAccount, SerializedWallet, TxResult } from '@types';
+import { makeHistoryTx } from '@utils';
 
-import { addToHistory, dequeue, getCurrentTransaction } from './transactions.slice';
+import {
+  addToHistory,
+  dequeue,
+  getCurrentTransaction,
+  selectTransaction
+} from './transactions.slice';
 
 export const initialState = { isSigning: false };
 
@@ -69,12 +70,9 @@ export function* signWorker({
 
   const parsedTx = parse(signedTx);
 
-  yield put(
-    addToHistory({
-      tx,
-      signedTx: parsedTx,
-      timestamp: Date.now(),
-      result: TxHistoryResult.APPROVED
-    })
-  );
+  const txEntry = makeHistoryTx(currentTx, TxResult.APPROVED, parsedTx);
+
+  yield put(addToHistory(txEntry));
+
+  yield put(selectTransaction(txEntry));
 }

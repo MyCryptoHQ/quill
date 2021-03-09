@@ -77,8 +77,8 @@ export const AddAccountMnemonic = () => {
       {addresses.length > 0 && (
         <>
           <br />
-          {addresses.map((address, index) => (
-            <button key={index} onClick={() => addAddress(address)}>
+          {addresses.map((address) => (
+            <button key={address.dPath} onClick={() => addAddress(address)}>
               {address.address}
             </button>
           ))}
