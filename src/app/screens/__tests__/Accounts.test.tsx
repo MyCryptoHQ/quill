@@ -32,7 +32,7 @@ function getComponent(store: EnhancedStore<DeepPartial<ApplicationState>> = mock
 describe('Accounts', () => {
   it('renders', async () => {
     const { getByText } = getComponent();
-    expect(getByText('Back').textContent).toBeDefined();
+    expect(getByText(fAccount.address).textContent).toBeDefined();
   });
 
   it('can delete account', async () => {
