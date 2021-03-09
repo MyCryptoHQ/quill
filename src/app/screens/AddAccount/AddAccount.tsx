@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 
-import { Link } from 'react-router-dom';
-
-import { ROUTE_PATHS } from '@app/routing';
 import { AddAccountKeystore } from '@screens/AddAccount/AddAccountKeystore';
 import { WalletType } from '@types';
 
@@ -17,10 +14,6 @@ export const AddAccount = () => {
 
   return (
     <>
-      <Link to={ROUTE_PATHS.HOME}>Back</Link>
-      <br />
-      <Link to={ROUTE_PATHS.CREATE_WALLET}>Create New Wallet</Link>
-      <br />
       <label>
         Type
         <br />

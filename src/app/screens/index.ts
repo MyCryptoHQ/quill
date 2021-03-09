@@ -7,3 +7,4 @@ export { Locked } from './Locked';
 export { ForgotPassword } from './ForgotPassword';
 export { CreateWallet } from './CreateWallet';
 export { Transaction } from './Transaction';
+export { Menu } from './Menu';

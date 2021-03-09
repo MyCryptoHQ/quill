@@ -5,5 +5,6 @@ export const ROUTE_PATHS = {
   ADD_ACCOUNT: '/add-account',
   ACCOUNTS: '/accounts',
   FORGOT_PASSWORD: '/forgot-password',
-  CREATE_WALLET: '/create-wallet'
+  CREATE_WALLET: '/create-wallet',
+  MENU: '/menu'
 };
