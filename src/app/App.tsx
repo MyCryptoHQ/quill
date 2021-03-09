@@ -30,15 +30,14 @@ const App = ({ persistor }: { persistor: Persistor }) => {
   }, [loggedIn]);
 
   return (
-    <Box height="100vh" overflow="hidden">
+    <Box height="100vh" overflow="hidden" sx={{ display: 'flex', flexDirection: 'column' }}>
       <Navigation isLoggedIn={loggedIn} />
       <Box
-        height="100%"
         py="1"
         px="24px"
-        mt="65px"
         backgroundColor="DEFAULT_BACKGROUND"
-        overflow="scroll"
+        overflowY="scroll"
+        sx={{ flex: '1' }}
       >
         <AppRoutes />
       </Box>

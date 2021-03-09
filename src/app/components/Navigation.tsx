@@ -11,7 +11,12 @@ import LinkApp from './Core/LinkApp';
 
 const NavIcon = ({ icon, href }: { icon: string; href: string }) => (
   <LinkApp href={href}>
-    <Box variant="rowAlign">
+    <Box
+      variant="rowAlign"
+      sx={{
+        '-webkit-app-region': 'no-drag'
+      }}
+    >
       <Image height="20px" width="20px" src={icon} mx="10px" />
     </Box>
   </LinkApp>
@@ -21,11 +26,11 @@ export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => (
   <Box
     variant="rowAlign"
     sx={{
-      position: 'fixed',
-      top: 0,
       borderTopLeftRadius: '5px',
       borderTopRightRadius: '5px',
-      bg: 'BLUE_DARK_SLATE'
+      bg: 'BLUE_DARK_SLATE',
+      userSelect: 'none',
+      '-webkit-app-region': 'drag'
     }}
     width="100%"
     height="65px"
@@ -33,7 +38,12 @@ export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => (
   >
     <Box variant="rowAlign">
       <LinkApp href={ROUTE_PATHS.HOME}>
-        <Box variant="rowAlign">
+        <Box
+          variant="rowAlign"
+          sx={{
+            '-webkit-app-region': 'no-drag'
+          }}
+        >
           <Image height="28px" width="28px" src={logo} marginLeft="18px" />
         </Box>
       </LinkApp>
