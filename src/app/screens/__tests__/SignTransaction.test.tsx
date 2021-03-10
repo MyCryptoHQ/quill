@@ -150,28 +150,6 @@ describe('SignTransaction', () => {
     );
   });
 
-  it('can accept tx with a persistent private key', async () => {
-    const {
-      component: { getByText },
-      mockStore
-    } = getComponentWithStore(fAccounts[2]);
-    const acceptButton = getByText('Approve Transaction');
-    expect(acceptButton.textContent).toBeDefined();
-
-    fireEvent.click(acceptButton);
-
-    const transactionRequest = getTransactionRequest(fAccounts[2].address);
-    expect(mockStore.getActions()).toContainEqual(
-      sign({
-        wallet: {
-          persistent: true,
-          uuid: fAccounts[2].uuid
-        },
-        tx: makeTx(transactionRequest)
-      })
-    );
-  });
-
   it('can deny tx', async () => {
     const {
       component: { getByText },
