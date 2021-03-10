@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 
-import { Link } from 'react-router-dom';
-
 import { ROUTE_PATHS } from '@app/routing';
 import { setLoggedIn, useDispatch } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
+import { Body, Box, Flex, Heading, Input, Label, LinkApp, Logo } from '@components';
 import { DBRequestType } from '@types';
 
 export const Login = () => {
@@ -28,19 +27,39 @@ export const Login = () => {
     setPassword(e.currentTarget.value);
 
   return (
-    <div>
-      <label>
-        Master Password
-        <input id="password" name="password" type="password" onChange={changePassword} />
-      </label>
-      <br />
+    <Flex height="100%" flexDirection="column" variant="columnCenter">
+      <Logo width="100px" height="100px" />
+      <Heading fontSize="30px" lineHeight="48px" mt="32px" mb="16px">
+        Unlock Signer
+      </Heading>
+      <Body>
+        Your MyCrypto Signer is currently locked. Enter your MyCrypto Password to unlock it.
+      </Body>
+      <Box width="100%" mt="16px">
+        <Label htmlFor="password">MyCrypto Password</Label>
+        <Input id="password" name="password" type="password" onChange={changePassword} />
+      </Box>
+      {/* @todo: Replace with new button component */}
       <button type="button" disabled={password.length === 0} onClick={handleLogin}>
         Login
       </button>
-      <br />
-      <Link to={ROUTE_PATHS.FORGOT_PASSWORD}>Forgot Password?</Link>
-      <br />
+      <Box>
+        <Body mt="16px">
+          Forgot your password? Discover options{' '}
+          <LinkApp href={ROUTE_PATHS.FORGOT_PASSWORD} variant="defaultLink">
+            here
+          </LinkApp>
+        </Body>
+        {/* @todo: Figure out if this link is necessary */}
+        <Body mt="8px">
+          Don't have a password?{' '}
+          <LinkApp href={ROUTE_PATHS.HOME} variant="defaultLink">
+            Create one now
+          </LinkApp>
+        </Body>
+      </Box>
+      {/* @todo: Pretty error messages */}
       {error}
-    </div>
+    </Flex>
   );
 };

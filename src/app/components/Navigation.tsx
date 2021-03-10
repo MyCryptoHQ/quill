@@ -5,7 +5,7 @@ import { ROUTE_PATHS } from '@app/routing';
 import add from '@assets/icons/add.svg';
 import lock from '@assets/icons/lock.svg';
 import profile from '@assets/icons/profile.svg';
-import logo from '@assets/images/icon.png';
+import { Logo } from '@components/Logo';
 
 import LinkApp from './Core/LinkApp';
 
@@ -38,14 +38,7 @@ export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => (
   >
     <Box variant="rowAlign">
       <LinkApp href={ROUTE_PATHS.HOME}>
-        <Box
-          variant="rowAlign"
-          sx={{
-            '-webkit-app-region': 'no-drag'
-          }}
-        >
-          <Image height="28px" width="28px" src={logo} marginLeft="18px" />
-        </Box>
+        <Logo marginLeft="18px" />
       </LinkApp>
     </Box>
     {isLoggedIn && (

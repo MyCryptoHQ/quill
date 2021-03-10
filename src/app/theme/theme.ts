@@ -76,8 +76,9 @@ export const LINK_VARIANTS = {
   defaultLink: {
     ...LINK_RECIPES.default,
     fontSize: { _: 0, sm: 1 },
+    fontWeight: 'bold',
     lineHeight: { _: 0, sm: 1 },
-    color: 'BLUE_BRIGHT',
+    color: 'LIGHT_BLUE',
     '&:hover': {
       color: 'BLUE_LIGHT_DARKISH'
     },
@@ -144,6 +145,7 @@ export const theme: DefaultTheme = {
   },
   fontSizes: ['10px', '12px', '16px', '18px', '20px', '40px'],
   lineHeights: ['16px', '24px', '48px'],
+  radii: ['3px'],
   text: {
     heading: {
       fontSize: 5,
@@ -161,6 +163,17 @@ export const theme: DefaultTheme = {
       fontSize: 2,
       lineHeight: 1,
       color: 'BODY'
+    }
+  },
+  forms: {
+    label: {
+      marginBottom: '6px'
+    },
+    input: {
+      color: 'white',
+      border: '1px solid #E8EAED',
+      boxShadow: '0px 1px 1px rgba(232, 234, 237, 0.5), inset 0px 1px 3px rgba(232, 234, 237, 0.5)',
+      borderRadius: 0
     }
   },
   variants: {
@@ -182,7 +195,7 @@ export const theme: DefaultTheme = {
 
 // Global styling for default elements
 export const GlobalStyle = createGlobalStyle`
-  body { 
+  body {
     margin: 0;
   }
 
