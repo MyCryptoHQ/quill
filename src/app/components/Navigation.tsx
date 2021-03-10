@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { Box, Image } from '@app/components';
+import SVG from 'react-inlinesvg';
+
+import { Box } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import add from '@assets/icons/add.svg';
 import lock from '@assets/icons/lock.svg';
@@ -10,14 +12,15 @@ import { Logo } from '@components/Logo';
 import LinkApp from './Core/LinkApp';
 
 const NavIcon = ({ icon, href }: { icon: string; href: string }) => (
-  <LinkApp href={href}>
+  <LinkApp href={href} variant="barren" style={{ color: 'white' }}>
     <Box
       variant="rowAlign"
+      mx="10px"
       sx={{
         '-webkit-app-region': 'no-drag'
       }}
     >
-      <Image height="20px" width="20px" src={icon} mx="10px" />
+      <SVG height="20px" width="20px" src={icon} />
     </Box>
   </LinkApp>
 );

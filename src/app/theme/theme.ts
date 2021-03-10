@@ -170,7 +170,6 @@ export const theme: DefaultTheme = {
       marginBottom: '6px'
     },
     input: {
-      color: 'white',
       border: '1px solid #E8EAED',
       boxShadow: '0px 1px 1px rgba(232, 234, 237, 0.5), inset 0px 1px 3px rgba(232, 234, 237, 0.5)',
       borderRadius: 0

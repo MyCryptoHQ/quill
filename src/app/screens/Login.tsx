@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 
 import { ROUTE_PATHS } from '@app/routing';
 import { setLoggedIn, useDispatch } from '@app/store';
+import lock from '@assets/icons/lock.svg';
 import { ipcBridgeRenderer } from '@bridge';
-import { Body, Box, Flex, Heading, Input, Label, LinkApp, Logo } from '@components';
+import { Body, Box, Button, Flex, Heading, Input, Label, LinkApp, Logo } from '@components';
 import { DBRequestType } from '@types';
 
 export const Login = () => {
@@ -28,7 +29,7 @@ export const Login = () => {
 
   return (
     <Flex height="100%" flexDirection="column" variant="columnCenter">
-      <Logo width="100px" height="100px" />
+      <Logo width="100px" height="100px" icon={lock} />
       <Heading fontSize="30px" lineHeight="48px" mt="32px" mb="16px">
         Unlock Signer
       </Heading>
@@ -39,10 +40,9 @@ export const Login = () => {
         <Label htmlFor="password">MyCrypto Password</Label>
         <Input id="password" name="password" type="password" onChange={changePassword} />
       </Box>
-      {/* @todo: Replace with new button component */}
-      <button type="button" disabled={password.length === 0} onClick={handleLogin}>
-        Login
-      </button>
+      <Button mt="24px" type="button" disabled={password.length === 0} onClick={handleLogin}>
+        Unlock Now
+      </Button>
       <Box>
         <Body mt="16px">
           Forgot your password? Discover options{' '}
