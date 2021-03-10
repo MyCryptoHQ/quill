@@ -2,7 +2,11 @@ import React from 'react';
 
 import { ButtonProps, Button as RebassButton } from 'rebass/styled-components';
 
-export const Button = ({ disabled, children, ...props }: { disabled?: boolean, children: React.ReactNode } & ButtonProps) => (
+export const Button = ({
+  disabled,
+  children,
+  ...props
+}: { disabled?: boolean; children: React.ReactNode } & ButtonProps) => (
   <RebassButton
     {...props}
     sx={{

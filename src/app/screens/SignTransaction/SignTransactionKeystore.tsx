@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { SignBottom } from '@app/components';
 import { SignTransactionProps, WalletType } from '@types';
 
-
 export const SignTransactionKeystore = ({
   onAccept,
   onDeny,
