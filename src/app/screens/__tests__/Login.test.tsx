@@ -30,16 +30,16 @@ function getComponent() {
 describe('Login', () => {
   it('renders', async () => {
     const { getByText } = getComponent();
-    expect(getByText('Login').textContent).toBeDefined();
+    expect(getByText('Unlock Now').textContent).toBeDefined();
   });
 
   it('can login', async () => {
     const { getByLabelText, getByText } = getComponent();
-    const passwordInput = getByLabelText('Master Password');
+    const passwordInput = getByLabelText('MyCrypto Password');
     expect(passwordInput).toBeDefined();
     fireEvent.change(passwordInput, { target: { value: 'password' } });
 
-    const loginButton = getByText('Login');
+    const loginButton = getByText('Unlock Now');
     expect(loginButton).toBeDefined();
     fireEvent.click(loginButton);
     expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith(
@@ -49,11 +49,11 @@ describe('Login', () => {
 
   it('can fail login with wrong password', async () => {
     const { getByLabelText, getByText } = getComponent();
-    const passwordInput = getByLabelText('Master Password');
+    const passwordInput = getByLabelText('MyCrypto Password');
     expect(passwordInput).toBeDefined();
     fireEvent.change(passwordInput, { target: { value: 'password1' } });
 
-    const loginButton = getByText('Login');
+    const loginButton = getByText('Unlock Now');
     expect(loginButton).toBeDefined();
     fireEvent.click(loginButton);
     expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith(
