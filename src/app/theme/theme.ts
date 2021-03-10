@@ -90,6 +90,21 @@ export const LINK_VARIANTS = {
   }
 };
 
+const BUTTON_VARIANTS = {
+  default: {
+    p: '3',
+    width: '100%',
+    bg: 'BLUE_LIGHT',
+    '&:hover': {
+      bg: 'BLUE_LIGHT_DARKISH'
+    }
+  },
+  inverted: {
+    p: '3',
+    width: '100%'
+  }
+};
+
 export const theme: DefaultTheme = {
   colors: {
     DEFAULT_BACKGROUND: '#fbfbfb',
@@ -98,8 +113,11 @@ export const theme: DefaultTheme = {
     BLUE: '#027796',
     DARK_BLUE: '#1c314e',
     LIGHT_BLUE: '#55B6E2',
+    BLUE_LIGHT: '#007896',
+    BLUE_LIGHT_DARKISH: '#006077',
     BLUE_DARK_SLATE: '#163150',
     BLUE_GREY: '#B5BFC7',
+    BLUE_BRIGHT: '#1eb8e7',
 
     // BLACK
     BODY: '#424242',
@@ -156,6 +174,9 @@ export const theme: DefaultTheme = {
     avatar: {
       borderRadius: '50%'
     }
+  },
+  buttons: {
+    ...BUTTON_VARIANTS
   }
 };
 

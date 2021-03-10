@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 
+import { SignBottom } from '@app/components';
 import { SignTransactionProps, WalletType } from '@types';
+
 
 export const SignTransactionPrivateKey = ({
   onAccept,
   onDeny,
-  currentAccount,
-  tx
+  currentAccount
 }: SignTransactionProps) => {
   const [privKey, setPrivKey] = useState('');
 
@@ -27,17 +28,11 @@ export const SignTransactionPrivateKey = ({
           <br />
         </>
       )}
-      <button id="deny_button" type="button" disabled={!tx} onClick={onDeny}>
-        Deny
-      </button>
-      <button
-        id="accept_button"
-        type="button"
-        disabled={!tx || (privKey.length === 0 && !currentAccount.persistent)}
-        onClick={handleAccept}
-      >
-        Accept
-      </button>
+      <SignBottom
+        disabled={privKey.length === 0 && !currentAccount.persistent}
+        handleAccept={handleAccept}
+        handleDeny={onDeny}
+      />
     </>
   );
 };
