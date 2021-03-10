@@ -8,7 +8,7 @@ import configureStore from 'redux-mock-store';
 
 import { ApplicationState, denyCurrentTransaction, sign } from '@app/store';
 import { fAccount, fAccounts, getTransactionRequest } from '@fixtures';
-import { IAccount } from '@types';
+import { IAccount, TSignTransaction } from '@types';
 import { makeQueueTx, makeTx } from '@utils';
 
 import { Transaction } from '../Transaction';
@@ -25,8 +25,8 @@ function getComponent(store: EnhancedStore<DeepPartial<ApplicationState>>) {
   );
 }
 
-const getComponentWithStore = (account: IAccount = fAccount) => {
-  const transactionRequest = makeQueueTx(getTransactionRequest(account.address));
+const getComponentWithStore = (account: IAccount = fAccount, tx?: Partial<TSignTransaction[0]>) => {
+  const transactionRequest = makeQueueTx(getTransactionRequest(account.address, tx));
   const mockStore = createMockStore({
     accounts: {
       // @ts-expect-error Brand bug with DeepPartial
@@ -52,6 +52,15 @@ describe('Transaction', () => {
     expect(getByText('This transaction is waiting on action').textContent).toBeDefined();
     expect(getByText('Gas Limit', { exact: false }).textContent).toBeDefined();
     expect(getByText('21000', { exact: false }).textContent).toBeDefined();
+    expect(getByText('Data', { exact: false }).textContent).toBeDefined();
+    expect(getByText('(none)', { exact: false }).textContent).toBeDefined();
+  });
+
+  it('renders data block', async () => {
+    const {
+      component: { getByText }
+    } = getComponentWithStore(fAccount, { data: '0x123' });
+    expect(getByText('0x123', { exact: false }).textContent).toBeDefined();
   });
 
   it('can accept tx with a persistent private key', async () => {
