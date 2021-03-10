@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { KeyboardEvent, useState } from 'react';
 
 import { ROUTE_PATHS } from '@app/routing';
 import { setLoggedIn, useDispatch } from '@app/store';
@@ -12,6 +12,7 @@ export const Login = () => {
   const [error, setError] = useState('');
   const dispatch = useDispatch();
 
+  // @todo: Move this logic to saga
   const handleLogin = async () => {
     try {
       const result = await ipcBridgeRenderer.db.invoke({ type: DBRequestType.LOGIN, password });
@@ -21,6 +22,12 @@ export const Login = () => {
       dispatch(setLoggedIn(result));
     } catch (err) {
       setError(err.message);
+    }
+  };
+
+  const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleLogin();
     }
   };
 
@@ -38,7 +45,13 @@ export const Login = () => {
       </Body>
       <Box width="100%" mt="16px">
         <Label htmlFor="password">MyCrypto Password</Label>
-        <Input id="password" name="password" type="password" onChange={changePassword} />
+        <Input
+          id="password"
+          name="password"
+          type="password"
+          onChange={changePassword}
+          onKeyPress={handleKeyPress}
+        />
       </Box>
       <Button mt="24px" type="button" disabled={password.length === 0} onClick={handleLogin}>
         Unlock Now
