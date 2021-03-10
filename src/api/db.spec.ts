@@ -102,6 +102,14 @@ describe('handleRequest', () => {
     expect(result).toBe(false);
   });
 
+  it('logout clears the encryption key', async () => {
+    await handleRequest({ type: DBRequestType.LOGIN, password });
+    await expect(handleRequest({ type: DBRequestType.IS_LOGGED_IN })).resolves.toBe(true);
+
+    await handleRequest({ type: DBRequestType.LOGOUT });
+    await expect(handleRequest({ type: DBRequestType.IS_LOGGED_IN })).resolves.toBe(false);
+  });
+
   it('reset correctly resets the Store', async () => {
     await handleRequest({ type: DBRequestType.RESET });
     expect(fs.promises.unlink).toHaveBeenCalled();

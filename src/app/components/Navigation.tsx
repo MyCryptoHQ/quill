@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { logout, useDispatch } from '@store';
 import SVG from 'react-inlinesvg';
 
 import { Box } from '@app/components';
@@ -11,8 +12,8 @@ import { Logo } from '@components/Logo';
 
 import LinkApp from './Core/LinkApp';
 
-const NavIcon = ({ icon, href }: { icon: string; href: string }) => (
-  <LinkApp href={href} variant="barren" style={{ color: 'white' }}>
+const NavIcon = ({ icon, href, onClick }: { icon: string; href: string; onClick?(): void }) => (
+  <LinkApp href={href} variant="barren" style={{ color: 'white' }} onClick={onClick}>
     <Box
       variant="rowAlign"
       mx="10px"
@@ -25,31 +26,39 @@ const NavIcon = ({ icon, href }: { icon: string; href: string }) => (
   </LinkApp>
 );
 
-export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => (
-  <Box
-    variant="rowAlign"
-    sx={{
-      borderTopLeftRadius: '5px',
-      borderTopRightRadius: '5px',
-      bg: 'BLUE_DARK_SLATE',
-      userSelect: 'none',
-      '-webkit-app-region': 'drag'
-    }}
-    width="100%"
-    height="65px"
-    overflow="hidden"
-  >
-    <Box variant="rowAlign">
-      <LinkApp href={ROUTE_PATHS.HOME}>
-        <Logo marginLeft="18px" />
-      </LinkApp>
-    </Box>
-    {isLoggedIn && (
-      <Box display="flex" ml="auto" variant="rowAlign">
-        <NavIcon icon={lock} href="#" />
-        <NavIcon icon={profile} href={ROUTE_PATHS.ACCOUNTS} />
-        <NavIcon icon={add} href={ROUTE_PATHS.MENU} />
+export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
+  return (
+    <Box
+      variant="rowAlign"
+      sx={{
+        borderTopLeftRadius: '5px',
+        borderTopRightRadius: '5px',
+        bg: 'BLUE_DARK_SLATE',
+        userSelect: 'none',
+        '-webkit-app-region': 'drag'
+      }}
+      width="100%"
+      height="65px"
+      overflow="hidden"
+    >
+      <Box variant="rowAlign">
+        <LinkApp href={ROUTE_PATHS.HOME}>
+          <Logo marginLeft="18px" />
+        </LinkApp>
       </Box>
-    )}
-  </Box>
-);
+      {isLoggedIn && (
+        <Box display="flex" ml="auto" variant="rowAlign">
+          <NavIcon icon={lock} href="#" onClick={handleLogout} />
+          <NavIcon icon={profile} href={ROUTE_PATHS.ACCOUNTS} />
+          <NavIcon icon={add} href={ROUTE_PATHS.MENU} />
+        </Box>
+      )}
+    </Box>
+  );
+};

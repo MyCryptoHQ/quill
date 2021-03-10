@@ -8,7 +8,7 @@ export {
   getAccounts,
   AccountsState
 } from './account.slice';
-export { setLoggedIn, setNewUser } from './auth.slice';
+export { setLoggedIn, setNewUser, logout } from './auth.slice';
 export {
   enqueue,
   dequeue,
