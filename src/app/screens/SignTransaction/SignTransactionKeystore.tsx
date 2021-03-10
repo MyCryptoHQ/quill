@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
+import { SignBottom } from '@app/components';
 import { SignTransactionProps, WalletType } from '@types';
 
 export const SignTransactionKeystore = ({
   onAccept,
   onDeny,
-  currentAccount,
-  tx
+  currentAccount
 }: SignTransactionProps) => {
   const [keystoreFile, setKeystoreFile] = useState<File>();
   const [password, setPassword] = useState('');
@@ -39,17 +39,11 @@ export const SignTransactionKeystore = ({
           </label>
         </>
       )}
-      <button id="deny_button" type="button" disabled={!tx} onClick={onDeny}>
-        Deny
-      </button>
-      <button
-        id="accept_button"
-        type="button"
-        disabled={!tx || ((!keystoreFile || !password) && !currentAccount.persistent)}
-        onClick={handleAccept}
-      >
-        Accept
-      </button>
+      <SignBottom
+        disabled={(!keystoreFile || !password) && !currentAccount.persistent}
+        handleAccept={handleAccept}
+        handleDeny={onDeny}
+      />
     </>
   );
 };

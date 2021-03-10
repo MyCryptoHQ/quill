@@ -37,16 +37,15 @@ describe('TransactionsSlice', () => {
   });
 
   it('dequeue(): removes item from queue', () => {
+    const removeUuid = 'uuid' as TUuid;
     const { uuid, ...tx } = makeQueueTx(fTxRequest);
+    const removeTx = { ...tx, uuid: removeUuid, id: 1 };
     const result = slice.reducer(
       {
-        queue: [
-          { ...makeQueueTx(fTxRequest), id: 1 },
-          { ...makeQueueTx(fTxRequest), id: 2 }
-        ],
+        queue: [removeTx, { ...makeQueueTx(fTxRequest), id: 2 }],
         history: []
       },
-      dequeue()
+      dequeue(removeTx)
     );
     expect(result.queue).toStrictEqual([expect.objectContaining({ ...tx, id: 2 })]);
   });
@@ -96,7 +95,7 @@ describe('denyCurrentTransactionWorker()', () => {
         id: fTxRequest.id,
         error: { code: '-32000', message: 'User denied transaction' }
       })
-      .put(dequeue())
+      .put(dequeue(tx))
       .put(addToHistory(makeHistoryTx(tx, TxResult.DENIED)))
       .silentRun();
   });

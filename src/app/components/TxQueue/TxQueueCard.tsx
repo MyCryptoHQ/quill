@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { getChain } from '@data';
 import { formatEther } from '@ethersproject/units';
 
 import { Body, Box, FromToAccount, Image, LinkApp, TimeElapsed } from '@app/components';
@@ -13,6 +14,8 @@ export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {
   const dispatch = useDispatch();
   const { tx } = item;
   const handleSelect = () => dispatch(selectTransaction(item));
+  const chain = getChain(tx.chainId);
+  const symbol = chain?.nativeCurrency?.symbol ?? '?';
 
   return (
     <Box py="16px">
@@ -35,7 +38,7 @@ export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {
       </Box>
       <Box variant="rowAlign" mt="1">
         <Body fontSize="1" fontWeight="bold">
-          {formatEther(tx.value)} ETH
+          {formatEther(tx.value)} {symbol}
         </Body>
         <Body fontSize="1" ml="1" color="BLUE_GREY">
           <TimeElapsed value={item.timestamp} />

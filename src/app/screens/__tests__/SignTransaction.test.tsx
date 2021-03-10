@@ -58,7 +58,7 @@ describe('SignTransaction', () => {
     const {
       component: { getByText }
     } = getComponentWithStore();
-    expect(getByText('Accept').textContent).toBeDefined();
+    expect(getByText('Approve Transaction').textContent).toBeDefined();
   });
 
   it('can accept tx with private key', async () => {
@@ -66,13 +66,13 @@ describe('SignTransaction', () => {
       component: { getByText, getByLabelText },
       mockStore
     } = getComponentWithStore();
-    await waitFor(() => expect(getByText('Accept')?.textContent).toBeDefined());
+    await waitFor(() => expect(getByText('Approve Transaction')?.textContent).toBeDefined());
 
     const privkeyInput = getByLabelText('Private Key');
     expect(privkeyInput).toBeDefined();
     fireEvent.change(privkeyInput, { target: { value: fPrivateKey } });
 
-    const acceptButton = getByText('Accept');
+    const acceptButton = getByText('Approve Transaction');
     fireEvent.click(acceptButton);
 
     expect(mockStore.getActions()).toContainEqual(
@@ -91,7 +91,7 @@ describe('SignTransaction', () => {
       component: { getByText, getByLabelText },
       mockStore
     } = getComponentWithStore(fAccounts[3]);
-    await waitFor(() => expect(getByText('Accept')?.textContent).toBeDefined());
+    await waitFor(() => expect(getByText('Approve Transaction')?.textContent).toBeDefined());
 
     const keystoreFile = new Blob([fKeystore], { type: 'application/json' });
     keystoreFile.text = async () => fKeystore;
@@ -104,7 +104,7 @@ describe('SignTransaction', () => {
     expect(passwordInput).toBeDefined();
     fireEvent.change(passwordInput, { target: { value: fKeystorePassword } });
 
-    const acceptButton = getByText('Accept');
+    const acceptButton = getByText('Approve Transaction');
     await waitFor(() => fireEvent.click(acceptButton));
 
     expect(mockStore.getActions()).toContainEqual(
@@ -124,7 +124,7 @@ describe('SignTransaction', () => {
       component: { getByText, getByLabelText },
       mockStore
     } = getComponentWithStore(fAccounts[1]);
-    const acceptButton = getByText('Accept');
+    const acceptButton = getByText('Approve Transaction');
     expect(acceptButton.textContent).toBeDefined();
 
     const mnemonicInput = getByLabelText('Mnemonic Phrase');
@@ -150,34 +150,12 @@ describe('SignTransaction', () => {
     );
   });
 
-  it('can accept tx with a persistent private key', async () => {
-    const {
-      component: { getByText },
-      mockStore
-    } = getComponentWithStore(fAccounts[2]);
-    const acceptButton = getByText('Accept');
-    expect(acceptButton.textContent).toBeDefined();
-
-    fireEvent.click(acceptButton);
-
-    const transactionRequest = getTransactionRequest(fAccounts[2].address);
-    expect(mockStore.getActions()).toContainEqual(
-      sign({
-        wallet: {
-          persistent: true,
-          uuid: fAccounts[2].uuid
-        },
-        tx: makeTx(transactionRequest)
-      })
-    );
-  });
-
   it('can deny tx', async () => {
     const {
       component: { getByText },
       mockStore
     } = getComponentWithStore();
-    const denyButton = getByText('Deny');
+    const denyButton = getByText('Deny Transaction');
     expect(denyButton.textContent).toBeDefined();
 
     fireEvent.click(denyButton);

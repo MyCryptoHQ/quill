@@ -26,22 +26,14 @@ export const SignTransaction = () => {
   const handleAccept = async (wallet: SerializedWallet) => {
     return dispatch(
       sign({
-        wallet: currentAccount.persistent
-          ? {
-              persistent: true,
-              uuid: currentAccount.uuid
-            }
-          : wallet,
+        wallet,
         tx
       })
     );
   };
 
   const handleDeny = async () => {
-    if (tx) {
-      dispatch(denyCurrentTransaction());
-      setError('');
-    }
+    dispatch(denyCurrentTransaction());
   };
 
   const components = {
@@ -54,8 +46,6 @@ export const SignTransaction = () => {
 
   return (
     <>
-      {tx && <pre>{JSON.stringify(tx, null, 2)}</pre>}
-      <br />
       {isWaiting && currentAccount && (
         <SignComponent
           onAccept={handleAccept}

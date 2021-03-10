@@ -66,7 +66,7 @@ export function* signWorker({
 
   yield call(ipcBridgeRenderer.api.sendResponse, { id: currentTx.id, result: signedTx });
 
-  yield put(dequeue());
+  yield put(dequeue(currentTx));
 
   const parsedTx = parse(signedTx);
 

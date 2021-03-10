@@ -1,3 +1,4 @@
+import { SignTransaction } from '@app/screens/SignTransaction';
 import { Route } from '@types';
 
 import {
@@ -16,6 +17,12 @@ export const ROUTES: Record<string, Route> = {
   LOCKED: { path: ROUTE_PATHS.LOCKED, component: Locked, exact: true, requireLogin: false },
   HOME: { path: ROUTE_PATHS.HOME, component: Home, exact: true, requireLogin: true },
   TX: { path: ROUTE_PATHS.TX, component: Transaction, exact: true, requireLogin: true },
+  SIGN_TX: {
+    path: ROUTE_PATHS.SIGN_TX,
+    component: SignTransaction,
+    exact: true,
+    requireLogin: true
+  },
   ADD_ACCOUNT: {
     path: ROUTE_PATHS.ADD_ACCOUNT,
     component: AddAccount,

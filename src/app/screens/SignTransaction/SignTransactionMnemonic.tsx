@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
+import { SignBottom } from '@app/components';
 import { SignTransactionProps, WalletType } from '@types';
 
 export const SignTransactionMnemonic = ({
   onAccept,
   onDeny,
-  currentAccount,
-  tx
+  currentAccount
 }: SignTransactionProps) => {
   const [phrase, setPhrase] = useState('');
   const [password, setPassword] = useState('');
@@ -40,17 +40,11 @@ export const SignTransactionMnemonic = ({
           <br />
         </>
       )}
-      <button id="deny_button" type="button" disabled={!tx} onClick={onDeny}>
-        Deny
-      </button>
-      <button
-        id="accept_button"
-        type="button"
-        disabled={!tx || (phrase.length === 0 && !currentAccount.persistent)}
-        onClick={handleAccept}
-      >
-        Accept
-      </button>
+      <SignBottom
+        disabled={phrase.length === 0 && !currentAccount.persistent}
+        handleAccept={handleAccept}
+        handleDeny={onDeny}
+      />
     </>
   );
 };

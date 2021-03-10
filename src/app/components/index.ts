@@ -11,3 +11,7 @@ export * from './TxHistory';
 export * from './FromToAccount';
 export * from './Blockie';
 export * from './Account';
+export * from './TxDetails';
+export * from './TxResultBanner';
+export * from './Button';
+export * from './SignBottom';

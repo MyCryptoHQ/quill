@@ -23,7 +23,7 @@ const mockStore = createMockStore({
   },
   transactions: {
     // @ts-expect-error Brand bug with DeepPartial
-    queue: [queueTx],
+    queue: [queueTx, { ...queueTx, id: 2 }],
     // @ts-expect-error Brand bug with DeepPartial
     history: [historyTx, historyTx]
   }
@@ -45,8 +45,8 @@ describe('Home', () => {
   });
 
   it('renders and allows selection of queue and history items', async () => {
-    const { getByText, getAllByText, getByTestId, getAllByTestId } = getComponent();
-    expect(getByText('WAITING ON ACTION', { exact: false })).toBeDefined();
+    const { getAllByText, getByTestId, getAllByTestId } = getComponent();
+    expect(getAllByText('WAITING ON ACTION', { exact: false })).toBeDefined();
     expect(getAllByText('DENIED', { exact: false })).toBeDefined();
 
     fireEvent.click(getAllByTestId('select-tx-history')[0]);
