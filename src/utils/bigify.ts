@@ -7,10 +7,8 @@ export const bigify = (
   v: BigNumber.Value | BigNumberish | bigint | ArrayLike<number>
 ): BigNumber => {
   BigNumber.config({ DECIMAL_PLACES: 18, EXPONENTIAL_AT: 1e9 });
-  if (isBigNumberish(v)) {
+  if (isBigNumberish(v) && !Object.prototype.hasOwnProperty.call(v, 'c')) {
     return new BigNumber(BigNumberish.from(v).toHexString());
-  } else if (typeof v === 'bigint') {
-    return new BigNumber(v.toString(16), 16);
   } else {
     return new BigNumber(v as BigNumber.Value);
   }
