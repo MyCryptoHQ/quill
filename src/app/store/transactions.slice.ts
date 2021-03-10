@@ -29,8 +29,9 @@ const slice = createSlice({
     enqueue(state, action: PayloadAction<JsonRPCRequest<TSignTransaction>>) {
       state.queue.push(makeQueueTx(action.payload));
     },
-    dequeue(state) {
-      state.queue.shift();
+    dequeue(state, action: PayloadAction<TxQueueEntry>) {
+      const idx = state.queue.findIndex((q) => q.uuid === action.payload.uuid);
+      state.queue.splice(idx, 1);
     },
     addToHistory(state, action: PayloadAction<TxHistoryEntry>) {
       state.history.push(action.payload);
@@ -114,7 +115,7 @@ export function* denyCurrentTransactionWorker() {
     error: { code: '-32000', message: 'User denied transaction' }
   });
 
-  yield put(dequeue());
+  yield put(dequeue(currentTx));
 
   const txEntry = makeHistoryTx(currentTx, TxResult.DENIED);
 
