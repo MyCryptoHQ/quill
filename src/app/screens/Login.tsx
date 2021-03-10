@@ -1,28 +1,17 @@
 import React, { KeyboardEvent, useState } from 'react';
 
 import { ROUTE_PATHS } from '@app/routing';
-import { setLoggedIn, useDispatch } from '@app/store';
+import { login, useDispatch, useSelector } from '@app/store';
 import lock from '@assets/icons/lock.svg';
-import { ipcBridgeRenderer } from '@bridge';
 import { Body, Box, Button, Flex, Heading, Input, Label, LinkApp, Logo } from '@components';
-import { DBRequestType } from '@types';
 
 export const Login = () => {
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const error = useSelector((state) => state.auth.error);
   const dispatch = useDispatch();
 
-  // @todo: Move this logic to saga
-  const handleLogin = async () => {
-    try {
-      const result = await ipcBridgeRenderer.db.invoke({ type: DBRequestType.LOGIN, password });
-      if (!result) {
-        setError('An error occurred');
-      }
-      dispatch(setLoggedIn(result));
-    } catch (err) {
-      setError(err.message);
-    }
+  const handleLogin = () => {
+    dispatch(login(password));
   };
 
   const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
