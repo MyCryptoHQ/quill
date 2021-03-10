@@ -11,7 +11,9 @@ export const Login = () => {
   const dispatch = useDispatch();
 
   const handleLogin = () => {
-    dispatch(login(password));
+    if (password.length > 0) {
+      dispatch(login(password));
+    }
   };
 
   const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {

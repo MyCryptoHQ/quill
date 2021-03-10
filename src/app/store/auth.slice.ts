@@ -54,6 +54,7 @@ export function* loginWorker({ payload }: PayloadAction<string>) {
     type: DBRequestType.LOGIN,
     password: payload
   });
+
   if (result) {
     yield put(loginSuccess());
     return;
