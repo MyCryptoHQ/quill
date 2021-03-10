@@ -2,6 +2,7 @@ import React from 'react';
 
 import { logout, useDispatch } from '@store';
 import SVG from 'react-inlinesvg';
+import { BoxProps } from 'rebass';
 
 import { Box } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
@@ -12,7 +13,12 @@ import { Logo } from '@components/Logo';
 
 import LinkApp from './Core/LinkApp';
 
-const NavIcon = ({ icon, href, onClick }: { icon: string; href: string; onClick?(): void }) => (
+const NavIcon = ({
+  icon,
+  href,
+  onClick,
+  ...rest
+}: { icon: string; href: string; onClick?(): void } & BoxProps) => (
   <LinkApp href={href} variant="barren" style={{ color: 'white' }} onClick={onClick}>
     <Box
       variant="rowAlign"
@@ -20,6 +26,7 @@ const NavIcon = ({ icon, href, onClick }: { icon: string; href: string; onClick?
       sx={{
         '-webkit-app-region': 'no-drag'
       }}
+      {...rest}
     >
       <SVG height="20px" width="20px" src={icon} />
     </Box>
@@ -54,7 +61,7 @@ export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
       </Box>
       {isLoggedIn && (
         <Box display="flex" ml="auto" variant="rowAlign">
-          <NavIcon icon={lock} href="#" onClick={handleLogout} />
+          <NavIcon icon={lock} href="#" onClick={handleLogout} data-testid="lock-button" />
           <NavIcon icon={profile} href={ROUTE_PATHS.ACCOUNTS} />
           <NavIcon icon={add} href={ROUTE_PATHS.MENU} />
         </Box>
