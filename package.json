@@ -151,6 +151,7 @@
   "dependencies": {
     "@ethersproject/abstract-provider": "5.0.9",
     "@ethersproject/address": "5.0.10",
+    "@ethersproject/bignumber": "5.0.15",
     "@ethersproject/json-wallets": "5.0.11",
     "@ethersproject/transactions": "5.0.10",
     "@ethersproject/units": "5.0.10",
