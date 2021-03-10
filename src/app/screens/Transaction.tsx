@@ -1,10 +1,54 @@
 import React from 'react';
 
-import { Body, Box, FromToAccount, SignBottom, TimeElapsed, TxDetails, TxResultBanner } from '@app/components';
-import { getCurrentTransaction, useSelector } from '@app/store';
+import { useHistory } from 'react-router-dom';
+
+import {
+  Body,
+  Box,
+  FromToAccount,
+  SignBottom,
+  TimeElapsed,
+  TxDetails,
+  TxResultBanner
+} from '@app/components';
+import { ROUTE_PATHS } from '@app/routing';
+import {
+  denyCurrentTransaction,
+  getAccounts,
+  getCurrentTransaction,
+  sign,
+  useDispatch,
+  useSelector
+} from '@app/store';
+import { TxResult } from '@types';
 
 export const Transaction = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const accounts = useSelector(getAccounts);
   const { tx, timestamp, result } = useSelector(getCurrentTransaction);
+  const currentAccount = tx && accounts.find((a) => a.address === tx.from);
+
+  const handleAccept = () => {
+    if (currentAccount.persistent) {
+      dispatch(
+        sign({
+          wallet: {
+            persistent: true,
+            uuid: currentAccount.uuid
+          },
+          tx
+        })
+      );
+    } else {
+      history.push(ROUTE_PATHS.SIGN_TX);
+    }
+  };
+
+  const handleDeny = () => {
+    dispatch(denyCurrentTransaction());
+  };
+
   return (
     <>
       <Box mb="170px">
@@ -14,15 +58,10 @@ export const Transaction = () => {
           <TimeElapsed value={timestamp} />
         </Body>
         <TxDetails tx={tx} />
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-        been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-        galley of type and scrambled it to make a type specimen book. It has survived not only five
-        centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-        It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
-        passages, and more recently with desktop publishing software like Aldus PageMaker including
-        versions of Lorem Ipsum.
       </Box>
-      <SignBottom />
+      {result === TxResult.WAITING && (
+        <SignBottom disabled={false} handleAccept={handleAccept} handleDeny={handleDeny} />
+      )}
     </>
   );
 };
