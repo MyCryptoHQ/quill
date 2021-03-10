@@ -49,15 +49,15 @@ const BlockRow = ({
 export const TxDetails = ({ tx }: { tx: TransactionRequest }) => {
   const chain = getChain(tx.chainId);
   const maxTxFee = bigify(tx.gasPrice).multipliedBy(bigify(tx.gasLimit));
-  const symbol = chain ? chain.nativeCurrency.symbol : '?';
-  const network = chain ? chain.name : 'Unknown Network';
-  const data = tx.data ? tx.data.toString() : '0x';
+  const symbol = chain?.nativeCurrency?.symbol ?? '?';
+  const network = chain.name ?? 'Unknown Network';
+  const data = tx.data?.toString() ?? '0x';
   return (
     <>
       <Row label="TX Amount" value={`${formatEther(tx.value)} ${symbol}`} />
       <Row label="Network" value={`${network} (${tx.chainId.toString()})`} />
       <Row label="Gas Limit" value={bigify(tx.gasLimit).toString()} />
-      <Row label="Gas Price" value={`${formatUnits(tx.gasPrice, 'gwei')} GWEI`} />
+      <Row label="Gas Price" value={`${formatUnits(tx.gasPrice, 'gwei')} Gwei`} />
       <Row label="Max TX Fee" value={`${formatEther(maxTxFee.toString())} ${symbol}`} />
       <Row label="Nonce" value={bigify(tx.nonce).toString()} />
       {data === '0x' ? (

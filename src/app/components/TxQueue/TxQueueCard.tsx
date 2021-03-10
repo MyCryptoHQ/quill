@@ -15,7 +15,7 @@ export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {
   const { tx } = item;
   const handleSelect = () => dispatch(selectTransaction(item));
   const chain = getChain(tx.chainId);
-  const symbol = chain ? chain.nativeCurrency.symbol : '?';
+  const symbol = chain?.nativeCurrency?.symbol ?? '?';
 
   return (
     <Box py="16px">

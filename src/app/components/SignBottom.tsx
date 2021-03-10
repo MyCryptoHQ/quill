@@ -19,13 +19,7 @@ export const SignBottom = ({
     py="3"
     mx="-24px"
   >
-    <Button
-      id="accept_button"
-      type="button"
-      disabled={disabled}
-      onClick={handleAccept}
-      variant="default"
-    >
+    <Button id="accept_button" type="button" disabled={disabled} onClick={handleAccept}>
       Approve Transaction
     </Button>
     <Box width="100%" p="3" sx={{ textAlign: 'center' }}>
