@@ -13,11 +13,11 @@ export const InnerIcon = ({ icon }: { icon: string }) => (
   <Flex
     width="48px"
     height="48px"
+    bg="DEFAULT_BACKGROUND"
     sx={{
       position: 'absolute',
       right: '-12px',
       bottom: '-12px',
-      background: '#fbfbfb',
       borderRadius: '48px'
     }}
     variant="rowCenter"
