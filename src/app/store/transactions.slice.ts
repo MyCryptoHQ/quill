@@ -104,11 +104,9 @@ export function* transactionsWorker() {
   while (true) {
     const request = yield take(channel);
     const isLoggedIn = yield select((state: ApplicationState) => state.auth.loggedIn);
-    if (!isLoggedIn) {
-      return;
+    if (isLoggedIn) {
+      yield put(enqueue(request));
     }
-
-    yield put(enqueue(request));
   }
 }
 
