@@ -31,6 +31,7 @@
     "SUBMIT": "Submit",
     "NEXT": "Next",
     "HOME_TX_RESULT_WAITING": "Waiting on action",
-    "NO_LABEL": "No Label"
+    "NO_LABEL": "No Label",
+    "FORGOT_PASSWORD_HELP": "Forgot your password? Discover options $link"
   }
 }
