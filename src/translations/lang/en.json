@@ -2,6 +2,31 @@
   "code": "en",
   "data": {
     "APPROVE_TX": "Approve Transaction",
-    "DENY_TX": "Deny Transaction"
+    "DENY_TX": "Deny Transaction",
+    "SENDER": "Sender",
+    "RECIPIENT": "Recipient",
+    "TX_RESULT_APPROVED_LABEL": "This transaction has been approved",
+    "TX_RESULT_DENIED_LABEL": "This transaction has been denied",
+    "TX_RESULT_WAITING_LABEL": "This transaction is waiting on action",
+    "TX_DETAILS_AMOUNT": "TX Amount",
+    "NETWORK": "Network",
+    "GAS_LIMIT": "Gas Limit",
+    "GAS_PRICE": "Gas Price",
+    "MAX_TX_FEE": "Max TX Fee",
+    "NONCE": "Nonce",
+    "DATA": "Data",
+    "TX_DETAILS_DATA_EMPTY": "(none)",
+    "UNKNOWN_NETWORK": "Unknown Network",
+    "PASSWORD": "Password",
+    "KEYSTORE": "Keystore",
+    "PERSISTENCE": "Persistence",
+    "MNEMONIC_PHRASE": "Mnemonic Phrase",
+    "PRIVATE_KEY": "Private Key",
+    "DELETE": "Delete",
+    "HOME_EMPTY_HEADER": "There are no transactions in your Signer at this time",
+    "HOME_EMPTY_SUBHEADING": "Initiate a transaction from MyCrypto.com to see it appear here",
+    "MENU_HEADER": "Add or Generate Accounts",
+    "MENU_ADD_ACCOUNT": "Add an Account",
+    "MENU_GENERATE_ACCOUNT": "Generate an Account"
   }
 }

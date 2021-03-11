@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import { ROUTE_PATHS } from '@app/routing';
 import { fetchAccount, useDispatch } from '@app/store';
+import { translateRaw } from '@translations';
 import { WalletType } from '@types';
 
 export const AddAccountKeystore = () => {
@@ -33,17 +34,17 @@ export const AddAccountKeystore = () => {
   return (
     <>
       <label>
-        Keystore
+        {translateRaw('KEYSTORE')}
         <input type="file" onChange={changeKeystore} />
       </label>
       <br />
       <label>
-        Password
+        {translateRaw('PASSWORD')}
         <input type="text" onChange={changePassword} value={password} />
       </label>
       <br />
       <label>
-        Persistence
+        {translateRaw('PERSISTENCE')}
         <input type="checkbox" onChange={changePersistence} checked={persistent} />
       </label>
       <br />

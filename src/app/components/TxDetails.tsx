@@ -3,6 +3,7 @@ import React from 'react';
 import { getChain } from '@data';
 import { formatEther, formatUnits } from '@ethersproject/units';
 
+import { translateRaw } from '@translations';
 import { TransactionRequest } from '@types';
 import { bigify } from '@utils';
 
@@ -50,20 +51,23 @@ export const TxDetails = ({ tx }: { tx: TransactionRequest }) => {
   const chain = getChain(tx.chainId);
   const maxTxFee = bigify(tx.gasPrice).multipliedBy(bigify(tx.gasLimit));
   const symbol = chain?.nativeCurrency?.symbol ?? '?';
-  const network = chain.name ?? 'Unknown Network';
+  const network = chain.name ?? translateRaw('UNKNOWN_NETWORK');
   const data = tx.data?.toString() ?? '0x';
   return (
     <>
-      <Row label="TX Amount" value={`${formatEther(tx.value)} ${symbol}`} />
-      <Row label="Network" value={`${network} (${tx.chainId.toString()})`} />
-      <Row label="Gas Limit" value={bigify(tx.gasLimit).toString()} />
-      <Row label="Gas Price" value={`${formatUnits(tx.gasPrice, 'gwei')} Gwei`} />
-      <Row label="Max TX Fee" value={`${formatEther(maxTxFee.toString())} ${symbol}`} />
-      <Row label="Nonce" value={bigify(tx.nonce).toString()} />
+      <Row label={translateRaw('TX_DETAILS_AMOUNT')} value={`${formatEther(tx.value)} ${symbol}`} />
+      <Row label={translateRaw('NETWORK')} value={`${network} (${tx.chainId.toString()})`} />
+      <Row label={translateRaw('GAS_LIMIT')} value={bigify(tx.gasLimit).toString()} />
+      <Row label={translateRaw('GAS_PRICE')} value={`${formatUnits(tx.gasPrice, 'gwei')} Gwei`} />
+      <Row
+        label={translateRaw('MAX_TX_FEE')}
+        value={`${formatEther(maxTxFee.toString())} ${symbol}`}
+      />
+      <Row label={translateRaw('NONCE')} value={bigify(tx.nonce).toString()} />
       {data === '0x' ? (
-        <Row label="Data" value="(none)" />
+        <Row label={translateRaw('DATA')} value={translateRaw('TX_DETAILS_DATA_EMPTY')} />
       ) : (
-        <BlockRow label="Data" hideDivider={true}>
+        <BlockRow label={translateRaw('DATA')} hideDivider={true}>
           <CodeBlock>{data}</CodeBlock>
         </BlockRow>
       )}

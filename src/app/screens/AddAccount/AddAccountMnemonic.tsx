@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { ROUTE_PATHS } from '@app/routing';
 import { fetchAccount, useDispatch } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
+import { translateRaw } from '@translations';
 import { CryptoRequestType, GetAddressesResult, WalletType } from '@types';
 
 const dPathBase = "m/44'/60'/0'/0";
@@ -57,19 +58,19 @@ export const AddAccountMnemonic = () => {
   return (
     <>
       <label>
-        Mnemonic Phrase
+        {translateRaw('MNEMONIC_PHRASE')}
         <br />
         <input type="text" onChange={changeMnemonicPhrase} />
       </label>
       <br />
       <label>
-        Password
+        {translateRaw('PASSWORD')}
         <br />
         <input type="text" onChange={changePassword} />
       </label>
       <br />
       <label>
-        Persistence
+        {translateRaw('PERSISTENCE')}
         <input type="checkbox" onChange={changePersistence} checked={persistent} />
       </label>
       <br />

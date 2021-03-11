@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 
 import { Body, Box, Image, TxHistory, TxQueue } from '@app/components';
 import info from '@assets/icons/circle-info.svg';
+import { translateRaw } from '@translations';
 
 export const Home = () => {
   const queue = useSelector(getQueue);
@@ -17,11 +18,9 @@ export const Home = () => {
           <Box variant="columnAlign" sx={{ textAlign: 'center' }}>
             <Image src={info} height="52px" width="52px" />
             <Body color="BLUE_DARK_SLATE" fontWeight="bold">
-              There are no transactions in your Signer at this time
+              {translateRaw('HOME_EMPTY_HEADER')}
             </Body>
-            <Body color="BLUE_GREY">
-              Initiate a transaction from MyCrypto.com to see it appear here
-            </Body>
+            <Body color="BLUE_GREY">{translateRaw('HOME_EMPTY_SUBHEADING')}</Body>
           </Box>
         </Box>
       ) : (

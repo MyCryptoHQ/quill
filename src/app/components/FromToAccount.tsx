@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Box, BoxProps } from '@app/components';
+import { translateRaw } from '@translations';
 import { TAddress } from '@types';
 
 import { Account } from './Account';
@@ -13,11 +14,11 @@ export const FromToAccount = ({
 }: { sender: TAddress; recipient: TAddress } & BoxProps) => (
   <Box variant="rowAlign" {...props}>
     <Box mr="1">
-      Sender
+      {translateRaw('SENDER')}
       <Account address={sender} truncate={true} pr="4" />
     </Box>
     <Box ml="1">
-      Recipient
+      {translateRaw('RECIPIENT')}
       <Account address={recipient} truncate={true} pr="4" />
     </Box>
   </Box>

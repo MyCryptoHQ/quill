@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { SignBottom } from '@app/components';
+import { translateRaw } from '@translations';
 import { SignTransactionProps, WalletType } from '@types';
 
 export const SignTransactionPrivateKey = ({
@@ -21,7 +22,7 @@ export const SignTransactionPrivateKey = ({
     <>
       {currentAccount && !currentAccount.persistent && (
         <>
-          <label htmlFor="privkey">Private Key</label>
+          <label htmlFor="privkey">{translateRaw('PRIVATE_KEY')}</label>
           <br />
           <input id="privkey" name="privkey" type="text" onChange={changePrivateKey} />
           <br />

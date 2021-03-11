@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { translateRaw } from '@translations';
-
 import { Box, Button, LinkApp } from '@app/components';
+import { translateRaw } from '@translations';
 
 export const SignBottom = ({
   disabled,
