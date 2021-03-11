@@ -31,6 +31,8 @@ const slice = createSlice({
       state.error = action.payload;
     },
     logout(state) {
+      // Required since we clear the entire state when logout is dispatched
+      state.newUser = false;
       state.loggedIn = false;
     }
   }
