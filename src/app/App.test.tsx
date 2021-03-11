@@ -40,6 +40,7 @@ describe('App', () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
+
   it('renders Home if user has config and is logged in', async () => {
     (ipcBridgeRenderer.db.invoke as jest.Mock).mockImplementation(({ type }) =>
       Promise.resolve(type !== DBRequestType.IS_NEW_USER)

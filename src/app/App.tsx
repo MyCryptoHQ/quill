@@ -10,7 +10,7 @@ import { GlobalStyle, theme } from '@theme';
 import { DBRequestType } from '@types';
 
 import { AppRoutes } from './AppRoutes';
-import { setLoggedIn, setNewUser, useDispatch, useSelector } from './store';
+import { setNewUser, useDispatch, useSelector } from './store';
 
 const App = ({ persistor }: { persistor: Persistor }) => {
   const loggedIn = useSelector((state) => state.auth.loggedIn);
@@ -19,9 +19,6 @@ const App = ({ persistor }: { persistor: Persistor }) => {
   useEffect(() => {
     ipcBridgeRenderer.db.invoke({ type: DBRequestType.IS_NEW_USER }).then((state) => {
       dispatch(setNewUser(state));
-    });
-    ipcBridgeRenderer.db.invoke({ type: DBRequestType.IS_LOGGED_IN }).then((state) => {
-      dispatch(setLoggedIn(state));
     });
   }, []);
 
