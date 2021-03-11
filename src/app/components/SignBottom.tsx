@@ -25,7 +25,7 @@ export const SignBottom = ({
     </Button>
     <Box width="100%" p="3" sx={{ textAlign: 'center' }}>
       <LinkApp href="#" id="deny_button" onClick={handleDeny}>
-        Deny Transaction
+        {translateRaw('DENY_TX')}
       </LinkApp>
     </Box>
   </Box>

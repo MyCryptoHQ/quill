@@ -27,6 +27,9 @@
     "HOME_EMPTY_SUBHEADING": "Initiate a transaction from MyCrypto.com to see it appear here",
     "MENU_HEADER": "Add or Generate Accounts",
     "MENU_ADD_ACCOUNT": "Add an Account",
-    "MENU_GENERATE_ACCOUNT": "Generate an Account"
+    "MENU_GENERATE_ACCOUNT": "Generate an Account",
+    "SUBMIT": "Submit",
+    "NEXT": "Next",
+    "HOME_TX_RESULT_WAITING": "Waiting on action"
   }
 }

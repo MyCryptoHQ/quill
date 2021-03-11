@@ -74,7 +74,7 @@ export const AddAccountMnemonic = () => {
         <input type="checkbox" onChange={changePersistence} checked={persistent} />
       </label>
       <br />
-      <input type="submit" value="Next" onClick={handleSubmit} />
+      <input type="submit" value={translateRaw('NEXT')} onClick={handleSubmit} />
       {addresses.length > 0 && (
         <>
           <br />

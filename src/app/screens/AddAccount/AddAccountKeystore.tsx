@@ -48,7 +48,7 @@ export const AddAccountKeystore = () => {
         <input type="checkbox" onChange={changePersistence} checked={persistent} />
       </label>
       <br />
-      <input type="submit" value="Submit" onClick={handleSubmit} />
+      <input type="submit" value={translateRaw('SUBMIT')} onClick={handleSubmit} />
     </>
   );
 };

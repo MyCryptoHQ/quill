@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TranslateMarkdown } from '@app/components';
+import { default as TranslateMarkdown } from '@app/components/Core/TranslateMarkdown';
 
 import { translateRaw } from './translateRaw';
 
