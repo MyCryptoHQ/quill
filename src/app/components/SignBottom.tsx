@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { translateRaw } from '@translations';
+
 import { Box, Button, LinkApp } from '@app/components';
 
 export const SignBottom = ({
@@ -20,7 +22,7 @@ export const SignBottom = ({
     mx="-24px"
   >
     <Button id="accept_button" type="button" disabled={disabled} onClick={handleAccept}>
-      Approve Transaction
+      {translateRaw('APPROVE_TX')}
     </Button>
     <Box width="100%" p="3" sx={{ textAlign: 'center' }}>
       <LinkApp href="#" id="deny_button" onClick={handleDeny}>
