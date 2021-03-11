@@ -22,7 +22,15 @@ export const InnerIcon = ({ icon }: { icon: string }) => (
     }}
     variant="rowCenter"
   >
-    <SVG width="20px" height="20px" fill="#1eb8e7" src={icon} />
+    <Box
+      as={SVG}
+      width="20px"
+      height="20px"
+      sx={{
+        fill: 'BLUE_BRIGHT'
+      }}
+      src={icon}
+    />
   </Flex>
 );
 
