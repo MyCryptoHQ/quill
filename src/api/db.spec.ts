@@ -102,6 +102,14 @@ describe('handleRequest', () => {
     expect(result).toBe(false);
   });
 
+  it('logout clears the encryption key', async () => {
+    await handleRequest({ type: DBRequestType.LOGIN, password });
+    await expect(handleRequest({ type: DBRequestType.IS_LOGGED_IN })).resolves.toBe(true);
+
+    await handleRequest({ type: DBRequestType.LOGOUT });
+    await expect(handleRequest({ type: DBRequestType.IS_LOGGED_IN })).resolves.toBe(false);
+  });
+
   it('reset correctly resets the Store', async () => {
     await handleRequest({ type: DBRequestType.RESET });
     expect(fs.promises.unlink).toHaveBeenCalled();
@@ -144,6 +152,20 @@ describe('handleRequest', () => {
       'accounts',
       'e900ab0162e3ce2dbcb2740480aecf7d3c27dd918a3cbb1fe5eca7a1b570266e731392b2d2d679147bdfc0c5b07e5c0c72e4341fc8b30eb73d4753aadb3986ef6be9f87f3446582065ac24af8d903ad553451700e9fd3aaf3117a77a58f20371ab38f4cc346e6e6307d43ef7c472f3f6636050b873bbcfa186bfe6431f2736de75886f3dfebead9c1057d9486d508df0e2f32a0e0edf3b6f3dcc6c19a140c362b7d3e74de923c1d9c198860da84b07a8466fe421257819ff8177475034731dd61a8c37c4'
     );
+  });
+
+  it('set in store does not set without an encryption key', async () => {
+    mockSet.mockClear();
+
+    // Ensure there is no encryption key set
+    await handleRequest({ type: DBRequestType.LOGOUT });
+    await handleRequest({
+      type: DBRequestType.SET_IN_STORE,
+      key: 'accounts',
+      payload: { accounts: { [fAccount.uuid]: fAccount } }
+    });
+
+    expect(mockSet).not.toHaveBeenCalled();
   });
 
   it('SAVE_ACCOUNT_SECRETS calls setPassword with encrypted privkey', async () => {

@@ -40,6 +40,7 @@ describe('App', () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
+
   it('renders Home if user has config and is logged in', async () => {
     (ipcBridgeRenderer.db.invoke as jest.Mock).mockImplementation(({ type }) =>
       Promise.resolve(type !== DBRequestType.IS_NEW_USER)
@@ -68,10 +69,8 @@ describe('App', () => {
   });
 
   it('renders Login if user has config and is not logged in', async () => {
-    (ipcBridgeRenderer.db.invoke as jest.Mock).mockImplementation(({ type }) =>
-      Promise.resolve(type === DBRequestType.IS_LOGGED_IN)
-    );
+    (ipcBridgeRenderer.db.invoke as jest.Mock).mockImplementation(async () => false);
     const { getByText } = getComponent();
-    await waitFor(() => expect(getByText('Login').textContent).toBeDefined());
+    await waitFor(() => expect(getByText('Unlock Now').textContent).toBeDefined());
   });
 });

@@ -1,11 +1,12 @@
 import React from 'react';
 
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
+import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { MemoryRouter as Router } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
+import configureStore from 'redux-mock-store';
 
-import { createStore } from '@app/store';
-import { ipcBridgeRenderer } from '@bridge';
+import { ApplicationState, login } from '@app/store';
 
 import { Login } from '../Login';
 
@@ -17,49 +18,56 @@ jest.mock('@bridge', () => ({
   }
 }));
 
-function getComponent() {
+const createMockStore = configureStore<DeepPartial<ApplicationState>>();
+
+const getComponent = (store: EnhancedStore<DeepPartial<ApplicationState>> = createMockStore()) => {
   return render(
-    <Router>
-      <Provider store={createStore()}>
+    <MemoryRouter>
+      <Provider store={store}>
         <Login />
       </Provider>
-    </Router>
+    </MemoryRouter>
   );
-}
+};
 
 describe('Login', () => {
   it('renders', async () => {
-    const { getByText } = getComponent();
-    expect(getByText('Login').textContent).toBeDefined();
+    const mockStore = createMockStore({
+      auth: {}
+    });
+
+    const { getByText } = getComponent(mockStore);
+    expect(getByText('Unlock Now').textContent).toBeDefined();
   });
 
-  it('can login', async () => {
-    const { getByLabelText, getByText } = getComponent();
-    const passwordInput = getByLabelText('Master Password');
+  it('dispatches login when clicking on the button', async () => {
+    const mockStore = createMockStore({
+      auth: {}
+    });
+
+    const { getByLabelText, getByText } = getComponent(mockStore);
+    const passwordInput = getByLabelText('MyCrypto Password');
     expect(passwordInput).toBeDefined();
     fireEvent.change(passwordInput, { target: { value: 'password' } });
 
-    const loginButton = getByText('Login');
+    const loginButton = getByText('Unlock Now');
     expect(loginButton).toBeDefined();
     fireEvent.click(loginButton);
-    expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith(
-      expect.objectContaining({ password: 'password' })
-    );
+
+    expect(mockStore.getActions()).toContainEqual(login('password'));
   });
 
-  it('can fail login with wrong password', async () => {
-    const { getByLabelText, getByText } = getComponent();
-    const passwordInput = getByLabelText('Master Password');
+  it('dispatches login when pressing enter', async () => {
+    const mockStore = createMockStore({
+      auth: {}
+    });
+
+    const { getByLabelText } = getComponent(mockStore);
+    const passwordInput = getByLabelText('MyCrypto Password');
     expect(passwordInput).toBeDefined();
-    fireEvent.change(passwordInput, { target: { value: 'password1' } });
+    fireEvent.change(passwordInput, { target: { value: 'password' } });
+    fireEvent.keyPress(passwordInput, { key: 'Enter', charCode: 13 });
 
-    const loginButton = getByText('Login');
-    expect(loginButton).toBeDefined();
-    fireEvent.click(loginButton);
-    expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith(
-      expect.objectContaining({ password: 'password1' })
-    );
-
-    waitFor(() => expect(getByText('An error occurred')).toBeDefined());
+    expect(mockStore.getActions()).toContainEqual(login('password'));
   });
 });

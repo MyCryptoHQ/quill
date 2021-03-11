@@ -31,10 +31,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { HashRouter as Router } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
 
 import { createPersistor, createStore } from './store';
-import { GlobalStyle, theme } from './theme';
 
 __webpack_nonce__ = window.__webpack_nonce__;
 
@@ -46,12 +44,9 @@ const render = () => {
   const App = require('./App').default;
   ReactDOM.render(
     <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <Router>
-          <App persistor={createPersistor(store)} />
-        </Router>
-      </ThemeProvider>
+      <Router>
+        <App persistor={createPersistor(store)} />
+      </Router>
     </Provider>,
     document.getElementById('root')
   );

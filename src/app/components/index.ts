@@ -5,6 +5,7 @@ export * from './Core';
 
 // Re-export as these should be used over the ones imported from rebass!
 export { Box, Flex, Image, Link, ImageProps, BoxProps, FlexProps } from 'rebass/styled-components';
+export { Input, Label } from '@rebass/forms/styled-components';
 
 export * from './TxQueue';
 export * from './TxHistory';
@@ -15,3 +16,4 @@ export * from './TxDetails';
 export * from './TxResultBanner';
 export * from './Button';
 export * from './SignBottom';
+export * from './Logo';

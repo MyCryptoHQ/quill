@@ -45,6 +45,10 @@ const login = async (password: string) => {
   return true;
 };
 
+const logout = async () => {
+  encryptionKey = undefined;
+};
+
 const reset = () => {
   encryptionKey = undefined;
   store.clear();
@@ -80,6 +84,10 @@ export const getFromStore = <T>(key: string, password = encryptionKey): T | null
 };
 
 export const setInStore = <T>(key: string, obj: T) => {
+  if (!isLoggedIn()) {
+    return;
+  }
+
   const json = JSON.stringify(obj);
   const encrypted = encrypt(json, encryptionKey);
   store.set(key, encrypted);
@@ -116,6 +124,8 @@ export const handleRequest = async (request: DBRequest): Promise<DBResponse> => 
       return Promise.resolve(init(request.password));
     case DBRequestType.LOGIN:
       return Promise.resolve(login(request.password));
+    case DBRequestType.LOGOUT:
+      return Promise.resolve(logout());
     case DBRequestType.RESET:
       return reset();
     case DBRequestType.IS_LOGGED_IN:

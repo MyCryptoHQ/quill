@@ -5,6 +5,7 @@ import { IAccount } from './account';
 export enum DBRequestType {
   INIT = 'INIT',
   LOGIN = 'LOGIN',
+  LOGOUT = 'LOGOUT',
   RESET = 'RESET',
   IS_NEW_USER = 'IS_NEW_USER',
   IS_LOGGED_IN = 'IS_LOGGED_IN',
@@ -26,6 +27,8 @@ interface PasswordRequest<Type extends DBRequestType> extends BaseRequest<Type> 
 type InitRequest = PasswordRequest<DBRequestType.INIT>;
 
 type LoginRequest = PasswordRequest<DBRequestType.LOGIN>;
+
+type LogoutRequest = BaseRequest<DBRequestType.LOGOUT>;
 
 type ResetRequest = BaseRequest<DBRequestType.RESET>;
 
@@ -57,6 +60,7 @@ type DeletePrivateKeyRequest = UuidRequest<DBRequestType.DELETE_ACCOUNT_SECRETS>
 export type DBRequest =
   | InitRequest
   | LoginRequest
+  | LogoutRequest
   | ResetRequest
   | GetLoginStateRequest
   | GetNewUserStateRequest

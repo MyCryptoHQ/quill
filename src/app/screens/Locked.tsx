@@ -22,5 +22,6 @@ export const Locked = () => {
   if (newUser) {
     return <NewUser />;
   }
+
   return <Login />;
 };
