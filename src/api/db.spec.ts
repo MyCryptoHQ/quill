@@ -154,6 +154,20 @@ describe('handleRequest', () => {
     );
   });
 
+  it('set in store does not set without an encryption key', async () => {
+    mockSet.mockClear();
+
+    // Ensure there is no encryption key set
+    await handleRequest({ type: DBRequestType.LOGOUT });
+    await handleRequest({
+      type: DBRequestType.SET_IN_STORE,
+      key: 'accounts',
+      payload: { accounts: { [fAccount.uuid]: fAccount } }
+    });
+
+    expect(mockSet).not.toHaveBeenCalled();
+  });
+
   it('SAVE_ACCOUNT_SECRETS calls setPassword with encrypted privkey', async () => {
     await handleRequest({
       type: DBRequestType.INIT,

@@ -84,6 +84,10 @@ export const getFromStore = <T>(key: string, password = encryptionKey): T | null
 };
 
 export const setInStore = <T>(key: string, obj: T) => {
+  if (!isLoggedIn()) {
+    return;
+  }
+
   const json = JSON.stringify(obj);
   const encrypted = encrypt(json, encryptionKey);
   store.set(key, encrypted);
