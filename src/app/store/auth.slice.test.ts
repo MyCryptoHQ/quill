@@ -55,7 +55,8 @@ describe('authSlice', () => {
     it('sets loggedIn to true', () => {
       expect(slice.reducer({ newUser: false, loggedIn: false }, loginSuccess())).toStrictEqual({
         newUser: false,
-        loggedIn: true
+        loggedIn: true,
+        error: undefined
       });
     });
   });

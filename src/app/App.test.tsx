@@ -7,6 +7,7 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import { ipcBridgeRenderer } from '@bridge';
+import { translateRaw } from '@translations';
 import { DBRequestType } from '@types';
 
 import App from './App';
@@ -65,12 +66,14 @@ describe('App', () => {
       Promise.resolve(type === DBRequestType.IS_NEW_USER)
     );
     const { getByText } = getComponent();
-    await waitFor(() => expect(getByText('Create').textContent).toBeDefined());
+    await waitFor(() =>
+      expect(getByText(translateRaw('CREATE_PASSWORD')).textContent).toBeDefined()
+    );
   });
 
   it('renders Login if user has config and is not logged in', async () => {
     (ipcBridgeRenderer.db.invoke as jest.Mock).mockImplementation(async () => false);
     const { getByText } = getComponent();
-    await waitFor(() => expect(getByText('Unlock Now').textContent).toBeDefined());
+    await waitFor(() => expect(getByText(translateRaw('UNLOCK_NOW')).textContent).toBeDefined());
   });
 });

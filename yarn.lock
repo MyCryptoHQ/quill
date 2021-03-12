@@ -12500,7 +12500,7 @@ type-is@~1.6.17, type-is@~1.6.18:
     media-typer "0.3.0"
     mime-types "~2.1.24"
 
-typed-react-form@^1.2.8:
+typed-react-form@1.2.8:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/typed-react-form/-/typed-react-form-1.2.8.tgz#2e213eff2d872d584d317b0056b29c395c3d0a86"
   integrity sha512-6loFYEzvLkpwDj5DN+BWWYjkwvFBBY3Bvhpmsy8LaLEon4QLsMybAzLSSpWk+DkShRAhH4gtydbIetVZHW+Xkw==

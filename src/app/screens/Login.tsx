@@ -39,6 +39,7 @@ export const Login = () => {
       <Box width="100%" mt="16px">
         <Label htmlFor="password">{translateRaw('MYCRYPTO_PASSWORD')}</Label>
         <Input
+          id="password"
           name="password"
           type="password"
           onChange={changePassword}
