@@ -56,18 +56,4 @@ describe('Login', () => {
 
     expect(mockStore.getActions()).toContainEqual(login('password'));
   });
-
-  it('dispatches login when pressing enter', async () => {
-    const mockStore = createMockStore({
-      auth: {}
-    });
-
-    const { getByLabelText } = getComponent(mockStore);
-    const passwordInput = getByLabelText('MyCrypto Password');
-    expect(passwordInput).toBeDefined();
-    fireEvent.change(passwordInput, { target: { value: 'password' } });
-    fireEvent.keyPress(passwordInput, { key: 'Enter', charCode: 13 });
-
-    expect(mockStore.getActions()).toContainEqual(login('password'));
-  });
 });

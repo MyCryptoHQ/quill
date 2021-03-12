@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useState } from 'react';
+import React, { FormEvent } from 'react';
 
 import { useForm } from 'typed-react-form';
 
@@ -10,24 +10,18 @@ import { Trans, translateRaw } from '@translations';
 
 export const Login = () => {
   const form = useForm({ password: '' });
-  const [password, setPassword] = useState('');
   const error = useSelector((state) => state.auth.error);
   const dispatch = useDispatch();
 
-  const handleLogin = () => {
-    if (password.length > 0) {
-      dispatch(login(password));
-    }
-  };
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-  const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      handleLogin();
+    if (form.error) {
+      return;
     }
-  };
 
-  const changePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setPassword(e.currentTarget.value);
+    dispatch(login(form.values.password));
+  };
 
   return (
     <Flex height="100%" flexDirection="column" variant="columnCenter">
@@ -36,20 +30,17 @@ export const Login = () => {
         {translateRaw('UNLOCK_HEADER')}
       </Heading>
       <Body>{translateRaw('UNLOCK_SUBHEADING')}</Body>
-      <Box width="100%" mt="16px">
-        <Label htmlFor="password">{translateRaw('MYCRYPTO_PASSWORD')}</Label>
-        <Input
-          id="password"
-          name="password"
-          type="password"
-          onChange={changePassword}
-          onKeyPress={handleKeyPress}
-          form={form}
-        />
+      <Box width="100%">
+        <form onSubmit={handleSubmit}>
+          <Box mt="16px">
+            <Label htmlFor="password">{translateRaw('MYCRYPTO_PASSWORD')}</Label>
+            <Input id="password" name="password" type="password" form={form} />
+          </Box>
+          <Button mt="24px" type="submit">
+            {translateRaw('UNLOCK_NOW')}
+          </Button>
+        </form>
       </Box>
-      <Button mt="24px" type="button" disabled={password.length === 0} onClick={handleLogin}>
-        {translateRaw('UNLOCK_NOW')}
-      </Button>
       <Box>
         <Body mt="16px">
           <Trans
