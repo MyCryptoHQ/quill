@@ -21,7 +21,7 @@ export const NewUser = () => (
       {translate('NEW_USER_DESCRIPTION_3')}
     </Body>
     <LinkApp href={ROUTE_PATHS.CREATE_PASSWORD} width="100%">
-      <Button>{translateRaw('CREATE_PASSWORD')}</Button>
+      <Button id="create-password">{translateRaw('CREATE_PASSWORD')}</Button>
     </LinkApp>
   </Flex>
 );

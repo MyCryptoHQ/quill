@@ -84,6 +84,38 @@ describe('authSlice', () => {
       });
     });
   });
+
+  describe('createPasswordSuccess', () => {
+    it('sets newUser to false', () => {
+      expect(
+        slice.reducer({ newUser: true, loggedIn: false }, createPasswordSuccess())
+      ).toStrictEqual({
+        newUser: false,
+        loggedIn: false,
+        error: undefined
+      });
+    });
+
+    it('clears the error', () => {
+      expect(
+        slice.reducer({ newUser: true, loggedIn: false, error: 'foo bar' }, createPasswordSuccess())
+      ).toStrictEqual({
+        newUser: false,
+        loggedIn: false,
+        error: undefined
+      });
+    });
+  });
+
+  describe('createPasswordFailed', () => {
+    it('sets error to the payload', () => {
+      const state = { newUser: true, loggedIn: false };
+      expect(slice.reducer(state, createPasswordFailed('Foo bar'))).toStrictEqual({
+        ...state,
+        error: 'Foo bar'
+      });
+    });
+  });
 });
 
 describe('createPasswordWorker', () => {
