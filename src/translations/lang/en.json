@@ -32,6 +32,13 @@
     "NEXT": "Next",
     "HOME_TX_RESULT_WAITING": "Waiting on action",
     "NO_LABEL": "No Label",
-    "FORGOT_PASSWORD_HELP": "Forgot your password? Discover options $link"
+    "FORGOT_PASSWORD_HELP": "Forgot your password? Discover options $link",
+    "FORGOT_PASSWORD_HELP_LINK": "here",
+    "UNLOCK_NOW": "Unlock Now",
+    "MYCRYPTO_PASSWORD": "MyCrypto Password",
+    "UNLOCK_HEADER": "Unlock Signer",
+    "UNLOCK_SUBHEADING": "Your MyCrypto Signer is currently locked. Enter your MyCrypto Password to unlock it.",
+    "CREATE_PASSWORD_HELP": "Don't have a password? $link",
+    "CREATE_PASSWORD_HELP_LINK": "Create one now"
   }
 }
