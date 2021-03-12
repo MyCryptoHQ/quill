@@ -3,9 +3,14 @@ import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
 import { ipcBridgeRenderer } from '@bridge';
+import { translateRaw } from '@translations';
 import { DBRequestType } from '@types';
 
 import slice, {
+  createPassword,
+  createPasswordFailed,
+  createPasswordSuccess,
+  createPasswordWorker,
   login,
   loginFailed,
   loginSuccess,
@@ -81,6 +86,32 @@ describe('authSlice', () => {
   });
 });
 
+describe('createPasswordWorker', () => {
+  it('dispatches createPasswordSuccess on success', () => {
+    return expectSaga(createPasswordWorker, createPassword('foobar'))
+      .provide([[call.fn(ipcBridgeRenderer.db.invoke), true]])
+      .call(ipcBridgeRenderer.db.invoke, {
+        type: DBRequestType.INIT,
+        password: 'foobar'
+      })
+      .put(createPasswordSuccess())
+      .silentRun();
+  });
+
+  it.todo('navigates to the dashboard on succesful login');
+
+  it('dispatches createPasswordFailed on error', () => {
+    return expectSaga(createPasswordWorker, createPassword('foobar'))
+      .provide([[call.fn(ipcBridgeRenderer.db.invoke), false]])
+      .call(ipcBridgeRenderer.db.invoke, {
+        type: DBRequestType.INIT,
+        password: 'foobar'
+      })
+      .put(createPasswordFailed(translateRaw('LOGIN_ERROR')))
+      .silentRun();
+  });
+});
+
 describe('loginWorker', () => {
   it('handles a succesful login', () => {
     return expectSaga(loginWorker, login('foobar'))
@@ -100,7 +131,7 @@ describe('loginWorker', () => {
         type: DBRequestType.LOGIN,
         password: 'foobar'
       })
-      .put(loginFailed('An error occurred'))
+      .put(loginFailed(translateRaw('LOGIN_ERROR')))
       .silentRun();
   });
 });

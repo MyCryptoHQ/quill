@@ -2,6 +2,7 @@ import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import { ipcBridgeRenderer } from '@bridge';
+import { translateRaw } from '@translations';
 import { DBRequestType } from '@types';
 
 interface AuthState {
@@ -73,21 +74,18 @@ export function* authSaga() {
 }
 
 export function* createPasswordWorker({ payload }: PayloadAction<string>) {
-  console.log('Init', payload);
-
   const result = yield call(ipcBridgeRenderer.db.invoke, {
     type: DBRequestType.INIT,
     password: payload
   });
-  console.log(result);
 
   if (result) {
+    // @todo Navigate to dashboard
     yield put(createPasswordSuccess());
     return;
   }
 
-  // @todo
-  yield put(createPasswordFailed('An error occurred'));
+  yield put(createPasswordFailed(translateRaw('LOGIN_ERROR')));
 }
 
 export function* loginWorker({ payload }: PayloadAction<string>) {
@@ -101,8 +99,7 @@ export function* loginWorker({ payload }: PayloadAction<string>) {
     return;
   }
 
-  // @todo
-  yield put(loginFailed('An error occurred'));
+  yield put(loginFailed(translateRaw('LOGIN_ERROR')));
 }
 
 export function* logoutWorker() {

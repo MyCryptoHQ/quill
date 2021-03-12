@@ -55,12 +55,17 @@ export const CreatePassword = () => {
       <form onSubmit={handleSubmit}>
         <Box width="100%" mt="16px">
           <Label htmlFor="password">{translateRaw('ENTER_PASSWORD')}</Label>
-          <Input name="password" type="password" form={form} />
+          <Input id="password" name="password" type="password" form={form} />
           <FormError name="password" form={form} />
         </Box>
         <Box width="100%" mt="16px">
           <Label htmlFor="passwordConfirmation">{translateRaw('CONFIRM_PASSWORD')}</Label>
-          <Input name="passwordConfirmation" type="password" form={form} />
+          <Input
+            id="passwordConfirmation"
+            name="passwordConfirmation"
+            type="password"
+            form={form}
+          />
           <FormError name="passwordConfirmation" form={form} />
         </Box>
         <Flex mt="20px">
