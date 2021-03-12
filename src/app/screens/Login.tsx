@@ -1,5 +1,7 @@
 import React, { KeyboardEvent, useState } from 'react';
 
+import { useForm } from 'typed-react-form';
+
 import { ROUTE_PATHS } from '@app/routing';
 import { login, useDispatch, useSelector } from '@app/store';
 import lock from '@assets/icons/lock.svg';
@@ -7,6 +9,7 @@ import { Body, Box, Button, Flex, Heading, Input, Label, LinkApp, Logo } from '@
 import { Trans, translateRaw } from '@translations';
 
 export const Login = () => {
+  const form = useForm({ password: '' });
   const [password, setPassword] = useState('');
   const error = useSelector((state) => state.auth.error);
   const dispatch = useDispatch();
@@ -36,11 +39,11 @@ export const Login = () => {
       <Box width="100%" mt="16px">
         <Label htmlFor="password">{translateRaw('MYCRYPTO_PASSWORD')}</Label>
         <Input
-          id="password"
           name="password"
           type="password"
           onChange={changePassword}
           onKeyPress={handleKeyPress}
+          form={form}
         />
       </Box>
       <Button mt="24px" type="button" disabled={password.length === 0} onClick={handleLogin}>

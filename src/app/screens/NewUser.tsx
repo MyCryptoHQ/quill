@@ -1,65 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import zxcvbn from 'zxcvbn';
+import { ROUTE_PATHS } from '@routing';
 
-import { setLoggedIn, setNewUser, useDispatch } from '@app/store';
-import { ipcBridgeRenderer } from '@bridge';
-import { REQUIRED_PASSWORD_STRENGTH } from '@config';
-import { DBRequestType } from '@types';
+import { Body, Button, Flex, Heading, LinkApp, Logo } from '@components';
+import { translate, translateRaw } from '@translations';
 
-export const NewUser = () => {
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const dispatch = useDispatch();
-
-  const passwordValidation = password.length > 0 ? zxcvbn(password) : null;
-
-  const isPasswordStrong = passwordValidation
-    ? passwordValidation.score >= REQUIRED_PASSWORD_STRENGTH
-    : false;
-
-  const handleCreate = async () => {
-    try {
-      const result = await ipcBridgeRenderer.db.invoke({ type: DBRequestType.INIT, password });
-      dispatch(setNewUser(!result));
-      if (!result) {
-        setError('An error occurred');
-      }
-      dispatch(setLoggedIn(true));
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  const changePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setPassword(e.currentTarget.value);
-
-  const passwordFeedback =
-    !isPasswordStrong && passwordValidation ? passwordValidation.feedback.warning : '';
-
-  return (
-    <div>
-      Welcome!
-      <br />
-      <label>
-        Enter a new master password
-        <input id="password" name="password" type="password" onChange={changePassword} />
-      </label>
-      <br />
-      {`Password Strength: ${isPasswordStrong ? 'OK' : ''} ${
-        !isPasswordStrong && passwordValidation ? 'Password too weak' : ''
-      } ${passwordFeedback}`}
-      <br />
-      <button
-        id="create_button"
-        type="button"
-        disabled={password.length === 0 || !isPasswordStrong}
-        onClick={handleCreate}
-      >
-        Create
-      </button>
-      <br />
-      {error}
-    </div>
-  );
-};
+export const NewUser = () => (
+  <Flex height="100%" flexDirection="column" variant="columnCenter" mx="8px">
+    <Logo width="100px" height="100px" />
+    <Heading fontSize="30px" lineHeight="48px" mt="12px" mb="9px">
+      {translateRaw('NEW_USER_HEADER')}
+    </Heading>
+    <Body lineHeight="24px" mb="24px">
+      {translateRaw('NEW_USER_DESCRIPTION_1')}
+    </Body>
+    <Body lineHeight="24px" mb="24px">
+      {translateRaw('NEW_USER_DESCRIPTION_2')}
+    </Body>
+    <Body lineHeight="24px" mb="16px">
+      {translate('NEW_USER_DESCRIPTION_3')}
+    </Body>
+    <LinkApp href={ROUTE_PATHS.CREATE_PASSWORD} width="100%">
+      <Button>{translateRaw('CREATE_PASSWORD')}</Button>
+    </LinkApp>
+  </Flex>
+);

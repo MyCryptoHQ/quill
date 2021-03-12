@@ -1,20 +1,27 @@
-import { SignTransaction } from '@app/screens/SignTransaction';
 import { Route } from '@types';
 
 import {
   Accounts,
   AddAccount,
+  CreatePassword,
   CreateWallet,
   ForgotPassword,
   Home,
   Locked,
   Menu,
+  SignTransaction,
   Transaction
 } from '../screens';
 import { ROUTE_PATHS } from './routePaths';
 
 export const ROUTES: Record<string, Route> = {
   LOCKED: { path: ROUTE_PATHS.LOCKED, component: Locked, exact: true, requireLogin: false },
+  CREATE_PASSWORD: {
+    path: ROUTE_PATHS.CREATE_PASSWORD,
+    component: CreatePassword,
+    exact: true,
+    requireLogin: false
+  },
   HOME: { path: ROUTE_PATHS.HOME, component: Home, exact: true, requireLogin: true },
   TX: { path: ROUTE_PATHS.TX, component: Transaction, exact: true, requireLogin: true },
   SIGN_TX: {
