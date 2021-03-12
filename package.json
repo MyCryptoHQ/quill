@@ -106,7 +106,6 @@
     "@types/uuid": "3.4.0",
     "@types/webpack-env": "1.15.3",
     "@types/ws": "7.2.6",
-    "@types/zxcvbn": "4.4.0",
     "@typescript-eslint/eslint-plugin": "4.1.0",
     "@typescript-eslint/parser": "4.1.0",
     "babel-jest": "26.3.0",
@@ -161,6 +160,7 @@
     "@reduxjs/toolkit": "1.5.0",
     "aes-js": "3.1.2",
     "bignumber.js": "9.0.1",
+    "check-password-strength": "2.0.2",
     "connected-react-router": "6.9.1",
     "date-fns": "2.18.0",
     "electron-log": "4.2.4",
@@ -185,8 +185,7 @@
     "typed-react-form": "1.2.8",
     "uuid": "3.2.1",
     "uuid-by-string": "MyCryptoHQ/uuid-by-string#36afddc",
-    "ws": "7.3.1",
-    "zxcvbn": "4.4.2"
+    "ws": "7.3.1"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [

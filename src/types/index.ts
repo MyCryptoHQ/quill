@@ -15,3 +15,4 @@ export { Theme } from './theme';
 export * from './txhistory';
 export * from './chain';
 export * from './dpath';
+export * from './passwords';

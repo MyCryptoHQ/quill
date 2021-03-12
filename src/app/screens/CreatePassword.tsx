@@ -1,20 +1,20 @@
 import React, { FormEvent } from 'react';
 
 import { createPassword, useDispatch } from '@store';
+import { passwordStrength } from 'check-password-strength';
 import { object, refine, string } from 'superstruct';
 import { FormError, useForm } from 'typed-react-form';
-import zxcvbn from 'zxcvbn';
 
 import { getValidator } from '@app/utils';
 import warning from '@assets/icons/circle-warning.svg';
 import { Body, Box, Button, Flex, Heading, Image, Input, Label } from '@components';
-import { REQUIRED_PASSWORD_STRENGTH } from '@config';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
 import { translate, translateRaw } from '@translations';
+import { PasswordStrength } from '@types';
 
 const CREATE_PASSWORD_STRUCT = object({
   password: refine(string(), 'Strong password', (value) => {
-    if (zxcvbn(value).score >= REQUIRED_PASSWORD_STRENGTH) {
+    if (passwordStrength(value).id === PasswordStrength.STRONG) {
       return true;
     }
 
