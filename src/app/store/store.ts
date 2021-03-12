@@ -1,8 +1,14 @@
 import { configureStore, ConfigureStoreOptions, EnhancedStore } from '@reduxjs/toolkit';
+import { routerMiddleware } from 'connected-react-router';
+import { createHashHistory } from 'history';
 import createSagaMiddleware from 'redux-saga';
 
-import reducer from './reducer';
+import { createRootReducer } from './reducer';
 import rootSaga from './sagas';
+
+export const history = createHashHistory();
+
+const reducer = createRootReducer(history);
 
 export type ApplicationState = ReturnType<typeof reducer>;
 
@@ -15,13 +21,19 @@ export const createStore = (
 
   const store = configureStore({
     reducer,
-    middleware: (getDefaultMiddleware) => [...getDefaultMiddleware(), sagaMiddleware],
+    middleware: (getDefaultMiddleware) => [
+      ...getDefaultMiddleware(),
+      routerMiddleware(history),
+      sagaMiddleware
+    ],
     ...config
   });
 
   if (module.hot) {
     module.hot.accept('./reducer', () => {
-      import('./reducer').then(({ default: nextReducer }) => store.replaceReducer(nextReducer));
+      import('./reducer').then(({ createRootReducer: createNextRootReducer }) =>
+        store.replaceReducer(createNextRootReducer(history))
+      );
     });
   }
 

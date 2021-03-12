@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 
-import { useHistory } from 'react-router-dom';
-
-import { ROUTE_PATHS } from '@app/routing';
+import { Box, Button, Input } from '@app/components';
 import { fetchAccount, useDispatch } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
 import { translateRaw } from '@translations';
@@ -12,7 +10,6 @@ const dPathBase = "m/44'/60'/0'/0";
 
 export const AddAccountMnemonic = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const [phrase, setPhrase] = useState('');
   const [password, setPassword] = useState('');
   const [persistent, setPersistent] = useState(false);
@@ -52,29 +49,29 @@ export const AddAccountMnemonic = () => {
         persistent
       })
     );
-    history.replace(ROUTE_PATHS.HOME);
   };
 
   return (
     <>
-      <label>
-        {translateRaw('MNEMONIC_PHRASE')}
-        <br />
-        <input type="text" onChange={changeMnemonicPhrase} />
-      </label>
-      <br />
-      <label>
-        {translateRaw('PASSWORD')}
-        <br />
-        <input type="text" onChange={changePassword} />
-      </label>
-      <br />
-      <label>
-        {translateRaw('PERSISTENCE')}
-        <input type="checkbox" onChange={changePersistence} checked={persistent} />
-      </label>
-      <br />
-      <input type="submit" value={translateRaw('NEXT')} onClick={handleSubmit} />
+      <Box>
+        <label>
+          {translateRaw('MNEMONIC_PHRASE')}
+          <Input type="text" onChange={changeMnemonicPhrase} />
+        </label>
+      </Box>
+      <Box>
+        <label>
+          {translateRaw('PASSWORD')}
+          <Input type="text" onChange={changePassword} />
+        </label>
+      </Box>
+      <Box>
+        <label>
+          {translateRaw('PERSISTENCE')}
+          <input type="checkbox" onChange={changePersistence} checked={persistent} />
+        </label>
+      </Box>
+      <Button onClick={handleSubmit}>{translateRaw('NEXT')}</Button>
       {addresses.length > 0 && (
         <>
           <br />

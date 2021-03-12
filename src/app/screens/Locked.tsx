@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 
-import { useHistory } from 'react-router-dom';
+import { replace } from 'connected-react-router';
 
 import { ROUTE_PATHS } from '@app/routing';
-import { useSelector } from '@app/store';
+import { useDispatch, useSelector } from '@app/store';
 
 import { Login } from './Login';
 import { NewUser } from './NewUser';
@@ -11,11 +11,11 @@ import { NewUser } from './NewUser';
 export const Locked = () => {
   const newUser = useSelector((state) => state.auth.newUser);
   const loggedIn = useSelector((state) => state.auth.loggedIn);
-  const history = useHistory();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (loggedIn) {
-      history.replace(ROUTE_PATHS.HOME);
+      dispatch(replace(ROUTE_PATHS.HOME));
     }
   }, [loggedIn]);
 

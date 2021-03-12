@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 
-import { useHistory } from 'react-router-dom';
-
-import { ROUTE_PATHS } from '@app/routing';
+import { Box, Button, Input } from '@app/components';
 import { fetchAccount, useDispatch } from '@app/store';
 import { translateRaw } from '@translations';
 import { WalletType } from '@types';
 
 export const AddAccountKeystore = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const [keystoreFile, setKeystoreFile] = useState<File>();
   const [password, setPassword] = useState('');
   const [persistent, setPersistent] = useState(false);
@@ -27,28 +24,30 @@ export const AddAccountKeystore = () => {
     // @todo Handle errors
     keystoreFile.text().then((keystore) => {
       dispatch(fetchAccount({ walletType: WalletType.KEYSTORE, keystore, password, persistent }));
-      history.replace(ROUTE_PATHS.HOME);
     });
   };
 
   return (
     <>
-      <label>
-        {translateRaw('KEYSTORE')}
-        <input type="file" onChange={changeKeystore} />
-      </label>
-      <br />
-      <label>
-        {translateRaw('PASSWORD')}
-        <input type="text" onChange={changePassword} value={password} />
-      </label>
-      <br />
-      <label>
-        {translateRaw('PERSISTENCE')}
-        <input type="checkbox" onChange={changePersistence} checked={persistent} />
-      </label>
-      <br />
-      <input type="submit" value={translateRaw('SUBMIT')} onClick={handleSubmit} />
+      <Box>
+        <label>
+          {translateRaw('KEYSTORE')}
+          <input type="file" onChange={changeKeystore} />
+        </label>
+      </Box>
+      <Box>
+        <label>
+          {translateRaw('PASSWORD')}
+          <Input type="text" onChange={changePassword} value={password} />
+        </label>
+      </Box>
+      <Box>
+        <label>
+          {translateRaw('PERSISTENCE')}
+          <input type="checkbox" onChange={changePersistence} checked={persistent} />
+        </label>
+      </Box>
+      <Button onClick={handleSubmit}>{translateRaw('SUBMIT')}</Button>
     </>
   );
 };

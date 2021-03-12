@@ -2,10 +2,11 @@ import { fAccounts, fTxRequest } from '@fixtures';
 import { makeQueueTx } from '@utils';
 
 import { logout } from './auth.slice';
-import rootReducer from './reducer';
+import { createRootReducer } from './reducer';
 
 describe('rootReducer', () => {
   it('clears the state when logout is dispatched', () => {
+    const rootReducer = createRootReducer(undefined);
     const initialState = rootReducer(undefined, {
       type: 'foo'
     });

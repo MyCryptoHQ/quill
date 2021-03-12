@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 
-import { useHistory } from 'react-router-dom';
+import { replace } from 'connected-react-router';
 
 import { ROUTE_PATHS } from '@app/routing';
+import { useDispatch } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
 import { CryptoRequestType, WalletType } from '@types';
 
 export const CreateWallet = () => {
   const [phrase, setMnemonicPhrase] = useState('');
-  const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleCreateMnemonic = async () => {
     const result = await ipcBridgeRenderer.crypto.invoke({
@@ -19,7 +20,7 @@ export const CreateWallet = () => {
   };
 
   const handleOK = () => {
-    history.replace(ROUTE_PATHS.ADD_ACCOUNT);
+    dispatch(replace(ROUTE_PATHS.ADD_ACCOUNT));
   };
 
   return (

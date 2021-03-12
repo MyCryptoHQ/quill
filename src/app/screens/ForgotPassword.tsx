@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useHistory } from 'react-router-dom';
+import { replace } from 'connected-react-router';
 
 import { ROUTE_PATHS } from '@app/routing';
 import { setNewUser, useDispatch } from '@app/store';
@@ -8,7 +8,6 @@ import { ipcBridgeRenderer } from '@bridge';
 import { DBRequestType } from '@types';
 
 export const ForgotPassword = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const handleReset = () => {
@@ -18,7 +17,7 @@ export const ForgotPassword = () => {
   };
 
   const redirectBack = () => {
-    history.replace(ROUTE_PATHS.LOCKED);
+    dispatch(replace(ROUTE_PATHS.LOCKED));
   };
 
   return (

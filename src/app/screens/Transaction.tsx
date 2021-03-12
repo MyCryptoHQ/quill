@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useHistory } from 'react-router-dom';
+import { push } from 'connected-react-router';
 
 import {
   Body,
@@ -23,7 +23,6 @@ import {
 import { TxResult } from '@types';
 
 export const Transaction = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const accounts = useSelector(getAccounts);
   const { tx, timestamp, result } = useSelector(getCurrentTransaction);
@@ -41,7 +40,7 @@ export const Transaction = () => {
         })
       );
     } else {
-      history.push(ROUTE_PATHS.SIGN_TX);
+      dispatch(push(ROUTE_PATHS.SIGN_TX));
     }
   };
 
