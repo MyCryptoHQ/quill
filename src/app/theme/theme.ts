@@ -125,6 +125,7 @@ export const theme: DefaultTheme = {
 
     // GREY
     BG_GREY: '#C4C4C4',
+    BG_GREY_MUTED: '#F6F8FA',
     GREY_ATHENS: '#e8eaed',
     GREY_LIGHTEST: '#f7f7f7',
 
