@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { SignBottom } from '@app/components';
+import { translateRaw } from '@translations';
 import { SignTransactionProps, WalletType } from '@types';
 
 export const SignTransactionMnemonic = ({
@@ -30,11 +31,11 @@ export const SignTransactionMnemonic = ({
     <>
       {currentAccount && !currentAccount.persistent && (
         <>
-          <label htmlFor="mnemonic">Mnemonic Phrase</label>
+          <label htmlFor="mnemonic">{translateRaw('MNEMONIC_PHRASE')}</label>
           <br />
           <input id="mnemonic" name="mnemonic" type="text" onChange={changeMnemonicPhrase} />
           <br />
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">{translateRaw('PASSWORD')}</label>
           <br />
           <input id="password" name="password" type="text" onChange={changePassword} />
           <br />

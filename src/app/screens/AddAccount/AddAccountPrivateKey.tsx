@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import { ROUTE_PATHS } from '@app/routing';
 import { fetchAccount, useDispatch } from '@app/store';
+import { translateRaw } from '@translations';
 import { WalletType } from '@types';
 
 export const AddAccountPrivateKey = () => {
@@ -19,7 +20,6 @@ export const AddAccountPrivateKey = () => {
     setPersistent(e.currentTarget.checked);
 
   const handleSubmit = () => {
-    // @todo Handle persistence
     dispatch(fetchAccount({ walletType: WalletType.PRIVATE_KEY, privateKey, persistent }));
     history.replace(ROUTE_PATHS.HOME);
   };
@@ -27,16 +27,16 @@ export const AddAccountPrivateKey = () => {
   return (
     <>
       <label>
-        Private Key
+        {translateRaw('PRIVATE_KEY')}
         <input type="text" onChange={changePrivateKey} />
       </label>
       <br />
       <label>
-        Persistence
+        {translateRaw('PERSISTENCE')}
         <input type="checkbox" onChange={changePersistence} checked={persistent} />
       </label>
       <br />
-      <input type="submit" value="Submit" onClick={handleSubmit} />
+      <input type="submit" value={translateRaw('SUBMIT')} onClick={handleSubmit} />
     </>
   );
 };

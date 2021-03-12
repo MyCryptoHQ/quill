@@ -8,6 +8,7 @@ import { ROUTE_PATHS } from '@app/routing';
 import { selectTransaction, useDispatch } from '@app/store';
 import circleArrow from '@assets/icons/circle-arrow.svg';
 import waiting from '@assets/icons/queue-waiting.svg';
+import { translateRaw } from '@translations';
 import { TxQueueEntry } from '@types';
 
 export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {
@@ -21,7 +22,9 @@ export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {
     <Box py="16px">
       <Box variant="rowAlign">
         <Image src={waiting} height="20px" width="20px" mr="8px" />
-        <Body color="PURPLE">WAITING ON ACTION</Body>
+        <Body color="PURPLE" sx={{ textTransform: 'uppercase' }}>
+          {translateRaw('HOME_TX_RESULT_WAITING')}
+        </Body>
       </Box>
       <Box variant="rowAlign" mt="2">
         <FromToAccount sender={tx.from} recipient={tx.to} />

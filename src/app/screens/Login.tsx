@@ -4,6 +4,7 @@ import { ROUTE_PATHS } from '@app/routing';
 import { login, useDispatch, useSelector } from '@app/store';
 import lock from '@assets/icons/lock.svg';
 import { Body, Box, Button, Flex, Heading, Input, Label, LinkApp, Logo } from '@components';
+import { Trans, translateRaw } from '@translations';
 
 export const Login = () => {
   const [password, setPassword] = useState('');
@@ -29,13 +30,11 @@ export const Login = () => {
     <Flex height="100%" flexDirection="column" variant="columnCenter">
       <Logo width="100px" height="100px" icon={lock} />
       <Heading fontSize="30px" lineHeight="48px" mt="32px" mb="16px">
-        Unlock Signer
+        {translateRaw('UNLOCK_HEADER')}
       </Heading>
-      <Body>
-        Your MyCrypto Signer is currently locked. Enter your MyCrypto Password to unlock it.
-      </Body>
+      <Body>{translateRaw('UNLOCK_SUBHEADING')}</Body>
       <Box width="100%" mt="16px">
-        <Label htmlFor="password">MyCrypto Password</Label>
+        <Label htmlFor="password">{translateRaw('MYCRYPTO_PASSWORD')}</Label>
         <Input
           id="password"
           name="password"
@@ -45,21 +44,33 @@ export const Login = () => {
         />
       </Box>
       <Button mt="24px" type="button" disabled={password.length === 0} onClick={handleLogin}>
-        Unlock Now
+        {translateRaw('UNLOCK_NOW')}
       </Button>
       <Box>
         <Body mt="16px">
-          Forgot your password? Discover options{' '}
-          <LinkApp href={ROUTE_PATHS.FORGOT_PASSWORD} variant="defaultLink">
-            here
-          </LinkApp>
+          <Trans
+            id="FORGOT_PASSWORD_HELP"
+            variables={{
+              $link: () => (
+                <LinkApp href={ROUTE_PATHS.FORGOT_PASSWORD} variant="defaultLink">
+                  {translateRaw('FORGOT_PASSWORD_HELP_LINK')}
+                </LinkApp>
+              )
+            }}
+          />
         </Body>
         {/* @todo: Figure out if this link is necessary */}
         <Body mt="8px">
-          Don't have a password?{' '}
-          <LinkApp href={ROUTE_PATHS.HOME} variant="defaultLink">
-            Create one now
-          </LinkApp>
+          <Trans
+            id="CREATE_PASSWORD_HELP"
+            variables={{
+              $link: () => (
+                <LinkApp href={ROUTE_PATHS.HOME} variant="defaultLink">
+                  {translateRaw('CREATE_PASSWORD_HELP_LINK')}
+                </LinkApp>
+              )
+            }}
+          />
         </Body>
       </Box>
       {/* @todo: Pretty error messages */}

@@ -4,15 +4,20 @@ import { Body, Box, Image, LinkApp, SubHeading } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import addAccount from '@assets/icons/add-account.svg';
 import generateAccount from '@assets/icons/generate-account.svg';
+import { translateRaw } from '@translations';
 
 const MENU_ITEMS = [
-  { icon: addAccount, label: 'Add an Account', route: ROUTE_PATHS.ADD_ACCOUNT },
-  { icon: generateAccount, label: 'Generate an Account', route: ROUTE_PATHS.CREATE_WALLET }
+  { icon: addAccount, label: translateRaw('MENU_ADD_ACCOUNT'), route: ROUTE_PATHS.ADD_ACCOUNT },
+  {
+    icon: generateAccount,
+    label: translateRaw('MENU_GENERATE_ACCOUNT'),
+    route: ROUTE_PATHS.CREATE_WALLET
+  }
 ];
 
 export const Menu = () => (
   <>
-    <SubHeading>Add or Generate Accounts</SubHeading>
+    <SubHeading>{translateRaw('MENU_HEADER')}</SubHeading>
     {Object.values(MENU_ITEMS).map((item, i) => (
       <LinkApp key={i} href={item.route}>
         <Box sx={{ boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.07)' }} mb="2">

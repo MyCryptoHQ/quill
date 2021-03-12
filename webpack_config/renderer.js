@@ -60,6 +60,7 @@ module.exports = merge(common, {
     alias: {
       'react-dom': '@hot-loader/react-dom'
     },
-    extensions: ['.jsx', '.tsx', '.css']
+    extensions: ['.jsx', '.tsx', '.css'],
+    mainFields: ['browser', 'module', 'main']
   }
 });

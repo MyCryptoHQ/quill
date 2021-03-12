@@ -3,6 +3,7 @@ import React from 'react';
 import approved from '@assets/icons/queue-approved.svg';
 import denied from '@assets/icons/queue-denied.svg';
 import waiting from '@assets/icons/queue-waiting.svg';
+import { translateRaw } from '@translations';
 import { TxResult } from '@types';
 
 import { Box, Image } from '.';
@@ -13,19 +14,19 @@ const configs = {
     bg: 'rgba(166, 130, 255, 0.15)',
     color: 'PURPLE',
     icon: waiting,
-    label: 'This transaction is waiting on action'
+    label: translateRaw('TX_RESULT_WAITING_LABEL')
   },
   [TxResult.DENIED]: {
     bg: 'rgba(181, 191, 199, 0.15)',
     color: 'BLUE_GREY',
     icon: denied,
-    label: 'This transaction has been denied'
+    label: translateRaw('TX_RESULT_DENIED_LABEL')
   },
   [TxResult.APPROVED]: {
     bg: 'rgba(179, 221, 135, 0.15)',
     color: 'GREEN',
     icon: approved,
-    label: 'This transaction has been approved'
+    label: translateRaw('TX_RESULT_APPROVED_LABEL')
   }
 };
 

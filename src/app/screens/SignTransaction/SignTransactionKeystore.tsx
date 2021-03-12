@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { SignBottom } from '@app/components';
+import { translateRaw } from '@translations';
 import { SignTransactionProps, WalletType } from '@types';
 
 export const SignTransactionKeystore = ({
@@ -29,12 +30,12 @@ export const SignTransactionKeystore = ({
       {currentAccount && !currentAccount.persistent && (
         <>
           <label>
-            Keystore
+            {translateRaw('KEYSTORE')}
             <input type="file" onChange={changeKeystore} />
           </label>
           <br />
           <label>
-            Password
+            {translateRaw('PASSWORD')}
             <input type="text" onChange={changePassword} value={password} />
           </label>
         </>
