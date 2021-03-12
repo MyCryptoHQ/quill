@@ -1,22 +1,18 @@
 import React from 'react';
 
+import { DeepPartial } from '@reduxjs/toolkit';
 import { fireEvent, render } from '@testing-library/react';
+import { replace } from 'connected-react-router';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
+import configureStore from 'redux-mock-store';
 
-import { createStore } from '@app/store';
+import { ROUTE_PATHS } from '@app/routing';
+import { ApplicationState } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
 import { DBRequestType } from '@types';
 
 import { ForgotPassword } from '../ForgotPassword';
-
-const mockReplace = jest.fn();
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useHistory: () => ({
-    replace: mockReplace
-  })
-}));
 
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {
@@ -24,10 +20,13 @@ jest.mock('@bridge', () => ({
   }
 }));
 
+const createMockStore = configureStore<DeepPartial<ApplicationState>>();
+const mockStore = createMockStore();
+
 function getComponent() {
   return render(
     <Router>
-      <Provider store={createStore()}>
+      <Provider store={mockStore}>
         <ForgotPassword />
       </Provider>
     </Router>
@@ -47,7 +46,7 @@ describe('ForgotPassword', () => {
     fireEvent.click(yesButton);
 
     expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith({ type: DBRequestType.RESET });
-    expect(mockReplace).toHaveBeenCalled();
+    expect(mockStore.getActions()).toContainEqual(replace(ROUTE_PATHS.LOCKED));
   });
 
   it('can cancel', async () => {
@@ -56,6 +55,6 @@ describe('ForgotPassword', () => {
     expect(cancelButton).toBeDefined();
     fireEvent.click(cancelButton);
 
-    expect(mockReplace).toHaveBeenCalled();
+    expect(mockStore.getActions()).toContainEqual(replace(ROUTE_PATHS.LOCKED));
   });
 });

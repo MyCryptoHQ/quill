@@ -1,3 +1,5 @@
+import { createHashHistory } from 'history';
+
 import { fAccounts, fTxRequest } from '@fixtures';
 import { makeQueueTx } from '@utils';
 
@@ -6,7 +8,7 @@ import { createRootReducer } from './reducer';
 
 describe('rootReducer', () => {
   it('clears the state when logout is dispatched', () => {
-    const rootReducer = createRootReducer(undefined);
+    const rootReducer = createRootReducer(createHashHistory());
     const initialState = rootReducer(undefined, {
       type: 'foo'
     });

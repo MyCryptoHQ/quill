@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Switch } from 'react-router-dom';
 
-import { Route } from './routing';
+import { Route } from './components/Route';
 import { ROUTES } from './routing/routes';
 
 export const AppRoutes = () => (

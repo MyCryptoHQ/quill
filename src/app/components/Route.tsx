@@ -2,9 +2,8 @@ import React from 'react';
 
 import { Route as ActualRoute, Redirect, RouteProps } from 'react-router-dom';
 
+import { ROUTE_PATHS } from '@app/routing';
 import { useSelector } from '@app/store';
-
-import { ROUTE_PATHS } from './routePaths';
 
 type Props = RouteProps & { requireLogin: boolean };
 

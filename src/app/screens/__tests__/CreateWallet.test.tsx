@@ -1,10 +1,14 @@
 import React from 'react';
 
+import { DeepPartial } from '@reduxjs/toolkit';
 import { fireEvent, render, waitFor } from '@testing-library/react';
+import { replace } from 'connected-react-router';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
+import configureStore from 'redux-mock-store';
 
-import { createStore } from '@app/store';
+import { ROUTE_PATHS } from '@app/routing';
+import { ApplicationState } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
 
 import { CreateWallet } from '../CreateWallet';
@@ -17,18 +21,13 @@ jest.mock('@bridge', () => ({
   }
 }));
 
-const mockReplace = jest.fn();
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useHistory: () => ({
-    replace: mockReplace
-  })
-}));
+const createMockStore = configureStore<DeepPartial<ApplicationState>>();
+const mockStore = createMockStore();
 
 function getComponent() {
   return render(
     <Router>
-      <Provider store={createStore()}>
+      <Provider store={mockStore}>
         <CreateWallet />
       </Provider>
     </Router>
@@ -52,6 +51,6 @@ describe('CreateWallet', () => {
     await waitFor(() => expect(getByText('OK')).toBeDefined());
     const okButton = getByText('OK');
     fireEvent.click(okButton);
-    expect(mockReplace).toHaveBeenCalled();
+    expect(mockStore.getActions()).toContainEqual(replace(ROUTE_PATHS.ADD_ACCOUNT));
   });
 });
