@@ -13,9 +13,15 @@ import { decrypt, encrypt, hashPassword } from '@utils/encryption';
 const store = new Store();
 
 // @todo STORES HASHED PASSWORD FOR ENCRYPTION - THINK ABOUT THIS
-let encryptionKey: string;
+const encryptionKey = Buffer.alloc(32);
 
-const setEncryptionKey = async (key: string) => (encryptionKey = await hashPassword(key));
+const setEncryptionKey = async (key: string) => {
+  const hash = await hashPassword(key);
+  hash.copy(encryptionKey);
+  hash.fill(0);
+};
+
+const clearEncryptionKey = () => encryptionKey.fill(0);
 
 export const init = async (password: string) => {
   try {
@@ -46,11 +52,11 @@ const login = async (password: string) => {
 };
 
 const logout = async () => {
-  encryptionKey = undefined;
+  clearEncryptionKey();
 };
 
 const reset = () => {
-  encryptionKey = undefined;
+  clearEncryptionKey();
   store.clear();
   return fs.promises.unlink(getStorePath());
 };
@@ -65,7 +71,7 @@ const storeExists = async () => {
 
 const isLoggedIn = () => checkPassword(encryptionKey);
 
-const checkPassword = (hashedPassword?: string) => {
+const checkPassword = (hashedPassword?: Buffer) => {
   if (!hashedPassword || hashedPassword.length === 0) {
     return false;
   }
