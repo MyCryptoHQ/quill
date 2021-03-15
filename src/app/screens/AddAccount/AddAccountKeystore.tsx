@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Box, Button, Input, PanelBottom } from '@app/components';
+import { Box, Button, FileBox, Input, PanelBottom } from '@app/components';
 import { fetchAccount, useDispatch } from '@app/store';
 import { translateRaw } from '@translations';
 import { WalletType } from '@types';
@@ -32,7 +32,7 @@ export const AddAccountKeystore = () => {
       <Box>
         <label>
           {translateRaw('KEYSTORE')}
-          <input type="file" onChange={changeKeystore} />
+          <FileBox onChange={changeKeystore} />
         </label>
       </Box>
       <Box>
