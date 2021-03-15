@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Button, LinkApp } from '@app/components';
+import { Box, Button, LinkApp, PanelBottom } from '@app/components';
 import { translateRaw } from '@translations';
 
 export const SignBottom = ({
@@ -12,21 +12,14 @@ export const SignBottom = ({
   handleAccept(): void;
   handleDeny(): void;
 }) => (
-  <Box
-    sx={{ position: 'fixed', bottom: 0, border: '1px solid #E8EAED' }}
-    width="100%"
-    bg="white"
-    px="4"
-    py="3"
-    mx="-24px"
-  >
+  <PanelBottom>
     <Button id="accept_button" type="button" disabled={disabled} onClick={handleAccept}>
       {translateRaw('APPROVE_TX')}
     </Button>
-    <Box width="100%" p="3" sx={{ textAlign: 'center' }}>
+    <Box width="100%" pt="3" px="3" sx={{ textAlign: 'center' }}>
       <LinkApp href="#" id="deny_button" onClick={handleDeny}>
         {translateRaw('DENY_TX')}
       </LinkApp>
     </Box>
-  </Box>
+  </PanelBottom>
 );

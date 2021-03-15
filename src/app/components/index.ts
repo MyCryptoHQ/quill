@@ -18,3 +18,4 @@ export * from './Button';
 export * from './SignBottom';
 export * from './Logo';
 export * from './WalletTypeSelector';
+export * from './PanelBottom';

@@ -13,7 +13,6 @@ export const AddAccount = () => {
   return (
     <>
       <WalletTypeSelector walletType={walletType} setWalletType={setWalletType} />
-      <br />
       {walletType === WalletType.PRIVATE_KEY && <AddAccountPrivateKey />}
       {walletType === WalletType.MNEMONIC && <AddAccountMnemonic />}
       {walletType === WalletType.KEYSTORE && <AddAccountKeystore />}

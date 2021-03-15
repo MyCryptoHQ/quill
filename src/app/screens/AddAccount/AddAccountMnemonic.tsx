@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Box, Button, Input } from '@app/components';
+import { Box, Button, Input, PanelBottom } from '@app/components';
 import { fetchAccount, useDispatch } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
 import { translateRaw } from '@translations';
@@ -71,7 +71,9 @@ export const AddAccountMnemonic = () => {
           <input type="checkbox" onChange={changePersistence} checked={persistent} />
         </label>
       </Box>
-      <Button onClick={handleSubmit}>{translateRaw('NEXT')}</Button>
+      <PanelBottom>
+        <Button onClick={handleSubmit}>{translateRaw('NEXT')}</Button>
+      </PanelBottom>
       {addresses.length > 0 && (
         <>
           <br />

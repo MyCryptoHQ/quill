@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Box, Button, Input } from '@app/components';
+import { Box, Button, Input, PanelBottom } from '@app/components';
 import { fetchAccount, useDispatch } from '@app/store';
 import { translateRaw } from '@translations';
 import { WalletType } from '@types';
@@ -34,7 +34,9 @@ export const AddAccountPrivateKey = () => {
           <input type="checkbox" onChange={changePersistence} checked={persistent} />
         </label>
       </Box>
-      <Button onClick={handleSubmit}>{translateRaw('SUBMIT')}</Button>
+      <PanelBottom>
+        <Button onClick={handleSubmit}>{translateRaw('SUBMIT')}</Button>
+      </PanelBottom>
     </>
   );
 };
