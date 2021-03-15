@@ -44,6 +44,7 @@ const WalletTypeButton = ({
       px="2"
       py="2"
       mx="1"
+      mb="3"
     >
       <Image src={icon} height="30px" width="30px" />
       <Body color="BLUE_DARK_SLATE" fontSize="1">

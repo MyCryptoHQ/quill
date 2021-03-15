@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Box, Button, Input, PanelBottom } from '@app/components';
+import { Box, Button, Input, PanelBottom, Textarea } from '@app/components';
 import { fetchAccount, useDispatch } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
 import { translateRaw } from '@translations';
@@ -15,7 +15,7 @@ export const AddAccountMnemonic = () => {
   const [persistent, setPersistent] = useState(false);
   const [addresses, setAddresses] = useState<GetAddressesResult[]>([]);
 
-  const changeMnemonicPhrase = (e: React.ChangeEvent<HTMLInputElement>) =>
+  const changeMnemonicPhrase = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
     setPhrase(e.currentTarget.value);
 
   const changePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -56,7 +56,7 @@ export const AddAccountMnemonic = () => {
       <Box>
         <label>
           {translateRaw('MNEMONIC_PHRASE')}
-          <Input type="text" onChange={changeMnemonicPhrase} />
+          <Textarea onChange={changeMnemonicPhrase} />
         </label>
       </Box>
       <Box>
