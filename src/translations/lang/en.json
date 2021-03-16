@@ -41,6 +41,7 @@
     "CREATE_PASSWORD_HELP": "Don't have a password? $link",
     "CREATE_PASSWORD_HELP_LINK": "Create one now",
     "KEYSTORE_UPLOAD_PART1": "Browse",
-    "KEYSTORE_UPLOAD_PART2": "or drop your keystore file here"
+    "KEYSTORE_UPLOAD_PART2": "or drop your keystore file here",
+    "PREVIOUS": "Previous"
   }
 }

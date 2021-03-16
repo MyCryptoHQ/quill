@@ -201,6 +201,7 @@ export const theme: DefaultTheme = {
 // Global styling for default elements
 export const GlobalStyle = createGlobalStyle`
   body {
+    overflow: hidden;
     margin: 0;
   }
 

@@ -14,3 +14,4 @@ export { SignTransactionProps } from './transactionProps';
 export { Theme } from './theme';
 export * from './txhistory';
 export * from './chain';
+export * from './dpath'

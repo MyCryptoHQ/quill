@@ -19,7 +19,8 @@ export abstract class DeterministicWallet {
       const address = toChecksumAddress(node.address) as TAddress;
       addresses.push({
         address,
-        dPath
+        dPath,
+        index
       });
     }
     return addresses;
