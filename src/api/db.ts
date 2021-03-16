@@ -69,7 +69,7 @@ const storeExists = async () => {
 
 const isLoggedIn = () => checkPassword(encryptionKey);
 
-const checkPassword = (hashedPassword?: Buffer) => {
+const checkPassword = (hashedPassword: Buffer) => {
   if (hashedPassword.compare(Buffer.alloc(32)) === 0) {
     return false;
   }
