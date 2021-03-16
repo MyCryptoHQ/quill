@@ -31,7 +31,6 @@ export const init = async (password: string) => {
     // Write something to the store to actually create the file
     setInStore('accounts', {});
   } catch (err) {
-    console.error(err);
     return false;
   }
   return true;
@@ -44,8 +43,7 @@ const login = async (password: string) => {
       return false;
     }
     await setEncryptionKey(password);
-  } catch (err) {
-    console.error(err);
+  } catch {
     return false;
   }
   return true;
@@ -72,10 +70,15 @@ const storeExists = async () => {
 const isLoggedIn = () => checkPassword(encryptionKey);
 
 const checkPassword = (hashedPassword?: Buffer) => {
-  if (!hashedPassword || hashedPassword.length === 0) {
+  if (hashedPassword.compare(Buffer.alloc(32)) === 0) {
     return false;
   }
-  return getFromStore('accounts', hashedPassword) !== null;
+
+  try {
+    return getFromStore('accounts', hashedPassword) !== null;
+  } catch {
+    return false;
+  }
 };
 
 // @todo Improve typing?
