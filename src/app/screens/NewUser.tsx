@@ -6,7 +6,7 @@ import { Body, Button, Flex, Heading, LinkApp, Logo } from '@components';
 import { translate, translateRaw } from '@translations';
 
 export const NewUser = () => (
-  <Flex height="100%" flexDirection="column" variant="columnCenter" mx="8px">
+  <Flex height="100%" flexDirection="column" variant="columnCenter">
     <Logo width="100px" height="100px" />
     <Heading fontSize="30px" lineHeight="48px" mt="12px" mb="9px">
       {translateRaw('NEW_USER_HEADER')}

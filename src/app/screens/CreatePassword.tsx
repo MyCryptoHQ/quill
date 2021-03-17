@@ -7,7 +7,17 @@ import { FormError, useForm } from 'typed-react-form';
 
 import { getValidator } from '@app/utils';
 import warning from '@assets/icons/circle-warning.svg';
-import { Body, Box, Button, Flex, FormInput, Heading, Image, Label } from '@components';
+import {
+  Body,
+  Box,
+  Button,
+  Flex,
+  FormInput,
+  Heading,
+  Image,
+  Label,
+  PanelBottom
+} from '@components';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
 import { translate, translateRaw } from '@translations';
 import { PasswordStrength } from '@types';
@@ -47,7 +57,7 @@ export const CreatePassword = () => {
   };
 
   return (
-    <Box mx="8px">
+    <Box>
       <Heading fontSize="24px" lineHeight="150%" mt="24px" mb="8px" textAlign="center">
         Create a Password
       </Heading>
@@ -76,7 +86,9 @@ export const CreatePassword = () => {
             })}
           </Body>
         </Flex>
-        <Button type="submit">{translateRaw('CREATE_PASSWORD')}</Button>
+        <PanelBottom>
+          <Button type="submit">{translateRaw('CREATE_PASSWORD')}</Button>
+        </PanelBottom>
       </form>
     </Box>
   );
