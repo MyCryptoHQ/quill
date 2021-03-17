@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 
-import { useHistory } from 'react-router-dom';
-
-import { ROUTE_PATHS } from '@app/routing';
-import { fetchAccount, useDispatch } from '@app/store';
+import { Box, Button, FileBox, Input, PanelBottom } from '@app/components';
+import { fetchAccounts, useDispatch } from '@app/store';
 import { translateRaw } from '@translations';
 import { WalletType } from '@types';
 
 export const AddAccountKeystore = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const [keystoreFile, setKeystoreFile] = useState<File>();
   const [password, setPassword] = useState('');
   const [persistent, setPersistent] = useState(false);
@@ -26,29 +23,35 @@ export const AddAccountKeystore = () => {
   const handleSubmit = () => {
     // @todo Handle errors
     keystoreFile.text().then((keystore) => {
-      dispatch(fetchAccount({ walletType: WalletType.KEYSTORE, keystore, password, persistent }));
-      history.replace(ROUTE_PATHS.HOME);
+      dispatch(
+        fetchAccounts([{ walletType: WalletType.KEYSTORE, keystore, password, persistent }])
+      );
     });
   };
 
   return (
     <>
-      <label>
-        {translateRaw('KEYSTORE')}
-        <input type="file" onChange={changeKeystore} />
-      </label>
-      <br />
-      <label>
-        {translateRaw('PASSWORD')}
-        <input type="text" onChange={changePassword} value={password} />
-      </label>
-      <br />
-      <label>
-        {translateRaw('PERSISTENCE')}
-        <input type="checkbox" onChange={changePersistence} checked={persistent} />
-      </label>
-      <br />
-      <input type="submit" value={translateRaw('SUBMIT')} onClick={handleSubmit} />
+      <Box>
+        <label>
+          {translateRaw('KEYSTORE')}
+          <FileBox onChange={changeKeystore} />
+        </label>
+      </Box>
+      <Box>
+        <label>
+          {translateRaw('PASSWORD')}
+          <Input type="text" onChange={changePassword} value={password} />
+        </label>
+      </Box>
+      <Box>
+        <label>
+          {translateRaw('PERSISTENCE')}
+          <input type="checkbox" onChange={changePersistence} checked={persistent} />
+        </label>
+      </Box>
+      <PanelBottom>
+        <Button onClick={handleSubmit}>{translateRaw('SUBMIT')}</Button>
+      </PanelBottom>
     </>
   );
 };

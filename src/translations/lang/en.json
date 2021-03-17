@@ -39,6 +39,9 @@
     "UNLOCK_HEADER": "Unlock Signer",
     "UNLOCK_SUBHEADING": "Your MyCrypto Signer is currently locked. Enter your MyCrypto Password to unlock it.",
     "CREATE_PASSWORD_HELP": "Don't have a password? $link",
-    "CREATE_PASSWORD_HELP_LINK": "Create one now"
+    "CREATE_PASSWORD_HELP_LINK": "Create one now",
+    "KEYSTORE_UPLOAD_PART1": "Browse",
+    "KEYSTORE_UPLOAD_PART2": "or drop your keystore file here",
+    "PREVIOUS": "Previous"
   }
 }

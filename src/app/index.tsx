@@ -28,11 +28,11 @@
 
 import React from 'react';
 
+import { ConnectedRouter } from 'connected-react-router';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { HashRouter as Router } from 'react-router-dom';
 
-import { createPersistor, createStore } from './store';
+import { createPersistor, createStore, history } from './store';
 
 __webpack_nonce__ = window.__webpack_nonce__;
 
@@ -44,9 +44,9 @@ const render = () => {
   const App = require('./App').default;
   ReactDOM.render(
     <Provider store={store}>
-      <Router>
+      <ConnectedRouter history={history}>
         <App persistor={createPersistor(store)} />
-      </Router>
+      </ConnectedRouter>
     </Provider>,
     document.getElementById('root')
   );

@@ -1,7 +1,9 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { replace } from 'connected-react-router';
 import { persistReducer } from 'redux-persist';
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
+import { ROUTE_PATHS } from '@app/routing';
 import { ipcBridgeRenderer } from '@bridge';
 import {
   CryptoRequestType,
@@ -16,7 +18,16 @@ import { generateDeterministicAddressUUID } from '@utils';
 import { ApplicationState } from './store';
 import { storage } from './utils';
 
-export const initialState = { accounts: [] as IAccount[], isFetching: false };
+export interface AccountsState {
+  accounts: IAccount[];
+  isFetching: boolean;
+  fetchError?: string;
+}
+
+export const initialState: AccountsState = {
+  accounts: [],
+  isFetching: false
+};
 
 const sliceName = 'accounts';
 
@@ -26,23 +37,25 @@ const slice = createSlice({
   reducers: {
     addAccount(state, action: PayloadAction<IAccount>) {
       state.accounts.push(action.payload);
+      state.fetchError = undefined;
       state.isFetching = false;
     },
     removeAccount(state, action: PayloadAction<IAccount>) {
       const idx = state.accounts.findIndex((a) => a.uuid === action.payload.uuid);
       state.accounts.splice(idx, 1);
     },
-    fetchAccount(state, _: PayloadAction<SerializedWallet & { persistent: boolean }>) {
+    fetchAccounts(state, _: PayloadAction<(SerializedWallet & { persistent: boolean })[]>) {
       state.isFetching = true;
+    },
+    fetchFailed(state, action: PayloadAction<string>) {
+      state.fetchError = action.payload;
     }
   }
 });
 
-export const { addAccount, removeAccount, fetchAccount } = slice.actions;
+export const { addAccount, removeAccount, fetchAccounts, fetchFailed } = slice.actions;
 
 export default slice;
-
-export type AccountsState = ReturnType<typeof slice.reducer>;
 
 const persistConfig = {
   key: sliceName,
@@ -64,37 +77,50 @@ export const getAccounts = createSelector(
  */
 export function* accountsSaga() {
   yield all([
-    takeLatest(fetchAccount.type, fetchAccountWorker),
+    takeLatest(fetchAccounts.type, fetchAccountsWorker),
     takeLatest(removeAccount.type, removeAccountWorker)
   ]);
 }
 
-export function* fetchAccountWorker({
-  payload: wallet
-}: PayloadAction<SerializedWallet & { persistent: boolean }>) {
-  const address: TAddress = yield call(ipcBridgeRenderer.crypto.invoke, {
-    type: CryptoRequestType.GET_ADDRESS,
-    wallet
-  });
+export function* fetchAccountsWorker({
+  payload: wallets
+}: PayloadAction<(SerializedWallet & { persistent: boolean })[]>) {
+  const accounts: IAccount[] = yield select(getAccounts);
 
-  const uuid = generateDeterministicAddressUUID(address);
+  try {
+    for (const wallet of wallets) {
+      const address: TAddress = yield call(ipcBridgeRenderer.crypto.invoke, {
+        type: CryptoRequestType.GET_ADDRESS,
+        wallet
+      });
 
-  if (wallet.persistent) {
-    yield call(ipcBridgeRenderer.db.invoke, {
-      type: DBRequestType.SAVE_ACCOUNT_SECRETS,
-      wallet
-    });
+      const uuid = generateDeterministicAddressUUID(address);
+
+      if (accounts.find((a) => a.uuid === uuid)) {
+        continue;
+      }
+
+      if (wallet.persistent) {
+        yield call(ipcBridgeRenderer.db.invoke, {
+          type: DBRequestType.SAVE_ACCOUNT_SECRETS,
+          wallet
+        });
+      }
+
+      yield put(
+        addAccount({
+          type: wallet.walletType,
+          address,
+          uuid,
+          dPath: (wallet as SerializedMnemonicPhrase).path,
+          persistent: wallet.persistent
+        })
+      );
+    }
+    yield put(replace(ROUTE_PATHS.HOME));
+  } catch (err) {
+    yield put(fetchFailed(err.message));
   }
-
-  yield put(
-    addAccount({
-      type: wallet.walletType,
-      address,
-      uuid,
-      dPath: (wallet as SerializedMnemonicPhrase).path,
-      persistent: wallet.persistent
-    })
-  );
 }
 
 export function* removeAccountWorker({ payload: account }: PayloadAction<IAccount>) {

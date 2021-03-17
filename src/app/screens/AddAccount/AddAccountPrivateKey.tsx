@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 
-import { useHistory } from 'react-router-dom';
-
-import { ROUTE_PATHS } from '@app/routing';
-import { fetchAccount, useDispatch } from '@app/store';
+import { Box, Button, Input, PanelBottom } from '@app/components';
+import { fetchAccounts, useDispatch } from '@app/store';
 import { translateRaw } from '@translations';
 import { WalletType } from '@types';
 
 export const AddAccountPrivateKey = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const [privateKey, setPrivateKey] = useState('');
   const [persistent, setPersistent] = useState(false);
 
@@ -20,23 +17,26 @@ export const AddAccountPrivateKey = () => {
     setPersistent(e.currentTarget.checked);
 
   const handleSubmit = () => {
-    dispatch(fetchAccount({ walletType: WalletType.PRIVATE_KEY, privateKey, persistent }));
-    history.replace(ROUTE_PATHS.HOME);
+    dispatch(fetchAccounts([{ walletType: WalletType.PRIVATE_KEY, privateKey, persistent }]));
   };
 
   return (
     <>
-      <label>
-        {translateRaw('PRIVATE_KEY')}
-        <input type="text" onChange={changePrivateKey} />
-      </label>
-      <br />
-      <label>
-        {translateRaw('PERSISTENCE')}
-        <input type="checkbox" onChange={changePersistence} checked={persistent} />
-      </label>
-      <br />
-      <input type="submit" value={translateRaw('SUBMIT')} onClick={handleSubmit} />
+      <Box>
+        <label>
+          {translateRaw('PRIVATE_KEY')}
+          <Input type="text" onChange={changePrivateKey} />
+        </label>
+      </Box>
+      <Box>
+        <label>
+          {translateRaw('PERSISTENCE')}
+          <input type="checkbox" onChange={changePersistence} checked={persistent} />
+        </label>
+      </Box>
+      <PanelBottom>
+        <Button onClick={handleSubmit}>{translateRaw('SUBMIT')}</Button>
+      </PanelBottom>
     </>
   );
 };

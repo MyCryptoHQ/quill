@@ -8,8 +8,8 @@ import { CryptoRequestType, DBRequestType, SerializedWallet, WalletType } from '
 
 import slice, {
   addAccount,
-  fetchAccount,
-  fetchAccountWorker,
+  fetchAccounts,
+  fetchAccountsWorker,
   removeAccount,
   removeAccountWorker
 } from './account.slice';
@@ -43,7 +43,7 @@ describe('AccountSlice', () => {
   it('fetchAccount(): sets isFetching to true', () => {
     const result = slice.reducer(
       { accounts: [], isFetching: false },
-      fetchAccount({ ...wallet, persistent: true })
+      fetchAccounts([{ ...wallet, persistent: true }])
     );
     expect(result.isFetching).toBe(true);
   });
@@ -52,7 +52,8 @@ describe('AccountSlice', () => {
 describe('fetchAccountWorker()', () => {
   it('handles getting account address', () => {
     const input = { ...wallet, persistent: false };
-    return expectSaga(fetchAccountWorker, fetchAccount(input))
+    return expectSaga(fetchAccountsWorker, fetchAccounts([input]))
+      .withState({ accounts: { accounts: [] } })
       .provide([[call.fn(ipcBridgeRenderer.crypto.invoke), fAccount.address]])
       .call(ipcBridgeRenderer.crypto.invoke, { type: CryptoRequestType.GET_ADDRESS, wallet: input })
       .put(addAccount({ ...fAccount, dPath: undefined }))
@@ -61,7 +62,8 @@ describe('fetchAccountWorker()', () => {
 
   it('handles saving account secrets', () => {
     const input = { ...wallet, persistent: true };
-    return expectSaga(fetchAccountWorker, fetchAccount(input))
+    return expectSaga(fetchAccountsWorker, fetchAccounts([input]))
+      .withState({ accounts: { accounts: [] } })
       .provide([[call.fn(ipcBridgeRenderer.crypto.invoke), fAccount.address]])
       .call(ipcBridgeRenderer.crypto.invoke, { type: CryptoRequestType.GET_ADDRESS, wallet: input })
       .call(ipcBridgeRenderer.db.invoke, {

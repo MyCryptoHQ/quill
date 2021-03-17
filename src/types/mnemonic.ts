@@ -17,4 +17,5 @@ export interface GetMnemonicAddressesArgs {
 export interface GetAddressesResult {
   dPath: string;
   address: TAddress;
+  index: number;
 }

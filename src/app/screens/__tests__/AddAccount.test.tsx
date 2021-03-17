@@ -6,9 +6,10 @@ import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
-import { ApplicationState, fetchAccount } from '@app/store';
+import { ApplicationState, fetchAccounts } from '@app/store';
 import { fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey } from '@fixtures';
 import { AddAccount } from '@screens';
+import { translateRaw } from '@translations';
 import { WalletType } from '@types';
 
 jest.mock('@bridge', () => ({
@@ -44,7 +45,11 @@ describe('AddAccount', () => {
   });
 
   it('can submit private key', async () => {
-    const { getByLabelText, getByText } = getComponent();
+    const { getByLabelText, getByText, getByTestId } = getComponent();
+    const privateKeyButton = getByTestId('select-PRIVATE_KEY');
+    expect(privateKeyButton).toBeDefined();
+    fireEvent.click(privateKeyButton);
+
     const privKeyInput = getByLabelText('Private Key');
     expect(privKeyInput).toBeDefined();
     fireEvent.change(privKeyInput, { target: { value: fPrivateKey } });
@@ -57,24 +62,26 @@ describe('AddAccount', () => {
     fireEvent.click(submitButton);
 
     expect(mockStore.getActions()).toContainEqual(
-      fetchAccount({
-        walletType: WalletType.PRIVATE_KEY,
-        privateKey: fPrivateKey,
-        persistent: true
-      })
+      fetchAccounts([
+        {
+          walletType: WalletType.PRIVATE_KEY,
+          privateKey: fPrivateKey,
+          persistent: true
+        }
+      ])
     );
   });
 
   it('can submit keystore file', async () => {
-    const { getByLabelText, getByText } = getComponent();
-    const walletTypeInput = getByLabelText('Type');
-    expect(walletTypeInput).toBeDefined();
-    fireEvent.change(walletTypeInput, { target: { value: WalletType.KEYSTORE } });
+    const { getByLabelText, getByText, getByTestId } = getComponent();
+    const keystoreButton = getByTestId('select-KEYSTORE');
+    expect(keystoreButton).toBeDefined();
+    fireEvent.click(keystoreButton);
 
     const keystoreFile = new Blob([fKeystore], { type: 'application/json' });
     keystoreFile.text = async () => fKeystore;
 
-    const keystoreInput = getByLabelText('Keystore');
+    const keystoreInput = getByTestId('file-upload');
     expect(keystoreInput).toBeDefined();
     fireEvent.change(keystoreInput, { target: { files: [keystoreFile] } });
 
@@ -90,22 +97,26 @@ describe('AddAccount', () => {
     await waitFor(() => fireEvent.click(submitButton));
 
     expect(mockStore.getActions()).toContainEqual(
-      fetchAccount({
-        walletType: WalletType.KEYSTORE,
-        keystore: fKeystore,
-        password: fKeystorePassword,
-        persistent: true
-      })
+      fetchAccounts([
+        {
+          walletType: WalletType.KEYSTORE,
+          keystore: fKeystore,
+          password: fKeystorePassword,
+          persistent: true
+        }
+      ])
     );
   });
 
   it('can submit mnemonic', async () => {
-    const { getByLabelText, getByText } = getComponent();
-    const walletTypeInput = getByLabelText('Type');
-    expect(walletTypeInput).toBeDefined();
-    fireEvent.change(walletTypeInput, { target: { value: WalletType.MNEMONIC } });
+    const { getByLabelText, getByText, getByTestId } = getComponent();
+    const mnemonicButton = getByTestId('select-MNEMONIC');
+    expect(mnemonicButton).toBeDefined();
+    fireEvent.click(mnemonicButton);
 
-    const mnemonicInput = getByLabelText('Mnemonic Phrase');
+    await waitFor(() => expect(getByTestId('mnemonic-input')).toBeDefined());
+
+    const mnemonicInput = getByTestId('mnemonic-input');
     expect(mnemonicInput).toBeDefined();
     fireEvent.change(mnemonicInput, { target: { value: fMnemonicPhrase } });
 
@@ -115,22 +126,26 @@ describe('AddAccount', () => {
     const persistenceInput = getByLabelText('Persistence');
     fireEvent.click(persistenceInput);
 
-    const submitButton = getByText('Next');
+    const submitButton = getByText(translateRaw('NEXT'));
     expect(submitButton).toBeDefined();
     fireEvent.click(submitButton);
 
     const address = '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f';
     await waitFor(() => expect(getByText(address)).toBeDefined());
-    fireEvent.click(getByText(address));
+    fireEvent.click(getByTestId(`checkbox-${address}`));
+
+    fireEvent.click(getByText(translateRaw('SUBMIT')));
 
     expect(mockStore.getActions()).toContainEqual(
-      fetchAccount({
-        walletType: WalletType.MNEMONIC,
-        mnemonicPhrase: fMnemonicPhrase,
-        passphrase: 'password',
-        path: "m/44'/60'/0'/0/0",
-        persistent: true
-      })
+      fetchAccounts([
+        {
+          walletType: WalletType.MNEMONIC,
+          mnemonicPhrase: fMnemonicPhrase,
+          passphrase: 'password',
+          path: "m/44'/60'/0'/0/0",
+          persistent: true
+        }
+      ])
     );
   });
 });
