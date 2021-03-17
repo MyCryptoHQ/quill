@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { DPathsList } from '@data';
 
@@ -23,7 +23,7 @@ export const AddAccountMnemonic = () => {
   const [dPath, setDPath] = useState<keyof typeof DPathsList>('ETH_DEFAULT');
   const [persistent, setPersistent] = useState(false);
   const [addresses, setAddresses] = useState<GetAddressesResult[]>([]);
-  const [selectedPaths, setSelectedPaths] = useState([]);
+  const [selectedAccounts, setSelectedAccounts] = useState<string[]>([]);
 
   const changeMnemonicPhrase = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
     setPhrase(e.currentTarget.value);
@@ -55,6 +55,14 @@ export const AddAccountMnemonic = () => {
 
   const handleDPathChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
     setDPath(e.currentTarget.value as keyof typeof DPathsList);
+
+  const toggleSelectedAccount = (account: GetAddressesResult) => {
+    if (selectedAccounts.some((a) => a === account.dPath)) {
+      setSelectedAccounts([...selectedAccounts].filter((a) => a !== account.dPath));
+    } else {
+      setSelectedAccounts([...selectedAccounts, account.dPath]);
+    }
+  };
 
   const handleSubmit = async () => {
     // @todo Add
@@ -104,8 +112,8 @@ export const AddAccountMnemonic = () => {
             <DPathSelector selectedPath={dPath} setSelectedPath={handleDPathChange} />
             <MnemonicAddressList
               addresses={addresses}
-              selectedPaths={selectedPaths}
-              setSelectedPaths={setSelectedPaths}
+              selectedAccounts={selectedAccounts}
+              toggleSelectedAccount={toggleSelectedAccount}
             />
             <Box variant="rowAlign" my="2">
               <Button mr="2">{translateRaw('PREVIOUS')}</Button>

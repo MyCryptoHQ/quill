@@ -7,11 +7,12 @@ import { Divider } from './Divider';
 
 export const MnemonicAddressList = ({
   addresses,
-  selectedPaths,
-  setSelectedPaths
+  selectedAccounts,
+  toggleSelectedAccount
 }: {
   addresses: GetAddressesResult[];
-  selectedPaths: string[];
+  selectedAccounts: string[];
+  toggleSelectedAccount(account: GetAddressesResult): void;
 }) => (
   <>
     {addresses.map((address) => (
@@ -19,9 +20,8 @@ export const MnemonicAddressList = ({
         <Box variant="rowAlign" py="3">
           <Checkbox
             mr="3"
-            onChange={(e) => console.log(e.target.checked)}
-            //checked={selectedPaths.find((path) => path === address.dPath) !== undefined}
-            checked={true}
+            onChange={() => toggleSelectedAccount(address)}
+            checked={selectedAccounts.find((path) => path === address.dPath) !== undefined}
           />
           <Body mr="3">{address.index + 1}</Body>
           <Blockie mr="3" width="30px" height="30px" address={address.address} />
