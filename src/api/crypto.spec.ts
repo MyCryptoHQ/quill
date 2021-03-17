@@ -122,15 +122,18 @@ describe('handleRequest', () => {
     expect(response).toStrictEqual([
       {
         address: '0x0961Ca10D49B9B8e371aA0Bcf77fE5730b18f2E4',
-        dPath: "m/44'/60'/0'/0/0"
+        dPath: "m/44'/60'/0'/0/0",
+        index: 0
       },
       {
         address: '0xa34F236d4Ead4D668b9335891f1BC4011A92B2CD',
-        dPath: "m/44'/60'/0'/0/1"
+        dPath: "m/44'/60'/0'/0/1",
+        index: 1
       },
       {
         address: '0x5e147f4A4224428c2978dca3A95aee7625FDB3Fd',
-        dPath: "m/44'/60'/0'/0/2"
+        dPath: "m/44'/60'/0'/0/2",
+        index: 2
       }
     ]);
   });
