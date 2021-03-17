@@ -20,6 +20,6 @@ export * from './Logo';
 export * from './WalletTypeSelector';
 export * from './PanelBottom';
 export * from './FileBox';
-export * from './MnemonicAddressList'
-export * from './DPathSelector'
-export * from './Checkbox'
+export * from './MnemonicAddressList';
+export * from './DPathSelector';
+export * from './Checkbox';
