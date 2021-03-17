@@ -22,6 +22,7 @@ export const MnemonicAddressList = ({
             mr="3"
             onChange={() => toggleSelectedAccount(address)}
             checked={selectedAccounts.find((path) => path === address.dPath) !== undefined}
+            data-testid={`checkbox-${address.address}`}
           />
           <Body mr="3">{address.index + 1}</Body>
           <Blockie mr="3" width="30px" height="30px" address={address.address} />

@@ -17,7 +17,13 @@ export const FileBox = ({ onChange }: { onChange: React.ChangeEventHandler<HTMLI
   >
     <Box p="5" sx={{ border: '2px dashed #E8EAED', textAlign: 'center', borderRadius: '5px' }}>
       <label htmlFor="upload">
-        <input id="upload" onChange={onChange} type="file" style={{ display: 'none' }} />
+        <input
+          data-testid="file-upload"
+          id="upload"
+          onChange={onChange}
+          type="file"
+          style={{ display: 'none' }}
+        />
         <Body as="span" color="LIGHT_BLUE" sx={{ '&:hover': { cursor: 'pointer' } }}>
           {translateRaw('KEYSTORE_UPLOAD_PART1')}
         </Body>

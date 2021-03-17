@@ -50,7 +50,9 @@ export const AddAccountMnemonic = () => {
   };
 
   useEffect(() => {
-    updateAddresses();
+    if (phrase.length > 0) {
+      updateAddresses();
+    }
   }, [dPath]);
 
   const handleDPathChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
@@ -85,7 +87,7 @@ export const AddAccountMnemonic = () => {
           <Box>
             <label>
               {translateRaw('MNEMONIC_PHRASE')}
-              <Textarea onChange={changeMnemonicPhrase} />
+              <Textarea data-testid="mnemonic-input" onChange={changeMnemonicPhrase} />
             </label>
           </Box>
           <Box>
