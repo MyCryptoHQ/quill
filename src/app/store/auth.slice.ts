@@ -1,4 +1,6 @@
 import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ROUTE_PATHS } from '@routing';
+import { push } from 'connected-react-router';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import { ipcBridgeRenderer } from '@bridge';
@@ -39,6 +41,7 @@ const slice = createSlice({
     },
     createPasswordSuccess(state) {
       state.newUser = false;
+      state.loggedIn = true;
       state.error = undefined;
     },
     createPasswordFailed(state, action: PayloadAction<string>) {
@@ -80,8 +83,8 @@ export function* createPasswordWorker({ payload }: PayloadAction<string>) {
   });
 
   if (result) {
-    // @todo Navigate to dashboard
     yield put(createPasswordSuccess());
+    yield put(push(ROUTE_PATHS.HOME));
     return;
   }
 

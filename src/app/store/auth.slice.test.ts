@@ -1,4 +1,6 @@
 /* eslint-disable jest/expect-expect */
+import { ROUTE_PATHS } from '@routing';
+import { push } from 'connected-react-router';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
@@ -86,12 +88,12 @@ describe('authSlice', () => {
   });
 
   describe('createPasswordSuccess', () => {
-    it('sets newUser to false', () => {
+    it('sets newUser to false and loggedIn to true', () => {
       expect(
         slice.reducer({ newUser: true, loggedIn: false }, createPasswordSuccess())
       ).toStrictEqual({
         newUser: false,
-        loggedIn: false,
+        loggedIn: true,
         error: undefined
       });
     });
@@ -101,7 +103,7 @@ describe('authSlice', () => {
         slice.reducer({ newUser: true, loggedIn: false, error: 'foo bar' }, createPasswordSuccess())
       ).toStrictEqual({
         newUser: false,
-        loggedIn: false,
+        loggedIn: true,
         error: undefined
       });
     });
@@ -130,7 +132,16 @@ describe('createPasswordWorker', () => {
       .silentRun();
   });
 
-  it.todo('navigates to the dashboard on succesful login');
+  it('navigates to the dashboard on succesful login', () => {
+    return expectSaga(createPasswordWorker, createPassword('foobar'))
+      .provide([[call.fn(ipcBridgeRenderer.db.invoke), true]])
+      .call(ipcBridgeRenderer.db.invoke, {
+        type: DBRequestType.INIT,
+        password: 'foobar'
+      })
+      .put(push(ROUTE_PATHS.HOME))
+      .silentRun();
+  });
 
   it('dispatches createPasswordFailed on error', () => {
     return expectSaga(createPasswordWorker, createPassword('foobar'))
