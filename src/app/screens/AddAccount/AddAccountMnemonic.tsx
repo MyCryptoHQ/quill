@@ -60,7 +60,7 @@ export const AddAccountMnemonic = () => {
 
   const toggleSelectedAccount = (account: GetAddressesResult) => {
     if (selectedAccounts.some((a) => a === account.dPath)) {
-      setSelectedAccounts([...selectedAccounts].filter((a) => a !== account.dPath));
+      setSelectedAccounts(selectedAccounts.filter((a) => a !== account.dPath));
     } else {
       setSelectedAccounts([...selectedAccounts, account.dPath]);
     }

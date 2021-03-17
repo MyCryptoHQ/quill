@@ -7,7 +7,9 @@ export const PanelBottom = ({ children }: { children: React.ReactNode }) => (
     sx={{
       position: 'fixed',
       bottom: 0,
-      border: '1px solid #E8EAED',
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: 'GREY_ATHENS',
       boxShadow: '0px -12px 20px rgba(79, 79, 79, 0.11)'
     }}
     width="100%"

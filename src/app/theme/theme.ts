@@ -128,6 +128,7 @@ export const theme: DefaultTheme = {
     BG_GREY_MUTED: '#F6F8FA',
     GREY_ATHENS: '#e8eaed',
     GREY_LIGHTEST: '#f7f7f7',
+    GREY_LIGHTER: '#e5ecf3',
 
     // ORANGE
     ORANGE: '#FA873F',
@@ -171,12 +172,16 @@ export const theme: DefaultTheme = {
       marginBottom: '6px'
     },
     input: {
-      border: '1px solid #E8EAED',
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: 'GREY_ATHENS',
       boxShadow: '0px 1px 1px rgba(232, 234, 237, 0.5), inset 0px 1px 3px rgba(232, 234, 237, 0.5)',
       borderRadius: 0
     },
     textarea: {
-      border: '1px solid #E8EAED',
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: 'GREY_ATHENS',
       boxShadow: '0px 1px 1px rgba(232, 234, 237, 0.5), inset 0px 1px 3px rgba(232, 234, 237, 0.5)',
       borderRadius: 0
     }

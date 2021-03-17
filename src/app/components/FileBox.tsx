@@ -8,14 +8,25 @@ export const FileBox = ({ onChange }: { onChange: React.ChangeEventHandler<HTMLI
     bg="BG_GREY_MUTED"
     p="2"
     sx={{
-      border: '1px solid #E8EAED',
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: 'GREY_ATHENS',
       boxShadow: '0px 1px 1px rgba(232, 234, 237, 0.5), inset 0px 1px 3px rgba(232, 234, 237, 0.5)',
       borderRadius: '6px'
     }}
     // @todo Fix OnDrop
-    onDrop={() => console.log('drop')}
+    //onDrop={() => console.log('drop')}
   >
-    <Box p="5" sx={{ border: '2px dashed #E8EAED', textAlign: 'center', borderRadius: '5px' }}>
+    <Box
+      p="5"
+      sx={{
+        borderWidth: '2px',
+        borderStyle: 'dashed',
+        borderColor: 'GREY_ATHENS',
+        textAlign: 'center',
+        borderRadius: '5px'
+      }}
+    >
       <label htmlFor="upload">
         <input
           data-testid="file-upload"

@@ -88,8 +88,7 @@ export function* fetchAccountsWorker({
   const accounts: IAccount[] = yield select(getAccounts);
 
   try {
-    for (let i = 0; i < wallets.length; i++) {
-      const wallet = wallets[i];
+    for (const wallet of wallets) {
       const address: TAddress = yield call(ipcBridgeRenderer.crypto.invoke, {
         type: CryptoRequestType.GET_ADDRESS,
         wallet

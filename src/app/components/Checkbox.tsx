@@ -8,7 +8,9 @@ export const Checkbox = ({ onChange, checked, ...props }: BoxProps) => (
   <Box
     variant="rowAlign"
     sx={{
-      border: '1px solid #E5ECF3',
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: 'GREY_LIGHTER',
       boxShadow: 'inset 0px 1px 1px rgba(63, 63, 68, 0.05)',
       borderRadius: '2px',
       cursor: 'pointer',
