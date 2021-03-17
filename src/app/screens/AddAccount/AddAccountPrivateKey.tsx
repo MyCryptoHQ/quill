@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { Box, Button, Input, PanelBottom } from '@app/components';
-import { fetchAccount, useDispatch } from '@app/store';
+import { fetchAccounts, useDispatch } from '@app/store';
 import { translateRaw } from '@translations';
 import { WalletType } from '@types';
 
@@ -17,7 +17,7 @@ export const AddAccountPrivateKey = () => {
     setPersistent(e.currentTarget.checked);
 
   const handleSubmit = () => {
-    dispatch(fetchAccount({ walletType: WalletType.PRIVATE_KEY, privateKey, persistent }));
+    dispatch(fetchAccounts([{ walletType: WalletType.PRIVATE_KEY, privateKey, persistent }]));
   };
 
   return (

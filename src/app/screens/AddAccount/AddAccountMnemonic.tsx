@@ -11,7 +11,7 @@ import {
   PanelBottom,
   Textarea
 } from '@app/components';
-import { fetchAccount, useDispatch } from '@app/store';
+import { fetchAccounts, useDispatch } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
 import { translateRaw } from '@translations';
 import { CryptoRequestType, GetAddressesResult, WalletType } from '@types';
@@ -65,18 +65,16 @@ export const AddAccountMnemonic = () => {
   };
 
   const handleSubmit = async () => {
-    // @todo Add
-  };
-
-  const addAddress = ({ dPath }: GetAddressesResult) => {
     dispatch(
-      fetchAccount({
-        walletType: WalletType.MNEMONIC,
-        mnemonicPhrase: phrase,
-        passphrase: password,
-        path: dPath,
-        persistent
-      })
+      fetchAccounts(
+        selectedAccounts.map((path) => ({
+          walletType: WalletType.MNEMONIC,
+          mnemonicPhrase: phrase,
+          passphrase: password,
+          path,
+          persistent
+        }))
+      )
     );
   };
 

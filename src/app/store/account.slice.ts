@@ -1,7 +1,7 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { replace } from 'connected-react-router';
 import { persistReducer } from 'redux-persist';
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
 import { ROUTE_PATHS } from '@app/routing';
 import { ipcBridgeRenderer } from '@bridge';
@@ -44,7 +44,7 @@ const slice = createSlice({
       const idx = state.accounts.findIndex((a) => a.uuid === action.payload.uuid);
       state.accounts.splice(idx, 1);
     },
-    fetchAccount(state, _: PayloadAction<SerializedWallet & { persistent: boolean }>) {
+    fetchAccounts(state, _: PayloadAction<(SerializedWallet & { persistent: boolean })[]>) {
       state.isFetching = true;
     },
     fetchFailed(state, action: PayloadAction<string>) {
@@ -53,7 +53,7 @@ const slice = createSlice({
   }
 });
 
-export const { addAccount, removeAccount, fetchAccount, fetchFailed } = slice.actions;
+export const { addAccount, removeAccount, fetchAccounts, fetchFailed } = slice.actions;
 
 export default slice;
 
@@ -77,38 +77,47 @@ export const getAccounts = createSelector(
  */
 export function* accountsSaga() {
   yield all([
-    takeLatest(fetchAccount.type, fetchAccountWorker),
+    takeLatest(fetchAccounts.type, fetchAccountsWorker),
     takeLatest(removeAccount.type, removeAccountWorker)
   ]);
 }
 
-export function* fetchAccountWorker({
-  payload: wallet
-}: PayloadAction<SerializedWallet & { persistent: boolean }>) {
+export function* fetchAccountsWorker({
+  payload: wallets
+}: PayloadAction<(SerializedWallet & { persistent: boolean })[]>) {
+  const accounts: IAccount[] = yield select(getAccounts);
+
   try {
-    const address: TAddress = yield call(ipcBridgeRenderer.crypto.invoke, {
-      type: CryptoRequestType.GET_ADDRESS,
-      wallet
-    });
-
-    const uuid = generateDeterministicAddressUUID(address);
-
-    if (wallet.persistent) {
-      yield call(ipcBridgeRenderer.db.invoke, {
-        type: DBRequestType.SAVE_ACCOUNT_SECRETS,
+    for (let i = 0; i < wallets.length; i++) {
+      const wallet = wallets[i];
+      const address: TAddress = yield call(ipcBridgeRenderer.crypto.invoke, {
+        type: CryptoRequestType.GET_ADDRESS,
         wallet
       });
-    }
 
-    yield put(
-      addAccount({
-        type: wallet.walletType,
-        address,
-        uuid,
-        dPath: (wallet as SerializedMnemonicPhrase).path,
-        persistent: wallet.persistent
-      })
-    );
+      const uuid = generateDeterministicAddressUUID(address);
+
+      if (accounts.find((a) => a.uuid === uuid)) {
+        continue;
+      }
+
+      if (wallet.persistent) {
+        yield call(ipcBridgeRenderer.db.invoke, {
+          type: DBRequestType.SAVE_ACCOUNT_SECRETS,
+          wallet
+        });
+      }
+
+      yield put(
+        addAccount({
+          type: wallet.walletType,
+          address,
+          uuid,
+          dPath: (wallet as SerializedMnemonicPhrase).path,
+          persistent: wallet.persistent
+        })
+      );
+    }
     yield put(replace(ROUTE_PATHS.HOME));
   } catch (err) {
     yield put(fetchFailed(err.message));

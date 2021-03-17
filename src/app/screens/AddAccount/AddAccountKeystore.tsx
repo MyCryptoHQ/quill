@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { Box, Button, FileBox, Input, PanelBottom } from '@app/components';
-import { fetchAccount, useDispatch } from '@app/store';
+import { fetchAccounts, useDispatch } from '@app/store';
 import { translateRaw } from '@translations';
 import { WalletType } from '@types';
 
@@ -23,7 +23,9 @@ export const AddAccountKeystore = () => {
   const handleSubmit = () => {
     // @todo Handle errors
     keystoreFile.text().then((keystore) => {
-      dispatch(fetchAccount({ walletType: WalletType.KEYSTORE, keystore, password, persistent }));
+      dispatch(
+        fetchAccounts([{ walletType: WalletType.KEYSTORE, keystore, password, persistent }])
+      );
     });
   };
 

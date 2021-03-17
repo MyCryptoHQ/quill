@@ -4,7 +4,7 @@ export * from './utils';
 export {
   addAccount,
   removeAccount,
-  fetchAccount,
+  fetchAccounts,
   getAccounts,
   AccountsState
 } from './account.slice';

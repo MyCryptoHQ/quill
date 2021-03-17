@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
-import { ApplicationState, fetchAccount } from '@app/store';
+import { ApplicationState, fetchAccounts } from '@app/store';
 import { fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey } from '@fixtures';
 import { AddAccount } from '@screens';
 import { WalletType } from '@types';
@@ -57,11 +57,13 @@ describe('AddAccount', () => {
     fireEvent.click(submitButton);
 
     expect(mockStore.getActions()).toContainEqual(
-      fetchAccount({
-        walletType: WalletType.PRIVATE_KEY,
-        privateKey: fPrivateKey,
-        persistent: true
-      })
+      fetchAccounts([
+        {
+          walletType: WalletType.PRIVATE_KEY,
+          privateKey: fPrivateKey,
+          persistent: true
+        }
+      ])
     );
   });
 
@@ -90,12 +92,14 @@ describe('AddAccount', () => {
     await waitFor(() => fireEvent.click(submitButton));
 
     expect(mockStore.getActions()).toContainEqual(
-      fetchAccount({
-        walletType: WalletType.KEYSTORE,
-        keystore: fKeystore,
-        password: fKeystorePassword,
-        persistent: true
-      })
+      fetchAccounts([
+        {
+          walletType: WalletType.KEYSTORE,
+          keystore: fKeystore,
+          password: fKeystorePassword,
+          persistent: true
+        }
+      ])
     );
   });
 
@@ -124,13 +128,15 @@ describe('AddAccount', () => {
     fireEvent.click(getByText(address));
 
     expect(mockStore.getActions()).toContainEqual(
-      fetchAccount({
-        walletType: WalletType.MNEMONIC,
-        mnemonicPhrase: fMnemonicPhrase,
-        passphrase: 'password',
-        path: "m/44'/60'/0'/0/0",
-        persistent: true
-      })
+      fetchAccounts([
+        {
+          walletType: WalletType.MNEMONIC,
+          mnemonicPhrase: fMnemonicPhrase,
+          passphrase: 'password',
+          path: "m/44'/60'/0'/0/0",
+          persistent: true
+        }
+      ])
     );
   });
 });
