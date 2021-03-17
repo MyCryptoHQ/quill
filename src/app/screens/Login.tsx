@@ -5,7 +5,7 @@ import { useForm } from 'typed-react-form';
 import { ROUTE_PATHS } from '@app/routing';
 import { login, useDispatch, useSelector } from '@app/store';
 import lock from '@assets/icons/lock.svg';
-import { Body, Box, Button, Flex, Heading, Input, Label, LinkApp, Logo } from '@components';
+import { Body, Box, Button, Flex, FormInput, Heading, Label, LinkApp, Logo } from '@components';
 import { Trans, translateRaw } from '@translations';
 
 export const Login = () => {
@@ -34,7 +34,7 @@ export const Login = () => {
         <form onSubmit={handleSubmit}>
           <Box mt="16px">
             <Label htmlFor="password">{translateRaw('MYCRYPTO_PASSWORD')}</Label>
-            <Input id="password" name="password" type="password" form={form} />
+            <FormInput id="password" name="password" type="password" form={form} />
           </Box>
           <Button mt="24px" type="submit">
             {translateRaw('UNLOCK_NOW')}

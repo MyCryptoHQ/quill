@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { InputProps, Input as RebassInput } from '@rebass/forms/styled-components';
-import { DefaultError, DefaultState, FormInput } from 'typed-react-form';
+import { DefaultError, DefaultState, FormInput as ReactFormInput } from 'typed-react-form';
 import { FormInputProps } from 'typed-react-form/dist/elements/FormInput';
 
-export const Input = <
+export const FormInput = <
   T,
   Key extends keyof T,
   Value extends T[Key] | T[Key][keyof T[Key]],
@@ -15,7 +15,7 @@ export const Input = <
   children,
   ...rest
 }: Omit<Omit<InputProps, 'form'> & FormInputProps<T, State, Error, Key, Value>, 'as'>) => (
-  <RebassInput as={FormInput} form={form as any} {...rest}>
+  <RebassInput as={ReactFormInput} form={form as any} {...rest}>
     {children}
   </RebassInput>
 );

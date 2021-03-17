@@ -7,7 +7,7 @@ import { FormError, useForm } from 'typed-react-form';
 
 import { getValidator } from '@app/utils';
 import warning from '@assets/icons/circle-warning.svg';
-import { Body, Box, Button, Flex, Heading, Image, Input, Label } from '@components';
+import { Body, Box, Button, Flex, FormInput, Heading, Image, Label } from '@components';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
 import { translate, translateRaw } from '@translations';
 import { PasswordStrength } from '@types';
@@ -55,12 +55,12 @@ export const CreatePassword = () => {
       <form onSubmit={handleSubmit}>
         <Box width="100%" mt="16px">
           <Label htmlFor="password">{translateRaw('ENTER_PASSWORD')}</Label>
-          <Input id="password" name="password" type="password" form={form} />
+          <FormInput id="password" name="password" type="password" form={form} />
           <FormError name="password" form={form} />
         </Box>
         <Box width="100%" mt="16px">
           <Label htmlFor="passwordConfirmation">{translateRaw('CONFIRM_PASSWORD')}</Label>
-          <Input
+          <FormInput
             id="passwordConfirmation"
             name="passwordConfirmation"
             type="password"
