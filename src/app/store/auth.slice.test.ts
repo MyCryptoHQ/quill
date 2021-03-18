@@ -150,7 +150,7 @@ describe('createPasswordWorker', () => {
         type: DBRequestType.INIT,
         password: 'foobar'
       })
-      .put(createPasswordFailed(translateRaw('LOGIN_ERROR')))
+      .put(createPasswordFailed(translateRaw('CREATE_PASSWORD_ERROR')))
       .silentRun();
   });
 });

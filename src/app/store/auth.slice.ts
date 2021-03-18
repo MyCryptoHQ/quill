@@ -88,7 +88,7 @@ export function* createPasswordWorker({ payload }: PayloadAction<string>) {
     return;
   }
 
-  yield put(createPasswordFailed(translateRaw('LOGIN_ERROR')));
+  yield put(createPasswordFailed(translateRaw('CREATE_PASSWORD_ERROR')));
 }
 
 export function* loginWorker({ payload }: PayloadAction<string>) {
