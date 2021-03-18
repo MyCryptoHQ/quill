@@ -31,7 +31,11 @@ const CREATE_PASSWORD_STRUCT = object({
     return translateRaw('PASSWORD_TOO_WEAK');
   }),
   passwordConfirmation: refine(string(), 'Equal to password', (value, context) => {
-    return value === context.branch[0].password;
+    if (value === context.branch[0].password) {
+      return true;
+    }
+
+    return translateRaw('PASSWORDS_NOT_EQUAL');
   })
 });
 
@@ -42,7 +46,8 @@ export const CreatePassword = () => {
       password: '',
       passwordConfirmation: ''
     },
-    getValidator(CREATE_PASSWORD_STRUCT)
+    getValidator(CREATE_PASSWORD_STRUCT),
+    true
   );
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {

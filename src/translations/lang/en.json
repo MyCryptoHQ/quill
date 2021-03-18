@@ -53,6 +53,8 @@
     "CREATE_PASSWORD_DESCRIPTION_1": "This code word encrypts your data within the MyCrypto Desktop Signer application. Choose a strong but easy-to-remember code word and do not forget it. It's not recoverable. This code word will allow you to sign transactions.",
     "CREATE_PASSWORD_DESCRIPTION_2": "After creating your password, please make sure you put it safely back in storage. [Read more]($link)",
     "PASSWORD_TOO_WEAK": "Password too weak",
+    "PASSWORD_EMPTY": "Please enter a password",
+    "PASSWORDS_NOT_EQUAL": "The passwords are not equal",
     "LOGIN_ERROR": "An error occurred"
   }
 }
