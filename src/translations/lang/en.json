@@ -56,6 +56,13 @@
     "PASSWORD_TOO_WEAK": "Password too weak",
     "PASSWORD_EMPTY": "Please enter a password",
     "PASSWORDS_NOT_EQUAL": "The passwords are not equal",
-    "LOGIN_ERROR": "An error occurred"
+    "LOGIN_ERROR": "An error occurred",
+    "KEYSTORE_PASSWORD": "Enter keystore password to decrypt",
+    "MNEMONIC_PASSWORD": "Enter password for mnemonic phrase to decrypt (optional)",
+    "MNEMONIC_PHRASE_PLACEHOLDER": "Enter mnemonic phrase here",
+    "MNEMONIC_PASSWORD_PLACEHOLDER": "Mnemonic phrase password",
+    "KEYSTORE_PASSWORD_PLACEHOLDER": "Keystore password",
+    "PRIVATE_KEY_PLACEHOLDER": "Enter private key",
+    "SECRET_WARNING": "After entering your key, please make sure you put it safely back in storage. [Read more]($link)"
   }
 }

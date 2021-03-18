@@ -1,9 +1,12 @@
 import React from 'react';
 
-import { Body, Box } from '@app/components';
+import { Body, Box, BoxProps } from '@app/components';
 import { translateRaw } from '@translations';
 
-export const FileBox = ({ onChange }: { onChange: React.ChangeEventHandler<HTMLInputElement> }) => (
+export const FileBox = ({
+  onChange,
+  ...props
+}: { onChange: React.ChangeEventHandler<HTMLInputElement> } & BoxProps) => (
   <Box
     bg="BG_GREY_MUTED"
     p="2"
@@ -14,11 +17,12 @@ export const FileBox = ({ onChange }: { onChange: React.ChangeEventHandler<HTMLI
       boxShadow: '0px 1px 1px rgba(232, 234, 237, 0.5), inset 0px 1px 3px rgba(232, 234, 237, 0.5)',
       borderRadius: '6px'
     }}
+    {...props}
     // @todo Fix OnDrop
     //onDrop={() => console.log('drop')}
   >
     <Box
-      p="5"
+      p="60px"
       sx={{
         borderWidth: '2px',
         borderStyle: 'dashed',

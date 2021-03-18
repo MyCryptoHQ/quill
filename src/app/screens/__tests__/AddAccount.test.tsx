@@ -45,12 +45,12 @@ describe('AddAccount', () => {
   });
 
   it('can submit private key', async () => {
-    const { getByLabelText, getByText, getByTestId } = getComponent();
+    const { getByText, getByTestId } = getComponent();
     const privateKeyButton = getByTestId('select-PRIVATE_KEY');
     expect(privateKeyButton).toBeDefined();
     fireEvent.click(privateKeyButton);
 
-    const privKeyInput = getByLabelText('Private Key');
+    const privKeyInput = getByTestId('private-key-input');
     expect(privKeyInput).toBeDefined();
     fireEvent.change(privKeyInput, { target: { value: fPrivateKey } });
 
@@ -86,7 +86,7 @@ describe('AddAccount', () => {
     expect(keystoreInput).toBeDefined();
     fireEvent.change(keystoreInput, { target: { files: [keystoreFile] } });
 
-    const passwordInput = getByLabelText('Password');
+    const passwordInput = getByLabelText(translateRaw('KEYSTORE_PASSWORD'));
     expect(passwordInput).toBeDefined();
     fireEvent.change(passwordInput, { target: { value: fKeystorePassword } });
 
@@ -122,7 +122,7 @@ describe('AddAccount', () => {
     expect(mnemonicInput).toBeDefined();
     fireEvent.change(mnemonicInput, { target: { value: fMnemonicPhrase } });
 
-    const passwordInput = getByLabelText('Password');
+    const passwordInput = getByLabelText(translateRaw('MNEMONIC_PASSWORD'));
     fireEvent.change(passwordInput, { target: { value: 'password' } });
 
     const persistenceInput = getByTestId('toggle-persistence');

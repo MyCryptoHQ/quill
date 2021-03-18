@@ -8,14 +8,17 @@ import {
   Button,
   Checkbox,
   DPathSelector,
+  Image,
   Input,
   MnemonicAddressList,
   PanelBottom,
   Textarea
 } from '@app/components';
 import { fetchAccounts, useDispatch } from '@app/store';
+import warning from '@assets/icons/circle-warning.svg';
 import { ipcBridgeRenderer } from '@bridge';
-import { translateRaw } from '@translations';
+import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
+import { translate, translateRaw } from '@translations';
 import { CryptoRequestType, GetAddressesResult, WalletType } from '@types';
 
 export const AddAccountMnemonic = () => {
@@ -85,17 +88,31 @@ export const AddAccountMnemonic = () => {
     <>
       {addresses.length === 0 ? (
         <>
-          <Box>
+          <Textarea
+            data-testid="mnemonic-input"
+            onChange={changeMnemonicPhrase}
+            placeholder={translateRaw('MNEMONIC_PHRASE_PLACEHOLDER')}
+            sx={{ resize: 'none', height: '140px' }}
+            my="2"
+          />
+          <Box mt="1">
             <label>
-              {translateRaw('MNEMONIC_PHRASE')}
-              <Textarea data-testid="mnemonic-input" onChange={changeMnemonicPhrase} />
+              {translateRaw('MNEMONIC_PASSWORD')}
+              <Input
+                type="text"
+                onChange={changePassword}
+                placeholder={translateRaw('MNEMONIC_PASSWORD_PLACEHOLDER')}
+                mt="2"
+              />
             </label>
           </Box>
-          <Box>
-            <label>
-              {translateRaw('PASSWORD')}
-              <Input type="text" onChange={changePassword} />
-            </label>
+          <Box mt="2" variant="rowAlign">
+            <Image src={warning} width="20px" height="20px" minWidth="20px" alt="Warning" mr="2" />
+            <Body>
+              {translate('SECRET_WARNING', {
+                $link: getKBHelpArticle(KB_HELP_ARTICLE.HOW_TO_BACKUP)
+              })}
+            </Body>
           </Box>
           <PanelBottom pb="24px">
             <Button onClick={updateAddresses}>{translateRaw('NEXT')}</Button>
