@@ -62,7 +62,7 @@ export const CreatePassword = () => {
   };
 
   return (
-    <Box>
+    <Box mb="122px">
       <Heading fontSize="24px" lineHeight="150%" mt="4" mb="2" textAlign="center">
         Create a Password
       </Heading>
