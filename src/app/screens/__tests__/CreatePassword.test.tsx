@@ -76,6 +76,7 @@ describe('CreatePassword', () => {
     expect(createButton).toBeDefined();
     await waitFor(() => fireEvent.click(createButton));
 
+    expect(getByText(translateRaw('PASSWORDS_NOT_EQUAL'))).toBeDefined();
     expect(mockStore.getActions()).not.toContainEqual(createPassword(RANDOM_PASSWORD));
   });
 
@@ -97,6 +98,7 @@ describe('CreatePassword', () => {
     expect(createButton).toBeDefined();
     await waitFor(() => fireEvent.click(createButton));
 
+    expect(getByText(translateRaw('PASSWORD_TOO_WEAK'))).toBeDefined();
     expect(mockStore.getActions()).not.toContainEqual(createPassword('foo'));
   });
 });
