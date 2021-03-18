@@ -19,7 +19,7 @@
     "UNKNOWN_NETWORK": "Unknown Network",
     "PASSWORD": "Password",
     "KEYSTORE": "Keystore",
-    "PERSISTENCE": "Persistence",
+    "PERSISTENCE_CHECKBOX": "Remember this on my device next time",
     "MNEMONIC_PHRASE": "Mnemonic Phrase",
     "PRIVATE_KEY": "Private Key",
     "DELETE": "Delete",

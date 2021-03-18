@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { DPathsList } from '@data';
 
 import {
+  Body,
   Box,
   Button,
+  Checkbox,
   DPathSelector,
   Input,
   MnemonicAddressList,
@@ -21,7 +23,7 @@ export const AddAccountMnemonic = () => {
   const [phrase, setPhrase] = useState('');
   const [password, setPassword] = useState('');
   const [dPath, setDPath] = useState<keyof typeof DPathsList>('ETH_DEFAULT');
-  const [persistent, setPersistent] = useState(false);
+  const [persistent, setPersistent] = useState(true);
   const [addresses, setAddresses] = useState<GetAddressesResult[]>([]);
   const [selectedAccounts, setSelectedAccounts] = useState<string[]>([]);
 
@@ -31,8 +33,7 @@ export const AddAccountMnemonic = () => {
   const changePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
     setPassword(e.currentTarget.value);
 
-  const changePersistence = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setPersistent(e.currentTarget.checked);
+  const togglePersistence = () => setPersistent(!persistent);
 
   const updateAddresses = async () => {
     const result = await ipcBridgeRenderer.crypto.invoke({
@@ -96,14 +97,12 @@ export const AddAccountMnemonic = () => {
               <Input type="text" onChange={changePassword} />
             </label>
           </Box>
-          <Box>
-            <label>
-              {translateRaw('PERSISTENCE')}
-              <input type="checkbox" onChange={changePersistence} checked={persistent} />
-            </label>
-          </Box>
-          <PanelBottom>
+          <PanelBottom pb="24px">
             <Button onClick={updateAddresses}>{translateRaw('NEXT')}</Button>
+            <Box pt="2" variant="rowAlign">
+              <Checkbox onChange={togglePersistence} checked={persistent} />
+              <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
+            </Box>
           </PanelBottom>
         </>
       ) : (
@@ -120,8 +119,12 @@ export const AddAccountMnemonic = () => {
               <Button ml="2">{translateRaw('NEXT')}</Button>
             </Box>
           </Box>
-          <PanelBottom>
+          <PanelBottom pb="24px">
             <Button onClick={handleSubmit}>{translateRaw('SUBMIT')}</Button>
+            <Box pt="2" variant="rowAlign">
+              <Checkbox onChange={togglePersistence} checked={persistent} />
+              <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
+            </Box>
           </PanelBottom>
         </>
       )}

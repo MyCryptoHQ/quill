@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Box, Button, FileBox, Input, PanelBottom } from '@app/components';
+import { Body, Box, Button, Checkbox, FileBox, Input, PanelBottom } from '@app/components';
 import { fetchAccounts, useDispatch } from '@app/store';
 import { translateRaw } from '@translations';
 import { WalletType } from '@types';
@@ -9,7 +9,7 @@ export const AddAccountKeystore = () => {
   const dispatch = useDispatch();
   const [keystoreFile, setKeystoreFile] = useState<File>();
   const [password, setPassword] = useState('');
-  const [persistent, setPersistent] = useState(false);
+  const [persistent, setPersistent] = useState(true);
 
   const changeKeystore = (e: React.ChangeEvent<HTMLInputElement>) =>
     setKeystoreFile(e.currentTarget.files[0]);
@@ -17,8 +17,7 @@ export const AddAccountKeystore = () => {
   const changePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
     setPassword(e.currentTarget.value);
 
-  const changePersistence = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setPersistent(e.currentTarget.checked);
+  const togglePersistence = () => setPersistent(!persistent);
 
   const handleSubmit = () => {
     // @todo Handle errors
@@ -43,14 +42,12 @@ export const AddAccountKeystore = () => {
           <Input type="text" onChange={changePassword} value={password} />
         </label>
       </Box>
-      <Box>
-        <label>
-          {translateRaw('PERSISTENCE')}
-          <input type="checkbox" onChange={changePersistence} checked={persistent} />
-        </label>
-      </Box>
-      <PanelBottom>
+      <PanelBottom pb="24px">
         <Button onClick={handleSubmit}>{translateRaw('SUBMIT')}</Button>
+        <Box pt="2" variant="rowAlign">
+          <Checkbox onChange={togglePersistence} checked={persistent} />
+          <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
+        </Box>
       </PanelBottom>
     </>
   );
