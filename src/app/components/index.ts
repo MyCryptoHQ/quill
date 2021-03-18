@@ -23,3 +23,4 @@ export * from './FileBox';
 export * from './MnemonicAddressList';
 export * from './DPathSelector';
 export * from './Checkbox';
+export * from './FormInput';

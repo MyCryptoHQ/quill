@@ -38,10 +38,24 @@
     "MYCRYPTO_PASSWORD": "MyCrypto Password",
     "UNLOCK_HEADER": "Unlock Signer",
     "UNLOCK_SUBHEADING": "Your MyCrypto Signer is currently locked. Enter your MyCrypto Password to unlock it.",
+    "ENTER_PASSWORD": "Enter Password",
+    "CONFIRM_PASSWORD": "Confirm Password",
+    "CREATE_PASSWORD": "Create Password",
     "CREATE_PASSWORD_HELP": "Don't have a password? $link",
     "CREATE_PASSWORD_HELP_LINK": "Create one now",
     "KEYSTORE_UPLOAD_PART1": "Browse",
     "KEYSTORE_UPLOAD_PART2": "or drop your keystore file here",
-    "PREVIOUS": "Previous"
+    "PREVIOUS": "Previous",
+    "NEW_USER_HEADER": "Let's Get Started!",
+    "NEW_USER_DESCRIPTION_1": "This is a transaction signer that was designed to help you safely approve and sign crypto transactions.",
+    "NEW_USER_DESCRIPTION_2": "In order to keep you secure, you need to create a password that will unlock the app moving forward and protect your info.",
+    "NEW_USER_DESCRIPTION_3": "Keep this password safe. **You will not be able to reset or recover this password if you lose it.**",
+    "CREATE_PASSWORD_DESCRIPTION_1": "This code word encrypts your data within the MyCrypto Desktop Signer application. Choose a strong but easy-to-remember code word and do not forget it. It's not recoverable. This code word will allow you to sign transactions.",
+    "CREATE_PASSWORD_DESCRIPTION_2": "After creating your password, please make sure you put it safely back in storage. [Read more]($link)",
+    "CREATE_PASSWORD_ERROR": "An error occurred",
+    "PASSWORD_TOO_WEAK": "Password too weak",
+    "PASSWORD_EMPTY": "Please enter a password",
+    "PASSWORDS_NOT_EQUAL": "The passwords are not equal",
+    "LOGIN_ERROR": "An error occurred"
   }
 }

@@ -2745,11 +2745,6 @@
   dependencies:
     "@types/node" "*"
 
-"@types/zxcvbn@4.4.0":
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/@types/zxcvbn/-/zxcvbn-4.4.0.tgz#fbc1d941cc6d9d37d18405c513ba6b294f89b609"
-  integrity sha512-GQLOT+SN20a+AI51y3fAimhyTF4Y0RG+YP3gf91OibIZ7CJmPFgoZi+ZR5a+vRbS01LbQosITWum4ATmJ1Z6Pg==
-
 "@typescript-eslint/eslint-plugin@4.1.0":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-4.1.0.tgz#7d309f60815ff35e9627ad85e41928d7b7fd443f"
@@ -4119,6 +4114,11 @@ chardet@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
   integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
+
+check-password-strength@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/check-password-strength/-/check-password-strength-2.0.2.tgz#98f88fa14f35b17a38b6b179b36a275f070a1ed7"
+  integrity sha512-Dh1h1XZkRBbkKdoZip18xdFjuBU0v2SYvF1l/ZkqMTkwB4j3OiDLMTv1o63K2UI3wTnPLQPTTkGWwpLab60muA==
 
 cheerio@^1.0.0-rc.3:
   version "1.0.0-rc.3"
@@ -12500,6 +12500,11 @@ type-is@~1.6.17, type-is@~1.6.18:
     media-typer "0.3.0"
     mime-types "~2.1.24"
 
+typed-react-form@1.2.8:
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/typed-react-form/-/typed-react-form-1.2.8.tgz#2e213eff2d872d584d317b0056b29c395c3d0a86"
+  integrity sha512-6loFYEzvLkpwDj5DN+BWWYjkwvFBBY3Bvhpmsy8LaLEon4QLsMybAzLSSpWk+DkShRAhH4gtydbIetVZHW+Xkw==
+
 typedarray-to-buffer@^3.1.5:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/typedarray-to-buffer/-/typedarray-to-buffer-3.1.5.tgz#a97ee7a9ff42691b9f783ff1bc5112fe3fca9080"
@@ -13332,8 +13337,3 @@ zip-stream@^4.0.0:
     archiver-utils "^2.1.0"
     compress-commons "^4.0.0"
     readable-stream "^3.6.0"
-
-zxcvbn@4.4.2:
-  version "4.4.2"
-  resolved "https://registry.yarnpkg.com/zxcvbn/-/zxcvbn-4.4.2.tgz#28ec17cf09743edcab056ddd8b1b06262cc73c30"
-  integrity sha1-KOwXzwl0PtyrBW3dixsGJizHPDA=

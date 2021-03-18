@@ -1,11 +1,18 @@
 /* eslint-disable jest/expect-expect */
+import { ROUTE_PATHS } from '@routing';
+import { push } from 'connected-react-router';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
 import { ipcBridgeRenderer } from '@bridge';
+import { translateRaw } from '@translations';
 import { DBRequestType } from '@types';
 
 import slice, {
+  createPassword,
+  createPasswordFailed,
+  createPasswordSuccess,
+  createPasswordWorker,
   login,
   loginFailed,
   loginSuccess,
@@ -55,7 +62,8 @@ describe('authSlice', () => {
     it('sets loggedIn to true', () => {
       expect(slice.reducer({ newUser: false, loggedIn: false }, loginSuccess())).toStrictEqual({
         newUser: false,
-        loggedIn: true
+        loggedIn: true,
+        error: undefined
       });
     });
   });
@@ -78,6 +86,73 @@ describe('authSlice', () => {
       });
     });
   });
+
+  describe('createPasswordSuccess', () => {
+    it('sets newUser to false and loggedIn to true', () => {
+      expect(
+        slice.reducer({ newUser: true, loggedIn: false }, createPasswordSuccess())
+      ).toStrictEqual({
+        newUser: false,
+        loggedIn: true,
+        error: undefined
+      });
+    });
+
+    it('clears the error', () => {
+      expect(
+        slice.reducer({ newUser: true, loggedIn: false, error: 'foo bar' }, createPasswordSuccess())
+      ).toStrictEqual({
+        newUser: false,
+        loggedIn: true,
+        error: undefined
+      });
+    });
+  });
+
+  describe('createPasswordFailed', () => {
+    it('sets error to the payload', () => {
+      const state = { newUser: true, loggedIn: false };
+      expect(slice.reducer(state, createPasswordFailed('Foo bar'))).toStrictEqual({
+        ...state,
+        error: 'Foo bar'
+      });
+    });
+  });
+});
+
+describe('createPasswordWorker', () => {
+  it('dispatches createPasswordSuccess on success', () => {
+    return expectSaga(createPasswordWorker, createPassword('foobar'))
+      .provide([[call.fn(ipcBridgeRenderer.db.invoke), true]])
+      .call(ipcBridgeRenderer.db.invoke, {
+        type: DBRequestType.INIT,
+        password: 'foobar'
+      })
+      .put(createPasswordSuccess())
+      .silentRun();
+  });
+
+  it('navigates to the dashboard on succesful login', () => {
+    return expectSaga(createPasswordWorker, createPassword('foobar'))
+      .provide([[call.fn(ipcBridgeRenderer.db.invoke), true]])
+      .call(ipcBridgeRenderer.db.invoke, {
+        type: DBRequestType.INIT,
+        password: 'foobar'
+      })
+      .put(push(ROUTE_PATHS.HOME))
+      .silentRun();
+  });
+
+  it('dispatches createPasswordFailed on error', () => {
+    return expectSaga(createPasswordWorker, createPassword('foobar'))
+      .provide([[call.fn(ipcBridgeRenderer.db.invoke), false]])
+      .call(ipcBridgeRenderer.db.invoke, {
+        type: DBRequestType.INIT,
+        password: 'foobar'
+      })
+      .put(createPasswordFailed(translateRaw('CREATE_PASSWORD_ERROR')))
+      .silentRun();
+  });
 });
 
 describe('loginWorker', () => {
@@ -99,7 +174,7 @@ describe('loginWorker', () => {
         type: DBRequestType.LOGIN,
         password: 'foobar'
       })
-      .put(loginFailed('An error occurred'))
+      .put(loginFailed(translateRaw('LOGIN_ERROR')))
       .silentRun();
   });
 });
