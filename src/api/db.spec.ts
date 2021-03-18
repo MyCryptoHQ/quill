@@ -11,6 +11,11 @@ import { handleRequest as _handleRequest, runService as _runService } from './db
 
 jest.mock('path');
 
+jest.mock('crypto', () => ({
+  ...jest.requireActual('crypto'),
+  randomBytes: jest.fn().mockImplementation(() => Buffer.from('2d21938ada7a165c39c8f3fd', 'hex'))
+}));
+
 jest.mock('electron', () => ({
   app: {
     getPath: jest.fn()
@@ -34,11 +39,12 @@ jest.mock('fs', () => ({
 
 const mockSet = jest.fn();
 const mockClear = jest.fn();
+
 jest.mock('electron-store', () => {
   return jest.fn().mockImplementation(() => ({
     get: jest.fn().mockImplementation((key: string) => {
       if (key === 'accounts') {
-        return 'e900ab0162e3ce2dbcb2740480aecf7d3c27dd918a3cbb1fe5eca7a1b570266e731392b2d2d679147bdfc0c5b07e5c0c72e4341fc8b30eb73d4753aadb3986ef6be9f87f3446582065ac24af8d903ad553451700e9fd3aaf3117a77a58f20371ab38f4cc346e6e6307d43ef7c472f3f6636050b873bbcfa186bfe6431f2736de75886f3dfebead9c1057d9486d508df0e2f32a0e0edf3b6f3dcc6c19a140c362b7d3e74de923c1d9c198860da84b07a8466fe421257819ff8177475034731dd61a8c37c4';
+        return '993e330609e9c288dc09665834aa71db839fa9c05d647d2b44e41ab5a175e822214848289b445d3a467af53ce6cd8baaaf0f932f45715ef84c22aa4533ba9c9a4efa224b6fdb6df0b3bece0cf65d682756daef518f837662163a1056e1dc9fe52a96677b561ae2c8fdd2a62332d1aca1b54f844b4354a7a858bbb29b07ae36c41ab41ace849bbc8f08e1bfb05176c2644d7cdcbe571f78827ad7cacc48cc1411e84319a42e931d42006a89edb838a5251bed742b9e6e9f4d421603806a6fe932c1de5d6f93cbfb2bb5249a52b88db8bf0050440d2d21938ada7a165c39c8f3fd';
       }
       return {};
     }),
@@ -53,7 +59,7 @@ jest.mock('keytar', () => ({
     .fn()
     .mockImplementation(
       () =>
-        'a25af35163bf8c73f9a230069ee999293f238197d138a418b0e4a7bab922216c6a4dc5b6deca7e4c2fdcc694e371095a26e6214380a51ff1631344a3c835d6bf6fe6'
+        'd2646b5608b580d69919225a2aed278f809bf5c60660622c11ec1aaead27ef2038161f2c97585a621279f36db5c2defcfb0d86730d674fbe1276bd4c20b6ccca4af53b6605c124747520bfe5abf64d288b272d21938ada7a165c39c8f3fd'
     ),
   deletePassword: jest.fn()
 }));
@@ -62,7 +68,7 @@ const uuid = '304a57a4-1752-53db-8861-67785534e98e' as TUuid;
 const password = 'password';
 const privateKey = '0x93b3701cf8eeb6f7d3b22211c691734f24816a02efa933f67f34d37053182577';
 const encryptedPrivKey =
-  'a25af35163bf8c73f9a230069ee999293f238197d138a418b0e4a7bab922216c6a4dc5b6deca7e4c2fdcc694e371095a26e6214380a51ff1631344a3c835d6bf6fe6';
+  'd2646b5608b580d69919225a2aed278f809bf5c60660622c11ec1aaead27ef2038161f2c97585a621279f36db5c2defcfb0d86730d674fbe1276bd4c20b6ccca4af53b6605c124747520bfe5abf64d288b272d21938ada7a165c39c8f3fd';
 
 const { handleRequest, runService } = jest.requireActual<{
   handleRequest: typeof _handleRequest;
@@ -150,7 +156,7 @@ describe('handleRequest', () => {
     });
     expect(mockSet).toHaveBeenCalledWith(
       'accounts',
-      'e900ab0162e3ce2dbcb2740480aecf7d3c27dd918a3cbb1fe5eca7a1b570266e731392b2d2d679147bdfc0c5b07e5c0c72e4341fc8b30eb73d4753aadb3986ef6be9f87f3446582065ac24af8d903ad553451700e9fd3aaf3117a77a58f20371ab38f4cc346e6e6307d43ef7c472f3f6636050b873bbcfa186bfe6431f2736de75886f3dfebead9c1057d9486d508df0e2f32a0e0edf3b6f3dcc6c19a140c362b7d3e74de923c1d9c198860da84b07a8466fe421257819ff8177475034731dd61a8c37c4'
+      '993e330609e9c288dc09665834aa71db839fa9c05d647d2b44e41ab5a175e822214848289b445d3a467af53ce6cd8baaaf0f932f45715ef84c22aa4533ba9c9a4efa224b6fdb6df0b3bece0cf65d682756daef518f837662163a1056e1dc9fe52a96677b561ae2c8fdd2a62332d1aca1b54f844b4354a7a858bbb29b07ae36c41ab41ace849bbc8f08e1bfb05176c2644d7cdcbe571f78827ad7cacc48cc1411e84319a42e931d42006a89edb838a5251bed742b9e6e9f4d421603806a6fe932c1de5d6f93cbfb2bb5249a52b88db8bf0050440d2d21938ada7a165c39c8f3fd'
     );
   });
 

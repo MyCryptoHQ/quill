@@ -1,15 +1,22 @@
 import { decrypt, encrypt, hashPassword } from './encryption';
 
+jest.mock('crypto', () => ({
+  ...jest.requireActual('crypto'),
+  randomBytes: jest.fn().mockImplementation(() => Buffer.from('2d21938ada7a165c39c8f3fd', 'hex'))
+}));
+
 const password = 'test';
-const hashedPassword = 'e9a0c40b5c85fc2b5eb8f6084f68b144854cbd38397c947ad49a213ff1fb7e62';
+const hashedPassword = Buffer.from(
+  'e9a0c40b5c85fc2b5eb8f6084f68b144854cbd38397c947ad49a213ff1fb7e62',
+  'hex'
+);
 const data = 'data';
-const encryptedData = '3d753ef4';
+const encryptedData = '6cb10410ca36d6abcd7ddbed629a0c199f0506792d21938ada7a165c39c8f3fd';
 
 describe('hashPassword', () => {
   it('correctly SHA256 hashes a string', async () => {
     const result = await hashPassword(password);
-    const expected = hashedPassword;
-    expect(result).toBe(expected);
+    expect(result).toStrictEqual(hashedPassword);
   });
 });
 

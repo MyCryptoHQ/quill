@@ -1,35 +1,54 @@
-import { ModeOfOperation, utils } from 'aes-js';
 import crypto from 'crypto';
+import { promisify } from 'util';
+
+const pbkdf2 = promisify(crypto.pbkdf2);
 
 const SALT = 'w//Vd(FlSLgm';
 const ITERATIONS = 5000;
 const KEY_LENGTH = 32;
 const HASH_ALGORITHM = 'sha512';
 
-export const decrypt = (data: string, key: string) => {
-  const aes = new ModeOfOperation.ctr(utils.hex.toBytes(key));
-  const decryptedBytes = aes.decrypt(utils.hex.toBytes(data));
-  return utils.utf8.fromBytes(decryptedBytes);
-};
+// Recommended IV length for GCM is 12 bytes
+const ENCRYPTION_IV_LENGTH = 12;
+const ENCRYPTION_TAG_LENGTH = 16;
+const ENCRYPTION_ALGORITHM = 'aes-256-gcm';
 
-export const encrypt = (data: string, key: string) => {
-  const aes = new ModeOfOperation.ctr(utils.hex.toBytes(key));
-  const encryptedBytes = aes.encrypt(utils.utf8.toBytes(data));
-  return utils.hex.fromBytes(encryptedBytes);
-};
+export const encrypt = (data: string, key: Buffer) => {
+  const buffer = Buffer.from(data, 'utf8');
+  const iv = crypto.randomBytes(ENCRYPTION_IV_LENGTH);
 
-export const hashPassword = (password: string): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    if (!password || password.length === 0) {
-      reject(new Error('Password is undefined or of zero length'));
-      return;
-    }
-    crypto.pbkdf2(password, SALT, ITERATIONS, KEY_LENGTH, HASH_ALGORITHM, (error, key) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(utils.hex.fromBytes(key));
-      }
-    });
+  const cipher = crypto.createCipheriv(ENCRYPTION_ALGORITHM, key, iv, {
+    authTagLength: ENCRYPTION_TAG_LENGTH
   });
+
+  return Buffer.concat([cipher.update(buffer), cipher.final(), cipher.getAuthTag(), iv]).toString(
+    'hex'
+  );
+};
+
+export const decrypt = (data: string, key: Buffer) => {
+  const buffer = Buffer.from(data, 'hex');
+
+  const ciphertext = buffer.subarray(0, -ENCRYPTION_IV_LENGTH - ENCRYPTION_TAG_LENGTH);
+  const iv = buffer.subarray(-ENCRYPTION_IV_LENGTH);
+  const authTag = buffer.subarray(
+    -ENCRYPTION_IV_LENGTH - ENCRYPTION_TAG_LENGTH,
+    -ENCRYPTION_IV_LENGTH
+  );
+
+  const cipher = crypto.createDecipheriv(ENCRYPTION_ALGORITHM, key, iv, {
+    authTagLength: ENCRYPTION_TAG_LENGTH
+  });
+
+  cipher.setAuthTag(authTag);
+
+  return Buffer.concat([cipher.update(ciphertext), cipher.final()]).toString('utf8');
+};
+
+export const hashPassword = async (password: string): Promise<Buffer> => {
+  if (!password || password.length === 0) {
+    throw new Error('Password is undefined or of zero length');
+  }
+
+  return pbkdf2(password, SALT, ITERATIONS, KEY_LENGTH, HASH_ALGORITHM);
 };
