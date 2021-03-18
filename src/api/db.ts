@@ -29,7 +29,7 @@ export const init = async (password: string) => {
     // Clear in case the store already contains data
     store.clear();
     // Write something to the store to actually create the file
-    setInStore('accounts', {});
+    setInStore('accounts', {}, false);
   } catch (err) {
     return false;
   }
@@ -40,8 +40,10 @@ const login = async (password: string) => {
   try {
     const hashedPassword = await hashPassword(password);
     if (!checkPassword(hashedPassword)) {
+      hashedPassword.fill(0);
       return false;
     }
+    hashedPassword.fill(0);
     await setEncryptionKey(password);
   } catch {
     return false;
@@ -92,8 +94,8 @@ export const getFromStore = <T>(key: string, password = encryptionKey): T | null
   return valid === null ? parsed : null;
 };
 
-export const setInStore = <T>(key: string, obj: T) => {
-  if (!isLoggedIn()) {
+export const setInStore = <T>(key: string, obj: T, checkLogin = true) => {
+  if (checkLogin && !isLoggedIn()) {
     return;
   }
 
