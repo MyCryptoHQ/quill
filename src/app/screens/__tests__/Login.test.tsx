@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
@@ -52,7 +52,7 @@ describe('Login', () => {
 
     const loginButton = getByText('Unlock Now');
     expect(loginButton).toBeDefined();
-    fireEvent.click(loginButton);
+    await waitFor(() => fireEvent.click(loginButton));
 
     expect(mockStore.getActions()).toContainEqual(login('password'));
   });
