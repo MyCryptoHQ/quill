@@ -21,7 +21,7 @@ const LOGIN_STRUCT = object({
 });
 
 export const Login = () => {
-  const form = useForm({ password: '' }, getValidator(LOGIN_STRUCT), true, false);
+  const form = useForm({ password: '' }, getValidator(LOGIN_STRUCT), true);
   const error = useSelector((state) => state.auth.error);
   const dispatch = useDispatch();
 
