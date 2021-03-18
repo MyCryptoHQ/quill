@@ -10,6 +10,7 @@ import slice, {
   addAccount,
   fetchAccounts,
   fetchAccountsWorker,
+  fetchFailed,
   removeAccount,
   removeAccountWorker
 } from './account.slice';
@@ -46,6 +47,12 @@ describe('AccountSlice', () => {
       fetchAccounts([{ ...wallet, persistent: true }])
     );
     expect(result.isFetching).toBe(true);
+  });
+
+  it('fetchFailed(): sets error', () => {
+    const error = 'error';
+    const result = slice.reducer({ accounts: [], isFetching: false }, fetchFailed(error));
+    expect(result.fetchError).toBe(error);
   });
 });
 
