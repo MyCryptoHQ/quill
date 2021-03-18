@@ -54,7 +54,8 @@ describe('AddAccount', () => {
     expect(privKeyInput).toBeDefined();
     fireEvent.change(privKeyInput, { target: { value: fPrivateKey } });
 
-    const persistenceInput = getByLabelText('Persistence');
+    const persistenceInput = getByTestId('toggle-persistence');
+    fireEvent.click(persistenceInput);
     fireEvent.click(persistenceInput);
 
     const submitButton = getByText('Submit');
@@ -89,7 +90,8 @@ describe('AddAccount', () => {
     expect(passwordInput).toBeDefined();
     fireEvent.change(passwordInput, { target: { value: fKeystorePassword } });
 
-    const persistenceInput = getByLabelText('Persistence');
+    const persistenceInput = getByTestId('toggle-persistence');
+    fireEvent.click(persistenceInput);
     fireEvent.click(persistenceInput);
 
     const submitButton = getByText('Submit');
@@ -123,7 +125,8 @@ describe('AddAccount', () => {
     const passwordInput = getByLabelText('Password');
     fireEvent.change(passwordInput, { target: { value: 'password' } });
 
-    const persistenceInput = getByLabelText('Persistence');
+    const persistenceInput = getByTestId('toggle-persistence');
+    fireEvent.click(persistenceInput);
     fireEvent.click(persistenceInput);
 
     const submitButton = getByText(translateRaw('NEXT'));

@@ -100,7 +100,11 @@ export const AddAccountMnemonic = () => {
           <PanelBottom pb="24px">
             <Button onClick={updateAddresses}>{translateRaw('NEXT')}</Button>
             <Box pt="2" variant="rowAlign">
-              <Checkbox onChange={togglePersistence} checked={persistent} />
+              <Checkbox
+                onChange={togglePersistence}
+                checked={persistent}
+                data-testid="toggle-persistence"
+              />
               <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
             </Box>
           </PanelBottom>
@@ -122,7 +126,11 @@ export const AddAccountMnemonic = () => {
           <PanelBottom pb="24px">
             <Button onClick={handleSubmit}>{translateRaw('SUBMIT')}</Button>
             <Box pt="2" variant="rowAlign">
-              <Checkbox onChange={togglePersistence} checked={persistent} />
+              <Checkbox
+                onChange={togglePersistence}
+                checked={persistent}
+                data-testid="toggle-persistence"
+              />
               <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
             </Box>
           </PanelBottom>
