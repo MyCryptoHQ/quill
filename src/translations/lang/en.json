@@ -45,6 +45,7 @@
     "CREATE_PASSWORD_HELP_LINK": "Create one now",
     "KEYSTORE_UPLOAD_PART1": "Browse",
     "KEYSTORE_UPLOAD_PART2": "or drop your keystore file here",
+    "KEYSTORE_UPLOAD_PART3": "to replace",
     "PREVIOUS": "Previous",
     "NEW_USER_HEADER": "Let's Get Started!",
     "NEW_USER_DESCRIPTION_1": "This is a transaction signer that was designed to help you safely approve and sign crypto transactions.",

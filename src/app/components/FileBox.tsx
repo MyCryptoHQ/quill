@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { Body, Box, BoxProps } from '@app/components';
+import { Body, Box, BoxProps, Image } from '@app/components';
+import checkmark from '@assets/icons/circle-checkmark.svg';
 import { translateRaw } from '@translations';
 
 export const FileBox = ({
   onChange,
   ...props
 }: { onChange(file: File): void } & Omit<BoxProps, 'onChange'>) => {
+  const [fileName, setFileName] = useState<string | undefined>(undefined);
+
   // Needs to be set for onDrop to work
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -15,10 +18,12 @@ export const FileBox = ({
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    setFileName(e.dataTransfer.files[0].name);
     onChange(e.dataTransfer.files[0]);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFileName(e.currentTarget.files[0].name);
     onChange(e.currentTarget.files[0]);
   };
 
@@ -48,6 +53,12 @@ export const FileBox = ({
           borderRadius: '5px'
         }}
       >
+        {fileName && (
+          <Box variant="rowCenter" mb="2">
+            <Image src={checkmark} width="16px" height="16px" mr="2" />
+            <Body>{fileName}</Body>
+          </Box>
+        )}
         <label htmlFor="upload">
           <input
             data-testid="file-upload"
@@ -60,7 +71,10 @@ export const FileBox = ({
             {translateRaw('KEYSTORE_UPLOAD_PART1')}
           </Body>
         </label>{' '}
-        {translateRaw('KEYSTORE_UPLOAD_PART2')}
+        <Body as="span" color={fileName ? 'BLUE_GREY' : 'BODY'}>
+          {translateRaw('KEYSTORE_UPLOAD_PART2')}{' '}
+          {fileName && translateRaw('KEYSTORE_UPLOAD_PART3')}
+        </Body>
       </Box>
     </Box>
   );
