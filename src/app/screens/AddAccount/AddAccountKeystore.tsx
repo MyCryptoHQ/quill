@@ -13,8 +13,7 @@ export const AddAccountKeystore = () => {
   const [password, setPassword] = useState('');
   const [persistent, setPersistent] = useState(true);
 
-  const changeKeystore = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setKeystoreFile(e.currentTarget.files[0]);
+  const changeKeystore = (f: File) => setKeystoreFile(f);
 
   const changePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
     setPassword(e.currentTarget.value);
