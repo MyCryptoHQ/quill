@@ -121,6 +121,7 @@ describe('AddAccount', () => {
 
     const keystoreInput = getByTestId('file-upload');
     expect(keystoreInput).toBeDefined();
+    fireEvent.dragOver(keystoreInput);
     fireEvent.drop(keystoreInput, { dataTransfer: { files: [keystoreFile] } });
 
     const passwordInput = getByLabelText(translateRaw('KEYSTORE_PASSWORD'));
