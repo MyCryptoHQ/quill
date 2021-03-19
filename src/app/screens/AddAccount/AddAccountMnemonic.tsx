@@ -62,8 +62,7 @@ export const AddAccountMnemonic = () => {
     }
   }, [dPath, offset]);
 
-  const handleDPathChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    setDPath(e.currentTarget.value as keyof typeof DPathsList);
+  const handleDPathChange = (path: keyof typeof DPathsList) => setDPath(path);
 
   const handlePrevious = () => setOffset(offset - ADDRESSES_PER_PAGE);
 
