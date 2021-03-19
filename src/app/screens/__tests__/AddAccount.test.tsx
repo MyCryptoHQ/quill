@@ -116,7 +116,8 @@ describe('AddAccount', () => {
     expect(keystoreButton).toBeDefined();
     fireEvent.click(keystoreButton);
 
-    const keystoreFile = new Blob([fKeystore], { type: 'application/json' });
+    const keystoreBlob = new Blob([fKeystore], { type: 'application/json' });
+    const keystoreFile = new File([keystoreBlob], 'keystore.json');
     keystoreFile.text = async () => fKeystore;
 
     const keystoreInput = getByTestId('file-upload');
