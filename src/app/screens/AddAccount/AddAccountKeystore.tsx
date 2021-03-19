@@ -31,24 +31,28 @@ export const AddAccountKeystore = () => {
 
   return (
     <>
-      <FileBox my="2" onChange={changeKeystore} />
-      <Box mt="2">
-        <label>
-          {translateRaw('KEYSTORE_PASSWORD')}
-          <Input
-            type="text"
-            onChange={changePassword}
-            value={password}
-            placeholder={translateRaw('KEYSTORE_PASSWORD_PLACEHOLDER')}
-            mt="2"
-          />
-        </label>
-      </Box>
-      <Box mt="2" variant="rowAlign">
-        <Image src={warning} width="20px" height="20px" minWidth="20px" alt="Warning" mr="2" />
-        <Body>
-          {translate('SECRET_WARNING', { $link: getKBHelpArticle(KB_HELP_ARTICLE.HOW_TO_BACKUP) })}
-        </Body>
+      <Box mb="150px">
+        <FileBox my="2" onChange={changeKeystore} />
+        <Box mt="2">
+          <label>
+            {translateRaw('KEYSTORE_PASSWORD')}
+            <Input
+              type="text"
+              onChange={changePassword}
+              value={password}
+              placeholder={translateRaw('KEYSTORE_PASSWORD_PLACEHOLDER')}
+              mt="2"
+            />
+          </label>
+        </Box>
+        <Box mt="2" variant="rowAlign">
+          <Image src={warning} width="20px" height="20px" minWidth="20px" alt="Warning" mr="2" />
+          <Body>
+            {translate('SECRET_WARNING', {
+              $link: getKBHelpArticle(KB_HELP_ARTICLE.HOW_TO_BACKUP)
+            })}
+          </Body>
+        </Box>
       </Box>
       <PanelBottom pb="24px">
         <Button onClick={handleSubmit}>{translateRaw('SUBMIT')}</Button>
