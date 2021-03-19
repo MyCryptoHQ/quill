@@ -97,12 +97,46 @@ const BUTTON_VARIANTS = {
     width: '100%',
     bg: 'BLUE_LIGHT',
     '&:hover': {
-      bg: 'BLUE_LIGHT_DARKISH'
+      bg: 'BLUE_LIGHT_DARKISH',
+      cursor: 'pointer'
+    },
+    '&:disabled': {
+      bg: 'GREY_LIGHT',
+      cursor: 'default',
+      '&:hover': {
+        bg: 'GREY_LIGHT',
+        cursor: 'default'
+      }
+    },
+    '&:focus': {
+      outline: 'none'
     }
   },
   inverted: {
     p: '3',
-    width: '100%'
+    width: '100%',
+    borderColor: 'BLUE_LIGHT',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    color: 'BLUE_LIGHT',
+    '&:hover': {
+      cursor: 'pointer',
+      color: 'white',
+      bg: 'BLUE_LIGHT_DARKISH'
+    },
+    '&:disabled': {
+      color: 'BLUE_GREY',
+      borderColor: 'BLUE_GREY',
+      cursor: 'default',
+      '&:hover': {
+        color: 'BLUE_GREY',
+        bg: 'revert',
+        cursor: 'default'
+      }
+    },
+    '&:focus': {
+      outline: 'none'
+    }
   }
 };
 
@@ -129,6 +163,7 @@ export const theme: DefaultTheme = {
     GREY_ATHENS: '#e8eaed',
     GREY_LIGHTEST: '#f7f7f7',
     GREY_LIGHTER: '#e5ecf3',
+    GREY_LIGHT: '#d8d8d8',
 
     // ORANGE
     ORANGE: '#FA873F',

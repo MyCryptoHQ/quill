@@ -21,12 +21,15 @@ import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
 import { translate, translateRaw } from '@translations';
 import { CryptoRequestType, GetAddressesResult, WalletType } from '@types';
 
+const ADDRESSES_PER_PAGE = 10;
+
 export const AddAccountMnemonic = () => {
   const dispatch = useDispatch();
   const [phrase, setPhrase] = useState('');
   const [password, setPassword] = useState('');
   const [dPath, setDPath] = useState<keyof typeof DPathsList>('ETH_DEFAULT');
   const [persistent, setPersistent] = useState(true);
+  const [offset, setOffset] = useState(0);
   const [addresses, setAddresses] = useState<GetAddressesResult[]>([]);
   const [selectedAccounts, setSelectedAccounts] = useState<string[]>([]);
 
@@ -47,8 +50,8 @@ export const AddAccountMnemonic = () => {
         passphrase: password
       },
       path: DPathsList[dPath].value,
-      limit: 10,
-      offset: 0
+      limit: ADDRESSES_PER_PAGE,
+      offset
     });
     setAddresses((result as unknown) as GetAddressesResult[]);
   };
@@ -57,10 +60,14 @@ export const AddAccountMnemonic = () => {
     if (phrase.length > 0) {
       updateAddresses();
     }
-  }, [dPath]);
+  }, [dPath, offset]);
 
   const handleDPathChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
     setDPath(e.currentTarget.value as keyof typeof DPathsList);
+
+  const handlePrevious = () => setOffset(offset - ADDRESSES_PER_PAGE);
+
+  const handleNext = () => setOffset(offset + ADDRESSES_PER_PAGE);
 
   const toggleSelectedAccount = (account: GetAddressesResult) => {
     if (selectedAccounts.some((a) => a === account.dPath)) {
@@ -137,7 +144,7 @@ export const AddAccountMnemonic = () => {
         </>
       ) : (
         <>
-          <Box mb="130px">
+          <Box mb="150px">
             <DPathSelector selectedPath={dPath} setSelectedPath={handleDPathChange} />
             <MnemonicAddressList
               addresses={addresses}
@@ -145,12 +152,18 @@ export const AddAccountMnemonic = () => {
               toggleSelectedAccount={toggleSelectedAccount}
             />
             <Box variant="rowAlign" my="2">
-              <Button mr="2">{translateRaw('PREVIOUS')}</Button>
-              <Button ml="2">{translateRaw('NEXT')}</Button>
+              <Button mr="2" onClick={handlePrevious} disabled={offset === 0} variant="inverted">
+                {translateRaw('PREVIOUS')}
+              </Button>
+              <Button ml="2" onClick={handleNext} variant="inverted">
+                {translateRaw('NEXT')}
+              </Button>
             </Box>
           </Box>
           <PanelBottom pb="24px">
-            <Button onClick={handleSubmit}>{translateRaw('SUBMIT')}</Button>
+            <Button onClick={handleSubmit} disabled={selectedAccounts.length === 0}>
+              {translateRaw('SUBMIT')}
+            </Button>
             <Box pt="2" variant="rowAlign">
               <Checkbox
                 onChange={togglePersistence}
