@@ -110,6 +110,43 @@ describe('AddAccount', () => {
     );
   });
 
+  it('can submit keystore file via drag and drop', async () => {
+    const { getByLabelText, getByText, getByTestId } = getComponent();
+    const keystoreButton = getByTestId('select-KEYSTORE');
+    expect(keystoreButton).toBeDefined();
+    fireEvent.click(keystoreButton);
+
+    const keystoreFile = new Blob([fKeystore], { type: 'application/json' });
+    keystoreFile.text = async () => fKeystore;
+
+    const keystoreInput = getByTestId('file-upload');
+    expect(keystoreInput).toBeDefined();
+    fireEvent.drop(keystoreInput, { dataTransfer: { files: [keystoreFile] } });
+
+    const passwordInput = getByLabelText(translateRaw('KEYSTORE_PASSWORD'));
+    expect(passwordInput).toBeDefined();
+    fireEvent.change(passwordInput, { target: { value: fKeystorePassword } });
+
+    const persistenceInput = getByTestId('toggle-persistence');
+    fireEvent.click(persistenceInput);
+    fireEvent.click(persistenceInput);
+
+    const submitButton = getByText('Submit');
+    expect(submitButton).toBeDefined();
+    await waitFor(() => fireEvent.click(submitButton));
+
+    expect(mockStore.getActions()).toContainEqual(
+      fetchAccounts([
+        {
+          walletType: WalletType.KEYSTORE,
+          keystore: fKeystore,
+          password: fKeystorePassword,
+          persistent: true
+        }
+      ])
+    );
+  });
+
   it('can submit mnemonic', async () => {
     const { getByLabelText, getByText, getByTestId } = getComponent();
     const mnemonicButton = getByTestId('select-MNEMONIC');
