@@ -80,6 +80,17 @@ describe('fetchAccountWorker()', () => {
       .put(addAccount({ ...fAccount, dPath: undefined, persistent: true }))
       .silentRun();
   });
+
+  it('overwrites existing account', () => {
+    const input = { ...wallet, persistent: false };
+    return expectSaga(fetchAccountsWorker, fetchAccounts([input]))
+      .withState({ accounts: { accounts: [fAccount] } })
+      .provide([[call.fn(ipcBridgeRenderer.crypto.invoke), fAccount.address]])
+      .call(ipcBridgeRenderer.crypto.invoke, { type: CryptoRequestType.GET_ADDRESS, wallet: input })
+      .put(removeAccount(fAccount))
+      .put(addAccount({ ...fAccount, dPath: undefined }))
+      .silentRun();
+  });
 });
 
 describe('removeAccountWorker()', () => {
