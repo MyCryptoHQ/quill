@@ -1,6 +1,7 @@
-import { app, BrowserWindow, Menu, Tray } from 'electron';
+import { app, BrowserWindow, Menu, shell, Tray } from 'electron';
 import positioner from 'electron-traywindow-positioner';
 import path from 'path';
+import { URL } from 'url';
 
 import { runService as runCryptoService } from '@api/crypto';
 import { runService as runDatabaseService } from '@api/db';
@@ -43,6 +44,19 @@ const createWindow = (): void => {
       contextIsolation: true,
       worldSafeExecuteJavaScript: true
     }
+  });
+
+  window.webContents.on('new-window', (event, value) => {
+    event.preventDefault();
+
+    const url = new URL(value);
+    if (url.protocol !== 'https:') {
+      return console.warn(
+        `Blocked request to open new window '${value}', only HTTPS links are allowed`
+      );
+    }
+
+    shell.openExternal(value);
   });
 
   // and load the index.html of the app.
