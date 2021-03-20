@@ -8,7 +8,7 @@ jest.mock('electron', () => ({
 
 describe('preload', () => {
   it('exposes the ipc bridge to the renderer', async () => {
-    require('preload');
+    require('./preload');
     expect(contextBridge.exposeInMainWorld).toHaveBeenCalledWith(
       'ipcBridge',
       expect.objectContaining({
