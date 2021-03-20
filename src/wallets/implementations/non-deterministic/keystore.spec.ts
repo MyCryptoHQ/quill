@@ -38,4 +38,11 @@ describe('Keystore', () => {
       await expect(wallet.getPrivateKey()).resolves.toBe(privateKey);
     }
   );
+
+  it.concurrent.each(fKeystoreVectors.invalid)(
+    'throws on invalid keystore files',
+    async ({ json, password }) => {
+      expect(() => new Keystore(JSON.stringify(json), password)).toThrow();
+    }
+  );
 });
