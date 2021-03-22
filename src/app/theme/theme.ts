@@ -119,6 +119,7 @@ const BUTTON_VARIANTS = {
     borderWidth: '1px',
     borderStyle: 'solid',
     color: 'BLUE_LIGHT',
+    bg: 'white',
     '&:hover': {
       cursor: 'pointer',
       color: 'white',

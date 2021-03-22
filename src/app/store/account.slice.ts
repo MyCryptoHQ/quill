@@ -119,7 +119,7 @@ export function* fetchAccountsWorker({
         })
       );
     }
-    yield put(replace(ROUTE_PATHS.HOME));
+    yield put(replace(ROUTE_PATHS.ADD_ACCOUNT_END));
   } catch (err) {
     yield put(fetchFailed(err.message));
   }
