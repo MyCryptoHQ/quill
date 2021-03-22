@@ -26,7 +26,7 @@ const DPathOption = ({
   const handleClick = () => selectOption && selectOption({ type, label, value });
 
   return (
-    <Box p="2" variant="rowAlign" onClick={handleClick}>
+    <Box p="2" variant="rowAlign" data-testid={`select-${type}`} onClick={handleClick}>
       <Body>{label}</Body>
       <Body ml="2" fontSize="1">{`(${value})`}</Body>
     </Box>
