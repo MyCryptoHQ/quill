@@ -1,6 +1,6 @@
 {
   "testRegex": "/*.*/?(.*).(spec|test).(jsx?|tsx?)$",
-  "moduleDirectories": ["node_modules", "src"],
+  "moduleDirectories": ["node_modules"],
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "worker.ts", "worker.tsx"],
   "modulePathIgnorePatterns": [
     "<rootDir>/dist",
