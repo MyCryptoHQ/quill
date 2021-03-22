@@ -1,4 +1,11 @@
-import React from 'react';
+import React, {
+  Children,
+  ComponentClass,
+  ComponentType,
+  FunctionComponent,
+  KeyboardEvent,
+  ReactElement
+} from 'react';
 
 import Select, {
   FocusEventHandler,
@@ -24,8 +31,8 @@ interface SelectorProps<T extends OptionTypeBase> {
   searchable?: boolean;
   clearable?: boolean;
   name?: string;
-  optionComponent: React.ComponentType<OptionProps<T>>;
-  valueComponent?: React.ComponentClass<{ value: T }> | React.StatelessComponent<{ value: T }>;
+  optionComponent: ComponentType<OptionProps<T>>;
+  valueComponent?: ComponentClass<{ value: T }> | FunctionComponent<{ value: T }>;
   inputId?: string;
   inputValue?: string;
   onCloseResetsInput?: boolean;
@@ -37,11 +44,11 @@ interface SelectorProps<T extends OptionTypeBase> {
   getOptionLabel?(option: T): string;
   onChange?(option: T): void;
   onInputChange?(newValue: string, actionMeta: InputActionMeta): void;
-  onInputKeyDown?(e: React.KeyboardEvent<HTMLElement>): void;
+  onInputKeyDown?(e: KeyboardEvent<HTMLElement>): void;
 }
 
 // Fixes weird placement issues for react-select
-const Wrapper = styled('div')`
+const Wrapper = styled.div`
   cursor: pointer;
   &:hover {
     cursor: default;
@@ -67,26 +74,23 @@ const OptionWrapper = styled.div`
 export const DropdownIndicatorWrapper = ReactSelectComponents.DropdownIndicator;
 export const ClearIndicatorWrapper = ReactSelectComponents.ClearIndicator;
 
-const getValueContainer: <T = any>(
+const getValueContainer = <T extends OptionTypeBase>(
   props: ValueContainerProps<T> & OptionProps<T>,
-  ValueComponent?: React.ComponentType<{ value: T }>
-) => any = (props, ValueComponent) => {
+  ValueComponent?: ComponentType<{ value: T }>
+): ReactElement => {
   const {
     hasValue,
     getValue,
     selectProps: { inputValue }
   } = props;
-
   if (!hasValue || !ValueComponent) {
     return <ReactSelectComponents.ValueContainer {...props} />;
   }
-
-  const [data] = getValue() as any[];
+  const [data] = getValue() as T[];
   const { children } = props;
-
   return (
     <ReactSelectComponents.ValueContainer {...props}>
-      {React.Children.map(children, (child: JSX.Element) =>
+      {Children.map(children, (child: JSX.Element) =>
         child && [ReactSelectComponents.SingleValue].indexOf(child.type) === -1 ? child : null
       )}
       {!inputValue && <ValueComponent value={data} />}
@@ -94,9 +98,9 @@ const getValueContainer: <T = any>(
   );
 };
 
-const getOption = (
-  { optionDivider = false, ...props }: OptionProps<any> & { optionDivider: boolean },
-  Component: React.ComponentType<OptionProps<any>>
+const getOption = <T extends OptionTypeBase>(
+  { optionDivider = false, ...props }: OptionProps<T> & { optionDivider: boolean },
+  Component: ComponentType<OptionProps<any>>
 ) => (
   <OptionWrapper optionDivider={optionDivider}>
     <Component {...props} />
@@ -145,7 +149,7 @@ const customStyles: Styles = {
 
 const Selector: <T extends OptionTypeBase>(
   p: SelectorProps<T>
-) => React.ReactElement<SelectorProps<T>> = ({
+) => ReactElement<SelectorProps<T>> = ({
   options,
   value,
   disabled = false,
@@ -195,8 +199,9 @@ const Selector: <T extends OptionTypeBase>(
             </DropdownIndicatorWrapper>
           );
         },
-        Option: (oProps: any) => getOption({ ...oProps, optionDivider }, optionComponent),
-        ValueContainer: (oProps: any) => getValueContainer(oProps, valueComponent),
+        Option: <T extends OptionTypeBase>(oProps: OptionProps<T>) =>
+          getOption({ ...oProps, optionDivider }, optionComponent),
+        ValueContainer: (oProps: OptionProps<unknown>) => getValueContainer(oProps, valueComponent),
         IndicatorSeparator: () => null,
         ...components
       }}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, DragEvent, useState } from 'react';
 
 import { Body, Box, BoxProps, Image } from '@app/components';
 import checkmark from '@assets/icons/circle-checkmark.svg';
@@ -11,18 +11,18 @@ export const FileBox = ({
   const [fileName, setFileName] = useState<string | undefined>(undefined);
 
   // Needs to be set for onDrop to work
-  const handleDragOver = (e: React.DragEvent) => {
+  const handleDragOver = (e: DragEvent) => {
     e.preventDefault();
   };
 
-  const handleDrop = (e: React.DragEvent) => {
+  const handleDrop = (e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setFileName(e.dataTransfer.files[0].name);
     onChange(e.dataTransfer.files[0]);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFileName(e.currentTarget.files[0].name);
     onChange(e.currentTarget.files[0]);
   };
