@@ -1,4 +1,15 @@
-import { boolean, is, literal, object, optional, size, string, type } from 'superstruct';
+import {
+  boolean,
+  is,
+  literal,
+  number,
+  object,
+  optional,
+  size,
+  string,
+  type,
+  union
+} from 'superstruct';
 
 import { safeJSONParse } from '@utils';
 
@@ -53,7 +64,33 @@ const V2KeystoreStruct = type({
  * V3 keystore format, currently used by MyCrypto, Geth, etc.
  */
 const V3KeystoreStruct = type({
-  crypto: object(),
+  crypto: object({
+    cipher: string(),
+    ciphertext: string(),
+    cipherparams: object({
+      iv: string()
+    }),
+    kdf: string(),
+    kdfparams: union([
+      // PBKDF2
+      object({
+        c: number(),
+        dklen: number(),
+        prf: string(),
+        salt: string()
+      }),
+      // Scrypt
+      object({
+        dklen: number(),
+        salt: string(),
+        n: number(),
+        r: number(),
+        p: number()
+      })
+    ]),
+    mac: string(),
+    version: optional(number())
+  }),
   id: string(),
   version: literal(3)
 });
