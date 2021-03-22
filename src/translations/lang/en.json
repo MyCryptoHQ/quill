@@ -59,7 +59,7 @@
     "PASSWORDS_NOT_EQUAL": "The passwords are not equal",
     "LOGIN_ERROR": "An error occurred",
     "KEYSTORE_PASSWORD": "Enter keystore password to decrypt",
-    "MNEMONIC_PASSWORD": "Enter password for mnemonic phrase to decrypt (optional)",
+    "MNEMONIC_PASSWORD": "Enter a mnemonic passphrase (optional)",
     "MNEMONIC_PHRASE_PLACEHOLDER": "Enter mnemonic phrase here",
     "MNEMONIC_PASSWORD_PLACEHOLDER": "Mnemonic phrase password",
     "KEYSTORE_PASSWORD_PLACEHOLDER": "Keystore password",
