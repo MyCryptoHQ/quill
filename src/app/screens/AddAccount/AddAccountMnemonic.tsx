@@ -52,7 +52,8 @@ export const AddAccountMnemonic = () => {
       offset: 0,
       dPath: 'ETH_DEFAULT' as keyof typeof DPathsList,
       addresses: [] as GetAddressesResult[],
-      selectedAccounts: [] as string[]
+      selectedAccounts: [] as string[],
+      isSubmitting: false
     }
   );
 

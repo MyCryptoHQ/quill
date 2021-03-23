@@ -13,7 +13,7 @@ export const FormCheckbox = <T extends unknown>({
   name: keyof T;
 }) => {
   const { value, setValue } = useListener(form, name);
-  const handleChange = () => setValue(!value);
+  const handleChange = () => setValue(!value as any);
 
-  return <Checkbox checked={value} onChange={handleChange} {...rest} />;
+  return <Checkbox checked={value as any} onChange={handleChange} {...rest} />;
 };
