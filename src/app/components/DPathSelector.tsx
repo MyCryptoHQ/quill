@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { DPathsList } from '@data';
-
 import { Body, Box } from '@app/components';
+import { DPathsList } from '@data';
 
 import Selector from './Core/Selector';
 

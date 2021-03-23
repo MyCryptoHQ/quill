@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { getChain } from '@data';
 import { formatEther, formatUnits } from '@ethersproject/units';
 
+import { getChain } from '@data';
 import { translateRaw } from '@translations';
 import { TransactionRequest } from '@types';
 import { bigify } from '@utils';

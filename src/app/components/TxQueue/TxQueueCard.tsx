@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { getChain } from '@data';
 import { formatEther } from '@ethersproject/units';
 
 import { Body, Box, FromToAccount, Image, LinkApp, TimeElapsed } from '@app/components';
@@ -8,6 +7,7 @@ import { ROUTE_PATHS } from '@app/routing';
 import { selectTransaction, useDispatch } from '@app/store';
 import circleArrow from '@assets/icons/circle-arrow.svg';
 import waiting from '@assets/icons/queue-waiting.svg';
+import { getChain } from '@data';
 import { translateRaw } from '@translations';
 import { TxQueueEntry } from '@types';
 
