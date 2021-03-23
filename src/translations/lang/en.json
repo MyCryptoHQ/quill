@@ -19,7 +19,7 @@
     "UNKNOWN_NETWORK": "Unknown Network",
     "PASSWORD": "Password",
     "KEYSTORE": "Keystore",
-    "PERSISTENCE": "Persistence",
+    "PERSISTENCE_CHECKBOX": "Remember this on my device next time",
     "MNEMONIC_PHRASE": "Mnemonic Phrase",
     "PRIVATE_KEY": "Private Key",
     "DELETE": "Delete",
@@ -45,6 +45,7 @@
     "CREATE_PASSWORD_HELP_LINK": "Create one now",
     "KEYSTORE_UPLOAD_PART1": "Browse",
     "KEYSTORE_UPLOAD_PART2": "or drop your keystore file here",
+    "KEYSTORE_UPLOAD_PART3": "to replace",
     "PREVIOUS": "Previous",
     "NEW_USER_HEADER": "Let's Get Started!",
     "NEW_USER_DESCRIPTION_1": "This is a transaction signer that was designed to help you safely approve and sign crypto transactions.",
@@ -56,6 +57,20 @@
     "PASSWORD_TOO_WEAK": "Password too weak",
     "PASSWORD_EMPTY": "Please enter a password",
     "PASSWORDS_NOT_EQUAL": "The passwords are not equal",
-    "LOGIN_ERROR": "An error occurred"
+    "LOGIN_ERROR": "An error occurred",
+    "KEYSTORE_PASSWORD": "Enter keystore password to decrypt",
+    "MNEMONIC_PASSWORD": "Enter a mnemonic passphrase (optional)",
+    "MNEMONIC_PHRASE_PLACEHOLDER": "Enter mnemonic phrase here",
+    "MNEMONIC_PASSWORD_PLACEHOLDER": "Mnemonic phrase password",
+    "KEYSTORE_PASSWORD_PLACEHOLDER": "Keystore password",
+    "PRIVATE_KEY_PLACEHOLDER": "Enter private key",
+    "SECRET_WARNING": "After entering your key, please make sure you put it safely back in storage. [Read more]($link)",
+    "ADD_ACCOUNT_END_HEADER": "MyCrypto Signer",
+    "ADD_ACCOUNT_END_BODY": "You have successfully added your address(es) to the Signer.",
+    "BACK_TO_HOME": "Back to Home",
+    "ADD_ANOTHER_ACCOUNT": "Add Another Account",
+    "PRIVATE_KEY_EMPTY": "Please enter a private key",
+    "MNEMONIC_EMPTY": "Please enter a mnemonic phrase",
+    "KEYSTORE_EMPTY": "Please enter upload a keystore file"
   }
 }

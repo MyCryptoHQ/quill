@@ -16,7 +16,8 @@ export const Checkbox = ({ onChange, checked, ...props }: BoxProps) => (
       cursor: 'pointer',
       width: '20px',
       height: '20px',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      userSelect: 'none'
     }}
     {...props}
     onClick={onChange}

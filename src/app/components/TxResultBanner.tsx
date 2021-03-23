@@ -1,6 +1,6 @@
 import React from 'react';
 
-import approved from '@assets/icons/queue-approved.svg';
+import approved from '@assets/icons/circle-checkmark.svg';
 import denied from '@assets/icons/queue-denied.svg';
 import waiting from '@assets/icons/queue-waiting.svg';
 import { translateRaw } from '@translations';

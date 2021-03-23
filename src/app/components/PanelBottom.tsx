@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Box } from '@app/components';
+import { Box, BoxProps } from '@app/components';
 
-export const PanelBottom = ({ children }: { children: React.ReactNode }) => (
+export const PanelBottom = ({ children, ...props }: { children: React.ReactNode } & BoxProps) => (
   <Box
     sx={{
       position: 'fixed',
@@ -17,6 +17,7 @@ export const PanelBottom = ({ children }: { children: React.ReactNode }) => (
     px="4"
     py="4"
     mx="-24px"
+    {...props}
   >
     {children}
   </Box>

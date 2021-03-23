@@ -96,8 +96,10 @@ export function* fetchAccountsWorker({
 
       const uuid = generateDeterministicAddressUUID(address);
 
-      if (accounts.find((a) => a.uuid === uuid)) {
-        continue;
+      const existingAccount = accounts.find((a) => a.uuid === uuid);
+
+      if (existingAccount) {
+        yield put(removeAccount(existingAccount));
       }
 
       if (wallet.persistent) {
@@ -117,7 +119,7 @@ export function* fetchAccountsWorker({
         })
       );
     }
-    yield put(replace(ROUTE_PATHS.HOME));
+    yield put(replace(ROUTE_PATHS.ADD_ACCOUNT_END));
   } catch (err) {
     yield put(fetchFailed(err.message));
   }

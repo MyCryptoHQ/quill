@@ -10,6 +10,7 @@ import slice, {
   addAccount,
   fetchAccounts,
   fetchAccountsWorker,
+  fetchFailed,
   removeAccount,
   removeAccountWorker
 } from './account.slice';
@@ -47,6 +48,12 @@ describe('AccountSlice', () => {
     );
     expect(result.isFetching).toBe(true);
   });
+
+  it('fetchFailed(): sets error', () => {
+    const error = 'error';
+    const result = slice.reducer({ accounts: [], isFetching: false }, fetchFailed(error));
+    expect(result.fetchError).toBe(error);
+  });
 });
 
 describe('fetchAccountWorker()', () => {
@@ -71,6 +78,17 @@ describe('fetchAccountWorker()', () => {
         wallet: input
       })
       .put(addAccount({ ...fAccount, dPath: undefined, persistent: true }))
+      .silentRun();
+  });
+
+  it('overwrites existing account', () => {
+    const input = { ...wallet, persistent: false };
+    return expectSaga(fetchAccountsWorker, fetchAccounts([input]))
+      .withState({ accounts: { accounts: [fAccount] } })
+      .provide([[call.fn(ipcBridgeRenderer.crypto.invoke), fAccount.address]])
+      .call(ipcBridgeRenderer.crypto.invoke, { type: CryptoRequestType.GET_ADDRESS, wallet: input })
+      .put(removeAccount(fAccount))
+      .put(addAccount({ ...fAccount, dPath: undefined }))
       .silentRun();
   });
 });

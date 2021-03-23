@@ -3,6 +3,7 @@ import { Route } from '@types';
 import {
   Accounts,
   AddAccount,
+  AddAccountEnd,
   CreatePassword,
   CreateWallet,
   ForgotPassword,
@@ -33,6 +34,12 @@ export const ROUTES: Record<string, Route> = {
   ADD_ACCOUNT: {
     path: ROUTE_PATHS.ADD_ACCOUNT,
     component: AddAccount,
+    exact: true,
+    requireLogin: true
+  },
+  ADD_ACCOUNT_END: {
+    path: ROUTE_PATHS.ADD_ACCOUNT_END,
+    component: AddAccountEnd,
     exact: true,
     requireLogin: true
   },

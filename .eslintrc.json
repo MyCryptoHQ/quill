@@ -21,7 +21,7 @@
         "groups": [["builtin", "external"], "internal", ["parent", "sibling", "index"]],
         "pathGroups": [
           {
-            "pattern": "@{api,app,assets,components,screens,utils,types,config,bridge,fixtures,theme,translations}{**,**/**}",
+            "pattern": "@{api,app,assets,components,screens,utils,types,config,bridge,fixtures,theme,translations,data}{**,**/**}",
             "group": "internal"
           },
           {

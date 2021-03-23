@@ -4,7 +4,7 @@ import { Box, Image } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import { selectTransaction, useDispatch } from '@app/store';
 import circleArrow from '@assets/icons/circle-arrow.svg';
-import approved from '@assets/icons/queue-approved.svg';
+import approved from '@assets/icons/circle-checkmark.svg';
 import denied from '@assets/icons/queue-denied.svg';
 import { TxHistoryEntry, TxResult } from '@types';
 
