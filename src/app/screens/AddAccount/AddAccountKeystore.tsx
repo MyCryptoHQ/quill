@@ -1,6 +1,6 @@
 import React, { FormEvent } from 'react';
 
-import { boolean, instance, object, refine, string } from 'superstruct';
+import { boolean, instance, object, optional, refine, string } from 'superstruct';
 import { FormError, useForm } from 'typed-react-form';
 
 import {
@@ -21,7 +21,7 @@ import { translate, translateRaw } from '@translations';
 import { WalletType } from '@types';
 
 const ADD_KEYSTORE_STRUCT = object({
-  keystore: refine(instance(File), 'Not empty', (value) => {
+  keystore: refine(optional(instance(File)), 'Not empty', (value) => {
     if (value) {
       return true;
     }
@@ -78,6 +78,7 @@ export const AddAccountKeystore = () => {
     <form onSubmit={handleSubmit}>
       <Box mb="150px">
         <FileBox my="2" onChange={changeKeystore} />
+        <FormError name="keystore" form={form} />
         <Box mt="2">
           <label>
             {translateRaw('KEYSTORE_PASSWORD')}
