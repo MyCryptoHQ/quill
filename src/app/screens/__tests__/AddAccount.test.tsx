@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { DPathsList } from '@data';
 import { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
@@ -11,6 +10,7 @@ import configureStore from 'redux-mock-store';
 import { handleRequest } from '@api/crypto';
 import { ApplicationState, fetchAccounts } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
+import { DPathsList } from '@data';
 import { fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey } from '@fixtures';
 import { AddAccount } from '@screens';
 import { translateRaw } from '@translations';
@@ -51,12 +51,12 @@ describe('AddAccount', () => {
   });
 
   it('can submit private key', async () => {
-    const { getByText, getByTestId } = getComponent();
+    const { getByText, getByTestId, container } = getComponent();
     const privateKeyButton = getByTestId('select-PRIVATE_KEY');
     expect(privateKeyButton).toBeDefined();
     fireEvent.click(privateKeyButton);
 
-    const privKeyInput = getByTestId('private-key-input');
+    const privKeyInput = container.querySelector('input[name="privateKey"]');
     expect(privKeyInput).toBeDefined();
     fireEvent.change(privKeyInput, { target: { value: fPrivateKey } });
 
@@ -66,7 +66,7 @@ describe('AddAccount', () => {
 
     const submitButton = getByText('Submit');
     expect(submitButton).toBeDefined();
-    fireEvent.click(submitButton);
+    await waitFor(() => fireEvent.click(submitButton));
 
     expect(mockStore.getActions()).toContainEqual(
       fetchAccounts([
@@ -80,19 +80,20 @@ describe('AddAccount', () => {
   });
 
   it('can submit keystore file', async () => {
-    const { getByLabelText, getByText, getByTestId } = getComponent();
+    const { container, getByText, getByTestId } = getComponent();
     const keystoreButton = getByTestId('select-KEYSTORE');
     expect(keystoreButton).toBeDefined();
     fireEvent.click(keystoreButton);
 
-    const keystoreFile = new Blob([fKeystore], { type: 'application/json' });
+    const keystoreBlob = new Blob([fKeystore], { type: 'application/json' });
+    const keystoreFile = new File([keystoreBlob], 'keystore.json');
     keystoreFile.text = async () => fKeystore;
 
     const keystoreInput = getByTestId('file-upload');
     expect(keystoreInput).toBeDefined();
     fireEvent.change(keystoreInput, { target: { files: [keystoreFile] } });
 
-    const passwordInput = getByLabelText(translateRaw('KEYSTORE_PASSWORD'));
+    const passwordInput = container.querySelector('input[name="password"]');
     expect(passwordInput).toBeDefined();
     fireEvent.change(passwordInput, { target: { value: fKeystorePassword } });
 
@@ -117,7 +118,7 @@ describe('AddAccount', () => {
   });
 
   it('can submit keystore file via drag and drop', async () => {
-    const { getByLabelText, getByText, getByTestId } = getComponent();
+    const { container, getByText, getByTestId } = getComponent();
     const keystoreButton = getByTestId('select-KEYSTORE');
     expect(keystoreButton).toBeDefined();
     fireEvent.click(keystoreButton);
@@ -131,7 +132,7 @@ describe('AddAccount', () => {
     fireEvent.dragOver(keystoreInput);
     fireEvent.drop(keystoreInput, { dataTransfer: { files: [keystoreFile] } });
 
-    const passwordInput = getByLabelText(translateRaw('KEYSTORE_PASSWORD'));
+    const passwordInput = container.querySelector('input[name="password"]');
     expect(passwordInput).toBeDefined();
     fireEvent.change(passwordInput, { target: { value: fKeystorePassword } });
 

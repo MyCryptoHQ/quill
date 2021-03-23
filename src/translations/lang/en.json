@@ -68,6 +68,9 @@
     "ADD_ACCOUNT_END_HEADER": "MyCrypto Signer",
     "ADD_ACCOUNT_END_BODY": "You have successfully added your address(es) to the Signer.",
     "BACK_TO_HOME": "Back to Home",
-    "ADD_ANOTHER_ACCOUNT": "Add Another Account"
+    "ADD_ANOTHER_ACCOUNT": "Add Another Account",
+    "PRIVATE_KEY_EMPTY": "Please enter a private key",
+    "MNEMONIC_EMPTY": "Please enter a mnemonic phrase",
+    "KEYSTORE_EMPTY": "Please enter upload a keystore file"
   }
 }
