@@ -17,6 +17,7 @@ import {
   fTxRequest,
   getTransactionRequest
 } from '@fixtures';
+import { translateRaw } from '@translations';
 import { IAccount, WalletType } from '@types';
 import { makeQueueTx, makeTx } from '@utils';
 
@@ -122,20 +123,20 @@ describe('SignTransaction', () => {
 
   it('can accept tx with mnemonic', async () => {
     const {
-      component: { getByText, getByLabelText },
+      component: { getByText, getByLabelText, getByTestId },
       mockStore
     } = getComponentWithStore(fAccounts[1]);
     const acceptButton = getByText('Approve Transaction');
     expect(acceptButton.textContent).toBeDefined();
 
-    const mnemonicInput = getByLabelText('Mnemonic Phrase');
+    const mnemonicInput = getByTestId('mnemonic-input');
     expect(mnemonicInput).toBeDefined();
     fireEvent.change(mnemonicInput, { target: { value: fMnemonicPhrase } });
 
-    const passwordInput = getByLabelText('Password');
+    const passwordInput = getByLabelText(translateRaw('MNEMONIC_PASSWORD'));
     fireEvent.change(passwordInput, { target: { value: 'password' } });
 
-    fireEvent.click(acceptButton);
+    await waitFor(() => fireEvent.click(acceptButton));
 
     const transactionRequest = getTransactionRequest(fAccounts[1].address);
     expect(mockStore.getActions()).toContainEqual(
