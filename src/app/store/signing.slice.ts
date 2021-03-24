@@ -1,8 +1,10 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider';
 import { parse } from '@ethersproject/transactions';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { push } from 'connected-react-router';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 
+import { ROUTE_PATHS } from '@app/routing';
 import { ipcBridgeRenderer } from '@bridge';
 import { CryptoRequestType, SerializedPersistentAccount, SerializedWallet, TxResult } from '@types';
 import { makeHistoryTx } from '@utils';
@@ -75,4 +77,6 @@ export function* signWorker({
   yield put(addToHistory(txEntry));
 
   yield put(selectTransaction(txEntry));
+
+  yield put(push(ROUTE_PATHS.TX));
 }
