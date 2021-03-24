@@ -1,4 +1,4 @@
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAction, createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { replace } from 'connected-react-router';
 import { persistReducer } from 'redux-persist';
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
@@ -11,17 +11,24 @@ import {
   IAccount,
   SerializedMnemonicPhrase,
   SerializedWallet,
-  TAddress
+  TAddress,
+  WalletType
 } from '@types';
 import { generateDeterministicAddressUUID } from '@utils';
 
 import { ApplicationState } from './store';
 import { storage } from './utils';
 
+export const DEFAULT_DERIVATION_PATH = `m/44'/60'/0'/0/0`;
+
 export interface AccountsState {
   accounts: IAccount[];
   isFetching: boolean;
   fetchError?: string;
+  generatedAccount?: {
+    mnemonicPhrase: string;
+    address: TAddress;
+  };
 }
 
 export const initialState: AccountsState = {
@@ -55,11 +62,26 @@ const slice = createSlice({
     fetchReset(state) {
       state.isFetching = false;
       state.fetchError = undefined;
+    },
+    setGeneratedAccount(
+      state,
+      action: PayloadAction<{ mnemonicPhrase: string; address: TAddress } | undefined>
+    ) {
+      state.generatedAccount = action.payload;
     }
   }
 });
 
-export const { addAccount, removeAccount, fetchAccounts, fetchFailed, fetchReset } = slice.actions;
+export const {
+  addAccount,
+  removeAccount,
+  fetchAccounts,
+  fetchFailed,
+  fetchReset,
+  setGeneratedAccount
+} = slice.actions;
+
+export const generateAccount = createAction(`${sliceName}/generateAccount`);
 
 export default slice;
 
@@ -84,13 +106,30 @@ export const getAccountError = createSelector(
   (accounts) => accounts.fetchError
 );
 
+export const getAccountsLength = createSelector(getAccounts, (accounts) => accounts.length);
+
+export const getGeneratedAccount = createSelector(
+  (state: ApplicationState) => state.accounts,
+  (accounts) => accounts.generatedAccount
+);
+
+export const getGeneratedMnemonicWords = createSelector(getGeneratedAccount, (account) =>
+  account?.mnemonicPhrase.split(' ')
+);
+
+export const getGeneratedAddress = createSelector(
+  getGeneratedAccount,
+  (account) => account?.address
+);
+
 /**
  * Sagas
  */
 export function* accountsSaga() {
   yield all([
     takeLatest(fetchAccounts.type, fetchAccountsWorker),
-    takeLatest(removeAccount.type, removeAccountWorker)
+    takeLatest(removeAccount.type, removeAccountWorker),
+    takeLatest(generateAccount.type, generateAccountWorker)
   ]);
 }
 
@@ -144,4 +183,22 @@ export function* removeAccountWorker({ payload: account }: PayloadAction<IAccoun
       uuid: account.uuid
     });
   }
+}
+
+export function* generateAccountWorker() {
+  const mnemonicPhrase: string = yield call(ipcBridgeRenderer.crypto.invoke, {
+    type: CryptoRequestType.CREATE_WALLET,
+    wallet: WalletType.MNEMONIC
+  });
+
+  const address: TAddress = yield call(ipcBridgeRenderer.crypto.invoke, {
+    type: CryptoRequestType.GET_ADDRESS,
+    wallet: {
+      walletType: WalletType.MNEMONIC,
+      path: DEFAULT_DERIVATION_PATH,
+      mnemonicPhrase
+    }
+  });
+
+  yield put(setGeneratedAccount({ mnemonicPhrase, address }));
 }

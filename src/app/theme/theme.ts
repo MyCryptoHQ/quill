@@ -92,7 +92,7 @@ export const LINK_VARIANTS = {
 };
 
 const BUTTON_VARIANTS = {
-  default: {
+  primary: {
     p: '3',
     width: '100%',
     bg: 'BLUE_LIGHT',
@@ -232,6 +232,11 @@ export const theme: DefaultTheme = {
       borderColor: 'RED',
       boxShadow: '0px 1px 1px rgba(232, 234, 237, 0.5), inset 0px 1px 3px rgba(232, 234, 237, 0.5)',
       borderRadius: 0
+    },
+    none: {
+      margin: '0',
+      padding: '0',
+      border: 'none'
     }
   },
   variants: {

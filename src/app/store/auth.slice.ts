@@ -84,7 +84,7 @@ export function* createPasswordWorker({ payload }: PayloadAction<string>) {
 
   if (result) {
     yield put(createPasswordSuccess());
-    yield put(push(ROUTE_PATHS.HOME));
+    yield put(push(ROUTE_PATHS.SETUP_ACCOUNT));
     return;
   }
 

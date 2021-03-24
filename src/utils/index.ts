@@ -7,3 +7,4 @@ export * from './json';
 export * from './date';
 export * from './bigify';
 export * from './keystore';
+export * from './chunk';

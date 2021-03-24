@@ -1,3 +1,4 @@
+import { GenerateAccountEnd } from '@screens/GenerateAccount';
 import { Route } from '@types';
 
 import {
@@ -5,11 +6,12 @@ import {
   AddAccount,
   AddAccountEnd,
   CreatePassword,
-  CreateWallet,
   ForgotPassword,
+  GenerateAccount,
   Home,
   Locked,
   Menu,
+  SetupAccount,
   SignTransaction,
   Transaction
 } from '../screens';
@@ -31,6 +33,12 @@ export const ROUTES: Record<string, Route> = {
     exact: true,
     requireLogin: true
   },
+  SETUP_ACCOUNT: {
+    path: ROUTE_PATHS.SETUP_ACCOUNT,
+    component: SetupAccount,
+    exact: true,
+    requireLogin: true
+  },
   ADD_ACCOUNT: {
     path: ROUTE_PATHS.ADD_ACCOUNT,
     component: AddAccount,
@@ -43,18 +51,24 @@ export const ROUTES: Record<string, Route> = {
     exact: true,
     requireLogin: true
   },
+  GENERATE_ACCOUNT: {
+    path: ROUTE_PATHS.GENERATE_ACCOUNT,
+    component: GenerateAccount,
+    exact: true,
+    requireLogin: true
+  },
+  GENERATE_ACCOUNT_END: {
+    path: ROUTE_PATHS.GENERATE_ACCOUNT_END,
+    component: GenerateAccountEnd,
+    exact: true,
+    requireLogin: true
+  },
   ACCOUNTS: { path: ROUTE_PATHS.ACCOUNTS, component: Accounts, exact: true, requireLogin: true },
   FORGOT_PASSWORD: {
     path: ROUTE_PATHS.FORGOT_PASSWORD,
     component: ForgotPassword,
     exact: true,
     requireLogin: false
-  },
-  CREATE_WALLET: {
-    path: ROUTE_PATHS.CREATE_WALLET,
-    component: CreateWallet,
-    exact: true,
-    requireLogin: true
   },
   MENU: {
     path: ROUTE_PATHS.MENU,
