@@ -20,7 +20,7 @@ export const FormError = <
   const { error } = useListener(form, name);
 
   return (
-    <Body variant="error" form={form as any} {...rest}>
+    <Body variant="error" {...rest}>
       {error}
     </Body>
   );
