@@ -1,7 +1,7 @@
 import React, { FormEvent, useEffect } from 'react';
 
 import { boolean, Infer, object, refine, string } from 'superstruct';
-import { AnyListener, DefaultState, FormError, FormState, useForm } from 'typed-react-form';
+import { AnyListener, DefaultState, FormState, useForm } from 'typed-react-form';
 
 import {
   Body,
@@ -9,6 +9,7 @@ import {
   Button,
   DPathSelector,
   FormCheckbox,
+  FormError,
   FormInput,
   FormTextArea,
   Image,

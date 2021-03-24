@@ -9,11 +9,11 @@ export const SignBottom = ({
   handleDeny
 }: {
   disabled: boolean;
-  handleAccept(): void;
+  handleAccept?(): void;
   handleDeny(): void;
 }) => (
   <PanelBottom>
-    <Button id="accept_button" type="button" disabled={disabled} onClick={handleAccept}>
+    <Button id="accept_button" type="submit" disabled={disabled} onClick={handleAccept}>
       {translateRaw('APPROVE_TX')}
     </Button>
     <Box width="100%" pt="3" px="3" sx={{ textAlign: 'center' }}>

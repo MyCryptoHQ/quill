@@ -63,17 +63,17 @@ describe('SignTransaction', () => {
 
   it('can accept tx with private key', async () => {
     const {
-      component: { getByText, getByLabelText },
+      component: { getByText, container },
       mockStore
     } = getComponentWithStore();
     await waitFor(() => expect(getByText('Approve Transaction')?.textContent).toBeDefined());
 
-    const privkeyInput = getByLabelText('Private Key');
+    const privkeyInput = container.querySelector('input[name="privateKey"]');
     expect(privkeyInput).toBeDefined();
     fireEvent.change(privkeyInput, { target: { value: fPrivateKey } });
 
     const acceptButton = getByText('Approve Transaction');
-    fireEvent.click(acceptButton);
+    await waitFor(() => fireEvent.click(acceptButton));
 
     expect(mockStore.getActions()).toContainEqual(
       sign({
@@ -88,19 +88,20 @@ describe('SignTransaction', () => {
 
   it('can accept tx with keystore', async () => {
     const {
-      component: { getByText, getByLabelText },
+      component: { getByText, container, getByTestId },
       mockStore
     } = getComponentWithStore(fAccounts[3]);
     await waitFor(() => expect(getByText('Approve Transaction')?.textContent).toBeDefined());
 
-    const keystoreFile = new Blob([fKeystore], { type: 'application/json' });
+    const keystoreBlob = new Blob([fKeystore], { type: 'application/json' });
+    const keystoreFile = new File([keystoreBlob], 'keystore.json');
     keystoreFile.text = async () => fKeystore;
 
-    const keystoreInput = getByLabelText('Keystore');
+    const keystoreInput = getByTestId('file-upload');
     expect(keystoreInput).toBeDefined();
     fireEvent.change(keystoreInput, { target: { files: [keystoreFile] } });
 
-    const passwordInput = getByLabelText('Password');
+    const passwordInput = container.querySelector('input[name="password"]');
     expect(passwordInput).toBeDefined();
     fireEvent.change(passwordInput, { target: { value: fKeystorePassword } });
 

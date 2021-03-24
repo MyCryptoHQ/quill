@@ -201,6 +201,11 @@ export const theme: DefaultTheme = {
       fontSize: 2,
       lineHeight: 1,
       color: 'BODY'
+    },
+    error: {
+      fontSize: 2,
+      lineHeight: 1,
+      color: 'RED'
     }
   },
   forms: {

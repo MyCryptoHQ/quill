@@ -3,7 +3,7 @@ import React, { FormEvent } from 'react';
 import { createPassword, useDispatch } from '@store';
 import { passwordStrength } from 'check-password-strength';
 import { object, refine, string } from 'superstruct';
-import { FormError, useForm } from 'typed-react-form';
+import { useForm } from 'typed-react-form';
 
 import { getValidator } from '@app/utils';
 import warning from '@assets/icons/circle-warning.svg';
@@ -12,6 +12,7 @@ import {
   Box,
   Button,
   Flex,
+  FormError,
   FormInput,
   Heading,
   Image,
