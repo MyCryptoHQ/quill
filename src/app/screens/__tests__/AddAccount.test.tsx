@@ -32,7 +32,9 @@ jest.mock('@bridge', () => ({
 }));
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
-const mockStore = createMockStore();
+const mockStore = createMockStore({
+  accounts: { accounts: [], isFetching: false, fetchError: undefined }
+});
 
 function getComponent(store: EnhancedStore<DeepPartial<ApplicationState>> = mockStore) {
   return render(
