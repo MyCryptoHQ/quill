@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Body, Box, Button, FormCheckbox, PanelBottom } from '@app/components';
-import { fetchAccounts, useDispatch } from '@app/store';
+import { fetchAccounts, getAccountError, useDispatch, useSelector } from '@app/store';
 import { translateRaw } from '@translations';
 import { WalletType } from '@types';
 
@@ -10,6 +10,13 @@ import { PrivateKeyForm, usePrivateKeyForm } from '../forms/PrivateKeyForm';
 export const AddAccountPrivateKey = () => {
   const form = usePrivateKeyForm();
   const dispatch = useDispatch();
+  const error: string = useSelector(getAccountError);
+
+  useEffect(() => {
+    if (error && error.length > 0) {
+      form.setError('privateKey', error);
+    }
+  }, [error]);
 
   const handleSubmit = () => {
     dispatch(

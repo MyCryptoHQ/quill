@@ -6,6 +6,7 @@ export {
   removeAccount,
   fetchAccounts,
   getAccounts,
+  getError as getAccountError,
   AccountsState
 } from './account.slice';
 export { setLoggedIn, setNewUser, login, logout, createPassword } from './auth.slice';
@@ -16,4 +17,4 @@ export {
   denyCurrentTransaction,
   selectTransaction
 } from './transactions.slice';
-export { sign } from './signing.slice';
+export { sign, getError as getSigningError } from './signing.slice';

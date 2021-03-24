@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { SignBottom } from '@app/components';
+import { getSigningError, useSelector } from '@app/store';
 import { SignTransactionProps, WalletType } from '@types';
 
 import { MnemonicForm, useMnemonicForm } from '../forms/MnemonicForm';
@@ -11,6 +12,14 @@ export const SignTransactionMnemonic = ({
   currentAccount
 }: SignTransactionProps) => {
   const form = useMnemonicForm();
+
+  const error: string = useSelector(getSigningError);
+
+  useEffect(() => {
+    if (error && error.length > 0) {
+      form.setError('mnemonic', error);
+    }
+  }, [error]);
 
   const handleSubmit = async () => {
     return onAccept({

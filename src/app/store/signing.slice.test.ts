@@ -25,12 +25,12 @@ const tx = makeTx(fTxRequest);
 
 describe('SigningSlice', () => {
   it('sign(): sets signing to true', () => {
-    const result = slice.reducer({ isSigning: false }, sign({ wallet, tx }));
+    const result = slice.reducer({ isSigning: false, error: undefined }, sign({ wallet, tx }));
     expect(result.isSigning).toBe(true);
   });
 
   it('signSuccess(): sets signing to false', () => {
-    const result = slice.reducer({ isSigning: true }, signSuccess());
+    const result = slice.reducer({ isSigning: true, error: undefined }, signSuccess());
     expect(result.isSigning).toBe(false);
   });
 });
