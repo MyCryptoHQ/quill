@@ -7,6 +7,7 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import { ipcBridgeRenderer } from '@bridge';
+import { fAccount } from '@fixtures';
 import { translateRaw } from '@translations';
 import { DBRequestType } from '@types';
 
@@ -50,7 +51,9 @@ describe('App', () => {
       // @ts-expect-error Brand bug with DeepPartial
       createMockStore({
         auth: { loggedIn: true, newUser: false },
-        transactions: { queue: [], history: [] }
+        transactions: { queue: [], history: [] },
+        // @ts-expect-error Brand bug with DeepPartial
+        accounts: { accounts: [fAccount] }
       })
     );
     await waitFor(() =>

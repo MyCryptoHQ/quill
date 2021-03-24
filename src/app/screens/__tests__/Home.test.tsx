@@ -59,8 +59,11 @@ describe('Home', () => {
 
   it('renders empty state', async () => {
     const { getByText } = getComponent(
-      // @ts-expect-error Brand bug with DeepPartial
-      createMockStore({ accounts: [fAccount], transactions: { queue: [], history: [] } })
+      createMockStore({
+        // @ts-expect-error Brand bug with DeepPartial
+        accounts: { accounts: [fAccount] },
+        transactions: { queue: [], history: [] }
+      })
     );
     expect(
       getByText('There are no transactions in your Signer at this time', { exact: false })

@@ -132,14 +132,14 @@ describe('createPasswordWorker', () => {
       .silentRun();
   });
 
-  it('navigates to the dashboard on succesful login', () => {
+  it('navigates to the setup page on succesful login', () => {
     return expectSaga(createPasswordWorker, createPassword('foobar'))
       .provide([[call.fn(ipcBridgeRenderer.db.invoke), true]])
       .call(ipcBridgeRenderer.db.invoke, {
         type: DBRequestType.INIT,
         password: 'foobar'
       })
-      .put(push(ROUTE_PATHS.HOME))
+      .put(push(ROUTE_PATHS.SETUP_ACCOUNT))
       .silentRun();
   });
 
