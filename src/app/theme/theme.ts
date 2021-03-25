@@ -116,7 +116,7 @@ const BUTTON_VARIANTS = {
     p: '3',
     width: '100%',
     borderColor: 'BLUE_LIGHT',
-    borderWidth: '1px',
+    borderWidth: '2px',
     borderStyle: 'solid',
     color: 'BLUE_LIGHT',
     bg: 'white',
