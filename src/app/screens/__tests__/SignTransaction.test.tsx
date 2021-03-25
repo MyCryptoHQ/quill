@@ -63,7 +63,7 @@ describe('SignTransaction', () => {
     const {
       component: { getByText }
     } = getComponentWithStore();
-    expect(getByText('Approve Transaction').textContent).toBeDefined();
+    expect(getByText(translateRaw('APPROVE_TX')).textContent).toBeDefined();
   });
 
   it('can accept tx with private key', async () => {
@@ -71,13 +71,13 @@ describe('SignTransaction', () => {
       component: { getByText, container },
       mockStore
     } = getComponentWithStore();
-    await waitFor(() => expect(getByText('Approve Transaction')?.textContent).toBeDefined());
+    await waitFor(() => expect(getByText(translateRaw('APPROVE_TX'))?.textContent).toBeDefined());
 
     const privkeyInput = container.querySelector('input[name="privateKey"]');
     expect(privkeyInput).toBeDefined();
     fireEvent.change(privkeyInput, { target: { value: fPrivateKey } });
 
-    const acceptButton = getByText('Approve Transaction');
+    const acceptButton = getByText(translateRaw('APPROVE_TX'));
     await waitFor(() => fireEvent.click(acceptButton));
 
     expect(mockStore.getActions()).toContainEqual(
@@ -96,7 +96,7 @@ describe('SignTransaction', () => {
       component: { getByText, container, getByTestId },
       mockStore
     } = getComponentWithStore(fAccounts[3]);
-    await waitFor(() => expect(getByText('Approve Transaction')?.textContent).toBeDefined());
+    await waitFor(() => expect(getByText(translateRaw('APPROVE_TX'))?.textContent).toBeDefined());
 
     const keystoreBlob = new Blob([fKeystore], { type: 'application/json' });
     const keystoreFile = new File([keystoreBlob], 'keystore.json');
@@ -110,18 +110,20 @@ describe('SignTransaction', () => {
     expect(passwordInput).toBeDefined();
     fireEvent.change(passwordInput, { target: { value: fKeystorePassword } });
 
-    const acceptButton = getByText('Approve Transaction');
+    const acceptButton = getByText(translateRaw('APPROVE_TX'));
     await waitFor(() => fireEvent.click(acceptButton));
 
-    expect(mockStore.getActions()).toContainEqual(
-      sign({
-        wallet: {
-          walletType: WalletType.KEYSTORE,
-          keystore: fKeystore,
-          password: fKeystorePassword
-        },
-        tx: makeTx(fTxRequest)
-      })
+    await waitFor(() =>
+      expect(mockStore.getActions()).toContainEqual(
+        sign({
+          wallet: {
+            walletType: WalletType.KEYSTORE,
+            keystore: fKeystore,
+            password: fKeystorePassword
+          },
+          tx: makeTx(fTxRequest)
+        })
+      )
     );
   });
 
@@ -130,7 +132,7 @@ describe('SignTransaction', () => {
       component: { getByText, getByLabelText, getByTestId },
       mockStore
     } = getComponentWithStore(fAccounts[1]);
-    const acceptButton = getByText('Approve Transaction');
+    const acceptButton = getByText(translateRaw('APPROVE_TX'));
     expect(acceptButton.textContent).toBeDefined();
 
     const mnemonicInput = getByTestId('mnemonic-input');

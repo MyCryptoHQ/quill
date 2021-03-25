@@ -8,6 +8,7 @@ import configureStore from 'redux-mock-store';
 
 import { ApplicationState, denyCurrentTransaction, sign } from '@app/store';
 import { fAccount, fAccounts, getTransactionRequest } from '@fixtures';
+import { translateRaw } from '@translations';
 import { IAccount, TSignTransaction } from '@types';
 import { makeQueueTx, makeTx } from '@utils';
 
@@ -68,7 +69,7 @@ describe('Transaction', () => {
       component: { getByText },
       mockStore
     } = getComponentWithStore(fAccounts[2]);
-    const acceptButton = getByText('Approve Transaction');
+    const acceptButton = getByText(translateRaw('APPROVE_TX'));
     expect(acceptButton.textContent).toBeDefined();
 
     fireEvent.click(acceptButton);

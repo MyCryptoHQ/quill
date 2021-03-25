@@ -187,7 +187,8 @@
     "typed-react-form": "1.2.8",
     "uuid": "3.2.1",
     "uuid-by-string": "MyCryptoHQ/uuid-by-string#36afddc",
-    "ws": "7.3.1"
+    "ws": "7.3.1",
+    "yup": "0.32.9"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [

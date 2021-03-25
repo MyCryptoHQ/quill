@@ -9,6 +9,11 @@ import { KeystoreForm, useKeystoreForm } from '../forms/KeystoreForm';
 
 export const AddAccountKeystore = () => {
   const form = useKeystoreForm();
+
+  return <AddAccountKeystoreForm form={form} />;
+};
+
+const AddAccountKeystoreForm = ({ form }: { form: ReturnType<typeof useKeystoreForm> }) => {
   const dispatch = useDispatch();
   const error: string = useSelector(getAccountError);
 

@@ -130,15 +130,17 @@ describe('AddAccount', () => {
     expect(submitButton).toBeDefined();
     await waitFor(() => fireEvent.click(submitButton));
 
-    expect(mockStore.getActions()).toContainEqual(
-      fetchAccounts([
-        {
-          walletType: WalletType.KEYSTORE,
-          keystore: fKeystore,
-          password: fKeystorePassword,
-          persistent: true
-        }
-      ])
+    await waitFor(() =>
+      expect(mockStore.getActions()).toContainEqual(
+        fetchAccounts([
+          {
+            walletType: WalletType.KEYSTORE,
+            keystore: fKeystore,
+            password: fKeystorePassword,
+            persistent: true
+          }
+        ])
+      )
     );
   });
 

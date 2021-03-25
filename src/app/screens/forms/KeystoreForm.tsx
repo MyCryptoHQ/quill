@@ -1,40 +1,26 @@
 import React, { FormEvent, ReactNode } from 'react';
 
-import { boolean, instance, object, refine, string } from 'superstruct';
-import { useForm } from 'typed-react-form';
+import { useForm, yupValidator } from 'typed-react-form';
+import { mixed, object, string } from 'yup';
 
 import { Body, Box, FileBox, FormError, FormInput, Image } from '@app/components';
-import { getValidator } from '@app/utils';
 import warning from '@assets/icons/circle-warning.svg';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
 import { translate, translateRaw } from '@translations';
 
-const ADD_KEYSTORE_STRUCT = object({
-  keystore: refine(instance(File), 'Not empty', (value) => {
-    if (value) {
-      return true;
-    }
-
-    return translateRaw('KEYSTORE_EMPTY');
-  }),
-  password: refine(string(), 'Not empty', (value) => {
-    if (value.length > 0) {
-      return true;
-    }
-
-    return translateRaw('PASSWORD_EMPTY');
-  }),
-  persistent: boolean()
+const ADD_KEYSTORE_SCHEMA = object({
+  keystore: mixed().test('Not empty', translateRaw('KEYSTORE_EMPTY'), (value) => value),
+  password: string().required(translateRaw('PASSWORD_EMPTY'))
 });
 
 export const useKeystoreForm = () =>
   useForm(
     {
-      keystore: undefined,
+      keystore: undefined as File | undefined,
       password: '',
       persistent: true
     },
-    getValidator(ADD_KEYSTORE_STRUCT),
+    yupValidator(ADD_KEYSTORE_SCHEMA),
     true
   );
 
