@@ -1,20 +1,47 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { ROUTE_PATHS } from '@routing';
+import html2canvas from 'html2canvas';
 
-import { Address, Body, Box, Button, Heading, Link, LinkApp, Panel } from '@components';
+import {
+  Address,
+  Body,
+  Box,
+  Button,
+  Heading,
+  Link,
+  LinkApp,
+  Panel,
+  PaperWallet
+} from '@components';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
 import { DEFAULT_DERIVATION_PATH, getGeneratedAccount, useSelector } from '@store';
 import { translate, translateRaw } from '@translations';
 
 export const GenerateAccountEnd = () => {
+  const paperWallet = useRef<HTMLDivElement>();
   const [showMnemonicPhrase, setShowMnemonicPhrase] = useState(false);
+  const [paperWalletImage, setPaperWalletImage] = useState<string>();
   const { address, mnemonicPhrase } = useSelector(getGeneratedAccount);
 
   const handleClick = () => setShowMnemonicPhrase(true);
 
+  useEffect(() => {
+    if (paperWallet.current) {
+      // Timeout is required to make sure the QR codes are rendered
+      setTimeout(() => {
+        html2canvas(paperWallet.current)
+          .then((canvas) => canvas.toDataURL())
+          .then(setPaperWalletImage);
+      }, 1000);
+    }
+  }, [paperWallet]);
+
   return (
     <Box>
+      <Box sx={{ position: 'absolute', top: '-1000%', left: '-1000%' }}>
+        <PaperWallet ref={paperWallet} address={address} privateKey={mnemonicPhrase} />
+      </Box>
       <Box sx={{ textAlign: 'center' }} mb="4">
         <Heading fontSize="24px" lineHeight="150%">
           {translateRaw('NEW_ACCOUNT_TITLE')}
@@ -44,7 +71,9 @@ export const GenerateAccountEnd = () => {
           $link: getKBHelpArticle(KB_HELP_ARTICLE.HOW_TO_BACKUP)
         })}
       </Body>
-      <Button mb="3">{translateRaw('PRINT_PAPER_WALLET')}</Button>
+      <Link href={paperWalletImage} download={`paper-wallet-${address}`}>
+        <Button mb="3">{translateRaw('PRINT_PAPER_WALLET')}</Button>
+      </Link>
       <LinkApp href={ROUTE_PATHS.HOME}>
         <Button variant="inverted" mb="3">
           {translateRaw('PAPER_WALLET_PRINTED')}

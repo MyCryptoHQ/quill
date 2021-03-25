@@ -69,7 +69,7 @@ export const PaperWallet = forwardRef(({ address, privateKey }: PaperWalletProps
           <QR size={150} data={privateKey} />
         </Block>
       </Flex>
-      <Box pl="20px">
+      <Box px="20px">
         <Flex variant="rowAlign" justifyContent="space-between">
           <Box>
             <Code fontSize="14px">

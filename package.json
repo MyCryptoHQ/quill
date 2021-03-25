@@ -172,6 +172,7 @@
     "electron-traywindow-positioner": "1.1.0",
     "ethereum-blockies-base64": "1.0.2",
     "ethereumjs-wallet": "1.0.1",
+    "html2canvas": "1.0.0-rc.7",
     "keytar": "7.6.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
