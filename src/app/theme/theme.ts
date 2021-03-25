@@ -179,7 +179,8 @@ export const theme: DefaultTheme = {
     PURPLE: '#A682FF'
   },
   fonts: {
-    default: "'Lato', sans-serif"
+    default: "'Lato', sans-serif",
+    monospace: "'Roboto Mono', monospace"
   },
   fontSizes: ['10px', '12px', '16px', '18px', '20px', '40px'],
   lineHeights: ['16px', '24px', '48px'],

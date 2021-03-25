@@ -102,6 +102,10 @@
     "DERIVATION_PATH": "**Derivation Path:**",
     "PAPER_WALLET_DESCRIPTION": "Your paper wallet includes everything you need to access this account in the future. [**Keep it safe!** No one can recover this account should you lose your recovery phrase.] [Read more]($link)",
     "PRINT_PAPER_WALLET": "Print Paper Wallet",
-    "PAPER_WALLET_PRINTED": "My Phrase is on Paper and Stored Safely"
+    "PAPER_WALLET_PRINTED": "My Phrase is on Paper and Stored Safely",
+    "YOUR_ADDRESS": "Your Address",
+    "YOUR_MNEMONIC_PHRASE": "Your Mnemonic Phrase",
+    "NOTES": "Notes",
+    "BLOCKIE_NOTICE": "Always look for this icon when sending to this wallet"
   }
 }
