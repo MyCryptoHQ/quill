@@ -6,13 +6,21 @@ import { SignTransactionProps, WalletType } from '@types';
 
 import { KeystoreForm, useKeystoreForm } from '../forms/KeystoreForm';
 
-export const SignTransactionKeystore = ({ onAccept, onDeny }: SignTransactionProps) => {
+export const SignTransactionKeystore = (props: SignTransactionProps) => {
   const form = useKeystoreForm();
 
+  return <SignTransactionKeystoreForm {...props} form={form} />;
+};
+
+const SignTransactionKeystoreForm = ({
+  onAccept,
+  onDeny,
+  form
+}: SignTransactionProps & { form: ReturnType<typeof useKeystoreForm> }) => {
   const error: string = useSelector(getSigningError);
 
   useEffect(() => {
-    if (error && error.length > 0) {
+    if (form.errorMap['keystore'] != error) {
       form.setError('keystore', error);
     }
   }, [error]);

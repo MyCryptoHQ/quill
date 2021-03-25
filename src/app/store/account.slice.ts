@@ -51,11 +51,15 @@ const slice = createSlice({
     fetchFailed(state, action: PayloadAction<string>) {
       state.isFetching = false;
       state.fetchError = action.payload;
+    },
+    fetchReset(state) {
+      state.isFetching = false;
+      state.fetchError = undefined;
     }
   }
 });
 
-export const { addAccount, removeAccount, fetchAccounts, fetchFailed } = slice.actions;
+export const { addAccount, removeAccount, fetchAccounts, fetchFailed, fetchReset } = slice.actions;
 
 export default slice;
 

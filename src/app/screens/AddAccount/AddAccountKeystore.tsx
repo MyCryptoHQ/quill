@@ -13,7 +13,7 @@ export const AddAccountKeystore = () => {
   const error: string = useSelector(getAccountError);
 
   useEffect(() => {
-    if (error && error.length > 0) {
+    if (form.errorMap['keystore'] != error) {
       form.setError('keystore', error);
     }
   }, [error]);

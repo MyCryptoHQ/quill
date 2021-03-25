@@ -6,13 +6,23 @@ import { SignTransactionProps, WalletType } from '@types';
 
 import { PrivateKeyForm, usePrivateKeyForm } from '../forms/PrivateKeyForm';
 
-export const SignTransactionPrivateKey = ({ onAccept, onDeny }: SignTransactionProps) => {
+export const SignTransactionPrivateKey = (props: SignTransactionProps) => {
   const form = usePrivateKeyForm();
 
+  return <SignTransactionPrivateKeyForm form={form} {...props} />;
+};
+
+const SignTransactionPrivateKeyForm = ({
+  form,
+  onAccept,
+  onDeny
+}: Pick<SignTransactionProps, 'onAccept' | 'onDeny'> & {
+  form: ReturnType<typeof usePrivateKeyForm>;
+}) => {
   const error: string = useSelector(getSigningError);
 
   useEffect(() => {
-    if (error && error.length > 0) {
+    if (form.errorMap['privateKey'] != error) {
       form.setError('privateKey', error);
     }
   }, [error]);

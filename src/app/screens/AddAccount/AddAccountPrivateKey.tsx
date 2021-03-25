@@ -9,11 +9,16 @@ import { PrivateKeyForm, usePrivateKeyForm } from '../forms/PrivateKeyForm';
 
 export const AddAccountPrivateKey = () => {
   const form = usePrivateKeyForm();
+
+  return <AddAccountPrivateKeyForm form={form} />;
+};
+
+const AddAccountPrivateKeyForm = ({ form }: { form: ReturnType<typeof usePrivateKeyForm> }) => {
   const dispatch = useDispatch();
   const error: string = useSelector(getAccountError);
 
   useEffect(() => {
-    if (error && error.length > 0) {
+    if (form.errorMap['privateKey'] != error) {
       form.setError('privateKey', error);
     }
   }, [error]);

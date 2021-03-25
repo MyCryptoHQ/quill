@@ -7,6 +7,7 @@ export {
   fetchAccounts,
   getAccounts,
   getError as getAccountError,
+  fetchReset,
   AccountsState
 } from './account.slice';
 export { setLoggedIn, setNewUser, login, logout, createPassword } from './auth.slice';

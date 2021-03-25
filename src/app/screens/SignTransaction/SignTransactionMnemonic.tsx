@@ -6,17 +6,24 @@ import { SignTransactionProps, WalletType } from '@types';
 
 import { MnemonicForm, useMnemonicForm } from '../forms/MnemonicForm';
 
-export const SignTransactionMnemonic = ({
+export const SignTransactionMnemonic = (props: SignTransactionProps) => {
+  const form = useMnemonicForm();
+
+  return <SignTransactionMnemonicForm form={form} {...props} />;
+};
+
+const SignTransactionMnemonicForm = ({
+  form,
   onAccept,
   onDeny,
   currentAccount
-}: SignTransactionProps) => {
-  const form = useMnemonicForm();
-
+}: Pick<SignTransactionProps, 'onAccept' | 'onDeny' | 'currentAccount'> & {
+  form: ReturnType<typeof useMnemonicForm>;
+}) => {
   const error: string = useSelector(getSigningError);
 
   useEffect(() => {
-    if (error && error.length > 0) {
+    if (form.errorMap['mnemonic'] != error) {
       form.setError('mnemonic', error);
     }
   }, [error]);
