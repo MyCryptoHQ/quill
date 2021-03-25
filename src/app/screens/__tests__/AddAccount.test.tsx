@@ -49,7 +49,17 @@ function getComponent(store: EnhancedStore<DeepPartial<ApplicationState>> = mock
 describe('AddAccount', () => {
   it('renders', async () => {
     const { getByText } = getComponent();
-    expect(getByText('Submit').textContent).toBeDefined();
+    expect(getByText(translateRaw('SUBMIT')).textContent).toBeDefined();
+  });
+
+  it('renders errors from Redux', async () => {
+    const error = 'foobar';
+    const { getByText } = getComponent(
+      createMockStore({
+        accounts: { accounts: [], isFetching: false, fetchError: error }
+      })
+    );
+    expect(getByText(error).textContent).toBeDefined();
   });
 
   it('can submit private key', async () => {
@@ -66,7 +76,7 @@ describe('AddAccount', () => {
     fireEvent.click(persistenceInput);
     fireEvent.click(persistenceInput);
 
-    const submitButton = getByText('Submit');
+    const submitButton = getByText(translateRaw('SUBMIT'));
     expect(submitButton).toBeDefined();
     await waitFor(() => fireEvent.click(submitButton));
 
@@ -79,6 +89,19 @@ describe('AddAccount', () => {
         }
       ])
     );
+  });
+
+  it('shows private key form validation', async () => {
+    const { getByText, getByTestId } = getComponent();
+    const privateKeyButton = getByTestId('select-PRIVATE_KEY');
+    expect(privateKeyButton).toBeDefined();
+    fireEvent.click(privateKeyButton);
+
+    const submitButton = getByText(translateRaw('SUBMIT'));
+    expect(submitButton).toBeDefined();
+    await waitFor(() => fireEvent.click(submitButton));
+
+    expect(getByText(translateRaw('PRIVATE_KEY_EMPTY'))).toBeDefined();
   });
 
   it('can submit keystore file', async () => {
@@ -103,7 +126,7 @@ describe('AddAccount', () => {
     fireEvent.click(persistenceInput);
     fireEvent.click(persistenceInput);
 
-    const submitButton = getByText('Submit');
+    const submitButton = getByText(translateRaw('SUBMIT'));
     expect(submitButton).toBeDefined();
     await waitFor(() => fireEvent.click(submitButton));
 
@@ -198,6 +221,19 @@ describe('AddAccount', () => {
         }
       ])
     );
+  });
+
+  it('shows mnemonic form validation', async () => {
+    const { getByText, getByTestId } = getComponent();
+    const mnemonicButton = getByTestId('select-MNEMONIC');
+    expect(mnemonicButton).toBeDefined();
+    fireEvent.click(mnemonicButton);
+
+    const submitButton = getByText(translateRaw('NEXT'));
+    expect(submitButton).toBeDefined();
+    await waitFor(() => fireEvent.click(submitButton));
+
+    expect(getByText(translateRaw('MNEMONIC_EMPTY'))).toBeDefined();
   });
 
   it('can submit mnemonic from another DPath and page', async () => {

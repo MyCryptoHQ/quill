@@ -11,6 +11,7 @@ import slice, {
   fetchAccounts,
   fetchAccountsWorker,
   fetchFailed,
+  fetchReset,
   removeAccount,
   removeAccountWorker
 } from './account.slice';
@@ -54,6 +55,15 @@ describe('AccountSlice', () => {
     const result = slice.reducer({ accounts: [], isFetching: false }, fetchFailed(error));
     expect(result.fetchError).toBe(error);
   });
+
+  it('fetchReset(): resets fetch state', () => {
+    const result = slice.reducer(
+      { accounts: [], isFetching: true, fetchError: 'foo' },
+      fetchReset()
+    );
+    expect(result.fetchError).toBeUndefined();
+    expect(result.isFetching).toBe(false);
+  });
 });
 
 describe('fetchAccountWorker()', () => {
@@ -89,6 +99,20 @@ describe('fetchAccountWorker()', () => {
       .call(ipcBridgeRenderer.crypto.invoke, { type: CryptoRequestType.GET_ADDRESS, wallet: input })
       .put(removeAccount(fAccount))
       .put(addAccount({ ...fAccount, dPath: undefined }))
+      .silentRun();
+  });
+
+  it('handles errors', () => {
+    const input = { ...wallet, persistent: false };
+    return expectSaga(fetchAccountsWorker, fetchAccounts([input]))
+      .withState({ accounts: { accounts: [] } })
+      .provide({
+        call() {
+          throw new Error('error');
+        }
+      })
+      .call(ipcBridgeRenderer.crypto.invoke, { type: CryptoRequestType.GET_ADDRESS, wallet: input })
+      .put(fetchFailed('error'))
       .silentRun();
   });
 });
