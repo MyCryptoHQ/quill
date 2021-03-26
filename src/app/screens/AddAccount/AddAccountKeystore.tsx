@@ -24,19 +24,21 @@ const AddAccountKeystoreForm = ({ form }: { form: ReturnType<typeof useKeystoreF
   }, [error]);
 
   const handleSubmit = () => {
-    // @todo Handle errors
-    form.values.keystore.text().then((keystore) => {
-      dispatch(
-        fetchAccounts([
-          {
-            walletType: WalletType.KEYSTORE,
-            keystore,
-            password: form.values.password,
-            persistent: form.values.persistent
-          }
-        ])
-      );
-    });
+    form.values.keystore
+      .text()
+      .then((keystore) => {
+        dispatch(
+          fetchAccounts([
+            {
+              walletType: WalletType.KEYSTORE,
+              keystore,
+              password: form.values.password,
+              persistent: form.values.persistent
+            }
+          ])
+        );
+      })
+      .catch((err) => form.setError('keystore', err.message));
   };
 
   return (

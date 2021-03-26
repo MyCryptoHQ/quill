@@ -55,8 +55,8 @@ export const FileBox = ({
       >
         {fileName && (
           <Box variant="rowCenter" mb="2">
-            <Image src={checkmark} width="16px" height="16px" mr="2" />
-            <Body>{fileName}</Body>
+            <Image src={checkmark} minWidth="16px" width="16px" height="16px" mr="2" />
+            <Body sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}>{fileName}</Body>
           </Box>
         )}
         <label htmlFor="upload">

@@ -26,12 +26,12 @@ const SignTransactionKeystoreForm = ({
   }, [error]);
 
   const handleSubmit = () => {
-    // @todo Handle errors
     form.values.keystore
       .text()
       .then((keystore) =>
         onAccept({ walletType: WalletType.KEYSTORE, keystore, password: form.values.password })
-      );
+      )
+      .catch((err) => form.setError('keystore', err.message));
   };
 
   return (
