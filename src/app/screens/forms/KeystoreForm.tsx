@@ -3,7 +3,7 @@ import React, { FormEvent, ReactNode } from 'react';
 import { useForm, yupValidator } from 'typed-react-form';
 import { mixed, object, string } from 'yup';
 
-import { Body, Box, FileBox, FormError, FormInput, Image } from '@app/components';
+import { Body, Box, FormError, FormFileInput, FormInput, Image } from '@app/components';
 import warning from '@assets/icons/circle-warning.svg';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
 import { translate, translateRaw } from '@translations';
@@ -33,8 +33,6 @@ export const KeystoreForm = ({
   form: ReturnType<typeof useKeystoreForm>;
   children: ReactNode;
 }) => {
-  const changeKeystore = (f: File) => form.setValue('keystore', f);
-
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     await form.validate();
@@ -47,7 +45,7 @@ export const KeystoreForm = ({
   return (
     <form onSubmit={handleSubmit}>
       <Box mb="150px">
-        <FileBox my="2" onChange={changeKeystore} />
+        <FormFileInput name="keystore" form={form} my="2" />
         <FormError name="keystore" form={form} />
         <Box mt="2">
           <label>

@@ -6,8 +6,9 @@ import { translateRaw } from '@translations';
 
 export const FileBox = ({
   onChange,
+  error,
   ...props
-}: { onChange(file: File): void } & Omit<BoxProps, 'onChange'>) => {
+}: { onChange(file: File): void; error?: boolean } & Omit<BoxProps, 'onChange'>) => {
   const [fileName, setFileName] = useState<string | undefined>(undefined);
 
   // Needs to be set for onDrop to work
@@ -34,7 +35,7 @@ export const FileBox = ({
       sx={{
         borderWidth: '1px',
         borderStyle: 'solid',
-        borderColor: 'GREY_ATHENS',
+        borderColor: error ? 'RED' : 'GREY_ATHENS',
         boxShadow:
           '0px 1px 1px rgba(232, 234, 237, 0.5), inset 0px 1px 3px rgba(232, 234, 237, 0.5)',
         borderRadius: '6px'

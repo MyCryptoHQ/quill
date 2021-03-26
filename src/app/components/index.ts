@@ -27,3 +27,4 @@ export * from './FormInput';
 export * from './FormTextArea';
 export * from './FormCheckbox';
 export * from './FormError';
+export * from './FormFileInput';
