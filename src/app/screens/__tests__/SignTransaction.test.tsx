@@ -78,16 +78,18 @@ describe('SignTransaction', () => {
     fireEvent.change(privkeyInput, { target: { value: fPrivateKey } });
 
     const acceptButton = getByText(translateRaw('APPROVE_TX'));
-    await waitFor(() => fireEvent.click(acceptButton));
+    fireEvent.click(acceptButton);
 
-    expect(mockStore.getActions()).toContainEqual(
-      sign({
-        wallet: {
-          walletType: WalletType.PRIVATE_KEY,
-          privateKey: fPrivateKey
-        },
-        tx: makeTx(fTxRequest)
-      })
+    await waitFor(() =>
+      expect(mockStore.getActions()).toContainEqual(
+        sign({
+          wallet: {
+            walletType: WalletType.PRIVATE_KEY,
+            privateKey: fPrivateKey
+          },
+          tx: makeTx(fTxRequest)
+        })
+      )
     );
   });
 
@@ -142,19 +144,21 @@ describe('SignTransaction', () => {
     const passwordInput = getByLabelText(translateRaw('MNEMONIC_PASSWORD'));
     fireEvent.change(passwordInput, { target: { value: 'password' } });
 
-    await waitFor(() => fireEvent.click(acceptButton));
+    fireEvent.click(acceptButton);
 
     const transactionRequest = getTransactionRequest(fAccounts[1].address);
-    expect(mockStore.getActions()).toContainEqual(
-      sign({
-        wallet: {
-          walletType: WalletType.MNEMONIC,
-          mnemonicPhrase: fMnemonicPhrase,
-          passphrase: 'password',
-          path: fAccounts[1].dPath
-        },
-        tx: makeTx(transactionRequest.request)
-      })
+    await waitFor(() =>
+      expect(mockStore.getActions()).toContainEqual(
+        sign({
+          wallet: {
+            walletType: WalletType.MNEMONIC,
+            mnemonicPhrase: fMnemonicPhrase,
+            passphrase: 'password',
+            path: fAccounts[1].dPath
+          },
+          tx: makeTx(transactionRequest.request)
+        })
+      )
     );
   });
 

@@ -1,23 +1,15 @@
 import React, { FormEvent, ReactNode } from 'react';
 
-import { boolean, object, refine, string } from 'superstruct';
-import { useForm } from 'typed-react-form';
+import { useForm, yupValidator } from 'typed-react-form';
+import { object, string } from 'yup';
 
 import { Body, Box, FormError, FormInput, Image } from '@app/components';
-import { getValidator } from '@app/utils';
 import warning from '@assets/icons/circle-warning.svg';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
 import { translate, translateRaw } from '@translations';
 
-const ADD_PRIVATE_KEY_STRUCT = object({
-  privateKey: refine(string(), 'Not empty', (value) => {
-    if (value.length > 0) {
-      return true;
-    }
-
-    return translateRaw('PRIVATE_KEY_EMPTY');
-  }),
-  persistent: boolean()
+const SCHEMA = object({
+  privateKey: string().required(translateRaw('PRIVATE_KEY_EMPTY'))
 });
 
 export const usePrivateKeyForm = () =>
@@ -26,7 +18,7 @@ export const usePrivateKeyForm = () =>
       privateKey: '',
       persistent: true
     },
-    getValidator(ADD_PRIVATE_KEY_STRUCT),
+    yupValidator(SCHEMA),
     true
   );
 

@@ -78,16 +78,18 @@ describe('AddAccount', () => {
 
     const submitButton = getByText(translateRaw('SUBMIT'));
     expect(submitButton).toBeDefined();
-    await waitFor(() => fireEvent.click(submitButton));
+    fireEvent.click(submitButton);
 
-    expect(mockStore.getActions()).toContainEqual(
-      fetchAccounts([
-        {
-          walletType: WalletType.PRIVATE_KEY,
-          privateKey: fPrivateKey,
-          persistent: true
-        }
-      ])
+    await waitFor(() =>
+      expect(mockStore.getActions()).toContainEqual(
+        fetchAccounts([
+          {
+            walletType: WalletType.PRIVATE_KEY,
+            privateKey: fPrivateKey,
+            persistent: true
+          }
+        ])
+      )
     );
   });
 
@@ -99,9 +101,9 @@ describe('AddAccount', () => {
 
     const submitButton = getByText(translateRaw('SUBMIT'));
     expect(submitButton).toBeDefined();
-    await waitFor(() => fireEvent.click(submitButton));
+    fireEvent.click(submitButton);
 
-    expect(getByText(translateRaw('PRIVATE_KEY_EMPTY'))).toBeDefined();
+    await waitFor(() => expect(getByText(translateRaw('PRIVATE_KEY_EMPTY'))).toBeDefined());
   });
 
   it('can submit keystore file', async () => {
@@ -128,7 +130,7 @@ describe('AddAccount', () => {
 
     const submitButton = getByText(translateRaw('SUBMIT'));
     expect(submitButton).toBeDefined();
-    await waitFor(() => fireEvent.click(submitButton));
+    fireEvent.click(submitButton);
 
     await waitFor(() =>
       expect(mockStore.getActions()).toContainEqual(
@@ -191,7 +193,7 @@ describe('AddAccount', () => {
 
     const submitButton = getByText(translateRaw('SUBMIT'));
     expect(submitButton).toBeDefined();
-    await waitFor(() => fireEvent.click(submitButton));
+    fireEvent.click(submitButton);
 
     await waitFor(() => expect(getByText(translateRaw('KEYSTORE_EMPTY'))).toBeDefined());
   });
@@ -246,9 +248,9 @@ describe('AddAccount', () => {
 
     const submitButton = getByText(translateRaw('NEXT'));
     expect(submitButton).toBeDefined();
-    await waitFor(() => fireEvent.click(submitButton));
+    fireEvent.click(submitButton);
 
-    expect(getByText(translateRaw('MNEMONIC_EMPTY'))).toBeDefined();
+    await waitFor(() => expect(getByText(translateRaw('MNEMONIC_EMPTY'))).toBeDefined());
   });
 
   it('can submit mnemonic from another DPath and page', async () => {

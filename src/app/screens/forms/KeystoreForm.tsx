@@ -8,7 +8,7 @@ import warning from '@assets/icons/circle-warning.svg';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
 import { translate, translateRaw } from '@translations';
 
-const ADD_KEYSTORE_SCHEMA = object({
+const SCHEMA = object({
   keystore: mixed().required(translateRaw('KEYSTORE_EMPTY')),
   password: string().required(translateRaw('PASSWORD_EMPTY'))
 });
@@ -20,7 +20,7 @@ export const useKeystoreForm = () =>
       password: '',
       persistent: true
     },
-    yupValidator(ADD_KEYSTORE_SCHEMA, { abortEarly: false }),
+    yupValidator(SCHEMA, { abortEarly: false }),
     true
   );
 
