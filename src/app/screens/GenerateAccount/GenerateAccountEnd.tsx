@@ -8,17 +8,16 @@ import {
   Box,
   Button,
   Heading,
+  IFlowComponentProps,
   Link,
-  LinkApp,
   Panel,
   PaperWallet
 } from '@components';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
-import { ROUTE_PATHS } from '@routing';
 import { DEFAULT_DERIVATION_PATH, getGeneratedAccount, useSelector } from '@store';
 import { translate, translateRaw } from '@translations';
 
-export const GenerateAccountEnd = () => {
+export const GenerateAccountEnd = ({ onNext }: IFlowComponentProps) => {
   const paperWallet = useRef<HTMLDivElement>();
   const [showMnemonicPhrase, setShowMnemonicPhrase] = useState(false);
   const [paperWalletImage, setPaperWalletImage] = useState<string>();
@@ -74,11 +73,9 @@ export const GenerateAccountEnd = () => {
       <Link href={paperWalletImage} download={`paper-wallet-${address}`}>
         <Button mb="3">{translateRaw('PRINT_PAPER_WALLET')}</Button>
       </Link>
-      <LinkApp href={ROUTE_PATHS.HOME}>
-        <Button variant="inverted" mb="3">
-          {translateRaw('PAPER_WALLET_PRINTED')}
-        </Button>
-      </LinkApp>
+      <Button variant="inverted" mb="3" onClick={onNext}>
+        {translateRaw('PAPER_WALLET_PRINTED')}
+      </Button>
     </Box>
   );
 };
