@@ -1,10 +1,10 @@
 /* eslint-disable jest/expect-expect */
-import { ROUTE_PATHS } from '@routing';
 import { push } from 'connected-react-router';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
 import { ipcBridgeRenderer } from '@bridge';
+import { ROUTE_PATHS } from '@routing';
 import { translateRaw } from '@translations';
 import { DBRequestType } from '@types';
 

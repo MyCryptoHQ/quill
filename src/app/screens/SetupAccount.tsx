@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { ROUTE_PATHS } from '@routing';
 import { Flex, Image } from 'rebass';
 
 import wallet from '@app/assets/icons/wallet.svg';
 import { Body, Box, Button, Heading, LinkApp } from '@components';
+import { ROUTE_PATHS } from '@routing';
 import { translateRaw } from '@translations';
 
 export const SetupAccount = () => (

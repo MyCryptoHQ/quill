@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { ROUTE_PATHS } from '@routing';
 import html2canvas from 'html2canvas';
 
 import {
@@ -15,6 +14,7 @@ import {
   PaperWallet
 } from '@components';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
+import { ROUTE_PATHS } from '@routing';
 import { DEFAULT_DERIVATION_PATH, getGeneratedAccount, useSelector } from '@store';
 import { translate, translateRaw } from '@translations';
 

@@ -1,9 +1,9 @@
 import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ROUTE_PATHS } from '@routing';
 import { push } from 'connected-react-router';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import { ipcBridgeRenderer } from '@bridge';
+import { ROUTE_PATHS } from '@routing';
 import { translateRaw } from '@translations';
 import { DBRequestType } from '@types';
 

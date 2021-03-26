@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 
-import { ROUTE_PATHS } from '@routing';
 import { push } from 'connected-react-router';
 
 import { Flow, IFlowComponent } from '@components';
-import { GenerateAccountEnd } from '@screens/GenerateAccount/GenerateAccountEnd';
+import { ROUTE_PATHS } from '@routing';
 import { setGeneratedAccount, useDispatch } from '@store';
 
+import { GenerateAccountEnd } from './GenerateAccountEnd';
 import { GenerateAccountMnemonic } from './GenerateAccountMnemonic';
 import { GenerateAccountStart } from './GenerateAccountStart';
 import { GenerateAccountVerify } from './GenerateAccountVerify';

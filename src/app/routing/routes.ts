@@ -1,4 +1,3 @@
-import { GenerateAccountEnd } from '@screens/GenerateAccount';
 import { Route } from '@types';
 
 import {
@@ -54,12 +53,6 @@ export const ROUTES: Record<string, Route> = {
   GENERATE_ACCOUNT: {
     path: ROUTE_PATHS.GENERATE_ACCOUNT,
     component: GenerateAccount,
-    exact: true,
-    requireLogin: true
-  },
-  GENERATE_ACCOUNT_END: {
-    path: ROUTE_PATHS.GENERATE_ACCOUNT_END,
-    component: GenerateAccountEnd,
     exact: true,
     requireLogin: true
   },

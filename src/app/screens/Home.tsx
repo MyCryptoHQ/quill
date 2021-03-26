@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 
-import { ROUTE_PATHS } from '@routing';
 import { push } from 'connected-react-router';
 import { useSelector } from 'react-redux';
 
 import { Body, Box, Image, TxHistory, TxQueue } from '@app/components';
 import info from '@assets/icons/circle-info.svg';
+import { ROUTE_PATHS } from '@routing';
 import { getAccountsLength, getQueue, getTxHistory, useDispatch } from '@store';
 import { translateRaw } from '@translations';
 

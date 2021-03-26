@@ -1,11 +1,12 @@
 import React from 'react';
 
 import { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
-import { ApplicationState, logout } from '@store';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
+
+import { ApplicationState, logout } from '@store';
 
 import { Navigation } from './Navigation';
 
