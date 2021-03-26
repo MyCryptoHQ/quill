@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { DeepPartial } from '@reduxjs/toolkit';
 import { fireEvent, render } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
@@ -10,6 +9,7 @@ import configureStore from 'redux-mock-store';
 import { ApplicationState } from '@app/store';
 import { ROUTE_PATHS } from '@routing';
 import { translateRaw } from '@translations';
+import { DeepPartial } from '@types';
 
 import { NewUser } from '../NewUser';
 

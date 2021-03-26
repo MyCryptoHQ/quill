@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { DeepPartial } from '@reduxjs/toolkit';
 import { fireEvent, render } from '@testing-library/react';
 import { replace } from 'connected-react-router';
 import { Provider } from 'react-redux';
@@ -10,7 +9,7 @@ import configureStore from 'redux-mock-store';
 import { ROUTE_PATHS } from '@app/routing';
 import { ApplicationState } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
-import { DBRequestType } from '@types';
+import { DBRequestType, DeepPartial } from '@types';
 
 import { ForgotPassword } from '../ForgotPassword';
 

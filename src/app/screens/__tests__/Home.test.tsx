@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
+import { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
@@ -8,7 +8,7 @@ import configureStore from 'redux-mock-store';
 
 import { ApplicationState, selectTransaction } from '@app/store';
 import { fAccount, fRequestOrigin, fTxRequest } from '@fixtures';
-import { TxResult } from '@types';
+import { DeepPartial, TxResult } from '@types';
 import { makeHistoryTx, makeQueueTx } from '@utils';
 
 import { Home } from '../Home';
@@ -19,13 +19,10 @@ const queueTx = makeQueueTx(request);
 const historyTx = makeHistoryTx(queueTx, TxResult.DENIED);
 const mockStore = createMockStore({
   accounts: {
-    // @ts-expect-error Brand bug with DeepPartial
     accounts: [fAccount]
   },
   transactions: {
-    // @ts-expect-error Brand bug with DeepPartial
     queue: [queueTx, { ...queueTx, id: 2 }],
-    // @ts-expect-error Brand bug with DeepPartial
     history: [historyTx, historyTx]
   }
 });
@@ -60,7 +57,6 @@ describe('Home', () => {
   it('renders empty state', async () => {
     const { getByText } = getComponent(
       createMockStore({
-        // @ts-expect-error Brand bug with DeepPartial
         accounts: { accounts: [fAccount] },
         transactions: { queue: [], history: [] }
       })

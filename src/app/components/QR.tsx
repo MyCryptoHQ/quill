@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 import { AwesomeQR, QRErrorCorrectLevel } from 'awesome-qr';
-import { Image } from 'rebass';
 
-import { ImageProps } from '@components';
+import { Image, ImageProps } from '@components';
 
 interface Props {
   size: number;
@@ -42,5 +41,7 @@ export const QR = ({
       .then((url) => setURL(url as string));
   }, [data]);
 
-  return <Image src={url} width={`${size}px`} height={`${size}px`} {...props} />;
+  return (
+    <Image data-testid="qr-code" src={url} width={`${size}px`} height={`${size}px`} {...props} />
+  );
 };

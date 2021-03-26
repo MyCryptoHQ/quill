@@ -64,6 +64,8 @@ describe('AccountSlice', () => {
     expect(result.fetchError).toBeUndefined();
     expect(result.isFetching).toBe(false);
   });
+
+  it.todo('setGeneratedAccount(): sets generated account');
 });
 
 describe('fetchAccountWorker()', () => {
@@ -127,4 +129,8 @@ describe('removeAccountWorker()', () => {
       })
       .silentRun();
   });
+});
+
+describe('generateAccountWorker', () => {
+  it.todo('generates an account');
 });

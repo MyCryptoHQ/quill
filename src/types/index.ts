@@ -17,3 +17,4 @@ export * from './chain';
 export * from './dpath';
 export * from './passwords';
 export * from './request';
+export * from './deep-partial';

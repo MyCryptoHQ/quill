@@ -24,13 +24,14 @@ const Item = (props: BoxProps) => (
   />
 );
 
-const ActiveItem = () => (
+const ActiveItem = (props: BoxProps) => (
   <Item
     backgroundColor="none"
     sx={{
       boxShadow: ({ colors }) => `0 0 0 4px ${colors.BLUE_LIGHT}`,
       borderRadius: '50%'
     }}
+    {...props}
   />
 );
 
@@ -64,9 +65,9 @@ export const FlowHeader = ({
         .fill(undefined)
         .map((_, index) =>
           index === currentStep ? (
-            <ActiveItem key={`step-${index}`} />
+            <ActiveItem data-testid="active-item" key={`step-${index}`} />
           ) : (
-            <Item key={`step-${index}`} />
+            <Item data-testid="item" key={`step-${index}`} />
           )
         )}
     </Box>

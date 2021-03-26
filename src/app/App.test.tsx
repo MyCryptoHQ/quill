@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
+import { EnhancedStore } from '@reduxjs/toolkit';
 import { render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
@@ -9,7 +9,7 @@ import configureStore from 'redux-mock-store';
 import { ipcBridgeRenderer } from '@bridge';
 import { fAccount } from '@fixtures';
 import { translateRaw } from '@translations';
-import { DBRequestType } from '@types';
+import { DBRequestType, DeepPartial } from '@types';
 
 import App from './App';
 import { ApplicationState, createPersistor, createStore } from './store';
@@ -27,7 +27,8 @@ jest.mock('@bridge', () => ({
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
-function getComponent(store: EnhancedStore<ApplicationState> = createStore()) {
+function getComponent(store: EnhancedStore<DeepPartial<ApplicationState>> = createStore()) {
+  // @ts-expect-error `createPersistor` expects a full store type
   const persistor = createPersistor(store);
   return render(
     <Provider store={store}>
@@ -48,11 +49,9 @@ describe('App', () => {
       Promise.resolve(type !== DBRequestType.IS_NEW_USER)
     );
     const { getByText } = getComponent(
-      // @ts-expect-error Brand bug with DeepPartial
       createMockStore({
         auth: { loggedIn: true, newUser: false },
         transactions: { queue: [], history: [] },
-        // @ts-expect-error Brand bug with DeepPartial
         accounts: { accounts: [fAccount] }
       })
     );
