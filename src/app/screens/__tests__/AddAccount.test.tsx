@@ -183,6 +183,19 @@ describe('AddAccount', () => {
     );
   });
 
+  it('shows keystore form validation', async () => {
+    const { getByText, getByTestId } = getComponent();
+    const keystoreButton = getByTestId('select-KEYSTORE');
+    expect(keystoreButton).toBeDefined();
+    fireEvent.click(keystoreButton);
+
+    const submitButton = getByText(translateRaw('SUBMIT'));
+    expect(submitButton).toBeDefined();
+    await waitFor(() => fireEvent.click(submitButton));
+
+    await waitFor(() => expect(getByText(translateRaw('KEYSTORE_EMPTY'))).toBeDefined());
+  });
+
   it('can submit mnemonic', async () => {
     const { getByLabelText, getByText, getByTestId } = getComponent();
     const mnemonicButton = getByTestId('select-MNEMONIC');

@@ -7,6 +7,7 @@ import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import { ApplicationState, login } from '@app/store';
+import { translateRaw } from '@translations';
 
 import { Login } from '../Login';
 
@@ -37,7 +38,7 @@ describe('Login', () => {
     });
 
     const { getByText } = getComponent(mockStore);
-    expect(getByText('Unlock Now').textContent).toBeDefined();
+    expect(getByText(translateRaw('UNLOCK_NOW')).textContent).toBeDefined();
   });
 
   it('dispatches login when clicking on the button', async () => {
@@ -50,10 +51,24 @@ describe('Login', () => {
     expect(passwordInput).toBeDefined();
     fireEvent.change(passwordInput, { target: { value: 'password' } });
 
-    const loginButton = getByText('Unlock Now');
+    const loginButton = getByText(translateRaw('UNLOCK_NOW'));
     expect(loginButton).toBeDefined();
     await waitFor(() => fireEvent.click(loginButton));
 
     expect(mockStore.getActions()).toContainEqual(login('password'));
+  });
+
+  it('renders form validation error', async () => {
+    const mockStore = createMockStore({
+      auth: {}
+    });
+
+    const { getByText } = getComponent(mockStore);
+
+    const loginButton = getByText(translateRaw('UNLOCK_NOW'));
+    expect(loginButton).toBeDefined();
+    await waitFor(() => fireEvent.click(loginButton));
+
+    expect(getByText(translateRaw('PASSWORD_EMPTY'))).toBeDefined();
   });
 });
