@@ -12799,10 +12799,10 @@ type-is@~1.6.17, type-is@~1.6.18:
     media-typer "0.3.0"
     mime-types "~2.1.24"
 
-typed-react-form@1.2.8:
-  version "1.2.8"
-  resolved "https://registry.yarnpkg.com/typed-react-form/-/typed-react-form-1.2.8.tgz#2e213eff2d872d584d317b0056b29c395c3d0a86"
-  integrity sha512-6loFYEzvLkpwDj5DN+BWWYjkwvFBBY3Bvhpmsy8LaLEon4QLsMybAzLSSpWk+DkShRAhH4gtydbIetVZHW+Xkw==
+typed-react-form@1.2.9:
+  version "1.2.9"
+  resolved "https://registry.yarnpkg.com/typed-react-form/-/typed-react-form-1.2.9.tgz#f82b95f64832d8c7dd612e92e94d46cbc2191f68"
+  integrity sha512-Hk4dtczG5GEAVSR0mpnJBLcwg10xh89iFigBMKYashPsjm4BJqFsOO8zN6fT90eURXEJGf8thB7i5Pc557Ig4w==
 
 typedarray-to-buffer@^3.1.5:
   version "3.1.5"
