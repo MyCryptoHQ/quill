@@ -13,8 +13,6 @@ import { DeepPartial } from '@types';
 
 import { GenerateAccount } from './GenerateAccount';
 
-
-
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
 const getComponent = (store: EnhancedStore<DeepPartial<ApplicationState>> = createMockStore()) => {
