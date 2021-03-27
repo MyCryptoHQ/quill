@@ -2,8 +2,9 @@ import React from 'react';
 
 import { fireEvent, render } from '@testing-library/react';
 
-import { GenerateAccountStart } from '@screens/GenerateAccount/GenerateAccountStart';
 import { translateRaw } from '@translations';
+
+import { GenerateAccountStart } from './GenerateAccountStart';
 
 describe('GenerateAccountStart', () => {
   it('renders', () => {

@@ -6,10 +6,11 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
-import { GenerateAccountEnd } from '@screens/GenerateAccount/GenerateAccountEnd';
 import { ApplicationState } from '@store';
 import { translateRaw } from '@translations';
 import { DeepPartial } from '@types';
+
+import { GenerateAccountEnd } from './GenerateAccountEnd';
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
@@ -41,7 +42,28 @@ describe('GenerateAccountEnd', () => {
     expect(getByText(translateRaw('NEW_ACCOUNT_TITLE'))).toBeDefined();
   });
 
-  it.todo('shows the address and mnemonic phrase');
+  it('shows the address and mnemonic phrase', () => {
+    const mnemonicPhrase = 'test test test test test test test test test test test ball';
+    const address = '0xc6D5a3c98EC9073B54FA0969957Bd582e8D874bf';
+
+    const { getByText, getAllByText } = getComponent(
+      createMockStore({
+        accounts: {
+          generatedAccount: {
+            mnemonicPhrase,
+            address
+          }
+        }
+      })
+    );
+
+    expect(getAllByText(address)).toBeDefined();
+
+    const button = getByText(translateRaw('CLICK_TO_SHOW'));
+    fireEvent.click(button);
+
+    expect(getAllByText(mnemonicPhrase)).toHaveLength(2);
+  });
 
   it('calls onNext when clicking the button', () => {
     const onNext = jest.fn();

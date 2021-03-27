@@ -52,21 +52,21 @@ export const GenerateAccountVerify = ({ onNext }: IFlowComponentProps) => {
           <Label htmlFor="sixthWord">
             <Body>{translate('WHAT_IS_6TH_WORD')}</Body>
           </Label>
-          <FormInput id="sixthWord" name="sixthWord" form={form} />
+          <FormInput id="sixthWord" name="sixthWord" data-testid="sixthWord" form={form} />
           <FormError name="sixthWord" form={form} />
         </Box>
         <Box mt="3">
           <Label htmlFor="eighthWord">
             <Body>{translate('WHAT_IS_8TH_WORD')}</Body>
           </Label>
-          <FormInput id="eighthWord" name="eighthWord" form={form} />
+          <FormInput id="eighthWord" name="eighthWord" data-testid="eighthWord" form={form} />
           <FormError name="eighthWord" form={form} />
         </Box>
         <Box mt="3">
           <Label htmlFor="twelfthWord">
             <Body>{translate('WHAT_IS_12TH_WORD')}</Body>
           </Label>
-          <FormInput id="twelfthWord" name="twelfthWord" form={form} />
+          <FormInput id="twelfthWord" name="twelfthWord" data-testid="twelfthWord" form={form} />
           <FormError name="twelfthWord" form={form} />
         </Box>
         <Button mt="4" type="submit" mb="3">

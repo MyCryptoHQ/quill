@@ -4,16 +4,19 @@ import { call } from 'redux-saga-test-plan/matchers';
 
 import { ipcBridgeRenderer } from '@bridge';
 import { fAccount, fPrivateKey } from '@fixtures';
-import { CryptoRequestType, DBRequestType, SerializedWallet, WalletType } from '@types';
+import { CryptoRequestType, DBRequestType, SerializedWallet, TAddress, WalletType } from '@types';
 
 import slice, {
   addAccount,
+  DEFAULT_DERIVATION_PATH,
   fetchAccounts,
   fetchAccountsWorker,
   fetchFailed,
   fetchReset,
+  generateAccountWorker,
   removeAccount,
-  removeAccountWorker
+  removeAccountWorker,
+  setGeneratedAccount
 } from './account.slice';
 
 jest.mock('@bridge', () => ({
@@ -65,7 +68,15 @@ describe('AccountSlice', () => {
     expect(result.isFetching).toBe(false);
   });
 
-  it.todo('setGeneratedAccount(): sets generated account');
+  it('setGeneratedAccount(): sets generated account', () => {
+    const account = {
+      mnemonicPhrase: 'foo',
+      address: 'bar' as TAddress
+    };
+
+    const result = slice.reducer({ accounts: [], isFetching: false }, setGeneratedAccount(account));
+    expect(result.generatedAccount).toBe(account);
+  });
 });
 
 describe('fetchAccountWorker()', () => {
@@ -132,5 +143,22 @@ describe('removeAccountWorker()', () => {
 });
 
 describe('generateAccountWorker', () => {
-  it.todo('generates an account');
+  it('generates an account', () => {
+    return expectSaga(generateAccountWorker)
+      .provide([[call.fn(ipcBridgeRenderer.crypto.invoke), 'foo bar']])
+      .call(ipcBridgeRenderer.crypto.invoke, {
+        type: CryptoRequestType.CREATE_WALLET,
+        wallet: WalletType.MNEMONIC
+      })
+      .call(ipcBridgeRenderer.crypto.invoke, {
+        type: CryptoRequestType.GET_ADDRESS,
+        wallet: {
+          walletType: WalletType.MNEMONIC,
+          path: DEFAULT_DERIVATION_PATH,
+          mnemonicPhrase: 'foo bar'
+        }
+      })
+      .put(setGeneratedAccount({ mnemonicPhrase: 'foo bar', address: 'foo bar' as TAddress }))
+      .silentRun();
+  });
 });
