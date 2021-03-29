@@ -2,7 +2,7 @@ import React from 'react';
 
 import { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render, waitFor } from '@testing-library/react';
-import html2canvas from 'html2canvas';
+import { toPng } from 'html-to-image';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
@@ -13,11 +13,9 @@ import { DeepPartial } from '@types';
 
 import { GenerateAccountEnd } from './GenerateAccountEnd';
 
-jest.mock('html2canvas', () =>
-  jest.fn().mockImplementation(async () => ({
-    toDataURL: jest.fn().mockImplementation(() => 'foo bar')
-  }))
-);
+jest.mock('html-to-image', () => ({
+  toPng: jest.fn().mockImplementation(async () => 'foo bar')
+}));
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
@@ -50,8 +48,6 @@ describe('GenerateAccountEnd', () => {
   });
 
   it('generates a paper wallet', async () => {
-    (html2canvas as jest.MockedFunction<typeof html2canvas>).mockClear();
-
     const { getByTestId } = getComponent(
       createMockStore({
         accounts: {
@@ -63,7 +59,7 @@ describe('GenerateAccountEnd', () => {
       })
     );
 
-    await waitFor(() => expect(html2canvas).toHaveBeenCalled());
+    await waitFor(() => expect(toPng).toHaveBeenCalled());
     expect(getByTestId('download-link').getAttribute('href')).toBe('foo bar');
   });
 

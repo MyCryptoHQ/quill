@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import html2canvas from 'html2canvas';
+import { toPng } from 'html-to-image';
 
 import {
   Address,
@@ -29,9 +29,7 @@ export const GenerateAccountEnd = ({ onNext }: IFlowComponentProps) => {
     if (paperWallet.current) {
       // Timeout is required to make sure the QR codes are rendered
       setTimeout(() => {
-        html2canvas(paperWallet.current)
-          .then((canvas) => canvas.toDataURL())
-          .then(setPaperWalletImage);
+        toPng(paperWallet.current).then(setPaperWalletImage);
       }, 10);
     }
   }, [paperWallet]);
