@@ -15,7 +15,7 @@ export const Flow = ({ components, onDone }: FlowProps) => {
 
   const handlePrevious = () =>
     setStep((step) => {
-      if (step > 1) {
+      if (step >= 1) {
         return step - 1;
       }
 
