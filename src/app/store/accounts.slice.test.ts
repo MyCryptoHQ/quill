@@ -145,7 +145,22 @@ describe('removeAccountWorker()', () => {
 describe('generateAccountWorker', () => {
   it('generates an account', () => {
     return expectSaga(generateAccountWorker)
-      .provide([[call.fn(ipcBridgeRenderer.crypto.invoke), 'foo bar']])
+      .provide({
+        call(effect, next) {
+          if (effect.fn === ipcBridgeRenderer.crypto.invoke) {
+            const [{ type }] = effect.args;
+            if (type === 'CREATE_WALLET') {
+              return 'foo bar';
+            }
+
+            if (type === 'GET_ADDRESS') {
+              return 'baz qux';
+            }
+          }
+
+          return next();
+        }
+      })
       .call(ipcBridgeRenderer.crypto.invoke, {
         type: CryptoRequestType.CREATE_WALLET,
         wallet: WalletType.MNEMONIC
@@ -158,7 +173,7 @@ describe('generateAccountWorker', () => {
           mnemonicPhrase: 'foo bar'
         }
       })
-      .put(setGeneratedAccount({ mnemonicPhrase: 'foo bar', address: 'foo bar' as TAddress }))
+      .put(setGeneratedAccount({ mnemonicPhrase: 'foo bar', address: 'baz qux' as TAddress }))
       .silentRun();
   });
 });
