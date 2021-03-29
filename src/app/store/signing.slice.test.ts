@@ -62,7 +62,7 @@ describe('signWorker()', () => {
   });
 
   it('handles signing errors', () => {
-    const queueTx = makeQueueTx(fTxRequest);
+    const queueTx = makeQueueTx({ origin: fRequestOrigin, request: fTxRequest });
     return expectSaga(
       signWorker,
       sign({
