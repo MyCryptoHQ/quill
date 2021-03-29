@@ -2,7 +2,7 @@ import { waitFor } from '@testing-library/react';
 import { WebContents } from 'electron';
 
 import { IPC_CHANNELS, SUPPORTED_METHODS } from '@config';
-import { fSignedTx } from '@fixtures';
+import { fRequestOrigin, fSignedTx } from '@fixtures';
 
 import { handleRequest } from './api';
 
@@ -35,7 +35,11 @@ const mockWebContents = { send: jest.fn() };
 
 describe('handleRequest', () => {
   it('fails with invalid json', async () => {
-    const result = await handleRequest('', (mockWebContents as unknown) as WebContents);
+    const result = await handleRequest(
+      '',
+      (mockWebContents as unknown) as WebContents,
+      fRequestOrigin
+    );
     expect(result).toStrictEqual(
       expect.objectContaining({ error: expect.objectContaining({ code: '-32700' }) })
     );
@@ -45,7 +49,8 @@ describe('handleRequest', () => {
     const request = { id: 0, jsonrpc: '1.0', method: 'bla' };
     const result = await handleRequest(
       JSON.stringify(request),
-      (mockWebContents as unknown) as WebContents
+      (mockWebContents as unknown) as WebContents,
+      fRequestOrigin
     );
     expect(result).toStrictEqual(
       expect.objectContaining({ error: expect.objectContaining({ code: '-32600' }) })
@@ -56,7 +61,8 @@ describe('handleRequest', () => {
     const request = { id: 0, jsonrpc: '2.0', method: 'bla' };
     const result = await handleRequest(
       JSON.stringify(request),
-      (mockWebContents as unknown) as WebContents
+      (mockWebContents as unknown) as WebContents,
+      fRequestOrigin
     );
     expect(result).toStrictEqual(
       expect.objectContaining({ error: expect.objectContaining({ code: '-32601' }) })
@@ -67,7 +73,8 @@ describe('handleRequest', () => {
     const request = { id: 0, jsonrpc: '2.0', method: SUPPORTED_METHODS.SIGN_TRANSACTION };
     const result = await handleRequest(
       JSON.stringify(request),
-      (mockWebContents as unknown) as WebContents
+      (mockWebContents as unknown) as WebContents,
+      fRequestOrigin
     );
     expect(result).toStrictEqual(
       expect.objectContaining({ error: expect.objectContaining({ code: '-32602' }) })
@@ -94,7 +101,11 @@ describe('handleRequest', () => {
     };
 
     await expect(
-      handleRequest(JSON.stringify(request), (mockWebContents as unknown) as WebContents)
+      handleRequest(
+        JSON.stringify(request),
+        (mockWebContents as unknown) as WebContents,
+        fRequestOrigin
+      )
     ).resolves.toStrictEqual(
       expect.objectContaining({ error: expect.objectContaining({ code: '-32602' }) })
     );
@@ -120,10 +131,14 @@ describe('handleRequest', () => {
     };
     const promise = handleRequest(
       JSON.stringify(request),
-      (mockWebContents as unknown) as WebContents
+      (mockWebContents as unknown) as WebContents,
+      fRequestOrigin
     );
     await waitFor(() =>
-      expect(mockWebContents.send).toHaveBeenCalledWith(IPC_CHANNELS.API, request)
+      expect(mockWebContents.send).toHaveBeenCalledWith(IPC_CHANNELS.API, {
+        origin: fRequestOrigin,
+        request
+      })
     );
 
     const result = await promise;
@@ -139,7 +154,8 @@ describe('handleRequest', () => {
     };
     const promise = handleRequest(
       JSON.stringify(request),
-      (mockWebContents as unknown) as WebContents
+      (mockWebContents as unknown) as WebContents,
+      fRequestOrigin
     );
     const result = await promise;
     expect(result).toStrictEqual({

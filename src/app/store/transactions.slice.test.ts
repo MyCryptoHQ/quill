@@ -2,7 +2,7 @@
 import { expectSaga } from 'redux-saga-test-plan';
 
 import { ipcBridgeRenderer } from '@bridge';
-import { fTxRequest } from '@fixtures';
+import { fRequestOrigin, fTxRequest } from '@fixtures';
 import { TUuid, TxResult } from '@types';
 import { makeHistoryTx, makeQueueTx, makeTx } from '@utils';
 
@@ -23,12 +23,14 @@ jest.mock('@bridge', () => ({
   }
 }));
 
+const request = { origin: fRequestOrigin, request: fTxRequest };
+
 describe('TransactionsSlice', () => {
   it('enqueue(): adds item to queue', () => {
-    const { uuid, ...tx } = makeQueueTx(fTxRequest);
+    const { uuid, ...tx } = makeQueueTx(request);
     const result = slice.reducer(
-      { queue: [{ ...makeQueueTx(fTxRequest), id: 1 }], history: [] },
-      enqueue({ ...fTxRequest, id: 2 })
+      { queue: [{ ...makeQueueTx(request), id: 1 }], history: [] },
+      enqueue({ origin: fRequestOrigin, request: { ...fTxRequest, id: 2 } })
     );
     expect(result.queue).toStrictEqual([
       expect.objectContaining({ ...tx, id: 1 }),
@@ -38,11 +40,11 @@ describe('TransactionsSlice', () => {
 
   it('dequeue(): removes item from queue', () => {
     const removeUuid = 'uuid' as TUuid;
-    const { uuid, ...tx } = makeQueueTx(fTxRequest);
+    const { uuid, ...tx } = makeQueueTx(request);
     const removeTx = { ...tx, uuid: removeUuid, id: 1 };
     const result = slice.reducer(
       {
-        queue: [removeTx, { ...makeQueueTx(fTxRequest), id: 2 }],
+        queue: [removeTx, { ...makeQueueTx(request), id: 2 }],
         history: []
       },
       dequeue(removeTx)
@@ -55,7 +57,8 @@ describe('TransactionsSlice', () => {
       uuid: 'uuid' as TUuid,
       tx: makeTx(fTxRequest),
       result: TxResult.DENIED,
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      origin: fRequestOrigin
     };
     const result = slice.reducer(
       {
@@ -72,7 +75,8 @@ describe('TransactionsSlice', () => {
       uuid: 'uuid' as TUuid,
       tx: makeTx(fTxRequest),
       result: TxResult.DENIED,
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      origin: fRequestOrigin
     };
     const result = slice.reducer(
       {
@@ -88,7 +92,7 @@ describe('TransactionsSlice', () => {
 
 describe('denyCurrentTransactionWorker()', () => {
   it('handles denying a tx', () => {
-    const tx = makeQueueTx(fTxRequest);
+    const tx = makeQueueTx(request);
     return expectSaga(denyCurrentTransactionWorker)
       .withState({ transactions: { queue: [tx], currentTransaction: tx } })
       .call(ipcBridgeRenderer.api.sendResponse, {

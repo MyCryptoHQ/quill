@@ -7,14 +7,15 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import { ApplicationState, selectTransaction } from '@app/store';
-import { fAccount, fTxRequest } from '@fixtures';
+import { fAccount, fRequestOrigin, fTxRequest } from '@fixtures';
 import { TxResult } from '@types';
 import { makeHistoryTx, makeQueueTx } from '@utils';
 
 import { Home } from '../Home';
 
+const request = { origin: fRequestOrigin, request: fTxRequest };
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
-const queueTx = makeQueueTx(fTxRequest);
+const queueTx = makeQueueTx(request);
 const historyTx = makeHistoryTx(queueTx, TxResult.DENIED);
 const mockStore = createMockStore({
   accounts: {

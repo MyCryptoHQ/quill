@@ -6,7 +6,8 @@ import {
   TSignTransaction,
   TxHistoryEntry,
   TxQueueEntry,
-  TxResult
+  TxResult,
+  UserRequest
 } from '@types';
 
 import { generateUUID } from './generateUUID';
@@ -14,14 +15,18 @@ import { generateUUID } from './generateUUID';
 export const makeTx = (request: JsonRPCRequest): TransactionRequest =>
   request.params[0] as TransactionRequest;
 
-export const makeQueueTx = (payload: JsonRPCRequest<TSignTransaction>): TxQueueEntry => ({
-  uuid: generateUUID(),
-  id: payload.id,
-  tx: makeTx(payload),
-  signedTx: undefined,
-  result: TxResult.WAITING,
-  timestamp: Date.now()
-});
+export const makeQueueTx = (payload: UserRequest<TSignTransaction>): TxQueueEntry => {
+  const { request, origin } = payload;
+  return {
+    uuid: generateUUID(),
+    id: request.id,
+    tx: makeTx(request),
+    signedTx: undefined,
+    result: TxResult.WAITING,
+    timestamp: Date.now(),
+    origin
+  };
+};
 
 export const makeHistoryTx = (
   prev: TxQueueEntry,
@@ -32,5 +37,6 @@ export const makeHistoryTx = (
   tx: prev.tx,
   signedTx,
   result,
-  timestamp: Date.now()
+  timestamp: Date.now(),
+  origin: prev.origin
 });

@@ -1,6 +1,6 @@
 import { createHashHistory } from 'history';
 
-import { fAccounts, fTxRequest } from '@fixtures';
+import { fAccounts, fRequestOrigin, fTxRequest } from '@fixtures';
 import { makeQueueTx } from '@utils';
 
 import { logout } from './auth.slice';
@@ -15,6 +15,8 @@ describe('rootReducer', () => {
 
     initialState.auth.newUser = false;
 
+    const request = { origin: fRequestOrigin, request: fTxRequest };
+
     // Random modified state to test
     const modifiedState = {
       ...initialState,
@@ -24,7 +26,7 @@ describe('rootReducer', () => {
       },
       transactions: {
         ...initialState.transactions,
-        queue: [makeQueueTx(fTxRequest), makeQueueTx(fTxRequest)]
+        queue: [makeQueueTx(request), makeQueueTx(request)]
       },
       accounts: {
         ...initialState.accounts,
