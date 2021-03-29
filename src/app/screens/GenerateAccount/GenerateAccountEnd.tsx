@@ -27,10 +27,7 @@ export const GenerateAccountEnd = ({ onNext }: IFlowComponentProps) => {
 
   useEffect(() => {
     if (paperWallet.current) {
-      // Timeout is required to make sure the QR codes are rendered
-      setTimeout(() => {
-        toPng(paperWallet.current).then(setPaperWalletImage);
-      }, 10);
+      toPng(paperWallet.current).then(setPaperWalletImage);
     }
   }, [paperWallet]);
 

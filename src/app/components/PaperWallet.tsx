@@ -1,7 +1,9 @@
 import React, { forwardRef, ReactElement } from 'react';
 
+import QRCode from 'react-qr-code';
+
 import logo from '@assets/images/logo.svg';
-import { Blockie, Body, Box, Code, Flex, Image, QR } from '@components';
+import { Blockie, Body, Box, Code, Flex, Image } from '@components';
 import { translateRaw } from '@translations';
 import { TAddress } from '@types';
 
@@ -59,13 +61,13 @@ export const PaperWallet = forwardRef(({ address, mnemonicPhrase }: PaperWalletP
     <Box>
       <Flex>
         <Block title={translateRaw('YOUR_ADDRESS')}>
-          <QR size={150} data={address} />
+          <QRCode size={150} level="M" value={address} />
         </Block>
         <Block title={translateRaw('NOTES')}>
           <Box width="135px" height="150px" backgroundColor="GREY_ATHENS" />
         </Block>
         <Block title={translateRaw('MNEMONIC_PHRASE')}>
-          <QR size={150} data={mnemonicPhrase} />
+          <QRCode size={150} level="M" value={mnemonicPhrase} />
         </Block>
       </Flex>
       <Box px="20px">

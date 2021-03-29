@@ -30,8 +30,6 @@ export const GenerateAccountVerify = ({ onNext }: IFlowComponentProps) => {
   );
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    console.log('Submitting');
-
     event.preventDefault();
 
     await form.validate();
@@ -39,7 +37,6 @@ export const GenerateAccountVerify = ({ onNext }: IFlowComponentProps) => {
       return;
     }
 
-    console.log('Calling onNext');
     onNext();
   };
 
