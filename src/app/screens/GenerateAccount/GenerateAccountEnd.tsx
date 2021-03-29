@@ -32,14 +32,14 @@ export const GenerateAccountEnd = ({ onNext }: IFlowComponentProps) => {
         html2canvas(paperWallet.current)
           .then((canvas) => canvas.toDataURL())
           .then(setPaperWalletImage);
-      }, 1000);
+      }, 10);
     }
   }, [paperWallet]);
 
   return (
     <Box>
       <Box sx={{ position: 'absolute', top: '-1000%', left: '-1000%' }}>
-        <PaperWallet ref={paperWallet} address={address} privateKey={mnemonicPhrase} />
+        <PaperWallet ref={paperWallet} address={address} mnemonicPhrase={mnemonicPhrase} />
       </Box>
       <Box sx={{ textAlign: 'center' }} mb="4">
         <Heading fontSize="24px" lineHeight="150%">
@@ -70,7 +70,11 @@ export const GenerateAccountEnd = ({ onNext }: IFlowComponentProps) => {
           $link: getKBHelpArticle(KB_HELP_ARTICLE.HOW_TO_BACKUP)
         })}
       </Body>
-      <Link href={paperWalletImage} download={`paper-wallet-${address}`}>
+      <Link
+        data-testid="download-link"
+        href={paperWalletImage}
+        download={`paper-wallet-${address}`}
+      >
         <Button mb="3">{translateRaw('PRINT_PAPER_WALLET')}</Button>
       </Link>
       <Button variant="inverted" mb="3" onClick={onNext}>

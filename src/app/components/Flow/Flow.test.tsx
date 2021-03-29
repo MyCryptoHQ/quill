@@ -55,15 +55,35 @@ describe('Flow', () => {
     expect(getByText('Bar')).toBeDefined();
   });
 
+  it('does nothing when calling onPrevious on the first step', () => {
+    const { getByText, getByTestId } = getComponent({
+      components: [
+        {
+          component: ({ onPrevious }) => (
+            <>
+              Foo
+              <button data-testid="previous-button" onClick={onPrevious} />
+            </>
+          )
+        }
+      ],
+      onDone: jest.fn()
+    });
+
+    const button = getByTestId('previous-button');
+    fireEvent.click(button);
+
+    expect(getByText('Foo')).toBeDefined();
+  });
+
   it('goes to the previous step when calling onPrevious', () => {
     const { getByText, getByTestId } = getComponent({
       components: [
         {
-          component: ({ onNext, onPrevious }) => (
+          component: ({ onNext }) => (
             <>
               Foo
               <button data-testid="next-button" onClick={onNext} />
-              <button data-testid="previous-button" onClick={onPrevious} />
             </>
           )
         },
@@ -78,11 +98,6 @@ describe('Flow', () => {
       ],
       onDone: jest.fn()
     });
-
-    const button = getByTestId('previous-button');
-    fireEvent.click(button);
-
-    expect(getByText('Foo')).toBeDefined();
 
     const nextButton = getByTestId('next-button');
     fireEvent.click(nextButton);

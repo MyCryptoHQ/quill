@@ -12,7 +12,6 @@ export {
   fetchReset,
   getAccountsLength,
   getGeneratedMnemonicWords,
-  getGeneratedAddress,
   getGeneratedAccount,
   AccountsState,
   DEFAULT_DERIVATION_PATH

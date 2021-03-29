@@ -79,7 +79,7 @@
     "GENERATE_ACCOUNT_MNEMONIC": "Create an Account using a Mnemonic Phrase",
     "SETUP_ACCOUNT_HEADER": "Next, Add Your Account",
     "SETUP_ACCOUNT_DESCRIPTION": "You have successfully created your MyCrypto Password. This code word will allow you to sign transactions. Now it's time to add your account.",
-    "MNEMONIC_DESCRIPTION_1": "A 12-word private seed phrase",
+    "MNEMONIC_DESCRIPTION_1": "A 24-word private seed phrase",
     "MNEMONIC_DESCRIPTION_2": "Back it up on paper or USB drive",
     "MNEMONIC_DESCRIPTION_3": "Can be written, printed, and easily typed on mobile",
     "MNEMONIC_DESCRIPTION_4": "Compatible with MetaMask, Jaxx, imToken, and more",

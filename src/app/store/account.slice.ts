@@ -117,11 +117,6 @@ export const getGeneratedMnemonicWords = createSelector(getGeneratedAccount, (ac
   account?.mnemonicPhrase.split(' ')
 );
 
-export const getGeneratedAddress = createSelector(
-  getGeneratedAccount,
-  (account) => account?.address
-);
-
 /**
  * Sagas
  */

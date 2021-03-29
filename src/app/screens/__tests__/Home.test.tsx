@@ -2,12 +2,14 @@ import React from 'react';
 
 import { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render } from '@testing-library/react';
+import { push } from 'connected-react-router';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import { ApplicationState, selectTransaction } from '@app/store';
 import { fAccount, fRequestOrigin, fTxRequest } from '@fixtures';
+import { ROUTE_PATHS } from '@routing';
 import { DeepPartial, TxResult } from '@types';
 import { makeHistoryTx, makeQueueTx } from '@utils';
 
@@ -64,5 +66,16 @@ describe('Home', () => {
     expect(
       getByText('There are no transactions in your Signer at this time', { exact: false })
     ).toBeDefined();
+  });
+
+  it('navigates to the setup page when there are no accounts', async () => {
+    const store = createMockStore({
+      accounts: { accounts: [] },
+      transactions: { queue: [], history: [] }
+    });
+
+    getComponent(store);
+
+    expect(store.getActions()).toContainEqual(push(ROUTE_PATHS.SETUP_ACCOUNT));
   });
 });

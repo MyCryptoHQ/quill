@@ -4,7 +4,6 @@ import logo from '@assets/images/logo.svg';
 import { Blockie, Body, Box, Code, Flex, Image, QR } from '@components';
 import { translateRaw } from '@translations';
 import { TAddress } from '@types';
-import { stripHexPrefix } from '@utils';
 
 interface BlockProps {
   title: string;
@@ -36,10 +35,10 @@ const Block = ({ title, children }: BlockProps) => (
 
 interface PaperWalletProps {
   address: TAddress;
-  privateKey: string;
+  mnemonicPhrase: string;
 }
 
-export const PaperWallet = forwardRef(({ address, privateKey }: PaperWalletProps, ref) => (
+export const PaperWallet = forwardRef(({ address, mnemonicPhrase }: PaperWalletProps, ref) => (
   <Flex
     ref={ref}
     width="680px"
@@ -66,7 +65,7 @@ export const PaperWallet = forwardRef(({ address, privateKey }: PaperWalletProps
           <Box width="135px" height="150px" backgroundColor="GREY_ATHENS" />
         </Block>
         <Block title={translateRaw('MNEMONIC_PHRASE')}>
-          <QR size={150} data={privateKey} />
+          <QR size={150} data={mnemonicPhrase} />
         </Block>
       </Flex>
       <Box px="20px">
@@ -93,7 +92,7 @@ export const PaperWallet = forwardRef(({ address, privateKey }: PaperWalletProps
         <Code fontSize="14px">
           <strong>{translateRaw('YOUR_MNEMONIC_PHRASE')}:</strong>
         </Code>
-        <Code fontSize="14px">{stripHexPrefix(privateKey)}</Code>
+        <Code fontSize="14px">{mnemonicPhrase}</Code>
       </Box>
     </Box>
   </Flex>

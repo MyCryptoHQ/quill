@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { EnhancedStore } from '@reduxjs/toolkit';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
+import html2canvas from 'html2canvas';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
@@ -11,6 +12,12 @@ import { translateRaw } from '@translations';
 import { DeepPartial } from '@types';
 
 import { GenerateAccountEnd } from './GenerateAccountEnd';
+
+jest.mock('html2canvas', () =>
+  jest.fn().mockImplementation(async () => ({
+    toDataURL: jest.fn().mockImplementation(() => 'foo bar')
+  }))
+);
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
@@ -40,6 +47,24 @@ describe('GenerateAccountEnd', () => {
       })
     );
     expect(getByText(translateRaw('NEW_ACCOUNT_TITLE'))).toBeDefined();
+  });
+
+  it('generates a paper wallet', async () => {
+    (html2canvas as jest.MockedFunction<typeof html2canvas>).mockClear();
+
+    const { getByTestId } = getComponent(
+      createMockStore({
+        accounts: {
+          generatedAccount: {
+            mnemonicPhrase: 'test test test test test test test test test test test ball',
+            address: '0xc6D5a3c98EC9073B54FA0969957Bd582e8D874bf'
+          }
+        }
+      })
+    );
+
+    await waitFor(() => expect(html2canvas).toHaveBeenCalled());
+    expect(getByTestId('download-link').getAttribute('href')).toBe('foo bar');
   });
 
   it('shows the address and mnemonic phrase', () => {
