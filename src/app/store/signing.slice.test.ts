@@ -3,7 +3,7 @@ import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
 import { ipcBridgeRenderer } from '@bridge';
-import { fPrivateKey, fSignedTx, fTxRequest } from '@fixtures';
+import { fPrivateKey, fRequestOrigin, fSignedTx, fTxRequest } from '@fixtures';
 import { CryptoRequestType, SerializedWallet, WalletType } from '@types';
 import { makeQueueTx, makeTx } from '@utils';
 
@@ -37,7 +37,7 @@ describe('SigningSlice', () => {
 
 describe('signWorker()', () => {
   it('handles signing', () => {
-    const queueTx = makeQueueTx(fTxRequest);
+    const queueTx = makeQueueTx({ origin: fRequestOrigin, request: fTxRequest });
     return expectSaga(
       signWorker,
       sign({

@@ -3,7 +3,7 @@ import { ipcMain, WebContents } from 'electron';
 import { AccountsState } from '@app/store';
 import { ipcBridgeMain } from '@bridge';
 import { IPC_CHANNELS, SUPPORTED_METHODS } from '@config';
-import { JsonRPCRequest, JsonRPCResponse } from '@types';
+import { JsonRPCRequest, JsonRPCResponse, UserRequest } from '@types';
 import { safeJSONParse } from '@utils';
 
 import { getFromStore } from './db';
@@ -14,13 +14,14 @@ const toJsonRpcResponse = (response: Omit<JsonRPCResponse, 'jsonrpc'>) => {
 };
 
 const requestSigning = (
-  request: JsonRPCRequest,
+  req: UserRequest<unknown>,
   webContents: WebContents
 ): Promise<JsonRPCResponse> => {
   // @todo Cleaner way of doing this?
   // @todo Reject?
   return new Promise((resolve, _reject) => {
-    webContents.send(IPC_CHANNELS.API, request);
+    const { request } = req;
+    webContents.send(IPC_CHANNELS.API, req);
 
     const listener = (
       _event: Electron.IpcMainEvent,
@@ -38,11 +39,12 @@ const requestSigning = (
   });
 };
 
-const handleValidRequest = async (request: JsonRPCRequest, webContents: WebContents) => {
+const handleValidRequest = async (req: UserRequest<unknown>, webContents: WebContents) => {
+  const { request } = req;
   switch (request.method) {
     case SUPPORTED_METHODS.SIGN_TRANSACTION:
-      return requestSigning(request, webContents);
-    // @todo Dont expose all accounts at once?
+      return requestSigning(req, webContents);
+    // @todo Permissions based on origin
     // @todo Decide whether to fetch directly from store?
     case SUPPORTED_METHODS.ACCOUNTS:
       return toJsonRpcResponse({
@@ -56,6 +58,7 @@ const handleValidRequest = async (request: JsonRPCRequest, webContents: WebConte
 
 // Replies follow: https://www.jsonrpc.org/specification
 export const handleRequest = async (
+  origin: string | undefined,
   data: string,
   webContents: WebContents
 ): Promise<JsonRPCResponse> => {
@@ -90,5 +93,5 @@ export const handleRequest = async (
   }
 
   // No errors found, handle as valid request
-  return handleValidRequest(request, webContents);
+  return handleValidRequest({ origin, request }, webContents);
 };

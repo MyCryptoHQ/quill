@@ -23,6 +23,7 @@ export interface TxHistoryEntry {
   signedTx?: Transaction;
   timestamp: number;
   result: TxResult;
+  origin: string | undefined;
 }
 
 export interface TxQueueEntry {
@@ -32,4 +33,5 @@ export interface TxQueueEntry {
   signedTx: undefined;
   timestamp: number;
   result: TxResult.WAITING;
+  origin: string | undefined;
 }

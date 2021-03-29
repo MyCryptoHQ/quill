@@ -80,7 +80,7 @@ describe('Transaction', () => {
           persistent: true,
           uuid: fAccounts[2].uuid
         },
-        tx: makeTx(transactionRequest)
+        tx: makeTx(transactionRequest.request)
       })
     );
   });

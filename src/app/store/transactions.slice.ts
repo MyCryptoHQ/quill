@@ -4,7 +4,7 @@ import { eventChannel } from 'redux-saga';
 import { all, call, put, select, take, takeLatest } from 'redux-saga/effects';
 
 import { ipcBridgeRenderer } from '@bridge';
-import { JsonRPCRequest, TSignTransaction, TxHistoryEntry, TxQueueEntry, TxResult } from '@types';
+import { TSignTransaction, TxHistoryEntry, TxQueueEntry, TxResult, UserRequest } from '@types';
 import { makeHistoryTx, makeQueueTx } from '@utils';
 
 import { ApplicationState } from './store';
@@ -26,7 +26,7 @@ const slice = createSlice({
   name: sliceName,
   initialState,
   reducers: {
-    enqueue(state, action: PayloadAction<JsonRPCRequest<TSignTransaction>>) {
+    enqueue(state, action: PayloadAction<UserRequest<TSignTransaction>>) {
       state.queue.push(makeQueueTx(action.payload));
     },
     dequeue(state, action: PayloadAction<TxQueueEntry>) {

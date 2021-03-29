@@ -145,7 +145,7 @@ describe('SignTransaction', () => {
           passphrase: 'password',
           path: fAccounts[1].dPath
         },
-        tx: makeTx(transactionRequest)
+        tx: makeTx(transactionRequest.request)
       })
     );
   });

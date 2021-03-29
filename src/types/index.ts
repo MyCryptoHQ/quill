@@ -16,3 +16,4 @@ export * from './txhistory';
 export * from './chain';
 export * from './dpath';
 export * from './passwords';
+export * from './request';
