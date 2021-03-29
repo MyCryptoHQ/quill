@@ -126,6 +126,7 @@
     "html-webpack-plugin": "4.5.0",
     "husky": "4.2.5",
     "jest": "26.4.2",
+    "jest-mock-random": "1.1.1",
     "jest-styled-components": "7.0.3",
     "lint-staged": "10.4.0",
     "node-loader": "1.0.1",

@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useMemo } from 'react';
 
 import { literal, object } from 'superstruct';
 import { FormError, useForm } from 'typed-react-form';
@@ -7,27 +7,31 @@ import { getValidator } from '@app/utils';
 import { Body, Box, Button, FormInput, Heading, IFlowComponentProps, Label } from '@components';
 import { getGeneratedMnemonicWords, useSelector } from '@store';
 import { translate, translateRaw } from '@translations';
+import { getRandomNumbers } from '@utils/random';
 
 export const GenerateAccountVerify = ({ onNext }: IFlowComponentProps) => {
   const mnemonicWords = useSelector(getGeneratedMnemonicWords);
+  const [first, second, third] = useMemo(() => getRandomNumbers(24, 3), []);
 
   // @todo Use yup for form validation
   const MnemonicWordsStruct = object({
-    sixthWord: literal(mnemonicWords[5]),
-    eighthWord: literal(mnemonicWords[7]),
-    twelfthWord: literal(mnemonicWords[11])
+    firstWord: literal(mnemonicWords[first]),
+    secondWord: literal(mnemonicWords[second]),
+    thirdWord: literal(mnemonicWords[third])
   });
 
   const form = useForm(
     {
-      sixthWord: '',
-      eighthWord: '',
-      twelfthWord: ''
+      firstWord: '',
+      secondWord: '',
+      thirdWord: ''
     },
     getValidator(MnemonicWordsStruct)
   );
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    console.log('Submitting');
+
     event.preventDefault();
 
     await form.validate();
@@ -35,6 +39,7 @@ export const GenerateAccountVerify = ({ onNext }: IFlowComponentProps) => {
       return;
     }
 
+    console.log('Calling onNext');
     onNext();
   };
 
@@ -49,25 +54,31 @@ export const GenerateAccountVerify = ({ onNext }: IFlowComponentProps) => {
       </Box>
       <form onSubmit={handleSubmit}>
         <Box mt="3">
-          <Label htmlFor="sixthWord">
-            <Body>{translate('WHAT_IS_6TH_WORD')}</Body>
+          <Label htmlFor="firstWord">
+            <Body>
+              {translate('WHAT_IS_NTH_WORD', { $nth: translateRaw(`ORDINAL_${first + 1}`) })}
+            </Body>
           </Label>
-          <FormInput id="sixthWord" name="sixthWord" data-testid="sixthWord" form={form} />
-          <FormError name="sixthWord" form={form} />
+          <FormInput id="firstWord" name="firstWord" data-testid="firstWord" form={form} />
+          <FormError name="firstWord" form={form} />
         </Box>
         <Box mt="3">
-          <Label htmlFor="eighthWord">
-            <Body>{translate('WHAT_IS_8TH_WORD')}</Body>
+          <Label htmlFor="secondWord">
+            <Body>
+              {translate('WHAT_IS_NTH_WORD', { $nth: translateRaw(`ORDINAL_${second + 1}`) })}
+            </Body>
           </Label>
-          <FormInput id="eighthWord" name="eighthWord" data-testid="eighthWord" form={form} />
-          <FormError name="eighthWord" form={form} />
+          <FormInput id="secondWord" name="secondWord" data-testid="secondWord" form={form} />
+          <FormError name="secondWord" form={form} />
         </Box>
         <Box mt="3">
-          <Label htmlFor="twelfthWord">
-            <Body>{translate('WHAT_IS_12TH_WORD')}</Body>
+          <Label htmlFor="thirdWord">
+            <Body>
+              {translate('WHAT_IS_NTH_WORD', { $nth: translateRaw(`ORDINAL_${third + 1}`) })}
+            </Body>
           </Label>
-          <FormInput id="twelfthWord" name="twelfthWord" data-testid="twelfthWord" form={form} />
-          <FormError name="twelfthWord" form={form} />
+          <FormInput id="thirdWord" name="thirdWord" data-testid="thirdWord" form={form} />
+          <FormError name="thirdWord" form={form} />
         </Box>
         <Button mt="4" type="submit" mb="3">
           {translateRaw('VERIFY_WORDS')}
