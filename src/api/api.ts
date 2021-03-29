@@ -58,9 +58,9 @@ const handleValidRequest = async (req: UserRequest<unknown>, webContents: WebCon
 
 // Replies follow: https://www.jsonrpc.org/specification
 export const handleRequest = async (
-  origin: string | undefined,
   data: string,
-  webContents: WebContents
+  webContents: WebContents,
+  origin?: string
 ): Promise<JsonRPCResponse> => {
   // @todo: Further sanitation?
   const [valid, request] = safeJSONParse<JsonRPCRequest>(data);

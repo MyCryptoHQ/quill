@@ -44,7 +44,7 @@ export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {
           {formatEther(tx.value)} {symbol}
         </Body>
         <Body fontSize="1" ml="1" color="BLUE_GREY">
-          {translateRaw('REQUEST_ORIGIN', { $origin: origin ? origin : translateRaw('UNKNOWN') })}{' '}
+          {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
           <TimeElapsed value={item.timestamp} />
         </Body>
       </Box>

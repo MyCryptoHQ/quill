@@ -15,7 +15,7 @@ export const runAPI = (webContents: WebContents) => {
     socket.on('message', async (data) => {
       log.debug(data);
       // Handle request in API and send response back when promise resolves.
-      const response = await handleRequest(origin, data as string, webContents);
+      const response = await handleRequest(data as string, webContents, origin);
       socket.send(JSON.stringify(response), (err) => {
         if (err) log.error(err);
       });

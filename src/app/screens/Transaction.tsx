@@ -55,7 +55,7 @@ export const Transaction = () => {
         <TxResultBanner result={result} />
         <FromToAccount sender={tx.from} recipient={tx.to} />
         <Body fontSize="14px" color="BLUE_GREY" mb="2" mt="2">
-          {translateRaw('REQUEST_ORIGIN', { $origin: origin ? origin : translateRaw('UNKNOWN') })}{' '}
+          {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
           <TimeElapsed value={timestamp} />
         </Body>
         <TxDetails tx={tx} />

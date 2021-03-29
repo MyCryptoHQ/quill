@@ -25,7 +25,7 @@ describe('runAPI', () => {
     const request = JSON.stringify({ id: 1, jsonrpc: '2.0', method: SUPPORTED_METHODS.ACCOUNTS });
     client.send(request);
     await waitFor(() =>
-      expect(handleRequest).toHaveBeenCalledWith(fRequestOrigin, request, mockWebContents)
+      expect(handleRequest).toHaveBeenCalledWith(request, mockWebContents, fRequestOrigin)
     );
 
     client.close();
