@@ -11,7 +11,7 @@ import {
   MnemonicAddressList,
   PanelBottom
 } from '@app/components';
-import { fetchAccounts, getAccountError, useDispatch, useSelector } from '@app/store';
+import { fetchAccounts, useDispatch } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
 import { DPathsList } from '@data';
 import { translateRaw } from '@translations';
@@ -38,13 +38,6 @@ export const AddAccountMnemonic = () => {
 
 const AddAccountMnemonicForm = ({ form }: { form: ReturnType<typeof useForm> }) => {
   const dispatch = useDispatch();
-  const error: string = useSelector(getAccountError);
-
-  useEffect(() => {
-    if (form.errorMap['mnemonic'] !== error) {
-      form.setError('mnemonic', error);
-    }
-  }, [error]);
   const { offset, dPath, addresses, selectedAccounts } = form.state;
 
   const updateAddresses = async () => {
