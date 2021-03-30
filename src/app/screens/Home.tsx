@@ -18,7 +18,6 @@ export const Home = () => {
   const isPersisted = usePersisted(persistor);
 
   useEffect(() => {
-    console.log(isPersisted);
     if (isPersisted && accountsLength === 0) {
       dispatch(push(ROUTE_PATHS.SETUP_ACCOUNT));
     }
