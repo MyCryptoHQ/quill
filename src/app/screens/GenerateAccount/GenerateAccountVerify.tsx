@@ -46,7 +46,6 @@ export const GenerateAccountVerify = ({ onNext }: IFlowComponentProps) => {
         <Heading fontSize="24px" lineHeight="150%" mb="2">
           {translateRaw('VERIFY_MNEMONIC_PHRASE_TITLE')}
         </Heading>
-        {/* @todo Update this copy */}
         <Body>{translate('VERIFY_MNEMONIC_PHRASE_DESCRIPTION')}</Body>
       </Box>
       <form onSubmit={handleSubmit}>
