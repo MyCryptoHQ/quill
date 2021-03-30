@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Persistor } from 'redux-persist';
 
 export const usePersisted = (persistor: Persistor): boolean => {
-  const [isPersisted, setPersisted] = useState(persistor.getState().bootstrapped);
+  const [isPersisted, setPersisted] = useState(false);
 
   const handleChange = () => {
     const { bootstrapped } = persistor.getState();
