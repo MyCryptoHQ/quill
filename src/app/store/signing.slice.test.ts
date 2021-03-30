@@ -7,7 +7,7 @@ import { fPrivateKey, fRequestOrigin, fSignedTx, fTxRequest } from '@fixtures';
 import { CryptoRequestType, SerializedWallet, WalletType } from '@types';
 import { makeQueueTx, makeTx } from '@utils';
 
-import slice, { sign, signSuccess, signWorker } from './signing.slice';
+import slice, { sign, signFailed, signSuccess, signWorker } from './signing.slice';
 import { dequeue } from './transactions.slice';
 
 jest.mock('@bridge', () => ({
@@ -25,13 +25,20 @@ const tx = makeTx(fTxRequest);
 
 describe('SigningSlice', () => {
   it('sign(): sets signing to true', () => {
-    const result = slice.reducer({ isSigning: false }, sign({ wallet, tx }));
+    const result = slice.reducer({ isSigning: false, error: undefined }, sign({ wallet, tx }));
     expect(result.isSigning).toBe(true);
   });
 
   it('signSuccess(): sets signing to false', () => {
-    const result = slice.reducer({ isSigning: true }, signSuccess());
+    const result = slice.reducer({ isSigning: true, error: undefined }, signSuccess());
     expect(result.isSigning).toBe(false);
+  });
+
+  it('signFailed(): sets error message and signing', () => {
+    const error = 'error';
+    const result = slice.reducer({ isSigning: true, error: undefined }, signFailed(error));
+    expect(result.isSigning).toBe(false);
+    expect(result.error).toBe(error);
   });
 });
 
@@ -51,6 +58,26 @@ describe('signWorker()', () => {
       .put(signSuccess())
       .call(ipcBridgeRenderer.api.sendResponse, { id: fTxRequest.id, result: fSignedTx })
       .put(dequeue(queueTx))
+      .silentRun();
+  });
+
+  it('handles signing errors', () => {
+    const queueTx = makeQueueTx({ origin: fRequestOrigin, request: fTxRequest });
+    return expectSaga(
+      signWorker,
+      sign({
+        wallet,
+        tx
+      })
+    )
+      .withState({ transactions: { queue: [queueTx], currentTransaction: queueTx } })
+      .provide({
+        call() {
+          throw new Error('error');
+        }
+      })
+      .call(ipcBridgeRenderer.crypto.invoke, { type: CryptoRequestType.SIGN, wallet, tx })
+      .put(signFailed('error'))
       .silentRun();
   });
 });

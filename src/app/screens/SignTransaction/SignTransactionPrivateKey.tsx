@@ -1,38 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { SignBottom } from '@app/components';
-import { translateRaw } from '@translations';
+import { getSigningError, useSelector } from '@app/store';
 import { SignTransactionProps, WalletType } from '@types';
 
-export const SignTransactionPrivateKey = ({
+import { PrivateKeyForm, usePrivateKeyForm } from '../forms/PrivateKeyForm';
+
+export const SignTransactionPrivateKey = (props: SignTransactionProps) => {
+  const form = usePrivateKeyForm();
+
+  return <SignTransactionPrivateKeyForm form={form} {...props} />;
+};
+
+const SignTransactionPrivateKeyForm = ({
+  form,
   onAccept,
-  onDeny,
-  currentAccount
-}: SignTransactionProps) => {
-  const [privKey, setPrivKey] = useState('');
+  onDeny
+}: Pick<SignTransactionProps, 'onAccept' | 'onDeny'> & {
+  form: ReturnType<typeof usePrivateKeyForm>;
+}) => {
+  const error: string = useSelector(getSigningError);
 
-  const changePrivateKey = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setPrivKey(e.currentTarget.value);
+  useEffect(() => {
+    if (form.errorMap['privateKey'] !== error) {
+      form.setError('privateKey', error);
+    }
+  }, [error]);
 
-  const handleAccept = () => {
-    return onAccept({ walletType: WalletType.PRIVATE_KEY, privateKey: privKey });
-  };
+  const handleSubmit = () =>
+    onAccept({ walletType: WalletType.PRIVATE_KEY, privateKey: form.values.privateKey });
 
   return (
-    <>
-      {currentAccount && !currentAccount.persistent && (
-        <>
-          <label htmlFor="privkey">{translateRaw('PRIVATE_KEY')}</label>
-          <br />
-          <input id="privkey" name="privkey" type="text" onChange={changePrivateKey} />
-          <br />
-        </>
-      )}
-      <SignBottom
-        disabled={privKey.length === 0 && !currentAccount.persistent}
-        handleAccept={handleAccept}
-        handleDeny={onDeny}
-      />
-    </>
+    <PrivateKeyForm form={form} onSubmit={handleSubmit}>
+      <SignBottom disabled={form.error} handleDeny={onDeny} />
+    </PrivateKeyForm>
   );
 };

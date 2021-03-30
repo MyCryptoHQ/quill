@@ -46,14 +46,20 @@ const slice = createSlice({
     },
     fetchAccounts(state, _: PayloadAction<(SerializedWallet & { persistent: boolean })[]>) {
       state.isFetching = true;
+      state.fetchError = undefined;
     },
     fetchFailed(state, action: PayloadAction<string>) {
+      state.isFetching = false;
       state.fetchError = action.payload;
+    },
+    fetchReset(state) {
+      state.isFetching = false;
+      state.fetchError = undefined;
     }
   }
 });
 
-export const { addAccount, removeAccount, fetchAccounts, fetchFailed } = slice.actions;
+export const { addAccount, removeAccount, fetchAccounts, fetchFailed, fetchReset } = slice.actions;
 
 export default slice;
 
@@ -62,7 +68,8 @@ const persistConfig = {
   keyPrefix: '',
   storage,
   serialize: false,
-  deserialize: false
+  deserialize: false,
+  whitelist: ['accounts']
 };
 
 export const reducer = persistReducer(persistConfig, slice.reducer);
@@ -70,6 +77,11 @@ export const reducer = persistReducer(persistConfig, slice.reducer);
 export const getAccounts = createSelector(
   (state: ApplicationState) => state.accounts,
   (accounts) => accounts.accounts
+);
+
+export const getAccountError = createSelector(
+  (state: ApplicationState) => state.accounts,
+  (accounts) => accounts.fetchError
 );
 
 /**

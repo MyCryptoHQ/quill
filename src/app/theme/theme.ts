@@ -201,6 +201,11 @@ export const theme: DefaultTheme = {
       fontSize: 2,
       lineHeight: 1,
       color: 'BODY'
+    },
+    error: {
+      fontSize: 2,
+      lineHeight: 1,
+      color: 'RED'
     }
   },
   forms: {
@@ -218,6 +223,13 @@ export const theme: DefaultTheme = {
       borderWidth: '1px',
       borderStyle: 'solid',
       borderColor: 'GREY_ATHENS',
+      boxShadow: '0px 1px 1px rgba(232, 234, 237, 0.5), inset 0px 1px 3px rgba(232, 234, 237, 0.5)',
+      borderRadius: 0
+    },
+    error: {
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: 'RED',
       boxShadow: '0px 1px 1px rgba(232, 234, 237, 0.5), inset 0px 1px 3px rgba(232, 234, 237, 0.5)',
       borderRadius: 0
     }

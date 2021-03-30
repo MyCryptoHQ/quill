@@ -1,107 +1,48 @@
-import React, { FormEvent } from 'react';
+import React, { useEffect } from 'react';
 
-import { boolean, instance, object, optional, refine, string } from 'superstruct';
-import { FormError, useForm } from 'typed-react-form';
-
-import {
-  Body,
-  Box,
-  Button,
-  FileBox,
-  FormCheckbox,
-  FormInput,
-  Image,
-  PanelBottom
-} from '@app/components';
-import { fetchAccounts, useDispatch } from '@app/store';
-import { getValidator } from '@app/utils';
-import warning from '@assets/icons/circle-warning.svg';
-import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
-import { translate, translateRaw } from '@translations';
+import { Body, Box, Button, FormCheckbox, PanelBottom } from '@app/components';
+import { fetchAccounts, getAccountError, useDispatch, useSelector } from '@app/store';
+import { translateRaw } from '@translations';
 import { WalletType } from '@types';
 
-const ADD_KEYSTORE_STRUCT = object({
-  keystore: refine(optional(instance(File)), 'Not empty', (value) => {
-    if (value) {
-      return true;
-    }
-
-    return translateRaw('KEYSTORE_EMPTY');
-  }),
-  password: refine(string(), 'Not empty', (value) => {
-    if (value.length > 0) {
-      return true;
-    }
-
-    return translateRaw('PASSWORD_EMPTY');
-  }),
-  persistent: boolean()
-});
+import { KeystoreForm, useKeystoreForm } from '../forms/KeystoreForm';
 
 export const AddAccountKeystore = () => {
-  const form = useForm(
-    {
-      keystore: undefined,
-      password: '',
-      persistent: true
-    },
-    getValidator(ADD_KEYSTORE_STRUCT),
-    true
-  );
+  const form = useKeystoreForm();
+
+  return <AddAccountKeystoreForm form={form} />;
+};
+
+const AddAccountKeystoreForm = ({ form }: { form: ReturnType<typeof useKeystoreForm> }) => {
   const dispatch = useDispatch();
+  const error: string = useSelector(getAccountError);
 
-  const changeKeystore = (f: File) => form.setValue('keystore', f);
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    await form.validate();
-    if (form.error) {
-      return;
+  useEffect(() => {
+    if (form.errorMap['keystore'] !== error) {
+      form.setError('keystore', error);
     }
-    // @todo Handle errors
-    form.values.keystore.text().then((keystore) => {
-      dispatch(
-        fetchAccounts([
-          {
-            walletType: WalletType.KEYSTORE,
-            keystore,
-            password: form.values.password,
-            persistent: form.values.persistent
-          }
-        ])
-      );
-    });
+  }, [error]);
+
+  const handleSubmit = () => {
+    form.values.keystore
+      .text()
+      .then((keystore) => {
+        dispatch(
+          fetchAccounts([
+            {
+              walletType: WalletType.KEYSTORE,
+              keystore,
+              password: form.values.password,
+              persistent: form.values.persistent
+            }
+          ])
+        );
+      })
+      .catch((err) => form.setError('keystore', err.message));
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Box mb="150px">
-        <FileBox my="2" onChange={changeKeystore} />
-        <FormError name="keystore" form={form} />
-        <Box mt="2">
-          <label>
-            {translateRaw('KEYSTORE_PASSWORD')}
-            <FormInput
-              name="password"
-              id="password"
-              form={form}
-              type="text"
-              placeholder={translateRaw('KEYSTORE_PASSWORD_PLACEHOLDER')}
-              mt="2"
-            />
-            <FormError name="password" form={form} />
-          </label>
-        </Box>
-        <Box mt="2" variant="rowAlign">
-          <Image src={warning} width="20px" height="20px" minWidth="20px" alt="Warning" mr="2" />
-          <Body>
-            {translate('SECRET_WARNING', {
-              $link: getKBHelpArticle(KB_HELP_ARTICLE.HOW_TO_BACKUP)
-            })}
-          </Body>
-        </Box>
-      </Box>
+    <KeystoreForm form={form} onSubmit={handleSubmit}>
       <PanelBottom pb="24px">
         <Button type="submit">{translateRaw('SUBMIT')}</Button>
         <Box pt="2" variant="rowAlign">
@@ -109,6 +50,6 @@ export const AddAccountKeystore = () => {
           <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
         </Box>
       </PanelBottom>
-    </form>
+    </KeystoreForm>
   );
 };

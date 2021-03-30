@@ -1,13 +1,24 @@
 import React, { FormEvent } from 'react';
 
 import { object, refine, string } from 'superstruct';
-import { FormError, useForm } from 'typed-react-form';
+import { useForm } from 'typed-react-form';
 
 import { ROUTE_PATHS } from '@app/routing';
 import { login, useDispatch, useSelector } from '@app/store';
 import { getValidator } from '@app/utils';
 import lock from '@assets/icons/lock.svg';
-import { Body, Box, Button, Flex, FormInput, Heading, Label, LinkApp, Logo } from '@components';
+import {
+  Body,
+  Box,
+  Button,
+  Flex,
+  FormError,
+  FormInput,
+  Heading,
+  Label,
+  LinkApp,
+  Logo
+} from '@components';
 import { Trans, translateRaw } from '@translations';
 
 const LOGIN_STRUCT = object({

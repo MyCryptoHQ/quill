@@ -1,51 +1,45 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { SignBottom } from '@app/components';
-import { translateRaw } from '@translations';
+import { getSigningError, useSelector } from '@app/store';
 import { SignTransactionProps, WalletType } from '@types';
 
-export const SignTransactionMnemonic = ({
+import { MnemonicForm, useMnemonicForm } from '../forms/MnemonicForm';
+
+export const SignTransactionMnemonic = (props: SignTransactionProps) => {
+  const form = useMnemonicForm();
+
+  return <SignTransactionMnemonicForm form={form} {...props} />;
+};
+
+const SignTransactionMnemonicForm = ({
+  form,
   onAccept,
   onDeny,
   currentAccount
-}: SignTransactionProps) => {
-  const [phrase, setPhrase] = useState('');
-  const [password, setPassword] = useState('');
+}: Pick<SignTransactionProps, 'onAccept' | 'onDeny' | 'currentAccount'> & {
+  form: ReturnType<typeof useMnemonicForm>;
+}) => {
+  const error: string = useSelector(getSigningError);
 
-  const changeMnemonicPhrase = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setPhrase(e.currentTarget.value);
+  useEffect(() => {
+    if (form.errorMap['mnemonic'] !== error) {
+      form.setError('mnemonic', error);
+    }
+  }, [error]);
 
-  const changePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setPassword(e.currentTarget.value);
-
-  const handleAccept = async () => {
+  const handleSubmit = async () => {
     return onAccept({
       walletType: WalletType.MNEMONIC,
-      mnemonicPhrase: phrase,
-      passphrase: password,
+      mnemonicPhrase: form.values.mnemonic,
+      passphrase: form.values.password,
       path: currentAccount.dPath!
     });
   };
 
   return (
-    <>
-      {currentAccount && !currentAccount.persistent && (
-        <>
-          <label htmlFor="mnemonic">{translateRaw('MNEMONIC_PHRASE')}</label>
-          <br />
-          <input id="mnemonic" name="mnemonic" type="text" onChange={changeMnemonicPhrase} />
-          <br />
-          <label htmlFor="password">{translateRaw('PASSWORD')}</label>
-          <br />
-          <input id="password" name="password" type="text" onChange={changePassword} />
-          <br />
-        </>
-      )}
-      <SignBottom
-        disabled={phrase.length === 0 && !currentAccount.persistent}
-        handleAccept={handleAccept}
-        handleDeny={onDeny}
-      />
-    </>
+    <MnemonicForm form={form} onSubmit={handleSubmit}>
+      <SignBottom disabled={form.error} handleDeny={onDeny} />
+    </MnemonicForm>
   );
 };

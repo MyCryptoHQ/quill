@@ -71,7 +71,7 @@
     "ADD_ANOTHER_ACCOUNT": "Add Another Account",
     "PRIVATE_KEY_EMPTY": "Please enter a private key",
     "MNEMONIC_EMPTY": "Please enter a mnemonic phrase",
-    "KEYSTORE_EMPTY": "Please enter upload a keystore file",
+    "KEYSTORE_EMPTY": "Please upload a keystore file",
     "REQUEST_ORIGIN": "Initiated by $origin",
     "UNKNOWN": "Unknown"
   }
