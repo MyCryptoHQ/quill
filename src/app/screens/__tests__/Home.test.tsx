@@ -15,6 +15,11 @@ import { makeHistoryTx, makeQueueTx } from '@utils';
 
 import { Home } from '../Home';
 
+jest.mock('@hooks', () => ({
+  ...jest.requireActual('@hooks'),
+  usePersisted: jest.fn().mockReturnValue(true)
+}));
+
 const request = { origin: fRequestOrigin, request: fTxRequest };
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 const queueTx = makeQueueTx(request);
@@ -40,10 +45,6 @@ function getComponent(store: EnhancedStore<DeepPartial<ApplicationState>> = mock
 }
 
 describe('Home', () => {
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
-
   it('renders and allows selection of queue and history items', async () => {
     const { getAllByText, getByTestId, getAllByTestId } = getComponent();
     expect(getAllByText('WAITING ON ACTION', { exact: false })).toBeDefined();

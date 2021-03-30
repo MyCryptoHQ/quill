@@ -12,7 +12,7 @@ import { translateRaw } from '@translations';
 import { DBRequestType, DeepPartial } from '@types';
 
 import App from './App';
-import { ApplicationState, createPersistor, createStore } from './store';
+import { ApplicationState, createStore } from './store';
 
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {
@@ -28,12 +28,10 @@ jest.mock('@bridge', () => ({
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
 function getComponent(store: EnhancedStore<DeepPartial<ApplicationState>> = createStore()) {
-  // @ts-expect-error `createPersistor` expects a full store type
-  const persistor = createPersistor(store);
   return render(
     <Provider store={store}>
       <Router>
-        <App persistor={persistor} />
+        <App />
       </Router>
     </Provider>
   );

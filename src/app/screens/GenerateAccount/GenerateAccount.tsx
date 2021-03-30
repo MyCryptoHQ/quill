@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
+import { useUnmount } from '@hooks';
 import { push } from 'connected-react-router';
 
 import { Flow, IFlowComponent } from '@components';
@@ -33,9 +34,8 @@ export const GenerateAccount = () => {
     dispatch(push(ROUTE_PATHS.HOME));
   };
 
-  useEffect(() => {
-    // Clears generated account on unmount
-    return () => dispatch(setGeneratedAccount(undefined));
+  useUnmount(() => {
+    dispatch(setGeneratedAccount(undefined));
   });
 
   return <Flow components={components} onDone={handleDone} />;

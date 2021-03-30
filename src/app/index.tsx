@@ -32,11 +32,9 @@ import { ConnectedRouter } from 'connected-react-router';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-import { createPersistor, createStore, history } from './store';
+import { history, persistor, store } from './store';
 
 __webpack_nonce__ = window.__webpack_nonce__;
-
-const store = createStore();
 
 // Hack to make react-hot-loader work
 const render = () => {
@@ -45,7 +43,7 @@ const render = () => {
   ReactDOM.render(
     <Provider store={store}>
       <ConnectedRouter history={history}>
-        <App persistor={createPersistor(store)} />
+        <App persistor={persistor} />
       </ConnectedRouter>
     </Provider>,
     document.getElementById('root')

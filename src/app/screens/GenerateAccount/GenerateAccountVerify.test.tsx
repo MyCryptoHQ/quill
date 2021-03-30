@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
+import { fOtherMnemonicPhrase } from '@fixtures';
 import { ApplicationState } from '@store';
 import { translateRaw } from '@translations';
 import { DeepPartial } from '@types';
@@ -76,8 +77,7 @@ describe('GenerateAccountVerify', () => {
       createMockStore({
         accounts: {
           generatedAccount: {
-            mnemonicPhrase:
-              'nature dose sweet silent apple word scan street top inquiry weekend machine body tape bitter venue tube guide blame heavy want load safe base',
+            mnemonicPhrase: fOtherMnemonicPhrase,
             address: '0xc6D5a3c98EC9073B54FA0969957Bd582e8D874bf'
           }
         }
