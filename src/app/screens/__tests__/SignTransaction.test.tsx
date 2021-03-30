@@ -35,7 +35,7 @@ function getComponent(store: EnhancedStore<DeepPartial<ApplicationState>>) {
   );
 }
 
-const getComponentWithStore = (account: IAccount = fAccount) => {
+const getComponentWithStore = (account: IAccount = fAccount, error: string = undefined) => {
   const transactionRequest = makeQueueTx(getTransactionRequest(account.address));
   const mockStore = createMockStore({
     accounts: {
@@ -50,7 +50,7 @@ const getComponentWithStore = (account: IAccount = fAccount) => {
     },
     signing: {
       isSigning: false,
-      error: undefined
+      error
     }
   });
 
@@ -93,6 +93,14 @@ describe('SignTransaction', () => {
     );
   });
 
+  it('shows private key Redux error', async () => {
+    const {
+      component: { getByText }
+    } = getComponentWithStore(fAccount, 'error');
+
+    await waitFor(() => expect(getByText('error', { exact: false })).toBeDefined());
+  });
+
   it('can accept tx with keystore', async () => {
     const {
       component: { getByText, container, getByTestId },
@@ -129,6 +137,40 @@ describe('SignTransaction', () => {
     );
   });
 
+  it('shows keystore file error', async () => {
+    const {
+      component: { getByText, container, getByTestId }
+    } = getComponentWithStore(fAccounts[3]);
+    await waitFor(() => expect(getByText(translateRaw('APPROVE_TX'))?.textContent).toBeDefined());
+
+    const keystoreBlob = new Blob([fKeystore], { type: 'application/json' });
+    const keystoreFile = new File([keystoreBlob], 'keystore.json');
+    keystoreFile.text = async () => {
+      throw new Error('error');
+    };
+
+    const keystoreInput = getByTestId('file-upload');
+    expect(keystoreInput).toBeDefined();
+    fireEvent.change(keystoreInput, { target: { files: [keystoreFile] } });
+
+    const passwordInput = container.querySelector('input[name="password"]');
+    expect(passwordInput).toBeDefined();
+    fireEvent.change(passwordInput, { target: { value: fKeystorePassword } });
+
+    const acceptButton = getByText(translateRaw('APPROVE_TX'));
+    fireEvent.click(acceptButton);
+
+    await waitFor(() => expect(getByText('error', { exact: false })).toBeDefined());
+  });
+
+  it('shows keystore Redux error', async () => {
+    const {
+      component: { getByText }
+    } = getComponentWithStore(fAccounts[3], 'error');
+
+    await waitFor(() => expect(getByText('error', { exact: false })).toBeDefined());
+  });
+
   it('can accept tx with mnemonic', async () => {
     const {
       component: { getByText, getByLabelText, getByTestId },
@@ -160,6 +202,14 @@ describe('SignTransaction', () => {
         })
       )
     );
+  });
+
+  it('shows mnemonic Redux error', async () => {
+    const {
+      component: { getByText }
+    } = getComponentWithStore(fAccounts[1], 'error');
+
+    await waitFor(() => expect(getByText('error', { exact: false })).toBeDefined());
   });
 
   it('can deny tx', async () => {
