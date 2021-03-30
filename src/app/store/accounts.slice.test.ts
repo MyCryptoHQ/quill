@@ -3,12 +3,12 @@ import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
 import { ipcBridgeRenderer } from '@bridge';
+import { DEFAULT_DERIVATION_PATH } from '@config/derivation';
 import { fAccount, fPrivateKey } from '@fixtures';
 import { CryptoRequestType, DBRequestType, SerializedWallet, TAddress, WalletType } from '@types';
 
 import slice, {
   addAccount,
-  DEFAULT_DERIVATION_PATH,
   fetchAccounts,
   fetchAccountsWorker,
   fetchFailed,

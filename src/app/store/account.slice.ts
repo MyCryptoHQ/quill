@@ -5,6 +5,7 @@ import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
 import { ROUTE_PATHS } from '@app/routing';
 import { ipcBridgeRenderer } from '@bridge';
+import { DEFAULT_DERIVATION_PATH } from '@config/derivation';
 import {
   CryptoRequestType,
   DBRequestType,
@@ -18,8 +19,6 @@ import { generateDeterministicAddressUUID } from '@utils';
 
 import { ApplicationState } from './store';
 import { storage } from './utils';
-
-export const DEFAULT_DERIVATION_PATH = `m/44'/60'/0'/0/0`;
 
 export interface AccountsState {
   accounts: IAccount[];

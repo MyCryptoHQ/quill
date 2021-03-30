@@ -13,8 +13,7 @@ export {
   getAccountsLength,
   getGeneratedMnemonicWords,
   getGeneratedAccount,
-  AccountsState,
-  DEFAULT_DERIVATION_PATH
+  AccountsState
 } from './account.slice';
 export { setLoggedIn, setNewUser, login, logout, createPassword } from './auth.slice';
 export {

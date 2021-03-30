@@ -13,8 +13,9 @@ import {
   Panel,
   PaperWallet
 } from '@components';
+import { DEFAULT_DERIVATION_PATH } from '@config/derivation';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
-import { DEFAULT_DERIVATION_PATH, getGeneratedAccount, useSelector } from '@store';
+import { getGeneratedAccount, useSelector } from '@store';
 import { translate, translateRaw } from '@translations';
 
 export const GenerateAccountEnd = ({ onNext }: IFlowComponentProps) => {
