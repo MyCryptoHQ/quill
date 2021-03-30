@@ -18,7 +18,7 @@ const AddAccountKeystoreForm = ({ form }: { form: ReturnType<typeof useKeystoreF
   const error: string = useSelector(getAccountError);
 
   useEffect(() => {
-    if (form.errorMap['keystore'] != error) {
+    if (form.errorMap['keystore'] !== error) {
       form.setError('keystore', error);
     }
   }, [error]);

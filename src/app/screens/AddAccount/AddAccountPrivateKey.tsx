@@ -18,7 +18,7 @@ const AddAccountPrivateKeyForm = ({ form }: { form: ReturnType<typeof usePrivate
   const error: string = useSelector(getAccountError);
 
   useEffect(() => {
-    if (form.errorMap['privateKey'] != error) {
+    if (form.errorMap['privateKey'] !== error) {
       form.setError('privateKey', error);
     }
   }, [error]);

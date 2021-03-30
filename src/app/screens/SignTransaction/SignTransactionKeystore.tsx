@@ -20,7 +20,7 @@ const SignTransactionKeystoreForm = ({
   const error: string = useSelector(getSigningError);
 
   useEffect(() => {
-    if (form.errorMap['keystore'] != error) {
+    if (form.errorMap['keystore'] !== error) {
       form.setError('keystore', error);
     }
   }, [error]);

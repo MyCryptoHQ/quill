@@ -49,7 +49,7 @@ export const { sign, signSuccess, signFailed } = slice.actions;
 
 export default slice;
 
-export const getError = createSelector(
+export const getSigningError = createSelector(
   (state: ApplicationState) => state.signing,
   (signing) => signing.error
 );

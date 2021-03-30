@@ -22,7 +22,7 @@ const SignTransactionPrivateKeyForm = ({
   const error: string = useSelector(getSigningError);
 
   useEffect(() => {
-    if (form.errorMap['privateKey'] != error) {
+    if (form.errorMap['privateKey'] !== error) {
       form.setError('privateKey', error);
     }
   }, [error]);

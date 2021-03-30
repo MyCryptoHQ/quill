@@ -41,7 +41,7 @@ const AddAccountMnemonicForm = ({ form }: { form: ReturnType<typeof useForm> }) 
   const error: string = useSelector(getAccountError);
 
   useEffect(() => {
-    if (form.errorMap['mnemonic'] != error) {
+    if (form.errorMap['mnemonic'] !== error) {
       form.setError('mnemonic', error);
     }
   }, [error]);
@@ -49,7 +49,7 @@ const AddAccountMnemonicForm = ({ form }: { form: ReturnType<typeof useForm> }) 
 
   const updateAddresses = async () => {
     try {
-      const result = await ipcBridgeRenderer.crypto.invoke({
+      const result: GetAddressesResult[] = await ipcBridgeRenderer.crypto.invoke({
         type: CryptoRequestType.GET_ADDRESSES,
         wallet: {
           walletType: WalletType.MNEMONIC,
@@ -60,7 +60,7 @@ const AddAccountMnemonicForm = ({ form }: { form: ReturnType<typeof useForm> }) 
         limit: ADDRESSES_PER_PAGE,
         offset
       });
-      form.setState({ ...form.state, addresses: (result as unknown) as GetAddressesResult[] });
+      form.setState({ ...form.state, addresses: result });
     } catch (err) {
       form.setError('mnemonic', err.message);
     }

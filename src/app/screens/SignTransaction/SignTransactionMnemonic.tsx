@@ -23,7 +23,7 @@ const SignTransactionMnemonicForm = ({
   const error: string = useSelector(getSigningError);
 
   useEffect(() => {
-    if (form.errorMap['mnemonic'] != error) {
+    if (form.errorMap['mnemonic'] !== error) {
       form.setError('mnemonic', error);
     }
   }, [error]);

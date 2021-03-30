@@ -79,7 +79,7 @@ export const getAccounts = createSelector(
   (accounts) => accounts.accounts
 );
 
-export const getError = createSelector(
+export const getAccountError = createSelector(
   (state: ApplicationState) => state.accounts,
   (accounts) => accounts.fetchError
 );
