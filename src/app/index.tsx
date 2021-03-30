@@ -32,7 +32,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-import { history, persistor, store } from './store';
+import { history, store } from './store';
 
 __webpack_nonce__ = window.__webpack_nonce__;
 
@@ -43,7 +43,7 @@ const render = () => {
   ReactDOM.render(
     <Provider store={store}>
       <ConnectedRouter history={history}>
-        <App persistor={persistor} />
+        <App />
       </ConnectedRouter>
     </Provider>,
     document.getElementById('root')
