@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { useUnmount } from '@hooks';
 import { push } from 'connected-react-router';
 
 import { Flow, IFlowComponent } from '@components';
+import { useUnmount } from '@hooks';
 import { ROUTE_PATHS } from '@routing';
 import { setGeneratedAccount, useDispatch } from '@store';
 
