@@ -90,7 +90,7 @@
     "CONFIRM_MNEMONIC_PHRASE": "Confirm Phrase",
     "REGENERATE_MNEMONIC_PHRASE": "Regenerate Mnemonic Phrase",
     "VERIFY_MNEMONIC_PHRASE_TITLE": "Verify Your Phrase",
-    "VERIFY_MNEMONIC_PHRASE_DESCRIPTION": "Click the words of your phrase in order. If you've forgotten the next word, click the \"Reveal Next Word\" button below.",
+    "VERIFY_MNEMONIC_PHRASE_DESCRIPTION": "To verify your mnemonic phrase, enter a few words of the mnemonic phrase below.",
     "WHAT_IS_NTH_WORD": "What is the **$nth word** of your phrase?",
     "VERIFY_WORDS": "Verify Words",
     "NEW_ACCOUNT_TITLE": "Here's your new account!",
