@@ -23,8 +23,10 @@ export const FileBox = ({
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFileName(e.currentTarget.files[0].name);
-    onChange(e.currentTarget.files[0]);
+    if (e.currentTarget.files) {
+      setFileName(e.currentTarget.files[0].name);
+      onChange(e.currentTarget.files[0]);
+    }
   };
 
   return (

@@ -45,7 +45,7 @@ const getChannel = <A, B>(channel: IPC_CHANNELS) => {
   });
 
   const asMain = (ipcMain: IpcMain) => ({
-    handle: (handler: (event: Electron.IpcMainEvent, request: A) => Promise<B>) =>
+    handle: (handler: (event: Electron.IpcMainInvokeEvent, request: A) => Promise<B>) =>
       ipcMain.handle(channel, handler)
   });
 

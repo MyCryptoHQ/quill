@@ -21,16 +21,16 @@ import {
   useSelector
 } from '@app/store';
 import { translateRaw } from '@translations';
-import { TxResult } from '@types';
+import { TransactionRequest, TxResult } from '@types';
 
 export const Transaction = () => {
   const dispatch = useDispatch();
   const accounts = useSelector(getAccounts);
-  const { tx, timestamp, result, origin } = useSelector(getCurrentTransaction);
+  const { tx, timestamp, result, origin } = useSelector(getCurrentTransaction)!;
   const currentAccount = tx && accounts.find((a) => a.address === tx.from);
 
   const handleAccept = () => {
-    if (currentAccount.persistent) {
+    if (currentAccount?.persistent) {
       dispatch(
         sign({
           wallet: {
@@ -58,7 +58,7 @@ export const Transaction = () => {
           {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
           <TimeElapsed value={timestamp} />
         </Body>
-        <TxDetails tx={tx} />
+        <TxDetails tx={tx as Required<TransactionRequest>} />
       </Box>
       {result === TxResult.WAITING && (
         <SignBottom disabled={false} handleAccept={handleAccept} handleDeny={handleDeny} />

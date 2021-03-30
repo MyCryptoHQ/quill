@@ -15,5 +15,5 @@ export const toErrorMap = <T>([error]: [StructError | undefined, T]): ErrorMap<T
 };
 
 export const getValidator = <T, S>(struct: Struct<T, S>): Validator<T, string> => {
-  return (values: T) => toErrorMap(struct.validate(values));
+  return (values: T) => toErrorMap(struct.validate(values)) as ErrorMap<T, string>;
 };

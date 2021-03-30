@@ -64,7 +64,7 @@ export const handleRequest = async (
 ): Promise<JsonRPCResponse> => {
   // @todo: Further sanitation?
   const [valid, request] = safeJSONParse<JsonRPCRequest>(data);
-  if (valid !== null) {
+  if (valid !== null || !request) {
     return toJsonRpcResponse({
       id: null,
       error: { code: '-32700', message: 'Parse error' }

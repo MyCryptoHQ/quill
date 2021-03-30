@@ -1,3 +1,4 @@
+import type crypto from 'crypto';
 import { ipcMain } from 'electron';
 import Store from 'electron-store';
 import fs from 'fs';
@@ -12,7 +13,7 @@ import { handleRequest as _handleRequest, runService as _runService } from './db
 jest.mock('path');
 
 jest.mock('crypto', () => ({
-  ...jest.requireActual('crypto'),
+  ...jest.requireActual<typeof crypto>('crypto'),
   randomBytes: jest.fn().mockImplementation(() => Buffer.from('2d21938ada7a165c39c8f3fd', 'hex'))
 }));
 

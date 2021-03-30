@@ -133,7 +133,7 @@ export const Trans = ({
           <React.Fragment key={uniqueId()}>{matchSplit[0]}</React.Fragment>,
           <React.Fragment key={uniqueId()}>
             {typeof variablesComponents[resolvedComponentIndexNumber] === 'function'
-              ? (variablesComponents[resolvedComponentIndexNumber] as () => unknown)()
+              ? (variablesComponents[resolvedComponentIndexNumber] as () => ReactNode)()
               : variablesComponents[resolvedComponentIndexNumber]}
           </React.Fragment>
         ]);

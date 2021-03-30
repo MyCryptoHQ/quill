@@ -83,15 +83,17 @@ const checkPassword = (hashedPassword: Buffer) => {
   }
 };
 
-// @todo Improve typing?
-export const getFromStore = <T>(key: string, password = encryptionKey): T | null => {
+export const getFromStore = <T>(key: string, password = encryptionKey): T => {
   const result = store.get(key) as string;
-  if (!result) {
-    return null;
+  if (result) {
+    const decrypted = decrypt(result, password);
+    const [valid, parsed] = safeJSONParse<T>(decrypted);
+    if (valid && parsed) {
+      return parsed;
+    }
   }
-  const decrypted = decrypt(result, password);
-  const [valid, parsed] = safeJSONParse<T>(decrypted);
-  return valid === null ? parsed : null;
+
+  throw new Error(`Store does not contain a value with key ${key}`);
 };
 
 export const setInStore = <T>(key: string, obj: T, checkLogin = true) => {
@@ -114,7 +116,8 @@ export const getPrivateKey = async (uuid: TUuid) => {
   if (result) {
     return decrypt(result, encryptionKey);
   }
-  return null;
+
+  throw new Error(`No account exists with UUID ${uuid}`);
 };
 
 const deleteAccountSecrets = async (uuid: TUuid) => {
@@ -132,21 +135,21 @@ const saveAccountSecrets = async (initialiseWallet: SerializedWallet) => {
 export const handleRequest = async (request: DBRequest): Promise<DBResponse> => {
   switch (request.type) {
     case DBRequestType.INIT:
-      return Promise.resolve(init(request.password));
+      return init(request.password);
     case DBRequestType.LOGIN:
-      return Promise.resolve(login(request.password));
+      return login(request.password);
     case DBRequestType.LOGOUT:
-      return Promise.resolve(logout());
+      return logout();
     case DBRequestType.RESET:
       return reset();
     case DBRequestType.IS_LOGGED_IN:
-      return Promise.resolve(isLoggedIn());
+      return isLoggedIn();
     case DBRequestType.IS_NEW_USER:
       return !(await storeExists());
     case DBRequestType.GET_FROM_STORE:
-      return Promise.resolve(getFromStore(request.key));
+      return getFromStore(request.key);
     case DBRequestType.SET_IN_STORE:
-      return Promise.resolve(setInStore(request.key, request.payload));
+      return setInStore(request.key, request.payload);
     case DBRequestType.SAVE_ACCOUNT_SECRETS:
       return saveAccountSecrets(request.wallet);
     case DBRequestType.GET_PRIVATE_KEY:

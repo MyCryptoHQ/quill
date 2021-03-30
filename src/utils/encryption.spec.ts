@@ -1,7 +1,9 @@
+import type crypto from 'crypto';
+
 import { decrypt, encrypt, hashPassword } from './encryption';
 
 jest.mock('crypto', () => ({
-  ...jest.requireActual('crypto'),
+  ...jest.requireActual<typeof crypto>('crypto'),
   randomBytes: jest.fn().mockImplementation(() => Buffer.from('2d21938ada7a165c39c8f3fd', 'hex'))
 }));
 

@@ -16,7 +16,10 @@ export const TxHistoryCard = ({ item }: { item: TxHistoryEntry }) => {
   const dispatch = useDispatch();
   const { origin, result } = item;
   const isApproved = result === TxResult.APPROVED;
-  const handleSelect = () => dispatch(selectTransaction(item));
+
+  const handleSelect = () => {
+    dispatch(selectTransaction(item));
+  };
 
   return (
     <Box variant="rowAlign" py="16px">

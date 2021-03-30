@@ -1,4 +1,4 @@
-import { is, unknown } from 'superstruct';
+import { is, Struct, unknown } from 'superstruct';
 
 import { SUPPORTED_METHODS } from '@config';
 import { JsonRPCRequest, JSONRPCRequestStruct, SignTransactionStruct } from '@types';
@@ -8,8 +8,8 @@ const paramSchemas = {
   [SUPPORTED_METHODS.ACCOUNTS]: unknown()
 };
 
-export const isValidParams = (request: JsonRPCRequest) => {
-  return is(request.params, paramSchemas[request.method]);
+export const isValidParams = (request: JsonRPCRequest): boolean => {
+  return is(request.params, paramSchemas[request.method] as Struct);
 };
 
 export const isValidRequest = (request: JsonRPCRequest): boolean => {

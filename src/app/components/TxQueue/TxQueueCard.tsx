@@ -14,9 +14,12 @@ import { TxQueueEntry } from '@types';
 export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {
   const dispatch = useDispatch();
   const { tx, origin } = item;
-  const handleSelect = () => dispatch(selectTransaction(item));
-  const chain = getChain(tx.chainId);
+  const chain = getChain(tx.chainId!);
   const symbol = chain?.nativeCurrency?.symbol ?? '?';
+
+  const handleSelect = () => {
+    dispatch(selectTransaction(item));
+  };
 
   return (
     <Box py="16px">
@@ -41,7 +44,7 @@ export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {
       </Box>
       <Box variant="rowAlign" mt="1">
         <Body fontSize="1" fontWeight="bold">
-          {formatEther(tx.value)} {symbol}
+          {formatEther(tx.value!)} {symbol}
         </Body>
         <Body fontSize="1" ml="1" color="BLUE_GREY">
           {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}

@@ -11,18 +11,19 @@ export function useInterval(
 
   useEffect(() => {
     savedCallback.current = callback;
-  });
+  }, []);
 
   useEffect(() => {
     function tick() {
-      if (!savedCallback.current) return;
-      savedCallback.current();
+      savedCallback.current?.();
     }
 
     // Trigger the interval immediately
-    if (immediate) tick();
+    if (immediate) {
+      tick();
+    }
 
     const id = setInterval(tick, delay);
     return () => clearInterval(id);
-  }, [delay, ...trigger]);
+  }, [delay, ...(trigger ?? [])]);
 }

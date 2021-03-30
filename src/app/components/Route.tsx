@@ -7,18 +7,11 @@ import { useSelector } from '@app/store';
 
 type Props = RouteProps & { requireLogin: boolean };
 
-export const Route = ({ component: Component, requireLogin, ...rest }: Props) => {
+export const Route = ({ requireLogin, ...props }: Props) => {
   const loggedIn = useSelector((state) => state.auth.loggedIn);
-  return (
-    <ActualRoute
-      {...rest}
-      render={(props) =>
-        (requireLogin && loggedIn) || !requireLogin ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to={ROUTE_PATHS.LOCKED} />
-        )
-      }
-    />
-  );
+  if (requireLogin && !loggedIn) {
+    return <Redirect to={ROUTE_PATHS.LOCKED} />;
+  }
+
+  return <ActualRoute {...props} />;
 };

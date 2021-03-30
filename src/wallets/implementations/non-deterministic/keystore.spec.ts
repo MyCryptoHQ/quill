@@ -18,7 +18,7 @@ describe('Keystore', () => {
   it.concurrent.each(fKeystoreVectors.v1)(
     'decrypts a v1 keystore file with a password',
     async ({ json, password, privateKey }) => {
-      const wallet = new Keystore(JSON.stringify(json), password);
+      const wallet = new Keystore(JSON.stringify(json), password!);
       await expect(wallet.getPrivateKey()).resolves.toBe(privateKey);
     }
   );
@@ -26,7 +26,7 @@ describe('Keystore', () => {
   it.concurrent.each(fKeystoreVectors.v2)(
     'decrypts a v2 keystore file',
     async ({ json, privateKey }) => {
-      const wallet = new Keystore(JSON.stringify(json), undefined);
+      const wallet = new Keystore(JSON.stringify(json), '');
       await expect(wallet.getPrivateKey()).resolves.toBe(privateKey);
     }
   );

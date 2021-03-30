@@ -1,3 +1,4 @@
+import type crypto from 'crypto';
 import { ipcMain } from 'electron';
 
 import { getPrivateKey } from '@api/db';
@@ -8,7 +9,7 @@ import { CryptoRequestType, TUuid, WalletType } from '@types';
 import { handleRequest, runService } from './crypto';
 
 jest.mock('crypto', () => ({
-  ...jest.requireActual('crypto'),
+  ...jest.requireActual<typeof crypto>('crypto'),
   randomBytes: jest
     .fn()
     .mockImplementation(() => [
