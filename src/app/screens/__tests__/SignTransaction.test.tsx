@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
+import { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
@@ -18,7 +18,7 @@ import {
   getTransactionRequest
 } from '@fixtures';
 import { translateRaw } from '@translations';
-import { IAccount, WalletType } from '@types';
+import { DeepPartial, IAccount, WalletType } from '@types';
 import { makeQueueTx, makeTx } from '@utils';
 
 import { SignTransaction } from '../SignTransaction';
@@ -39,13 +39,10 @@ const getComponentWithStore = (account: IAccount = fAccount, error: string = und
   const transactionRequest = makeQueueTx(getTransactionRequest(account.address));
   const mockStore = createMockStore({
     accounts: {
-      // @ts-expect-error Brand bug with DeepPartial
       accounts: [account]
     },
     transactions: {
-      // @ts-expect-error Brand bug with DeepPartial
       queue: [transactionRequest],
-      // @ts-expect-error Brand bug with DeepPartial
       currentTransaction: transactionRequest
     },
     signing: {

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 
 import { hot } from 'react-hot-loader';
-import { Persistor } from 'redux-persist';
 import { ThemeProvider } from 'styled-components';
 
 import { Box, Navigation } from '@app/components';
@@ -10,9 +9,9 @@ import { GlobalStyle, theme } from '@theme';
 import { DBRequestType } from '@types';
 
 import { AppRoutes } from './AppRoutes';
-import { setNewUser, useDispatch, useSelector } from './store';
+import { persistor, setNewUser, useDispatch, useSelector } from './store';
 
-const App = ({ persistor }: { persistor: Persistor }) => {
+const App = () => {
   const loggedIn = useSelector((state) => state.auth.loggedIn);
   const dispatch = useDispatch();
 

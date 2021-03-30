@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { ROUTE_PATHS } from '@routing';
-
 import { Body, Button, Flex, Heading, LinkApp, Logo } from '@components';
+import { ROUTE_PATHS } from '@routing';
 import { translate, translateRaw } from '@translations';
 
 export const NewUser = () => (

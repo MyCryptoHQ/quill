@@ -1,9 +1,9 @@
 import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ROUTE_PATHS } from '@routing';
 import { push } from 'connected-react-router';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import { ipcBridgeRenderer } from '@bridge';
+import { ROUTE_PATHS } from '@routing';
 import { translateRaw } from '@translations';
 import { DBRequestType } from '@types';
 
@@ -84,7 +84,7 @@ export function* createPasswordWorker({ payload }: PayloadAction<string>) {
 
   if (result) {
     yield put(createPasswordSuccess());
-    yield put(push(ROUTE_PATHS.HOME));
+    yield put(push(ROUTE_PATHS.SETUP_ACCOUNT));
     return;
   }
 

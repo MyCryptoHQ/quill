@@ -92,7 +92,7 @@ export const LINK_VARIANTS = {
 };
 
 const BUTTON_VARIANTS = {
-  default: {
+  primary: {
     p: '3',
     width: '100%',
     bg: 'BLUE_LIGHT',
@@ -116,7 +116,7 @@ const BUTTON_VARIANTS = {
     p: '3',
     width: '100%',
     borderColor: 'BLUE_LIGHT',
-    borderWidth: '1px',
+    borderWidth: '2px',
     borderStyle: 'solid',
     color: 'BLUE_LIGHT',
     bg: 'white',
@@ -179,7 +179,8 @@ export const theme: DefaultTheme = {
     PURPLE: '#A682FF'
   },
   fonts: {
-    default: "'Lato', sans-serif"
+    default: "'Lato', sans-serif",
+    monospace: "'Roboto Mono', monospace"
   },
   fontSizes: ['10px', '12px', '16px', '18px', '20px', '40px'],
   lineHeights: ['16px', '24px', '48px'],
@@ -232,6 +233,11 @@ export const theme: DefaultTheme = {
       borderColor: 'RED',
       boxShadow: '0px 1px 1px rgba(232, 234, 237, 0.5), inset 0px 1px 3px rgba(232, 234, 237, 0.5)',
       borderRadius: 0
+    },
+    none: {
+      margin: '0',
+      padding: '0',
+      border: 'none'
     }
   },
   variants: {

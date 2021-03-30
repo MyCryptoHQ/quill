@@ -5,9 +5,14 @@ export {
   addAccount,
   removeAccount,
   fetchAccounts,
+  generateAccount,
+  setGeneratedAccount,
   getAccounts,
   getAccountError,
   fetchReset,
+  getAccountsLength,
+  getGeneratedMnemonicWords,
+  getGeneratedAccount,
   AccountsState
 } from './account.slice';
 export { setLoggedIn, setNewUser, login, logout, createPassword } from './auth.slice';
@@ -16,6 +21,9 @@ export {
   dequeue,
   getCurrentTransaction,
   denyCurrentTransaction,
-  selectTransaction
+  selectTransaction,
+  getQueue,
+  getQueueLength,
+  getTxHistory
 } from './transactions.slice';
 export { sign, getSigningError } from './signing.slice';

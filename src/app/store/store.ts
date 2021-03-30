@@ -3,6 +3,8 @@ import { routerMiddleware } from 'connected-react-router';
 import { createHashHistory } from 'history';
 import createSagaMiddleware from 'redux-saga';
 
+import { createPersistor } from '@store/persistor';
+
 import { createRootReducer } from './reducer';
 import rootSaga from './sagas';
 
@@ -41,3 +43,6 @@ export const createStore = (
 
   return store;
 };
+
+export const store = createStore();
+export const persistor = createPersistor(store);

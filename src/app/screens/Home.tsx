@@ -1,15 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { getQueue, getTxHistory } from '@store/transactions.slice';
+import { push } from 'connected-react-router';
 import { useSelector } from 'react-redux';
 
 import { Body, Box, Image, TxHistory, TxQueue } from '@app/components';
 import info from '@assets/icons/circle-info.svg';
+import { usePersisted } from '@hooks';
+import { ROUTE_PATHS } from '@routing';
+import { getAccountsLength, getQueue, getTxHistory, persistor, useDispatch } from '@store';
 import { translateRaw } from '@translations';
 
 export const Home = () => {
+  const dispatch = useDispatch();
+  const accountsLength = useSelector(getAccountsLength);
   const queue = useSelector(getQueue);
   const txHistory = useSelector(getTxHistory);
+  const isPersisted = usePersisted(persistor);
+
+  useEffect(() => {
+    if (isPersisted && accountsLength === 0) {
+      dispatch(push(ROUTE_PATHS.SETUP_ACCOUNT));
+    }
+  }, [isPersisted]);
 
   return (
     <>

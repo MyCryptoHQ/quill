@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { logout, useDispatch } from '@store';
 import SVG from 'react-inlinesvg';
 import { BoxProps } from 'rebass';
 
@@ -10,6 +9,7 @@ import add from '@assets/icons/add.svg';
 import lock from '@assets/icons/lock.svg';
 import profile from '@assets/icons/profile.svg';
 import { Logo } from '@components/Logo';
+import { logout, useDispatch } from '@store';
 
 import LinkApp from './Core/LinkApp';
 

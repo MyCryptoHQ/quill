@@ -11,7 +11,7 @@ const MENU_ITEMS = [
   {
     icon: generateAccount,
     label: translateRaw('MENU_GENERATE_ACCOUNT'),
-    route: ROUTE_PATHS.CREATE_WALLET
+    route: ROUTE_PATHS.GENERATE_ACCOUNT
   }
 ];
 

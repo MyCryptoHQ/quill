@@ -19,3 +19,9 @@ export const Body = ({ children, as = 'p', ...props }: TextProps) => (
     {children}
   </Text>
 );
+
+export const Code = ({ children, as = 'p', ...props }: TextProps) => (
+  <Text as={as} variant="body" fontFamily="monospace" {...props}>
+    {children}
+  </Text>
+);

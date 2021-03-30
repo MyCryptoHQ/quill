@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
+import { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
@@ -8,13 +8,13 @@ import configureStore from 'redux-mock-store';
 
 import { ApplicationState, removeAccount } from '@app/store';
 import { fAccount } from '@fixtures';
+import { DeepPartial } from '@types';
 
 import { Accounts } from '../Accounts';
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 const mockStore = createMockStore({
   accounts: {
-    // @ts-expect-error Brand bug with DeepPartial
     accounts: [fAccount]
   }
 });

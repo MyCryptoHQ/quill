@@ -1,1 +1,3 @@
-export { useInterval } from './useInterval';
+export * from './useInterval';
+export * from './usePersisted';
+export * from './useUnmount';

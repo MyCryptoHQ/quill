@@ -16,7 +16,10 @@ module.exports = merge(common, {
       {
         test: /\.css$/,
         use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
-        include: [path.join(__dirname, '../node_modules/typeface-lato')]
+        include: [
+          path.join(__dirname, '../node_modules/@fontsource/lato'),
+          path.join(__dirname, '../node_modules/@fontsource/roboto-mono')
+        ]
       },
 
       /**

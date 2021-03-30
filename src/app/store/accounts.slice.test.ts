@@ -3,8 +3,9 @@ import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
 import { ipcBridgeRenderer } from '@bridge';
+import { DEFAULT_DERIVATION_PATH } from '@config/derivation';
 import { fAccount, fPrivateKey } from '@fixtures';
-import { CryptoRequestType, DBRequestType, SerializedWallet, WalletType } from '@types';
+import { CryptoRequestType, DBRequestType, SerializedWallet, TAddress, WalletType } from '@types';
 
 import slice, {
   addAccount,
@@ -12,8 +13,10 @@ import slice, {
   fetchAccountsWorker,
   fetchFailed,
   fetchReset,
+  generateAccountWorker,
   removeAccount,
-  removeAccountWorker
+  removeAccountWorker,
+  setGeneratedAccount
 } from './account.slice';
 
 jest.mock('@bridge', () => ({
@@ -63,6 +66,16 @@ describe('AccountSlice', () => {
     );
     expect(result.fetchError).toBeUndefined();
     expect(result.isFetching).toBe(false);
+  });
+
+  it('setGeneratedAccount(): sets generated account', () => {
+    const account = {
+      mnemonicPhrase: 'foo',
+      address: 'bar' as TAddress
+    };
+
+    const result = slice.reducer({ accounts: [], isFetching: false }, setGeneratedAccount(account));
+    expect(result.generatedAccount).toBe(account);
   });
 });
 
@@ -125,6 +138,42 @@ describe('removeAccountWorker()', () => {
         type: DBRequestType.DELETE_ACCOUNT_SECRETS,
         uuid: input.uuid
       })
+      .silentRun();
+  });
+});
+
+describe('generateAccountWorker', () => {
+  it('generates an account', () => {
+    return expectSaga(generateAccountWorker)
+      .provide({
+        call(effect, next) {
+          if (effect.fn === ipcBridgeRenderer.crypto.invoke) {
+            const [{ type }] = effect.args;
+            if (type === 'CREATE_WALLET') {
+              return 'foo bar';
+            }
+
+            if (type === 'GET_ADDRESS') {
+              return 'baz qux';
+            }
+          }
+
+          return next();
+        }
+      })
+      .call(ipcBridgeRenderer.crypto.invoke, {
+        type: CryptoRequestType.CREATE_WALLET,
+        wallet: WalletType.MNEMONIC
+      })
+      .call(ipcBridgeRenderer.crypto.invoke, {
+        type: CryptoRequestType.GET_ADDRESS,
+        wallet: {
+          walletType: WalletType.MNEMONIC,
+          path: DEFAULT_DERIVATION_PATH,
+          mnemonicPhrase: 'foo bar'
+        }
+      })
+      .put(setGeneratedAccount({ mnemonicPhrase: 'foo bar', address: 'baz qux' as TAddress }))
       .silentRun();
   });
 });

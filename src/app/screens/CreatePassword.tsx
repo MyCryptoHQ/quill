@@ -1,6 +1,5 @@
 import React, { FormEvent } from 'react';
 
-import { createPassword, useDispatch } from '@store';
 import { passwordStrength } from 'check-password-strength';
 import { object, refine, string } from 'superstruct';
 import { useForm } from 'typed-react-form';
@@ -20,6 +19,7 @@ import {
   PanelBottom
 } from '@components';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
+import { createPassword, useDispatch } from '@store';
 import { translate, translateRaw } from '@translations';
 import { PasswordStrength } from '@types';
 
