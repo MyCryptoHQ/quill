@@ -22,7 +22,7 @@ import { createPassword, useDispatch } from '@store';
 import { translate, translateRaw } from '@translations';
 import { PasswordStrength } from '@types';
 
-const CREATE_PASSWORD_SCHEMA = object({
+const SCHEMA = object({
   password: string()
     .required(translateRaw('PASSWORD_EMPTY'))
     .test('strong-password', translateRaw('PASSWORD_TOO_WEAK'), (value) => {
@@ -40,7 +40,7 @@ export const CreatePassword = () => {
       password: '',
       passwordConfirmation: ''
     },
-    yupValidator(CREATE_PASSWORD_SCHEMA),
+    yupValidator(SCHEMA),
     true
   );
 

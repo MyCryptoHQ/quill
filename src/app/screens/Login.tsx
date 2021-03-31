@@ -20,12 +20,12 @@ import {
 } from '@components';
 import { Trans, translateRaw } from '@translations';
 
-const LOGIN_SCHEMA = object({
+const SCHEMA = object({
   password: string().required(translateRaw('PASSWORD_EMPTY'))
 });
 
 export const Login = () => {
-  const form = useForm({ password: '' }, yupValidator(LOGIN_SCHEMA), true);
+  const form = useForm({ password: '' }, yupValidator(SCHEMA), true);
   const error = useSelector((state) => state.auth.error);
   const dispatch = useDispatch();
 
