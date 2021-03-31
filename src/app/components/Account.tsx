@@ -15,10 +15,10 @@ export const Account = ({
   ...props
 }: { address: TAddress; label?: string; truncate: boolean } & BoxProps) => (
   <Box bg="GREY_LIGHTEST" p="10px" variant="rowAlign" {...props}>
-    <Blockie height="32px" width="32px" address={address} />
+    <Blockie height="32px" width="32px" minWidth="32px" address={address} />
     <Box pl="1">
       <Body fontSize="3">{label ? label : translateRaw('NO_LABEL')}</Body>
-      <Body>{shouldTruncate ? truncate(address) : address}</Body>
+      <Body sx={{ wordBreak: 'break-word' }}>{shouldTruncate ? truncate(address) : address}</Body>
     </Box>
   </Box>
 );

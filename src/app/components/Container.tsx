@@ -14,7 +14,7 @@ export const Container = ({ children, ...props }: BoxProps) => (
   </Box>
 );
 
-export const ScrollableContainer = ({ children, pt, ...props }: BoxProps) => (
+export const ScrollableContainer = ({ children, pt = '3', ...props }: BoxProps) => (
   <Wrapper {...props}>
     <Container pt={pt}>{children}</Container>
   </Wrapper>

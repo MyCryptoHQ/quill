@@ -55,7 +55,6 @@ export const SignTransaction = () => {
           setError={setError}
         />
       )}
-      <br />
       {error}
     </>
   );

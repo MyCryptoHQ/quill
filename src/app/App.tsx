@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 
 import { hot } from 'react-hot-loader';
-import { Flex } from 'rebass';
 import { ThemeProvider } from 'styled-components';
 
-import { Box, Navigation } from '@app/components';
 import { ipcBridgeRenderer } from '@bridge';
+import { Box, Flex, Navigation } from '@components';
 import { GlobalStyle, theme } from '@theme';
 import { DBRequestType } from '@types';
 
