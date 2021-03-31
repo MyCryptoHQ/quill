@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useEffect } from 'react';
 
 import { useForm, yupValidator } from 'typed-react-form';
 import { object, string } from 'yup';
@@ -41,6 +41,12 @@ export const Login = () => {
     dispatch(login(form.values.password));
   };
 
+  useEffect(() => {
+    if (error) {
+      form.setError('password', error);
+    }
+  }, [error]);
+
   return (
     <>
       <Container pt="4">
@@ -58,7 +64,6 @@ export const Login = () => {
             <FormError name="password" form={form} />
           </Box>
         </form>
-        {error && <Body variant="error">{error}</Body>}
       </Container>
       <PanelBottom variant="clear">
         <Button type="submit" form="login-form">
