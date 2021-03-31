@@ -5,6 +5,7 @@ import {
   Body,
   Box,
   Button,
+  Container,
   Flex,
   Heading,
   IFlowComponentProps,
@@ -51,29 +52,31 @@ export const GenerateAccountMnemonic = ({ onNext }: IFlowComponentProps) => {
   }, []);
 
   return (
-    <Box>
-      <Box mb="172px">
-        <Box sx={{ textAlign: 'center' }} mb="4">
-          <Heading fontSize="24px" lineHeight="150%" mb="2">
-            {translateRaw('CREATE_MNEMONIC_PHRASE_TITLE')}
-          </Heading>
-          <Body>{translate('CREATE_MNEMONIC_PHRASE_DESCRIPTION')}</Body>
+    <>
+      <Container pt="0">
+        <Box>
+          <Box sx={{ textAlign: 'center' }} mb="4">
+            <Heading fontSize="24px" lineHeight="150%" mb="2">
+              {translateRaw('CREATE_MNEMONIC_PHRASE_TITLE')}
+            </Heading>
+            <Body>{translate('CREATE_MNEMONIC_PHRASE_DESCRIPTION')}</Body>
+          </Box>
+          <Box
+            sx={{
+              display: 'grid',
+              gridGap: '16px',
+              gridTemplateColumns: '1fr 1fr'
+            }}
+          >
+            {mnemonicWords &&
+              mnemonicWords.map((word, index) => (
+                <Word key={`word-${index}`} index={index + 1}>
+                  {word}
+                </Word>
+              ))}
+          </Box>
         </Box>
-        <Box
-          sx={{
-            display: 'grid',
-            gridGap: '16px',
-            gridTemplateColumns: '1fr 1fr'
-          }}
-        >
-          {mnemonicWords &&
-            mnemonicWords.map((word, index) => (
-              <Word key={`word-${index}`} index={index + 1}>
-                {word}
-              </Word>
-            ))}
-        </Box>
-      </Box>
+      </Container>
       <PanelBottom>
         <Button onClick={onNext} mb="3">
           {translateRaw('CONFIRM_MNEMONIC_PHRASE')}
@@ -85,6 +88,6 @@ export const GenerateAccountMnemonic = ({ onNext }: IFlowComponentProps) => {
           </Flex>
         </Link>
       </PanelBottom>
-    </Box>
+    </>
   );
 };

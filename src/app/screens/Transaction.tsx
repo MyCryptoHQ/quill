@@ -5,6 +5,7 @@ import { push } from 'connected-react-router';
 import {
   Body,
   Box,
+  Container,
   FromToAccount,
   SignBottom,
   TimeElapsed,
@@ -51,15 +52,17 @@ export const Transaction = () => {
 
   return (
     <>
-      <Box mb="170px">
-        <TxResultBanner result={result} />
-        <FromToAccount sender={tx.from} recipient={tx.to} />
-        <Body fontSize="14px" color="BLUE_GREY" mb="2" mt="2">
-          {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
-          <TimeElapsed value={timestamp} />
-        </Body>
-        <TxDetails tx={tx} />
-      </Box>
+      <Container>
+        <Box>
+          <TxResultBanner result={result} />
+          <FromToAccount sender={tx.from} recipient={tx.to} />
+          <Body fontSize="14px" color="BLUE_GREY" mb="2" mt="2">
+            {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
+            <TimeElapsed value={timestamp} />
+          </Body>
+          <TxDetails tx={tx} />
+        </Box>
+      </Container>
       {result === TxResult.WAITING && (
         <SignBottom disabled={false} handleAccept={handleAccept} handleDeny={handleDeny} />
       )}

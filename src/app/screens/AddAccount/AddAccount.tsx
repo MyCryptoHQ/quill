@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { WalletTypeSelector } from '@app/components';
+import { Container, WalletTypeSelector } from '@app/components';
 import { fetchReset, useDispatch } from '@app/store';
 import { AddAccountKeystore } from '@screens/AddAccount/AddAccountKeystore';
 import { WalletType } from '@types';
@@ -18,7 +18,9 @@ export const AddAccount = () => {
 
   return (
     <>
-      <WalletTypeSelector walletType={walletType} setWalletType={setWalletType} />
+      <Container sx={{ flex: 'none' }}>
+        <WalletTypeSelector walletType={walletType} setWalletType={setWalletType} />
+      </Container>
       {walletType === WalletType.PRIVATE_KEY && <AddAccountPrivateKey />}
       {walletType === WalletType.MNEMONIC && <AddAccountMnemonic />}
       {walletType === WalletType.KEYSTORE && <AddAccountKeystore />}

@@ -29,7 +29,7 @@ export const PrivateKeyForm = ({
 }: {
   onSubmit(): void;
   form: ReturnType<typeof usePrivateKeyForm>;
-  children: ReactNode;
+  children?: ReactNode;
 }) => {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -41,7 +41,7 @@ export const PrivateKeyForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} id="private-key-form">
       <FormInput
         type="text"
         id="privateKey"

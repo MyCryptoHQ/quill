@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
-import { Body, Box, Button, FormCheckbox, PanelBottom } from '@app/components';
 import { fetchAccounts, getAccountError, useDispatch, useSelector } from '@app/store';
+import { Body, Box, Button, Container, FormCheckbox, PanelBottom } from '@components';
 import { translateRaw } from '@translations';
 import { WalletType } from '@types';
 
@@ -42,14 +42,19 @@ const AddAccountKeystoreForm = ({ form }: { form: ReturnType<typeof useKeystoreF
   };
 
   return (
-    <KeystoreForm form={form} onSubmit={handleSubmit}>
+    <>
+      <Container pt="0">
+        <KeystoreForm form={form} onSubmit={handleSubmit} />
+      </Container>
       <PanelBottom pb="24px">
-        <Button type="submit">{translateRaw('SUBMIT')}</Button>
+        <Button type="submit" form="keystore-form">
+          {translateRaw('SUBMIT')}
+        </Button>
         <Box pt="2" variant="rowAlign">
           <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
           <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
         </Box>
       </PanelBottom>
-    </KeystoreForm>
+    </>
   );
 };

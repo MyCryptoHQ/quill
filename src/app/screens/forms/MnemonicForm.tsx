@@ -32,7 +32,7 @@ export const MnemonicForm = ({
 }: {
   onSubmit(): void;
   form: ReturnType<typeof useMnemonicForm>;
-  children: ReactNode;
+  children?: ReactNode;
 }) => {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -44,8 +44,8 @@ export const MnemonicForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Box mb="150px">
+    <form onSubmit={handleSubmit} id="mnemonic-phrase-form">
+      <Box>
         <FormTextArea
           data-testid="mnemonic-input"
           name="mnemonic"

@@ -6,6 +6,7 @@ import {
   Body,
   Box,
   Button,
+  Container,
   DPathSelector,
   FormCheckbox,
   MnemonicAddressList,
@@ -100,19 +101,11 @@ const AddAccountMnemonicForm = ({ form }: { form: ReturnType<typeof useForm> }) 
 
   return (
     <>
-      {addresses.length === 0 ? (
-        <MnemonicForm form={form} onSubmit={updateAddresses}>
-          <PanelBottom pb="24px">
-            <Button type="submit">{translateRaw('NEXT')}</Button>
-            <Box pt="2" variant="rowAlign">
-              <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
-              <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
-            </Box>
-          </PanelBottom>
-        </MnemonicForm>
-      ) : (
-        <>
-          <Box mb="150px">
+      <Container pt="0">
+        {addresses.length === 0 ? (
+          <MnemonicForm form={form} onSubmit={updateAddresses} />
+        ) : (
+          <Box>
             <DPathSelector selectedPath={dPath} setSelectedPath={handleDPathChange} />
             <MnemonicAddressList
               addresses={addresses}
@@ -128,16 +121,28 @@ const AddAccountMnemonicForm = ({ form }: { form: ReturnType<typeof useForm> }) 
               </Button>
             </Box>
           </Box>
-          <PanelBottom pb="24px">
-            <Button onClick={handleSubmit} disabled={selectedAccounts.length === 0}>
-              {translateRaw('SUBMIT')}
-            </Button>
-            <Box pt="2" variant="rowAlign">
-              <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
-              <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
-            </Box>
-          </PanelBottom>
-        </>
+        )}
+      </Container>
+      {addresses.length === 0 ? (
+        <PanelBottom pb="24px">
+          <Button type="submit" form="mnemonic-phrase-form">
+            {translateRaw('NEXT')}
+          </Button>
+          <Box pt="2" variant="rowAlign">
+            <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
+            <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
+          </Box>
+        </PanelBottom>
+      ) : (
+        <PanelBottom pb="24px">
+          <Button onClick={handleSubmit} disabled={selectedAccounts.length === 0}>
+            {translateRaw('SUBMIT')}
+          </Button>
+          <Box pt="2" variant="rowAlign">
+            <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
+            <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
+          </Box>
+        </PanelBottom>
       )}
     </>
   );

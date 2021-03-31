@@ -33,3 +33,4 @@ export * from './List';
 export * from './Panel';
 export * from './Address';
 export * from './PaperWallet';
+export * from './Container';

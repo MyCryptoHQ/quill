@@ -256,6 +256,20 @@ export const theme: DefaultTheme = {
     },
     avatar: {
       borderRadius: '50%'
+    },
+    panel: {
+      bg: 'white',
+      border: '1px solid',
+      borderColor: 'GREY_ATHENS',
+      boxShadow: '0px -12px 20px rgba(79, 79, 79, 0.11)',
+      padding: '4'
+    },
+    clear: {
+      bg: 'DEFAULT_BACKGROUND',
+      boxShadow: 'none',
+      borderColor: 'none',
+      padding: '4',
+      paddingTop: '0'
     }
   },
   buttons: {

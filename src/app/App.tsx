@@ -32,15 +32,7 @@ const App = () => {
       <GlobalStyle />
       <Box height="100vh" overflow="hidden" sx={{ display: 'flex', flexDirection: 'column' }}>
         <Navigation isLoggedIn={loggedIn} />
-        <Box
-          py="1"
-          px="24px"
-          backgroundColor="DEFAULT_BACKGROUND"
-          overflowY="scroll"
-          sx={{ flex: '1' }}
-        >
-          <AppRoutes />
-        </Box>
+        <AppRoutes />
       </Box>
     </ThemeProvider>
   );

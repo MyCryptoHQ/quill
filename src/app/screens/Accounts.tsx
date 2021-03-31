@@ -3,6 +3,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { getAccounts, removeAccount, useDispatch } from '@app/store';
+import { Container } from '@components';
 import { translateRaw } from '@translations';
 import { IAccount } from '@types';
 
@@ -21,13 +22,13 @@ export const Accounts = () => {
   const accounts = useSelector(getAccounts);
 
   return (
-    <>
+    <Container>
       {accounts.map((a) => (
         <div key={a.uuid}>
           {a.address}
           <DeleteAccountButton account={a} />
         </div>
       ))}
-    </>
+    </Container>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
-import { Body, Box, Button, FormCheckbox, PanelBottom } from '@app/components';
 import { fetchAccounts, getAccountError, useDispatch, useSelector } from '@app/store';
+import { Body, Box, Button, Container, FormCheckbox, PanelBottom } from '@components';
 import { translateRaw } from '@translations';
 import { WalletType } from '@types';
 
@@ -36,14 +36,19 @@ const AddAccountPrivateKeyForm = ({ form }: { form: ReturnType<typeof usePrivate
   };
 
   return (
-    <PrivateKeyForm form={form} onSubmit={handleSubmit}>
+    <>
+      <Container pt="0">
+        <PrivateKeyForm form={form} onSubmit={handleSubmit} />
+      </Container>
       <PanelBottom pb="24px">
-        <Button type="submit">{translateRaw('SUBMIT')}</Button>
+        <Button type="submit" form="private-key-form">
+          {translateRaw('SUBMIT')}
+        </Button>
         <Box pt="2" variant="rowAlign">
           <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
           <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
         </Box>
       </PanelBottom>
-    </PrivateKeyForm>
+    </>
   );
 };

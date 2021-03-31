@@ -10,13 +10,14 @@ import {
   Body,
   Box,
   Button,
-  Flex,
+  Container,
   FormError,
   FormInput,
   Heading,
   Label,
   LinkApp,
-  Logo
+  Logo,
+  PanelBottom
 } from '@components';
 import { Trans, translateRaw } from '@translations';
 
@@ -41,26 +42,30 @@ export const Login = () => {
   };
 
   return (
-    <Flex height="100%" flexDirection="column" variant="columnCenter">
-      <Logo width="100px" height="100px" icon={lock} />
-      <Heading fontSize="30px" lineHeight="48px" mt="32px" mb="16px">
-        {translateRaw('UNLOCK_HEADER')}
-      </Heading>
-      <Body>{translateRaw('UNLOCK_SUBHEADING')}</Body>
-      <Box width="100%">
-        <form onSubmit={handleSubmit}>
+    <>
+      <Container>
+        <Box mx="auto" sx={{ textAlign: 'center' }}>
+          <Logo width="100px" height="100px" icon={lock} mx="auto" />
+          <Heading fontSize="30px" lineHeight="48px" mt="32px" mb="16px">
+            {translateRaw('UNLOCK_HEADER')}
+          </Heading>
+        </Box>
+        <Body>{translateRaw('UNLOCK_SUBHEADING')}</Body>
+        <form onSubmit={handleSubmit} id="login-form">
           <Box mt="16px">
             <Label htmlFor="password">{translateRaw('MYCRYPTO_PASSWORD')}</Label>
             <FormInput id="password" name="password" type="password" form={form} />
             <FormError name="password" form={form} />
           </Box>
-          <Button mt="24px" type="submit">
-            {translateRaw('UNLOCK_NOW')}
-          </Button>
         </form>
-      </Box>
-      <Box>
-        <Body mt="16px">
+        {/* @todo: Pretty error messages */}
+        {error}
+      </Container>
+      <PanelBottom variant="clear">
+        <Button type="submit" form="login-form">
+          {translateRaw('UNLOCK_NOW')}
+        </Button>
+        <Body mt="3">
           <Trans
             id="FORGOT_PASSWORD_HELP"
             variables={{
@@ -72,22 +77,7 @@ export const Login = () => {
             }}
           />
         </Body>
-        {/* @todo: Figure out if this link is necessary */}
-        <Body mt="8px">
-          <Trans
-            id="CREATE_PASSWORD_HELP"
-            variables={{
-              $link: () => (
-                <LinkApp href={ROUTE_PATHS.HOME} variant="defaultLink">
-                  {translateRaw('CREATE_PASSWORD_HELP_LINK')}
-                </LinkApp>
-              )
-            }}
-          />
-        </Body>
-      </Box>
-      {/* @todo: Pretty error messages */}
-      {error}
-    </Flex>
+      </PanelBottom>
+    </>
   );
 };

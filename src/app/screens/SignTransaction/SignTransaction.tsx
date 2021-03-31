@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { useSelector } from 'react-redux';
 
-import { Blockie, Body, Box } from '@app/components';
+import { Blockie, Body, Box, Container } from '@app/components';
 import {
   denyCurrentTransaction,
   getAccounts,
@@ -48,13 +48,15 @@ export const SignTransaction = () => {
 
   return (
     <>
-      <Box variant="rowAlign" mb="2">
-        <Blockie height="32px" width="32px" address={currentAccount.address} mr="2" />
-        <Box>
-          <Body>{translateRaw('NO_LABEL')}</Body>
-          <Body fontSize="14px">{currentAccount.address}</Body>
+      <Container sx={{ flex: 'none' }}>
+        <Box variant="rowAlign" mb="2">
+          <Blockie height="32px" width="32px" address={currentAccount.address} mr="2" />
+          <Box>
+            <Body>{translateRaw('NO_LABEL')}</Body>
+            <Body fontSize="14px">{currentAccount.address}</Body>
+          </Box>
         </Box>
-      </Box>
+      </Container>
       {isWaiting && currentAccount && (
         <SignComponent
           onAccept={handleAccept}
