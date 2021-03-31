@@ -1,19 +1,35 @@
 import React, { useEffect } from 'react';
 
 import { fetchAccounts, getAccountError, useDispatch, useSelector } from '@app/store';
-import { Body, Box, Button, Container, FormCheckbox, PanelBottom } from '@components';
+import {
+  Body,
+  Box,
+  Button,
+  Container,
+  FormCheckbox,
+  PanelBottom,
+  WalletTypeSelector,
+  Wrapper
+} from '@components';
 import { translateRaw } from '@translations';
 import { WalletType } from '@types';
 
 import { KeystoreForm, useKeystoreForm } from '../forms/KeystoreForm';
 
-export const AddAccountKeystore = () => {
+interface Props {
+  setWalletType(walletType: WalletType): void;
+}
+
+export const AddAccountKeystore = ({ setWalletType }: Props) => {
   const form = useKeystoreForm();
 
-  return <AddAccountKeystoreForm form={form} />;
+  return <AddAccountKeystoreForm form={form} setWalletType={setWalletType} />;
 };
 
-const AddAccountKeystoreForm = ({ form }: { form: ReturnType<typeof useKeystoreForm> }) => {
+const AddAccountKeystoreForm = ({
+  form,
+  setWalletType
+}: { form: ReturnType<typeof useKeystoreForm> } & Props) => {
   const dispatch = useDispatch();
   const error: string = useSelector(getAccountError);
 
@@ -43,9 +59,12 @@ const AddAccountKeystoreForm = ({ form }: { form: ReturnType<typeof useKeystoreF
 
   return (
     <>
-      <Container pt="0">
-        <KeystoreForm form={form} onSubmit={handleSubmit} />
-      </Container>
+      <Wrapper>
+        <Container>
+          <WalletTypeSelector walletType={WalletType.KEYSTORE} setWalletType={setWalletType} />
+          <KeystoreForm form={form} onSubmit={handleSubmit} />
+        </Container>
+      </Wrapper>
       <PanelBottom pb="24px">
         <Button type="submit" form="keystore-form">
           {translateRaw('SUBMIT')}

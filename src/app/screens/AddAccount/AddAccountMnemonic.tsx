@@ -10,7 +10,9 @@ import {
   DPathSelector,
   FormCheckbox,
   MnemonicAddressList,
-  PanelBottom
+  PanelBottom,
+  WalletTypeSelector,
+  Wrapper
 } from '@app/components';
 import { fetchAccounts, useDispatch } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
@@ -31,13 +33,25 @@ const useForm = () =>
     isSubmitting: false
   });
 
-export const AddAccountMnemonic = () => {
+interface Props {
+  setWalletType(walletType: WalletType): void;
+}
+
+export const AddAccountMnemonic = ({ setWalletType }: Props) => {
   const form = useForm();
 
-  return <AnyListener form={form} render={(form) => <AddAccountMnemonicForm form={form} />} />;
+  return (
+    <AnyListener
+      form={form}
+      render={(form) => <AddAccountMnemonicForm form={form} setWalletType={setWalletType} />}
+    />
+  );
 };
 
-const AddAccountMnemonicForm = ({ form }: { form: ReturnType<typeof useForm> }) => {
+const AddAccountMnemonicForm = ({
+  form,
+  setWalletType
+}: { form: ReturnType<typeof useForm> } & Props) => {
   const dispatch = useDispatch();
   const { offset, dPath, addresses, selectedAccounts } = form.state;
 
@@ -101,28 +115,32 @@ const AddAccountMnemonicForm = ({ form }: { form: ReturnType<typeof useForm> }) 
 
   return (
     <>
-      <Container pt="0">
-        {addresses.length === 0 ? (
-          <MnemonicForm form={form} onSubmit={updateAddresses} />
-        ) : (
-          <Box>
-            <DPathSelector selectedPath={dPath} setSelectedPath={handleDPathChange} />
-            <MnemonicAddressList
-              addresses={addresses}
-              selectedAccounts={selectedAccounts}
-              toggleSelectedAccount={toggleSelectedAccount}
-            />
-            <Box variant="rowAlign" my="2">
-              <Button mr="2" onClick={handlePrevious} disabled={offset === 0} variant="inverted">
-                {translateRaw('PREVIOUS')}
-              </Button>
-              <Button ml="2" onClick={handleNext} variant="inverted">
-                {translateRaw('NEXT')}
-              </Button>
+      <Wrapper>
+        <Container>
+          <WalletTypeSelector walletType={WalletType.MNEMONIC} setWalletType={setWalletType} />
+
+          {addresses.length === 0 ? (
+            <MnemonicForm form={form} onSubmit={updateAddresses} />
+          ) : (
+            <Box>
+              <DPathSelector selectedPath={dPath} setSelectedPath={handleDPathChange} />
+              <MnemonicAddressList
+                addresses={addresses}
+                selectedAccounts={selectedAccounts}
+                toggleSelectedAccount={toggleSelectedAccount}
+              />
+              <Box variant="rowAlign" my="2">
+                <Button mr="2" onClick={handlePrevious} disabled={offset === 0} variant="inverted">
+                  {translateRaw('PREVIOUS')}
+                </Button>
+                <Button ml="2" onClick={handleNext} variant="inverted">
+                  {translateRaw('NEXT')}
+                </Button>
+              </Box>
             </Box>
-          </Box>
-        )}
-      </Container>
+          )}
+        </Container>
+      </Wrapper>
       {addresses.length === 0 ? (
         <PanelBottom pb="24px">
           <Button type="submit" form="mnemonic-phrase-form">

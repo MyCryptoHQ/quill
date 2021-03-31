@@ -10,7 +10,8 @@ import {
   SignBottom,
   TimeElapsed,
   TxDetails,
-  TxResultBanner
+  TxResultBanner,
+  Wrapper
 } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import {
@@ -52,17 +53,19 @@ export const Transaction = () => {
 
   return (
     <>
-      <Container>
-        <Box>
-          <TxResultBanner result={result} />
-          <FromToAccount sender={tx.from} recipient={tx.to} />
-          <Body fontSize="14px" color="BLUE_GREY" mb="2" mt="2">
-            {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
-            <TimeElapsed value={timestamp} />
-          </Body>
-          <TxDetails tx={tx} />
-        </Box>
-      </Container>
+      <Wrapper>
+        <Container>
+          <Box>
+            <TxResultBanner result={result} />
+            <FromToAccount sender={tx.from} recipient={tx.to} />
+            <Body fontSize="14px" color="BLUE_GREY" mb="2" mt="2">
+              {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
+              <TimeElapsed value={timestamp} />
+            </Body>
+            <TxDetails tx={tx} />
+          </Box>
+        </Container>
+      </Wrapper>
       {result === TxResult.WAITING && (
         <SignBottom disabled={false} handleAccept={handleAccept} handleDeny={handleDeny} />
       )}

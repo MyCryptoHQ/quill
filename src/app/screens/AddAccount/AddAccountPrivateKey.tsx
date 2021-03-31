@@ -1,19 +1,35 @@
 import React, { useEffect } from 'react';
 
 import { fetchAccounts, getAccountError, useDispatch, useSelector } from '@app/store';
-import { Body, Box, Button, Container, FormCheckbox, PanelBottom } from '@components';
+import {
+  Body,
+  Box,
+  Button,
+  Container,
+  FormCheckbox,
+  PanelBottom,
+  WalletTypeSelector,
+  Wrapper
+} from '@components';
 import { translateRaw } from '@translations';
 import { WalletType } from '@types';
 
 import { PrivateKeyForm, usePrivateKeyForm } from '../forms/PrivateKeyForm';
 
-export const AddAccountPrivateKey = () => {
+interface Props {
+  setWalletType(walletType: WalletType): void;
+}
+
+export const AddAccountPrivateKey = ({ setWalletType }: Props) => {
   const form = usePrivateKeyForm();
 
-  return <AddAccountPrivateKeyForm form={form} />;
+  return <AddAccountPrivateKeyForm form={form} setWalletType={setWalletType} />;
 };
 
-const AddAccountPrivateKeyForm = ({ form }: { form: ReturnType<typeof usePrivateKeyForm> }) => {
+const AddAccountPrivateKeyForm = ({
+  form,
+  setWalletType
+}: { form: ReturnType<typeof usePrivateKeyForm> } & Props) => {
   const dispatch = useDispatch();
   const error: string = useSelector(getAccountError);
 
@@ -37,9 +53,12 @@ const AddAccountPrivateKeyForm = ({ form }: { form: ReturnType<typeof usePrivate
 
   return (
     <>
-      <Container pt="0">
-        <PrivateKeyForm form={form} onSubmit={handleSubmit} />
-      </Container>
+      <Wrapper>
+        <Container>
+          <WalletTypeSelector walletType={WalletType.PRIVATE_KEY} setWalletType={setWalletType} />
+          <PrivateKeyForm form={form} onSubmit={handleSubmit} />
+        </Container>
+      </Wrapper>
       <PanelBottom pb="24px">
         <Button type="submit" form="private-key-form">
           {translateRaw('SUBMIT')}

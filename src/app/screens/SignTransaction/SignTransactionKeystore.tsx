@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { Container, SignBottom } from '@app/components';
+import { Account, Container, SignBottom, Wrapper } from '@app/components';
 import { getSigningError, useSelector } from '@app/store';
 import { SignTransactionProps, WalletType } from '@types';
 
@@ -15,7 +15,8 @@ export const SignTransactionKeystore = (props: SignTransactionProps) => {
 const SignTransactionKeystoreForm = ({
   onAccept,
   onDeny,
-  form
+  form,
+  currentAccount
 }: SignTransactionProps & { form: ReturnType<typeof useKeystoreForm> }) => {
   const error: string = useSelector(getSigningError);
 
@@ -36,9 +37,12 @@ const SignTransactionKeystoreForm = ({
 
   return (
     <>
-      <Container pt="0">
-        <KeystoreForm form={form} onSubmit={handleSubmit} />
-      </Container>
+      <Wrapper>
+        <Container>
+          <Account address={currentAccount.address} truncate={false} bg="none" p="0" />
+          <KeystoreForm form={form} onSubmit={handleSubmit} />
+        </Container>
+      </Wrapper>
       <SignBottom disabled={form.error} handleDeny={onDeny} form="keystore-form" />
     </>
   );
