@@ -128,6 +128,10 @@
     "ORDINAL_21": "21st",
     "ORDINAL_22": "22nd",
     "ORDINAL_23": "23rd",
-    "ORDINAL_24": "24th"
+    "ORDINAL_24": "24th",
+    "RESET_HEADING": "Are you sure you want to reset your password?",
+    "RESET_DESCRIPTION": "Resetting your password will cause you to lose all your saved settings (accounts, saved keys, & transactions).",
+    "RESET_CANCEL": "No, I want to keep my settings",
+    "RESET_CONFIRM": "Yes, reset my password"
   }
 }

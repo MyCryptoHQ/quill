@@ -87,13 +87,13 @@ export function* transactionsSaga() {
 
 export const subscribe = () => {
   return eventChannel((emitter) => {
-    const unsubcribe = ipcBridgeRenderer.api.subscribeToRequests((request) => {
+    const unsubcribe = ipcBridgeRenderer?.api?.subscribeToRequests((request) => {
       // We expect this to be validated and sanitized JSON RPC request
       emitter(request);
     });
 
     return () => {
-      unsubcribe();
+      unsubcribe?.();
     };
   });
 };

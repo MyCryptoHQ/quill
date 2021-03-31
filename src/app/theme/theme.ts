@@ -203,6 +203,11 @@ export const theme: DefaultTheme = {
       lineHeight: 1,
       color: 'BODY'
     },
+    muted: {
+      fontSize: 2,
+      lineHeight: 1,
+      color: 'BLUE_GREY'
+    },
     error: {
       fontSize: 2,
       lineHeight: 1,
