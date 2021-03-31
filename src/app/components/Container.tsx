@@ -8,10 +8,14 @@ export const Wrapper = ({ children, ...props }: BoxProps) => (
   </Box>
 );
 
-export const Container = ({ children, ...props }: BoxProps) => {
-  return (
-    <Box pt="3" pb="3" px="24px" backgroundColor="DEFAULT_BACKGROUND" sx={{ flex: '1' }} {...props}>
-      {children}
-    </Box>
-  );
-};
+export const Container = ({ children, ...props }: BoxProps) => (
+  <Box pt="3" pb="3" px="24px" backgroundColor="DEFAULT_BACKGROUND" sx={{ flex: '1' }} {...props}>
+    {children}
+  </Box>
+);
+
+export const ScrollableContainer = ({ children, ...props }: BoxProps) => (
+  <Wrapper {...props}>
+    <Container>{children}</Container>
+  </Wrapper>
+);

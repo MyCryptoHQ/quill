@@ -5,11 +5,10 @@ import {
   Body,
   Box,
   Button,
-  Container,
   FormCheckbox,
   PanelBottom,
-  WalletTypeSelector,
-  Wrapper
+  ScrollableContainer,
+  WalletTypeSelector
 } from '@components';
 import { translateRaw } from '@translations';
 import { WalletType } from '@types';
@@ -53,12 +52,10 @@ const AddAccountPrivateKeyForm = ({
 
   return (
     <>
-      <Wrapper>
-        <Container>
-          <WalletTypeSelector walletType={WalletType.PRIVATE_KEY} setWalletType={setWalletType} />
-          <PrivateKeyForm form={form} onSubmit={handleSubmit} />
-        </Container>
-      </Wrapper>
+      <ScrollableContainer>
+        <WalletTypeSelector walletType={WalletType.PRIVATE_KEY} setWalletType={setWalletType} />
+        <PrivateKeyForm form={form} onSubmit={handleSubmit} />
+      </ScrollableContainer>
       <PanelBottom pb="24px">
         <Button type="submit" form="private-key-form">
           {translateRaw('SUBMIT')}

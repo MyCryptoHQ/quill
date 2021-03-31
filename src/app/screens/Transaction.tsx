@@ -5,13 +5,12 @@ import { push } from 'connected-react-router';
 import {
   Body,
   Box,
-  Container,
   FromToAccount,
+  ScrollableContainer,
   SignBottom,
   TimeElapsed,
   TxDetails,
-  TxResultBanner,
-  Wrapper
+  TxResultBanner
 } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import {
@@ -53,19 +52,17 @@ export const Transaction = () => {
 
   return (
     <>
-      <Wrapper>
-        <Container>
-          <Box>
-            <TxResultBanner result={result} />
-            <FromToAccount sender={tx.from} recipient={tx.to} />
-            <Body fontSize="14px" color="BLUE_GREY" mb="2" mt="2">
-              {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
-              <TimeElapsed value={timestamp} />
-            </Body>
-            <TxDetails tx={tx} />
-          </Box>
-        </Container>
-      </Wrapper>
+      <ScrollableContainer>
+        <Box>
+          <TxResultBanner result={result} />
+          <FromToAccount sender={tx.from} recipient={tx.to} />
+          <Body fontSize="14px" color="BLUE_GREY" mb="2" mt="2">
+            {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
+            <TimeElapsed value={timestamp} />
+          </Body>
+          <TxDetails tx={tx} />
+        </Box>
+      </ScrollableContainer>
       {result === TxResult.WAITING && (
         <SignBottom disabled={false} handleAccept={handleAccept} handleDeny={handleDeny} />
       )}

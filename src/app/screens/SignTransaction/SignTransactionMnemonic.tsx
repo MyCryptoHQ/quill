@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { Account, Container, SignBottom, Wrapper } from '@app/components';
+import { Account, ScrollableContainer, SignBottom } from '@app/components';
 import { getSigningError, useSelector } from '@app/store';
 import { SignTransactionProps, WalletType } from '@types';
 
@@ -39,12 +39,10 @@ const SignTransactionMnemonicForm = ({
 
   return (
     <>
-      <Wrapper>
-        <Container>
-          <Account address={currentAccount.address} truncate={false} bg="none" p="0" />
-          <MnemonicForm form={form} onSubmit={handleSubmit} />
-        </Container>
-      </Wrapper>
+      <ScrollableContainer>
+        <Account address={currentAccount.address} truncate={false} bg="none" p="0" />
+        <MnemonicForm form={form} onSubmit={handleSubmit} />
+      </ScrollableContainer>
       <SignBottom disabled={form.error} handleDeny={onDeny} form="mnemonic-phrase-form" />
     </>
   );

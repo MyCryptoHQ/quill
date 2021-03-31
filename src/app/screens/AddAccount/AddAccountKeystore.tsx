@@ -5,11 +5,10 @@ import {
   Body,
   Box,
   Button,
-  Container,
   FormCheckbox,
   PanelBottom,
-  WalletTypeSelector,
-  Wrapper
+  ScrollableContainer,
+  WalletTypeSelector
 } from '@components';
 import { translateRaw } from '@translations';
 import { WalletType } from '@types';
@@ -59,12 +58,10 @@ const AddAccountKeystoreForm = ({
 
   return (
     <>
-      <Wrapper>
-        <Container>
-          <WalletTypeSelector walletType={WalletType.KEYSTORE} setWalletType={setWalletType} />
-          <KeystoreForm form={form} onSubmit={handleSubmit} />
-        </Container>
-      </Wrapper>
+      <ScrollableContainer>
+        <WalletTypeSelector walletType={WalletType.KEYSTORE} setWalletType={setWalletType} />
+        <KeystoreForm form={form} onSubmit={handleSubmit} />
+      </ScrollableContainer>
       <PanelBottom pb="24px">
         <Button type="submit" form="keystore-form">
           {translateRaw('SUBMIT')}
