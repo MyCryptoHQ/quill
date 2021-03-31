@@ -1,7 +1,7 @@
 import { ipcMain } from 'electron';
 import Store from 'electron-store';
 import fs from 'fs';
-import keytar from 'keytar';
+import keytar, { deletePassword } from 'keytar';
 
 import { IPC_CHANNELS, KEYTAR_SERVICE } from '@config';
 import { fAccount, fPrivateKey } from '@fixtures';
@@ -61,7 +61,8 @@ jest.mock('keytar', () => ({
       () =>
         'd2646b5608b580d69919225a2aed278f809bf5c60660622c11ec1aaead27ef2038161f2c97585a621279f36db5c2defcfb0d86730d674fbe1276bd4c20b6ccca4af53b6605c124747520bfe5abf64d288b272d21938ada7a165c39c8f3fd'
     ),
-  deletePassword: jest.fn()
+  deletePassword: jest.fn(),
+  findCredentials: jest.fn().mockReturnValue([{ account: 'foo' }])
 }));
 
 const uuid = '304a57a4-1752-53db-8861-67785534e98e' as TUuid;
@@ -120,6 +121,8 @@ describe('handleRequest', () => {
     await handleRequest({ type: DBRequestType.RESET });
     expect(fs.promises.unlink).toHaveBeenCalled();
     expect(mockClear).toHaveBeenCalled();
+
+    expect(deletePassword).toHaveBeenCalledWith(KEYTAR_SERVICE, 'foo');
   });
 
   it('get new user state returns true default', async () => {
