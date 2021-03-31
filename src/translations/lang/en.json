@@ -92,6 +92,7 @@
     "VERIFY_MNEMONIC_PHRASE_TITLE": "Verify Your Phrase",
     "VERIFY_MNEMONIC_PHRASE_DESCRIPTION": "Three of the words in your mnemonic phrase are randomly displayed below. To verify your phrase, fill in the single words that are in those exact positions.",
     "WHAT_IS_NTH_WORD": "What is the **$nth word** of your phrase?",
+    "NOT_NTH_WORD": "Please enter the $nth word of your phrase.",
     "VERIFY_WORDS": "Verify Words",
     "NEW_ACCOUNT_TITLE": "Here's your new account!",
     "RECOVERY_PHRASE_SECRET": "**Recovery Phrase (Secret!):**",

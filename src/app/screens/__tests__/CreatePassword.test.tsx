@@ -57,9 +57,11 @@ describe('CreatePassword', () => {
 
     const createButton = getByText(translateRaw('CREATE_PASSWORD'));
     expect(createButton).toBeDefined();
-    await waitFor(() => fireEvent.click(createButton));
+    fireEvent.click(createButton);
 
-    expect(mockStore.getActions()).toContainEqual(createPassword(RANDOM_PASSWORD));
+    await waitFor(() =>
+      expect(mockStore.getActions()).toContainEqual(createPassword(RANDOM_PASSWORD))
+    );
   });
 
   it('does not submit on mismatching passwords', async () => {
@@ -67,16 +69,16 @@ describe('CreatePassword', () => {
       auth: {}
     });
 
-    const { getByLabelText, getByText } = getComponent(mockStore);
+    const { getByLabelText, getByText, findByText } = getComponent(mockStore);
     const passwordInput = getByLabelText(translateRaw('ENTER_PASSWORD'));
     expect(passwordInput).toBeDefined();
     fireEvent.change(passwordInput, { target: { value: RANDOM_PASSWORD } });
 
     const createButton = getByText(translateRaw('CREATE_PASSWORD'));
     expect(createButton).toBeDefined();
-    await waitFor(() => fireEvent.click(createButton));
+    fireEvent.click(createButton);
 
-    expect(getByText(translateRaw('PASSWORDS_NOT_EQUAL'))).toBeDefined();
+    await expect(findByText(translateRaw('PASSWORDS_NOT_EQUAL'))).resolves.toBeDefined();
     expect(mockStore.getActions()).not.toContainEqual(createPassword(RANDOM_PASSWORD));
   });
 
@@ -85,7 +87,7 @@ describe('CreatePassword', () => {
       auth: {}
     });
 
-    const { getByLabelText, getByText } = getComponent(mockStore);
+    const { getByLabelText, getByText, findByText } = getComponent(mockStore);
     const passwordInput = getByLabelText(translateRaw('ENTER_PASSWORD'));
     expect(passwordInput).toBeDefined();
     fireEvent.change(passwordInput, { target: { value: 'foo' } });
@@ -96,9 +98,9 @@ describe('CreatePassword', () => {
 
     const createButton = getByText(translateRaw('CREATE_PASSWORD'));
     expect(createButton).toBeDefined();
-    await waitFor(() => fireEvent.click(createButton));
+    fireEvent.click(createButton);
 
-    expect(getByText(translateRaw('PASSWORD_TOO_WEAK'))).toBeDefined();
+    await expect(findByText(translateRaw('PASSWORD_TOO_WEAK'))).resolves.toBeDefined();
     expect(mockStore.getActions()).not.toContainEqual(createPassword('foo'));
   });
 });

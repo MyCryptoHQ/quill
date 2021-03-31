@@ -1,9 +1,8 @@
 import React, { FormEvent, useMemo } from 'react';
 
-import { literal, object } from 'superstruct';
-import { FormError, useForm } from 'typed-react-form';
+import { FormError, useForm, yupValidator } from 'typed-react-form';
+import { object, string } from 'yup';
 
-import { getValidator } from '@app/utils';
 import { Body, Box, Button, FormInput, Heading, IFlowComponentProps, Label } from '@components';
 import { getGeneratedMnemonicWords, useSelector } from '@store';
 import { translate, translateRaw } from '@translations';
@@ -13,11 +12,19 @@ export const GenerateAccountVerify = ({ onNext }: IFlowComponentProps) => {
   const mnemonicWords = useSelector(getGeneratedMnemonicWords);
   const [first, second, third] = useMemo(() => getRandomNumbers(24, 3), []);
 
-  // @todo Use yup for form validation
-  const MnemonicWordsStruct = object({
-    firstWord: literal(mnemonicWords[first]),
-    secondWord: literal(mnemonicWords[second]),
-    thirdWord: literal(mnemonicWords[third])
+  const MnemonicWordsSchema = object({
+    firstWord: string().is(
+      [mnemonicWords[first]],
+      translateRaw('NOT_NTH_WORD', { $nth: translateRaw(`ORDINAL_${first + 1}`) })
+    ),
+    secondWord: string().is(
+      [mnemonicWords[second]],
+      translateRaw('NOT_NTH_WORD', { $nth: translateRaw(`ORDINAL_${second + 1}`) })
+    ),
+    thirdWord: string().is(
+      [mnemonicWords[third]],
+      translateRaw('NOT_NTH_WORD', { $nth: translateRaw(`ORDINAL_${third + 1}`) })
+    )
   });
 
   const form = useForm(
@@ -26,7 +33,9 @@ export const GenerateAccountVerify = ({ onNext }: IFlowComponentProps) => {
       secondWord: '',
       thirdWord: ''
     },
-    getValidator(MnemonicWordsStruct)
+    yupValidator(MnemonicWordsSchema, {
+      abortEarly: false
+    })
   );
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {

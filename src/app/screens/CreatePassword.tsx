@@ -1,10 +1,9 @@
 import React, { FormEvent } from 'react';
 
 import { passwordStrength } from 'check-password-strength';
-import { object, refine, string } from 'superstruct';
-import { useForm } from 'typed-react-form';
+import { useForm, yupValidator } from 'typed-react-form';
+import { object, ref, string } from 'yup';
 
-import { getValidator } from '@app/utils';
 import warning from '@assets/icons/circle-warning.svg';
 import {
   Body,
@@ -23,21 +22,15 @@ import { createPassword, useDispatch } from '@store';
 import { translate, translateRaw } from '@translations';
 import { PasswordStrength } from '@types';
 
-const CREATE_PASSWORD_STRUCT = object({
-  password: refine(string(), 'Strong password', (value) => {
-    if (passwordStrength(value).id === PasswordStrength.STRONG) {
-      return true;
-    }
-
-    return translateRaw('PASSWORD_TOO_WEAK');
-  }),
-  passwordConfirmation: refine(string(), 'Equal to password', (value, context) => {
-    if (value === context.branch[0].password) {
-      return true;
-    }
-
-    return translateRaw('PASSWORDS_NOT_EQUAL');
-  })
+const SCHEMA = object({
+  password: string()
+    .required(translateRaw('PASSWORD_EMPTY'))
+    .test('strong-password', translateRaw('PASSWORD_TOO_WEAK'), (value) => {
+      return passwordStrength(value).id === PasswordStrength.STRONG;
+    }),
+  passwordConfirmation: string()
+    .required()
+    .is([ref('password')], translateRaw('PASSWORDS_NOT_EQUAL'))
 });
 
 export const CreatePassword = () => {
@@ -47,7 +40,7 @@ export const CreatePassword = () => {
       password: '',
       passwordConfirmation: ''
     },
-    getValidator(CREATE_PASSWORD_STRUCT),
+    yupValidator(SCHEMA),
     true
   );
 
