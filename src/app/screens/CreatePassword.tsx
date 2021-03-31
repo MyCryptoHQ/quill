@@ -30,7 +30,7 @@ const SCHEMA = object({
     }),
   passwordConfirmation: string()
     .required()
-    .oneOf([ref('password'), null], translateRaw('PASSWORDS_NOT_EQUAL'))
+    .is([ref('password')], translateRaw('PASSWORDS_NOT_EQUAL'))
 });
 
 export const CreatePassword = () => {
