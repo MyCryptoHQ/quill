@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { hot } from 'react-hot-loader';
+import { Flex } from 'rebass';
 import { ThemeProvider } from 'styled-components';
 
 import { Box, Navigation } from '@app/components';
@@ -32,7 +33,9 @@ const App = () => {
       <GlobalStyle />
       <Box height="100vh" overflow="hidden" sx={{ display: 'flex', flexDirection: 'column' }}>
         <Navigation isLoggedIn={loggedIn} />
-        <AppRoutes />
+        <Flex flexDirection="column" flex="1" overflowY="auto">
+          <AppRoutes />
+        </Flex>
       </Box>
     </ThemeProvider>
   );

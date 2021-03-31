@@ -12,7 +12,8 @@ import {
   Image,
   Input,
   Link,
-  PanelBottom
+  PanelBottom,
+  Wrapper
 } from '@components';
 import { generateAccount, getGeneratedMnemonicWords, useDispatch, useSelector } from '@store';
 import { translate, translateRaw } from '@translations';
@@ -53,30 +54,32 @@ export const GenerateAccountMnemonic = ({ onNext }: IFlowComponentProps) => {
 
   return (
     <>
-      <Container pt="0">
-        <Box>
-          <Box sx={{ textAlign: 'center' }} mb="4">
-            <Heading fontSize="24px" lineHeight="150%" mb="2">
-              {translateRaw('CREATE_MNEMONIC_PHRASE_TITLE')}
-            </Heading>
-            <Body>{translate('CREATE_MNEMONIC_PHRASE_DESCRIPTION')}</Body>
+      <Wrapper>
+        <Container pt="0">
+          <Box>
+            <Box sx={{ textAlign: 'center' }} mb="4">
+              <Heading fontSize="24px" lineHeight="150%" mb="2">
+                {translateRaw('CREATE_MNEMONIC_PHRASE_TITLE')}
+              </Heading>
+              <Body>{translate('CREATE_MNEMONIC_PHRASE_DESCRIPTION')}</Body>
+            </Box>
+            <Box
+              sx={{
+                display: 'grid',
+                gridGap: '16px',
+                gridTemplateColumns: '1fr 1fr'
+              }}
+            >
+              {mnemonicWords &&
+                mnemonicWords.map((word, index) => (
+                  <Word key={`word-${index}`} index={index + 1}>
+                    {word}
+                  </Word>
+                ))}
+            </Box>
           </Box>
-          <Box
-            sx={{
-              display: 'grid',
-              gridGap: '16px',
-              gridTemplateColumns: '1fr 1fr'
-            }}
-          >
-            {mnemonicWords &&
-              mnemonicWords.map((word, index) => (
-                <Word key={`word-${index}`} index={index + 1}>
-                  {word}
-                </Word>
-              ))}
-          </Box>
-        </Box>
-      </Container>
+        </Container>
+      </Wrapper>
       <PanelBottom>
         <Button onClick={onNext} mb="3">
           {translateRaw('CONFIRM_MNEMONIC_PHRASE')}
