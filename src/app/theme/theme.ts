@@ -113,7 +113,8 @@ const BUTTON_VARIANTS = {
     }
   },
   inverted: {
-    p: '3',
+    px: '3',
+    py: '14px',
     width: '100%',
     borderColor: 'BLUE_LIGHT',
     borderWidth: '2px',
