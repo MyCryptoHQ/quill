@@ -40,7 +40,7 @@ export const Flow = ({ components, onDone }: FlowProps) => {
 
   return (
     <>
-      <Container sx={{ flex: 'none' }}>
+      <Container pt="4" sx={{ flex: 'none' }}>
         <FlowHeader
           onPrevious={handlePrevious}
           steps={components.length}

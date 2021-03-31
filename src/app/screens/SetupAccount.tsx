@@ -7,7 +7,7 @@ import { translateRaw } from '@translations';
 
 export const SetupAccount = () => (
   <>
-    <Container>
+    <Container pt="4">
       <Box sx={{ textAlign: 'center' }}>
         <Image alt="Wallet" src={wallet} width="100px" height="100px" />
       </Box>

@@ -58,7 +58,7 @@ export const CreatePassword = () => {
 
   return (
     <>
-      <Container>
+      <Container pt="4">
         <Heading fontSize="24px" lineHeight="150%" mb="2" textAlign="center">
           Create a Password
         </Heading>

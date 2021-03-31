@@ -43,7 +43,7 @@ export const Login = () => {
 
   return (
     <>
-      <Container>
+      <Container pt="4">
         <Box mx="auto" sx={{ textAlign: 'center' }}>
           <Logo width="100px" height="100px" icon={lock} mx="auto" />
           <Heading fontSize="30px" lineHeight="48px" mt="32px" mb="16px">

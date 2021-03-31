@@ -19,7 +19,7 @@ export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {
   const symbol = chain?.nativeCurrency?.symbol ?? '?';
 
   return (
-    <Box py="16px">
+    <Box pb="16px">
       <Box variant="rowAlign">
         <Image src={waiting} height="20px" width="20px" mr="8px" />
         <Body color="PURPLE" sx={{ textTransform: 'uppercase' }}>

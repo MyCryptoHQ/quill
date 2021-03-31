@@ -25,7 +25,7 @@ export const ForgotPassword = () => {
 
   return (
     <>
-      <Container>
+      <Container pt="4">
         <Flex variant="columnCenter" maxWidth="300px" mx="auto">
           <Image alt="Warning" src={warning} width="100px" height="100px" />
           <Heading fontSize="4" lineHeight="24px" mt="4" textAlign="center">
