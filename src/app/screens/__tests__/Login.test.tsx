@@ -53,9 +53,9 @@ describe('Login', () => {
 
     const loginButton = getByText(translateRaw('UNLOCK_NOW'));
     expect(loginButton).toBeDefined();
-    await waitFor(() => fireEvent.click(loginButton));
+    fireEvent.click(loginButton);
 
-    expect(mockStore.getActions()).toContainEqual(login('password'));
+    await waitFor(() => expect(mockStore.getActions()).toContainEqual(login('password')));
   });
 
   it('renders form validation error', async () => {
@@ -63,12 +63,12 @@ describe('Login', () => {
       auth: {}
     });
 
-    const { getByText } = getComponent(mockStore);
+    const { getByText, findByText } = getComponent(mockStore);
 
     const loginButton = getByText(translateRaw('UNLOCK_NOW'));
     expect(loginButton).toBeDefined();
     await waitFor(() => fireEvent.click(loginButton));
 
-    expect(getByText(translateRaw('PASSWORD_EMPTY'))).toBeDefined();
+    await expect(findByText(translateRaw('PASSWORD_EMPTY'))).resolves.toBeDefined();
   });
 });

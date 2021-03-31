@@ -1,11 +1,10 @@
 import React, { FormEvent } from 'react';
 
-import { object, refine, string } from 'superstruct';
-import { useForm } from 'typed-react-form';
+import { useForm, yupValidator } from 'typed-react-form';
+import { object, string } from 'yup';
 
 import { ROUTE_PATHS } from '@app/routing';
 import { login, useDispatch, useSelector } from '@app/store';
-import { getValidator } from '@app/utils';
 import lock from '@assets/icons/lock.svg';
 import {
   Body,
@@ -21,18 +20,12 @@ import {
 } from '@components';
 import { Trans, translateRaw } from '@translations';
 
-const LOGIN_STRUCT = object({
-  password: refine(string(), 'Not empty', (value) => {
-    if (value.length > 0) {
-      return true;
-    }
-
-    return translateRaw('PASSWORD_EMPTY');
-  })
+const LOGIN_SCHEMA = object({
+  password: string().required(translateRaw('PASSWORD_EMPTY'))
 });
 
 export const Login = () => {
-  const form = useForm({ password: '' }, getValidator(LOGIN_STRUCT), true);
+  const form = useForm({ password: '' }, yupValidator(LOGIN_SCHEMA), true);
   const error = useSelector((state) => state.auth.error);
   const dispatch = useDispatch();
 
