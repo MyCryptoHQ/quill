@@ -113,7 +113,8 @@ const BUTTON_VARIANTS = {
     }
   },
   inverted: {
-    p: '3',
+    px: '3',
+    py: '14px',
     width: '100%',
     borderColor: 'BLUE_LIGHT',
     borderWidth: '2px',
@@ -202,6 +203,11 @@ export const theme: DefaultTheme = {
       fontSize: 2,
       lineHeight: 1,
       color: 'BODY'
+    },
+    muted: {
+      fontSize: 2,
+      lineHeight: 1,
+      color: 'BLUE_GREY'
     },
     error: {
       fontSize: 2,

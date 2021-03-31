@@ -1,7 +1,7 @@
 import { getWallet } from '@wallets/wallet-initialisation';
 import { app, ipcMain } from 'electron';
 import Store from 'electron-store';
-import fs from 'fs';
+import { promises as fs } from 'fs';
 import keytar from 'keytar';
 import path from 'path';
 
@@ -55,10 +55,16 @@ const logout = async () => {
   clearEncryptionKey();
 };
 
-const reset = () => {
+const reset = async () => {
   clearEncryptionKey();
   store.clear();
-  return fs.promises.unlink(getStorePath());
+
+  const credentials = await keytar.findCredentials(KEYTAR_SERVICE);
+  for (const { account } of credentials) {
+    await keytar.deletePassword(KEYTAR_SERVICE, account);
+  }
+
+  return fs.unlink(getStorePath());
 };
 
 const getStorePath = () => path.join(app.getPath('userData'), 'config.json');
@@ -66,7 +72,7 @@ const getStorePath = () => path.join(app.getPath('userData'), 'config.json');
 const storeExists = async () => {
   const configPath = getStorePath();
   // Is new user if config file doesn't exist
-  return !!(await fs.promises.stat(configPath).catch(() => false));
+  return !!(await fs.stat(configPath).catch(() => false));
 };
 
 const isLoggedIn = () => checkPassword(encryptionKey);
