@@ -6,6 +6,8 @@ const { merge } = require('webpack-merge');
 
 const common = require('./common');
 
+const isDev = process.env.NODE_ENV === 'development';
+
 // Generate a new base64 nonce
 const nonce = Buffer.from(v4()).toString('base64');
 
@@ -33,7 +35,9 @@ module.exports = merge(common, {
             options: {
               hash: 'sha512',
               digest: 'hex',
-              name: 'src/app/assets/[name].[contenthash].[ext]'
+              name: 'src/app/assets/[name].[contenthash].[ext]',
+              outputPath: 'main_window',
+              publicPath: (url) => (isDev ? `main_window/${url}` : url)
             }
           }
         ],
