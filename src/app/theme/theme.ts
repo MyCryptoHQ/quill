@@ -268,7 +268,7 @@ export const theme: DefaultTheme = {
       bg: 'DEFAULT_BACKGROUND',
       boxShadow: 'none',
       borderColor: 'none',
-      padding: '4',
+      padding: '24px',
       paddingTop: '0'
     }
   },

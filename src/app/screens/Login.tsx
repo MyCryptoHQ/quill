@@ -58,14 +58,13 @@ export const Login = () => {
             <FormError name="password" form={form} />
           </Box>
         </form>
-        {/* @todo: Pretty error messages */}
-        {error}
+        {error && <Body variant="error">{error}</Body>}
       </Container>
       <PanelBottom variant="clear">
         <Button type="submit" form="login-form">
           {translateRaw('UNLOCK_NOW')}
         </Button>
-        <Body mt="3">
+        <Body mt="3" textAlign="center">
           <Trans
             id="FORGOT_PASSWORD_HELP"
             variables={{
