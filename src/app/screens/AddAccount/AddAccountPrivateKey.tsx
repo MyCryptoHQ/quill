@@ -1,19 +1,34 @@
 import React, { useEffect } from 'react';
 
-import { Body, Box, Button, FormCheckbox, PanelBottom } from '@app/components';
 import { fetchAccounts, getAccountError, useDispatch, useSelector } from '@app/store';
+import {
+  Body,
+  Box,
+  Button,
+  FormCheckbox,
+  PanelBottom,
+  ScrollableContainer,
+  WalletTypeSelector
+} from '@components';
 import { translateRaw } from '@translations';
 import { WalletType } from '@types';
 
 import { PrivateKeyForm, usePrivateKeyForm } from '../forms/PrivateKeyForm';
 
-export const AddAccountPrivateKey = () => {
+interface Props {
+  setWalletType(walletType: WalletType): void;
+}
+
+export const AddAccountPrivateKey = ({ setWalletType }: Props) => {
   const form = usePrivateKeyForm();
 
-  return <AddAccountPrivateKeyForm form={form} />;
+  return <AddAccountPrivateKeyForm form={form} setWalletType={setWalletType} />;
 };
 
-const AddAccountPrivateKeyForm = ({ form }: { form: ReturnType<typeof usePrivateKeyForm> }) => {
+const AddAccountPrivateKeyForm = ({
+  form,
+  setWalletType
+}: { form: ReturnType<typeof usePrivateKeyForm> } & Props) => {
   const dispatch = useDispatch();
   const error: string = useSelector(getAccountError);
 
@@ -36,14 +51,20 @@ const AddAccountPrivateKeyForm = ({ form }: { form: ReturnType<typeof usePrivate
   };
 
   return (
-    <PrivateKeyForm form={form} onSubmit={handleSubmit}>
+    <>
+      <ScrollableContainer>
+        <WalletTypeSelector walletType={WalletType.PRIVATE_KEY} setWalletType={setWalletType} />
+        <PrivateKeyForm form={form} onSubmit={handleSubmit} />
+      </ScrollableContainer>
       <PanelBottom pb="24px">
-        <Button type="submit">{translateRaw('SUBMIT')}</Button>
+        <Button type="submit" form="private-key-form">
+          {translateRaw('SUBMIT')}
+        </Button>
         <Box pt="2" variant="rowAlign">
           <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
           <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
         </Box>
       </PanelBottom>
-    </PrivateKeyForm>
+    </>
   );
 };

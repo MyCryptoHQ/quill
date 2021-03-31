@@ -41,13 +41,16 @@ export const Logo = ({
   ...rest
 }: Props & Omit<ImageProps, 'src'>) => (
   <Box
-    variant="rowAlign"
+    width={width}
+    height={height}
+    {...rest}
     sx={{
+      boxSizing: 'border-box',
       position: 'relative',
       '-webkit-app-region': 'no-drag'
     }}
   >
-    <Image width={width} height={height} src={logo} {...rest} />
+    <Image width={width} height={height} src={logo} />
     {icon && <InnerIcon icon={icon} />}
   </Box>
 );

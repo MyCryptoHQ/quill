@@ -31,7 +31,7 @@ export const KeystoreForm = ({
 }: {
   onSubmit(): void;
   form: ReturnType<typeof useKeystoreForm>;
-  children: ReactNode;
+  children?: ReactNode;
 }) => {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -43,8 +43,8 @@ export const KeystoreForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Box mb="150px">
+    <form onSubmit={handleSubmit} id="keystore-form">
+      <Box>
         <FormFileInput name="keystore" form={form} my="2" />
         <FormError name="keystore" form={form} />
         <Box mt="2">

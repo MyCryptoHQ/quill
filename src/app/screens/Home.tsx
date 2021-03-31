@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { push } from 'connected-react-router';
 import { useSelector } from 'react-redux';
 
-import { Body, Box, Image, TxHistory, TxQueue } from '@app/components';
+import { Body, Box, Container, Image, TxHistory, TxQueue } from '@app/components';
 import info from '@assets/icons/circle-info.svg';
 import { usePersisted } from '@hooks';
 import { ROUTE_PATHS } from '@routing';
@@ -24,7 +24,7 @@ export const Home = () => {
   }, [isPersisted]);
 
   return (
-    <>
+    <Container>
       {queue.length === 0 && txHistory.length === 0 ? (
         <Box variant="rowCenter" height="100%">
           <Box variant="columnAlign" sx={{ textAlign: 'center' }}>
@@ -41,6 +41,6 @@ export const Home = () => {
           <TxHistory history={txHistory} />
         </>
       )}
-    </>
+    </Container>
   );
 };

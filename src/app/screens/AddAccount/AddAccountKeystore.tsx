@@ -1,19 +1,34 @@
 import React, { useEffect } from 'react';
 
-import { Body, Box, Button, FormCheckbox, PanelBottom } from '@app/components';
 import { fetchAccounts, getAccountError, useDispatch, useSelector } from '@app/store';
+import {
+  Body,
+  Box,
+  Button,
+  FormCheckbox,
+  PanelBottom,
+  ScrollableContainer,
+  WalletTypeSelector
+} from '@components';
 import { translateRaw } from '@translations';
 import { WalletType } from '@types';
 
 import { KeystoreForm, useKeystoreForm } from '../forms/KeystoreForm';
 
-export const AddAccountKeystore = () => {
+interface Props {
+  setWalletType(walletType: WalletType): void;
+}
+
+export const AddAccountKeystore = ({ setWalletType }: Props) => {
   const form = useKeystoreForm();
 
-  return <AddAccountKeystoreForm form={form} />;
+  return <AddAccountKeystoreForm form={form} setWalletType={setWalletType} />;
 };
 
-const AddAccountKeystoreForm = ({ form }: { form: ReturnType<typeof useKeystoreForm> }) => {
+const AddAccountKeystoreForm = ({
+  form,
+  setWalletType
+}: { form: ReturnType<typeof useKeystoreForm> } & Props) => {
   const dispatch = useDispatch();
   const error: string = useSelector(getAccountError);
 
@@ -42,14 +57,20 @@ const AddAccountKeystoreForm = ({ form }: { form: ReturnType<typeof useKeystoreF
   };
 
   return (
-    <KeystoreForm form={form} onSubmit={handleSubmit}>
+    <>
+      <ScrollableContainer>
+        <WalletTypeSelector walletType={WalletType.KEYSTORE} setWalletType={setWalletType} />
+        <KeystoreForm form={form} onSubmit={handleSubmit} />
+      </ScrollableContainer>
       <PanelBottom pb="24px">
-        <Button type="submit">{translateRaw('SUBMIT')}</Button>
+        <Button type="submit" form="keystore-form">
+          {translateRaw('SUBMIT')}
+        </Button>
         <Box pt="2" variant="rowAlign">
           <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
           <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
         </Box>
       </PanelBottom>
-    </KeystoreForm>
+    </>
   );
 };

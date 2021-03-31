@@ -9,7 +9,9 @@ import {
   DPathSelector,
   FormCheckbox,
   MnemonicAddressList,
-  PanelBottom
+  PanelBottom,
+  ScrollableContainer,
+  WalletTypeSelector
 } from '@app/components';
 import { fetchAccounts, useDispatch } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
@@ -30,13 +32,25 @@ const useForm = () =>
     isSubmitting: false
   });
 
-export const AddAccountMnemonic = () => {
+interface Props {
+  setWalletType(walletType: WalletType): void;
+}
+
+export const AddAccountMnemonic = ({ setWalletType }: Props) => {
   const form = useForm();
 
-  return <AnyListener form={form} render={(form) => <AddAccountMnemonicForm form={form} />} />;
+  return (
+    <AnyListener
+      form={form}
+      render={(form) => <AddAccountMnemonicForm form={form} setWalletType={setWalletType} />}
+    />
+  );
 };
 
-const AddAccountMnemonicForm = ({ form }: { form: ReturnType<typeof useForm> }) => {
+const AddAccountMnemonicForm = ({
+  form,
+  setWalletType
+}: { form: ReturnType<typeof useForm> } & Props) => {
   const dispatch = useDispatch();
   const { offset, dPath, addresses, selectedAccounts } = form.state;
 
@@ -100,19 +114,13 @@ const AddAccountMnemonicForm = ({ form }: { form: ReturnType<typeof useForm> }) 
 
   return (
     <>
-      {addresses.length === 0 ? (
-        <MnemonicForm form={form} onSubmit={updateAddresses}>
-          <PanelBottom pb="24px">
-            <Button type="submit">{translateRaw('NEXT')}</Button>
-            <Box pt="2" variant="rowAlign">
-              <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
-              <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
-            </Box>
-          </PanelBottom>
-        </MnemonicForm>
-      ) : (
-        <>
-          <Box mb="150px">
+      <ScrollableContainer>
+        <WalletTypeSelector walletType={WalletType.MNEMONIC} setWalletType={setWalletType} />
+
+        {addresses.length === 0 ? (
+          <MnemonicForm form={form} onSubmit={updateAddresses} />
+        ) : (
+          <Box>
             <DPathSelector selectedPath={dPath} setSelectedPath={handleDPathChange} />
             <MnemonicAddressList
               addresses={addresses}
@@ -128,16 +136,28 @@ const AddAccountMnemonicForm = ({ form }: { form: ReturnType<typeof useForm> }) 
               </Button>
             </Box>
           </Box>
-          <PanelBottom pb="24px">
-            <Button onClick={handleSubmit} disabled={selectedAccounts.length === 0}>
-              {translateRaw('SUBMIT')}
-            </Button>
-            <Box pt="2" variant="rowAlign">
-              <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
-              <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
-            </Box>
-          </PanelBottom>
-        </>
+        )}
+      </ScrollableContainer>
+      {addresses.length === 0 ? (
+        <PanelBottom pb="24px">
+          <Button type="submit" form="mnemonic-phrase-form">
+            {translateRaw('NEXT')}
+          </Button>
+          <Box pt="2" variant="rowAlign">
+            <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
+            <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
+          </Box>
+        </PanelBottom>
+      ) : (
+        <PanelBottom pb="24px">
+          <Button onClick={handleSubmit} disabled={selectedAccounts.length === 0}>
+            {translateRaw('SUBMIT')}
+          </Button>
+          <Box pt="2" variant="rowAlign">
+            <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
+            <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
+          </Box>
+        </PanelBottom>
       )}
     </>
   );

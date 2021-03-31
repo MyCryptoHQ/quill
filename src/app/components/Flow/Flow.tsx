@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
+import { Container } from '@components';
+
 import { FlowHeader } from './FlowHeader';
 import { IFlowComponent } from './types';
 
 export interface FlowProps {
   components: IFlowComponent[];
+
   onDone(): void;
 }
 
@@ -37,13 +40,14 @@ export const Flow = ({ components, onDone }: FlowProps) => {
 
   return (
     <>
-      <FlowHeader
-        onPrevious={handlePrevious}
-        steps={components.length}
-        currentStep={step}
-        mt="3"
-        mb="2"
-      />
+      <Container sx={{ flex: 'none' }}>
+        <FlowHeader
+          onPrevious={handlePrevious}
+          steps={components.length}
+          currentStep={step}
+          mb="2"
+        />
+      </Container>
       <Component onNext={handleNext} onPrevious={handlePrevious} onReset={handleReset} />
     </>
   );

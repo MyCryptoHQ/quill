@@ -3,8 +3,8 @@ import React, { useEffect } from 'react';
 import { hot } from 'react-hot-loader';
 import { ThemeProvider } from 'styled-components';
 
-import { Box, Navigation } from '@app/components';
 import { ipcBridgeRenderer } from '@bridge';
+import { Box, Flex, Navigation } from '@components';
 import { GlobalStyle, theme } from '@theme';
 import { DBRequestType } from '@types';
 
@@ -32,15 +32,9 @@ const App = () => {
       <GlobalStyle />
       <Box height="100vh" overflow="hidden" sx={{ display: 'flex', flexDirection: 'column' }}>
         <Navigation isLoggedIn={loggedIn} />
-        <Box
-          py="1"
-          px="24px"
-          backgroundColor="DEFAULT_BACKGROUND"
-          overflowY="scroll"
-          sx={{ flex: '1' }}
-        >
+        <Flex flexDirection="column" flex="1" overflowY="auto">
           <AppRoutes />
-        </Box>
+        </Flex>
       </Box>
     </ThemeProvider>
   );

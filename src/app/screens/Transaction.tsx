@@ -6,6 +6,7 @@ import {
   Body,
   Box,
   FromToAccount,
+  ScrollableContainer,
   SignBottom,
   TimeElapsed,
   TxDetails,
@@ -51,15 +52,17 @@ export const Transaction = () => {
 
   return (
     <>
-      <Box mb="170px">
-        <TxResultBanner result={result} />
-        <FromToAccount sender={tx.from} recipient={tx.to} />
-        <Body fontSize="14px" color="BLUE_GREY" mb="2" mt="2">
-          {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
-          <TimeElapsed value={timestamp} />
-        </Body>
-        <TxDetails tx={tx} />
-      </Box>
+      <ScrollableContainer>
+        <Box>
+          <TxResultBanner result={result} />
+          <FromToAccount sender={tx.from} recipient={tx.to} />
+          <Body fontSize="14px" color="BLUE_GREY" mb="2" mt="2">
+            {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
+            <TimeElapsed value={timestamp} />
+          </Body>
+          <TxDetails tx={tx} />
+        </Box>
+      </ScrollableContainer>
       {result === TxResult.WAITING && (
         <SignBottom disabled={false} handleAccept={handleAccept} handleDeny={handleDeny} />
       )}

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { SignBottom } from '@app/components';
+import { Account, ScrollableContainer, SignBottom } from '@app/components';
 import { getSigningError, useSelector } from '@app/store';
 import { SignTransactionProps, WalletType } from '@types';
 
@@ -15,8 +15,9 @@ export const SignTransactionPrivateKey = (props: SignTransactionProps) => {
 const SignTransactionPrivateKeyForm = ({
   form,
   onAccept,
-  onDeny
-}: Pick<SignTransactionProps, 'onAccept' | 'onDeny'> & {
+  onDeny,
+  currentAccount
+}: Pick<SignTransactionProps, 'onAccept' | 'onDeny' | 'currentAccount'> & {
   form: ReturnType<typeof usePrivateKeyForm>;
 }) => {
   const error: string = useSelector(getSigningError);
@@ -31,8 +32,12 @@ const SignTransactionPrivateKeyForm = ({
     onAccept({ walletType: WalletType.PRIVATE_KEY, privateKey: form.values.privateKey });
 
   return (
-    <PrivateKeyForm form={form} onSubmit={handleSubmit}>
-      <SignBottom disabled={form.error} handleDeny={onDeny} />
-    </PrivateKeyForm>
+    <>
+      <ScrollableContainer>
+        <Account address={currentAccount.address} truncate={false} bg="none" p="0" />
+        <PrivateKeyForm form={form} onSubmit={handleSubmit} />
+      </ScrollableContainer>
+      <SignBottom disabled={form.error} handleDeny={onDeny} form="private-key-form" />
+    </>
   );
 };

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import { useSelector } from 'react-redux';
 
-import { Blockie, Body, Box } from '@app/components';
 import {
   denyCurrentTransaction,
   getAccounts,
@@ -11,7 +10,6 @@ import {
   useDispatch
 } from '@app/store';
 import { SignTransactionKeystore } from '@screens/SignTransaction/SignTransactionKeystore';
-import { translateRaw } from '@translations';
 import { SerializedWallet, TxResult, WalletType } from '@types';
 
 import { SignTransactionMnemonic } from './SignTransactionMnemonic';
@@ -48,13 +46,6 @@ export const SignTransaction = () => {
 
   return (
     <>
-      <Box variant="rowAlign" mb="2">
-        <Blockie height="32px" width="32px" address={currentAccount.address} mr="2" />
-        <Box>
-          <Body>{translateRaw('NO_LABEL')}</Body>
-          <Body fontSize="14px">{currentAccount.address}</Body>
-        </Box>
-      </Box>
       {isWaiting && currentAccount && (
         <SignComponent
           onAccept={handleAccept}
@@ -64,7 +55,6 @@ export const SignTransaction = () => {
           setError={setError}
         />
       )}
-      <br />
       {error}
     </>
   );

@@ -11,7 +11,8 @@ import {
   Image,
   Input,
   Link,
-  PanelBottom
+  PanelBottom,
+  ScrollableContainer
 } from '@components';
 import { generateAccount, getGeneratedMnemonicWords, useDispatch, useSelector } from '@store';
 import { translate, translateRaw } from '@translations';
@@ -51,8 +52,8 @@ export const GenerateAccountMnemonic = ({ onNext }: IFlowComponentProps) => {
   }, []);
 
   return (
-    <Box>
-      <Box mb="172px">
+    <>
+      <ScrollableContainer pt="0">
         <Box sx={{ textAlign: 'center' }} mb="4">
           <Heading fontSize="24px" lineHeight="150%" mb="2">
             {translateRaw('CREATE_MNEMONIC_PHRASE_TITLE')}
@@ -73,7 +74,7 @@ export const GenerateAccountMnemonic = ({ onNext }: IFlowComponentProps) => {
               </Word>
             ))}
         </Box>
-      </Box>
+      </ScrollableContainer>
       <PanelBottom>
         <Button onClick={onNext} mb="3">
           {translateRaw('CONFIRM_MNEMONIC_PHRASE')}
@@ -85,6 +86,6 @@ export const GenerateAccountMnemonic = ({ onNext }: IFlowComponentProps) => {
           </Flex>
         </Link>
       </PanelBottom>
-    </Box>
+    </>
   );
 };
