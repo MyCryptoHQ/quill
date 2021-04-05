@@ -8,6 +8,7 @@ import configureStore from 'redux-mock-store';
 
 import { ApplicationState, removeAccount } from '@app/store';
 import { fAccount } from '@fixtures';
+import { translateRaw } from '@translations';
 import { DeepPartial } from '@types';
 
 import { Accounts } from '../Accounts';
@@ -42,6 +43,10 @@ describe('Accounts', () => {
     const deleteButton = getByTestId(`delete-${fAccount.address}`);
     expect(deleteButton).toBeDefined();
     fireEvent.click(deleteButton);
+
+    const confirmButton = getByText(translateRaw('DELETE'));
+    expect(confirmButton).toBeDefined();
+    fireEvent.click(confirmButton);
 
     expect(mockStore.getActions()).toContainEqual(removeAccount(fAccount));
   });
