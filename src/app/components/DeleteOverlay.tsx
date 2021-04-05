@@ -4,20 +4,21 @@ import { translateRaw } from '@translations';
 import { IAccount } from '@types';
 import { truncate } from '@utils';
 
-import { Box } from '.';
+import { Box, BoxProps } from '.';
 import { Button } from './Button';
 import { Body } from './Typography';
 
 export const DeleteOverlay = ({
   account,
   handleDelete,
-  handleCancel
+  handleCancel,
+  ...props
 }: {
   account: IAccount;
   handleDelete(): void;
   handleCancel(): void;
-}) => (
-  <Box bg="BLUE_GREY" variant="rowAlign" p="3">
+} & BoxProps) => (
+  <Box bg="BLUE_GREY" variant="rowAlign" p="3" {...props}>
     <Body color="white" maxWidth="70%">
       {translateRaw('CONFIRM_ACCOUNT_DELETION', {
         $label: account.label ?? translateRaw('NO_LABEL'),

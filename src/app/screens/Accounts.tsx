@@ -12,6 +12,7 @@ import {
   DeleteOverlay,
   Divider,
   EditableText,
+  Flex,
   Heading,
   Image,
   Link
@@ -28,7 +29,7 @@ const Account = ({ account }: { account: IAccount }) => {
   const handleChangeLabel = (label: string) => dispatch(updateAccount({ ...account, label }));
 
   return !isDeleting ? (
-    <Box variant="rowAlign" py="3">
+    <Box variant="rowAlign" py="24px">
       <Blockie address={account.address} width="32px" mr="1" />
       <Box>
         <EditableText
@@ -41,16 +42,23 @@ const Account = ({ account }: { account: IAccount }) => {
         </Body>
       </Box>
       <Link variant="defaultLink" onClick={handleDelete} ml="auto">
-        <Image
-          src={deleteIcon}
-          width="20px"
-          height="20px"
-          data-testid={`delete-${account.address}`}
-        />
+        <Flex variant="rowCenter">
+          <Image
+            src={deleteIcon}
+            width="20px"
+            height="20px"
+            data-testid={`delete-${account.address}`}
+          />
+        </Flex>
       </Link>
     </Box>
   ) : (
-    <DeleteOverlay account={account} handleDelete={handleConfirm} handleCancel={handleCancel} />
+    <DeleteOverlay
+      account={account}
+      handleDelete={handleConfirm}
+      handleCancel={handleCancel}
+      maxHeight="96px"
+    />
   );
 };
 

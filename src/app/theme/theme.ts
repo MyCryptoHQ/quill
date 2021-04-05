@@ -225,7 +225,10 @@ export const theme: DefaultTheme = {
       borderStyle: 'solid',
       borderColor: 'GREY_ATHENS',
       boxShadow: '0px 1px 1px rgba(232, 234, 237, 0.5), inset 0px 1px 3px rgba(232, 234, 237, 0.5)',
-      borderRadius: 0
+      borderRadius: 0,
+      '&:focus': {
+        outline: 'none'
+      }
     },
     textarea: {
       borderWidth: '1px',

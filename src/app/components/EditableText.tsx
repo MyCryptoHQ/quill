@@ -57,14 +57,36 @@ export const EditableText = ({
           onChange={(e) => setEditValue(e.currentTarget.value)}
           onBlur={handleSave}
           onKeyDown={handleKeyDown}
+          p="1"
           sx={{ width: 'auto' }}
         />
       ) : (
         <>
-          <Body as="span" onClick={handleEdit}>
+          <Body
+            as="span"
+            onClick={handleEdit}
+            sx={{
+              borderBottomWidth: '1px',
+              borderBottomColor: 'transparent',
+              borderBottomStyle: 'solid',
+              '&:hover': {
+                borderBottomWidth: '1px',
+                borderBottomColor: 'BLUE_GREY',
+                borderBottomStyle: 'dashed',
+                cursor: 'pointer'
+              }
+            }}
+          >
             {hasValue ? value : placeholder}
           </Body>
-          <Image src={edit} onClick={handleEdit} ml="2" height="16px" width="16px" />
+          <Image
+            src={edit}
+            onClick={handleEdit}
+            ml="2"
+            height="16px"
+            width="16px"
+            sx={{ '&:hover': { cursor: 'pointer' } }}
+          />
         </>
       )}
     </Box>

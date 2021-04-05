@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Body, Box, Container, Image, LinkApp, SubHeading } from '@app/components';
+import { Body, Box, Container, Heading, Image, LinkApp } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import addAccount from '@assets/icons/add-account.svg';
 import generateAccount from '@assets/icons/generate-account.svg';
@@ -17,7 +17,9 @@ const MENU_ITEMS = [
 
 export const Menu = () => (
   <Container>
-    <SubHeading>{translateRaw('MENU_HEADER')}</SubHeading>
+    <Heading fontSize="24px" lineHeight="150%" mb="2">
+      {translateRaw('MENU_HEADER')}
+    </Heading>
     {Object.values(MENU_ITEMS).map((item, i) => (
       <LinkApp key={i} href={item.route}>
         <Box sx={{ boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.07)' }} mb="2">
