@@ -53,7 +53,6 @@ export const EditableText = ({
           placeholder={placeholder}
           autoFocus={true}
           value={editValue}
-          onClick={(e: React.MouseEvent) => e.stopPropagation()}
           onChange={(e) => setEditValue(e.currentTarget.value)}
           onBlur={handleSave}
           onKeyDown={handleKeyDown}
