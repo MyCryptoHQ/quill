@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
-import { ApplicationState, denyCurrentTransaction, sign } from '@app/store';
+import { ApplicationState, sign } from '@app/store';
 import {
   fAccount,
   fAccounts,
@@ -60,7 +60,7 @@ describe('SignTransaction', () => {
     const {
       component: { getByText }
     } = getComponentWithStore();
-    expect(getByText(translateRaw('APPROVE_TX')).textContent).toBeDefined();
+    expect(getByText(translateRaw('SIGN_TX')).textContent).toBeDefined();
   });
 
   it('can accept tx with private key', async () => {
@@ -68,13 +68,13 @@ describe('SignTransaction', () => {
       component: { getByText, container },
       mockStore
     } = getComponentWithStore();
-    await waitFor(() => expect(getByText(translateRaw('APPROVE_TX'))?.textContent).toBeDefined());
+    await waitFor(() => expect(getByText(translateRaw('SIGN_TX'))?.textContent).toBeDefined());
 
     const privkeyInput = container.querySelector('input[name="privateKey"]');
     expect(privkeyInput).toBeDefined();
     fireEvent.change(privkeyInput, { target: { value: fPrivateKey } });
 
-    const acceptButton = getByText(translateRaw('APPROVE_TX'));
+    const acceptButton = getByText(translateRaw('SIGN_TX'));
     fireEvent.click(acceptButton);
 
     await waitFor(() =>
@@ -103,7 +103,7 @@ describe('SignTransaction', () => {
       component: { getByText, container, getByTestId },
       mockStore
     } = getComponentWithStore(fAccounts[3]);
-    await waitFor(() => expect(getByText(translateRaw('APPROVE_TX'))?.textContent).toBeDefined());
+    await waitFor(() => expect(getByText(translateRaw('SIGN_TX'))?.textContent).toBeDefined());
 
     const keystoreBlob = new Blob([fKeystore], { type: 'application/json' });
     const keystoreFile = new File([keystoreBlob], 'keystore.json');
@@ -117,7 +117,7 @@ describe('SignTransaction', () => {
     expect(passwordInput).toBeDefined();
     fireEvent.change(passwordInput, { target: { value: fKeystorePassword } });
 
-    const acceptButton = getByText(translateRaw('APPROVE_TX'));
+    const acceptButton = getByText(translateRaw('SIGN_TX'));
     await waitFor(() => fireEvent.click(acceptButton));
 
     await waitFor(() =>
@@ -138,7 +138,7 @@ describe('SignTransaction', () => {
     const {
       component: { getByText, container, getByTestId }
     } = getComponentWithStore(fAccounts[3]);
-    await waitFor(() => expect(getByText(translateRaw('APPROVE_TX'))?.textContent).toBeDefined());
+    await waitFor(() => expect(getByText(translateRaw('SIGN_TX'))?.textContent).toBeDefined());
 
     const keystoreBlob = new Blob([fKeystore], { type: 'application/json' });
     const keystoreFile = new File([keystoreBlob], 'keystore.json');
@@ -154,7 +154,7 @@ describe('SignTransaction', () => {
     expect(passwordInput).toBeDefined();
     fireEvent.change(passwordInput, { target: { value: fKeystorePassword } });
 
-    const acceptButton = getByText(translateRaw('APPROVE_TX'));
+    const acceptButton = getByText(translateRaw('SIGN_TX'));
     fireEvent.click(acceptButton);
 
     await waitFor(() => expect(getByText('error', { exact: false })).toBeDefined());
@@ -173,7 +173,7 @@ describe('SignTransaction', () => {
       component: { getByText, getByLabelText, getByTestId },
       mockStore
     } = getComponentWithStore(fAccounts[1]);
-    const acceptButton = getByText(translateRaw('APPROVE_TX'));
+    const acceptButton = getByText(translateRaw('SIGN_TX'));
     expect(acceptButton.textContent).toBeDefined();
 
     const mnemonicInput = getByTestId('mnemonic-input');
@@ -207,18 +207,5 @@ describe('SignTransaction', () => {
     } = getComponentWithStore(fAccounts[1], 'error');
 
     await waitFor(() => expect(getByText('error', { exact: false })).toBeDefined());
-  });
-
-  it('can deny tx', async () => {
-    const {
-      component: { getByText },
-      mockStore
-    } = getComponentWithStore();
-    const denyButton = getByText('Deny Transaction');
-    expect(denyButton.textContent).toBeDefined();
-
-    fireEvent.click(denyButton);
-
-    expect(mockStore.getActions()).toContainEqual(denyCurrentTransaction());
   });
 });

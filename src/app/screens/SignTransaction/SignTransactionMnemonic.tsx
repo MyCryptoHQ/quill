@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 
-import { Account, ScrollableContainer, SignBottom } from '@app/components';
+import { Account, Body, Heading, ScrollableContainer, SignBottom } from '@app/components';
 import { getSigningError, useSelector } from '@app/store';
+import { translateRaw } from '@translations';
 import { SignTransactionProps, WalletType } from '@types';
 
 import { MnemonicForm, useMnemonicForm } from '../forms/MnemonicForm';
@@ -15,9 +16,8 @@ export const SignTransactionMnemonic = (props: SignTransactionProps) => {
 const SignTransactionMnemonicForm = ({
   form,
   onAccept,
-  onDeny,
   currentAccount
-}: Pick<SignTransactionProps, 'onAccept' | 'onDeny' | 'currentAccount'> & {
+}: Pick<SignTransactionProps, 'onAccept' | 'currentAccount'> & {
   form: ReturnType<typeof useMnemonicForm>;
 }) => {
   const error: string = useSelector(getSigningError);
@@ -40,10 +40,20 @@ const SignTransactionMnemonicForm = ({
   return (
     <>
       <ScrollableContainer>
-        <Account address={currentAccount.address} truncate={false} bg="none" p="0" />
+        <Heading fontSize="24px" lineHeight="150%" mb="2" textAlign="center">
+          {translateRaw('SIGNING_WITH_NON_PERSISTED_ACCOUNT_HEADER')}
+        </Heading>
+        <Body mb="3">{translateRaw('SIGNING_WITH_NON_PERSISTED_ACCOUNT_BODY')}</Body>
+        <Account
+          address={currentAccount.address}
+          truncate={false}
+          bg="none"
+          p="0"
+          addressColor="GREY_TEXT"
+        />
         <MnemonicForm form={form} onSubmit={handleSubmit} />
       </ScrollableContainer>
-      <SignBottom disabled={form.error} handleDeny={onDeny} form="mnemonic-phrase-form" />
+      <SignBottom disabled={form.error} form="mnemonic-phrase-form" />
     </>
   );
 };

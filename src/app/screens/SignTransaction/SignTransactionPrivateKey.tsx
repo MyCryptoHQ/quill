@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 
-import { Account, ScrollableContainer, SignBottom } from '@app/components';
+import { Account, Body, Heading, ScrollableContainer, SignBottom } from '@app/components';
 import { getSigningError, useSelector } from '@app/store';
+import { translateRaw } from '@translations';
 import { SignTransactionProps, WalletType } from '@types';
 
 import { PrivateKeyForm, usePrivateKeyForm } from '../forms/PrivateKeyForm';
@@ -15,9 +16,8 @@ export const SignTransactionPrivateKey = (props: SignTransactionProps) => {
 const SignTransactionPrivateKeyForm = ({
   form,
   onAccept,
-  onDeny,
   currentAccount
-}: Pick<SignTransactionProps, 'onAccept' | 'onDeny' | 'currentAccount'> & {
+}: Pick<SignTransactionProps, 'onAccept' | 'currentAccount'> & {
   form: ReturnType<typeof usePrivateKeyForm>;
 }) => {
   const error: string = useSelector(getSigningError);
@@ -34,10 +34,20 @@ const SignTransactionPrivateKeyForm = ({
   return (
     <>
       <ScrollableContainer>
-        <Account address={currentAccount.address} truncate={false} bg="none" p="0" />
+        <Heading fontSize="24px" lineHeight="150%" mb="2" textAlign="center">
+          {translateRaw('SIGNING_WITH_NON_PERSISTED_ACCOUNT_HEADER')}
+        </Heading>
+        <Body mb="3">{translateRaw('SIGNING_WITH_NON_PERSISTED_ACCOUNT_BODY')}</Body>
+        <Account
+          address={currentAccount.address}
+          truncate={false}
+          bg="none"
+          p="0"
+          addressColor="GREY_TEXT"
+        />
         <PrivateKeyForm form={form} onSubmit={handleSubmit} />
       </ScrollableContainer>
-      <SignBottom disabled={form.error} handleDeny={onDeny} form="private-key-form" />
+      <SignBottom disabled={form.error} form="private-key-form" />
     </>
   );
 };

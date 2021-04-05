@@ -2,16 +2,10 @@ import React, { useState } from 'react';
 
 import { useSelector } from 'react-redux';
 
-import {
-  denyCurrentTransaction,
-  getAccounts,
-  getCurrentTransaction,
-  sign,
-  useDispatch
-} from '@app/store';
-import { SignTransactionKeystore } from '@screens/SignTransaction/SignTransactionKeystore';
+import { getAccounts, getCurrentTransaction, sign, useDispatch } from '@app/store';
 import { SerializedWallet, TxResult, WalletType } from '@types';
 
+import { SignTransactionKeystore } from './SignTransactionKeystore';
 import { SignTransactionMnemonic } from './SignTransactionMnemonic';
 import { SignTransactionPrivateKey } from './SignTransactionPrivateKey';
 
@@ -32,10 +26,6 @@ export const SignTransaction = () => {
     );
   };
 
-  const handleDeny = async () => {
-    dispatch(denyCurrentTransaction());
-  };
-
   const components = {
     [WalletType.PRIVATE_KEY]: SignTransactionPrivateKey,
     [WalletType.MNEMONIC]: SignTransactionMnemonic,
@@ -49,7 +39,6 @@ export const SignTransaction = () => {
       {isWaiting && currentAccount && (
         <SignComponent
           onAccept={handleAccept}
-          onDeny={handleDeny}
           tx={tx}
           currentAccount={currentAccount}
           setError={setError}
