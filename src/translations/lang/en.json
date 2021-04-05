@@ -136,6 +136,7 @@
     "RESET_CONFIRM": "Yes, reset my password",
     "SIGN_TX": "Sign Transaction",
     "SIGNING_WITH_NON_PERSISTED_ACCOUNT_HEADER": "You are Signing a Transaction from a Non Persisted Account",
-    "SIGNING_WITH_NON_PERSISTED_ACCOUNT_BODY": "Enter your secret below to sign the transaction."
+    "SIGNING_WITH_NON_PERSISTED_ACCOUNT_BODY": "Enter your secret below to sign the transaction.",
+    "YOUR_ACCOUNTS": "Your Accounts"
   }
 }
