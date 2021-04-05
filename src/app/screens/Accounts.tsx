@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { useSelector } from 'react-redux';
 
-import { getAccounts, removeAccount, useDispatch } from '@app/store';
+import { getAccounts, removeAccount, updateAccount, useDispatch } from '@app/store';
 import deleteIcon from '@assets/icons/circle-delete.svg';
 import {
   Blockie,
@@ -11,6 +11,7 @@ import {
   Container,
   DeleteOverlay,
   Divider,
+  EditableText,
   Heading,
   Image,
   Link
@@ -24,17 +25,22 @@ const Account = ({ account }: { account: IAccount }) => {
   const handleDelete = () => setIsDeleting(true);
   const handleCancel = () => setIsDeleting(false);
   const handleConfirm = () => dispatch(removeAccount(account));
+  const handleChangeLabel = (label: string) => dispatch(updateAccount({ ...account, label }));
 
   return !isDeleting ? (
     <Box variant="rowAlign" py="3">
       <Blockie address={account.address} width="32px" mr="1" />
       <Box>
-        <Body>{account.label ?? translateRaw('NO_LABEL')}</Body>
+        <EditableText
+          value={account.label}
+          placeholder={translateRaw('NO_LABEL')}
+          onChange={handleChangeLabel}
+        />
         <Body sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }} color="GREY_TEXT">
           {account.address}
         </Body>
       </Box>
-      <Link onClick={handleDelete} ml="auto">
+      <Link variant="defaultLink" onClick={handleDelete} ml="auto">
         <Image
           src={deleteIcon}
           width="20px"

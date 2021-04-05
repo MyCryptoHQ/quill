@@ -4,6 +4,7 @@ export * from './utils';
 export {
   addAccount,
   removeAccount,
+  updateAccount,
   fetchAccounts,
   generateAccount,
   setGeneratedAccount,

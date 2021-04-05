@@ -50,6 +50,10 @@ const slice = createSlice({
       const idx = state.accounts.findIndex((a) => a.uuid === action.payload.uuid);
       state.accounts.splice(idx, 1);
     },
+    updateAccount(state, action: PayloadAction<IAccount>) {
+      const idx = state.accounts.findIndex((a) => a.uuid === action.payload.uuid);
+      state.accounts[idx] = action.payload;
+    },
     fetchAccounts(state, _: PayloadAction<(SerializedWallet & { persistent: boolean })[]>) {
       state.isFetching = true;
       state.fetchError = undefined;
@@ -74,6 +78,7 @@ const slice = createSlice({
 export const {
   addAccount,
   removeAccount,
+  updateAccount,
   fetchAccounts,
   fetchFailed,
   fetchReset,
