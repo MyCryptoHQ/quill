@@ -4,7 +4,7 @@ import { formatEther } from '@ethersproject/units';
 
 import { Body, Box, FromToAccount, Image, LinkApp, TimeElapsed } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
-import { selectTransaction, useDispatch } from '@app/store';
+import { getAccounts, selectTransaction, useDispatch, useSelector } from '@app/store';
 import circleArrow from '@assets/icons/circle-arrow.svg';
 import waiting from '@assets/icons/queue-waiting.svg';
 import { getChain } from '@data';
@@ -13,7 +13,10 @@ import { TxQueueEntry } from '@types';
 
 export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {
   const dispatch = useDispatch();
+  const accounts = useSelector(getAccounts);
   const { tx, origin } = item;
+  const currentAccount = accounts.find((a) => a.address === tx.from);
+  const recipientAccount = accounts.find((a) => a.address === tx.to);
   const handleSelect = () => dispatch(selectTransaction(item));
   const chain = getChain(tx.chainId);
   const symbol = chain?.nativeCurrency?.symbol ?? '?';
@@ -27,7 +30,10 @@ export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {
         </Body>
       </Box>
       <Box variant="rowAlign" mt="2">
-        <FromToAccount sender={tx.from} recipient={tx.to} />
+        <FromToAccount
+          sender={{ address: tx.from, label: currentAccount?.label }}
+          recipient={{ address: tx.to, label: recipientAccount?.label }}
+        />
         <LinkApp
           href={ROUTE_PATHS.TX}
           ml="auto"

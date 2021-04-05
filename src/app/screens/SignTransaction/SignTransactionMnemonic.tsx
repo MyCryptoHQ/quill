@@ -45,6 +45,7 @@ const SignTransactionMnemonicForm = ({
         </Heading>
         <Body mb="3">{translateRaw('SIGNING_WITH_NON_PERSISTED_ACCOUNT_BODY')}</Body>
         <Account
+          label={currentAccount.label}
           address={currentAccount.address}
           truncate={false}
           bg="none"
