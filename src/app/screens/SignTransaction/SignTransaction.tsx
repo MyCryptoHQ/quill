@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getAccounts, getCurrentTransaction, sign, useDispatch } from '@app/store';
-import { SignTransactionKeystore } from '@screens/SignTransaction/SignTransactionKeystore';
 import { SerializedWallet, TxResult, WalletType } from '@types';
 
+import { SignTransactionKeystore } from './SignTransactionKeystore';
 import { SignTransactionMnemonic } from './SignTransactionMnemonic';
 import { SignTransactionPrivateKey } from './SignTransactionPrivateKey';
 
