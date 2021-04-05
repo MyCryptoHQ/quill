@@ -36,3 +36,4 @@ export * from './PaperWallet';
 export * from './Container';
 export * from './TransactionBottom';
 export * from './Divider';
+export * from './DeleteOverlay';

@@ -1,18 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useSelector } from 'react-redux';
 
 import { getAccounts, removeAccount, useDispatch } from '@app/store';
 import deleteIcon from '@assets/icons/circle-delete.svg';
-import { Blockie, Body, Box, Container, Divider, Heading, Image, LinkApp } from '@components';
+import {
+  Blockie,
+  Body,
+  Box,
+  Container,
+  DeleteOverlay,
+  Divider,
+  Heading,
+  Image,
+  Link
+} from '@components';
 import { translateRaw } from '@translations';
 import { IAccount } from '@types';
 
 const Account = ({ account }: { account: IAccount }) => {
   const dispatch = useDispatch();
-  const handleDelete = () => dispatch(removeAccount(account));
+  const [isDeleting, setIsDeleting] = useState(false);
+  const handleDelete = () => setIsDeleting(true);
+  const handleCancel = () => setIsDeleting(false);
+  const handleConfirm = () => dispatch(removeAccount(account));
 
-  return (
+  return !isDeleting ? (
     <Box variant="rowAlign" py="3">
       <Blockie address={account.address} width="32px" mr="1" />
       <Box>
@@ -21,15 +34,17 @@ const Account = ({ account }: { account: IAccount }) => {
           {account.address}
         </Body>
       </Box>
-      <LinkApp href="#" onClick={handleDelete}>
+      <Link onClick={handleDelete} ml="auto">
         <Image
           src={deleteIcon}
           width="20px"
           height="20px"
           data-testid={`delete-${account.address}`}
         />
-      </LinkApp>
+      </Link>
     </Box>
+  ) : (
+    <DeleteOverlay account={account} handleDelete={handleConfirm} handleCancel={handleCancel} />
   );
 };
 

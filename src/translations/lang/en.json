@@ -137,6 +137,8 @@
     "SIGN_TX": "Sign Transaction",
     "SIGNING_WITH_NON_PERSISTED_ACCOUNT_HEADER": "You are Signing a Transaction from a Non Persisted Account",
     "SIGNING_WITH_NON_PERSISTED_ACCOUNT_BODY": "Enter your secret below to sign the transaction.",
-    "YOUR_ACCOUNTS": "Your Accounts"
+    "YOUR_ACCOUNTS": "Your Accounts",
+    "CONFIRM_ACCOUNT_DELETION": "Are you sure you want to delete “$label” account with address $address?",
+    "CANCEL": "Cancel"
   }
 }
