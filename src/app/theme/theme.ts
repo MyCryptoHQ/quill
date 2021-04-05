@@ -166,6 +166,7 @@ export const theme: DefaultTheme = {
     GREY_LIGHTEST: '#f7f7f7',
     GREY_LIGHTER: '#e5ecf3',
     GREY_LIGHT: '#d8d8d8',
+    GREY_TEXT: '#828282',
 
     // ORANGE
     ORANGE: '#FA873F',
