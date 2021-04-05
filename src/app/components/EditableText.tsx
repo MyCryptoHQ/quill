@@ -57,6 +57,7 @@ export const EditableText = ({
           onBlur={handleSave}
           onKeyDown={handleKeyDown}
           p="1"
+          fontSize="3"
           sx={{ width: 'auto' }}
         />
       ) : (
@@ -64,6 +65,7 @@ export const EditableText = ({
           <Body
             as="span"
             onClick={handleEdit}
+            fontSize="3"
             sx={{
               borderBottomWidth: '1px',
               borderBottomColor: 'transparent',
