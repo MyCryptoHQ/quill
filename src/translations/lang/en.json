@@ -133,6 +133,7 @@
     "RESET_HEADING": "Are you sure you want to reset your password?",
     "RESET_DESCRIPTION": "Resetting your password will cause you to lose all your saved settings (accounts, saved keys, & transactions).",
     "RESET_CANCEL": "No, I want to keep my settings",
-    "RESET_CONFIRM": "Yes, reset my password"
+    "RESET_CONFIRM": "Yes, reset my password",
+    "SIGN_TX": "Sign Transaction"
   }
 }

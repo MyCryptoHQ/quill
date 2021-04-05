@@ -7,8 +7,8 @@ import {
   Box,
   FromToAccount,
   ScrollableContainer,
-  SignBottom,
   TimeElapsed,
+  TransactionBottom,
   TxDetails,
   TxResultBanner
 } from '@app/components';
@@ -64,7 +64,7 @@ export const Transaction = () => {
         </Box>
       </ScrollableContainer>
       {result === TxResult.WAITING && (
-        <SignBottom disabled={false} handleAccept={handleAccept} handleDeny={handleDeny} />
+        <TransactionBottom disabled={false} handleAccept={handleAccept} handleDeny={handleDeny} />
       )}
     </>
   );

@@ -15,9 +15,8 @@ export const SignTransactionMnemonic = (props: SignTransactionProps) => {
 const SignTransactionMnemonicForm = ({
   form,
   onAccept,
-  onDeny,
   currentAccount
-}: Pick<SignTransactionProps, 'onAccept' | 'onDeny' | 'currentAccount'> & {
+}: Pick<SignTransactionProps, 'onAccept' | 'currentAccount'> & {
   form: ReturnType<typeof useMnemonicForm>;
 }) => {
   const error: string = useSelector(getSigningError);
@@ -43,7 +42,7 @@ const SignTransactionMnemonicForm = ({
         <Account address={currentAccount.address} truncate={false} bg="none" p="0" />
         <MnemonicForm form={form} onSubmit={handleSubmit} />
       </ScrollableContainer>
-      <SignBottom disabled={form.error} handleDeny={onDeny} form="mnemonic-phrase-form" />
+      <SignBottom disabled={form.error} form="mnemonic-phrase-form" />
     </>
   );
 };

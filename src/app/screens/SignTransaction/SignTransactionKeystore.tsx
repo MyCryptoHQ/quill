@@ -14,7 +14,6 @@ export const SignTransactionKeystore = (props: SignTransactionProps) => {
 
 const SignTransactionKeystoreForm = ({
   onAccept,
-  onDeny,
   form,
   currentAccount
 }: SignTransactionProps & { form: ReturnType<typeof useKeystoreForm> }) => {
@@ -41,7 +40,7 @@ const SignTransactionKeystoreForm = ({
         <Account address={currentAccount.address} truncate={false} bg="none" p="0" />
         <KeystoreForm form={form} onSubmit={handleSubmit} />
       </ScrollableContainer>
-      <SignBottom disabled={form.error} handleDeny={onDeny} form="keystore-form" />
+      <SignBottom disabled={form.error} form="keystore-form" />
     </>
   );
 };

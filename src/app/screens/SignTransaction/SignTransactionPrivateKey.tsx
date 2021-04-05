@@ -15,9 +15,8 @@ export const SignTransactionPrivateKey = (props: SignTransactionProps) => {
 const SignTransactionPrivateKeyForm = ({
   form,
   onAccept,
-  onDeny,
   currentAccount
-}: Pick<SignTransactionProps, 'onAccept' | 'onDeny' | 'currentAccount'> & {
+}: Pick<SignTransactionProps, 'onAccept' | 'currentAccount'> & {
   form: ReturnType<typeof usePrivateKeyForm>;
 }) => {
   const error: string = useSelector(getSigningError);
@@ -37,7 +36,7 @@ const SignTransactionPrivateKeyForm = ({
         <Account address={currentAccount.address} truncate={false} bg="none" p="0" />
         <PrivateKeyForm form={form} onSubmit={handleSubmit} />
       </ScrollableContainer>
-      <SignBottom disabled={form.error} handleDeny={onDeny} form="private-key-form" />
+      <SignBottom disabled={form.error} form="private-key-form" />
     </>
   );
 };
