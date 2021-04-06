@@ -26,7 +26,7 @@ export const EditableText = ({
   };
 
   useEffect(() => {
-    setEditValue(value);
+    setEditValue(value ?? '');
   }, [value]);
 
   const handleEdit = (e: React.MouseEvent) => {
