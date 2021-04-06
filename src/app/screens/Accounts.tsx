@@ -30,14 +30,18 @@ const Account = ({ account }: { account: IAccount }) => {
 
   return !isDeleting ? (
     <Box variant="rowAlign" py="24px">
-      <Blockie address={account.address} width="32px" mr="1" />
+      <Blockie address={account.address} width="32px" mr="6px" />
       <Box>
         <EditableText
           value={account.label}
           placeholder={translateRaw('NO_LABEL')}
           onChange={handleChangeLabel}
         />
-        <Body sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }} color="GREY_TEXT">
+        <Body
+          sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
+          color="GREY_TEXT"
+          fontSize="14px"
+        >
           {account.address}
         </Body>
       </Box>
@@ -57,7 +61,9 @@ const Account = ({ account }: { account: IAccount }) => {
       account={account}
       handleDelete={handleConfirm}
       handleCancel={handleCancel}
-      maxHeight="96px"
+      maxHeight="97px"
+      marginLeft="-24px"
+      marginRight="-24px"
     />
   );
 };

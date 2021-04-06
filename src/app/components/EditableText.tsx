@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 
 import edit from '@assets/icons/edit.svg';
 
@@ -44,6 +44,8 @@ export const EditableText = ({
     setEditMode(false);
   };
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => setEditValue(e.currentTarget.value);
+
   const hasValue = value !== undefined;
 
   return (
@@ -53,7 +55,7 @@ export const EditableText = ({
           placeholder={placeholder}
           autoFocus={true}
           value={editValue}
-          onChange={(e) => setEditValue(e.currentTarget.value)}
+          onChange={handleChange}
           onBlur={handleSave}
           onKeyDown={handleKeyDown}
           p="1"
