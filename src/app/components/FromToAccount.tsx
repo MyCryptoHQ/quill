@@ -2,24 +2,25 @@ import React from 'react';
 
 import { Box, BoxProps } from '@app/components';
 import { translateRaw } from '@translations';
-import { TAddress } from '@types';
+import { IAccount } from '@types';
 
 import { Account } from './Account';
 
-// @todo Handle labels
+type AccountLabel = Pick<IAccount, 'address' | 'label'>;
+
 export const FromToAccount = ({
   sender,
   recipient,
   ...props
-}: { sender: TAddress; recipient: TAddress } & BoxProps) => (
+}: { sender: AccountLabel; recipient: AccountLabel } & BoxProps) => (
   <Box variant="rowAlign" {...props}>
     <Box mr="1">
       {translateRaw('SENDER')}
-      <Account address={sender} truncate={true} pr="4" />
+      <Account address={sender.address} label={sender.label} truncate={true} pr="4" />
     </Box>
     <Box ml="1">
       {translateRaw('RECIPIENT')}
-      <Account address={recipient} truncate={true} pr="4" />
+      <Account address={recipient.address} label={recipient.label} truncate={true} pr="4" />
     </Box>
   </Box>
 );

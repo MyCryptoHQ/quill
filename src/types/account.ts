@@ -5,6 +5,7 @@ import { WalletType } from './wallet';
 export interface IAccount {
   uuid: TUuid;
   type: WalletType;
+  label?: string;
   address: TAddress;
   persistent: boolean;
   dPath?: string;

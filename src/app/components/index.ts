@@ -35,3 +35,6 @@ export * from './Address';
 export * from './PaperWallet';
 export * from './Container';
 export * from './TransactionBottom';
+export * from './Divider';
+export * from './DeleteOverlay';
+export * from './EditableText';

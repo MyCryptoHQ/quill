@@ -29,6 +29,7 @@ export const Transaction = () => {
   const accounts = useSelector(getAccounts);
   const { tx, timestamp, result, origin } = useSelector(getCurrentTransaction);
   const currentAccount = tx && accounts.find((a) => a.address === tx.from);
+  const recipientAccount = tx && accounts.find((a) => a.address === tx.to);
 
   const handleAccept = () => {
     if (currentAccount.persistent) {
@@ -55,7 +56,10 @@ export const Transaction = () => {
       <ScrollableContainer>
         <Box>
           <TxResultBanner result={result} />
-          <FromToAccount sender={tx.from} recipient={tx.to} />
+          <FromToAccount
+            sender={{ address: tx.from, label: currentAccount?.label }}
+            recipient={{ address: tx.to, label: recipientAccount?.label }}
+          />
           <Body fontSize="14px" color="BLUE_GREY" mb="2" mt="2">
             {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
             <TimeElapsed value={timestamp} />

@@ -16,7 +16,8 @@ import slice, {
   generateAccountWorker,
   removeAccount,
   removeAccountWorker,
-  setGeneratedAccount
+  setGeneratedAccount,
+  updateAccount
 } from './account.slice';
 
 jest.mock('@bridge', () => ({
@@ -43,6 +44,15 @@ describe('AccountSlice', () => {
       removeAccount(fAccount)
     );
     expect(result.accounts).toStrictEqual([]);
+  });
+
+  it('updateAccount(): updates account in state', () => {
+    const newAccount = { ...fAccount, label: 'new label' };
+    const result = slice.reducer(
+      { accounts: [fAccount], isFetching: false },
+      updateAccount(newAccount)
+    );
+    expect(result.accounts).toStrictEqual([newAccount]);
   });
 
   it('fetchAccount(): sets isFetching to true', () => {
