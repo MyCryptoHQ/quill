@@ -40,7 +40,7 @@ export const EditableText = ({
   };
 
   const handleSave = () => {
-    onChange(editValue);
+    onChange(editValue.length > 0 ? editValue : undefined);
     setEditMode(false);
   };
 
