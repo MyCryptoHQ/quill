@@ -1,0 +1,47 @@
+name: Package Application
+
+on:
+  # ONLY FOR TESTING PURPOSES - TO BE REMOVED WHEN STABLE
+  pull_request:
+    branches:
+      - '*'
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    steps:
+      - name: Retrieves project from the git branch
+        uses: actions/checkout@v2
+
+      - name: Read .nvmrc
+        run: echo "##[set-output name=NVMRC;]$(cat package.json | grep '\"node\":' | sed 's/^ *//;s/ *$//;s/\"node\":\ \"//;s/\",//' )"
+        id: nvm
+
+      - name: Setup node ${{ steps.nvm.outputs.NVMRC }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: '${{ steps.nvm.outputs.NVMRC }}'
+
+      - run: node --version; npm --version; yarn --version
+
+      - name: Cache node modules
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          ## Check cache based on yarn.lock hashfile
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install Dependencies
+        ## If no cache is found, install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: yarn install
+
+      - name: Package target distribution
+        run: yarn make
