@@ -1,13 +1,9 @@
 name: Package Application
 
 on:
-  # ONLY FOR TESTING PURPOSES - TO BE REMOVED WHEN STABLE
-  pull_request:
-    branches:
-      - '*'
   push:
-    branches:
-      - master
+    tags:
+      - 'v*'
 
 jobs:
   release:
@@ -35,13 +31,43 @@ jobs:
         uses: actions/cache@v2
         with:
           path: node_modules
-          ## Check cache based on yarn.lock hashfile
           key: ${{ runner.OS }}-build-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install Dependencies
-        ## If no cache is found, install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn install
 
-      - name: Package target distribution
+      - name: Add MacOS certificates
+        if: matrix.os == 'macos-latest'
+        run: |
+          echo $CERTIFICATE_OSX_APPLICATION | base64 --decode > $CERTIFICATE_P12
+          security create-keychain -p actions build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p actions build.keychain
+          security import $CERTIFICATE_P12 -k build.keychain -P $CERTIFICATE_PASSWORD -T /usr/bin/codesign;
+          security set-key-partition-list -S apple-tool:,apple: -s -k actions build.keychain
+          rm -fr *.p12
+        env:
+          CERTIFICATE_OSX_APPLICATION: ${{ secrets.CERTIFICATE_OSX_APPLICATION }}
+          CERTIFICATE_PASSWORD: ${{ secrets.CERTIFICATE_PASSWORD }}
+
+      - name: Add Windows certificate
+        if: matrix.os == 'windows-latest' && startsWith(github.ref, 'refs/tags/')
+        id: write_file
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileName: 'win-certificate.pfx'
+          encodedString: ${{ secrets.CERTIFICATE_WINDOWS_PFX }}
+
+      - name: Make (${{ matrix.os }})
         run: yarn make
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          WINDOWS_PFX_FILE: ${{ steps.write_file.outputs.filePath }}
+          WINDOWS_PFX_PASSWORD: ${{ secrets.WINDOWS_PFX_PASSWORD }}
+
+      - name: Publish
+        run: yarn publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

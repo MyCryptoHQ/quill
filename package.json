@@ -27,53 +27,7 @@
   "author": "MyCryptoHQ",
   "license": "MIT",
   "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "signer"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ],
-      "plugins": [
-        [
-          "@electron-forge/plugin-webpack",
-          {
-            "port": 3001,
-            "mainConfig": "./webpack_config/main.js",
-            "renderer": {
-              "config": "./webpack_config/renderer.js",
-              "entryPoints": [
-                {
-                  "html": "./src/app/index.html",
-                  "js": "./src/app/index.tsx",
-                  "name": "main_window",
-                  "preload": {
-                    "js": "./src/preload.ts"
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      ]
-    }
+    "forge": "./forge.config.js"
   },
   "devDependencies": {
     "@babel/core": "7.11.6",
@@ -86,6 +40,7 @@
     "@electron-forge/maker-squirrel": "6.0.0-beta.53",
     "@electron-forge/maker-zip": "6.0.0-beta.53",
     "@electron-forge/plugin-webpack": "6.0.0-beta.53",
+    "@electron-forge/publisher-github": "6.0.0-beta.54",
     "@marshallofsound/webpack-asset-relocator-loader": "0.5.0",
     "@sindresorhus/is": "3.1.2",
     "@szmarczak/http-timer": "4.0.5",
