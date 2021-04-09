@@ -45,15 +45,15 @@ jobs:
         if: matrix.os == 'macos-latest'
         run: |
           KEYCHAIN=build.keychain
-          security create-keychain -p $KEYCHAIN_PASSWORD $KEYCHAIN
+          security create-keychain -p $MACOS_KEYCHAIN_PASSWORD $KEYCHAIN
           security default-keychain -s $KEYCHAIN
-          security unlock-keychain -p $KEYCHAIN_PASSWORD $KEYCHAIN
+          security unlock-keychain -p $MACOS_KEYCHAIN_PASSWORD $KEYCHAIN
           security import <(echo $CERTIFICATE_OSX_APPLICATION | base64 --decode) \
                           -f pkcs12 \
                           -k $KEYCHAIN \
                           -P $CERTIFICATE_PASSWORD \
                           -T /usr/bin/codesign
-          security set-key-partition-list -S apple-tool:,apple: -s -k $KEYCHAIN_PASSWORD $KEYCHAIN
+          security set-key-partition-list -S apple-tool:,apple: -s -k $MACOS_KEYCHAIN_PASSWORD $KEYCHAIN
         env:
           CERTIFICATE_OSX_APPLICATION: ${{ secrets.CERTIFICATE_OSX_APPLICATION }}
           CERTIFICATE_PASSWORD: ${{ secrets.CERTIFICATE_PASSWORD }}
