@@ -1,7 +1,7 @@
 module.exports = {
   packagerConfig: {
     osxSign: {
-      identity: 'Developer ID Application: Felix Rieseberg (LT94ZKYDCJ)',
+      identity: 'Developer ID Application: MyCrypto Inc (43RN6VJTB7)',
       'hardened-runtime': true,
       'gatekeeper-assess': false,
       entitlements: 'entitlements.plist',
