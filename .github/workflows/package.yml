@@ -44,7 +44,7 @@ jobs:
       - name: Add MacOS certificates
         if: matrix.os == 'macos-latest'
         run: |
-          echo $CERTIFICATE_OSX_APPLICATION | base64 --decode > $CERTIFICATE_P12
+          CERTIFICATE_P12=$(echo $CERTIFICATE_OSX_APPLICATION | base64 --decode)
           security create-keychain -p actions build.keychain
           security default-keychain -s build.keychain
           security unlock-keychain -p actions build.keychain
