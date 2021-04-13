@@ -59,6 +59,7 @@ jobs:
           CERTIFICATE_PASSWORD: ${{ secrets.CERTIFICATE_PASSWORD }}
           MACOS_KEYCHAIN_PASSWORD: ${{ secrets.MACOS_KEYCHAIN_PASSWORD }}
 
+      # To add when we have a Windows signing certificate
       # - name: Add Windows certificate
       #   if: matrix.os == 'windows-latest' && startsWith(github.ref, 'refs/tags/')
       #   id: write_file
@@ -67,7 +68,24 @@ jobs:
       #     fileName: 'win-certificate.pfx'
       #     encodedString: ${{ secrets.CERTIFICATE_WINDOWS_PFX }}
 
+      - name: Make (${{ matrix.os }})
+        if: github.event_name == 'pull_request'
+        run: yarn make
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          WINDOWS_PFX_FILE: ${{ steps.write_file.outputs.filePath }}
+          WINDOWS_PFX_PASSWORD: ${{ secrets.WINDOWS_PFX_PASSWORD }}
+
+      - name: Upload Artifacts
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v2
+        with:
+          name: (${{ matrix.os }}) build
+          path: out/make/**/(*.exe|*.rpm|*.deb|*.zip|*.nupkg)
+
       - name: Release
+        if: startsWith(github.ref, 'refs/tags/')
         run: yarn run publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
