@@ -1,6 +1,6 @@
 import { MnemonicPhrase, PrivateKey } from '@mycrypto/wallets';
 import { getDeterministicWallet, getWallet } from '@wallets/wallet-initialisation';
-import { ipcMain } from 'electron';
+import { ipcMain, webContents } from 'electron';
 
 import { getPrivateKey } from '@api/db';
 import { ipcBridgeMain } from '@bridge';
@@ -50,5 +50,5 @@ export const handleRequest = async (request: CryptoRequest): Promise<CryptoRespo
 };
 
 export const runService = () => {
-  ipcBridgeMain(ipcMain).crypto.handle((_e, request) => handleRequest(request));
+  ipcBridgeMain(ipcMain, webContents).crypto.handle((_e, request) => handleRequest(request));
 };

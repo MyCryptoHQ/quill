@@ -3,6 +3,8 @@ import { routerMiddleware } from 'connected-react-router';
 import { createHashHistory } from 'history';
 import createSagaMiddleware from 'redux-saga';
 
+import { ipcBridgeRenderer } from '@bridge';
+import { createKeyPair, synchronisationMiddleware } from '@common/store';
 import { createPersistor } from '@store/persistor';
 
 import { createRootReducer } from './reducer';
@@ -24,7 +26,8 @@ export const createStore = (
   const store = configureStore({
     reducer,
     middleware: (getDefaultMiddleware) => [
-      ...getDefaultMiddleware(),
+      ...getDefaultMiddleware({ thunk: false, serializableCheck: false }),
+      synchronisationMiddleware(ipcBridgeRenderer.redux),
       routerMiddleware(history),
       sagaMiddleware
     ],
@@ -40,6 +43,7 @@ export const createStore = (
   }
 
   sagaMiddleware.run(rootSaga);
+  store.dispatch(createKeyPair(true));
 
   return store;
 };

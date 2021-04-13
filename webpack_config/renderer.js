@@ -12,6 +12,9 @@ const isDev = process.env.NODE_ENV === 'development';
 const nonce = Buffer.from(v4()).toString('base64');
 
 module.exports = merge(common, {
+  // The `electron-renderer` target assumes that the renderer process has access to Node.js APIs,
+  // which is unsafe. Instead we have to use the "web" plugin, and do any necessary configuration
+  // for Electron manually.
   target: 'web',
   module: {
     rules: [

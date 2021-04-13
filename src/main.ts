@@ -7,7 +7,9 @@ import { runService as runCryptoService } from '@api/crypto';
 import { runService as runDatabaseService } from '@api/db';
 import { HEIGHT, WIDTH } from '@config';
 
+import { store } from './api/store';
 import { runAPI } from './api/ws';
+import { createKeyPair } from './common/store';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: any;
@@ -109,6 +111,8 @@ const createTray = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
+  store.dispatch(createKeyPair());
+
   createWindow();
   createTray();
   showWindow();

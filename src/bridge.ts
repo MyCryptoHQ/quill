@@ -1,4 +1,4 @@
-import { IpcMain, IpcRenderer, IpcRendererEvent } from 'electron';
+import type { IpcMain, IpcMainEvent, IpcRenderer, IpcRendererEvent, WebContents } from 'electron';
 
 import { IPC_CHANNELS } from '@config';
 import {
@@ -41,10 +41,28 @@ const getChannel = <A, B>(channel: IPC_CHANNELS) => {
   // @todo: CHECK CHANNEL VALIDITY
 
   const asRenderer = (ipcRenderer: IpcRenderer) => ({
+    emit: (...args: unknown[]) => ipcRenderer.send(channel, ...args),
+    on: (listener: (event: IpcRendererEvent, ...args: unknown[]) => void) => {
+      ipcRenderer.on(channel, listener);
+
+      return () => {
+        ipcRenderer.removeListener(channel, listener);
+      };
+    },
     invoke: (request: A) => ipcRenderer.invoke(channel, request)
   });
 
-  const asMain = (ipcMain: IpcMain) => ({
+  const asMain = (ipcMain: IpcMain, Contents: typeof WebContents) => ({
+    emit: (...args: unknown[]) => {
+      Contents.getAllWebContents().forEach((webContents) => webContents.send(channel, ...args));
+    },
+    on: (listener: (event: IpcMainEvent, ...args: unknown[]) => void) => {
+      ipcMain.on(channel, listener);
+
+      return () => {
+        ipcMain.removeListener(channel, listener);
+      };
+    },
     handle: (handler: (event: Electron.IpcMainEvent, request: A) => Promise<B>) =>
       ipcMain.handle(channel, handler)
   });
@@ -55,6 +73,7 @@ const getChannel = <A, B>(channel: IPC_CHANNELS) => {
 // Locked down according to: https://www.electronjs.org/docs/tutorial/context-isolation
 export const IpcBridgeRenderer = (ipcRenderer: IpcRenderer) => ({
   // These are constants as to not leak the ipcRenderer
+  redux: getChannel(IPC_CHANNELS.REDUX).asRenderer(ipcRenderer),
   api: getAPIChannel().asRenderer(ipcRenderer),
   crypto: getChannel<CryptoRequest, CryptoResponse>(IPC_CHANNELS.CRYPTO).asRenderer(ipcRenderer),
   db: getChannel<DBRequest, DBResponse>(IPC_CHANNELS.DATABASE).asRenderer(ipcRenderer)
@@ -64,10 +83,11 @@ export const ipcBridgeRenderer = (typeof window !== 'undefined'
   ? window.ipcBridge
   : undefined) as IIpcBridgeRenderer;
 
-export const ipcBridgeMain = (ipcMain: IpcMain) => ({
+export const ipcBridgeMain = (ipcMain: IpcMain, Contents: typeof WebContents) => ({
+  redux: getChannel(IPC_CHANNELS.REDUX).asMain(ipcMain, Contents),
   api: getAPIChannel().asMain(ipcMain),
-  crypto: getChannel<CryptoRequest, CryptoResponse>(IPC_CHANNELS.CRYPTO).asMain(ipcMain),
-  db: getChannel<DBRequest, DBResponse>(IPC_CHANNELS.DATABASE).asMain(ipcMain)
+  crypto: getChannel<CryptoRequest, CryptoResponse>(IPC_CHANNELS.CRYPTO).asMain(ipcMain, Contents),
+  db: getChannel<DBRequest, DBResponse>(IPC_CHANNELS.DATABASE).asMain(ipcMain, Contents)
 });
 
 export type IIpcBridgeRenderer = ReturnType<typeof IpcBridgeRenderer>;
