@@ -1,8 +1,10 @@
-import { DeterministicWallet } from '@wallets/deterministic-wallet';
-import { MnemonicPhrase } from '@wallets/implementations/deterministic/mnemonic-phrase';
-import { Keystore } from '@wallets/implementations/non-deterministic/keystore';
-import { PrivateKey } from '@wallets/implementations/non-deterministic/private-key';
-import { Wallet } from '@wallets/wallet';
+import {
+  DeterministicWallet,
+  Keystore,
+  MnemonicPhrase,
+  PrivateKey,
+  Wallet
+} from '@mycrypto/wallets';
 
 import { SerializedDeterministicWallet, SerializedWallet, WalletType } from '@types';
 
