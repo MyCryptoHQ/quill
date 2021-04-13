@@ -82,12 +82,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: (${{ matrix.os }}) build
-          path: |
-          out/**/*.exe
-          out/**/*.rpm
-          out/**/*.deb
-          out/**/*.zip
-          out/**/*.nupkg
+          path: out/make/**/*.exe|*.rpm|*.deb|*.zip|*.nupkg
 
       - name: Release
         if: startsWith(github.ref, 'refs/tags/')
