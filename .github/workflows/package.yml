@@ -75,7 +75,16 @@ jobs:
           WINDOWS_PFX_FILE: ${{ steps.write_file.outputs.filePath }}
           WINDOWS_PFX_PASSWORD: ${{ secrets.WINDOWS_PFX_PASSWORD }}
 
-      - name: Publish
-        run: yarn publish
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: ${{ matrix.os }}
+          path: dist
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: 'dist/**'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

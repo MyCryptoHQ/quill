@@ -55,17 +55,5 @@ module.exports = {
         }
       }
     ]
-  ],
-  publishers: [
-    {
-      name: '@electron-forge/publisher-github',
-      config: {
-        repository: {
-          owner: 'MyCryptoHQ',
-          name: 'signer'
-        },
-        prerelease: true
-      }
-    }
   ]
 };
