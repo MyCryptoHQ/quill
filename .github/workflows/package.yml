@@ -81,7 +81,7 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: actions/upload-artifact@v2
         with:
-          name: (${{ matrix.os }}) build
+          name: ${{ matrix.os }} build
           path: |
             out/make/**/*.exe
             out/make/**/*.rpm
