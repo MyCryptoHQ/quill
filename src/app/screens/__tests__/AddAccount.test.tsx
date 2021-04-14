@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { DEFAULT_ETH, DEFAULT_EWC } from '@mycrypto/wallets';
 import { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
@@ -10,7 +11,6 @@ import configureStore from 'redux-mock-store';
 import { handleRequest } from '@api/crypto';
 import { ApplicationState, createStore, fetchAccounts } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
-import { DPathsList } from '@data';
 import { fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey } from '@fixtures';
 import { AddAccount } from '@screens';
 import { translateRaw } from '@translations';
@@ -304,7 +304,8 @@ describe('AddAccount', () => {
     ipcBridgeRenderer.crypto.invoke = jest.fn().mockImplementation(() => [
       {
         address: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f',
-        dPath: "m/44'/60'/0'/0/0"
+        dPath: "m/44'/60'/0'/0/0",
+        index: 0
       }
     ]);
 
@@ -324,7 +325,8 @@ describe('AddAccount', () => {
           walletType: WalletType.MNEMONIC,
           mnemonicPhrase: fMnemonicPhrase,
           passphrase: 'password',
-          path: "m/44'/60'/0'/0/0",
+          path: DEFAULT_ETH,
+          index: 0,
           persistent: true
         }
       ])
@@ -396,16 +398,14 @@ describe('AddAccount', () => {
     expect(submitButton).toBeDefined();
     fireEvent.click(submitButton);
 
-    await waitFor(() =>
-      expect(getByText(DPathsList.ETH_DEFAULT.label, { exact: false })).toBeDefined()
-    );
+    await waitFor(() => expect(getByText(DEFAULT_ETH.name, { exact: false })).toBeDefined());
 
-    const dPathMenu = getByText(DPathsList.ETH_DEFAULT.label, { exact: false });
+    const dPathMenu = getByText(DEFAULT_ETH.name, { exact: false });
     await selectEvent.openMenu(dPathMenu);
 
-    await waitFor(() => expect(getByTestId('select-EWC_DEFAULT')).toBeDefined());
+    await waitFor(() => expect(getByTestId(`select-${DEFAULT_EWC.name}`)).toBeDefined());
 
-    const dPathOption = getByTestId('select-EWC_DEFAULT');
+    const dPathOption = getByTestId(`select-${DEFAULT_EWC.name}`);
     fireEvent.click(dPathOption);
 
     const address = '0x0A5A196b0F565103C67A9B7A835e9C988Aff6403';
@@ -435,14 +435,16 @@ describe('AddAccount', () => {
           walletType: WalletType.MNEMONIC,
           mnemonicPhrase: fMnemonicPhrase,
           passphrase: 'password',
-          path: "m/44'/246'/0'/0/19",
+          path: DEFAULT_EWC,
+          index: 19,
           persistent: true
         },
         {
           walletType: WalletType.MNEMONIC,
           mnemonicPhrase: fMnemonicPhrase,
           passphrase: 'password',
-          path: "m/44'/246'/0'/0/6",
+          path: DEFAULT_EWC,
+          index: 6,
           persistent: true
         }
       ])

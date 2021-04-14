@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 
+import { ALL_DERIVATION_PATHS, DEFAULT_ETH } from '@mycrypto/wallets';
 import { AnyListener } from 'typed-react-form';
 
 import {
@@ -15,7 +16,6 @@ import {
 } from '@app/components';
 import { fetchAccounts, useDispatch } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
-import { DPathsList } from '@data';
 import { translateRaw } from '@translations';
 import { CryptoRequestType, GetAddressesResult, WalletType } from '@types';
 
@@ -26,9 +26,9 @@ const ADDRESSES_PER_PAGE = 10;
 const useForm = () =>
   useMnemonicForm({
     offset: 0,
-    dPath: 'ETH_DEFAULT' as keyof typeof DPathsList,
+    dPath: DEFAULT_ETH.name,
     addresses: [] as GetAddressesResult[],
-    selectedAccounts: [] as string[],
+    selectedAccounts: [] as number[],
     isSubmitting: false
   });
 
@@ -53,6 +53,7 @@ const AddAccountMnemonicForm = ({
 }: { form: ReturnType<typeof useForm> } & Props) => {
   const dispatch = useDispatch();
   const { offset, dPath, addresses, selectedAccounts } = form.state;
+  const selectedPathData = ALL_DERIVATION_PATHS.find((p) => p.name === dPath);
 
   const updateAddresses = async () => {
     try {
@@ -63,7 +64,7 @@ const AddAccountMnemonicForm = ({
           mnemonicPhrase: form.values.mnemonic,
           passphrase: form.values.password
         },
-        path: DPathsList[dPath].value,
+        path: selectedPathData,
         limit: ADDRESSES_PER_PAGE,
         offset
       });
@@ -79,8 +80,8 @@ const AddAccountMnemonicForm = ({
     }
   }, [dPath, offset]);
 
-  const handleDPathChange = (dPath: keyof typeof DPathsList) =>
-    form.setState({ ...form.state, dPath });
+  const handleDPathChange = (dPath: string) =>
+    form.setState({ ...form.state, dPath, selectedAccounts: [] });
 
   const handlePrevious = () =>
     form.setState({ ...form.state, offset: offset - ADDRESSES_PER_PAGE });
@@ -88,24 +89,25 @@ const AddAccountMnemonicForm = ({
   const handleNext = () => form.setState({ ...form.state, offset: offset + ADDRESSES_PER_PAGE });
 
   const toggleSelectedAccount = (account: GetAddressesResult) => {
-    if (selectedAccounts.some((a) => a === account.dPath)) {
+    if (selectedAccounts.some((a) => a === account.index)) {
       form.setState({
         ...form.state,
-        selectedAccounts: selectedAccounts.filter((a) => a !== account.dPath)
+        selectedAccounts: selectedAccounts.filter((a) => a !== account.index)
       });
     } else {
-      form.setState({ ...form.state, selectedAccounts: [...selectedAccounts, account.dPath] });
+      form.setState({ ...form.state, selectedAccounts: [...selectedAccounts, account.index] });
     }
   };
 
   const handleSubmit = async () => {
     dispatch(
       fetchAccounts(
-        selectedAccounts.map((path) => ({
+        selectedAccounts.map((index) => ({
           walletType: WalletType.MNEMONIC,
           mnemonicPhrase: form.values.mnemonic,
           passphrase: form.values.password,
-          path,
+          path: selectedPathData,
+          index,
           persistent: form.values.persistent
         }))
       )

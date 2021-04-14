@@ -12,7 +12,7 @@ const isDev = process.env.NODE_ENV === 'development';
 const nonce = Buffer.from(v4()).toString('base64');
 
 module.exports = merge(common, {
-  target: 'electron-renderer',
+  target: 'web',
   module: {
     rules: [
       {
@@ -69,5 +69,8 @@ module.exports = merge(common, {
     },
     extensions: ['.jsx', '.tsx', '.css'],
     mainFields: ['browser', 'module', 'main']
+  },
+  node: {
+    fs: 'empty'
   }
 });

@@ -1,3 +1,5 @@
+import { DerivationPath } from '@mycrypto/wallets';
+
 import { TAddress } from './address';
 import { TUuid } from './uuid';
 import { WalletType } from './wallet';
@@ -8,5 +10,6 @@ export interface IAccount {
   label?: string;
   address: TAddress;
   persistent: boolean;
-  dPath?: string;
+  dPath?: DerivationPath;
+  index?: number;
 }

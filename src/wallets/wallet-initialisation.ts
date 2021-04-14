@@ -1,16 +1,18 @@
-import { DeterministicWallet } from '@wallets/deterministic-wallet';
-import { MnemonicPhrase } from '@wallets/implementations/deterministic/mnemonic-phrase';
-import { Keystore } from '@wallets/implementations/non-deterministic/keystore';
-import { PrivateKey } from '@wallets/implementations/non-deterministic/private-key';
-import { Wallet } from '@wallets/wallet';
+import {
+  DeterministicWallet,
+  Keystore,
+  MnemonicPhrase,
+  PrivateKey,
+  Wallet
+} from '@mycrypto/wallets';
 
 import { SerializedDeterministicWallet, SerializedWallet, WalletType } from '@types';
 
 export const getWallet = async (initialiseWallet: SerializedWallet): Promise<Wallet> => {
   switch (initialiseWallet.walletType) {
     case WalletType.MNEMONIC: {
-      const { mnemonicPhrase, passphrase, path } = initialiseWallet;
-      return new MnemonicPhrase(mnemonicPhrase, passphrase).getWallet(path);
+      const { mnemonicPhrase, passphrase, path, index } = initialiseWallet;
+      return new MnemonicPhrase(mnemonicPhrase, passphrase).getWallet(path, index);
     }
     case WalletType.PRIVATE_KEY: {
       const { privateKey } = initialiseWallet;

@@ -33,7 +33,8 @@ const SignTransactionMnemonicForm = ({
       walletType: WalletType.MNEMONIC,
       mnemonicPhrase: form.values.mnemonic,
       passphrase: form.values.password,
-      path: currentAccount.dPath!
+      path: currentAccount.dPath!,
+      index: currentAccount.index
     });
   };
 
