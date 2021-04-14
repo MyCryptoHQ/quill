@@ -1,4 +1,4 @@
-import { translateRaw } from '../src/translations';
+import { translateRaw } from '../src/common/translate';
 import app from './setupElectron';
 
 jest.setTimeout(10000);
