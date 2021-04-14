@@ -166,6 +166,7 @@ export function* fetchAccountsWorker({
           address,
           uuid,
           dPath: (wallet as SerializedMnemonicPhrase).path,
+          index: (wallet as SerializedMnemonicPhrase).index,
           persistent: wallet.persistent
         })
       );

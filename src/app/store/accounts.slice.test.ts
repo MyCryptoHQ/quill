@@ -97,7 +97,7 @@ describe('fetchAccountWorker()', () => {
       .withState({ accounts: { accounts: [] } })
       .provide([[call.fn(ipcBridgeRenderer.crypto.invoke), fAccount.address]])
       .call(ipcBridgeRenderer.crypto.invoke, { type: CryptoRequestType.GET_ADDRESS, wallet: input })
-      .put(addAccount({ ...fAccount, dPath: undefined }))
+      .put(addAccount({ ...fAccount, dPath: undefined, index: undefined }))
       .silentRun();
   });
 
@@ -111,7 +111,7 @@ describe('fetchAccountWorker()', () => {
         type: DBRequestType.SAVE_ACCOUNT_SECRETS,
         wallet: input
       })
-      .put(addAccount({ ...fAccount, dPath: undefined, persistent: true }))
+      .put(addAccount({ ...fAccount, dPath: undefined, index: undefined, persistent: true }))
       .silentRun();
   });
 
@@ -122,7 +122,7 @@ describe('fetchAccountWorker()', () => {
       .provide([[call.fn(ipcBridgeRenderer.crypto.invoke), fAccount.address]])
       .call(ipcBridgeRenderer.crypto.invoke, { type: CryptoRequestType.GET_ADDRESS, wallet: input })
       .put(removeAccount(fAccount))
-      .put(addAccount({ ...fAccount, dPath: undefined }))
+      .put(addAccount({ ...fAccount, dPath: undefined, index: undefined }))
       .silentRun();
   });
 
