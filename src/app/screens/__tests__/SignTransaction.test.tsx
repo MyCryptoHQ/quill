@@ -193,7 +193,8 @@ describe('SignTransaction', () => {
             walletType: WalletType.MNEMONIC,
             mnemonicPhrase: fMnemonicPhrase,
             passphrase: 'password',
-            path: fAccounts[1].dPath
+            path: fAccounts[1].dPath,
+            index: fAccounts[1].index
           },
           tx: makeTx(transactionRequest.request)
         })

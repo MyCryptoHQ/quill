@@ -2175,10 +2175,10 @@
   dependencies:
     sourcemap-codec "^1.4.4"
 
-"@mycrypto/wallets@1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@mycrypto/wallets/-/wallets-1.0.2.tgz#9ab4cdfe43ba9452ddcd494d060e8d15aec3cbd8"
-  integrity sha512-0bzL/52VOjllV/V2O/bZaH79sCtrKKqItjhcYY+HrLE9iDxuN/nJ/YLyOen6Y+imJjvgxXIp8ZplwMhhn0Hqyg==
+"@mycrypto/wallets@1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@mycrypto/wallets/-/wallets-1.0.3.tgz#47916f6f019c353fd7c7714a48d1e1d17439b91e"
+  integrity sha512-+lDvDks4AmgHD0FJBrpx+Va/7uTc4y+XXhAQtZw7+h6E8MxT1nVRBmf6hB48VtK0b06lww1cRIB+d4W2cAqGCw==
   dependencies:
     "@ethersproject/abstract-provider" "5.1.0"
     "@ethersproject/address" "5.1.0"
