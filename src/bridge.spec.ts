@@ -4,6 +4,8 @@ import { IpcBridgeRenderer } from '@bridge';
 import { IPC_CHANNELS } from '@config';
 import { CryptoRequest, CryptoRequestType, WalletType } from '@types';
 
+jest.unmock('@bridge');
+
 const mockIpcRenderer = ({
   send: jest.fn(),
   on: jest.fn().mockImplementation((_e, callback) => {

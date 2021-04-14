@@ -6,6 +6,8 @@ import { fRequestOrigin, fSignedTx } from '@fixtures';
 
 import { handleRequest } from './api';
 
+jest.unmock('@bridge');
+
 jest.mock('electron', () => ({
   ipcMain: {
     on: jest.fn().mockImplementation((_channel, callback) => {

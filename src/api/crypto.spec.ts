@@ -8,6 +8,8 @@ import { CryptoRequestType, TUuid, WalletType } from '@types';
 
 import { handleRequest, runService } from './crypto';
 
+jest.unmock('@bridge');
+
 jest.mock('crypto', () => ({
   ...jest.requireActual('crypto'),
   randomBytes: jest

@@ -21,7 +21,19 @@ jest.mock('@bridge', () => ({
     },
     db: {
       invoke: jest.fn()
+    },
+    redux: {
+      on: jest.fn(),
+      emit: jest.fn()
     }
+  }
+}));
+
+jest.mock('./store', () => ({
+  ...jest.requireActual('./store'),
+  persistor: {
+    persist: jest.fn(),
+    subscribe: jest.fn()
   }
 }));
 
@@ -50,7 +62,8 @@ describe('App', () => {
       createMockStore({
         auth: { loggedIn: true, newUser: false },
         transactions: { queue: [], history: [] },
-        accounts: { accounts: [fAccount] }
+        accounts: { accounts: [fAccount] },
+        handshake: { isHandshaken: true }
       })
     );
     await waitFor(() =>
@@ -62,18 +75,28 @@ describe('App', () => {
   });
 
   it('renders NewUser if user has no config', async () => {
-    (ipcBridgeRenderer.db.invoke as jest.Mock).mockImplementation(({ type }) =>
-      Promise.resolve(type === DBRequestType.IS_NEW_USER)
+    const { getByText } = getComponent(
+      createMockStore({
+        auth: { loggedIn: false, newUser: true },
+        handshake: { isHandshaken: true }
+      })
     );
-    const { getByText } = getComponent();
+
     await waitFor(() =>
       expect(getByText(translateRaw('CREATE_PASSWORD')).textContent).toBeDefined()
     );
   });
 
   it('renders Login if user has config and is not logged in', async () => {
-    (ipcBridgeRenderer.db.invoke as jest.Mock).mockImplementation(async () => false);
-    const { getByText } = getComponent();
+    const { getByText } = getComponent(
+      createMockStore({
+        auth: { loggedIn: false, newUser: false },
+        transactions: { queue: [], history: [] },
+        accounts: { accounts: [fAccount] },
+        handshake: { isHandshaken: true }
+      })
+    );
+
     await waitFor(() => expect(getByText(translateRaw('UNLOCK_NOW')).textContent).toBeDefined());
   });
 });
