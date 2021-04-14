@@ -1,9 +1,10 @@
 /* eslint-disable jest/expect-expect */
+import { DEFAULT_ETH } from '@mycrypto/wallets';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
 import { ipcBridgeRenderer } from '@bridge';
-import { DEFAULT_DERIVATION_PATH } from '@config/derivation';
+import { DEFAULT_MNEMONIC_INDEX } from '@config/derivation';
 import { fAccount, fPrivateKey } from '@fixtures';
 import { CryptoRequestType, DBRequestType, SerializedWallet, TAddress, WalletType } from '@types';
 
@@ -179,7 +180,8 @@ describe('generateAccountWorker', () => {
         type: CryptoRequestType.GET_ADDRESS,
         wallet: {
           walletType: WalletType.MNEMONIC,
-          path: DEFAULT_DERIVATION_PATH,
+          path: DEFAULT_ETH,
+          index: DEFAULT_MNEMONIC_INDEX,
           mnemonicPhrase: 'foo bar'
         }
       })

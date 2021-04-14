@@ -1,3 +1,4 @@
+import { DEFAULT_ETH } from '@mycrypto/wallets';
 import { createAction, createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { replace } from 'connected-react-router';
 import { persistReducer } from 'redux-persist';
@@ -5,7 +6,7 @@ import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
 import { ROUTE_PATHS } from '@app/routing';
 import { ipcBridgeRenderer } from '@bridge';
-import { DEFAULT_DERIVATION_PATH } from '@config/derivation';
+import { DEFAULT_MNEMONIC_INDEX } from '@config/derivation';
 import {
   CryptoRequestType,
   DBRequestType,
@@ -194,7 +195,8 @@ export function* generateAccountWorker() {
     type: CryptoRequestType.GET_ADDRESS,
     wallet: {
       walletType: WalletType.MNEMONIC,
-      path: DEFAULT_DERIVATION_PATH,
+      path: DEFAULT_ETH,
+      index: DEFAULT_MNEMONIC_INDEX,
       mnemonicPhrase
     }
   });

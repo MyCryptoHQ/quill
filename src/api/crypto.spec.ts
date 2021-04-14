@@ -1,3 +1,4 @@
+import { DEFAULT_ETH } from '@mycrypto/wallets';
 import { ipcMain } from 'electron';
 
 import { getPrivateKey } from '@api/db';
@@ -100,7 +101,8 @@ describe('handleRequest', () => {
       wallet: {
         walletType: WalletType.MNEMONIC,
         mnemonicPhrase: fMnemonicPhrase,
-        path: "m/44'/60'/0'/0/0"
+        path: DEFAULT_ETH,
+        index: 0
       }
     });
 
@@ -112,7 +114,7 @@ describe('handleRequest', () => {
       type: CryptoRequestType.GET_ADDRESSES,
       limit: 3,
       offset: 0,
-      path: "m/44'/60'/0'/0",
+      path: DEFAULT_ETH,
       wallet: {
         walletType: WalletType.MNEMONIC,
         mnemonicPhrase: fMnemonicPhrase

@@ -1,4 +1,5 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider';
+import { DerivationPath } from '@mycrypto/wallets';
 
 import { TAddress } from './address';
 import { GetAddressesResult } from './mnemonic';
@@ -21,7 +22,8 @@ export interface SerializedMnemonicPhrase {
   walletType: WalletType.MNEMONIC;
   mnemonicPhrase: string;
   passphrase?: string;
-  path: string;
+  path: DerivationPath;
+  index: number;
 }
 
 export interface SerializedKeystore {
@@ -67,7 +69,7 @@ export type GetAddressRequest = BaseRequest<CryptoRequestType.GET_ADDRESS> & {
 
 export type GetAddressesRequest = BaseRequest<CryptoRequestType.GET_ADDRESSES> & {
   wallet: SerializedDeterministicWallet;
-  path: string;
+  path: DerivationPath;
   limit: number;
   offset: number;
 };

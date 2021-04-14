@@ -1,5 +1,4 @@
-import { MnemonicPhrase } from '@wallets/implementations/deterministic/mnemonic-phrase';
-import { PrivateKey } from '@wallets/implementations/non-deterministic/private-key';
+import { MnemonicPhrase, PrivateKey } from '@mycrypto/wallets';
 import { getDeterministicWallet, getWallet } from '@wallets/wallet-initialisation';
 import { ipcMain } from 'electron';
 

@@ -11,7 +11,7 @@ export const MnemonicAddressList = ({
   toggleSelectedAccount
 }: {
   addresses: GetAddressesResult[];
-  selectedAccounts: string[];
+  selectedAccounts: number[];
   toggleSelectedAccount(account: GetAddressesResult): void;
 }) => (
   <>
@@ -22,7 +22,7 @@ export const MnemonicAddressList = ({
           <Box variant="rowAlign" py="3" onClick={toggle}>
             <Checkbox
               mr="3"
-              checked={selectedAccounts.find((path) => path === address.dPath) !== undefined}
+              checked={selectedAccounts.find((index) => index === address.index) !== undefined}
               data-testid={`checkbox-${address.address}`}
             />
             <Body mr="3">{address.index + 1}</Body>

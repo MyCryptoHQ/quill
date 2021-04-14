@@ -1,33 +1,34 @@
 import React from 'react';
 
+import { ALL_DERIVATION_PATHS, DerivationPath } from '@mycrypto/wallets';
+
 import { Body, Box } from '@app/components';
-import { DPathsList } from '@data';
 
 import Selector from './Core/Selector';
 
 interface DPathOptionType {
-  type: keyof typeof DPathsList;
-  label: string;
-  value: string;
+  name: string;
+  path: string;
+  isHardened: boolean;
 }
 
 const DPathOption = ({
-  type,
-  label,
-  value,
+  name,
+  path,
+  isHardened,
   selectOption
 }: {
-  type: keyof typeof DPathsList;
-  label: string;
-  value: string;
+  name: string;
+  path: string;
+  isHardened: boolean;
   selectOption?(option: DPathOptionType): void;
 }) => {
-  const handleClick = () => selectOption && selectOption({ type, label, value });
+  const handleClick = () => selectOption && selectOption({ name, path, isHardened });
 
   return (
-    <Box p="2" variant="rowAlign" data-testid={`select-${type}`} onClick={handleClick}>
-      <Body>{label}</Body>
-      <Body ml="2" fontSize="1">{`(${value})`}</Body>
+    <Box p="2" variant="rowAlign" data-testid={`select-${name}`} onClick={handleClick}>
+      <Body>{name}</Body>
+      <Body ml="2" fontSize="1">{`(${path})`}</Body>
     </Box>
   );
 };
@@ -36,26 +37,26 @@ export const DPathSelector = ({
   selectedPath,
   setSelectedPath
 }: {
-  selectedPath: keyof typeof DPathsList;
-  setSelectedPath(path: keyof typeof DPathsList): void;
+  selectedPath: DerivationPath['name'];
+  setSelectedPath(path: DerivationPath['name']): void;
 }) => {
-  const handleChange = ({ type }: DPathOptionType) => setSelectedPath(type);
+  const handleChange = ({ name }: DPathOptionType) => setSelectedPath(name);
+
+  const selectedPathData = ALL_DERIVATION_PATHS.find((p) => p.name === selectedPath);
 
   return (
     <Selector<DPathOptionType>
-      value={{ type: selectedPath, ...DPathsList[selectedPath] }}
-      options={Object.entries(DPathsList).map(([type, value]) => ({
-        type: type as keyof typeof DPathsList,
-        ...value
+      value={{ ...selectedPathData, isHardened: selectedPathData.isHardened || false }}
+      options={Object.values(ALL_DERIVATION_PATHS).map((p) => ({
+        ...p,
+        isHardened: selectedPathData.isHardened || false
       }))}
       onChange={handleChange}
       searchable={false}
-      optionComponent={({ data: { value, label, type }, selectOption }) => (
-        <DPathOption type={type} value={value} label={label} selectOption={selectOption} />
+      optionComponent={({ data, selectOption }) => (
+        <DPathOption {...data} selectOption={selectOption} />
       )}
-      valueComponent={({ value: { type, value, label } }) => (
-        <DPathOption type={type} value={value} label={label} />
-      )}
+      valueComponent={({ value }) => <DPathOption {...value} />}
     />
   );
 };

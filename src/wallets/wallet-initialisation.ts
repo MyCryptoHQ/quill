@@ -11,8 +11,8 @@ import { SerializedDeterministicWallet, SerializedWallet, WalletType } from '@ty
 export const getWallet = async (initialiseWallet: SerializedWallet): Promise<Wallet> => {
   switch (initialiseWallet.walletType) {
     case WalletType.MNEMONIC: {
-      const { mnemonicPhrase, passphrase, path } = initialiseWallet;
-      return new MnemonicPhrase(mnemonicPhrase, passphrase).getWallet(path);
+      const { mnemonicPhrase, passphrase, path, index } = initialiseWallet;
+      return new MnemonicPhrase(mnemonicPhrase, passphrase).getWallet(path, index);
     }
     case WalletType.PRIVATE_KEY: {
       const { privateKey } = initialiseWallet;
