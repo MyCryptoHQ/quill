@@ -2,7 +2,7 @@ import React from 'react';
 
 import { fireEvent, render } from '@testing-library/react';
 
-import { translateRaw } from '@translations';
+import { translateRaw } from '@common/translate';
 
 import { GenerateAccountStart } from './GenerateAccountStart';
 

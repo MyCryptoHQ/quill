@@ -3,7 +3,7 @@ import React from 'react';
 import approved from '@assets/icons/circle-checkmark.svg';
 import denied from '@assets/icons/queue-denied.svg';
 import waiting from '@assets/icons/queue-waiting.svg';
-import { translateRaw } from '@translations';
+import { translateRaw } from '@common/translate';
 import { TxResult } from '@types';
 
 import { Box, Image } from '.';

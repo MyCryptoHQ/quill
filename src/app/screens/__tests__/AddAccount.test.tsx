@@ -11,9 +11,9 @@ import configureStore from 'redux-mock-store';
 import { handleRequest } from '@api/crypto';
 import { ApplicationState, createStore, fetchAccounts } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
+import { translateRaw } from '@common/translate';
 import { fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey } from '@fixtures';
 import { AddAccount } from '@screens';
-import { translateRaw } from '@translations';
 import { WalletType } from '@types';
 
 jest.mock('electron-store');

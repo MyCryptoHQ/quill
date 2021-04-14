@@ -16,8 +16,7 @@ export const synchronisationMiddleware = (ipc: ReduxIPC): Middleware => (store) 
     (action.type.startsWith('handshake/') && action.type !== 'handshake/sendPublicKey') ||
     action.remote
   ) {
-    next(action);
-    return;
+    return next(action);
   }
 
   const json = JSON.stringify(action);
@@ -25,8 +24,7 @@ export const synchronisationMiddleware = (ipc: ReduxIPC): Middleware => (store) 
   // Only allow handshake without encryption
   if (action.type === 'handshake/sendPublicKey') {
     ipc.emit(json);
-    next(action);
-    return;
+    return next(action);
   }
 
   const isHandshaken: boolean = getHandshaken(store.getState());
@@ -41,6 +39,5 @@ export const synchronisationMiddleware = (ipc: ReduxIPC): Middleware => (store) 
     );
   }
 
-  next(action);
-  return;
+  return next(action);
 };

@@ -1,9 +1,9 @@
 import React from 'react';
 
 import wallet from '@app/assets/icons/wallet.svg';
+import { translateRaw } from '@common/translate';
 import { Body, Box, Button, Container, Heading, Image, LinkApp, PanelBottom } from '@components';
 import { ROUTE_PATHS } from '@routing';
-import { translateRaw } from '@translations';
 
 export const SetupAccount = () => (
   <>

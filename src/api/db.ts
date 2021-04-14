@@ -69,7 +69,7 @@ const reset = async () => {
 
 const getStorePath = () => path.join(app.getPath('userData'), 'config.json');
 
-const storeExists = async () => {
+export const storeExists = async () => {
   const configPath = getStorePath();
   // Is new user if config file doesn't exist
   return !!(await fs.stat(configPath).catch(() => false));

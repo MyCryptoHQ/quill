@@ -5,8 +5,9 @@ import { object, string } from 'yup';
 
 import { Body, Box, FormError, FormInput, Image } from '@app/components';
 import warning from '@assets/icons/circle-warning.svg';
+import { translateRaw } from '@common/translate';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
-import { translate, translateRaw } from '@translations';
+import { translate } from '@translations';
 
 const SCHEMA = object({
   privateKey: string().required(translateRaw('PRIVATE_KEY_EMPTY'))

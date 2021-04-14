@@ -3,8 +3,8 @@ import { push } from 'connected-react-router';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import { ipcBridgeRenderer } from '@bridge';
+import { translateRaw } from '@common/translate';
 import { ROUTE_PATHS } from '@routing';
-import { translateRaw } from '@translations';
 import { DBRequestType } from '@types';
 
 interface AuthState {

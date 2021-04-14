@@ -3,23 +3,23 @@ import React, { useEffect } from 'react';
 import { hot } from 'react-hot-loader';
 import { ThemeProvider } from 'styled-components';
 
-import { ipcBridgeRenderer } from '@bridge';
+import { checkNewUser } from '@common/store';
 import { Box, Flex, Navigation } from '@components';
 import { GlobalStyle, theme } from '@theme';
-import { DBRequestType } from '@types';
 
 import { AppRoutes } from './AppRoutes';
-import { persistor, setNewUser, useDispatch, useSelector } from './store';
+import { persistor, useDispatch, useSelector } from './store';
 
 const App = () => {
   const loggedIn = useSelector((state) => state.auth.loggedIn);
+  const isHandshaken = useSelector((state) => state.handshake.isHandshaken);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    ipcBridgeRenderer.db.invoke({ type: DBRequestType.IS_NEW_USER }).then((state) => {
-      dispatch(setNewUser(state));
-    });
-  }, []);
+    if (isHandshaken) {
+      dispatch(checkNewUser());
+    }
+  }, [isHandshaken]);
 
   useEffect(() => {
     if (loggedIn) {

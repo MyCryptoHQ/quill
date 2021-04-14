@@ -6,9 +6,9 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
+import { translateRaw } from '@common/translate';
 import { GenerateAccountMnemonic } from '@screens/GenerateAccount/GenerateAccountMnemonic';
 import { ApplicationState, generateAccount } from '@store';
-import { translateRaw } from '@translations';
 import { DeepPartial } from '@types';
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();

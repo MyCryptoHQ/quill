@@ -2,7 +2,7 @@ import React, { ChangeEvent, DragEvent, useState } from 'react';
 
 import { Body, Box, BoxProps, Image } from '@app/components';
 import checkmark from '@assets/icons/circle-checkmark.svg';
-import { translateRaw } from '@translations';
+import { translateRaw } from '@common/translate';
 
 export const FileBox = ({
   onChange,

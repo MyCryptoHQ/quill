@@ -51,8 +51,7 @@ module.exports = merge(common, {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, '../src/app/index.html'),
-      inject: false,
-      nonce: nonce // option to expose the nonce to the template
+      nonce // option to expose the nonce to the template
     }),
     new CspHtmlWebpackPlugin({
       'base-uri': ["'self'"],

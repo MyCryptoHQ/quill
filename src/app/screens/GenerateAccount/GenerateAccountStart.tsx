@@ -1,6 +1,7 @@
 import React from 'react';
 
 import mnemonicPhrase from '@app/assets/icons/mnemonic-phrase.svg';
+import { translateRaw } from '@common/translate';
 import {
   Box,
   Button,
@@ -12,7 +13,6 @@ import {
   ListItem,
   PanelBottom
 } from '@components';
-import { translateRaw } from '@translations';
 
 export const GenerateAccountStart = ({ onNext }: IFlowComponentProps) => (
   <>

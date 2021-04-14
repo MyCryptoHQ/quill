@@ -7,6 +7,7 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import { ApplicationState, sign } from '@app/store';
+import { translateRaw } from '@common/translate';
 import {
   fAccount,
   fAccounts,
@@ -17,7 +18,6 @@ import {
   fTxRequest,
   getTransactionRequest
 } from '@fixtures';
-import { translateRaw } from '@translations';
 import { DeepPartial, IAccount, WalletType } from '@types';
 import { makeQueueTx, makeTx } from '@utils';
 

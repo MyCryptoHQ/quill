@@ -7,8 +7,8 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import { ipcBridgeRenderer } from '@bridge';
+import { translateRaw } from '@common/translate';
 import { fAccount } from '@fixtures';
-import { translateRaw } from '@translations';
 import { DBRequestType, DeepPartial } from '@types';
 
 import App from './App';

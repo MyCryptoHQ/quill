@@ -7,8 +7,8 @@ import { ROUTE_PATHS } from '@app/routing';
 import { getAccounts, selectTransaction, useDispatch, useSelector } from '@app/store';
 import circleArrow from '@assets/icons/circle-arrow.svg';
 import waiting from '@assets/icons/queue-waiting.svg';
+import { translateRaw } from '@common/translate';
 import { getChain } from '@data';
-import { translateRaw } from '@translations';
 import { TxQueueEntry } from '@types';
 
 export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {

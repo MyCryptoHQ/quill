@@ -21,7 +21,7 @@ import {
   useDispatch,
   useSelector
 } from '@app/store';
-import { translateRaw } from '@translations';
+import { translateRaw } from '@common/translate';
 import { TxResult } from '@types';
 
 export const Transaction = () => {

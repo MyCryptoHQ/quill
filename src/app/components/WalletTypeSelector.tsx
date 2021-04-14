@@ -4,7 +4,7 @@ import { Body, Box, Image } from '@app/components';
 import keystore from '@assets/icons/keystore.svg';
 import mnemonic from '@assets/icons/mnemonic-phrase.svg';
 import privatekey from '@assets/icons/private-key.svg';
-import { translateRaw } from '@translations';
+import { translateRaw } from '@common/translate';
 import { WalletType } from '@types';
 
 const configs = {

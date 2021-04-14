@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { translateRaw } from '@common/translate';
 import { Body, Box, Button, Container, Heading, LinkApp, Logo, PanelBottom } from '@components';
 import { ROUTE_PATHS } from '@routing';
-import { translate, translateRaw } from '@translations';
+import { translate } from '@translations';
 
 export const NewUser = () => (
   <>

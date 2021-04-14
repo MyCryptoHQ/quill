@@ -7,9 +7,9 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
+import { translateRaw } from '@common/translate';
 import { fOtherMnemonicPhrase } from '@fixtures';
 import { ApplicationState } from '@store';
-import { translateRaw } from '@translations';
 import { DeepPartial } from '@types';
 
 import { GenerateAccountVerify } from './GenerateAccountVerify';

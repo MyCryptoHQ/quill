@@ -1,9 +1,9 @@
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAction, createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { decrypt } from 'eciesjs';
 import { Event } from 'electron';
 import { AnyAction } from 'redux';
 import { eventChannel, SagaIterator } from 'redux-saga';
-import { all, call, put, select, take, takeLatest } from 'redux-saga/effects';
+import { all, call, put, select, take, takeEvery, takeLatest } from 'redux-saga/effects';
 
 import { createHandshakeKeyPair, isEncryptedAction, isReduxAction } from '@common/utils';
 import { HandshakeKeyPair, ReduxIPC } from '@types';
@@ -63,9 +63,7 @@ export const getHandshakeState = createSelector(
 );
 
 export const getPublicKey = createSelector(getHandshakeState, (state) => state.publicKey);
-
 export const getPrivateKey = createSelector(getHandshakeState, (state) => state.privateKey);
-
 export const getHandshaken = createSelector(getHandshakeState, (state) => state.isHandshaken);
 
 export const getTargetPublicKey = createSelector(
@@ -73,11 +71,13 @@ export const getTargetPublicKey = createSelector(
   (state) => state.targetPublicKey
 );
 
+export const postHandshake = createAction(`${sliceName}/postHandshake`);
+
 export function* handshakeSaga(ipc: ReduxIPC) {
   yield all([
     ipcWorker(ipc),
     takeLatest(createKeyPair.type, createKeyPairWorker),
-    takeLatest(sendPublicKey.type, setPublicKeyWorker)
+    takeEvery(sendPublicKey.type, setPublicKeyWorker)
   ]);
 }
 
@@ -143,6 +143,7 @@ export function* setPublicKeyWorker(action: PayloadAction<string> & { remote: bo
     if (!isHandshaken) {
       yield put(setHandshaken(true));
       yield put(sendPublicKey(publicKey));
+      yield put(postHandshake());
     }
   }
 }

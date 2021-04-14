@@ -3,7 +3,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { MemoryRouter as Router } from 'react-router-dom';
 
-import { translateRaw } from '@translations';
+import { translateRaw } from '@common/translate';
 
 import { AddAccountEnd } from '../AddAccount';
 

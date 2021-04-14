@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { fetchAccounts, getAccountError, useDispatch, useSelector } from '@app/store';
+import { translateRaw } from '@common/translate';
 import {
   Body,
   Box,
@@ -10,7 +11,6 @@ import {
   ScrollableContainer,
   WalletTypeSelector
 } from '@components';
-import { translateRaw } from '@translations';
 import { WalletType } from '@types';
 
 import { PrivateKeyForm, usePrivateKeyForm } from '../forms/PrivateKeyForm';

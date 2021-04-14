@@ -7,7 +7,7 @@ import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import { ApplicationState, login } from '@app/store';
-import { translateRaw } from '@translations';
+import { translateRaw } from '@common/translate';
 
 import { Login } from '../Login';
 

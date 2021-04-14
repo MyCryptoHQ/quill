@@ -6,6 +6,7 @@ import { object, string } from 'yup';
 import { ROUTE_PATHS } from '@app/routing';
 import { login, useDispatch, useSelector } from '@app/store';
 import lock from '@assets/icons/lock.svg';
+import { translateRaw } from '@common/translate';
 import {
   Body,
   Box,
@@ -19,7 +20,7 @@ import {
   Logo,
   PanelBottom
 } from '@components';
-import { Trans, translateRaw } from '@translations';
+import { Trans } from '@translations';
 
 const SCHEMA = object({
   password: string().required(translateRaw('PASSWORD_EMPTY'))
