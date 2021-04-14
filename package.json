@@ -6,9 +6,9 @@
   "main": ".webpack/main",
   "scripts": {
     "start": "cross-env NODE_ENV=development electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
+    "package": "cross-env NODE_ENV=production electron-forge package",
+    "make": "cross-env NODE_ENV=production electron-forge make",
+    "publish": "cross-env NODE_ENV=production electron-forge publish",
     "lint": "yarn lint:types && yarn lint:source && yarn lint:format && yarn lint:styles",
     "lint:types": "tsc --noEmit",
     "lint:source": "eslint --ignore-path .gitignore .",
