@@ -1,8 +1,7 @@
-import { hexlify } from '@ethersproject/bytes';
 import { Middleware } from '@reduxjs/toolkit';
-import { encrypt } from 'eciesjs';
 
 import { getHandshaken, getTargetPublicKey } from '@common/store/handshake';
+import { encryptJson } from '@common/utils';
 import { ReduxIPC } from '@types';
 
 /**
@@ -31,10 +30,10 @@ export const synchronisationMiddleware = (ipc: ReduxIPC): Middleware => (store) 
   const publicKey: string = getTargetPublicKey(store.getState());
 
   if (isHandshaken && publicKey) {
-    const encryptedAction = encrypt(publicKey, Buffer.from(json, 'utf-8'));
+    const encryptedAction = encryptJson(publicKey, json);
     ipc.emit(
       JSON.stringify({
-        data: hexlify(encryptedAction)
+        data: encryptedAction
       })
     );
   }

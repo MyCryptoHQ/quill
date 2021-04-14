@@ -1,13 +1,17 @@
 import { createAction, createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { decrypt } from 'eciesjs';
 import { Event } from 'electron';
 import { AnyAction } from 'redux';
 import { eventChannel, SagaIterator } from 'redux-saga';
 import { all, call, put, select, take, takeEvery, takeLatest } from 'redux-saga/effects';
 
-import { createHandshakeKeyPair, isEncryptedAction, isReduxAction } from '@common/utils';
+import {
+  createHandshakeKeyPair,
+  decryptJson,
+  isEncryptedAction,
+  isReduxAction
+} from '@common/utils';
 import { HandshakeKeyPair, ReduxIPC } from '@types';
-import { safeJSONParse, stripHexPrefix } from '@utils';
+import { safeJSONParse } from '@utils';
 
 interface HandshakeState {
   publicKey?: string;
@@ -103,14 +107,13 @@ export function* putJson(json: string, allowInsecure: boolean = false): SagaIter
 
   if (isReduxAction(action) && (allowInsecure || action.type === 'handshake/sendPublicKey')) {
     yield put({ ...action, remote: true });
+    return;
   }
 
   const isHandshaken = yield select(getHandshaken);
   if (isHandshaken && isEncryptedAction(action)) {
     const privateKey: string = yield select(getPrivateKey);
-
-    const decryptedAction = decrypt(privateKey, Buffer.from(stripHexPrefix(action.data), 'hex'));
-    const json = decryptedAction.toString('utf-8');
+    const json = decryptJson(privateKey, action);
 
     yield call(putJson, json, true);
   }
