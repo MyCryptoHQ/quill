@@ -1,7 +1,6 @@
 name: Package Application
 
 on:
-  #For testing purpuses
   pull_request:
     branches:
       - '*'
@@ -68,7 +67,7 @@ jobs:
       #     fileName: 'win-certificate.pfx'
       #     encodedString: ${{ secrets.CERTIFICATE_WINDOWS_PFX }}
 
-      - name: Make (${{ matrix.os }})
+      - name: Make artifact (${{ matrix.os }})
         if: github.event_name == 'pull_request'
         run: yarn make
         env:
@@ -77,7 +76,7 @@ jobs:
           WINDOWS_PFX_FILE: ${{ steps.write_file.outputs.filePath }}
           WINDOWS_PFX_PASSWORD: ${{ secrets.WINDOWS_PFX_PASSWORD }}
 
-      - name: Upload Artifacts
+      - name: Upload artifacts
         if: github.event_name == 'pull_request'
         uses: actions/upload-artifact@v2
         with:
@@ -89,7 +88,7 @@ jobs:
             out/make/**/*.zip
             out/make/**/*.nupkg
 
-      - name: Release
+      - name: Make and release (${{ matrix.os }})
         if: startsWith(github.ref, 'refs/tags/')
         run: yarn run publish
         env:
