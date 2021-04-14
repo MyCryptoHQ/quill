@@ -54,6 +54,7 @@ const getChannel = <A, B>(channel: IPC_CHANNELS) => {
 
   const asMain = (ipcMain: IpcMain, Contents: typeof WebContents) => ({
     emit: (...args: unknown[]) => {
+      console.log('Sending', ...args);
       Contents.getAllWebContents().forEach((webContents) => webContents.send(channel, ...args));
     },
     on: (listener: (event: IpcMainEvent, ...args: unknown[]) => void) => {

@@ -1,21 +1,21 @@
-import { arrayify, hexlify } from '@ethersproject/bytes';
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { decrypt } from 'eciesjs';
 import { Event } from 'electron';
 import { AnyAction } from 'redux';
-import { eventChannel } from 'redux-saga';
+import { eventChannel, SagaIterator } from 'redux-saga';
 import { all, call, put, select, take, takeLatest } from 'redux-saga/effects';
 
-import { createHandshakeKeyPair, isReduxAction } from '@common/utils';
+import { createHandshakeKeyPair, isEncryptedAction, isReduxAction } from '@common/utils';
 import { HandshakeKeyPair, ReduxIPC } from '@types';
-import { safeJSONParse } from '@utils';
+import { safeJSONParse, stripHexPrefix } from '@utils';
 
 interface HandshakeState {
-  publicKey?: Uint8Array;
-  privateKey?: Uint8Array;
+  publicKey?: string;
+  privateKey?: string;
 
   isHandshaken: boolean;
 
-  targetPublicKey?: Uint8Array;
+  targetPublicKey?: string;
 }
 
 const initialState: HandshakeState = {
@@ -41,8 +41,8 @@ const slice = createSlice({
       state.publicKey = action.payload.publicKey;
       state.privateKey = action.payload.privateKey;
     },
-    setTargetPublicKey(state, action: PayloadAction<Uint8Array>) {
-      state.publicKey = action.payload;
+    setTargetPublicKey(state, action: PayloadAction<string>) {
+      state.targetPublicKey = action.payload;
     }
   }
 });
@@ -64,11 +64,13 @@ export const getHandshakeState = createSelector(
 
 export const getPublicKey = createSelector(getHandshakeState, (state) => state.publicKey);
 
+export const getPrivateKey = createSelector(getHandshakeState, (state) => state.privateKey);
+
 export const getHandshaken = createSelector(getHandshakeState, (state) => state.isHandshaken);
 
 export const getTargetPublicKey = createSelector(
   getHandshakeState,
-  (state) => state?.targetPublicKey
+  (state) => state.targetPublicKey
 );
 
 export function* handshakeSaga(ipc: ReduxIPC) {
@@ -93,16 +95,32 @@ export const subscribe = (ipc: ReduxIPC) => {
   });
 };
 
+export function* putJson(json: string, allowInsecure: boolean = false): SagaIterator {
+  const [error, action] = safeJSONParse<AnyAction>(json);
+  if (error) {
+    return;
+  }
+
+  if (isReduxAction(action) && (allowInsecure || action.type === 'handshake/sendPublicKey')) {
+    yield put({ ...action, remote: true });
+  }
+
+  const isHandshaken = yield select(getHandshaken);
+  if (isHandshaken && isEncryptedAction(action)) {
+    const privateKey: string = yield select(getPrivateKey);
+
+    const decryptedAction = decrypt(privateKey, Buffer.from(stripHexPrefix(action.data), 'hex'));
+    const json = decryptedAction.toString('utf-8');
+
+    yield call(putJson, json, true);
+  }
+}
+
 export function* ipcWorker(ipc: ReduxIPC) {
   const channel = yield call(subscribe, ipc);
   while (true) {
     const request: string = yield take(channel);
-    const [error, action] = safeJSONParse<AnyAction>(request);
-    if (error || !isReduxAction(action)) {
-      return;
-    }
-
-    yield put({ ...action, remote: true });
+    yield call(putJson, request);
   }
 }
 
@@ -111,21 +129,20 @@ export function* createKeyPairWorker({ payload = false }: PayloadAction<boolean>
   yield put(setKeyPair(keyPair));
 
   if (payload) {
-    yield put(sendPublicKey(hexlify(keyPair.publicKey)));
-    yield put(setHandshaken(true));
+    yield put(sendPublicKey(keyPair.publicKey));
   }
 }
 
 export function* setPublicKeyWorker(action: PayloadAction<string> & { remote: boolean }) {
   if (action.remote) {
-    yield put(setTargetPublicKey(arrayify(action.payload)));
+    yield put(setTargetPublicKey(action.payload));
 
     const isHandshaken: boolean = yield select(getHandshaken);
-    const publicKey: Uint8Array = yield select(getPublicKey);
+    const publicKey: string = yield select(getPublicKey);
 
     if (!isHandshaken) {
-      yield put(sendPublicKey(hexlify(publicKey)));
       yield put(setHandshaken(true));
+      yield put(sendPublicKey(publicKey));
     }
   }
 }

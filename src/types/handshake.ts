@@ -1,4 +1,4 @@
 export interface HandshakeKeyPair {
-  publicKey: Uint8Array;
-  privateKey: Uint8Array;
+  publicKey: string;
+  privateKey: string;
 }
