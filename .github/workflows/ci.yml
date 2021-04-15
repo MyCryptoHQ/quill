@@ -76,7 +76,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Test
-        run: yarn test --coverage
+        run: yarn test --coverage --maxWorkers=2
 
       - name: Upload Coverage
         uses: codecov/codecov-action@v1
@@ -115,4 +115,4 @@ jobs:
       - name: Test E2E
         uses: GabrielBB/xvfb-action@v1
         with:
-          run: yarn test:e2e
+          run: yarn test:e2e --maxWorkers=2
