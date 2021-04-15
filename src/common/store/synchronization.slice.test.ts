@@ -20,7 +20,7 @@ import slice, {
   setKeyPair,
   setPublicKeyWorker,
   setTargetPublicKey
-} from './synchronisation';
+} from './synchronization.slice';
 
 describe('Handshake', () => {
   describe('setHandshaken', () => {
@@ -77,7 +77,7 @@ describe('putJson', () => {
     const encryptedAction = encryptJson(fEncryptionPublicKey, insecureAction);
 
     await expectSaga(putJson, JSON.stringify({ data: encryptedAction }), true)
-      .withState({ synchronisation: { isHandshaken: true, privateKey: fEncryptionPrivateKey } })
+      .withState({ synchronization: { isHandshaken: true, privateKey: fEncryptionPrivateKey } })
       .put({ ...setNewUser(true), remote: true })
       .silentRun();
   });
@@ -108,7 +108,7 @@ describe('setPublicKeyWorker', () => {
   it('dispatches setTargetPublicKey and performs the handshake', async () => {
     const action = { ...sendPublicKey(fEncryptionPublicKey), remote: true };
     await expectSaga(setPublicKeyWorker, action)
-      .withState({ synchronisation: { isHandshaken: false, publicKey: fEncryptionPublicKey } })
+      .withState({ synchronization: { isHandshaken: false, publicKey: fEncryptionPublicKey } })
       .put(setTargetPublicKey(fEncryptionPublicKey))
       .put(setHandshaken(true))
       .put(sendPublicKey(fEncryptionPublicKey))
@@ -116,7 +116,7 @@ describe('setPublicKeyWorker', () => {
       .silentRun();
 
     await expectSaga(setPublicKeyWorker, action)
-      .withState({ synchronisation: { isHandshaken: true, publicKey: fEncryptionPublicKey } })
+      .withState({ synchronization: { isHandshaken: true, publicKey: fEncryptionPublicKey } })
       .put(setTargetPublicKey(fEncryptionPublicKey))
       .silentRun();
   });

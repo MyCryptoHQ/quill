@@ -1,23 +1,23 @@
 import { Middleware } from '@reduxjs/toolkit';
 
-import synchronisation, {
+import synchronization, {
   getHandshaken,
   getTargetPublicKey,
   sendPublicKey
-} from '@common/store/synchronisation';
+} from '@common/store/synchronization.slice';
 import { encryptJson } from '@common/utils';
 import { ReduxIPC } from '@types';
 
 /**
  * An array of action paths that will not be synchronised with the other process.
  */
-export const IGNORED_PATHS = [synchronisation.name];
+export const IGNORED_PATHS = [synchronization.name];
 
 /**
  * Middleware that dispatches any actions to the other Electron process.
  * @param ipc The Electron process to dispatch from.
  */
-export const synchronisationMiddleware = (ipc: ReduxIPC): Middleware => (store) => (next) => (
+export const synchronizationMiddleware = (ipc: ReduxIPC): Middleware => (store) => (next) => (
   action
 ) => {
   const path = action.type.split('/')[0];

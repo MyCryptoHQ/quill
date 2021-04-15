@@ -1,9 +1,9 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
-import synchronisation from '@common/store/synchronisation';
+import synchronization from '@common/store/synchronization.slice';
 
 export const createRootReducer = () => {
   return combineReducers({
-    [synchronisation.name]: synchronisation.reducer
+    [synchronization.name]: synchronization.reducer
   });
 };

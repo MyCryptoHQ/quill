@@ -13,7 +13,7 @@ import {
 import { HandshakeKeyPair, ReduxIPC } from '@types';
 import { safeJSONParse } from '@utils';
 
-interface SynchronisationState {
+interface SynchronizationState {
   publicKey?: string;
   privateKey?: string;
 
@@ -22,11 +22,11 @@ interface SynchronisationState {
   targetPublicKey?: string;
 }
 
-const initialState: SynchronisationState = {
+const initialState: SynchronizationState = {
   isHandshaken: false
 };
 
-const sliceName = 'synchronisation';
+const sliceName = 'synchronization';
 
 const slice = createSlice({
   name: sliceName,
@@ -61,17 +61,17 @@ export const {
 
 export default slice;
 
-export const getSynchronisationState = createSelector(
-  (state: { synchronisation: SynchronisationState }) => state,
-  (state) => state.synchronisation
+export const getSynchronizationState = createSelector(
+  (state: { synchronization: SynchronizationState }) => state,
+  (state) => state.synchronization
 );
 
-export const getPublicKey = createSelector(getSynchronisationState, (state) => state.publicKey);
-export const getPrivateKey = createSelector(getSynchronisationState, (state) => state.privateKey);
-export const getHandshaken = createSelector(getSynchronisationState, (state) => state.isHandshaken);
+export const getPublicKey = createSelector(getSynchronizationState, (state) => state.publicKey);
+export const getPrivateKey = createSelector(getSynchronizationState, (state) => state.privateKey);
+export const getHandshaken = createSelector(getSynchronizationState, (state) => state.isHandshaken);
 
 export const getTargetPublicKey = createSelector(
-  getSynchronisationState,
+  getSynchronizationState,
   (state) => state.targetPublicKey
 );
 

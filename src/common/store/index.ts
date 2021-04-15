@@ -1,3 +1,3 @@
 export * from './actions';
-export * from './synchronisation';
-export * from './synchronisationMiddleware';
+export * from './synchronization.slice';
+export * from './synchronization.middleware';

@@ -63,7 +63,7 @@ describe('App', () => {
         auth: { loggedIn: true, newUser: false },
         transactions: { queue: [], history: [] },
         accounts: { accounts: [fAccount] },
-        synchronisation: { isHandshaken: true }
+        synchronization: { isHandshaken: true }
       })
     );
     await waitFor(() =>
@@ -78,7 +78,7 @@ describe('App', () => {
     const { getByText } = getComponent(
       createMockStore({
         auth: { loggedIn: false, newUser: true },
-        synchronisation: { isHandshaken: true }
+        synchronization: { isHandshaken: true }
       })
     );
 
@@ -93,7 +93,7 @@ describe('App', () => {
         auth: { loggedIn: false, newUser: false },
         transactions: { queue: [], history: [] },
         accounts: { accounts: [fAccount] },
-        synchronisation: { isHandshaken: true }
+        synchronization: { isHandshaken: true }
       })
     );
 

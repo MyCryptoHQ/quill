@@ -4,8 +4,8 @@
 
 import configureStore from 'redux-mock-store';
 
-import { sendPublicKey, setHandshaken } from '@common/store/synchronisation';
-import { synchronisationMiddleware } from '@common/store/synchronisationMiddleware';
+import { synchronizationMiddleware } from '@common/store/synchronization.middleware';
+import { sendPublicKey, setHandshaken } from '@common/store/synchronization.slice';
 import { decryptJson } from '@common/utils';
 import { fEncryptionPrivateKey, fEncryptionPublicKey } from '@fixtures';
 import type { ApplicationState } from '@store';
@@ -19,18 +19,18 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
-describe('synchronisationMiddleware', () => {
+describe('synchronizationMiddleware', () => {
   const ipc = {
     emit: jest.fn(),
     on: jest.fn(),
     handle: jest.fn()
   };
 
-  it('emits the unencrypted action if the action is synchronisation/sendPublicKey', () => {
+  it('emits the unencrypted action if the action is synchronization/sendPublicKey', () => {
     const fn = jest.fn();
     const action = sendPublicKey(fEncryptionPublicKey);
 
-    synchronisationMiddleware(ipc)(createMockStore())(fn)(action);
+    synchronizationMiddleware(ipc)(createMockStore())(fn)(action);
 
     expect(fn).toHaveBeenCalledTimes(1);
     expect(fn).toHaveBeenCalledWith(action);
@@ -42,9 +42,9 @@ describe('synchronisationMiddleware', () => {
     const fn = jest.fn();
     const action = checkNewUser();
 
-    synchronisationMiddleware(ipc)(
+    synchronizationMiddleware(ipc)(
       createMockStore({
-        synchronisation: {
+        synchronization: {
           isHandshaken: true,
           targetPublicKey: fEncryptionPublicKey
         }
@@ -66,9 +66,9 @@ describe('synchronisationMiddleware', () => {
     const fn = jest.fn();
     const action = checkNewUser();
 
-    synchronisationMiddleware(ipc)(
+    synchronizationMiddleware(ipc)(
       createMockStore({
-        synchronisation: {
+        synchronization: {
           isHandshaken: false
         }
       })
@@ -82,13 +82,13 @@ describe('synchronisationMiddleware', () => {
   it('does nothing if the action is remote or part of the handshake', () => {
     const fn = jest.fn();
 
-    synchronisationMiddleware(ipc)(createMockStore())(fn)(setHandshaken(true));
+    synchronizationMiddleware(ipc)(createMockStore())(fn)(setHandshaken(true));
 
     expect(fn).toHaveBeenCalledTimes(1);
     expect(fn).toHaveBeenCalledWith(setHandshaken(true));
     expect(ipc.emit).not.toHaveBeenCalled();
 
-    synchronisationMiddleware(ipc)(createMockStore())(fn)({ ...checkNewUser(), remote: true });
+    synchronizationMiddleware(ipc)(createMockStore())(fn)({ ...checkNewUser(), remote: true });
 
     expect(fn).toHaveBeenCalledTimes(2);
     expect(fn).toHaveBeenCalledWith({ ...checkNewUser(), remote: true });

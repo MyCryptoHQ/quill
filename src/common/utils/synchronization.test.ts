@@ -4,7 +4,7 @@
 
 import { fEncryptionPrivateKey, fEncryptionPublicKey } from '@fixtures';
 
-import { decryptJson, encryptJson, isEncryptedAction, isReduxAction } from './synchronisation';
+import { decryptJson, encryptJson, isEncryptedAction, isReduxAction } from './synchronization';
 
 describe('isReduxAction', () => {
   it('checks if an object is a Redux action', () => {

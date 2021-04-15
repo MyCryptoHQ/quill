@@ -1,2 +1,2 @@
 export * from './handshake';
-export * from './synchronisation';
+export * from './synchronization';
