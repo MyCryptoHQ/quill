@@ -34,7 +34,7 @@ jobs:
           key: ${{ runner.OS }}-yarn-${{ hashFiles('yarn.lock') }}
 
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile --ignore-scripts
+        run: yarn install --frozen-lockfile
 
       - name: Lint Types
         run: yarn lint:types
@@ -43,7 +43,7 @@ jobs:
         run: yarn lint:source
 
       - name: Lint Formatting
-        run: yarn lint:prettier
+        run: yarn lint:format
 
       - name: Lint Styled
         run: yarn lint:styles
@@ -73,7 +73,7 @@ jobs:
           key: ${{ runner.OS }}-yarn-${{ hashFiles('yarn.lock') }}
 
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile --ignore-scripts
+        run: yarn install --frozen-lockfile
 
       - name: Test
         run: yarn test --coverage
@@ -110,7 +110,7 @@ jobs:
           key: ${{ runner.OS }}-yarn-${{ hashFiles('yarn.lock') }}
 
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile --ignore-scripts
+        run: yarn install --frozen-lockfile
 
       - name: yarn test:e2e
         uses: GabrielBB/xvfb-action@v1
