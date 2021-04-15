@@ -112,7 +112,7 @@ jobs:
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
 
-      - name: yarn test:e2e
+      - name: Test E2E
         uses: GabrielBB/xvfb-action@v1
         with:
           run: yarn test:e2e
