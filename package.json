@@ -9,7 +9,7 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "yarn lint:types && lint:source && yarn lint:format && yarn lint:styles",
+    "lint": "yarn lint:types && yarn lint:source && yarn lint:format && yarn lint:styles",
     "lint:types": "tsc --noEmit",
     "lint:source": "eslint --ignore-path .gitignore .",
     "lint:source:fix": "yarn lint:source --fix",
