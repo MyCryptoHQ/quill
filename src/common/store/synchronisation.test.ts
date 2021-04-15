@@ -2,96 +2,127 @@
  * @jest-environment node
  */
 
-import configureStore from 'redux-mock-store';
+/* eslint-disable jest/expect-expect */
 
-import { sendPublicKey, setHandshaken } from '@common/store/handshake';
-import { synchronisationMiddleware } from '@common/store/synchronisation';
-import { decryptJson } from '@common/utils';
+import { expectSaga } from 'redux-saga-test-plan';
+
+import { createHandshakeKeyPair, encryptJson } from '@common/utils';
 import { fEncryptionPrivateKey, fEncryptionPublicKey } from '@fixtures';
-import type { ApplicationState } from '@store';
-import { DeepPartial } from '@types';
+import { setNewUser } from '@store/auth.slice.ts';
 
-import { checkNewUser } from './actions';
+import slice, {
+  createKeyPair,
+  createKeyPairWorker,
+  postHandshake,
+  putJson,
+  sendPublicKey,
+  setHandshaken,
+  setKeyPair,
+  setPublicKeyWorker,
+  setTargetPublicKey
+} from './synchronisation';
 
-const createMockStore = configureStore<DeepPartial<ApplicationState>>();
+describe('Handshake', () => {
+  describe('setHandshaken', () => {
+    it('sets isHandshaken to the payload', () => {
+      expect(slice.reducer({ isHandshaken: false }, setHandshaken(true))).toStrictEqual({
+        isHandshaken: true
+      });
 
-afterEach(() => {
-  jest.clearAllMocks();
+      expect(slice.reducer({ isHandshaken: true }, setHandshaken(false))).toStrictEqual({
+        isHandshaken: false
+      });
+    });
+  });
+
+  describe('setKeyPair', () => {
+    it('sets publicKey and privateKey to the payload', async () => {
+      const keyPair = await createHandshakeKeyPair();
+      expect(slice.reducer({ isHandshaken: false }, setKeyPair(keyPair))).toStrictEqual(
+        expect.objectContaining({
+          ...keyPair
+        })
+      );
+    });
+  });
+
+  describe('setTargetPublicKey', () => {
+    it('sets targetPublicKey to the payload', () => {
+      expect(
+        slice.reducer({ isHandshaken: false }, setTargetPublicKey(fEncryptionPublicKey))
+      ).toStrictEqual(
+        expect.objectContaining({
+          targetPublicKey: fEncryptionPublicKey
+        })
+      );
+    });
+  });
 });
 
-describe('synchronisationMiddleware', () => {
-  const ipc = {
-    emit: jest.fn(),
-    on: jest.fn(),
-    handle: jest.fn()
-  };
+describe('putJson', () => {
+  it('puts an action if isDecrypted is set or if the action is handshake/sendPublicKey', async () => {
+    const action = JSON.stringify(sendPublicKey(fEncryptionPublicKey));
+    await expectSaga(putJson, action)
+      .put({ ...sendPublicKey(fEncryptionPublicKey), remote: true })
+      .silentRun();
 
-  it('emits the unencrypted action if the action is handshake/sendPublicKey', () => {
-    const fn = jest.fn();
-    const action = sendPublicKey(fEncryptionPublicKey);
-
-    synchronisationMiddleware(ipc)(createMockStore())(fn)(action);
-
-    expect(fn).toHaveBeenCalledTimes(1);
-    expect(fn).toHaveBeenCalledWith(action);
-    expect(ipc.emit).toHaveBeenCalledTimes(1);
-    expect(ipc.emit).toHaveBeenCalledWith(JSON.stringify(action));
+    const insecureAction = JSON.stringify(setNewUser(true));
+    await expectSaga(putJson, insecureAction, true)
+      .put({ ...setNewUser(true), remote: true })
+      .silentRun();
   });
 
-  it('emits the encrypted action if the handshake is performed', () => {
-    const fn = jest.fn();
-    const action = checkNewUser();
+  it('decrypts an encrypted action', async () => {
+    const insecureAction = JSON.stringify(setNewUser(true));
+    const encryptedAction = encryptJson(fEncryptionPublicKey, insecureAction);
 
-    synchronisationMiddleware(ipc)(
-      createMockStore({
-        handshake: {
-          isHandshaken: true,
-          targetPublicKey: fEncryptionPublicKey
-        }
-      })
-    )(fn)(action);
-
-    expect(fn).toHaveBeenCalledTimes(1);
-    expect(fn).toHaveBeenCalledWith(action);
-    expect(ipc.emit).toHaveBeenCalledTimes(1);
-
-    const encryptedJson = ipc.emit.mock.calls[0][0];
-
-    expect(JSON.parse(decryptJson(fEncryptionPrivateKey, JSON.parse(encryptedJson)))).toEqual(
-      checkNewUser()
-    );
+    await expectSaga(putJson, JSON.stringify({ data: encryptedAction }), true)
+      .withState({ synchronisation: { isHandshaken: true, privateKey: fEncryptionPrivateKey } })
+      .put({ ...setNewUser(true), remote: true })
+      .silentRun();
   });
 
-  it('does nothing if the handshake is not performed', () => {
-    const fn = jest.fn();
-    const action = checkNewUser();
+  it('does nothing on invalid JSON', async () => {
+    await expectSaga(putJson, 'foo bar').silentRun();
+  });
+});
 
-    synchronisationMiddleware(ipc)(
-      createMockStore({
-        handshake: {
-          isHandshaken: false
-        }
-      })
-    )(fn)(action);
+describe('createKeyPairWorker', () => {
+  it('generates a keypair and dispatches setKeyPair', async () => {
+    const keyPair = await createHandshakeKeyPair();
 
-    expect(fn).toHaveBeenCalledTimes(1);
-    expect(fn).toHaveBeenCalledWith(action);
-    expect(ipc.emit).not.toHaveBeenCalled();
+    await expectSaga(createKeyPairWorker, createKeyPair()).put(setKeyPair(keyPair)).silentRun();
   });
 
-  it('does nothing if the action is remote or part of the handshake', () => {
-    const fn = jest.fn();
+  it('sends the public key if the payload is true', async () => {
+    const keyPair = await createHandshakeKeyPair();
 
-    synchronisationMiddleware(ipc)(createMockStore())(fn)(setHandshaken(true));
+    await expectSaga(createKeyPairWorker, createKeyPair(true))
+      .put(setKeyPair(keyPair))
+      .put(sendPublicKey(keyPair.publicKey))
+      .silentRun();
+  });
+});
 
-    expect(fn).toHaveBeenCalledTimes(1);
-    expect(fn).toHaveBeenCalledWith(setHandshaken(true));
-    expect(ipc.emit).not.toHaveBeenCalled();
+describe('setPublicKeyWorker', () => {
+  it('dispatches setTargetPublicKey and performs the handshake', async () => {
+    const action = { ...sendPublicKey(fEncryptionPublicKey), remote: true };
+    await expectSaga(setPublicKeyWorker, action)
+      .withState({ synchronisation: { isHandshaken: false, publicKey: fEncryptionPublicKey } })
+      .put(setTargetPublicKey(fEncryptionPublicKey))
+      .put(setHandshaken(true))
+      .put(sendPublicKey(fEncryptionPublicKey))
+      .put(postHandshake())
+      .silentRun();
 
-    synchronisationMiddleware(ipc)(createMockStore())(fn)({ ...checkNewUser(), remote: true });
+    await expectSaga(setPublicKeyWorker, action)
+      .withState({ synchronisation: { isHandshaken: true, publicKey: fEncryptionPublicKey } })
+      .put(setTargetPublicKey(fEncryptionPublicKey))
+      .silentRun();
+  });
 
-    expect(fn).toHaveBeenCalledTimes(2);
-    expect(fn).toHaveBeenCalledWith({ ...checkNewUser(), remote: true });
-    expect(ipc.emit).not.toHaveBeenCalled();
+  it('does nothing if the action is not remote', async () => {
+    const action = { ...sendPublicKey(fEncryptionPublicKey), remote: false };
+    await expectSaga(setPublicKeyWorker, action).silentRun();
   });
 });

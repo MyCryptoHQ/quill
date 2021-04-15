@@ -12,7 +12,7 @@ import { persistor, useDispatch, useSelector } from './store';
 
 const App = () => {
   const loggedIn = useSelector((state) => state.auth.loggedIn);
-  const isHandshaken = useSelector((state) => state.handshake.isHandshaken);
+  const isHandshaken = useSelector((state) => state.synchronisation.isHandshaken);
   const dispatch = useDispatch();
 
   useEffect(() => {

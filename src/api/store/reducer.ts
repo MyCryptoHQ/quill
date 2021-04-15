@@ -1,9 +1,9 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
-import handshake from '@common/store/handshake';
+import synchronisation from '@common/store/synchronisation';
 
 export const createRootReducer = () => {
   return combineReducers({
-    handshake: handshake.reducer
+    [synchronisation.name]: synchronisation.reducer
   });
 };

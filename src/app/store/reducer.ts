@@ -2,7 +2,7 @@ import { connectRouter } from 'connected-react-router';
 import { History } from 'history';
 import { AnyAction, combineReducers } from 'redux';
 
-import handshakeSlice from '@common/store/handshake';
+import synchronisationSlice from '@common/store/synchronisation';
 
 import accountSlice, { reducer as accountsReducer } from './account.slice';
 import authSlice, { logout } from './auth.slice';
@@ -19,7 +19,7 @@ export const createRootReducer = (history: History) => {
     [accountSlice.name]: accountsReducer,
     [transactionsSlice.name]: transactionsReducer,
     [signingSlice.name]: signingSlice.reducer,
-    [handshakeSlice.name]: handshakeSlice.reducer
+    [synchronisationSlice.name]: synchronisationSlice.reducer
   });
 
   return (state: any, action: AnyAction) => {
