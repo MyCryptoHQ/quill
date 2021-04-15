@@ -1,4 +1,4 @@
-name: GitHub CI
+name: CI
 
 on:
   pull_request:
@@ -9,54 +9,110 @@ on:
       - master
 
 jobs:
-  validate-and-test:
-    name: Validate and Test
+  lint:
+    name: Lint
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest]
-    # macOS-latest
+        node-version:
+          - 14.16.0
+        os:
+          - ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2.1.5
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache Dependencies
+        uses: actions/cache@v2.1.4
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-yarn-${{ hashFiles('yarn.lock') }}
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Lint Types
+        run: yarn lint:types
+
+      - name: Lint Source
+        run: yarn lint:source
+
+      - name: Lint Formatting
+        run: yarn lint:format
+
+      - name: Lint Styled
+        run: yarn lint:styles
+
+  test:
+    name: Test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version:
+          - 14.16.0
+        os:
+          - ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2.1.5
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache Dependencies
+        uses: actions/cache@v2.1.4
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-yarn-${{ hashFiles('yarn.lock') }}
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Test
+        run: yarn test --coverage --maxWorkers=2
+
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v1
+
+  e2e:
+    name: E2E
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version:
+          - 14.16.0
+        os:
+          - ubuntu-latest
+
     env:
       ELECTRON_CACHE: $HOME/.cache/electron
       ELECTRON_BUILDER_CACHE: $HOME/.cache/electron-builder
+
     steps:
-      - name: Retrieves project from the git branch
-        uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
-      - name: Read .nvmrc
-        run: echo "##[set-output name=NVMRC;]$(cat package.json | grep '\"node\":' | sed 's/^ *//;s/ *$//;s/\"node\":\ \"//;s/\",//' )"
-        id: nvm
-
-      - name: Setup node ${{ steps.nvm.outputs.NVMRC }}
-        uses: actions/setup-node@v1
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2.1.5
         with:
-          node-version: '${{ steps.nvm.outputs.NVMRC }}'
+          node-version: ${{ matrix.node-version }}
 
-      - run: node --version; npm --version; yarn --version
-
-      - name: Cache node modules
-        id: cache
-        uses: actions/cache@v2
+      - name: Cache Dependencies
+        uses: actions/cache@v2.1.4
         with:
           path: node_modules
-          ## Check cache based on yarn.lock hashfile
-          key: ${{ runner.OS }}-build-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.OS }}-yarn-${{ hashFiles('yarn.lock') }}
 
       - name: Install Dependencies
-        ## If no cache is found, install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: yarn install
+        run: yarn install --frozen-lockfile
 
-      - name: yarn validate
-        run: yarn validate
-
-      - name: yarn test:coverage
-        run: yarn test:coverage
-
-      - name: CodeCov
-        uses: codecov/codecov-action@v1
-
-      - name: yarn test:e2e
+      - name: Test E2E
         uses: GabrielBB/xvfb-action@v1
         with:
-          run: yarn test:e2e
+          run: yarn test:e2e --maxWorkers=2
