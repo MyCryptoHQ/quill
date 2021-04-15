@@ -1,5 +1,7 @@
 import { contextBridge } from 'electron';
 
+jest.unmock('@bridge');
+
 jest.mock('electron', () => ({
   contextBridge: {
     exposeInMainWorld: jest.fn()

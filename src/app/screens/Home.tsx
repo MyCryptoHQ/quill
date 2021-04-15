@@ -5,10 +5,10 @@ import { useSelector } from 'react-redux';
 
 import { Body, Box, Container, Image, TxHistory, TxQueue } from '@app/components';
 import info from '@assets/icons/circle-info.svg';
+import { translateRaw } from '@common/translate';
 import { usePersisted } from '@hooks';
 import { ROUTE_PATHS } from '@routing';
 import { getAccountsLength, getQueue, getTxHistory, persistor, useDispatch } from '@store';
-import { translateRaw } from '@translations';
 
 export const Home = () => {
   const dispatch = useDispatch();

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Button, PanelBottom } from '@app/components';
-import { translateRaw } from '@translations';
+import { translateRaw } from '@common/translate';
 
 export const SignBottom = ({
   disabled,

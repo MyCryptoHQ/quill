@@ -3,6 +3,7 @@ import React, { FormEvent, useMemo } from 'react';
 import { FormError, useForm, yupValidator } from 'typed-react-form';
 import { object, string } from 'yup';
 
+import { translateRaw } from '@common/translate';
 import {
   Body,
   Box,
@@ -15,7 +16,7 @@ import {
   PanelBottom
 } from '@components';
 import { getGeneratedMnemonicWords, useSelector } from '@store';
-import { translate, translateRaw } from '@translations';
+import { translate } from '@translations';
 import { getRandomNumbers } from '@utils/random';
 
 export const GenerateAccountVerify = ({ onNext }: IFlowComponentProps) => {

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { toPng } from 'html-to-image';
 
+import { translateRaw } from '@common/translate';
 import {
   Address,
   Body,
@@ -18,7 +19,7 @@ import {
 import { DEFAULT_DERIVATION_PATH } from '@config/derivation';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
 import { getGeneratedAccount, useSelector } from '@store';
-import { translate, translateRaw } from '@translations';
+import { translate } from '@translations';
 
 export const GenerateAccountEnd = ({ onNext }: IFlowComponentProps) => {
   const paperWallet = useRef<HTMLDivElement>();

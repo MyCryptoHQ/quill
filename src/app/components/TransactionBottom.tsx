@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Box, Button, LinkApp, PanelBottom } from '@app/components';
-import { translateRaw } from '@translations';
+import { translateRaw } from '@common/translate';
 
 export const TransactionBottom = ({
   disabled,

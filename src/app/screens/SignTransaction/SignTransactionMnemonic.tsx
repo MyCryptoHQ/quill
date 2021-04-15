@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { Account, Body, Heading, ScrollableContainer, SignBottom } from '@app/components';
 import { getSigningError, useSelector } from '@app/store';
-import { translateRaw } from '@translations';
+import { translateRaw } from '@common/translate';
 import { SignTransactionProps, WalletType } from '@types';
 
 import { MnemonicForm, useMnemonicForm } from '../forms/MnemonicForm';

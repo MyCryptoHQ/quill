@@ -14,5 +14,10 @@ module.exports = merge(common, {
         path.resolve(__dirname, '../', 'src', 'app', 'assets', 'images', 'icon.png')
       ]
     })
-  ]
+  ],
+  resolve: {
+    alias: {
+      '@ethersproject/random': require.resolve('@ethersproject/random/lib/index.js')
+    }
+  }
 });

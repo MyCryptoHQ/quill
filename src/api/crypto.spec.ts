@@ -1,5 +1,5 @@
 import { DEFAULT_ETH } from '@mycrypto/wallets';
-import { ipcMain } from 'electron';
+import { ipcMain, WebContents } from 'electron';
 
 import { getPrivateKey } from '@api/db';
 import { IPC_CHANNELS } from '@config';
@@ -7,6 +7,8 @@ import { fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey } from '@fix
 import { CryptoRequestType, TUuid, WalletType } from '@types';
 
 import { handleRequest, runService } from './crypto';
+
+jest.unmock('@bridge');
 
 jest.mock('crypto', () => ({
   ...jest.requireActual('crypto'),
@@ -241,7 +243,7 @@ describe('handleRequest', () => {
 
 describe('runService', () => {
   it('calls ipcMain handle', () => {
-    runService();
+    runService({} as WebContents);
     expect(ipcMain.handle).toHaveBeenCalledWith(IPC_CHANNELS.CRYPTO, expect.any(Function));
   });
 });

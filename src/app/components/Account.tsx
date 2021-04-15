@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Box, BoxProps } from '@app/components';
-import { translateRaw } from '@translations';
+import { translateRaw } from '@common/translate';
 import { TAddress } from '@types';
 import { truncate } from '@utils';
 

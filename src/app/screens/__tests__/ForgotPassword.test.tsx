@@ -9,7 +9,7 @@ import configureStore from 'redux-mock-store';
 import { ROUTE_PATHS } from '@app/routing';
 import { ApplicationState } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
-import { translateRaw } from '@translations';
+import { translateRaw } from '@common/translate';
 import { DBRequestType, DeepPartial } from '@types';
 
 import { ForgotPassword } from '../ForgotPassword';

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { getAccounts, removeAccount, updateAccount, useDispatch } from '@app/store';
 import deleteIcon from '@assets/icons/circle-delete.svg';
+import { translateRaw } from '@common/translate';
 import {
   Blockie,
   Body,
@@ -17,7 +18,6 @@ import {
   Image,
   Link
 } from '@components';
-import { translateRaw } from '@translations';
 import { IAccount } from '@types';
 
 const Account = ({ account }: { account: IAccount }) => {

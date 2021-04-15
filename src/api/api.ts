@@ -35,7 +35,7 @@ const requestSigning = (
       }
     };
 
-    ipcBridgeMain(ipcMain).api.on(listener);
+    ipcBridgeMain(ipcMain, webContents).api.on(listener);
   });
 };
 

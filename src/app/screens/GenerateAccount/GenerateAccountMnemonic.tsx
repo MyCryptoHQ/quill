@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 import refresh from '@app/assets/icons/refresh.svg';
+import { translateRaw } from '@common/translate';
 import {
   Body,
   Box,
@@ -15,7 +16,7 @@ import {
   ScrollableContainer
 } from '@components';
 import { generateAccount, getGeneratedMnemonicWords, useDispatch, useSelector } from '@store';
-import { translate, translateRaw } from '@translations';
+import { translate } from '@translations';
 
 interface WordProps {
   index: number;

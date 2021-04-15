@@ -7,8 +7,8 @@ import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import { ApplicationState, createPassword } from '@app/store';
+import { translateRaw } from '@common/translate';
 import { CreatePassword } from '@screens';
-import { translateRaw } from '@translations';
 
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {

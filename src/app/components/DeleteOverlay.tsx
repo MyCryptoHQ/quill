@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { translateRaw } from '@translations';
+import { translateRaw } from '@common/translate';
 import { IAccount } from '@types';
 import { truncate } from '@utils';
 

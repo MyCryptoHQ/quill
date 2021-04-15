@@ -4,8 +4,8 @@ import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
 import { ipcBridgeRenderer } from '@bridge';
+import { translateRaw } from '@common/translate';
 import { ROUTE_PATHS } from '@routing';
-import { translateRaw } from '@translations';
 import { DBRequestType } from '@types';
 
 import slice, {

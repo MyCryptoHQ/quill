@@ -1,4 +1,5 @@
 export enum IPC_CHANNELS {
+  REDUX = 'redux',
   CRYPTO = 'crypto',
   API = 'api',
   DATABASE = 'db'

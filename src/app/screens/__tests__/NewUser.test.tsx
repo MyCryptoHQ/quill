@@ -7,8 +7,8 @@ import { Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import { ApplicationState } from '@app/store';
+import { translateRaw } from '@common/translate';
 import { ROUTE_PATHS } from '@routing';
-import { translateRaw } from '@translations';
 import { DeepPartial } from '@types';
 
 import { NewUser } from '../NewUser';

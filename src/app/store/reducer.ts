@@ -2,6 +2,8 @@ import { connectRouter } from 'connected-react-router';
 import { History } from 'history';
 import { AnyAction, combineReducers } from 'redux';
 
+import synchronizationSlice from '@common/store/synchronization.slice';
+
 import accountSlice, { reducer as accountsReducer } from './account.slice';
 import authSlice, { logout } from './auth.slice';
 import signingSlice from './signing.slice';
@@ -16,7 +18,8 @@ export const createRootReducer = (history: History) => {
     [authSlice.name]: authSlice.reducer,
     [accountSlice.name]: accountsReducer,
     [transactionsSlice.name]: transactionsReducer,
-    [signingSlice.name]: signingSlice.reducer
+    [signingSlice.name]: signingSlice.reducer,
+    [synchronizationSlice.name]: synchronizationSlice.reducer
   });
 
   return (state: any, action: AnyAction) => {

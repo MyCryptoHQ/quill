@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, shell, Tray } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, shell, Tray } from 'electron';
 import positioner from 'electron-traywindow-positioner';
 import path from 'path';
 import { URL } from 'url';
@@ -7,7 +7,10 @@ import { runService as runCryptoService } from '@api/crypto';
 import { runService as runDatabaseService } from '@api/db';
 import { HEIGHT, WIDTH } from '@config';
 
+import { createStore } from './api/store';
 import { runAPI } from './api/ws';
+import { ipcBridgeMain } from './bridge';
+import { createKeyPair } from './common/store';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: any;
@@ -59,6 +62,9 @@ const createWindow = (): void => {
     shell.openExternal(value);
   });
 
+  const store = createStore(ipcBridgeMain(ipcMain, window.webContents).redux);
+  store.dispatch(createKeyPair());
+
   // and load the index.html of the app.
   window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
@@ -66,7 +72,7 @@ const createWindow = (): void => {
   runAPI(window.webContents);
 
   // Run Signing Logic
-  runCryptoService();
+  runCryptoService(window.webContents);
 
   // Run Database Service
   runDatabaseService();

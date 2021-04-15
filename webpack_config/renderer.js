@@ -6,12 +6,15 @@ const { merge } = require('webpack-merge');
 
 const common = require('./common');
 
-const isDev = process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV !== 'production';
 
 // Generate a new base64 nonce
 const nonce = Buffer.from(v4()).toString('base64');
 
 module.exports = merge(common, {
+  // The `electron-renderer` target assumes that the renderer process has access to Node.js APIs,
+  // which is unsafe. Instead we have to use the "web" plugin, and do any necessary configuration
+  // for Electron manually.
   target: 'web',
   module: {
     rules: [
@@ -49,16 +52,14 @@ module.exports = merge(common, {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, '../src/app/index.html'),
       inject: false,
-      nonce: nonce // option to expose the nonce to the template
+      isProduction: !isDev,
+      nonce // option to expose the nonce to the template
     }),
     new CspHtmlWebpackPlugin({
       'base-uri': ["'self'"],
       'object-src': ["'none'"],
       'script-src': ["'self'"],
-      'style-src':
-        process.env.NODE_ENV === 'development'
-          ? ["'unsafe-inline'"]
-          : ["'self'", `'nonce-${nonce}'`],
+      'style-src': isDev ? ["'unsafe-inline'"] : ["'self'", `'nonce-${nonce}'`],
       'frame-src': ["'none'"],
       'worker-src': ["'none'"]
     })

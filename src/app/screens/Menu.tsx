@@ -4,7 +4,7 @@ import { Body, Box, Container, Heading, Image, LinkApp } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import addAccount from '@assets/icons/add-account.svg';
 import generateAccount from '@assets/icons/generate-account.svg';
-import { translateRaw } from '@translations';
+import { translateRaw } from '@common/translate';
 
 const MENU_ITEMS = [
   { icon: addAccount, label: translateRaw('MENU_ADD_ACCOUNT'), route: ROUTE_PATHS.ADD_ACCOUNT },

@@ -3,6 +3,8 @@ import { routerMiddleware } from 'connected-react-router';
 import { createHashHistory } from 'history';
 import createSagaMiddleware from 'redux-saga';
 
+import { ipcBridgeRenderer } from '@bridge';
+import { createKeyPair, synchronizationMiddleware } from '@common/store';
 import { createPersistor } from '@store/persistor';
 
 import { createRootReducer } from './reducer';
@@ -24,7 +26,8 @@ export const createStore = (
   const store = configureStore({
     reducer,
     middleware: (getDefaultMiddleware) => [
-      ...getDefaultMiddleware(),
+      ...getDefaultMiddleware({ thunk: false, serializableCheck: false }),
+      synchronizationMiddleware(ipcBridgeRenderer.redux),
       routerMiddleware(history),
       sagaMiddleware
     ],
@@ -40,6 +43,12 @@ export const createStore = (
   }
 
   sagaMiddleware.run(rootSaga);
+
+  /**
+   * The renderer process initialises the handshake process by generating a new key pair and sending
+   * the public key to the main process (since the payload is set to `true` here).
+   */
+  store.dispatch(createKeyPair(true));
 
   return store;
 };

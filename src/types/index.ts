@@ -18,3 +18,5 @@ export * from './dpath';
 export * from './passwords';
 export * from './request';
 export * from './deep-partial';
+export * from './handshake';
+export * from './ipc';

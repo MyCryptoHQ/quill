@@ -3,8 +3,8 @@ import React, { forwardRef, ReactElement } from 'react';
 import QRCode from 'react-qr-code';
 
 import logo from '@assets/images/logo.svg';
+import { translateRaw } from '@common/translate';
 import { Blockie, Body, Box, Code, Flex, Image } from '@components';
-import { translateRaw } from '@translations';
 import { TAddress } from '@types';
 
 interface BlockProps {
