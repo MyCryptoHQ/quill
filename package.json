@@ -9,18 +9,18 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "yarn lint:eslint && yarn lint:prettier",
-    "lint:eslint": "eslint --ignore-path .gitignore .",
-    "lint:eslint:fix": "yarn lint:eslint --fix",
-    "lint:prettier": "prettier --check --ignore-path .gitignore \"**/*.{js,jsx,ts,tsx,json}\"",
-    "format": "prettier --ignore-path .gitignore --write \"**/*.{js,jsx,ts,tsx,json}\"",
+    "lint": "yarn lint:types && lint:source && yarn lint:format && yarn lint:styles",
+    "lint:types": "tsc --noEmit",
+    "lint:source": "eslint --ignore-path .gitignore .",
+    "lint:source:fix": "yarn lint:source --fix",
+    "lint:format": "prettier --check --ignore-path .gitignore \"**/*.{js,jsx,ts,tsx,json,yml}\"",
+    "lint:styles": "stylelint ./src/app/**/*.tsx",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.{js,jsx,ts,tsx,json,yml}\"",
     "tsc": "tsc -p ./tsconfig.json",
-    "validate": "npm-run-all --parallel lint tsc",
+    "test": "jest --testPathIgnorePatterns e2e",
     "test:coverage": "yarn test --coverage",
-    "test": "jest --maxWorkers=2 --testPathIgnorePatterns e2e",
     "test:single": "cross-env DEBUG_PRINT_LIMIT=50000 yarn test --coverage=false --watch",
-    "test:e2e": "yarn package && cross-env IS_TEST=true jest --maxWorkers=2 e2e",
-    "lint:styles": "stylelint ./src/app/**/*.tsx"
+    "test:e2e": "yarn package && cross-env IS_TEST=true jest e2e"
   },
   "keywords": [],
   "repository": "https://github.com/MyCryptoHQ/signer.git",
@@ -202,7 +202,7 @@
       "eslint --fix",
       "yarn lint:styles"
     ],
-    "*.json": [
+    "*.{json,yml}": [
       "prettier --write"
     ]
   },
