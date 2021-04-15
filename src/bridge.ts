@@ -1,4 +1,5 @@
-import type { IpcMain, IpcMainEvent, IpcRenderer, IpcRendererEvent, WebContents } from 'electron';
+import type { IpcMain, IpcMainEvent, IpcRenderer, IpcRendererEvent } from 'electron';
+import { WebContents } from 'electron';
 
 import { IPC_CHANNELS } from '@config';
 import {
@@ -52,10 +53,8 @@ const getChannel = <A, B>(channel: IPC_CHANNELS) => {
     invoke: (request: A) => ipcRenderer.invoke(channel, request)
   });
 
-  const asMain = (ipcMain: IpcMain, Contents: typeof WebContents) => ({
-    emit: (...args: unknown[]) => {
-      Contents.getAllWebContents().forEach((webContents) => webContents.send(channel, ...args));
-    },
+  const asMain = (ipcMain: IpcMain, webContents: WebContents) => ({
+    emit: (...args: unknown[]) => webContents.send(channel, ...args),
     on: (listener: (event: IpcMainEvent, ...args: unknown[]) => void) => {
       ipcMain.on(channel, listener);
 
@@ -83,11 +82,14 @@ export const ipcBridgeRenderer = (typeof window !== 'undefined'
   ? window.ipcBridge
   : undefined) as IIpcBridgeRenderer;
 
-export const ipcBridgeMain = (ipcMain: IpcMain, Contents: typeof WebContents) => ({
-  redux: getChannel(IPC_CHANNELS.REDUX).asMain(ipcMain, Contents),
+export const ipcBridgeMain = (ipcMain: IpcMain, webContents: WebContents) => ({
+  redux: getChannel(IPC_CHANNELS.REDUX).asMain(ipcMain, webContents),
   api: getAPIChannel().asMain(ipcMain),
-  crypto: getChannel<CryptoRequest, CryptoResponse>(IPC_CHANNELS.CRYPTO).asMain(ipcMain, Contents),
-  db: getChannel<DBRequest, DBResponse>(IPC_CHANNELS.DATABASE).asMain(ipcMain, Contents)
+  crypto: getChannel<CryptoRequest, CryptoResponse>(IPC_CHANNELS.CRYPTO).asMain(
+    ipcMain,
+    webContents
+  ),
+  db: getChannel<DBRequest, DBResponse>(IPC_CHANNELS.DATABASE).asMain(ipcMain, webContents)
 });
 
 export type IIpcBridgeRenderer = ReturnType<typeof IpcBridgeRenderer>;

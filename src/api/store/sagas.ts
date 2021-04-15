@@ -1,11 +1,10 @@
-import { ipcMain, webContents } from 'electron';
 import { all } from 'redux-saga/effects';
 
-import { ipcBridgeMain } from '@bridge';
 import { handshakeSaga } from '@common/store';
+import { ReduxIPC } from '@types';
 
 import { authSaga } from './auth.slice';
 
-export default function* rootSaga() {
-  yield all([handshakeSaga(ipcBridgeMain(ipcMain, webContents).redux), authSaga()]);
+export default function* rootSaga(ipc: ReduxIPC) {
+  yield all([handshakeSaga(ipc), authSaga()]);
 }

@@ -1,2 +1,2 @@
 export * from './translate';
-export * from './translateRaw';
+export * from './Trans';

@@ -87,25 +87,23 @@ export function* handshakeSaga(ipc: ReduxIPC) {
 
 export const subscribe = (ipc: ReduxIPC) => {
   return eventChannel((emitter) => {
-    const unsubcribe = ipc.on((_: Event, action: string) => {
-      if (action) {
-        emitter(action);
-      }
+    const unsubscribe = ipc.on((_: Event, action: string) => {
+      emitter(action);
     });
 
     return () => {
-      unsubcribe();
+      unsubscribe();
     };
   });
 };
 
-export function* putJson(json: string, allowInsecure: boolean = false): SagaIterator {
+export function* putJson(json: string, isDecrypted: boolean = false): SagaIterator {
   const [error, action] = safeJSONParse<AnyAction>(json);
   if (error) {
     return;
   }
 
-  if (isReduxAction(action) && (allowInsecure || action.type === 'handshake/sendPublicKey')) {
+  if (isReduxAction(action) && (isDecrypted || action.type === sendPublicKey.type)) {
     yield put({ ...action, remote: true });
     return;
   }

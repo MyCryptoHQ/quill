@@ -1,8 +1,17 @@
 import { Middleware } from '@reduxjs/toolkit';
 
-import { getHandshaken, getTargetPublicKey } from '@common/store/handshake';
+import handshake, {
+  getHandshaken,
+  getTargetPublicKey,
+  sendPublicKey
+} from '@common/store/handshake';
 import { encryptJson } from '@common/utils';
 import { ReduxIPC } from '@types';
+
+/**
+ * An array of action paths that will not be synchronised with the other process.
+ */
+export const IGNORED_PATHS = [handshake.name];
 
 /**
  * Middleware that dispatches any actions to the other Electron process.
@@ -11,17 +20,15 @@ import { ReduxIPC } from '@types';
 export const synchronisationMiddleware = (ipc: ReduxIPC): Middleware => (store) => (next) => (
   action
 ) => {
-  if (
-    (action.type.startsWith('handshake/') && action.type !== 'handshake/sendPublicKey') ||
-    action.remote
-  ) {
+  const path = action.type.split('/')[0];
+  if ((action.type !== sendPublicKey.type && IGNORED_PATHS.includes(path)) || action.remote) {
     return next(action);
   }
 
   const json = JSON.stringify(action);
 
   // Only allow handshake without encryption
-  if (action.type === 'handshake/sendPublicKey') {
+  if (action.type === sendPublicKey.type) {
     ipc.emit(json);
     return next(action);
   }

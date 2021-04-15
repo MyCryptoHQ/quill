@@ -1,4 +1,4 @@
-import { ipcMain, webContents, WebContents } from 'electron';
+import { ipcMain, WebContents } from 'electron';
 
 import { AccountsState } from '@app/store';
 import { ipcBridgeMain } from '@bridge';
@@ -15,13 +15,13 @@ const toJsonRpcResponse = (response: Omit<JsonRPCResponse, 'jsonrpc'>) => {
 
 const requestSigning = (
   req: UserRequest<unknown>,
-  contents: WebContents
+  webContents: WebContents
 ): Promise<JsonRPCResponse> => {
   // @todo Cleaner way of doing this?
   // @todo Reject?
   return new Promise((resolve, _reject) => {
     const { request } = req;
-    contents.send(IPC_CHANNELS.API, req);
+    webContents.send(IPC_CHANNELS.API, req);
 
     const listener = (
       _event: Electron.IpcMainEvent,

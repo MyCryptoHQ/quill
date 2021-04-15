@@ -4,11 +4,11 @@
 
 /* eslint-disable jest/expect-expect */
 
-import { encrypt } from 'eciesjs';
 import { expectSaga } from 'redux-saga-test-plan';
 
-import { createHandshakeKeyPair } from '@common/utils';
+import { createHandshakeKeyPair, encryptJson } from '@common/utils';
 import { fEncryptionPrivateKey, fEncryptionPublicKey } from '@fixtures';
+import { setNewUser } from '@store/auth.slice.ts';
 
 import slice, {
   createKeyPair,
@@ -60,27 +60,25 @@ describe('Handshake', () => {
 });
 
 describe('putJson', () => {
-  it('puts an action if allowInsecure is set or if the action is handshake/sendPublicKey', async () => {
+  it('puts an action if isDecrypted is set or if the action is handshake/sendPublicKey', async () => {
     const action = JSON.stringify(sendPublicKey(fEncryptionPublicKey));
     await expectSaga(putJson, action)
       .put({ ...sendPublicKey(fEncryptionPublicKey), remote: true })
       .silentRun();
 
-    const insecureAction = JSON.stringify(setHandshaken(true));
+    const insecureAction = JSON.stringify(setNewUser(true));
     await expectSaga(putJson, insecureAction, true)
-      .put({ ...setHandshaken(true), remote: true })
+      .put({ ...setNewUser(true), remote: true })
       .silentRun();
   });
 
   it('decrypts an encrypted action', async () => {
-    const insecureAction = JSON.stringify(setHandshaken(true));
-    const encryptedAction = encrypt(
-      fEncryptionPublicKey,
-      Buffer.from(insecureAction, 'utf-8')
-    ).toString('hex');
+    const insecureAction = JSON.stringify(setNewUser(true));
+    const encryptedAction = encryptJson(fEncryptionPublicKey, insecureAction);
+
     await expectSaga(putJson, JSON.stringify({ data: encryptedAction }), true)
       .withState({ handshake: { isHandshaken: true, privateKey: fEncryptionPrivateKey } })
-      .put({ ...setHandshaken(true), remote: true })
+      .put({ ...setNewUser(true), remote: true })
       .silentRun();
   });
 

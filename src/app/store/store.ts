@@ -43,6 +43,11 @@ export const createStore = (
   }
 
   sagaMiddleware.run(rootSaga);
+
+  /**
+   * The renderer process initialises the handshake process by generating a new key pair and sending
+   * the public key to the main process (since the payload is set to `true` here).
+   */
   store.dispatch(createKeyPair(true));
 
   return store;
