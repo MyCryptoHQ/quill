@@ -94,3 +94,4 @@ jobs:
           APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
           WINDOWS_PFX_FILE: ${{ steps.write_file.outputs.filePath }}
           WINDOWS_PFX_PASSWORD: ${{ secrets.WINDOWS_PFX_PASSWORD }}
+          SHOULD_SIGN: true

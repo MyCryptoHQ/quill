@@ -1,5 +1,5 @@
 module.exports = {
-  packagerConfig: {
+  packagerConfig: process.env.SHOULD_SIGN && {
     osxSign: {
       identity: 'Developer ID Application: MyCrypto Inc (43RN6VJTB7)',
       'hardened-runtime': true,
