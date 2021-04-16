@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Body } from '@mycrypto/ui';
+
 import approved from '@assets/icons/circle-checkmark.svg';
 import denied from '@assets/icons/queue-denied.svg';
 import waiting from '@assets/icons/queue-waiting.svg';
@@ -7,7 +9,6 @@ import { translateRaw } from '@common/translate';
 import { TxResult } from '@types';
 
 import { Box, Image } from '.';
-import { Body } from './Typography';
 
 const configs = {
   [TxResult.WAITING]: {

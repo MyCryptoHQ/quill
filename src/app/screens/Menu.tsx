@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { Body, Box, Container, Heading, Image, LinkApp } from '@app/components';
+import { Body, Heading } from '@mycrypto/ui';
+
+import { Box, Container, Image, LinkApp } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import addAccount from '@assets/icons/add-account.svg';
 import generateAccount from '@assets/icons/generate-account.svg';

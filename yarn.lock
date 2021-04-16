@@ -2175,6 +2175,15 @@
   dependencies:
     sourcemap-codec "^1.4.4"
 
+"@mycrypto/ui@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@mycrypto/ui/-/ui-1.0.2.tgz#75854200923bc4d0fe72d3937c6c6bddaf2eccbb"
+  integrity sha512-4MXJo2oRHFkLaPjWFB6SzFPibiAgIWVZuFJmvwdb91pqaENzoV269Spn2Se/dtbdXp0p7hbRbaYUKLyUaDKfAQ==
+  dependencies:
+    "@rebass/forms" "4.0.6"
+    ethereum-blockies-base64 "1.0.2"
+    rebass "4.0.7"
+
 "@mycrypto/wallets@1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@mycrypto/wallets/-/wallets-1.0.3.tgz#47916f6f019c353fd7c7714a48d1e1d17439b91e"

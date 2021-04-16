@@ -1,9 +1,10 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 
+import { Body } from '@mycrypto/ui';
+
 import edit from '@assets/icons/edit.svg';
 
 import { Box, BoxProps, Image, Input } from '.';
-import { Body } from './Typography';
 
 export const EditableText = ({
   value,

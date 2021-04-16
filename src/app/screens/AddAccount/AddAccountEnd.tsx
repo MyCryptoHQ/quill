@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { Body, Box, Button, Container, Heading, LinkApp, Logo, PanelBottom } from '@app/components';
+import { Body, Heading } from '@mycrypto/ui';
+
+import { Box, Button, Container, LinkApp, Logo, PanelBottom } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import checkmark from '@assets/icons/circle-checkmark.svg';
 import { translateRaw } from '@common/translate';

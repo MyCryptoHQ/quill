@@ -1,7 +1,9 @@
 import React from 'react';
 
+import { Body, Heading } from '@mycrypto/ui';
+
 import { translateRaw } from '@common/translate';
-import { Body, Box, Button, Container, Heading, LinkApp, Logo, PanelBottom } from '@components';
+import { Box, Button, Container, LinkApp, Logo, PanelBottom } from '@components';
 import { ROUTE_PATHS } from '@routing';
 import { translate } from '@translations';
 

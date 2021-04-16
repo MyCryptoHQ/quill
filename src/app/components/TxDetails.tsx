@@ -1,13 +1,14 @@
 import React from 'react';
 
 import { formatEther, formatUnits } from '@ethersproject/units';
+import { Body } from '@mycrypto/ui';
 
 import { translateRaw } from '@common/translate';
 import { getChain } from '@data';
 import { TransactionRequest } from '@types';
 import { bigify } from '@utils';
 
-import { Body, Box } from '.';
+import { Box } from '.';
 import { CodeBlock } from './CodeBlock';
 import { Divider } from './Divider';
 

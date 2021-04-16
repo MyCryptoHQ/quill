@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 
+import { Body } from '@mycrypto/ui';
 import { push } from 'connected-react-router';
 import { useSelector } from 'react-redux';
 
-import { Body, Box, Container, Image, TxHistory, TxQueue } from '@app/components';
+import { Box, Container, Image, TxHistory, TxQueue } from '@app/components';
 import info from '@assets/icons/circle-info.svg';
 import { translateRaw } from '@common/translate';
 import { usePersisted } from '@hooks';

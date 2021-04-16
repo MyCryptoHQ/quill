@@ -1,12 +1,11 @@
 import React from 'react';
 
+import { Blockie, Body } from '@mycrypto/ui';
+
 import { Box, BoxProps } from '@app/components';
 import { translateRaw } from '@common/translate';
 import { TAddress } from '@types';
 import { truncate } from '@utils';
-
-import { Blockie } from './Blockie';
-import { Body } from './Typography';
 
 export const Account = ({
   label,

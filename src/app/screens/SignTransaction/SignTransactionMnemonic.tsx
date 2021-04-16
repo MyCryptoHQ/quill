@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 
-import { Account, Body, Heading, ScrollableContainer, SignBottom } from '@app/components';
+import { Body, Heading } from '@mycrypto/ui';
+
+import { Account, ScrollableContainer, SignBottom } from '@app/components';
 import { getSigningError, useSelector } from '@app/store';
 import { translateRaw } from '@common/translate';
 import { SignTransactionProps, WalletType } from '@types';

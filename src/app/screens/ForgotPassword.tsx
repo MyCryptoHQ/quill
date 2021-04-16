@@ -1,11 +1,12 @@
 import React from 'react';
 
+import { Body, Heading } from '@mycrypto/ui';
 import { push } from 'connected-react-router';
 
 import warning from '@assets/icons/circle-error.svg';
 import { ipcBridgeRenderer } from '@bridge';
 import { translateRaw } from '@common/translate';
-import { Body, Button, Container, Flex, Heading, Image, PanelBottom } from '@components';
+import { Button, Container, Flex, Image, PanelBottom } from '@components';
 import { ROUTE_PATHS } from '@routing';
 import { setNewUser, useDispatch } from '@store';
 import { DBRequestType } from '@types';

@@ -1,12 +1,13 @@
 import React from 'react';
 
+import { Heading } from '@mycrypto/ui';
+
 import mnemonicPhrase from '@app/assets/icons/mnemonic-phrase.svg';
 import { translateRaw } from '@common/translate';
 import {
   Box,
   Button,
   Container,
-  Heading,
   IFlowComponentProps,
   Image,
   List,

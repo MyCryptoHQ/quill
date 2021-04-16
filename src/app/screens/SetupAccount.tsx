@@ -1,8 +1,10 @@
 import React from 'react';
 
+import { Body, Heading } from '@mycrypto/ui';
+
 import wallet from '@app/assets/icons/wallet.svg';
 import { translateRaw } from '@common/translate';
-import { Body, Box, Button, Container, Heading, Image, LinkApp, PanelBottom } from '@components';
+import { Box, Button, Container, Image, LinkApp, PanelBottom } from '@components';
 import { ROUTE_PATHS } from '@routing';
 
 export const SetupAccount = () => (

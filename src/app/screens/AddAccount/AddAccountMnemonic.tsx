@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 
+import { Body } from '@mycrypto/ui';
 import { ALL_DERIVATION_PATHS, DEFAULT_ETH } from '@mycrypto/wallets';
 import { AnyListener } from 'typed-react-form';
 
 import {
-  Body,
   Box,
   Button,
   DPathSelector,

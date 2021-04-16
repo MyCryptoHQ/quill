@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 
+import { Blockie, Body, Heading } from '@mycrypto/ui';
 import { useSelector } from 'react-redux';
 
 import { getAccounts, removeAccount, updateAccount, useDispatch } from '@app/store';
 import deleteIcon from '@assets/icons/circle-delete.svg';
 import { translateRaw } from '@common/translate';
 import {
-  Blockie,
-  Body,
   Box,
   Container,
   DeleteOverlay,
   Divider,
   EditableText,
   Flex,
-  Heading,
   Image,
   Link
 } from '@components';

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Body } from '@mycrypto/ui';
+
 import { Box, Image } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import { selectTransaction, useDispatch } from '@app/store';
@@ -10,7 +12,6 @@ import { translateRaw } from '@common/translate';
 import { TxHistoryEntry, TxResult } from '@types';
 
 import { LinkApp, TimeElapsed } from '../Core';
-import { Body } from '../Typography';
 
 export const TxHistoryCard = ({ item }: { item: TxHistoryEntry }) => {
   const dispatch = useDispatch();

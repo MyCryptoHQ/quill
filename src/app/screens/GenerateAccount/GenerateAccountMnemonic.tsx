@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 
+import { Body, Heading } from '@mycrypto/ui';
+
 import refresh from '@app/assets/icons/refresh.svg';
 import { translateRaw } from '@common/translate';
 import {
-  Body,
   Box,
   Button,
   Flex,
-  Heading,
   IFlowComponentProps,
   Image,
   Input,

@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { Blockie, Body, Box, Checkbox } from '@app/components';
+import { Blockie, Body } from '@mycrypto/ui';
+
+import { Box, Checkbox } from '@app/components';
 import { GetAddressesResult } from '@types';
 
 import { Divider } from './Divider';

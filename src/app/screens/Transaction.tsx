@@ -1,9 +1,9 @@
 import React from 'react';
 
+import { Body } from '@mycrypto/ui';
 import { push } from 'connected-react-router';
 
 import {
-  Body,
   Box,
   FromToAccount,
   ScrollableContainer,

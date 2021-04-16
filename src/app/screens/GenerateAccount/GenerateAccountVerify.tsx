@@ -1,16 +1,15 @@
 import React, { FormEvent, useMemo } from 'react';
 
+import { Body, Heading } from '@mycrypto/ui';
 import { FormError, useForm, yupValidator } from 'typed-react-form';
 import { object, string } from 'yup';
 
 import { translateRaw } from '@common/translate';
 import {
-  Body,
   Box,
   Button,
   Container,
   FormInput,
-  Heading,
   IFlowComponentProps,
   Label,
   PanelBottom

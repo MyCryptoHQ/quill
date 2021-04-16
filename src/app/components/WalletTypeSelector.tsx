@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { Body, Box, Image } from '@app/components';
+import { Body } from '@mycrypto/ui';
+
+import { Box, Image } from '@app/components';
 import keystore from '@assets/icons/keystore.svg';
 import mnemonic from '@assets/icons/mnemonic-phrase.svg';
 import privatekey from '@assets/icons/private-key.svg';

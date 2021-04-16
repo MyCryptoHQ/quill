@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { Body } from '@mycrypto/ui';
 import { ALL_DERIVATION_PATHS, DerivationPath } from '@mycrypto/wallets';
 
-import { Body, Box } from '@app/components';
+import { Box } from '@app/components';
 
 import Selector from './Core/Selector';
 
