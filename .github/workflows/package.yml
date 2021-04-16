@@ -38,7 +38,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Add MacOS certificates
-        if: matrix.os == 'macos-latest'
+        if: matrix.os == 'macos-latest' && startsWith(github.ref, 'refs/tags/')
         run: |
           KEYCHAIN=build.keychain
           security create-keychain -p $MACOS_KEYCHAIN_PASSWORD $KEYCHAIN
