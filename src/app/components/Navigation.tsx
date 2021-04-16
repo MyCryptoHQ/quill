@@ -1,5 +1,5 @@
 import SVG from 'react-inlinesvg';
-import { BoxProps } from 'rebass';
+import type { BoxProps } from 'rebass';
 
 import { Box } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';

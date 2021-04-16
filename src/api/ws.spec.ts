@@ -1,5 +1,5 @@
 import { waitFor } from '@testing-library/react';
-import { WebContents } from 'electron';
+import type { WebContents } from 'electron';
 import WebSocket from 'ws';
 
 import { SUPPORTED_METHODS, WS_PORT } from '@config';

@@ -1,15 +1,17 @@
-import { TransactionRequest } from '@ethersproject/abstract-provider';
+import type { TransactionRequest } from '@ethersproject/abstract-provider';
 import { parse } from '@ethersproject/transactions';
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { push } from 'connected-react-router';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 
 import { ROUTE_PATHS } from '@app/routing';
 import { ipcBridgeRenderer } from '@bridge';
-import { CryptoRequestType, SerializedPersistentAccount, SerializedWallet, TxResult } from '@types';
+import type { SerializedPersistentAccount, SerializedWallet } from '@types';
+import { CryptoRequestType, TxResult } from '@types';
 import { makeHistoryTx } from '@utils';
 
-import { ApplicationState } from './store';
+import type { ApplicationState } from './store';
 import {
   addToHistory,
   dequeue,

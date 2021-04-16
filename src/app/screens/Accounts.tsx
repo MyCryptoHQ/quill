@@ -15,7 +15,7 @@ import {
   Image,
   Link
 } from '@components';
-import { IAccount } from '@types';
+import type { IAccount } from '@types';
 
 const Account = ({ account }: { account: IAccount }) => {
   const dispatch = useDispatch();

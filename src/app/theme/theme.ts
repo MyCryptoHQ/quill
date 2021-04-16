@@ -1,6 +1,7 @@
 import { theme as UITheme } from '@mycrypto/ui';
 import merge from 'lodash.merge';
-import { createGlobalStyle, DefaultTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 
 const LINK_RECIPES = {
   default: {

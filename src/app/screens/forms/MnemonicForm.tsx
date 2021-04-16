@@ -1,6 +1,7 @@
 import { Body } from '@mycrypto/ui';
-import { FormEvent, ReactNode } from 'react';
-import { DefaultState, useForm, yupValidator } from 'typed-react-form';
+import type { FormEvent, ReactNode } from 'react';
+import type { DefaultState } from 'typed-react-form';
+import { useForm, yupValidator } from 'typed-react-form';
 import { object, string } from 'yup';
 
 import { Box, FormError, FormInput, FormTextArea, Image } from '@app/components';

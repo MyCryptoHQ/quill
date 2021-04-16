@@ -1,4 +1,4 @@
-import { TAddress } from './address';
+import type { TAddress } from './address';
 
 export interface GetMnemonicAddressArgs {
   dPath: string;

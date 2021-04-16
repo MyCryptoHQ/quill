@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getAccounts, getCurrentTransaction, sign, useDispatch } from '@app/store';
-import { SerializedWallet, TxResult, WalletType } from '@types';
+import type { SerializedWallet } from '@types';
+import { TxResult, WalletType } from '@types';
 
 import { SignTransactionKeystore } from './SignTransactionKeystore';
 import { SignTransactionMnemonic } from './SignTransactionMnemonic';

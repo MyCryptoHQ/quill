@@ -1,5 +1,6 @@
 import checkmark from '@app/assets/icons/checkmark.svg';
-import { Box, BoxProps, Image } from '@app/components';
+import type { BoxProps } from '@app/components';
+import { Box, Image } from '@app/components';
 
 // Because Rebass Checkbox is currently broken... https://github.com/rebassjs/rebass/issues/1049
 export const Checkbox = ({ onChange, checked, ...props }: BoxProps) => (

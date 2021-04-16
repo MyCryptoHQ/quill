@@ -1,6 +1,6 @@
 import { Body, Heading } from '@mycrypto/ui';
 import { passwordStrength } from 'check-password-strength';
-import { FormEvent } from 'react';
+import type { FormEvent } from 'react';
 import { useForm, yupValidator } from 'typed-react-form';
 import { object, ref, string } from 'yup';
 

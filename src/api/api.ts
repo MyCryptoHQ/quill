@@ -1,9 +1,10 @@
-import { ipcMain, WebContents } from 'electron';
+import type { WebContents } from 'electron';
+import { ipcMain } from 'electron';
 
-import { AccountsState } from '@app/store';
+import type { AccountsState } from '@app/store';
 import { ipcBridgeMain } from '@bridge';
 import { IPC_CHANNELS, SUPPORTED_METHODS } from '@config';
-import { JsonRPCRequest, JsonRPCResponse, UserRequest } from '@types';
+import type { JsonRPCRequest, JsonRPCResponse, UserRequest } from '@types';
 import { safeJSONParse } from '@utils';
 
 import { getFromStore } from './db';

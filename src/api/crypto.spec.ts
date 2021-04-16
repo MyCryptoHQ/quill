@@ -1,10 +1,12 @@
 import { DEFAULT_ETH } from '@mycrypto/wallets';
-import { ipcMain, WebContents } from 'electron';
+import type { WebContents } from 'electron';
+import { ipcMain } from 'electron';
 
 import { getPrivateKey } from '@api/db';
 import { IPC_CHANNELS } from '@config';
 import { fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey } from '@fixtures';
-import { CryptoRequestType, TUuid, WalletType } from '@types';
+import type { TUuid } from '@types';
+import { CryptoRequestType, WalletType } from '@types';
 
 import { handleRequest, runService } from './crypto';
 

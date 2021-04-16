@@ -1,4 +1,4 @@
-import { IIpcBridge } from '@bridge';
+import type { IIpcBridge } from '@bridge';
 
 declare global {
   interface Window {

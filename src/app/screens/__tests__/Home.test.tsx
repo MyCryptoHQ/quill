@@ -1,14 +1,16 @@
-import { EnhancedStore } from '@reduxjs/toolkit';
+import type { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render } from '@testing-library/react';
 import { push } from 'connected-react-router';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
-import { ApplicationState, selectTransaction } from '@app/store';
+import type { ApplicationState } from '@app/store';
+import { selectTransaction } from '@app/store';
 import { fAccount, fRequestOrigin, fTxRequest } from '@fixtures';
 import { ROUTE_PATHS } from '@routing';
-import { DeepPartial, TxResult } from '@types';
+import type { DeepPartial } from '@types';
+import { TxResult } from '@types';
 import { makeHistoryTx, makeQueueTx } from '@utils';
 
 import { Home } from '../Home';

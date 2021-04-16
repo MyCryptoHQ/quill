@@ -1,6 +1,7 @@
 import { push } from 'connected-react-router';
 
-import { Flow, IFlowComponent } from '@components';
+import type { IFlowComponent } from '@components';
+import { Flow } from '@components';
 import { useUnmount } from '@hooks';
 import { ROUTE_PATHS } from '@routing';
 import { setGeneratedAccount, useDispatch } from '@store';

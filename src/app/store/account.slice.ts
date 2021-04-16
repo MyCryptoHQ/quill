@@ -1,5 +1,6 @@
 import { DEFAULT_ETH } from '@mycrypto/wallets';
-import { createAction, createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createAction, createSelector, createSlice } from '@reduxjs/toolkit';
 import { replace } from 'connected-react-router';
 import { persistReducer } from 'redux-persist';
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
@@ -7,18 +8,11 @@ import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import { ROUTE_PATHS } from '@app/routing';
 import { ipcBridgeRenderer } from '@bridge';
 import { DEFAULT_MNEMONIC_INDEX } from '@config/derivation';
-import {
-  CryptoRequestType,
-  DBRequestType,
-  IAccount,
-  SerializedMnemonicPhrase,
-  SerializedWallet,
-  TAddress,
-  WalletType
-} from '@types';
+import type { IAccount, SerializedMnemonicPhrase, SerializedWallet, TAddress } from '@types';
+import { CryptoRequestType, DBRequestType, WalletType } from '@types';
 import { generateDeterministicAddressUUID } from '@utils';
 
-import { ApplicationState } from './store';
+import type { ApplicationState } from './store';
 import { storage } from './utils';
 
 export interface AccountsState {

@@ -5,10 +5,11 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import { ROUTE_PATHS } from '@app/routing';
-import { ApplicationState } from '@app/store';
+import type { ApplicationState } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
 import { translateRaw } from '@common/translate';
-import { DBRequestType, DeepPartial } from '@types';
+import type { DeepPartial } from '@types';
+import { DBRequestType } from '@types';
 
 import { ForgotPassword } from '../ForgotPassword';
 

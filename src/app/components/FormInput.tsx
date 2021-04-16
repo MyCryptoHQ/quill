@@ -1,11 +1,8 @@
-import { InputProps, Input as RebassInput } from '@rebass/forms/styled-components';
-import {
-  DefaultError,
-  DefaultState,
-  FormInput as ReactFormInput,
-  useListener
-} from 'typed-react-form';
-import { FormInputProps } from 'typed-react-form/dist/elements/FormInput';
+import type { InputProps } from '@rebass/forms/styled-components';
+import { Input as RebassInput } from '@rebass/forms/styled-components';
+import type { DefaultError, DefaultState } from 'typed-react-form';
+import { FormInput as ReactFormInput, useListener } from 'typed-react-form';
+import type { FormInputProps } from 'typed-react-form/dist/elements/FormInput';
 
 export const FormInput = <
   T,

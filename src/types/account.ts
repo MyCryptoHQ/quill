@@ -1,8 +1,8 @@
-import { DerivationPath } from '@mycrypto/wallets';
+import type { DerivationPath } from '@mycrypto/wallets';
 
-import { TAddress } from './address';
-import { TUuid } from './uuid';
-import { WalletType } from './wallet';
+import type { TAddress } from './address';
+import type { TUuid } from './uuid';
+import type { WalletType } from './wallet';
 
 export interface IAccount {
   uuid: TUuid;

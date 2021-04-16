@@ -3,11 +3,11 @@ import { useEffect } from 'react';
 
 import refresh from '@app/assets/icons/refresh.svg';
 import { translateRaw } from '@common/translate';
+import type { IFlowComponentProps } from '@components';
 import {
   Box,
   Button,
   Flex,
-  IFlowComponentProps,
   Image,
   Input,
   Link,

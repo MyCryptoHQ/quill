@@ -8,7 +8,7 @@ import circleArrow from '@assets/icons/circle-arrow.svg';
 import waiting from '@assets/icons/queue-waiting.svg';
 import { translateRaw } from '@common/translate';
 import { getChain } from '@data';
-import { TxQueueEntry } from '@types';
+import type { TxQueueEntry } from '@types';
 
 export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {
   const dispatch = useDispatch();

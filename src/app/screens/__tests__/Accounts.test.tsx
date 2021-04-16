@@ -1,13 +1,14 @@
-import { EnhancedStore } from '@reduxjs/toolkit';
+import type { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
-import { ApplicationState, removeAccount } from '@app/store';
+import type { ApplicationState } from '@app/store';
+import { removeAccount } from '@app/store';
 import { translateRaw } from '@common/translate';
 import { fAccount } from '@fixtures';
-import { DeepPartial } from '@types';
+import type { DeepPartial } from '@types';
 
 import { Accounts } from '../Accounts';
 

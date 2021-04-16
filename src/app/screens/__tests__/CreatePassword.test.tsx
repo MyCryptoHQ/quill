@@ -1,10 +1,11 @@
-import { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
+import type { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
-import { ApplicationState, createPassword } from '@app/store';
+import type { ApplicationState } from '@app/store';
+import { createPassword } from '@app/store';
 import { translateRaw } from '@common/translate';
 import { CreatePassword } from '@screens';
 

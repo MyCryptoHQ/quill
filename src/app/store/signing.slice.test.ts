@@ -4,7 +4,8 @@ import { call } from 'redux-saga-test-plan/matchers';
 
 import { ipcBridgeRenderer } from '@bridge';
 import { fPrivateKey, fRequestOrigin, fSignedTx, fTxRequest } from '@fixtures';
-import { CryptoRequestType, SerializedWallet, WalletType } from '@types';
+import type { SerializedWallet } from '@types';
+import { CryptoRequestType, WalletType } from '@types';
 import { makeQueueTx, makeTx } from '@utils';
 
 import slice, { sign, signFailed, signSuccess, signWorker } from './signing.slice';

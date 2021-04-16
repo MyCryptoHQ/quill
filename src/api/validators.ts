@@ -1,7 +1,8 @@
 import { is, unknown } from 'superstruct';
 
 import { SUPPORTED_METHODS } from '@config';
-import { JsonRPCRequest, JSONRPCRequestStruct, SignTransactionStruct } from '@types';
+import type { JsonRPCRequest } from '@types';
+import { JSONRPCRequestStruct, SignTransactionStruct } from '@types';
 
 const paramSchemas = {
   [SUPPORTED_METHODS.SIGN_TRANSACTION]: SignTransactionStruct,

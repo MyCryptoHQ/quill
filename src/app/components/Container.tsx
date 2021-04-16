@@ -1,4 +1,5 @@
-import { Box, BoxProps } from '@components';
+import type { BoxProps } from '@components';
+import { Box } from '@components';
 
 export const Wrapper = ({ children, ...props }: BoxProps) => (
   <Box overflowY="scroll" flex="1" backgroundColor="DEFAULT_BACKGROUND" {...props}>

@@ -1,5 +1,5 @@
 import { waitFor } from '@testing-library/react';
-import { WebContents } from 'electron';
+import type { WebContents } from 'electron';
 
 import { IPC_CHANNELS, SUPPORTED_METHODS } from '@config';
 import { fRequestOrigin, fSignedTx } from '@fixtures';

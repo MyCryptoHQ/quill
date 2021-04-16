@@ -1,7 +1,7 @@
 // Same as `@types/rebass__forms` but updated to work with styled-components
 declare module '@rebass/forms/styled-components' {
-  import { BaseProps, SxProps } from 'rebass';
-  import StyledSystem from 'styled-system';
+  import type { BaseProps, SxProps } from 'rebass';
+  import type StyledSystem from 'styled-system';
 
   export {};
 

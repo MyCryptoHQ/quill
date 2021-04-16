@@ -1,4 +1,4 @@
-import { JsonRPCRequest } from './jsonRPCRequest';
+import type { JsonRPCRequest } from './jsonRPCRequest';
 
 export interface UserRequest<T> {
   origin?: string;

@@ -7,7 +7,8 @@ import circleArrow from '@assets/icons/circle-arrow.svg';
 import approved from '@assets/icons/circle-checkmark.svg';
 import denied from '@assets/icons/queue-denied.svg';
 import { translateRaw } from '@common/translate';
-import { TxHistoryEntry, TxResult } from '@types';
+import type { TxHistoryEntry } from '@types';
+import { TxResult } from '@types';
 
 import { LinkApp, TimeElapsed } from '../Core';
 

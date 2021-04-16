@@ -1,4 +1,4 @@
-import { EnhancedStore } from '@reduxjs/toolkit';
+import type { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
@@ -6,8 +6,9 @@ import configureStore from 'redux-mock-store';
 
 import { translateRaw } from '@common/translate';
 import { GenerateAccountMnemonic } from '@screens/GenerateAccount/GenerateAccountMnemonic';
-import { ApplicationState, generateAccount } from '@store';
-import { DeepPartial } from '@types';
+import type { ApplicationState } from '@store';
+import { generateAccount } from '@store';
+import type { DeepPartial } from '@types';
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 

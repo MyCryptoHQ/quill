@@ -1,10 +1,11 @@
-import { EnhancedStore } from '@reduxjs/toolkit';
+import type { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
-import { ApplicationState, sign } from '@app/store';
+import type { ApplicationState } from '@app/store';
+import { sign } from '@app/store';
 import { translateRaw } from '@common/translate';
 import {
   fAccount,
@@ -16,7 +17,8 @@ import {
   fTxRequest,
   getTransactionRequest
 } from '@fixtures';
-import { DeepPartial, IAccount, WalletType } from '@types';
+import type { DeepPartial, IAccount } from '@types';
+import { WalletType } from '@types';
 import { makeQueueTx, makeTx } from '@utils';
 
 import { SignTransaction } from '../SignTransaction';

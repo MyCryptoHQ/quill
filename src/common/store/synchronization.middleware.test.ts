@@ -9,7 +9,7 @@ import { sendPublicKey, setHandshaken } from '@common/store/synchronization.slic
 import { decryptJson } from '@common/utils';
 import { fEncryptionPrivateKey, fEncryptionPublicKey } from '@fixtures';
 import type { ApplicationState } from '@store';
-import { DeepPartial } from '@types';
+import type { DeepPartial } from '@types';
 
 import { checkNewUser } from './actions';
 

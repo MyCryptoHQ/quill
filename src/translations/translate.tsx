@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import type { ReactElement } from 'react';
 
 import { default as TranslateMarkdown } from '@app/components/Core/TranslateMarkdown';
 import { translateRaw } from '@common/translate';

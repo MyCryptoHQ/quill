@@ -1,4 +1,5 @@
-import { configureStore, ConfigureStoreOptions, EnhancedStore } from '@reduxjs/toolkit';
+import type { ConfigureStoreOptions, EnhancedStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import { routerMiddleware } from 'connected-react-router';
 import { createHashHistory } from 'history';
 import createSagaMiddleware from 'redux-saga';

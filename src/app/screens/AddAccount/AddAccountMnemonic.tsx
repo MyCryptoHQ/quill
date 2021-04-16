@@ -16,7 +16,8 @@ import {
 import { fetchAccounts, useDispatch } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
 import { translateRaw } from '@common/translate';
-import { CryptoRequestType, GetAddressesResult, WalletType } from '@types';
+import type { GetAddressesResult } from '@types';
+import { CryptoRequestType, WalletType } from '@types';
 
 import { MnemonicForm, useMnemonicForm } from '../forms/MnemonicForm';
 

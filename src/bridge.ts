@@ -1,8 +1,7 @@
-import type { IpcMain, IpcMainEvent, IpcRenderer, IpcRendererEvent } from 'electron';
-import { WebContents } from 'electron';
+import type { IpcMain, IpcMainEvent, IpcRenderer, IpcRendererEvent, WebContents } from 'electron';
 
 import { IPC_CHANNELS } from '@config';
-import {
+import type {
   CryptoRequest,
   CryptoResponse,
   DBRequest,

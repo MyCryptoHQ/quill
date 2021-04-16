@@ -1,6 +1,7 @@
 import { connectRouter } from 'connected-react-router';
-import { History } from 'history';
-import { AnyAction, combineReducers } from 'redux';
+import type { History } from 'history';
+import type { AnyAction } from 'redux';
+import { combineReducers } from 'redux';
 
 import synchronizationSlice from '@common/store/synchronization.slice';
 

@@ -1,5 +1,5 @@
 import { Body } from '@mycrypto/ui';
-import { FormEvent, ReactNode } from 'react';
+import type { FormEvent, ReactNode } from 'react';
 import { useForm, yupValidator } from 'typed-react-form';
 import { mixed, object, string } from 'yup';
 

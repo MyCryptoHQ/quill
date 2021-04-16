@@ -1,10 +1,10 @@
-import { TransactionRequest as EthersTransactionRequest } from '@ethersproject/abstract-provider';
-import { Transaction } from '@ethersproject/transactions';
-import { Overwrite } from 'utility-types';
+import type { TransactionRequest as EthersTransactionRequest } from '@ethersproject/abstract-provider';
+import type { Transaction } from '@ethersproject/transactions';
+import type { Overwrite } from 'utility-types';
 
-import { TAddress } from './address';
-import { JsonRPCRequest } from './jsonRPCRequest';
-import { TUuid } from './uuid';
+import type { TAddress } from './address';
+import type { JsonRPCRequest } from './jsonRPCRequest';
+import type { TUuid } from './uuid';
 
 export enum TxResult {
   APPROVED = 'APPROVED',

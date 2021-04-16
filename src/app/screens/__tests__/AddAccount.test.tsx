@@ -1,5 +1,5 @@
 import { DEFAULT_ETH, DEFAULT_EWC } from '@mycrypto/wallets';
-import { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
+import type { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
@@ -7,7 +7,8 @@ import selectEvent from 'react-select-event';
 import configureStore from 'redux-mock-store';
 
 import { handleRequest } from '@api/crypto';
-import { ApplicationState, createStore, fetchAccounts } from '@app/store';
+import type { ApplicationState } from '@app/store';
+import { createStore, fetchAccounts } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
 import { translateRaw } from '@common/translate';
 import { fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey } from '@fixtures';

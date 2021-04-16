@@ -6,7 +6,8 @@ import { call } from 'redux-saga-test-plan/matchers';
 import { ipcBridgeRenderer } from '@bridge';
 import { DEFAULT_MNEMONIC_INDEX } from '@config/derivation';
 import { fAccount, fPrivateKey } from '@fixtures';
-import { CryptoRequestType, DBRequestType, SerializedWallet, TAddress, WalletType } from '@types';
+import type { SerializedWallet, TAddress } from '@types';
+import { CryptoRequestType, DBRequestType, WalletType } from '@types';
 
 import slice, {
   addAccount,

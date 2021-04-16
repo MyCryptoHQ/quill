@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Container } from '@components';
 
 import { FlowHeader } from './FlowHeader';
-import { IFlowComponent } from './types';
+import type { IFlowComponent } from './types';
 
 export interface FlowProps {
   components: IFlowComponent[];

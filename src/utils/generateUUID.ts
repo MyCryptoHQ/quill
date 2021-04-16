@@ -1,7 +1,7 @@
 import { v4 } from 'uuid';
 import getUuid from 'uuid-by-string';
 
-import { TAddress, TUuid } from '@types';
+import type { TAddress, TUuid } from '@types';
 
 import { toChecksumAddress } from './toChecksumAddress';
 

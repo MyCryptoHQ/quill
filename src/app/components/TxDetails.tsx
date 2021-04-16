@@ -1,10 +1,10 @@
 import { formatEther, formatUnits } from '@ethersproject/units';
 import { Body } from '@mycrypto/ui';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 import { translateRaw } from '@common/translate';
 import { getChain } from '@data';
-import { TransactionRequest } from '@types';
+import type { TransactionRequest } from '@types';
 import { bigify } from '@utils';
 
 import { Box } from '.';
