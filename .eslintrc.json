@@ -23,11 +23,6 @@
           {
             "pattern": "@{api,app,assets,components,screens,utils,types,config,bridge,fixtures,theme,translations,data,store,routing,hooks,common}{**,**/**}",
             "group": "internal"
-          },
-          {
-            "pattern": "react",
-            "group": "external",
-            "position": "before"
           }
         ],
         "pathGroupsExcludedImportTypes": [],

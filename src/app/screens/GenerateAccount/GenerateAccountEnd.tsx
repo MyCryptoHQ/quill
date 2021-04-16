@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
-
 import { BlockieAddress, Body, Heading } from '@mycrypto/ui';
 import { toPng } from 'html-to-image';
+import { useEffect, useRef, useState } from 'react';
 
 import { translateRaw } from '@common/translate';
 import {

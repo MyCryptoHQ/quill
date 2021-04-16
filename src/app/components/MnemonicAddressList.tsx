@@ -1,6 +1,5 @@
-import { Fragment } from 'react';
-
 import { Blockie, Body } from '@mycrypto/ui';
+import { Fragment } from 'react';
 
 import { Box, Checkbox } from '@app/components';
 import { GetAddressesResult } from '@types';

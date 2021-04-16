@@ -1,6 +1,5 @@
-import { useEffect } from 'react';
-
 import { Body, Heading } from '@mycrypto/ui';
+import { useEffect } from 'react';
 
 import refresh from '@app/assets/icons/refresh.svg';
 import { translateRaw } from '@common/translate';

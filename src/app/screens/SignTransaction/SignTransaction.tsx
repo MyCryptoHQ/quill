@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 import { useSelector } from 'react-redux';
 
 import { getAccounts, getCurrentTransaction, sign, useDispatch } from '@app/store';

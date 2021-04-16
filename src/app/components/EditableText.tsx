@@ -1,6 +1,5 @@
-import { ChangeEvent, useEffect, useState } from 'react';
-
 import { Body } from '@mycrypto/ui';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 import edit from '@assets/icons/edit.svg';
 

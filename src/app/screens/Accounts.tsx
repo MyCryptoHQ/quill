@@ -1,6 +1,5 @@
-import { Fragment, useState } from 'react';
-
 import { Blockie, Body, Heading } from '@mycrypto/ui';
+import { Fragment, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getAccounts, removeAccount, updateAccount, useDispatch } from '@app/store';

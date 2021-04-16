@@ -1,6 +1,5 @@
-import { FormEvent, useMemo } from 'react';
-
 import { Body, Heading } from '@mycrypto/ui';
+import { FormEvent, useMemo } from 'react';
 import { FormError, useForm, yupValidator } from 'typed-react-form';
 import { object, string } from 'yup';
 

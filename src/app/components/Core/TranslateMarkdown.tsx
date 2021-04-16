@@ -1,5 +1,4 @@
 import { Fragment } from 'react';
-
 import Markdown from 'react-markdown';
 
 import { default as LinkApp } from './LinkApp';

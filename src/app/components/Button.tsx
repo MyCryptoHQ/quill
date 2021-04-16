@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-
 import { ButtonProps, Button as RebassButton } from 'rebass/styled-components';
 
 export const Button = ({

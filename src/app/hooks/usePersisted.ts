@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-
 import { Persistor } from 'redux-persist';
 
 export const usePersisted = (persistor: Persistor): boolean => {

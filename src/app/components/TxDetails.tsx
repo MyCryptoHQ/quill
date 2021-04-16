@@ -1,7 +1,6 @@
-import { ReactNode } from 'react';
-
 import { formatEther, formatUnits } from '@ethersproject/units';
 import { Body } from '@mycrypto/ui';
+import { ReactNode } from 'react';
 
 import { translateRaw } from '@common/translate';
 import { getChain } from '@data';

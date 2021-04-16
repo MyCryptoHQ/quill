@@ -1,5 +1,4 @@
 import { ComponentProps } from 'react';
-
 import { fireEvent, simpleRender } from 'test-utils';
 
 import { EditableText } from './EditableText';

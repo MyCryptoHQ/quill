@@ -1,6 +1,5 @@
-import { forwardRef, ReactElement } from 'react';
-
 import { Blockie, Body, Code } from '@mycrypto/ui';
+import { forwardRef, ReactElement } from 'react';
 import QRCode from 'react-qr-code';
 
 import logo from '@assets/images/logo.svg';

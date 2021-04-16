@@ -6,7 +6,6 @@ import {
   KeyboardEvent,
   ReactElement
 } from 'react';
-
 import Select, {
   FocusEventHandler,
   InputActionMeta,
