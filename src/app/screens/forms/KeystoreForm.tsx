@@ -63,7 +63,7 @@ export const KeystoreForm = ({
             <FormError name="password" form={form} />
           </label>
         </Box>
-        <Box mt="2" variant="rowAlign">
+        <Box mt="2" variant="horizontal-start">
           <Image src={warning} width="20px" height="20px" minWidth="20px" alt="Warning" mr="2" />
           <Body>
             {translate('SECRET_WARNING', {

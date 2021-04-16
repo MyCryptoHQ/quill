@@ -27,7 +27,7 @@ const DPathOption = ({
   const handleClick = () => selectOption && selectOption({ name, path, isHardened });
 
   return (
-    <Box p="2" variant="rowAlign" data-testid={`select-${name}`} onClick={handleClick}>
+    <Box p="2" variant="horizontal-start" data-testid={`select-${name}`} onClick={handleClick}>
       <Body>{name}</Body>
       <Body ml="2" fontSize="1">{`(${path})`}</Body>
     </Box>

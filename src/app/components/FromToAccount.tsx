@@ -13,7 +13,7 @@ export const FromToAccount = ({
   recipient,
   ...props
 }: { sender: AccountLabel; recipient: AccountLabel } & BoxProps) => (
-  <Box variant="rowAlign" {...props}>
+  <Box variant="horizontal-start" {...props}>
     <Box mr="1">
       {translateRaw('SENDER')}
       <Account address={sender.address} label={sender.label} truncate={true} pr="4" />

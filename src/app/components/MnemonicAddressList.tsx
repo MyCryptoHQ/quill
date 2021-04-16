@@ -21,7 +21,7 @@ export const MnemonicAddressList = ({
       const toggle = () => toggleSelectedAccount(address);
       return (
         <React.Fragment key={address.dPath}>
-          <Box variant="rowAlign" py="3" onClick={toggle}>
+          <Box variant="horizontal-start" py="3" onClick={toggle}>
             <Checkbox
               mr="3"
               checked={selectedAccounts.find((index) => index === address.index) !== undefined}

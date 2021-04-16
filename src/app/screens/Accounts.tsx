@@ -27,7 +27,7 @@ const Account = ({ account }: { account: IAccount }) => {
   const handleChangeLabel = (label: string) => dispatch(updateAccount({ ...account, label }));
 
   return !isDeleting ? (
-    <Box variant="rowAlign" py="24px">
+    <Box variant="horizontal-start" py="24px">
       <Blockie address={account.address} width="32px" mr="6px" />
       <Box>
         <EditableText
@@ -44,7 +44,7 @@ const Account = ({ account }: { account: IAccount }) => {
         </Body>
       </Box>
       <Link variant="defaultLink" onClick={handleDelete} ml="auto">
-        <Flex variant="rowCenter">
+        <Flex variant="horizontal-center">
           <Image
             src={deleteIcon}
             width="20px"

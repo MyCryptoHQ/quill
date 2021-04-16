@@ -53,7 +53,7 @@ export const PrivateKeyForm = ({
         placeholder={translateRaw('PRIVATE_KEY_PLACEHOLDER')}
       />
       <FormError name="privateKey" form={form} />
-      <Box mt="2" variant="rowAlign">
+      <Box mt="2" variant="horizontal-start">
         <Image src={warning} width="20px" height="20px" minWidth="20px" alt="Warning" mr="2" />
         <Body>
           {translate('SECRET_WARNING', { $link: getKBHelpArticle(KB_HELP_ARTICLE.HOW_TO_BACKUP) })}

@@ -67,7 +67,7 @@ const AddAccountKeystoreForm = ({
         <Button type="submit" form="keystore-form">
           {translateRaw('SUBMIT')}
         </Button>
-        <Box pt="2" variant="rowAlign">
+        <Box pt="2" variant="horizontal-start">
           <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
           <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
         </Box>

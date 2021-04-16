@@ -25,7 +25,7 @@ export const Menu = () => (
     {Object.values(MENU_ITEMS).map((item, i) => (
       <LinkApp key={i} href={item.route}>
         <Box sx={{ boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.07)' }} mb="2">
-          <Box variant="rowAlign" p="3">
+          <Box variant="horizontal-start" p="3">
             <Image width="24px" height="24px" src={item.icon} mr="24px" />
             <Body color="BLUE_DARK_SLATE">{item.label}</Body>
           </Box>

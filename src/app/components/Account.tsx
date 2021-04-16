@@ -14,7 +14,7 @@ export const Account = ({
   addressColor,
   ...props
 }: { address: TAddress; label?: string; truncate: boolean; addressColor?: string } & BoxProps) => (
-  <Box bg="GREY_LIGHTEST" p="10px" variant="rowAlign" {...props}>
+  <Box bg="GREY_LIGHTEST" p="10px" variant="horizontal-start" {...props}>
     <Blockie height="32px" width="32px" minWidth="32px" address={address} />
     <Box pl="1">
       <Body fontSize="3">{label ?? translateRaw('NO_LABEL')}</Body>

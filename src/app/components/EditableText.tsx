@@ -50,7 +50,7 @@ export const EditableText = ({
   const hasValue = value !== undefined;
 
   return (
-    <Box variant="rowAlign" height="100%" {...props}>
+    <Box variant="horizontal-start" height="100%" {...props}>
       {editMode ? (
         <Input
           placeholder={placeholder}

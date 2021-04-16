@@ -24,13 +24,13 @@ export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {
 
   return (
     <Box pb="16px">
-      <Box variant="rowAlign">
+      <Box variant="horizontal-start">
         <Image src={waiting} height="20px" width="20px" mr="8px" />
         <Body color="PURPLE" sx={{ textTransform: 'uppercase' }}>
           {translateRaw('HOME_TX_RESULT_WAITING')}
         </Body>
       </Box>
-      <Box variant="rowAlign" mt="2">
+      <Box variant="horizontal-start" mt="2">
         <FromToAccount
           sender={{ address: tx.from, label: currentAccount?.label }}
           recipient={{ address: tx.to, label: recipientAccount?.label }}
@@ -41,12 +41,12 @@ export const TxQueueCard = ({ item }: { item: TxQueueEntry }) => {
           data-testid={`select-tx-${item.id}`}
           onClick={handleSelect}
         >
-          <Box variant="rowAlign">
+          <Box variant="horizontal-start">
             <Image height="20px" width="20px" src={circleArrow} />
           </Box>
         </LinkApp>
       </Box>
-      <Box variant="rowAlign" mt="1">
+      <Box variant="horizontal-start" mt="1">
         <Body fontSize="1" fontWeight="bold">
           {formatEther(tx.value)} {symbol}
         </Body>

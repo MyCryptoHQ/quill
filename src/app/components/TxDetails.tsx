@@ -22,7 +22,7 @@ const Row = ({
   hideDivider?: boolean;
 }) => (
   <>
-    <Box variant="rowAlign" sx={{ justifyContent: 'space-between' }} pb="1" pt="1">
+    <Box variant="horizontal-start" sx={{ justifyContent: 'space-between' }} pb="1" pt="1">
       <Body fontWeight="bold">{label}:</Body>
       <Body>{value}</Body>
     </Box>
