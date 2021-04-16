@@ -9,8 +9,8 @@ module.exports = {
       'signature-flags': 'library'
     },
     osxNotarize: {
-      appleId: process.env['APPLE_ID'],
-      appleIdPassword: process.env['APPLE_ID_PASSWORD']
+      appleId: process.env.APPLE_ID,
+      appleIdPassword: process.env.APPLE_ID_PASSWORD
     },
     packageManager: 'yarn'
   },

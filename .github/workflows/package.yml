@@ -13,19 +13,17 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        node-version:
+          - 14.16.0
         os: [macos-latest, ubuntu-latest, windows-latest]
     steps:
       - name: Retrieves project from the git branch
         uses: actions/checkout@v2
 
-      - name: Read .nvmrc
-        run: echo "##[set-output name=NVMRC;]$(cat package.json | grep '\"node\":' | sed 's/^ *//;s/ *$//;s/\"node\":\ \"//;s/\",//' )"
-        id: nvm
-
       - name: Setup node ${{ steps.nvm.outputs.NVMRC }}
         uses: actions/setup-node@v1
         with:
-          node-version: '${{ steps.nvm.outputs.NVMRC }}'
+          node-version: ${{ matrix.node-version }}
 
       - run: node --version; npm --version; yarn --version
 
@@ -37,8 +35,7 @@ jobs:
           key: ${{ runner.OS }}-build-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install Dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: yarn install
+        run: yarn install --frozen-lockfile
 
       - name: Add MacOS certificates
         if: matrix.os == 'macos-latest'
