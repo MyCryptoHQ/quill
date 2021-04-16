@@ -1,6 +1,6 @@
-import React, { FormEvent, useEffect } from 'react';
-
 import { Body, Heading } from '@mycrypto/ui';
+import type { FormEvent } from 'react';
+import { useEffect } from 'react';
 import { useForm, yupValidator } from 'typed-react-form';
 import { object, string } from 'yup';
 

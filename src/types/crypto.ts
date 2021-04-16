@@ -1,10 +1,10 @@
-import { TransactionRequest } from '@ethersproject/abstract-provider';
-import { DerivationPath } from '@mycrypto/wallets';
+import type { TransactionRequest } from '@ethersproject/abstract-provider';
+import type { DerivationPath } from '@mycrypto/wallets';
 
-import { TAddress } from './address';
-import { GetAddressesResult } from './mnemonic';
-import { TUuid } from './uuid';
-import { WalletType } from './wallet';
+import type { TAddress } from './address';
+import type { GetAddressesResult } from './mnemonic';
+import type { TUuid } from './uuid';
+import type { WalletType } from './wallet';
 
 export enum CryptoRequestType {
   SIGN = 'SIGN',

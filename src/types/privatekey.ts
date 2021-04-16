@@ -1,5 +1,5 @@
-import { TAddress } from './address';
-import { TUuid } from './uuid';
+import type { TAddress } from './address';
+import type { TUuid } from './uuid';
 
 export interface GetPrivateKeyAddressResult {
   uuid: TUuid;

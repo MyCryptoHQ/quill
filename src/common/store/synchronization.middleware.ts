@@ -1,4 +1,4 @@
-import { Middleware } from '@reduxjs/toolkit';
+import type { Middleware } from '@reduxjs/toolkit';
 
 import synchronization, {
   getHandshaken,
@@ -6,7 +6,7 @@ import synchronization, {
   sendPublicKey
 } from '@common/store/synchronization.slice';
 import { encryptJson } from '@common/utils';
-import { ReduxIPC } from '@types';
+import type { ReduxIPC } from '@types';
 
 /**
  * An array of action paths that will not be synchronised with the other process.

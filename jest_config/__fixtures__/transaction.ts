@@ -1,6 +1,6 @@
-import { TransactionResponse } from '@ethersproject/abstract-provider';
+import type { TransactionResponse } from '@ethersproject/abstract-provider';
 
-import { JsonRPCRequest, TSignTransaction, UserRequest } from '@types';
+import type { JsonRPCRequest, TSignTransaction, UserRequest } from '@types';
 
 import { default as ethTxRequest } from './ethTxRequest.json';
 import { default as ethTxResponse } from './ethTxResponse.json';

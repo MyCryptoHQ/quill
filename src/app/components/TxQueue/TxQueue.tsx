@@ -1,6 +1,6 @@
-import React from 'react';
+import { Fragment } from 'react';
 
-import { TxQueueEntry } from '@types';
+import type { TxQueueEntry } from '@types';
 
 import { Divider } from '../Divider';
 import { TxQueueCard } from './TxQueueCard';
@@ -11,10 +11,10 @@ export const TxQueue = ({ queue }: { queue: TxQueueEntry[] }) => (
       .slice()
       .sort((a, b) => b.timestamp - a.timestamp)
       .map((q) => (
-        <React.Fragment key={q.uuid}>
+        <Fragment key={q.uuid}>
           <TxQueueCard item={q} />
           <Divider />
-        </React.Fragment>
+        </Fragment>
       ))}
   </>
 );

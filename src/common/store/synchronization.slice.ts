@@ -1,7 +1,9 @@
-import { createAction, createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Event } from 'electron';
-import { AnyAction } from 'redux';
-import { eventChannel, SagaIterator } from 'redux-saga';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createAction, createSelector, createSlice } from '@reduxjs/toolkit';
+import type { Event } from 'electron';
+import type { AnyAction } from 'redux';
+import type { SagaIterator } from 'redux-saga';
+import { eventChannel } from 'redux-saga';
 import { all, call, put, select, take, takeEvery, takeLatest } from 'redux-saga/effects';
 
 import {
@@ -10,7 +12,7 @@ import {
   isEncryptedAction,
   isReduxAction
 } from '@common/utils';
-import { HandshakeKeyPair, ReduxIPC } from '@types';
+import type { HandshakeKeyPair, ReduxIPC } from '@types';
 import { safeJSONParse } from '@utils';
 
 interface SynchronizationState {

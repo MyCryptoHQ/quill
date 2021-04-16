@@ -1,15 +1,13 @@
-import React from 'react';
-
 import { fireEvent, render } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
-import { ApplicationState } from '@app/store';
+import type { ApplicationState } from '@app/store';
 import { translateRaw } from '@common/translate';
 import { ROUTE_PATHS } from '@routing';
-import { DeepPartial } from '@types';
+import type { DeepPartial } from '@types';
 
 import { NewUser } from '../NewUser';
 

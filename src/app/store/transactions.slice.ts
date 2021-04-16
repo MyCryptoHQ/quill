@@ -1,13 +1,15 @@
-import { createAction, createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createAction, createSelector, createSlice } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
 import { eventChannel } from 'redux-saga';
 import { all, call, put, select, take, takeLatest } from 'redux-saga/effects';
 
 import { ipcBridgeRenderer } from '@bridge';
-import { TSignTransaction, TxHistoryEntry, TxQueueEntry, TxResult, UserRequest } from '@types';
+import type { TSignTransaction, TxHistoryEntry, TxQueueEntry, UserRequest } from '@types';
+import { TxResult } from '@types';
 import { makeHistoryTx, makeQueueTx } from '@utils';
 
-import { ApplicationState } from './store';
+import type { ApplicationState } from './store';
 import { storage } from './utils';
 
 export const initialState: {

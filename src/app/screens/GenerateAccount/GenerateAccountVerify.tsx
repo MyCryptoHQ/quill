@@ -1,19 +1,12 @@
-import React, { FormEvent, useMemo } from 'react';
-
 import { Body, Heading } from '@mycrypto/ui';
+import type { FormEvent } from 'react';
+import { useMemo } from 'react';
 import { FormError, useForm, yupValidator } from 'typed-react-form';
 import { object, string } from 'yup';
 
 import { translateRaw } from '@common/translate';
-import {
-  Box,
-  Button,
-  Container,
-  FormInput,
-  IFlowComponentProps,
-  Label,
-  PanelBottom
-} from '@components';
+import type { IFlowComponentProps } from '@components';
+import { Box, Button, Container, FormInput, Label, PanelBottom } from '@components';
 import { getGeneratedMnemonicWords, useSelector } from '@store';
 import { translate } from '@translations';
 import { getRandomNumbers } from '@utils/random';

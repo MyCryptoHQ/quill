@@ -1,8 +1,8 @@
-import { TransactionRequest } from '@ethersproject/abstract-provider';
+import type { TransactionRequest } from '@ethersproject/abstract-provider';
 
-import { SerializedWallet } from '@types';
+import type { SerializedWallet } from '@types';
 
-import { IAccount } from './account';
+import type { IAccount } from './account';
 
 export interface SignTransactionProps {
   onAccept(wallet: SerializedWallet): void;

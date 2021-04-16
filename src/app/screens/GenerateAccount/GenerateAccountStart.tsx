@@ -1,19 +1,9 @@
-import React from 'react';
-
 import { Heading } from '@mycrypto/ui';
 
 import mnemonicPhrase from '@app/assets/icons/mnemonic-phrase.svg';
 import { translateRaw } from '@common/translate';
-import {
-  Box,
-  Button,
-  Container,
-  IFlowComponentProps,
-  Image,
-  List,
-  ListItem,
-  PanelBottom
-} from '@components';
+import type { IFlowComponentProps } from '@components';
+import { Box, Button, Container, Image, List, ListItem, PanelBottom } from '@components';
 
 export const GenerateAccountStart = ({ onNext }: IFlowComponentProps) => (
   <>

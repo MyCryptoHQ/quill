@@ -1,4 +1,4 @@
-import { WebContents } from 'electron';
+import type { WebContents } from 'electron';
 import log from 'electron-log';
 import WebSocket from 'ws';
 

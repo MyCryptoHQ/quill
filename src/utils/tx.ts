@@ -1,14 +1,14 @@
-import { Transaction } from '@ethersproject/transactions';
+import type { Transaction } from '@ethersproject/transactions';
 
-import {
+import type {
   JsonRPCRequest,
   TransactionRequest,
   TSignTransaction,
   TxHistoryEntry,
   TxQueueEntry,
-  TxResult,
   UserRequest
 } from '@types';
+import { TxResult } from '@types';
 
 import { generateUUID } from './generateUUID';
 

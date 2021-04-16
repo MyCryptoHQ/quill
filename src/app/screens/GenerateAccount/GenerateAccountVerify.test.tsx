@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { EnhancedStore } from '@reduxjs/toolkit';
+import type { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { mockRandomForEach } from 'jest-mock-random';
 import { Provider } from 'react-redux';
@@ -9,8 +7,8 @@ import configureStore from 'redux-mock-store';
 
 import { translateRaw } from '@common/translate';
 import { fOtherMnemonicPhrase } from '@fixtures';
-import { ApplicationState } from '@store';
-import { DeepPartial } from '@types';
+import type { ApplicationState } from '@store';
+import type { DeepPartial } from '@types';
 
 import { GenerateAccountVerify } from './GenerateAccountVerify';
 

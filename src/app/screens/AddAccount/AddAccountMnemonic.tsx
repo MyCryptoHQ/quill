@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
-
 import { Body } from '@mycrypto/ui';
 import { ALL_DERIVATION_PATHS, DEFAULT_ETH } from '@mycrypto/wallets';
+import { useEffect } from 'react';
 import { AnyListener } from 'typed-react-form';
 
 import {
@@ -17,7 +16,8 @@ import {
 import { fetchAccounts, useDispatch } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
 import { translateRaw } from '@common/translate';
-import { CryptoRequestType, GetAddressesResult, WalletType } from '@types';
+import type { GetAddressesResult } from '@types';
+import { CryptoRequestType, WalletType } from '@types';
 
 import { MnemonicForm, useMnemonicForm } from '../forms/MnemonicForm';
 

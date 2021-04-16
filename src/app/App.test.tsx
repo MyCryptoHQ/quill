@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { EnhancedStore } from '@reduxjs/toolkit';
+import type { EnhancedStore } from '@reduxjs/toolkit';
 import { render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
@@ -9,10 +7,12 @@ import configureStore from 'redux-mock-store';
 import { ipcBridgeRenderer } from '@bridge';
 import { translateRaw } from '@common/translate';
 import { fAccount } from '@fixtures';
-import { DBRequestType, DeepPartial } from '@types';
+import type { DeepPartial } from '@types';
+import { DBRequestType } from '@types';
 
 import App from './App';
-import { ApplicationState, createStore } from './store';
+import type { ApplicationState } from './store';
+import { createStore } from './store';
 
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Body } from '@mycrypto/ui';
 
 import approved from '@assets/icons/circle-checkmark.svg';

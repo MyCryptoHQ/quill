@@ -1,22 +1,21 @@
-import React, {
-  Children,
+import type {
   ComponentClass,
   ComponentType,
   FunctionComponent,
   KeyboardEvent,
   ReactElement
 } from 'react';
-
-import Select, {
+import { Children } from 'react';
+import type {
   FocusEventHandler,
   InputActionMeta,
   OptionProps,
   OptionTypeBase,
-  components as ReactSelectComponents,
   SelectComponentsConfig,
   Styles,
   ValueContainerProps
 } from 'react-select';
+import Select, { components as ReactSelectComponents } from 'react-select';
 import styled from 'styled-components';
 
 import expand from '@app/assets/icons/expand.svg';

@@ -1,9 +1,8 @@
-import React from 'react';
-
 import { fireEvent, render } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 
-import { Flow, FlowProps } from '@components';
+import type { FlowProps } from '@components';
+import { Flow } from '@components';
 import { theme } from '@theme';
 
 const getComponent = (props: FlowProps) => {

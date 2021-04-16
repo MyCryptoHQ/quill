@@ -3,7 +3,8 @@ import { expectSaga } from 'redux-saga-test-plan';
 
 import { ipcBridgeRenderer } from '@bridge';
 import { fRequestOrigin, fTxRequest } from '@fixtures';
-import { TUuid, TxResult } from '@types';
+import type { TUuid } from '@types';
+import { TxResult } from '@types';
 import { makeHistoryTx, makeQueueTx, makeTx } from '@utils';
 
 import slice, {

@@ -5,9 +5,10 @@ import keytar, { deletePassword } from 'keytar';
 
 import { IPC_CHANNELS, KEYTAR_SERVICE } from '@config';
 import { fAccount, fPrivateKey } from '@fixtures';
-import { DBRequestType, TUuid, WalletType } from '@types';
+import type { TUuid } from '@types';
+import { DBRequestType, WalletType } from '@types';
 
-import { handleRequest as _handleRequest, runService as _runService } from './db';
+import type { handleRequest as _handleRequest, runService as _runService } from './db';
 
 jest.mock('path');
 

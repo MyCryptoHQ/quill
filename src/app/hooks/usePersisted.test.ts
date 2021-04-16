@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react-hooks';
-import { Persistor, PersistorSubscribeCallback } from 'redux-persist';
-import { PersistorState } from 'redux-persist/es/types';
+import type { Persistor, PersistorSubscribeCallback } from 'redux-persist';
+import type { PersistorState } from 'redux-persist/es/types';
 
 import { usePersisted } from './usePersisted';
 

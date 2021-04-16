@@ -1,9 +1,8 @@
-import React from 'react';
-
 import { Body } from '@mycrypto/ui';
-import { InputProps } from '@rebass/forms/styled-components';
-import { DefaultError, DefaultState, useListener } from 'typed-react-form';
-import { FormInputProps } from 'typed-react-form/dist/elements/FormInput';
+import type { InputProps } from '@rebass/forms/styled-components';
+import type { DefaultError, DefaultState } from 'typed-react-form';
+import { useListener } from 'typed-react-form';
+import type { FormInputProps } from 'typed-react-form/dist/elements/FormInput';
 
 export const FormError = <
   T,

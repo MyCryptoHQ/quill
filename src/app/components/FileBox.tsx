@@ -1,8 +1,9 @@
-import React, { ChangeEvent, DragEvent, useState } from 'react';
-
 import { Body } from '@mycrypto/ui';
+import type { ChangeEvent, DragEvent } from 'react';
+import { useState } from 'react';
 
-import { Box, BoxProps, Image } from '@app/components';
+import type { BoxProps } from '@app/components';
+import { Box, Image } from '@app/components';
 import checkmark from '@assets/icons/circle-checkmark.svg';
 import { translateRaw } from '@common/translate';
 

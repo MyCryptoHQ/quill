@@ -1,6 +1,5 @@
-import React from 'react';
-
-import { FormState, useListener } from 'typed-react-form';
+import type { FormState } from 'typed-react-form';
+import { useListener } from 'typed-react-form';
 
 import { Checkbox } from './Checkbox';
 

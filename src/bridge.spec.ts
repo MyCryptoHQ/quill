@@ -1,8 +1,9 @@
-import { IpcRenderer } from 'electron';
+import type { IpcRenderer } from 'electron';
 
 import { IpcBridgeRenderer } from '@bridge';
 import { IPC_CHANNELS } from '@config';
-import { CryptoRequest, CryptoRequestType, WalletType } from '@types';
+import type { CryptoRequest } from '@types';
+import { CryptoRequestType, WalletType } from '@types';
 
 jest.unmock('@bridge');
 

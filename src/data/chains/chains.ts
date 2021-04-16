@@ -1,4 +1,4 @@
-import { IChain } from '@types';
+import type { IChain } from '@types';
 
 import chains from './chains.json';
 

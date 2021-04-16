@@ -1,7 +1,6 @@
-import React from 'react';
-
 import back from '@app/assets/icons/back.svg';
-import { Box, BoxProps, Flex, FlexProps, Image } from '@components';
+import type { BoxProps, FlexProps } from '@components';
+import { Box, Flex, Image } from '@components';
 
 interface Props {
   steps: number;

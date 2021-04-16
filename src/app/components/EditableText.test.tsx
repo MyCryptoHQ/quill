@@ -1,5 +1,4 @@
-import React, { ComponentProps } from 'react';
-
+import type { ComponentProps } from 'react';
 import { fireEvent, simpleRender } from 'test-utils';
 
 import { EditableText } from './EditableText';

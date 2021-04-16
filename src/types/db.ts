@@ -1,6 +1,6 @@
-import { SerializedWallet, TUuid } from '@types';
+import type { SerializedWallet, TUuid } from '@types';
 
-import { IAccount } from './account';
+import type { IAccount } from './account';
 
 export enum DBRequestType {
   INIT = 'INIT',

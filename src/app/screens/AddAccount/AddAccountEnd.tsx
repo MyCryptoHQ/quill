@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Body, Heading } from '@mycrypto/ui';
 
 import { Box, Button, Container, LinkApp, Logo, PanelBottom } from '@app/components';

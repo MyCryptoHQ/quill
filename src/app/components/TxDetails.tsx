@@ -1,11 +1,10 @@
-import React from 'react';
-
 import { formatEther, formatUnits } from '@ethersproject/units';
 import { Body } from '@mycrypto/ui';
+import type { ReactNode } from 'react';
 
 import { translateRaw } from '@common/translate';
 import { getChain } from '@data';
-import { TransactionRequest } from '@types';
+import type { TransactionRequest } from '@types';
 import { bigify } from '@utils';
 
 import { Box } from '.';
@@ -36,7 +35,7 @@ const BlockRow = ({
   hideDivider
 }: {
   label: string;
-  children: React.ReactNode;
+  children: ReactNode;
   hideDivider?: boolean;
 }) => (
   <>

@@ -23,11 +23,6 @@
           {
             "pattern": "@{api,app,assets,components,screens,utils,types,config,bridge,fixtures,theme,translations,data,store,routing,hooks,common}{**,**/**}",
             "group": "internal"
-          },
-          {
-            "pattern": "react",
-            "group": "external",
-            "position": "before"
           }
         ],
         "pathGroupsExcludedImportTypes": [],
@@ -64,6 +59,7 @@
           }
         ],
         "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
+        "@typescript-eslint/consistent-type-imports": "error",
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/method-signature-style": ["error", "method"],
         "@typescript-eslint/no-inferrable-types": [
@@ -107,7 +103,9 @@
         "react/display-name": "off",
         "react/no-unescaped-entities": "off",
         "react/prop-types": "off",
-        "react-hooks/exhaustive-deps": "off"
+        "react-hooks/exhaustive-deps": "off",
+        "react/jsx-uses-react": "off",
+        "react/react-in-jsx-scope": "off"
       },
       "settings": {
         "react": {

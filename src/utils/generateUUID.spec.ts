@@ -1,4 +1,4 @@
-import { TAddress } from '@types';
+import type { TAddress } from '@types';
 
 import { generateDeterministicAddressUUID } from './generateUUID';
 

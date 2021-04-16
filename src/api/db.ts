@@ -6,7 +6,8 @@ import keytar from 'keytar';
 import path from 'path';
 
 import { IPC_CHANNELS, KEYTAR_SERVICE } from '@config';
-import { DBRequest, DBRequestType, DBResponse, SerializedWallet, TUuid } from '@types';
+import type { DBRequest, DBResponse, SerializedWallet, TUuid } from '@types';
+import { DBRequestType } from '@types';
 import { generateDeterministicAddressUUID, safeJSONParse } from '@utils';
 import { decrypt, encrypt, hashPassword } from '@utils/encryption';
 

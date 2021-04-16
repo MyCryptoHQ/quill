@@ -1,9 +1,8 @@
-import React from 'react';
-
 import SVG from 'react-inlinesvg';
 
 import logo from '@assets/images/icon.png';
-import { Box, Flex, Image, ImageProps } from '@components';
+import type { ImageProps } from '@components';
+import { Box, Flex, Image } from '@components';
 
 interface Props {
   icon?: string;

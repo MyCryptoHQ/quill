@@ -1,27 +1,29 @@
-import React from 'react';
-
-import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom';
+import type { FC } from 'react';
+import type { LinkProps as RouterLinkProps } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { Link } from 'rebass/styled-components';
 import styled from 'styled-components';
+import type {
+  ColorProps,
+  ColorStyleProps,
+  FontStyleProps,
+  LayoutProps,
+  LineHeightProps,
+  SizeProps,
+  SpaceProps,
+  TextStyleProps,
+  TypographyProps
+} from 'styled-system';
 import {
   color,
-  ColorProps,
   colorStyle,
-  ColorStyleProps,
   fontStyle,
-  FontStyleProps,
   layout,
-  LayoutProps,
   lineHeight,
-  LineHeightProps,
   size,
-  SizeProps,
   space,
-  SpaceProps,
   textStyle,
-  TextStyleProps,
   typography,
-  TypographyProps,
   variant
 } from 'styled-system';
 
@@ -77,7 +79,7 @@ interface LinkProps {
 type Props = LinkProps &
   (React.ComponentProps<typeof SLink> | React.ComponentProps<typeof SRouterLink>);
 
-const LinkApp: React.FC<Props> = ({
+const LinkApp: FC<Props> = ({
   href,
   isExternal = false,
   variant = 'defaultLink',

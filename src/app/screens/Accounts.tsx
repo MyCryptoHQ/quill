@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-
 import { Blockie, Body, Heading } from '@mycrypto/ui';
+import { Fragment, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getAccounts, removeAccount, updateAccount, useDispatch } from '@app/store';
@@ -16,7 +15,7 @@ import {
   Image,
   Link
 } from '@components';
-import { IAccount } from '@types';
+import type { IAccount } from '@types';
 
 const Account = ({ account }: { account: IAccount }) => {
   const dispatch = useDispatch();
@@ -75,10 +74,10 @@ export const Accounts = () => {
         {translateRaw('YOUR_ACCOUNTS')}
       </Heading>
       {accounts.map((a) => (
-        <React.Fragment key={a.uuid}>
+        <Fragment key={a.uuid}>
           <Account account={a} />
           <Divider />
-        </React.Fragment>
+        </Fragment>
       ))}
     </Container>
   );

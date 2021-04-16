@@ -1,9 +1,6 @@
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const path = require('path');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
-
-const styledComponentsTransformer = createStyledComponentsTransformer();
 
 module.exports = {
   module: {
@@ -17,10 +14,9 @@ module.exports = {
         test: /\.tsx?$/,
         exclude: /(node_modules|\.webpack)/,
         use: {
-          loader: 'ts-loader',
+          loader: 'babel-loader',
           options: {
-            transpileOnly: true,
-            getCustomTransformers: () => ({ before: [styledComponentsTransformer] })
+            cacheDirectory: true
           }
         }
       }

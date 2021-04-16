@@ -1,6 +1,5 @@
-import React from 'react';
-
-import { Route as ActualRoute, Redirect, RouteProps } from 'react-router-dom';
+import type { RouteProps } from 'react-router-dom';
+import { Route as ActualRoute, Redirect } from 'react-router-dom';
 
 import { ROUTE_PATHS } from '@app/routing';
 import { useSelector } from '@app/store';

@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { EnhancedStore } from '@reduxjs/toolkit';
+import type { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render } from '@testing-library/react';
 import { push } from 'connected-react-router';
 import { Provider } from 'react-redux';
@@ -9,9 +7,10 @@ import configureStore from 'redux-mock-store';
 import { ThemeProvider } from 'styled-components';
 
 import { ROUTE_PATHS } from '@routing';
-import { ApplicationState, setGeneratedAccount } from '@store';
+import type { ApplicationState } from '@store';
+import { setGeneratedAccount } from '@store';
 import { theme } from '@theme';
-import { DeepPartial } from '@types';
+import type { DeepPartial } from '@types';
 
 import { GenerateAccount } from './GenerateAccount';
 

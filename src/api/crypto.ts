@@ -1,17 +1,12 @@
 import { MnemonicPhrase, PrivateKey } from '@mycrypto/wallets';
 import { getDeterministicWallet, getWallet } from '@wallets/wallet-initialisation';
-import { ipcMain, WebContents } from 'electron';
+import type { WebContents } from 'electron';
+import { ipcMain } from 'electron';
 
 import { getPrivateKey } from '@api/db';
 import { ipcBridgeMain } from '@bridge';
-import {
-  CryptoRequest,
-  CryptoRequestType,
-  CryptoResponse,
-  SerializedWallet,
-  TUuid,
-  WalletType
-} from '@types';
+import type { CryptoRequest, CryptoResponse, SerializedWallet, TUuid } from '@types';
+import { CryptoRequestType, WalletType } from '@types';
 
 const getPersistentWallet = async (uuid: TUuid): Promise<PrivateKey> => {
   const privateKey = await getPrivateKey(uuid);

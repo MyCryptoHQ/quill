@@ -1,6 +1,6 @@
 import { PrivateKey } from 'eciesjs';
 
-import { HandshakeKeyPair } from '@types';
+import type { HandshakeKeyPair } from '@types';
 
 export const createHandshakeKeyPair = async (): Promise<HandshakeKeyPair> => {
   const privateKey = new PrivateKey();

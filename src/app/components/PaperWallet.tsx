@@ -1,12 +1,12 @@
-import React, { forwardRef, ReactElement } from 'react';
-
 import { Blockie, Body, Code } from '@mycrypto/ui';
+import type { ReactElement } from 'react';
+import { forwardRef } from 'react';
 import QRCode from 'react-qr-code';
 
 import logo from '@assets/images/logo.svg';
 import { translateRaw } from '@common/translate';
 import { Box, Flex, Image } from '@components';
-import { TAddress } from '@types';
+import type { TAddress } from '@types';
 
 interface BlockProps {
   title: string;

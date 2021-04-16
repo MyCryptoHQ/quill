@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
-
 import { Body } from '@mycrypto/ui';
 import { push } from 'connected-react-router';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Box, Container, Image, TxHistory, TxQueue } from '@app/components';

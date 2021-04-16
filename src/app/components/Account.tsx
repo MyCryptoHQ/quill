@@ -1,10 +1,9 @@
-import React from 'react';
-
 import { Blockie, Body } from '@mycrypto/ui';
 
-import { Box, BoxProps } from '@app/components';
+import type { BoxProps } from '@app/components';
+import { Box } from '@app/components';
 import { translateRaw } from '@common/translate';
-import { TAddress } from '@types';
+import type { TAddress } from '@types';
 import { truncate } from '@utils';
 
 export const Account = ({

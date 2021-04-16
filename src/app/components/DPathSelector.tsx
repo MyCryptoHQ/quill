@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { Body } from '@mycrypto/ui';
-import { ALL_DERIVATION_PATHS, DerivationPath } from '@mycrypto/wallets';
+import type { DerivationPath } from '@mycrypto/wallets';
+import { ALL_DERIVATION_PATHS } from '@mycrypto/wallets';
 
 import { Box } from '@app/components';
 

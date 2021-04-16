@@ -1,13 +1,8 @@
-import React from 'react';
-
-import { Textarea as RebassTextArea, TextareaProps } from '@rebass/forms/styled-components';
-import {
-  DefaultError,
-  DefaultState,
-  FormTextArea as ReactFormTextArea,
-  useListener
-} from 'typed-react-form';
-import { FormInputProps } from 'typed-react-form/dist/elements/FormInput';
+import type { TextareaProps } from '@rebass/forms/styled-components';
+import { Textarea as RebassTextArea } from '@rebass/forms/styled-components';
+import type { DefaultError, DefaultState } from 'typed-react-form';
+import { FormTextArea as ReactFormTextArea, useListener } from 'typed-react-form';
+import type { FormInputProps } from 'typed-react-form/dist/elements/FormInput';
 
 export const FormTextArea = <
   T,

@@ -1,12 +1,11 @@
-import React from 'react';
-
 import { Body } from '@mycrypto/ui';
 
 import { translateRaw } from '@common/translate';
-import { IAccount } from '@types';
+import type { IAccount } from '@types';
 import { truncate } from '@utils';
 
-import { Box, BoxProps } from '.';
+import type { BoxProps } from '.';
+import { Box } from '.';
 import { Button } from './Button';
 
 export const DeleteOverlay = ({
