@@ -1,4 +1,6 @@
-import { Button, PanelBottom } from '@app/components';
+import { Button } from '@mycrypto/ui';
+
+import { PanelBottom } from '@app/components';
 import { translateRaw } from '@common/translate';
 
 export const SignBottom = ({

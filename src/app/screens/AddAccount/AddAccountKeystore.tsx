@@ -1,11 +1,10 @@
-import { Body } from '@mycrypto/ui';
+import { Body, Button } from '@mycrypto/ui';
 import { useEffect } from 'react';
 
 import { fetchAccounts, getAccountError, useDispatch, useSelector } from '@app/store';
 import { translateRaw } from '@common/translate';
 import {
   Box,
-  Button,
   FormCheckbox,
   PanelBottom,
   ScrollableContainer,

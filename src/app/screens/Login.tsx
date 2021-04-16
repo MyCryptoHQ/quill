@@ -1,4 +1,4 @@
-import { Body, Heading } from '@mycrypto/ui';
+import { Body, Button, Heading } from '@mycrypto/ui';
 import type { FormEvent } from 'react';
 import { useEffect } from 'react';
 import { useForm, yupValidator } from 'typed-react-form';
@@ -10,7 +10,6 @@ import lock from '@assets/icons/lock.svg';
 import { translateRaw } from '@common/translate';
 import {
   Box,
-  Button,
   Container,
   FormError,
   FormInput,
