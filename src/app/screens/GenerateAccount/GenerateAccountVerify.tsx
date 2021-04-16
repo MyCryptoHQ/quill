@@ -1,4 +1,4 @@
-import { Body, Heading } from '@mycrypto/ui';
+import { Body, Button, Heading } from '@mycrypto/ui';
 import type { FormEvent } from 'react';
 import { useMemo } from 'react';
 import { FormError, useForm, yupValidator } from 'typed-react-form';
@@ -6,7 +6,7 @@ import { object, string } from 'yup';
 
 import { translateRaw } from '@common/translate';
 import type { IFlowComponentProps } from '@components';
-import { Box, Button, Container, FormInput, Label, PanelBottom } from '@components';
+import { Box, Container, FormInput, Label, PanelBottom } from '@components';
 import { getGeneratedMnemonicWords, useSelector } from '@store';
 import { translate } from '@translations';
 import { getRandomNumbers } from '@utils/random';

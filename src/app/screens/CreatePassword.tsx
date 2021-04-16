@@ -1,4 +1,4 @@
-import { Body, Heading } from '@mycrypto/ui';
+import { Body, Button, Heading } from '@mycrypto/ui';
 import { passwordStrength } from 'check-password-strength';
 import type { FormEvent } from 'react';
 import { useForm, yupValidator } from 'typed-react-form';
@@ -6,17 +6,7 @@ import { object, ref, string } from 'yup';
 
 import warning from '@assets/icons/circle-warning.svg';
 import { translateRaw } from '@common/translate';
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  FormError,
-  FormInput,
-  Image,
-  Label,
-  PanelBottom
-} from '@components';
+import { Box, Container, Flex, FormError, FormInput, Image, Label, PanelBottom } from '@components';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
 import { createPassword, useDispatch } from '@store';
 import { translate } from '@translations';

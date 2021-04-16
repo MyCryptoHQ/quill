@@ -165,7 +165,7 @@
     "@fontsource/lato": "4.2.2",
     "@fontsource/roboto-mono": "4.2.2",
     "@hot-loader/react-dom": "16.13.0",
-    "@mycrypto/ui": "1.0.2",
+    "@mycrypto/ui": "1.0.3",
     "@mycrypto/wallets": "1.0.3",
     "@rebass/forms": "4.0.6",
     "@reduxjs/toolkit": "1.5.0",

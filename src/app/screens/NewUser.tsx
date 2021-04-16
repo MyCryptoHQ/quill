@@ -1,7 +1,7 @@
-import { Body, Heading } from '@mycrypto/ui';
+import { Body, Button, Heading } from '@mycrypto/ui';
 
 import { translateRaw } from '@common/translate';
-import { Box, Button, Container, LinkApp, Logo, PanelBottom } from '@components';
+import { Box, Container, LinkApp, Logo, PanelBottom } from '@components';
 import { ROUTE_PATHS } from '@routing';
 import { translate } from '@translations';
 

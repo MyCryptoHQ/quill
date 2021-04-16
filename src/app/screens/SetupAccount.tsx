@@ -1,8 +1,8 @@
-import { Body, Heading } from '@mycrypto/ui';
+import { Body, Button, Heading } from '@mycrypto/ui';
 
 import wallet from '@app/assets/icons/wallet.svg';
 import { translateRaw } from '@common/translate';
-import { Box, Button, Container, Image, LinkApp, PanelBottom } from '@components';
+import { Box, Container, Image, LinkApp, PanelBottom } from '@components';
 import { ROUTE_PATHS } from '@routing';
 
 export const SetupAccount = () => (

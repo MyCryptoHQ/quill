@@ -1,10 +1,10 @@
-import { BlockieAddress, Body, Heading } from '@mycrypto/ui';
+import { BlockieAddress, Body, Button, Heading } from '@mycrypto/ui';
 import { toPng } from 'html-to-image';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { translateRaw } from '@common/translate';
 import type { IFlowComponentProps } from '@components';
-import { Box, Button, Container, Link, Panel, PanelBottom, PaperWallet } from '@components';
+import { Box, Container, Link, Panel, PanelBottom, PaperWallet } from '@components';
 import { DEFAULT_DERIVATION_PATH } from '@config/derivation';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
 import { getGeneratedAccount, useSelector } from '@store';
