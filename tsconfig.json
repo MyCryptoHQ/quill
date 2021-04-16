@@ -10,7 +10,7 @@
     "outDir": "dist",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "jsx": "react",
+    "jsx": "preserve",
     "paths": {
       "*": ["node_modules"],
       "@fixtures": ["../jest_config/__fixtures__"],
