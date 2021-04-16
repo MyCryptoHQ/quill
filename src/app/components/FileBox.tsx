@@ -1,4 +1,4 @@
-import React, { ChangeEvent, DragEvent, useState } from 'react';
+import { ChangeEvent, DragEvent, useState } from 'react';
 
 import { Body } from '@mycrypto/ui';
 

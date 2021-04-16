@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Body } from '@mycrypto/ui';
 import { InputProps } from '@rebass/forms/styled-components';
 import { DefaultError, DefaultState, useListener } from 'typed-react-form';

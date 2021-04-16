@@ -1,5 +1,3 @@
-import React from 'react';
-
 import SVG from 'react-inlinesvg';
 
 import logo from '@assets/images/icon.png';

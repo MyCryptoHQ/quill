@@ -1,4 +1,4 @@
-import React, { FormEvent, ReactNode } from 'react';
+import { FormEvent, ReactNode } from 'react';
 
 import { Body } from '@mycrypto/ui';
 import { DefaultState, useForm, yupValidator } from 'typed-react-form';

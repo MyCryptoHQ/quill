@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { mockRandomForEach } from 'jest-mock-random';

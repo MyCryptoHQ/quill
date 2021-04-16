@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Body } from '@mycrypto/ui';
 import { ALL_DERIVATION_PATHS, DerivationPath } from '@mycrypto/wallets';
 

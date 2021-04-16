@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment } from 'react';
 
 import { TxHistoryEntry } from '@types';
 
@@ -11,10 +11,10 @@ export const TxHistory = ({ history }: { history: TxHistoryEntry[] }) => (
       .slice()
       .sort((a, b) => b.timestamp - a.timestamp)
       .map((h) => (
-        <React.Fragment key={h.uuid}>
+        <Fragment key={h.uuid}>
           <TxHistoryCard item={h} />
           <Divider />
-        </React.Fragment>
+        </Fragment>
       ))}
   </>
 );

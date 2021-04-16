@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render } from '@testing-library/react';
 import { push } from 'connected-react-router';

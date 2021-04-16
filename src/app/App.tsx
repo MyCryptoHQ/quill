@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { hot } from 'react-hot-loader';
 import { ThemeProvider } from 'styled-components';

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { useInterval } from '@app/hooks';
 import { formatTimeDifference } from '@utils';

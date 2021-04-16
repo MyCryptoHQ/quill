@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { DEFAULT_ETH, DEFAULT_EWC } from '@mycrypto/wallets';
 import { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render, waitFor } from '@testing-library/react';

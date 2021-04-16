@@ -1,8 +1,8 @@
-import React from 'react';
+import { ReactNode } from 'react';
 
 import { Box } from '.';
 
-export const CodeBlock = ({ children }: { children: React.ReactNode }) => (
+export const CodeBlock = ({ children }: { children: ReactNode }) => (
   <Box
     sx={{
       border: '1px solid rgb(229, 236, 243)',

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Box, BoxProps } from '@components';
 
 export const Wrapper = ({ children, ...props }: BoxProps) => (

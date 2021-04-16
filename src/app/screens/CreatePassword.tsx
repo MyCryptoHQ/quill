@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react';
+import { FormEvent } from 'react';
 
 import { Body, Heading } from '@mycrypto/ui';
 import { passwordStrength } from 'check-password-strength';

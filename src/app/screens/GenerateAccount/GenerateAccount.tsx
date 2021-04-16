@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { push } from 'connected-react-router';
 
 import { Flow, IFlowComponent } from '@components';

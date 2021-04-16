@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 
 import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom';
 import { Link } from 'rebass/styled-components';
@@ -77,7 +77,7 @@ interface LinkProps {
 type Props = LinkProps &
   (React.ComponentProps<typeof SLink> | React.ComponentProps<typeof SRouterLink>);
 
-const LinkApp: React.FC<Props> = ({
+const LinkApp: FC<Props> = ({
   href,
   isExternal = false,
   variant = 'defaultLink',

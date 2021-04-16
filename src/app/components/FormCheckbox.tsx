@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { FormState, useListener } from 'typed-react-form';
 
 import { Checkbox } from './Checkbox';

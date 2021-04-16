@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment } from 'react';
 
 import Markdown from 'react-markdown';
 
@@ -13,9 +13,9 @@ const TranslateMarkdown = ({ source }: Props) => {
     <Markdown
       disallowedTypes={['html']}
       renderers={{
-        root: React.Fragment,
+        root: Fragment,
         link: (props) => <LinkApp isExternal={true} {...props} />,
-        paragraph: React.Fragment // Remove <p> added by react-markdown.
+        paragraph: Fragment // Remove <p> added by react-markdown.
       }}
     >
       {source}

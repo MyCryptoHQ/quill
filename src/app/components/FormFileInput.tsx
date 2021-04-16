@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { InputProps } from '@rebass/forms/styled-components';
 import { DefaultError, DefaultState, useListener } from 'typed-react-form';
 import { FormInputProps } from 'typed-react-form/dist/elements/FormInput';

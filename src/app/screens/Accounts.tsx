@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { Fragment, useState } from 'react';
 
 import { Blockie, Body, Heading } from '@mycrypto/ui';
 import { useSelector } from 'react-redux';
@@ -75,10 +75,10 @@ export const Accounts = () => {
         {translateRaw('YOUR_ACCOUNTS')}
       </Heading>
       {accounts.map((a) => (
-        <React.Fragment key={a.uuid}>
+        <Fragment key={a.uuid}>
           <Account account={a} />
           <Divider />
-        </React.Fragment>
+        </Fragment>
       ))}
     </Container>
   );

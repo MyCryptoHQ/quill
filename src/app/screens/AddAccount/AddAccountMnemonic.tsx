@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { Body } from '@mycrypto/ui';
 import { ALL_DERIVATION_PATHS, DEFAULT_ETH } from '@mycrypto/wallets';

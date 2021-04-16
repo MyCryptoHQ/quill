@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { EnhancedStore } from '@reduxjs/toolkit';
 import { render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';

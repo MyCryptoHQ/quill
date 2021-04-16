@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { fireEvent, render } from '@testing-library/react';
 import { push } from 'connected-react-router';
 import { Provider } from 'react-redux';

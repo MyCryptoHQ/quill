@@ -26,8 +26,6 @@
  * ```
  */
 
-import React from 'react';
-
 import { ConnectedRouter } from 'connected-react-router';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';

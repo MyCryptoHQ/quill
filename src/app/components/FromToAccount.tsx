@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Box, BoxProps } from '@app/components';
 import { translateRaw } from '@common/translate';
 import { IAccount } from '@types';

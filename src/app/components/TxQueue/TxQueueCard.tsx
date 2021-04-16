@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { formatEther } from '@ethersproject/units';
 import { Body } from '@mycrypto/ui';
 

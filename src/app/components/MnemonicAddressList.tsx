@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment } from 'react';
 
 import { Blockie, Body } from '@mycrypto/ui';
 
@@ -20,7 +20,7 @@ export const MnemonicAddressList = ({
     {addresses.map((address) => {
       const toggle = () => toggleSelectedAccount(address);
       return (
-        <React.Fragment key={address.dPath}>
+        <Fragment key={address.dPath}>
           <Box variant="horizontal-start" py="3" onClick={toggle}>
             <Checkbox
               mr="3"
@@ -34,7 +34,7 @@ export const MnemonicAddressList = ({
             </Body>
           </Box>
           <Divider />
-        </React.Fragment>
+        </Fragment>
       );
     })}
   </>

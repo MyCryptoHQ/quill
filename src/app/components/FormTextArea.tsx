@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Textarea as RebassTextArea, TextareaProps } from '@rebass/forms/styled-components';
 import {
   DefaultError,

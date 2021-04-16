@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { Fragment, ReactNode } from 'react';
 
 import { fallbackLanguage, repository } from '@common/translate';
 
@@ -7,7 +7,7 @@ export const Trans = ({
   variables
 }: {
   id: string;
-  variables?: { [name: string]: () => string | React.ReactNode };
+  variables?: { [name: string]: () => string | ReactNode };
 }) => {
   const settings = { language: 'en' };
   const language = settings.language || fallbackLanguage;
@@ -59,19 +59,16 @@ export const Trans = ({
 
         return resolveComponents(matchSplit[1], [
           ...components,
-          <React.Fragment key={uniqueId()}>{matchSplit[0]}</React.Fragment>,
-          <React.Fragment key={uniqueId()}>
+          <Fragment key={uniqueId()}>{matchSplit[0]}</Fragment>,
+          <Fragment key={uniqueId()}>
             {typeof variablesComponents[resolvedComponentIndexNumber] === 'function'
               ? (variablesComponents[resolvedComponentIndexNumber] as () => unknown)()
               : variablesComponents[resolvedComponentIndexNumber]}
-          </React.Fragment>
+          </Fragment>
         ]);
       }
 
-      return resolveComponents('', [
-        ...components,
-        <React.Fragment key={uniqueId()}>{rest}</React.Fragment>
-      ]);
+      return resolveComponents('', [...components, <Fragment key={uniqueId()}>{rest}</Fragment>]);
     };
 
     return <>{resolveComponents(tString)}</>;

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { InputProps, Input as RebassInput } from '@rebass/forms/styled-components';
 import {
   DefaultError,

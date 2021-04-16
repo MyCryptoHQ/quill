@@ -1,4 +1,4 @@
-import React, { forwardRef, ReactElement } from 'react';
+import { forwardRef, ReactElement } from 'react';
 
 import { Blockie, Body, Code } from '@mycrypto/ui';
 import QRCode from 'react-qr-code';

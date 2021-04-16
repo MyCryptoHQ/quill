@@ -1,4 +1,4 @@
-import React from 'react';
+import { ReactNode } from 'react';
 
 import { formatEther, formatUnits } from '@ethersproject/units';
 import { Body } from '@mycrypto/ui';
@@ -36,7 +36,7 @@ const BlockRow = ({
   hideDivider
 }: {
   label: string;
-  children: React.ReactNode;
+  children: ReactNode;
   hideDivider?: boolean;
 }) => (
   <>

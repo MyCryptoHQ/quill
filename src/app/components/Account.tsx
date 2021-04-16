@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Blockie, Body } from '@mycrypto/ui';
 
 import { Box, BoxProps } from '@app/components';

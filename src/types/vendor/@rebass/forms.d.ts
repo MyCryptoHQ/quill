@@ -1,15 +1,5 @@
 // Same as `@types/rebass__forms` but updated to work with styled-components
 declare module '@rebass/forms/styled-components' {
-  // Type definitions for @rebass/forms 4.0
-  // Project: https://github.com/rebassjs/rebass#readme
-  // Definitions by: zinozzino <https://github.com/zinozzino>
-  //                 trumanshuck <https://github.com/trumanshuck>
-  //                 Eddie Cooro <https://github.com/Eddie-CooRo>
-  // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-  // TypeScript Version: 3.1
-
-  import React from 'react';
-
   import { BaseProps, SxProps } from 'rebass';
   import StyledSystem from 'styled-system';
 

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import checkmark from '@app/assets/icons/checkmark.svg';
 import { Box, BoxProps, Image } from '@app/components';
 
