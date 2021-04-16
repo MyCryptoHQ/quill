@@ -20,7 +20,7 @@ jobs:
       - name: Retrieves project from the git branch
         uses: actions/checkout@v2
 
-      - name: Setup node ${{ steps.nvm.outputs.NVMRC }}
+      - name: Setup node
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
