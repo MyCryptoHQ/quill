@@ -1,5 +1,6 @@
 import React, { FormEvent, useEffect } from 'react';
 
+import { Body, Heading } from '@mycrypto/ui';
 import { useForm, yupValidator } from 'typed-react-form';
 import { object, string } from 'yup';
 
@@ -8,13 +9,11 @@ import { login, useDispatch, useSelector } from '@app/store';
 import lock from '@assets/icons/lock.svg';
 import { translateRaw } from '@common/translate';
 import {
-  Body,
   Box,
   Button,
   Container,
   FormError,
   FormInput,
-  Heading,
   Label,
   LinkApp,
   Logo,

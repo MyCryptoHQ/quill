@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { Body, Box, Image } from '@app/components';
+import { Body } from '@mycrypto/ui';
+
+import { Box, Image } from '@app/components';
 import keystore from '@assets/icons/keystore.svg';
 import mnemonic from '@assets/icons/mnemonic-phrase.svg';
 import privatekey from '@assets/icons/private-key.svg';
@@ -30,7 +32,7 @@ const WalletTypeButton = ({
 
   return (
     <Box
-      variant="columnAlign"
+      variant="vertical-start"
       bg="BG_GREY_MUTED"
       onClick={handleSelect}
       sx={{
@@ -62,7 +64,7 @@ export const WalletTypeSelector = ({
   walletType: WalletType;
   setWalletType(t: WalletType): void;
 }) => (
-  <Box variant="rowAlign">
+  <Box variant="horizontal-start">
     {Object.entries(configs).map(([type, config]) => (
       <WalletTypeButton
         key={type}

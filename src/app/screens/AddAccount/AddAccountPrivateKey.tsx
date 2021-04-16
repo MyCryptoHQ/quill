@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 
+import { Body } from '@mycrypto/ui';
+
 import { fetchAccounts, getAccountError, useDispatch, useSelector } from '@app/store';
 import { translateRaw } from '@common/translate';
 import {
-  Body,
   Box,
   Button,
   FormCheckbox,
@@ -60,7 +61,7 @@ const AddAccountPrivateKeyForm = ({
         <Button type="submit" form="private-key-form">
           {translateRaw('SUBMIT')}
         </Button>
-        <Box pt="2" variant="rowAlign">
+        <Box pt="2" variant="horizontal-start">
           <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
           <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
         </Box>

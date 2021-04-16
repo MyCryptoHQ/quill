@@ -1,6 +1,8 @@
 import React, { ChangeEvent, DragEvent, useState } from 'react';
 
-import { Body, Box, BoxProps, Image } from '@app/components';
+import { Body } from '@mycrypto/ui';
+
+import { Box, BoxProps, Image } from '@app/components';
 import checkmark from '@assets/icons/circle-checkmark.svg';
 import { translateRaw } from '@common/translate';
 
@@ -55,7 +57,7 @@ export const FileBox = ({
         }}
       >
         {fileName && (
-          <Box variant="rowCenter" mb="2">
+          <Box variant="horizontal-center" mb="2">
             <Image src={checkmark} minWidth="16px" width="16px" height="16px" mr="2" />
             <Body sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}>{fileName}</Body>
           </Box>

@@ -21,7 +21,7 @@ const NavIcon = ({
 }: { icon: string; href: string; onClick?(): void } & BoxProps) => (
   <LinkApp href={href} variant="barren" style={{ color: 'white' }} onClick={onClick}>
     <Box
-      variant="rowAlign"
+      variant="horizontal-start"
       mx="10px"
       sx={{
         '-webkit-app-region': 'no-drag'
@@ -42,7 +42,7 @@ export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
 
   return (
     <Box
-      variant="rowAlign"
+      variant="horizontal-start"
       sx={{
         borderTopLeftRadius: '5px',
         borderTopRightRadius: '5px',
@@ -54,13 +54,13 @@ export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
       height="65px"
       overflow="hidden"
     >
-      <Box variant="rowAlign">
+      <Box variant="horizontal-start">
         <LinkApp href={ROUTE_PATHS.HOME}>
           <Logo marginLeft="18px" />
         </LinkApp>
       </Box>
       {isLoggedIn && (
-        <Box display="flex" ml="auto" variant="rowAlign">
+        <Box display="flex" ml="auto" variant="horizontal-start">
           <NavIcon icon={lock} href="#" onClick={handleLogout} data-testid="lock-button" />
           <NavIcon icon={profile} href={ROUTE_PATHS.ACCOUNTS} />
           <NavIcon icon={add} href={ROUTE_PATHS.MENU} />

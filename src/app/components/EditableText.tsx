@@ -1,9 +1,10 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 
+import { Body } from '@mycrypto/ui';
+
 import edit from '@assets/icons/edit.svg';
 
 import { Box, BoxProps, Image, Input } from '.';
-import { Body } from './Typography';
 
 export const EditableText = ({
   value,
@@ -49,7 +50,7 @@ export const EditableText = ({
   const hasValue = value !== undefined;
 
   return (
-    <Box variant="rowAlign" height="100%" {...props}>
+    <Box variant="horizontal-start" height="100%" {...props}>
       {editMode ? (
         <Input
           placeholder={placeholder}

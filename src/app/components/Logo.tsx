@@ -20,7 +20,7 @@ export const InnerIcon = ({ icon }: { icon: string }) => (
       bottom: '-12px',
       borderRadius: '48px'
     }}
-    variant="rowCenter"
+    variant="horizontal-center"
   >
     <Box
       as={SVG}

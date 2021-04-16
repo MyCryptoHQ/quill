@@ -1,13 +1,14 @@
 import React from 'react';
 
 import { formatEther, formatUnits } from '@ethersproject/units';
+import { Body } from '@mycrypto/ui';
 
 import { translateRaw } from '@common/translate';
 import { getChain } from '@data';
 import { TransactionRequest } from '@types';
 import { bigify } from '@utils';
 
-import { Body, Box } from '.';
+import { Box } from '.';
 import { CodeBlock } from './CodeBlock';
 import { Divider } from './Divider';
 
@@ -21,7 +22,7 @@ const Row = ({
   hideDivider?: boolean;
 }) => (
   <>
-    <Box variant="rowAlign" sx={{ justifyContent: 'space-between' }} pb="1" pt="1">
+    <Box variant="horizontal-start" sx={{ justifyContent: 'space-between' }} pb="1" pt="1">
       <Body fontWeight="bold">{label}:</Body>
       <Body>{value}</Body>
     </Box>

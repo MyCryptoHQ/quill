@@ -1,15 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+import { BlockieAddress, Body, Heading } from '@mycrypto/ui';
 import { toPng } from 'html-to-image';
 
 import { translateRaw } from '@common/translate';
 import {
-  Address,
-  Body,
   Box,
   Button,
   Container,
-  Heading,
   IFlowComponentProps,
   Link,
   Panel,
@@ -60,7 +58,7 @@ export const GenerateAccountEnd = ({ onNext }: IFlowComponentProps) => {
           <Body fontSize="14px" mb="1">
             {translate('ADDRESS')}
           </Body>
-          <Address address={address} mb="2" />
+          <BlockieAddress address={address} mb="2" />
           <Body fontSize="14px">
             {translate('DERIVATION_PATH')} {DEFAULT_DERIVATION_PATH}
           </Body>

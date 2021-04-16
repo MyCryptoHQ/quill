@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 
+import { Body } from '@mycrypto/ui';
 import { ALL_DERIVATION_PATHS, DEFAULT_ETH } from '@mycrypto/wallets';
 import { AnyListener } from 'typed-react-form';
 
 import {
-  Body,
   Box,
   Button,
   DPathSelector,
@@ -129,7 +129,7 @@ const AddAccountMnemonicForm = ({
               selectedAccounts={selectedAccounts}
               toggleSelectedAccount={toggleSelectedAccount}
             />
-            <Box variant="rowAlign" my="2">
+            <Box variant="horizontal-start" my="2">
               <Button mr="2" onClick={handlePrevious} disabled={offset === 0} variant="inverted">
                 {translateRaw('PREVIOUS')}
               </Button>
@@ -145,7 +145,7 @@ const AddAccountMnemonicForm = ({
           <Button type="submit" form="mnemonic-phrase-form">
             {translateRaw('NEXT')}
           </Button>
-          <Box pt="2" variant="rowAlign">
+          <Box pt="2" variant="horizontal-start">
             <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
             <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
           </Box>
@@ -155,7 +155,7 @@ const AddAccountMnemonicForm = ({
           <Button onClick={handleSubmit} disabled={selectedAccounts.length === 0}>
             {translateRaw('SUBMIT')}
           </Button>
-          <Box pt="2" variant="rowAlign">
+          <Box pt="2" variant="horizontal-start">
             <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
             <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
           </Box>

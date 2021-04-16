@@ -43,7 +43,7 @@ export const FlowHeader = ({
 }: Props & Omit<FlexProps, 'variant' | 'sx'>) => (
   <Flex
     {...props}
-    variant="rowCenter"
+    variant="horizontal-center"
     sx={{
       justifyContent: 'space-between'
     }}

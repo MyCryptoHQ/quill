@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 
+import { Blockie, Body, Heading } from '@mycrypto/ui';
 import { useSelector } from 'react-redux';
 
 import { getAccounts, removeAccount, updateAccount, useDispatch } from '@app/store';
 import deleteIcon from '@assets/icons/circle-delete.svg';
 import { translateRaw } from '@common/translate';
 import {
-  Blockie,
-  Body,
   Box,
   Container,
   DeleteOverlay,
   Divider,
   EditableText,
   Flex,
-  Heading,
   Image,
   Link
 } from '@components';
@@ -29,7 +27,7 @@ const Account = ({ account }: { account: IAccount }) => {
   const handleChangeLabel = (label: string) => dispatch(updateAccount({ ...account, label }));
 
   return !isDeleting ? (
-    <Box variant="rowAlign" py="24px">
+    <Box variant="horizontal-start" py="24px">
       <Blockie address={account.address} width="32px" mr="6px" />
       <Box>
         <EditableText
@@ -46,7 +44,7 @@ const Account = ({ account }: { account: IAccount }) => {
         </Body>
       </Box>
       <Link variant="defaultLink" onClick={handleDelete} ml="auto">
-        <Flex variant="rowCenter">
+        <Flex variant="horizontal-center">
           <Image
             src={deleteIcon}
             width="20px"

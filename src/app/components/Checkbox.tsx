@@ -6,7 +6,7 @@ import { Box, BoxProps, Image } from '@app/components';
 // Because Rebass Checkbox is currently broken... https://github.com/rebassjs/rebass/issues/1049
 export const Checkbox = ({ onChange, checked, ...props }: BoxProps) => (
   <Box
-    variant="rowAlign"
+    variant="horizontal-start"
     sx={{
       borderWidth: '1px',
       borderStyle: 'solid',

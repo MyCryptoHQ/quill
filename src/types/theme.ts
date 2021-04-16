@@ -3,7 +3,7 @@ export interface Theme {
   fonts: Record<string, string>;
   fontSizes: string[];
   lineHeights: string[];
-  radii: string[];
+  radii: Record<string, string>;
   text: Record<string, Record<string, string | number | unknown>>;
   forms: Record<string, Record<string, string | number | unknown>>;
   variants: Record<string, Record<string, string | number | unknown>>;

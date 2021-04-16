@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 
+import { Body } from '@mycrypto/ui';
 import { push } from 'connected-react-router';
 import { useSelector } from 'react-redux';
 
-import { Body, Box, Container, Image, TxHistory, TxQueue } from '@app/components';
+import { Box, Container, Image, TxHistory, TxQueue } from '@app/components';
 import info from '@assets/icons/circle-info.svg';
 import { translateRaw } from '@common/translate';
 import { usePersisted } from '@hooks';
@@ -26,8 +27,8 @@ export const Home = () => {
   return (
     <Container>
       {queue.length === 0 && txHistory.length === 0 ? (
-        <Box variant="rowCenter" height="100%">
-          <Box variant="columnAlign" sx={{ textAlign: 'center' }}>
+        <Box variant="horizontal-center" height="100%">
+          <Box variant="vertical-start" sx={{ textAlign: 'center' }}>
             <Image src={info} height="52px" width="52px" />
             <Body color="BLUE_DARK_SLATE" fontWeight="bold">
               {translateRaw('HOME_EMPTY_HEADER')}

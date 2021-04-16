@@ -1,10 +1,11 @@
 import React, { forwardRef, ReactElement } from 'react';
 
+import { Blockie, Body, Code } from '@mycrypto/ui';
 import QRCode from 'react-qr-code';
 
 import logo from '@assets/images/logo.svg';
 import { translateRaw } from '@common/translate';
-import { Blockie, Body, Box, Code, Flex, Image } from '@components';
+import { Box, Flex, Image } from '@components';
 import { TAddress } from '@types';
 
 interface BlockProps {
@@ -52,7 +53,7 @@ export const PaperWallet = forwardRef(({ address, mnemonicPhrase }: PaperWalletP
       userSelect: 'none'
     }}
   >
-    <Flex variant="columnCenter" width="100px" minWidth="100px" bg="BLUE_DARK_SLATE">
+    <Flex variant="vertical-center" width="100px" minWidth="100px" bg="BLUE_DARK_SLATE">
       <Box flex="0 0 0 100px" sx={{ textAlign: 'center', transform: 'rotate(-90deg)' }}>
         <Image src={logo} width="auto" maxWidth="unset" height="50px" />
         <Body color="white">www.MyCrypto.com</Body>
@@ -71,7 +72,7 @@ export const PaperWallet = forwardRef(({ address, mnemonicPhrase }: PaperWalletP
         </Block>
       </Flex>
       <Box px="20px">
-        <Flex variant="rowAlign" justifyContent="space-between">
+        <Flex variant="horizontal-start" justifyContent="space-between">
           <Box>
             <Code fontSize="14px">
               <strong>{translateRaw('YOUR_ADDRESS')}:</strong>

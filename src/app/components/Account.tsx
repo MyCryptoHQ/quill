@@ -1,12 +1,11 @@
 import React from 'react';
 
+import { Blockie, Body } from '@mycrypto/ui';
+
 import { Box, BoxProps } from '@app/components';
 import { translateRaw } from '@common/translate';
 import { TAddress } from '@types';
 import { truncate } from '@utils';
-
-import { Blockie } from './Blockie';
-import { Body } from './Typography';
 
 export const Account = ({
   label,
@@ -15,7 +14,7 @@ export const Account = ({
   addressColor,
   ...props
 }: { address: TAddress; label?: string; truncate: boolean; addressColor?: string } & BoxProps) => (
-  <Box bg="GREY_LIGHTEST" p="10px" variant="rowAlign" {...props}>
+  <Box bg="GREY_LIGHTEST" p="10px" variant="horizontal-start" {...props}>
     <Blockie height="32px" width="32px" minWidth="32px" address={address} />
     <Box pl="1">
       <Body fontSize="3">{label ?? translateRaw('NO_LABEL')}</Body>

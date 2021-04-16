@@ -1,5 +1,6 @@
 import React, { FormEvent } from 'react';
 
+import { Body, Heading } from '@mycrypto/ui';
 import { passwordStrength } from 'check-password-strength';
 import { useForm, yupValidator } from 'typed-react-form';
 import { object, ref, string } from 'yup';
@@ -7,14 +8,12 @@ import { object, ref, string } from 'yup';
 import warning from '@assets/icons/circle-warning.svg';
 import { translateRaw } from '@common/translate';
 import {
-  Body,
   Box,
   Button,
   Container,
   Flex,
   FormError,
   FormInput,
-  Heading,
   Image,
   Label,
   PanelBottom

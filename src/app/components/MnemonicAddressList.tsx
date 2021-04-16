@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { Blockie, Body, Box, Checkbox } from '@app/components';
+import { Blockie, Body } from '@mycrypto/ui';
+
+import { Box, Checkbox } from '@app/components';
 import { GetAddressesResult } from '@types';
 
 import { Divider } from './Divider';
@@ -19,7 +21,7 @@ export const MnemonicAddressList = ({
       const toggle = () => toggleSelectedAccount(address);
       return (
         <React.Fragment key={address.dPath}>
-          <Box variant="rowAlign" py="3" onClick={toggle}>
+          <Box variant="horizontal-start" py="3" onClick={toggle}>
             <Checkbox
               mr="3"
               checked={selectedAccounts.find((index) => index === address.index) !== undefined}

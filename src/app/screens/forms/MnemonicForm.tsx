@@ -1,9 +1,10 @@
 import React, { FormEvent, ReactNode } from 'react';
 
+import { Body } from '@mycrypto/ui';
 import { DefaultState, useForm, yupValidator } from 'typed-react-form';
 import { object, string } from 'yup';
 
-import { Body, Box, FormError, FormInput, FormTextArea, Image } from '@app/components';
+import { Box, FormError, FormInput, FormTextArea, Image } from '@app/components';
 import warning from '@assets/icons/circle-warning.svg';
 import { translateRaw } from '@common/translate';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
@@ -70,7 +71,7 @@ export const MnemonicForm = ({
             />
           </label>
         </Box>
-        <Box mt="2" variant="rowAlign">
+        <Box mt="2" variant="horizontal-start">
           <Image src={warning} width="20px" height="20px" minWidth="20px" alt="Warning" mr="2" />
           <Body>
             {translate('SECRET_WARNING', {
