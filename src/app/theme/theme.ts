@@ -147,6 +147,7 @@ const overrideTheme: Partial<DefaultTheme> = {
     // PURPLE
     PURPLE: '#A682FF'
   },
+  radii: { input: '2px' },
   forms: {
     label: {
       marginBottom: '6px'
@@ -156,24 +157,32 @@ const overrideTheme: Partial<DefaultTheme> = {
       borderStyle: 'solid',
       borderColor: 'GREY_ATHENS',
       boxShadow: '0px 1px 1px rgba(232, 234, 237, 0.5), inset 0px 1px 3px rgba(232, 234, 237, 0.5)',
-      borderRadius: 0,
+      borderRadius: 'input',
       '&:focus': {
         outline: 'none'
       }
     },
     textarea: {
+      fontFamily: 'body',
       borderWidth: '1px',
       borderStyle: 'solid',
       borderColor: 'GREY_ATHENS',
       boxShadow: '0px 1px 1px rgba(232, 234, 237, 0.5), inset 0px 1px 3px rgba(232, 234, 237, 0.5)',
-      borderRadius: 0
+      borderRadius: 'input',
+      '&:focus': {
+        outline: 'none'
+      }
     },
     error: {
+      fontFamily: 'body',
       borderWidth: '1px',
       borderStyle: 'solid',
       borderColor: 'RED',
       boxShadow: '0px 1px 1px rgba(232, 234, 237, 0.5), inset 0px 1px 3px rgba(232, 234, 237, 0.5)',
-      borderRadius: 0
+      borderRadius: 'input',
+      '&:focus': {
+        outline: 'none'
+      }
     },
     none: {
       margin: '0',
@@ -222,7 +231,7 @@ export const GlobalStyle = createGlobalStyle`
 
   :root {
     color: ${(p) => p.theme.colors.BODY};
-    font-family: ${(props) => props.theme.fonts.default};
+    font-family: ${(props) => props.theme.fonts.body};
     font-size: ${(props) => props.theme.fontSizes[2]};
     line-height: ${(props) => props.theme.lineHeights[1]};
   }
