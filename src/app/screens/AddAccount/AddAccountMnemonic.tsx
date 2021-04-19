@@ -12,11 +12,12 @@ import {
   ScrollableContainer,
   WalletTypeSelector
 } from '@app/components';
-import { fetchAccounts, useDispatch } from '@app/store';
+import { useDispatch } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
+import { fetchAccounts } from '@common/store';
 import { translateRaw } from '@common/translate';
 import type { GetAddressesResult } from '@types';
-import { CryptoRequestType, WalletType } from '@types';
+import { WalletType } from '@types';
 
 import { MnemonicForm, useMnemonicForm } from '../forms/MnemonicForm';
 

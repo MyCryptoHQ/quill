@@ -6,9 +6,9 @@ import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { ThemeProvider } from 'styled-components';
 
+import { setGeneratedAccount } from '@common/store';
 import { ROUTE_PATHS } from '@routing';
 import type { ApplicationState } from '@store';
-import { setGeneratedAccount } from '@store';
 import { theme } from '@theme';
 import type { DeepPartial } from '@types';
 

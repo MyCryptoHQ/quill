@@ -6,13 +6,6 @@ import type { GetAddressesResult } from './mnemonic';
 import type { TUuid } from './uuid';
 import type { WalletType } from './wallet';
 
-export enum CryptoRequestType {
-  SIGN = 'SIGN',
-  GET_ADDRESS = 'GET_ADDRESS',
-  GET_ADDRESSES = 'GET_ADDRESSES',
-  CREATE_WALLET = 'CREATE_WALLET'
-}
-
 export interface SerializedPrivateKey {
   walletType: WalletType.PRIVATE_KEY;
   privateKey: string;
@@ -49,35 +42,3 @@ interface SerializedDeterministicMnemonicPhrase {
 }
 
 export type SerializedDeterministicWallet = SerializedDeterministicMnemonicPhrase;
-
-interface BaseRequest<Type extends CryptoRequestType> {
-  type: Type;
-}
-
-interface SignTxRequest extends BaseRequest<CryptoRequestType.SIGN> {
-  wallet: SerializedOptionalPersistentWallet;
-  tx: TransactionRequest;
-}
-
-interface CreateWalletRequest extends BaseRequest<CryptoRequestType.CREATE_WALLET> {
-  wallet: WalletType;
-}
-
-export type GetAddressRequest = BaseRequest<CryptoRequestType.GET_ADDRESS> & {
-  wallet: SerializedWallet;
-};
-
-export type GetAddressesRequest = BaseRequest<CryptoRequestType.GET_ADDRESSES> & {
-  wallet: SerializedDeterministicWallet;
-  path: DerivationPath;
-  limit: number;
-  offset: number;
-};
-
-export type CryptoRequest =
-  | SignTxRequest
-  | GetAddressRequest
-  | GetAddressesRequest
-  | CreateWalletRequest;
-
-export type CryptoResponse = string | { address: TAddress; uuid: TUuid } | GetAddressesResult[];

@@ -2,10 +2,11 @@ import { Body, Button, Heading } from '@mycrypto/ui';
 import { useEffect } from 'react';
 
 import refresh from '@app/assets/icons/refresh.svg';
+import { generateAccount, getGeneratedMnemonicWords } from '@common/store';
 import { translateRaw } from '@common/translate';
 import type { IFlowComponentProps } from '@components';
 import { Box, Flex, Image, Input, Link, PanelBottom, ScrollableContainer } from '@components';
-import { generateAccount, getGeneratedMnemonicWords, useDispatch, useSelector } from '@store';
+import { useDispatch, useSelector } from '@store';
 import { translate } from '@translations';
 
 interface WordProps {

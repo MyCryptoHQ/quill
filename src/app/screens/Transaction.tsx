@@ -13,12 +13,12 @@ import {
 import { ROUTE_PATHS } from '@app/routing';
 import {
   denyCurrentTransaction,
-  getAccounts,
   getCurrentTransaction,
   sign,
   useDispatch,
   useSelector
 } from '@app/store';
+import { getAccounts } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { TxResult } from '@types';
 

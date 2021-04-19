@@ -20,7 +20,7 @@ import slice, {
   removeAccountWorker,
   setGeneratedAccount,
   updateAccount
-} from './account.slice';
+} from './accounts.slice';
 
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {

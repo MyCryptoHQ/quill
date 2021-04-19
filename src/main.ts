@@ -3,7 +3,6 @@ import positioner from 'electron-traywindow-positioner';
 import path from 'path';
 import { URL } from 'url';
 
-import { runService as runCryptoService } from '@api/crypto';
 import { runService as runDatabaseService } from '@api/db';
 import { HEIGHT, WIDTH } from '@config';
 
@@ -70,9 +69,6 @@ const createWindow = (): void => {
 
   // Run API
   runAPI(window.webContents);
-
-  // Run Signing Logic
-  runCryptoService(window.webContents);
 
   // Run Database Service
   runDatabaseService();
