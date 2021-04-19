@@ -2,6 +2,8 @@ import type { IpcMain, IpcMainEvent, IpcRenderer, IpcRendererEvent, WebContents 
 
 import { IPC_CHANNELS } from '@config';
 import type {
+  CryptoRequest,
+  CryptoResponse,
   DBRequest,
   DBResponse,
   JsonRPCRequest,
@@ -71,6 +73,7 @@ export const IpcBridgeRenderer = (ipcRenderer: IpcRenderer) => ({
   // These are constants as to not leak the ipcRenderer
   redux: getChannel(IPC_CHANNELS.REDUX).asRenderer(ipcRenderer),
   api: getAPIChannel().asRenderer(ipcRenderer),
+  crypto: getChannel<CryptoRequest, CryptoResponse>(IPC_CHANNELS.CRYPTO).asRenderer(ipcRenderer),
   db: getChannel<DBRequest, DBResponse>(IPC_CHANNELS.DATABASE).asRenderer(ipcRenderer)
 });
 
@@ -81,6 +84,10 @@ export const ipcBridgeRenderer = (typeof window !== 'undefined'
 export const ipcBridgeMain = (ipcMain: IpcMain, webContents: WebContents) => ({
   redux: getChannel(IPC_CHANNELS.REDUX).asMain(ipcMain, webContents),
   api: getAPIChannel().asMain(ipcMain),
+  crypto: getChannel<CryptoRequest, CryptoResponse>(IPC_CHANNELS.CRYPTO).asMain(
+    ipcMain,
+    webContents
+  ),
   db: getChannel<DBRequest, DBResponse>(IPC_CHANNELS.DATABASE).asMain(ipcMain, webContents)
 });
 
