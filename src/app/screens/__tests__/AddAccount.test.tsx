@@ -8,8 +8,9 @@ import configureStore from 'redux-mock-store';
 
 import { handleRequest } from '@api/crypto';
 import type { ApplicationState } from '@app/store';
-import { createStore, fetchAccounts } from '@app/store';
+import { createStore } from '@app/store';
 import { ipcBridgeRenderer } from '@bridge';
+import { fetchAccounts } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey } from '@fixtures';
 import { AddAccount } from '@screens';
@@ -107,28 +108,6 @@ describe('AddAccount', () => {
     await waitFor(() => expect(getByText(translateRaw('PRIVATE_KEY_EMPTY'))).toBeDefined());
   });
 
-  it('shows private key Redux error', async () => {
-    // @ts-expect-error Brand bug with DeepPartial
-    const { getByText, getByTestId, container } = getComponent(createStore());
-    const privateKeyButton = getByTestId('select-PRIVATE_KEY');
-    expect(privateKeyButton).toBeDefined();
-    fireEvent.click(privateKeyButton);
-
-    const privKeyInput = container.querySelector('input[name="privateKey"]');
-    expect(privKeyInput).toBeDefined();
-    fireEvent.change(privKeyInput, { target: { value: 'bla' } });
-
-    ipcBridgeRenderer.crypto.invoke = jest.fn().mockImplementation(() => {
-      throw new Error('error');
-    });
-
-    const submitButton = getByText(translateRaw('SUBMIT'));
-    expect(submitButton).toBeDefined();
-    fireEvent.click(submitButton);
-
-    await waitFor(() => expect(getByText('error', { exact: false })).toBeDefined());
-  });
-
   it('can submit keystore file', async () => {
     const { container, getByText, getByTestId } = getComponent();
     const keystoreButton = getByTestId('select-KEYSTORE');
@@ -219,38 +198,6 @@ describe('AddAccount', () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => expect(getByText(translateRaw('KEYSTORE_EMPTY'))).toBeDefined());
-  });
-
-  it('shows keystore Redux error', async () => {
-    // @ts-expect-error Brand bug with DeepPartial
-    const { getByText, getByTestId, container } = getComponent(createStore());
-    const keystoreButton = getByTestId('select-KEYSTORE');
-    expect(keystoreButton).toBeDefined();
-    fireEvent.click(keystoreButton);
-
-    const keystoreBlob = new Blob([fKeystore], { type: 'application/json' });
-    const keystoreFile = new File([keystoreBlob], 'keystore.json');
-    keystoreFile.text = async () => fKeystore;
-
-    const keystoreInput = getByTestId('file-upload');
-    expect(keystoreInput).toBeDefined();
-    fireEvent.dragOver(keystoreInput);
-    fireEvent.drop(keystoreInput, { dataTransfer: { files: [keystoreFile] } });
-
-    const passwordInput = container.querySelector('input[name="password"]');
-    expect(passwordInput).toBeDefined();
-    fireEvent.change(passwordInput, { target: { value: fKeystorePassword } });
-
-    ipcBridgeRenderer.crypto.invoke = jest.fn().mockImplementation(() => {
-      throw new Error('error');
-    });
-
-    console.debug('Submitting');
-    const submitButton = getByText(translateRaw('SUBMIT'));
-    expect(submitButton).toBeDefined();
-    fireEvent.click(submitButton);
-
-    await waitFor(() => expect(getByText('error', { exact: false })).toBeDefined());
   });
 
   it('shows keystore file error', async () => {

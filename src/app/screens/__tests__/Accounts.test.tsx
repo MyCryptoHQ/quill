@@ -5,7 +5,7 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import type { ApplicationState } from '@app/store';
-import { removeAccount } from '@app/store';
+import { removeAccount } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { fAccount } from '@fixtures';
 import type { DeepPartial } from '@types';
