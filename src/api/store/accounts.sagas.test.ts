@@ -21,6 +21,7 @@ import { WalletType } from '@types';
 import { fetchAccountsWorker, generateAccountWorker, removeAccountWorker } from './accounts.sagas';
 
 jest.mock('electron-store');
+jest.mock('keytar');
 
 const wallet: SerializedWallet = {
   walletType: WalletType.PRIVATE_KEY,
