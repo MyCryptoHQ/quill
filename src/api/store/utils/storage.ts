@@ -2,10 +2,10 @@ import { getFromStore, setInStore } from '@api/db';
 
 export const storage = {
   getItem: (key: string) => {
-    return getFromStore(key);
+    return Promise.resolve(getFromStore(key));
   },
   setItem: (key: string, value: unknown) => {
-    return setInStore(key, value);
+    return Promise.resolve(setInStore(key, value));
   },
   removeItem: (_key: string) => {
     // @todo If needed

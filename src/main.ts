@@ -4,7 +4,8 @@ import path from 'path';
 import { URL } from 'url';
 
 import { runService as runCryptoService } from '@api/crypto';
-import { runService as runDatabaseService } from '@api/db';
+import { runService as runDatabaseService, setLoginCallback } from '@api/db';
+import { createPersistor } from '@api/store/persistor';
 import { HEIGHT, WIDTH } from '@config';
 
 import { createStore } from './api/store';
@@ -63,6 +64,11 @@ const createWindow = (): void => {
   });
 
   const store = createStore(ipcBridgeMain(ipcMain, window.webContents).redux);
+  const persistor = createPersistor(store);
+
+  // CLEAN THIS UP
+  setLoginCallback(() => persistor.persist());
+
   store.dispatch(createKeyPair());
 
   // and load the index.html of the app.

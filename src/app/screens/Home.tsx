@@ -9,20 +9,20 @@ import { getAccountsLength } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { usePersisted } from '@hooks';
 import { ROUTE_PATHS } from '@routing';
-import { getQueue, getTxHistory, persistor, useDispatch } from '@store';
+import { getQueue, getTxHistory, useDispatch } from '@store';
 
 export const Home = () => {
   const dispatch = useDispatch();
   const accountsLength = useSelector(getAccountsLength);
   const queue = useSelector(getQueue);
   const txHistory = useSelector(getTxHistory);
-  const isPersisted = usePersisted(persistor);
+  /**const isPersisted = usePersisted(persistor);
 
   useEffect(() => {
     if (isPersisted && accountsLength === 0) {
       dispatch(push(ROUTE_PATHS.SETUP_ACCOUNT));
     }
-  }, [isPersisted]);
+  }, [isPersisted]);**/
 
   return (
     <Container>

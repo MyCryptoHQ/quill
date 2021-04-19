@@ -1,11 +1,11 @@
 import { hexlify } from '@ethersproject/bytes';
 import { decrypt, encrypt } from 'eciesjs';
-import type { Infer } from 'superstruct';
-import { is, object, string, unknown } from 'superstruct';
+import type { Infer} from 'superstruct';
+import { is, object, string, type, unknown } from 'superstruct';
 
 import { stripHexPrefix } from '@utils';
 
-const REDUX_ACTION_STRUCT = object({
+const REDUX_ACTION_STRUCT = type({
   type: string(),
   payload: unknown()
 });

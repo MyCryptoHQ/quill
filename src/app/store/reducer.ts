@@ -2,6 +2,7 @@ import { connectRouter } from 'connected-react-router';
 import type { History } from 'history';
 import type { AnyAction } from 'redux';
 import { combineReducers } from 'redux';
+import { REHYDRATE } from 'redux-persist';
 
 import accountSlice from '@common/store/accounts.slice';
 import authSlice, { logout } from '@common/store/auth.slice';
@@ -26,6 +27,8 @@ export const createRootReducer = (history: History) => {
   return (state: any, action: AnyAction) => {
     if (action.type === logout.type) {
       return reducer(undefined, action);
+    } else if (action.type === REHYDRATE) {
+      return { ...state, [action.key]: action.payload };
     }
 
     return reducer(state, action);
