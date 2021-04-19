@@ -139,6 +139,15 @@ describe('handleRequest', () => {
     expect(result).toStrictEqual({ accounts: { [fAccount.uuid]: fAccount } });
   });
 
+  it('get from store returns null if the key does not exist in the store', async () => {
+    const get = (Store as jest.MockedClass<typeof Store>).mock.instances[0].get;
+    (get as jest.MockedFunction<typeof get>).mockReturnValueOnce(null);
+
+    await expect(
+      handleRequest({ type: DBRequestType.GET_FROM_STORE, key: 'foo bar' })
+    ).resolves.toBeNull();
+  });
+
   it('set in store', async () => {
     const store = (Store as jest.MockedClass<typeof Store>).mock.instances[0];
 
