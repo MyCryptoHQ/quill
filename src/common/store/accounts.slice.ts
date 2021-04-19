@@ -3,7 +3,6 @@ import { createAction, createSelector, createSlice } from '@reduxjs/toolkit';
 
 import type { IAccount, SerializedWallet, TAddress } from '@types';
 
-
 export interface AccountsState {
   accounts: IAccount[];
   isFetching: boolean;
@@ -74,7 +73,6 @@ export const generateAccount = createAction(`${sliceName}/generateAccount`);
 export default slice;
 
 export const reducer = slice.reducer;
-
 
 export const getAccounts = createSelector(
   (state: { accounts: AccountsState }) => state.accounts,
