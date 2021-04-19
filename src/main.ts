@@ -1,3 +1,4 @@
+import { createSigningProcess } from '@signing/signing';
 import { app, BrowserWindow, ipcMain, Menu, shell, Tray } from 'electron';
 import positioner from 'electron-traywindow-positioner';
 import path from 'path';
@@ -68,6 +69,8 @@ const createWindow = (): void => {
 
   // and load the index.html of the app.
   window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+
+  createSigningProcess();
 };
 
 const showWindow = () => {

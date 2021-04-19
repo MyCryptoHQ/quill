@@ -5,7 +5,7 @@ const { merge } = require('webpack-merge');
 const common = require('./common');
 
 module.exports = merge(common, {
-  entry: './src/main.ts',
+  entry: { index: './src/main.ts', worker: './src/signing/signing.worker.ts' },
   target: 'electron-main',
   plugins: [
     new CopyWebpackPlugin({
@@ -19,5 +19,8 @@ module.exports = merge(common, {
     alias: {
       '@ethersproject/random': require.resolve('@ethersproject/random/lib/index.js')
     }
+  },
+  output: {
+    filename: '[name].js'
   }
 });
