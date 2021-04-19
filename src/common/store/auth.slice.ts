@@ -1,12 +1,5 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAction, createSlice } from '@reduxjs/toolkit';
-import { push } from 'connected-react-router';
-import { all, call, put, takeLatest } from 'redux-saga/effects';
-
-import { ipcBridgeRenderer } from '@bridge';
-import { translateRaw } from '@common/translate';
-import { ROUTE_PATHS } from '@routing';
-import { DBRequestType } from '@types';
 
 interface AuthState {
   newUser: boolean;
@@ -51,8 +44,10 @@ const slice = createSlice({
   }
 });
 
+export const checkNewUser = createAction(`${sliceName}/checkNewUser`);
 export const createPassword = createAction<string>(`${sliceName}/createPassword`);
 export const login = createAction<string>(`${sliceName}/login`);
+export const reset = createAction(`${sliceName}/reset`);
 
 export const {
   setNewUser,
@@ -65,47 +60,3 @@ export const {
 } = slice.actions;
 
 export default slice;
-
-/**
- * Sagas
- */
-export function* authSaga() {
-  yield all([
-    takeLatest(createPassword.type, createPasswordWorker),
-    takeLatest(login.type, loginWorker),
-    takeLatest(logout.type, logoutWorker)
-  ]);
-}
-
-export function* createPasswordWorker({ payload }: PayloadAction<string>) {
-  const result = yield call(ipcBridgeRenderer.db.invoke, {
-    type: DBRequestType.INIT,
-    password: payload
-  });
-
-  if (result) {
-    yield put(createPasswordSuccess());
-    yield put(push(ROUTE_PATHS.SETUP_ACCOUNT));
-    return;
-  }
-
-  yield put(createPasswordFailed(translateRaw('CREATE_PASSWORD_ERROR')));
-}
-
-export function* loginWorker({ payload }: PayloadAction<string>) {
-  const result = yield call(ipcBridgeRenderer.db.invoke, {
-    type: DBRequestType.LOGIN,
-    password: payload
-  });
-
-  if (result) {
-    yield put(loginSuccess());
-    return;
-  }
-
-  yield put(loginFailed(translateRaw('LOGIN_ERROR')));
-}
-
-export function* logoutWorker() {
-  yield call(ipcBridgeRenderer.db.invoke, { type: DBRequestType.LOGOUT });
-}

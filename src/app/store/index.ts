@@ -16,7 +16,6 @@ export {
   getGeneratedAccount,
   AccountsState
 } from './account.slice';
-export { setLoggedIn, setNewUser, login, logout, createPassword } from './auth.slice';
 export {
   enqueue,
   dequeue,

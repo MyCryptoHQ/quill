@@ -6,10 +6,9 @@ import configureStore from 'redux-mock-store';
 
 import { ROUTE_PATHS } from '@app/routing';
 import type { ApplicationState } from '@app/store';
-import { ipcBridgeRenderer } from '@bridge';
+import { reset, setNewUser } from '@common/store';
 import { translateRaw } from '@common/translate';
 import type { DeepPartial } from '@types';
-import { DBRequestType } from '@types';
 
 import { ForgotPassword } from '../ForgotPassword';
 
@@ -44,7 +43,8 @@ describe('ForgotPassword', () => {
     expect(confirmButton).toBeDefined();
     fireEvent.click(confirmButton);
 
-    expect(ipcBridgeRenderer.db.invoke).toHaveBeenCalledWith({ type: DBRequestType.RESET });
+    expect(mockStore.getActions()).toContainEqual(reset());
+    expect(mockStore.getActions()).toContainEqual(setNewUser(true));
     expect(mockStore.getActions()).toContainEqual(push(ROUTE_PATHS.LOCKED));
   });
 

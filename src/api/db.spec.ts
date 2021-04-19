@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron';
 import Store from 'electron-store';
-import fs from 'fs';
+import { promises as fs } from 'fs';
 import keytar, { deletePassword } from 'keytar';
 
 import { IPC_CHANNELS, KEYTAR_SERVICE } from '@config';
@@ -9,8 +9,19 @@ import type { TUuid } from '@types';
 import { DBRequestType, WalletType } from '@types';
 
 import type { handleRequest as _handleRequest, runService as _runService } from './db';
+import { init, isLoggedIn, login, logout, reset, storeExists } from './db';
+
+jest.mock('fs', () => ({
+  ...jest.requireActual('fs'),
+  promises: {
+    ...jest.requireActual('fs').promises,
+    stat: jest.fn().mockImplementation(() => Promise.resolve()),
+    unlink: jest.fn().mockImplementation(() => Promise.resolve())
+  }
+}));
 
 jest.mock('path');
+jest.mock('electron-store');
 
 jest.mock('crypto', () => ({
   ...jest.requireActual('crypto'),
@@ -27,32 +38,6 @@ jest.mock('electron', () => ({
     })
   }
 }));
-
-jest.mock('fs', () => ({
-  promises: {
-    stat: jest
-      .fn()
-      .mockImplementationOnce(() => Promise.reject())
-      .mockImplementation(() => Promise.resolve(true)),
-    unlink: jest.fn().mockImplementation(() => Promise.resolve())
-  }
-}));
-
-const mockSet = jest.fn();
-const mockClear = jest.fn();
-
-jest.mock('electron-store', () => {
-  return jest.fn().mockImplementation(() => ({
-    get: jest.fn().mockImplementation((key: string) => {
-      if (key === 'accounts') {
-        return '993e330609e9c288dc09665834aa71db839fa9c05d647d2b44e41ab5a175e822214848289b445d3a467af53ce6cd8baaaf0f932f45715ef84c22aa4533ba9c9a4efa224b6fdb6df0b3bece0cf65d682756daef518f837662163a1056e1dc9fe52a96677b561ae2c8fdd2a62332d1aca1b54f844b4354a7a858bbb29b07ae36c41ab41ace849bbc8f08e1bfb05176c2644d7cdcbe571f78827ad7cacc48cc1411e84319a42e931d42006a89edb838a5251bed742b9e6e9f4d421603806a6fe932c1de5d6f93cbfb2bb5249a52b88db8bf0050440d2d21938ada7a165c39c8f3fd';
-      }
-      return {};
-    }),
-    set: mockSet,
-    clear: mockClear
-  }));
-});
 
 jest.mock('keytar', () => ({
   setPassword: jest.fn(),
@@ -71,119 +56,122 @@ const password = 'password';
 const privateKey = '0x93b3701cf8eeb6f7d3b22211c691734f24816a02efa933f67f34d37053182577';
 const encryptedPrivKey =
   'd2646b5608b580d69919225a2aed278f809bf5c60660622c11ec1aaead27ef2038161f2c97585a621279f36db5c2defcfb0d86730d674fbe1276bd4c20b6ccca4af53b6605c124747520bfe5abf64d288b272d21938ada7a165c39c8f3fd';
+const encryptedAccounts =
+  '993e330609e9c288dc09665834aa71db839fa9c05d647d2b44e41ab5a175e822214848289b445d3a467af53ce6cd8baaaf0f932f45715ef84c22aa4533ba9c9a4efa224b6fdb6df0b3bece0cf65d682756daef518f837662163a1056e1dc9fe52a96677b561ae2c8fdd2a62332d1aca1b54f844b4354a7a858bbb29b07ae36c41ab41ace849bbc8f08e1bfb05176c2644d7cdcbe571f78827ad7cacc48cc1411e84319a42e931d42006a89edb838a5251bed742b9e6e9f4d421603806a6fe932c1de5d6f93cbfb2bb5249a52b88db8bf0050440d2d21938ada7a165c39c8f3fd';
 
 const { handleRequest, runService } = jest.requireActual<{
   handleRequest: typeof _handleRequest;
   runService: typeof _runService;
 }>('./db');
 
-describe('handleRequest', () => {
-  it('get login state returns logged out correctly', async () => {
-    const result = await handleRequest({ type: DBRequestType.IS_LOGGED_IN });
-    expect(result).toBe(false);
+describe('isLoggedIn', () => {
+  it('checks if the user is logged in', () => {
+    expect(isLoggedIn()).toBe(false);
+  });
+});
+
+describe('init', () => {
+  it('initializes the store', async () => {
+    await expect(init(password)).resolves.toBe(true);
   });
 
-  it('init succesfully initializes the electron-store', async () => {
-    const result = await handleRequest({ type: DBRequestType.INIT, password });
-    expect(result).toBe(true);
-    expect(Store).toHaveBeenCalled();
+  it('fails with no input', async () => {
+    await expect(init('')).resolves.toBe(false);
+  });
+});
+
+describe('login', () => {
+  const get = (Store as jest.MockedClass<typeof Store>).mock.instances[0].get;
+  (get as jest.MockedFunction<typeof get>).mockReturnValue(encryptedAccounts);
+
+  it('initializes the store', async () => {
+    await expect(login(password)).resolves.toBe(true);
   });
 
-  it('init fails with no input', async () => {
-    const result = await handleRequest({ type: DBRequestType.INIT, password: '' });
-    expect(result).toBe(false);
+  it('fails with wrong password', async () => {
+    await expect(login('foobar')).resolves.toBe(false);
   });
 
-  it('login succesfully initializes the electron-store', async () => {
-    const result = await handleRequest({ type: DBRequestType.LOGIN, password });
-    expect(result).toBe(true);
-    expect(Store).toHaveBeenCalled();
+  it('fails with an empty password', async () => {
+    await expect(login('')).resolves.toBe(false);
   });
+});
 
-  it('login fails with wrong password', async () => {
-    const result = await handleRequest({ type: DBRequestType.LOGIN, password: 'bla' });
-    expect(result).toBe(false);
+describe('logout', () => {
+  it('clears the encryption key', async () => {
+    await login(password);
+    expect(isLoggedIn()).toBe(true);
+
+    await logout();
+    expect(isLoggedIn()).toBe(false);
   });
+});
 
-  it('login fails with empty password', async () => {
-    const result = await handleRequest({ type: DBRequestType.LOGIN, password: '' });
-    expect(result).toBe(false);
-  });
+describe('reset', () => {
+  it('resets the store', async () => {
+    const store = (Store as jest.MockedClass<typeof Store>).mock.instances[0];
 
-  it('logout clears the encryption key', async () => {
-    await handleRequest({ type: DBRequestType.LOGIN, password });
-    await expect(handleRequest({ type: DBRequestType.IS_LOGGED_IN })).resolves.toBe(true);
+    await reset();
 
-    await handleRequest({ type: DBRequestType.LOGOUT });
-    await expect(handleRequest({ type: DBRequestType.IS_LOGGED_IN })).resolves.toBe(false);
-  });
-
-  it('reset correctly resets the Store', async () => {
-    await handleRequest({ type: DBRequestType.RESET });
-    expect(fs.promises.unlink).toHaveBeenCalled();
-    expect(mockClear).toHaveBeenCalled();
-
+    expect(fs.unlink).toHaveBeenCalled();
+    expect(store.clear).toHaveBeenCalled();
     expect(deletePassword).toHaveBeenCalledWith(KEYTAR_SERVICE, 'foo');
   });
+});
 
-  it('get new user state returns true default', async () => {
-    const result = await handleRequest({ type: DBRequestType.IS_NEW_USER });
-    expect(result).toBe(true);
+describe('storeExists', () => {
+  it('checks if the store exists', async () => {
+    // @ts-expect-error Invalid return value
+    (fs.stat as jest.MockedFunction<typeof fs.stat>).mockImplementationOnce(async () => true);
+    await expect(storeExists()).resolves.toBe(true);
+
+    // @ts-expect-error Invalid return value
+    (fs.stat as jest.MockedFunction<typeof fs.stat>).mockImplementationOnce(async () => false);
+    await expect(storeExists()).resolves.toBe(false);
   });
+});
 
-  it('get new user state returns false afterwards', async () => {
-    const result = await handleRequest({ type: DBRequestType.IS_NEW_USER });
-    expect(result).toBe(false);
-  });
-
-  it('get login state returns logged in correctly', async () => {
-    const initResult = await handleRequest({ type: DBRequestType.INIT, password });
-    expect(initResult).toBe(true);
-    const result = await handleRequest({ type: DBRequestType.IS_LOGGED_IN });
-    expect(result).toBe(true);
-  });
-
+describe('handleRequest', () => {
   it('get from store', async () => {
-    const initResult = await handleRequest({ type: DBRequestType.INIT, password });
-    expect(initResult).toBe(true);
+    await init(password);
+
     const result = await handleRequest({ type: DBRequestType.GET_FROM_STORE, key: 'accounts' });
     expect(result).toStrictEqual({ accounts: { [fAccount.uuid]: fAccount } });
   });
 
   it('set in store', async () => {
-    const initResult = await handleRequest({ type: DBRequestType.INIT, password });
-    expect(initResult).toBe(true);
+    const store = (Store as jest.MockedClass<typeof Store>).mock.instances[0];
+
+    await init(password);
     await handleRequest({
       type: DBRequestType.SET_IN_STORE,
       key: 'accounts',
       payload: { accounts: { [fAccount.uuid]: fAccount } }
     });
-    expect(mockSet).toHaveBeenCalledWith(
+
+    expect(store.set).toHaveBeenCalledWith(
       'accounts',
       '993e330609e9c288dc09665834aa71db839fa9c05d647d2b44e41ab5a175e822214848289b445d3a467af53ce6cd8baaaf0f932f45715ef84c22aa4533ba9c9a4efa224b6fdb6df0b3bece0cf65d682756daef518f837662163a1056e1dc9fe52a96677b561ae2c8fdd2a62332d1aca1b54f844b4354a7a858bbb29b07ae36c41ab41ace849bbc8f08e1bfb05176c2644d7cdcbe571f78827ad7cacc48cc1411e84319a42e931d42006a89edb838a5251bed742b9e6e9f4d421603806a6fe932c1de5d6f93cbfb2bb5249a52b88db8bf0050440d2d21938ada7a165c39c8f3fd'
     );
   });
 
   it('set in store does not set without an encryption key', async () => {
-    mockSet.mockClear();
+    const store = (Store as jest.MockedClass<typeof Store>).mock.instances[0];
+    (store.set as jest.MockedFunction<typeof store.set>).mockClear();
 
     // Ensure there is no encryption key set
-    await handleRequest({ type: DBRequestType.LOGOUT });
+    await logout();
     await handleRequest({
       type: DBRequestType.SET_IN_STORE,
       key: 'accounts',
       payload: { accounts: { [fAccount.uuid]: fAccount } }
     });
 
-    expect(mockSet).not.toHaveBeenCalled();
+    expect(store.set).not.toHaveBeenCalled();
   });
 
   it('SAVE_ACCOUNT_SECRETS calls setPassword with encrypted privkey', async () => {
-    await handleRequest({
-      type: DBRequestType.INIT,
-      password
-    });
-
+    await init(password);
     await handleRequest({
       type: DBRequestType.SAVE_ACCOUNT_SECRETS,
       wallet: {
@@ -196,11 +184,7 @@ describe('handleRequest', () => {
   });
 
   it('GET_PRIVATE_KEY returns decrypted private key', async () => {
-    await handleRequest({
-      type: DBRequestType.INIT,
-      password
-    });
-
+    await init(password);
     const response = await handleRequest({
       type: DBRequestType.GET_PRIVATE_KEY,
       uuid
@@ -226,7 +210,7 @@ describe('handleRequest', () => {
         type: 'bla',
         privateKey: fPrivateKey
       })
-    ).rejects.toBeDefined();
+    ).rejects.toThrow();
   });
 });
 

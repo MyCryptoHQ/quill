@@ -5,8 +5,9 @@ import { useForm, yupValidator } from 'typed-react-form';
 import { object, string } from 'yup';
 
 import { ROUTE_PATHS } from '@app/routing';
-import { login, useDispatch, useSelector } from '@app/store';
+import { useDispatch, useSelector } from '@app/store';
 import lock from '@assets/icons/lock.svg';
+import { login } from '@common/store';
 import { translateRaw } from '@common/translate';
 import {
   Box,

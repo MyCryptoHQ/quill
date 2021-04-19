@@ -1,24 +1,11 @@
 /* eslint-disable jest/expect-expect */
-import { push } from 'connected-react-router';
-import { expectSaga } from 'redux-saga-test-plan';
-import { call } from 'redux-saga-test-plan/matchers';
-
-import { ipcBridgeRenderer } from '@bridge';
-import { translateRaw } from '@common/translate';
-import { ROUTE_PATHS } from '@routing';
-import { DBRequestType } from '@types';
 
 import slice, {
-  createPassword,
   createPasswordFailed,
   createPasswordSuccess,
-  createPasswordWorker,
-  login,
   loginFailed,
   loginSuccess,
-  loginWorker,
   logout,
-  logoutWorker,
   setLoggedIn,
   setNewUser
 } from './auth.slice';
@@ -117,74 +104,5 @@ describe('authSlice', () => {
         error: 'Foo bar'
       });
     });
-  });
-});
-
-describe('createPasswordWorker', () => {
-  it('dispatches createPasswordSuccess on success', () => {
-    return expectSaga(createPasswordWorker, createPassword('foobar'))
-      .provide([[call.fn(ipcBridgeRenderer.db.invoke), true]])
-      .call(ipcBridgeRenderer.db.invoke, {
-        type: DBRequestType.INIT,
-        password: 'foobar'
-      })
-      .put(createPasswordSuccess())
-      .silentRun();
-  });
-
-  it('navigates to the setup page on succesful login', () => {
-    return expectSaga(createPasswordWorker, createPassword('foobar'))
-      .provide([[call.fn(ipcBridgeRenderer.db.invoke), true]])
-      .call(ipcBridgeRenderer.db.invoke, {
-        type: DBRequestType.INIT,
-        password: 'foobar'
-      })
-      .put(push(ROUTE_PATHS.SETUP_ACCOUNT))
-      .silentRun();
-  });
-
-  it('dispatches createPasswordFailed on error', () => {
-    return expectSaga(createPasswordWorker, createPassword('foobar'))
-      .provide([[call.fn(ipcBridgeRenderer.db.invoke), false]])
-      .call(ipcBridgeRenderer.db.invoke, {
-        type: DBRequestType.INIT,
-        password: 'foobar'
-      })
-      .put(createPasswordFailed(translateRaw('CREATE_PASSWORD_ERROR')))
-      .silentRun();
-  });
-});
-
-describe('loginWorker', () => {
-  it('handles a succesful login', () => {
-    return expectSaga(loginWorker, login('foobar'))
-      .provide([[call.fn(ipcBridgeRenderer.db.invoke), true]])
-      .call(ipcBridgeRenderer.db.invoke, {
-        type: DBRequestType.LOGIN,
-        password: 'foobar'
-      })
-      .put(loginSuccess())
-      .silentRun();
-  });
-
-  it('sets an error on failed login', () => {
-    return expectSaga(loginWorker, login('foobar'))
-      .provide([[call.fn(ipcBridgeRenderer.db.invoke), false]])
-      .call(ipcBridgeRenderer.db.invoke, {
-        type: DBRequestType.LOGIN,
-        password: 'foobar'
-      })
-      .put(loginFailed(translateRaw('LOGIN_ERROR')))
-      .silentRun();
-  });
-});
-
-describe('logoutWorker', () => {
-  it('handles logout', () => {
-    return expectSaga(logoutWorker)
-      .call(ipcBridgeRenderer.db.invoke, {
-        type: DBRequestType.LOGOUT
-      })
-      .silentRun();
   });
 });

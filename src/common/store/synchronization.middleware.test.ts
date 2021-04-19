@@ -4,14 +4,13 @@
 
 import configureStore from 'redux-mock-store';
 
+import { checkNewUser } from '@common/store';
 import { synchronizationMiddleware } from '@common/store/synchronization.middleware';
 import { sendPublicKey, setHandshaken } from '@common/store/synchronization.slice';
 import { decryptJson } from '@common/utils';
 import { fEncryptionPrivateKey, fEncryptionPublicKey } from '@fixtures';
 import type { ApplicationState } from '@store';
 import type { DeepPartial } from '@types';
-
-import { checkNewUser } from './actions';
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 

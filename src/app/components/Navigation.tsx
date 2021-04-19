@@ -6,8 +6,9 @@ import { ROUTE_PATHS } from '@app/routing';
 import add from '@assets/icons/add.svg';
 import lock from '@assets/icons/lock.svg';
 import profile from '@assets/icons/profile.svg';
+import { logout } from '@common/store';
 import { Logo } from '@components/Logo';
-import { logout, useDispatch } from '@store';
+import { useDispatch } from '@store';
 
 import LinkApp from './Core/LinkApp';
 

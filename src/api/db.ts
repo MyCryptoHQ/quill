@@ -34,10 +34,11 @@ export const init = async (password: string) => {
   } catch (err) {
     return false;
   }
+
   return true;
 };
 
-const login = async (password: string) => {
+export const login = async (password: string) => {
   try {
     const hashedPassword = await hashPassword(password);
     if (!checkPassword(hashedPassword)) {
@@ -52,11 +53,11 @@ const login = async (password: string) => {
   return true;
 };
 
-const logout = async () => {
+export const logout = async () => {
   clearEncryptionKey();
 };
 
-const reset = async () => {
+export const reset = async () => {
   clearEncryptionKey();
   store.clear();
 
@@ -76,7 +77,7 @@ export const storeExists = async () => {
   return !!(await fs.stat(configPath).catch(() => false));
 };
 
-const isLoggedIn = () => checkPassword(encryptionKey);
+export const isLoggedIn = () => checkPassword(encryptionKey);
 
 const checkPassword = (hashedPassword: Buffer) => {
   if (hashedPassword.compare(Buffer.alloc(32)) === 0) {
@@ -96,6 +97,7 @@ export const getFromStore = <T>(key: string, password = encryptionKey): T | null
   if (!result) {
     return null;
   }
+
   const decrypted = decrypt(result, password);
   const [valid, parsed] = safeJSONParse<T>(decrypted);
   return valid === null ? parsed : null;
@@ -138,18 +140,6 @@ const saveAccountSecrets = async (initialiseWallet: SerializedWallet) => {
 
 export const handleRequest = async (request: DBRequest): Promise<DBResponse> => {
   switch (request.type) {
-    case DBRequestType.INIT:
-      return Promise.resolve(init(request.password));
-    case DBRequestType.LOGIN:
-      return Promise.resolve(login(request.password));
-    case DBRequestType.LOGOUT:
-      return Promise.resolve(logout());
-    case DBRequestType.RESET:
-      return reset();
-    case DBRequestType.IS_LOGGED_IN:
-      return Promise.resolve(isLoggedIn());
-    case DBRequestType.IS_NEW_USER:
-      return !(await storeExists());
     case DBRequestType.GET_FROM_STORE:
       return Promise.resolve(getFromStore(request.key));
     case DBRequestType.SET_IN_STORE:

@@ -6,9 +6,9 @@
 
 import { expectSaga } from 'redux-saga-test-plan';
 
+import { setNewUser } from '@common/store';
 import { createHandshakeKeyPair, encryptJson } from '@common/utils';
 import { fEncryptionPrivateKey, fEncryptionPublicKey } from '@fixtures';
-import { setNewUser } from '@store/auth.slice.ts';
 
 import slice, {
   createKeyPair,

@@ -2,18 +2,17 @@ import { Body, Button, Heading } from '@mycrypto/ui';
 import { push } from 'connected-react-router';
 
 import warning from '@assets/icons/circle-error.svg';
-import { ipcBridgeRenderer } from '@bridge';
+import { reset, setNewUser } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { Container, Flex, Image, PanelBottom } from '@components';
 import { ROUTE_PATHS } from '@routing';
-import { setNewUser, useDispatch } from '@store';
-import { DBRequestType } from '@types';
+import { useDispatch } from '@store';
 
 export const ForgotPassword = () => {
   const dispatch = useDispatch();
 
   const handleReset = () => {
-    ipcBridgeRenderer.db.invoke({ type: DBRequestType.RESET });
+    dispatch(reset());
     dispatch(setNewUser(true));
     handleBack();
   };
