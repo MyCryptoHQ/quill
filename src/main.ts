@@ -61,7 +61,20 @@ const createWindow = (): void => {
     shell.openExternal(value);
   });
 
-  const store = createStore(ipcBridgeMain(ipcMain, window.webContents).redux);
+  const signingProcess = createSigningProcess();
+
+  const store = createStore({
+    on: (listener) => {
+      ipcBridgeMain(ipcMain, window.webContents).redux.on(listener);
+      signingProcess.on('message', (msg) => listener(undefined, msg));
+    },
+    emit: (args) => {
+      ipcBridgeMain(ipcMain, window.webContents).redux.emit(args);
+      console.log(`Sending to signing process ${args}`);
+      signingProcess.send(args);
+    }
+  });
+
   const persistor = createPersistor(store);
 
   store.dispatch(createKeyPair());
@@ -69,8 +82,6 @@ const createWindow = (): void => {
 
   // and load the index.html of the app.
   window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-
-  createSigningProcess();
 };
 
 const showWindow = () => {

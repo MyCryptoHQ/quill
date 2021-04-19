@@ -5,6 +5,6 @@ const WORKER_PATH = path.resolve(__dirname, 'worker.js');
 
 export const createSigningProcess = () => {
   const process = fork(WORKER_PATH);
-  process.on('message', (message) => console.log(message));
+  process.on('message', (message) => console.log(`SIGNING PROCESS SENT: ${message}`));
   return process;
 };

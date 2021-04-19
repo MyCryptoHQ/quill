@@ -5,7 +5,7 @@ import { createStore } from './store';
 const store = createStore({
   emit: process.send,
   on: (listener: any) => {
-    process.on('message', listener);
+    process.on('message', (msg) => listener(undefined, msg));
     return () => {
       //process.removeListener('message', listener);
     };
