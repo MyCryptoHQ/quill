@@ -94,9 +94,6 @@ const checkPassword = (hashedPassword: Buffer) => {
 // @todo Improve typing?
 export const getFromStore = <T>(key: string, password = encryptionKey): T | null => {
   const result = store.get(key) as string;
-
-  console.log(result);
-
   if (!result) {
     return null;
   }
