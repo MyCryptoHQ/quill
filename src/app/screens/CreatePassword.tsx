@@ -5,10 +5,11 @@ import { useForm, yupValidator } from 'typed-react-form';
 import { object, ref, string } from 'yup';
 
 import warning from '@assets/icons/circle-warning.svg';
+import { createPassword } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { Box, Container, Flex, FormError, FormInput, Image, Label, PanelBottom } from '@components';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
-import { createPassword, useDispatch } from '@store';
+import { useDispatch } from '@store';
 import { translate } from '@translations';
 import { PasswordStrength } from '@types';
 

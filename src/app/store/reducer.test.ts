@@ -1,9 +1,9 @@
 import { createHashHistory } from 'history';
 
+import { logout } from '@common/store';
 import { fAccounts, fRequestOrigin, fTxRequest } from '@fixtures';
 import { makeQueueTx } from '@utils';
 
-import { logout } from './auth.slice';
 import { createRootReducer } from './reducer';
 
 describe('rootReducer', () => {

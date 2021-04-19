@@ -3,10 +3,10 @@ import type { History } from 'history';
 import type { AnyAction } from 'redux';
 import { combineReducers } from 'redux';
 
+import authSlice, { logout } from '@common/store/auth.slice';
 import synchronizationSlice from '@common/store/synchronization.slice';
 
 import accountSlice, { reducer as accountsReducer } from './account.slice';
-import authSlice, { logout } from './auth.slice';
 import signingSlice from './signing.slice';
 import transactionsSlice, { reducer as transactionsReducer } from './transactions.slice';
 
