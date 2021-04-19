@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store';
 
 import { ROUTE_PATHS } from '@app/routing';
 import type { ApplicationState } from '@app/store';
-import { reset, setNewUser } from '@common/store';
+import { reset } from '@common/store';
 import { translateRaw } from '@common/translate';
 import type { DeepPartial } from '@types';
 
@@ -44,7 +44,6 @@ describe('ForgotPassword', () => {
     fireEvent.click(confirmButton);
 
     expect(mockStore.getActions()).toContainEqual(reset());
-    expect(mockStore.getActions()).toContainEqual(setNewUser(true));
     expect(mockStore.getActions()).toContainEqual(push(ROUTE_PATHS.LOCKED));
   });
 

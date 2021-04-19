@@ -40,6 +40,9 @@ const slice = createSlice({
     },
     createPasswordFailed(state, action: PayloadAction<string>) {
       state.error = action.payload;
+    },
+    reset(state) {
+      state.newUser = true;
     }
   }
 });
@@ -47,7 +50,6 @@ const slice = createSlice({
 export const checkNewUser = createAction(`${sliceName}/checkNewUser`);
 export const createPassword = createAction<string>(`${sliceName}/createPassword`);
 export const login = createAction<string>(`${sliceName}/login`);
-export const reset = createAction(`${sliceName}/reset`);
 
 export const {
   setNewUser,
@@ -56,7 +58,8 @@ export const {
   loginFailed,
   logout,
   createPasswordSuccess,
-  createPasswordFailed
+  createPasswordFailed,
+  reset
 } = slice.actions;
 
 export default slice;

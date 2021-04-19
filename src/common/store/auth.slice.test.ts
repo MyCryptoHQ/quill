@@ -6,6 +6,7 @@ import slice, {
   loginFailed,
   loginSuccess,
   logout,
+  reset,
   setLoggedIn,
   setNewUser
 } from './auth.slice';
@@ -102,6 +103,16 @@ describe('authSlice', () => {
       expect(slice.reducer(state, createPasswordFailed('Foo bar'))).toStrictEqual({
         ...state,
         error: 'Foo bar'
+      });
+    });
+  });
+
+  describe('reset', () => {
+    it('sets new user', () => {
+      const state = { newUser: false, loggedIn: false };
+      expect(slice.reducer(state, reset())).toStrictEqual({
+        ...state,
+        newUser: true
       });
     });
   });

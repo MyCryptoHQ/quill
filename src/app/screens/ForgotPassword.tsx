@@ -2,7 +2,7 @@ import { Body, Button, Heading } from '@mycrypto/ui';
 import { push } from 'connected-react-router';
 
 import warning from '@assets/icons/circle-error.svg';
-import { reset, setNewUser } from '@common/store';
+import { reset } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { Container, Flex, Image, PanelBottom } from '@components';
 import { ROUTE_PATHS } from '@routing';
@@ -13,7 +13,6 @@ export const ForgotPassword = () => {
 
   const handleReset = () => {
     dispatch(reset());
-    dispatch(setNewUser(true));
     handleBack();
   };
 
