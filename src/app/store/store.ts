@@ -6,7 +6,6 @@ import createSagaMiddleware from 'redux-saga';
 
 import { ipcBridgeRenderer } from '@bridge';
 import { createKeyPair, synchronizationMiddleware } from '@common/store';
-import { createPersistor } from '@store/persistor';
 
 import { createRootReducer } from './reducer';
 import rootSaga from './sagas';
@@ -55,4 +54,3 @@ export const createStore = (
 };
 
 export const store = createStore();
-export const persistor = createPersistor(store);

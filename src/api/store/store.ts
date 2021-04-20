@@ -5,6 +5,7 @@ import createSagaMiddleware from 'redux-saga';
 import { synchronizationMiddleware } from '@common/store';
 import type { ReduxIPC } from '@types';
 
+import { persistenceMiddleware } from './persistence.middleware';
 import { createRootReducer } from './reducer';
 import rootSaga from './sagas';
 
@@ -22,6 +23,7 @@ export const createStore = (ipc: ReduxIPC): EnhancedStore<ApplicationState> => {
       serializableCheck: false
     })
       .concat(synchronizationMiddleware(ipc))
+      .concat(persistenceMiddleware())
       .concat(sagaMiddleware)
   });
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { fetchReset, useDispatch } from '@app/store';
+import { useDispatch } from '@app/store';
+import { fetchReset } from '@common/store';
 import { AddAccountKeystore } from '@screens/AddAccount/AddAccountKeystore';
 import { WalletType } from '@types';
 

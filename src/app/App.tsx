@@ -7,7 +7,7 @@ import { Box, Flex, Navigation } from '@components';
 import { GlobalStyle, theme } from '@theme';
 
 import { AppRoutes } from './AppRoutes';
-import { persistor, useDispatch, useSelector } from './store';
+import { useDispatch, useSelector } from './store';
 
 const App = () => {
   const loggedIn = useSelector((state) => state.auth.loggedIn);
@@ -19,12 +19,6 @@ const App = () => {
       dispatch(checkNewUser());
     }
   }, [isHandshaken]);
-
-  useEffect(() => {
-    if (loggedIn) {
-      persistor.persist();
-    }
-  }, [loggedIn]);
 
   return (
     <ThemeProvider theme={theme}>

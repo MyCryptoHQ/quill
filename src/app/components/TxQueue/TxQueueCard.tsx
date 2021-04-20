@@ -3,9 +3,10 @@ import { Body } from '@mycrypto/ui';
 
 import { Box, FromToAccount, Image, LinkApp, TimeElapsed } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
-import { getAccounts, selectTransaction, useDispatch, useSelector } from '@app/store';
+import { selectTransaction, useDispatch, useSelector } from '@app/store';
 import circleArrow from '@assets/icons/circle-arrow.svg';
 import waiting from '@assets/icons/queue-waiting.svg';
+import { getAccounts } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { getChain } from '@data';
 import type { TxQueueEntry } from '@types';

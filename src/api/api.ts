@@ -1,8 +1,8 @@
 import type { WebContents } from 'electron';
 import { ipcMain } from 'electron';
 
-import type { AccountsState } from '@app/store';
 import { ipcBridgeMain } from '@bridge';
+import type { AccountsState } from '@common/store';
 import { IPC_CHANNELS, SUPPORTED_METHODS } from '@config';
 import type { JsonRPCRequest, JsonRPCResponse, UserRequest } from '@types';
 import { safeJSONParse } from '@utils';

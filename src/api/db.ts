@@ -126,11 +126,11 @@ export const getPrivateKey = async (uuid: TUuid) => {
   return null;
 };
 
-const deleteAccountSecrets = async (uuid: TUuid) => {
+export const deleteAccountSecrets = async (uuid: TUuid) => {
   return keytar.deletePassword(KEYTAR_SERVICE, uuid);
 };
 
-const saveAccountSecrets = async (initialiseWallet: SerializedWallet) => {
+export const saveAccountSecrets = async (initialiseWallet: SerializedWallet) => {
   const wallet = await getWallet(initialiseWallet);
   const privateKey = await wallet.getPrivateKey();
   const uuid = generateDeterministicAddressUUID(await wallet.getAddress());

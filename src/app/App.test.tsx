@@ -63,7 +63,8 @@ describe('App', () => {
         auth: { loggedIn: true, newUser: false },
         transactions: { queue: [], history: [] },
         accounts: { accounts: [fAccount] },
-        synchronization: { isHandshaken: true }
+        synchronization: { isHandshaken: true },
+        persistence: { isPersisted: true }
       })
     );
     await waitFor(() =>

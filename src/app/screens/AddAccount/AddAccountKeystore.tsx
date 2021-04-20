@@ -1,7 +1,8 @@
 import { Body, Button } from '@mycrypto/ui';
 import { useEffect } from 'react';
 
-import { fetchAccounts, getAccountError, useDispatch, useSelector } from '@app/store';
+import { useDispatch, useSelector } from '@app/store';
+import { fetchAccounts, getAccountError } from '@common/store';
 import { translateRaw } from '@common/translate';
 import {
   Box,
