@@ -5,9 +5,8 @@ import { useSelector } from 'react-redux';
 
 import { Box, Container, Image, TxHistory, TxQueue } from '@app/components';
 import info from '@assets/icons/circle-info.svg';
-import { getAccountsLength } from '@common/store';
+import { getAccountsLength, getPersisted } from '@common/store';
 import { translateRaw } from '@common/translate';
-import { usePersisted } from '@hooks';
 import { ROUTE_PATHS } from '@routing';
 import { getQueue, getTxHistory, useDispatch } from '@store';
 
@@ -16,13 +15,13 @@ export const Home = () => {
   const accountsLength = useSelector(getAccountsLength);
   const queue = useSelector(getQueue);
   const txHistory = useSelector(getTxHistory);
-  /**const isPersisted = usePersisted(persistor);
+  const isPersisted = useSelector(getPersisted);
 
   useEffect(() => {
     if (isPersisted && accountsLength === 0) {
       dispatch(push(ROUTE_PATHS.SETUP_ACCOUNT));
     }
-  }, [isPersisted]);**/
+  }, [isPersisted]);
 
   return (
     <Container>

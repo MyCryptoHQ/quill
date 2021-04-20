@@ -4,7 +4,8 @@ import { PERSIST } from 'redux-persist';
 import synchronization, {
   getHandshaken,
   getTargetPublicKey,
-  sendPublicKey
+  sendPublicKey,
+  setPersisted
 } from '@common/store/synchronization.slice';
 import { encryptJson } from '@common/utils';
 import type { ReduxIPC } from '@types';
@@ -24,11 +25,13 @@ export const synchronizationMiddleware = (ipc: ReduxIPC): Middleware => (store) 
 ) => {
   const path = action.type.split('/')[0];
   if (
-    (action.type !== sendPublicKey.type && IGNORED_PATHS.includes(path)) ||
+    (action.type !== sendPublicKey.type &&
+      action.type !== setPersisted.type &&
+      IGNORED_PATHS.includes(path)) ||
     IGNORED_ACTIONS.includes(action.type) ||
     action.remote
   ) {
-    console.log(`Ignoring ${action.type}`)
+    console.log(`Ignoring ${action.type}`);
     return next(action);
   }
 

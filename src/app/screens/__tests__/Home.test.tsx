@@ -31,6 +31,9 @@ const mockStore = createMockStore({
   transactions: {
     queue: [queueTx, { ...queueTx, id: 2 }],
     history: [historyTx, historyTx]
+  },
+  synchronization: {
+    isPersisted: true
   }
 });
 
@@ -61,7 +64,8 @@ describe('Home', () => {
     const { getByText } = getComponent(
       createMockStore({
         accounts: { accounts: [fAccount] },
-        transactions: { queue: [], history: [] }
+        transactions: { queue: [], history: [] },
+        synchronization: { isPersisted: true }
       })
     );
     expect(
@@ -72,7 +76,8 @@ describe('Home', () => {
   it('navigates to the setup page when there are no accounts', async () => {
     const store = createMockStore({
       accounts: { accounts: [] },
-      transactions: { queue: [], history: [] }
+      transactions: { queue: [], history: [] },
+      synchronization: { isPersisted: true }
     });
 
     getComponent(store);

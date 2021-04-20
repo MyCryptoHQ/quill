@@ -293,7 +293,6 @@ describe('AddAccount', () => {
   });
 
   it('shows mnemonic crypto error', async () => {
-    // @ts-expect-error Brand bug with DeepPartial
     const { getByLabelText, getByText, getByTestId } = getComponent(createStore());
     const mnemonicButton = getByTestId('select-MNEMONIC');
     expect(mnemonicButton).toBeDefined();

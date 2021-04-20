@@ -20,12 +20,15 @@ interface SynchronizationState {
   privateKey?: string;
 
   isHandshaken: boolean;
+  // Is true if persistence is set up and synced with main process
+  isPersisted: boolean;
 
   targetPublicKey?: string;
 }
 
 const initialState: SynchronizationState = {
-  isHandshaken: false
+  isHandshaken: false,
+  isPersisted: false
 };
 
 const sliceName = 'synchronization';
@@ -43,6 +46,9 @@ const slice = createSlice({
     setHandshaken(state, action: PayloadAction<boolean>) {
       state.isHandshaken = action.payload;
     },
+    setPersisted(state, action: PayloadAction<boolean>) {
+      state.isPersisted = action.payload;
+    },
     setKeyPair(state, action: PayloadAction<HandshakeKeyPair>) {
       state.publicKey = action.payload.publicKey;
       state.privateKey = action.payload.privateKey;
@@ -58,6 +64,7 @@ export const {
   setKeyPair,
   sendPublicKey,
   setHandshaken,
+  setPersisted,
   setTargetPublicKey
 } = slice.actions;
 
@@ -71,6 +78,7 @@ export const getSynchronizationState = createSelector(
 export const getPublicKey = createSelector(getSynchronizationState, (state) => state.publicKey);
 export const getPrivateKey = createSelector(getSynchronizationState, (state) => state.privateKey);
 export const getHandshaken = createSelector(getSynchronizationState, (state) => state.isHandshaken);
+export const getPersisted = createSelector(getSynchronizationState, (state) => state.isPersisted);
 
 export const getTargetPublicKey = createSelector(
   getSynchronizationState,

@@ -52,13 +52,15 @@ export const login = async (password: string) => {
   } catch {
     return false;
   }
-  loginCallback();
+  if (loginCallback) {
+    loginCallback();
+  }
   return true;
 };
 
 export const setLoginCallback = (callback: () => void) => {
-  loginCallback = callback
-}
+  loginCallback = callback;
+};
 
 export const logout = async () => {
   clearEncryptionKey();

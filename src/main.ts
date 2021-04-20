@@ -11,7 +11,7 @@ import { HEIGHT, WIDTH } from '@config';
 import { createStore } from './api/store';
 import { runAPI } from './api/ws';
 import { ipcBridgeMain } from './bridge';
-import { createKeyPair } from './common/store';
+import { createKeyPair, setPersisted } from './common/store';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: any;
@@ -68,6 +68,13 @@ const createWindow = (): void => {
 
   // CLEAN THIS UP
   setLoginCallback(() => persistor.persist());
+
+  persistor.subscribe(() => {
+    setTimeout(() => {
+      const { bootstrapped } = persistor.getState();
+      store.dispatch(setPersisted(bootstrapped));
+    }, 100);
+  });
 
   store.dispatch(createKeyPair());
 
