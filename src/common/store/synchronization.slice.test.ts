@@ -18,7 +18,6 @@ import slice, {
   sendPublicKey,
   setHandshaken,
   setKeyPair,
-  setPersisted,
   setPublicKeyWorker,
   setTargetPublicKey
 } from './synchronization.slice';
@@ -26,36 +25,12 @@ import slice, {
 describe('Handshake', () => {
   describe('setHandshaken', () => {
     it('sets isHandshaken to the payload', () => {
-      expect(
-        slice.reducer({ isHandshaken: false, isPersisted: false }, setHandshaken(true))
-      ).toStrictEqual({
-        isHandshaken: true,
-        isPersisted: false
+      expect(slice.reducer({ isHandshaken: false }, setHandshaken(true))).toStrictEqual({
+        isHandshaken: true
       });
 
-      expect(
-        slice.reducer({ isHandshaken: true, isPersisted: false }, setHandshaken(false))
-      ).toStrictEqual({
-        isHandshaken: false,
-        isPersisted: false
-      });
-    });
-  });
-
-  describe('setPersisted', () => {
-    it('sets isPersisted to the payload', () => {
-      expect(
-        slice.reducer({ isHandshaken: false, isPersisted: false }, setPersisted(true))
-      ).toStrictEqual({
-        isHandshaken: false,
-        isPersisted: true
-      });
-
-      expect(
-        slice.reducer({ isHandshaken: false, isPersisted: true }, setPersisted(false))
-      ).toStrictEqual({
-        isHandshaken: false,
-        isPersisted: false
+      expect(slice.reducer({ isHandshaken: true }, setHandshaken(false))).toStrictEqual({
+        isHandshaken: false
       });
     });
   });
@@ -63,9 +38,7 @@ describe('Handshake', () => {
   describe('setKeyPair', () => {
     it('sets publicKey and privateKey to the payload', async () => {
       const keyPair = await createHandshakeKeyPair();
-      expect(
-        slice.reducer({ isHandshaken: false, isPersisted: false }, setKeyPair(keyPair))
-      ).toStrictEqual(
+      expect(slice.reducer({ isHandshaken: false }, setKeyPair(keyPair))).toStrictEqual(
         expect.objectContaining({
           ...keyPair
         })
@@ -76,10 +49,7 @@ describe('Handshake', () => {
   describe('setTargetPublicKey', () => {
     it('sets targetPublicKey to the payload', () => {
       expect(
-        slice.reducer(
-          { isHandshaken: false, isPersisted: false },
-          setTargetPublicKey(fEncryptionPublicKey)
-        )
+        slice.reducer({ isHandshaken: false }, setTargetPublicKey(fEncryptionPublicKey))
       ).toStrictEqual(
         expect.objectContaining({
           targetPublicKey: fEncryptionPublicKey

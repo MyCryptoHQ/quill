@@ -2,7 +2,6 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAction, createSelector, createSlice } from '@reduxjs/toolkit';
 import type { Event } from 'electron';
 import type { AnyAction } from 'redux';
-import type { Persistor } from 'redux-persist';
 import type { SagaIterator } from 'redux-saga';
 import { eventChannel } from 'redux-saga';
 import { all, call, put, select, take, takeEvery, takeLatest } from 'redux-saga/effects';
@@ -21,16 +20,12 @@ interface SynchronizationState {
   privateKey?: string;
 
   isHandshaken: boolean;
-  // Is true if persistence is set up and synced with main process
-  isPersisted: boolean;
-  persistor?: Persistor;
 
   targetPublicKey?: string;
 }
 
 const initialState: SynchronizationState = {
-  isHandshaken: false,
-  isPersisted: false
+  isHandshaken: false
 };
 
 const sliceName = 'synchronization';
@@ -48,12 +43,6 @@ const slice = createSlice({
     setHandshaken(state, action: PayloadAction<boolean>) {
       state.isHandshaken = action.payload;
     },
-    setPersisted(state, action: PayloadAction<boolean>) {
-      state.isPersisted = action.payload;
-    },
-    setPersistor(state, action: PayloadAction<Persistor>) {
-      state.persistor = action.payload;
-    },
     setKeyPair(state, action: PayloadAction<HandshakeKeyPair>) {
       state.publicKey = action.payload.publicKey;
       state.privateKey = action.payload.privateKey;
@@ -69,8 +58,6 @@ export const {
   setKeyPair,
   sendPublicKey,
   setHandshaken,
-  setPersisted,
-  setPersistor,
   setTargetPublicKey
 } = slice.actions;
 
@@ -84,8 +71,6 @@ export const getSynchronizationState = createSelector(
 export const getPublicKey = createSelector(getSynchronizationState, (state) => state.publicKey);
 export const getPrivateKey = createSelector(getSynchronizationState, (state) => state.privateKey);
 export const getHandshaken = createSelector(getSynchronizationState, (state) => state.isHandshaken);
-export const getPersisted = createSelector(getSynchronizationState, (state) => state.isPersisted);
-export const getPersistor = createSelector(getSynchronizationState, (state) => state.persistor);
 
 export const getTargetPublicKey = createSelector(
   getSynchronizationState,

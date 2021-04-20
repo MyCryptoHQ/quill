@@ -32,7 +32,7 @@ const mockStore = createMockStore({
     queue: [queueTx, { ...queueTx, id: 2 }],
     history: [historyTx, historyTx]
   },
-  synchronization: {
+  persistence: {
     isPersisted: true
   }
 });
@@ -65,7 +65,7 @@ describe('Home', () => {
       createMockStore({
         accounts: { accounts: [fAccount] },
         transactions: { queue: [], history: [] },
-        synchronization: { isPersisted: true }
+        persistence: { isPersisted: true }
       })
     );
     expect(
@@ -77,7 +77,7 @@ describe('Home', () => {
     const store = createMockStore({
       accounts: { accounts: [] },
       transactions: { queue: [], history: [] },
-      synchronization: { isPersisted: true }
+      persistence: { isPersisted: true }
     });
 
     getComponent(store);

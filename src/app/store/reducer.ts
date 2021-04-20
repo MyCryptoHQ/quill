@@ -6,6 +6,7 @@ import { REHYDRATE } from 'redux-persist';
 
 import accountSlice from '@common/store/accounts.slice';
 import authSlice, { logout } from '@common/store/auth.slice';
+import persistenceSlice from '@common/store/persistence.slice';
 import synchronizationSlice from '@common/store/synchronization.slice';
 
 import signingSlice from './signing.slice';
@@ -21,7 +22,8 @@ export const createRootReducer = (history: History) => {
     [accountSlice.name]: accountSlice.reducer,
     [transactionsSlice.name]: transactionsReducer,
     [signingSlice.name]: signingSlice.reducer,
-    [synchronizationSlice.name]: synchronizationSlice.reducer
+    [synchronizationSlice.name]: synchronizationSlice.reducer,
+    [persistenceSlice.name]: persistenceSlice.reducer
   });
 
   return (state: any, action: AnyAction) => {
