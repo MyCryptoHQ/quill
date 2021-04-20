@@ -30,7 +30,6 @@ export const synchronizationMiddleware = (ipc: ReduxIPC): Middleware => (store) 
     IGNORED_ACTIONS.includes(action.type) ||
     action.remote
   ) {
-    console.log(`Ignoring ${action.type}`);
     return next(action);
   }
 
@@ -46,7 +45,6 @@ export const synchronizationMiddleware = (ipc: ReduxIPC): Middleware => (store) 
   const publicKey: string = getTargetPublicKey(store.getState());
 
   if (isHandshaken && publicKey) {
-    console.log(`Sending: ${json}`);
     const encryptedAction = encryptJson(publicKey, json);
     ipc.emit(
       JSON.stringify({

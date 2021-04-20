@@ -35,7 +35,7 @@ describe('persistenceMiddleware', () => {
 
     expect(fn).toHaveBeenCalledTimes(1);
     expect(fn).toHaveBeenCalledWith(action);
-    expect(persist).toHaveBeenCalledTimes(0);
+    expect(persist).not.toHaveBeenCalled();
     expect(store.getActions()).toContainEqual(setPersisted(true));
   });
 
