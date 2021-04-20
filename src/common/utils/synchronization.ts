@@ -1,6 +1,6 @@
 import { hexlify } from '@ethersproject/bytes';
 import { decrypt, encrypt } from 'eciesjs';
-import type { Infer} from 'superstruct';
+import type { Infer } from 'superstruct';
 import { is, object, string, type, unknown } from 'superstruct';
 
 import { stripHexPrefix } from '@utils';
