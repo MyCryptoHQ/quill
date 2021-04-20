@@ -4,7 +4,7 @@ import { promisify } from 'util';
 const pbkdf2 = promisify(crypto.pbkdf2);
 
 const SALT = 'w//Vd(FlSLgm';
-const ITERATIONS = 5000;
+const ITERATIONS = 1000000;
 const KEY_LENGTH = 32;
 const HASH_ALGORITHM = 'sha512';
 
