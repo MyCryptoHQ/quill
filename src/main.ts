@@ -73,7 +73,7 @@ const createWindow = (): void => {
   window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Run API
-  runAPI(window.webContents);
+  runAPI(store);
 
   // Run Signing Logic
   runCryptoService(window.webContents);

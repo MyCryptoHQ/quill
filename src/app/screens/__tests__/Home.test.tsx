@@ -6,7 +6,7 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import type { ApplicationState } from '@app/store';
-import { selectTransaction } from '@app/store';
+import { selectTransaction } from '@common/store';
 import { fAccount, fRequestOrigin, fTxRequest } from '@fixtures';
 import { ROUTE_PATHS } from '@routing';
 import type { DeepPartial } from '@types';

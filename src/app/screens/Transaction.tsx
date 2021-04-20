@@ -11,14 +11,8 @@ import {
   TxResultBanner
 } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
-import {
-  denyCurrentTransaction,
-  getCurrentTransaction,
-  sign,
-  useDispatch,
-  useSelector
-} from '@app/store';
-import { getAccounts } from '@common/store';
+import { useDispatch, useSelector } from '@app/store';
+import { denyCurrentTransaction, getAccounts, getCurrentTransaction, sign } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { TxResult } from '@types';
 

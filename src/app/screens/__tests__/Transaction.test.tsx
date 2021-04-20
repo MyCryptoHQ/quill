@@ -5,7 +5,7 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import type { ApplicationState } from '@app/store';
-import { denyCurrentTransaction, sign } from '@app/store';
+import { denyCurrentTransaction, sign } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { fAccount, fAccounts, getTransactionRequest } from '@fixtures';
 import type { DeepPartial, IAccount, TSignTransaction } from '@types';

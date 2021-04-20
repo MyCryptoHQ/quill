@@ -2,11 +2,12 @@ import { Body, Heading } from '@mycrypto/ui';
 import { useEffect } from 'react';
 
 import { Account, ScrollableContainer, SignBottom } from '@app/components';
-import { getSigningError, useSelector } from '@app/store';
+import { useSelector } from '@app/store';
 import { translateRaw } from '@common/translate';
 import type { SignTransactionProps } from '@types';
 import { WalletType } from '@types';
 
+import { getSigningError } from '../../../common/store';
 import { KeystoreForm, useKeystoreForm } from '../forms/KeystoreForm';
 
 export const SignTransactionKeystore = (props: SignTransactionProps) => {

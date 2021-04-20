@@ -1,13 +1,12 @@
-import type { WebContents } from 'electron';
+import type { EnhancedStore } from '@reduxjs/toolkit';
 import { ipcMain } from 'electron';
 
-import { ipcBridgeMain } from '@bridge';
-import type { AccountsState } from '@common/store';
+import { addTransaction } from '@common/store';
 import { IPC_CHANNELS, SUPPORTED_METHODS } from '@config';
-import type { JsonRPCRequest, JsonRPCResponse, UserRequest } from '@types';
+import type { JsonRPCRequest, JsonRPCResponse, TSignTransaction, UserRequest } from '@types';
 import { safeJSONParse } from '@utils';
 
-import { getFromStore } from './db';
+import type { ApplicationState } from './store';
 import { isValidMethod, isValidParams, isValidRequest } from './validators';
 
 const toJsonRpcResponse = (response: Omit<JsonRPCResponse, 'jsonrpc'>) => {
@@ -15,20 +14,19 @@ const toJsonRpcResponse = (response: Omit<JsonRPCResponse, 'jsonrpc'>) => {
 };
 
 const requestSigning = (
-  req: UserRequest<unknown>,
-  webContents: WebContents
+  request: UserRequest<TSignTransaction>,
+  store: EnhancedStore<ApplicationState>
 ): Promise<JsonRPCResponse> => {
   // @todo Cleaner way of doing this?
   // @todo Reject?
   return new Promise((resolve, _reject) => {
-    const { request } = req;
-    webContents.send(IPC_CHANNELS.API, req);
+    store.dispatch(addTransaction(request));
 
-    const listener = (
-      _event: Electron.IpcMainEvent,
-      response: Omit<JsonRPCResponse, 'jsonrpc'>
-    ) => {
-      if (response.id === request.id) {
+    // @todo: Refactor this using Redux
+    const listener = (response: Omit<JsonRPCResponse, 'jsonrpc'>) => {
+      console.log('listener', response, request.request);
+
+      if (response.id === request.request.id) {
         // Resolve promise and remove listener if response matches request
         // Since it is then the actual result of the JSON RPC request in question
         resolve(toJsonRpcResponse(response));
@@ -36,31 +34,34 @@ const requestSigning = (
       }
     };
 
-    ipcBridgeMain(ipcMain, webContents).api.on(listener);
+    // @ts-expect-error Wrong type
+    ipcMain.on(IPC_CHANNELS.API, listener);
   });
 };
 
-const handleValidRequest = async (req: UserRequest<unknown>, webContents: WebContents) => {
+const handleValidRequest = async (
+  req: UserRequest<unknown>,
+  store: EnhancedStore<ApplicationState>
+) => {
   const { request } = req;
   switch (request.method) {
     case SUPPORTED_METHODS.SIGN_TRANSACTION:
-      return requestSigning(req, webContents);
+      return requestSigning(req as UserRequest<TSignTransaction>, store);
     // @todo Permissions based on origin
-    // @todo Decide whether to fetch directly from store?
     case SUPPORTED_METHODS.ACCOUNTS:
       return toJsonRpcResponse({
         id: request.id,
-        result: ((await getFromStore('accounts')) as AccountsState).accounts.map((a) => a.address)
+        result: store.getState().accounts.accounts.map((account) => account.address)
       });
     default:
-      return Promise.reject(new Error('Unexpected error'));
+      throw new Error('Unexpected error');
   }
 };
 
 // Replies follow: https://www.jsonrpc.org/specification
 export const handleRequest = async (
   data: string,
-  webContents: WebContents,
+  store: EnhancedStore<ApplicationState>,
   origin?: string
 ): Promise<JsonRPCResponse> => {
   // @todo: Further sanitation?
@@ -94,5 +95,5 @@ export const handleRequest = async (
   }
 
   // No errors found, handle as valid request
-  return handleValidRequest({ origin, request }, webContents);
+  return handleValidRequest({ origin, request }, store);
 };
