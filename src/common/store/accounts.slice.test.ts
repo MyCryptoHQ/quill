@@ -18,58 +18,75 @@ const wallet: SerializedWallet = {
 };
 
 describe('AccountSlice', () => {
-  it('addAccount(): adds account to state', () => {
-    const result = slice.reducer({ accounts: [], isFetching: false }, addAccount(fAccount));
-    expect(result.accounts).toStrictEqual([fAccount]);
+  describe('addAccount()', () => {
+    it('adds account to state', () => {
+      const result = slice.reducer({ accounts: [], isFetching: false }, addAccount(fAccount));
+      expect(result.accounts).toStrictEqual([fAccount]);
+    });
   });
 
-  it('removeAccount(): removes account from state', () => {
-    const result = slice.reducer(
-      { accounts: [fAccount], isFetching: false },
-      removeAccount(fAccount)
-    );
-    expect(result.accounts).toStrictEqual([]);
+  describe('removeAccount()', () => {
+    it('removes account from state', () => {
+      const result = slice.reducer(
+        { accounts: [fAccount], isFetching: false },
+        removeAccount(fAccount)
+      );
+      expect(result.accounts).toStrictEqual([]);
+    });
   });
 
-  it('updateAccount(): updates account in state', () => {
-    const newAccount = { ...fAccount, label: 'new label' };
-    const result = slice.reducer(
-      { accounts: [fAccount], isFetching: false },
-      updateAccount(newAccount)
-    );
-    expect(result.accounts).toStrictEqual([newAccount]);
+  describe('updateAccount()', () => {
+    it('updates account in state', () => {
+      const newAccount = { ...fAccount, label: 'new label' };
+      const result = slice.reducer(
+        { accounts: [fAccount], isFetching: false },
+        updateAccount(newAccount)
+      );
+      expect(result.accounts).toStrictEqual([newAccount]);
+    });
   });
 
-  it('fetchAccount(): sets isFetching to true', () => {
-    const result = slice.reducer(
-      { accounts: [], isFetching: false },
-      fetchAccounts([{ ...wallet, persistent: true }])
-    );
-    expect(result.isFetching).toBe(true);
+  describe('fetchAccount()', () => {
+    it('sets isFetching to true', () => {
+      const result = slice.reducer(
+        { accounts: [], isFetching: false },
+        fetchAccounts([{ ...wallet, persistent: true }])
+      );
+      expect(result.isFetching).toBe(true);
+    });
   });
 
-  it('fetchFailed(): sets error', () => {
-    const error = 'error';
-    const result = slice.reducer({ accounts: [], isFetching: false }, fetchFailed(error));
-    expect(result.fetchError).toBe(error);
+  describe('fetchFailed()', () => {
+    it('sets error', () => {
+      const error = 'error';
+      const result = slice.reducer({ accounts: [], isFetching: false }, fetchFailed(error));
+      expect(result.fetchError).toBe(error);
+    });
   });
 
-  it('fetchReset(): resets fetch state', () => {
-    const result = slice.reducer(
-      { accounts: [], isFetching: true, fetchError: 'foo' },
-      fetchReset()
-    );
-    expect(result.fetchError).toBeUndefined();
-    expect(result.isFetching).toBe(false);
+  describe('fetchReset()', () => {
+    it('resets fetch state', () => {
+      const result = slice.reducer(
+        { accounts: [], isFetching: true, fetchError: 'foo' },
+        fetchReset()
+      );
+      expect(result.fetchError).toBeUndefined();
+      expect(result.isFetching).toBe(false);
+    });
   });
 
-  it('setGeneratedAccount(): sets generated account', () => {
-    const account = {
-      mnemonicPhrase: 'foo',
-      address: 'bar' as TAddress
-    };
+  describe('setGeneratedAccount()', () => {
+    it('sets generated account', () => {
+      const account = {
+        mnemonicPhrase: 'foo',
+        address: 'bar' as TAddress
+      };
 
-    const result = slice.reducer({ accounts: [], isFetching: false }, setGeneratedAccount(account));
-    expect(result.generatedAccount).toBe(account);
+      const result = slice.reducer(
+        { accounts: [], isFetching: false },
+        setGeneratedAccount(account)
+      );
+      expect(result.generatedAccount).toBe(account);
+    });
   });
 });

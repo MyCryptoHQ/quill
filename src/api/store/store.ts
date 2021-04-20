@@ -2,7 +2,7 @@ import type { EnhancedStore } from '@reduxjs/toolkit';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 
-import { synchronizationMiddleware } from '@common/store';
+import { persistenceMiddleware, synchronizationMiddleware } from '@common/store';
 import type { ReduxIPC } from '@types';
 
 import { createRootReducer } from './reducer';
@@ -22,6 +22,7 @@ export const createStore = (ipc: ReduxIPC): EnhancedStore<ApplicationState> => {
       serializableCheck: false
     })
       .concat(synchronizationMiddleware(ipc))
+      .concat(persistenceMiddleware())
       .concat(sagaMiddleware)
   });
 

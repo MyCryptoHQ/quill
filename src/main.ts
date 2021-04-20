@@ -4,14 +4,14 @@ import path from 'path';
 import { URL } from 'url';
 
 import { runService as runCryptoService } from '@api/crypto';
-import { runService as runDatabaseService, setLoginCallback } from '@api/db';
+import { runService as runDatabaseService } from '@api/db';
 import { createPersistor } from '@api/store/persistor';
 import { HEIGHT, WIDTH } from '@config';
 
 import { createStore } from './api/store';
 import { runAPI } from './api/ws';
 import { ipcBridgeMain } from './bridge';
-import { createKeyPair, setPersisted } from './common/store';
+import { createKeyPair, setPersistor } from './common/store';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: any;
@@ -66,17 +66,8 @@ const createWindow = (): void => {
   const store = createStore(ipcBridgeMain(ipcMain, window.webContents).redux);
   const persistor = createPersistor(store);
 
-  // CLEAN THIS UP
-  setLoginCallback(() => persistor.persist());
-
-  persistor.subscribe(() => {
-    setTimeout(() => {
-      const { bootstrapped } = persistor.getState();
-      store.dispatch(setPersisted(bootstrapped));
-    }, 100);
-  });
-
   store.dispatch(createKeyPair());
+  store.dispatch(setPersistor(persistor));
 
   // and load the index.html of the app.
   window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);

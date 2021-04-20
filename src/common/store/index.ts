@@ -17,3 +17,4 @@ export {
   getGeneratedAccount,
   AccountsState
 } from './accounts.slice';
+export * from './persistence.middleware';

@@ -38,8 +38,6 @@ export const init = async (password: string) => {
   return true;
 };
 
-let loginCallback: () => void = null;
-
 export const login = async (password: string) => {
   try {
     const hashedPassword = await hashPassword(password);
@@ -52,14 +50,7 @@ export const login = async (password: string) => {
   } catch {
     return false;
   }
-  if (loginCallback) {
-    loginCallback();
-  }
   return true;
-};
-
-export const setLoginCallback = (callback: () => void) => {
-  loginCallback = callback;
 };
 
 export const logout = async () => {

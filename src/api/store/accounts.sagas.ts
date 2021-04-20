@@ -20,9 +20,6 @@ import type { IAccount, SerializedMnemonicPhrase, SerializedWallet, TAddress } f
 import { WalletType } from '@types';
 import { generateDeterministicAddressUUID } from '@utils';
 
-/**
- * Sagas
- */
 export function* accountsSaga() {
   yield all([
     takeLatest(fetchAccounts.type, fetchAccountsWorker),
