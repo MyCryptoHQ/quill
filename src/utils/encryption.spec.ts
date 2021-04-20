@@ -7,11 +7,11 @@ jest.mock('crypto', () => ({
 
 const password = 'test';
 const hashedPassword = Buffer.from(
-  'e9a0c40b5c85fc2b5eb8f6084f68b144854cbd38397c947ad49a213ff1fb7e62',
+  '181521fd2ec26655207830887e1bc52b33d3ea67bba5f6ec50ea6f21c3964e13',
   'hex'
 );
 const data = 'data';
-const encryptedData = '6cb10410ca36d6abcd7ddbed629a0c199f0506792d21938ada7a165c39c8f3fd';
+const encryptedData = 'bb61fdc07c1303b8bcf9e8618812557fa623c8d32d21938ada7a165c39c8f3fd';
 
 describe('hashPassword', () => {
   it('correctly SHA256 hashes a string', async () => {

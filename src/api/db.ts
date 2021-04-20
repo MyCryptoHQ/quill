@@ -16,17 +16,17 @@ const store = new Store();
 // @todo STORES HASHED PASSWORD FOR ENCRYPTION - THINK ABOUT THIS
 const encryptionKey = Buffer.alloc(32);
 
-const setEncryptionKey = async (key: string) => {
-  const hash = await hashPassword(key);
-  hash.copy(encryptionKey);
-  hash.fill(0);
+const setEncryptionKey = async (key: Buffer) => {
+  key.copy(encryptionKey);
+  key.fill(0);
 };
 
 const clearEncryptionKey = () => encryptionKey.fill(0);
 
 export const init = async (password: string) => {
   try {
-    await setEncryptionKey(password);
+    const hashedPassword = await hashPassword(password);
+    await setEncryptionKey(hashedPassword);
     // Clear in case the store already contains data
     store.clear();
     // Write something to the store to actually create the file
@@ -45,11 +45,12 @@ export const login = async (password: string) => {
       hashedPassword.fill(0);
       return false;
     }
-    hashedPassword.fill(0);
-    await setEncryptionKey(password);
+
+    await setEncryptionKey(hashedPassword);
   } catch {
     return false;
   }
+
   return true;
 };
 
