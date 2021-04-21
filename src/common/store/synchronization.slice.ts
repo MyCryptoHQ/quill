@@ -15,17 +15,24 @@ import {
 import type { HandshakeKeyPair, ReduxIPC } from '@types';
 import { safeJSONParse } from '@utils';
 
+export enum SynchronizationTarget {
+  RENDERER = 'RENDERER',
+  MAIN = 'MAIN',
+  SIGNING = 'SIGNING'
+}
+
 interface SynchronizationState {
   publicKey?: string;
   privateKey?: string;
 
-  isHandshaken: boolean;
+  isHandshaken: Partial<Record<SynchronizationTarget, boolean>>;
 
-  targetPublicKey?: string;
+  targetPublicKey: Partial<Record<SynchronizationTarget, string>>;
 }
 
 const initialState: SynchronizationState = {
-  isHandshaken: false
+  isHandshaken: {},
+  targetPublicKey: {}
 };
 
 const sliceName = 'synchronization';
@@ -40,15 +47,21 @@ const slice = createSlice({
     sendPublicKey(_, __: PayloadAction<string>) {
       // noop
     },
-    setHandshaken(state, action: PayloadAction<boolean>) {
-      state.isHandshaken = action.payload;
+    setHandshaken(
+      state,
+      action: PayloadAction<{ target: SynchronizationTarget; isHandshaken: boolean }>
+    ) {
+      state.isHandshaken[action.payload.target] = action.payload.isHandshaken;
     },
     setKeyPair(state, action: PayloadAction<HandshakeKeyPair>) {
       state.publicKey = action.payload.publicKey;
       state.privateKey = action.payload.privateKey;
     },
-    setTargetPublicKey(state, action: PayloadAction<string>) {
-      state.targetPublicKey = action.payload;
+    setTargetPublicKey(
+      state,
+      action: PayloadAction<{ target: SynchronizationTarget; publicKey: string }>
+    ) {
+      state.targetPublicKey[action.payload.target] = action.payload.publicKey;
     }
   }
 });
@@ -70,12 +83,11 @@ export const getSynchronizationState = createSelector(
 
 export const getPublicKey = createSelector(getSynchronizationState, (state) => state.publicKey);
 export const getPrivateKey = createSelector(getSynchronizationState, (state) => state.privateKey);
-export const getHandshaken = createSelector(getSynchronizationState, (state) => state.isHandshaken);
+export const getHandshaken = (target: SynchronizationTarget) =>
+  createSelector(getSynchronizationState, (state) => state.isHandshaken[target]);
 
-export const getTargetPublicKey = createSelector(
-  getSynchronizationState,
-  (state) => state.targetPublicKey
-);
+export const getTargetPublicKey = (target: SynchronizationTarget) =>
+  createSelector(getSynchronizationState, (state) => state.targetPublicKey[target]);
 
 export const postHandshake = createAction(`${sliceName}/postHandshake`);
 
@@ -136,15 +148,18 @@ export function* createKeyPairWorker({ payload = false }: PayloadAction<boolean>
   }
 }
 
-export function* setPublicKeyWorker(action: PayloadAction<string> & { remote: boolean }) {
+export function* setPublicKeyWorker(
+  action: PayloadAction<string> & { remote: boolean; from: SynchronizationTarget }
+) {
   if (action.remote) {
-    yield put(setTargetPublicKey(action.payload));
+    const target = action.from;
+    yield put(setTargetPublicKey({ target, publicKey: action.payload }));
 
-    const isHandshaken: boolean = yield select(getHandshaken);
+    const isHandshaken: boolean = yield select(getHandshaken(target));
     const publicKey: string = yield select(getPublicKey);
 
     if (!isHandshaken) {
-      yield put(setHandshaken(true));
+      yield put(setHandshaken({ target: action.from, isHandshaken: true }));
       yield put(sendPublicKey(publicKey));
       yield put(postHandshake());
     }

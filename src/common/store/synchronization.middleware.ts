@@ -4,7 +4,8 @@ import { PERSIST } from 'redux-persist';
 import synchronization, {
   getHandshaken,
   getTargetPublicKey,
-  sendPublicKey
+  sendPublicKey,
+  SynchronizationTarget
 } from '@common/store/synchronization.slice';
 import { encryptJson } from '@common/utils';
 import type { ReduxIPC } from '@types';
@@ -21,19 +22,21 @@ export const IGNORED_ACTIONS = [PERSIST, setPersistor.type];
  * Middleware that dispatches any actions to the other Electron process.
  * @param ipc The Electron process to dispatch from.
  */
-export const synchronizationMiddleware = (ipc: ReduxIPC): Middleware => (store) => (next) => (
-  action
-) => {
+export const synchronizationMiddleware = (
+  ipc: ReduxIPC,
+  self: SynchronizationTarget
+): Middleware => (store) => (next) => (action) => {
   const path = action.type.split('/')[0];
   if (
     (action.type !== sendPublicKey.type && IGNORED_PATHS.includes(path)) ||
     IGNORED_ACTIONS.includes(action.type) ||
     action.remote
   ) {
+    console.log('Ignoring', action.type);
     return next(action);
   }
 
-  const json = JSON.stringify(action);
+  const json = JSON.stringify({ ...action, from: self });
 
   // Only allow handshake without encryption
   if (action.type === sendPublicKey.type) {
@@ -41,8 +44,16 @@ export const synchronizationMiddleware = (ipc: ReduxIPC): Middleware => (store) 
     return next(action);
   }
 
-  const isHandshaken: boolean = getHandshaken(store.getState());
-  const publicKey: string = getTargetPublicKey(store.getState());
+  // @todo Figure out SIGNING
+  const target =
+    self === SynchronizationTarget.RENDERER
+      ? SynchronizationTarget.MAIN
+      : SynchronizationTarget.RENDERER;
+
+  console.log('Sending', target, json);
+
+  const isHandshaken: boolean = getHandshaken(target)(store.getState());
+  const publicKey: string = getTargetPublicKey(target)(store.getState());
 
   if (isHandshaken && publicKey) {
     const encryptedAction = encryptJson(publicKey, json);
