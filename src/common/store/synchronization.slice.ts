@@ -91,9 +91,9 @@ export const getTargetPublicKey = (target: SynchronizationTarget) =>
 
 export const postHandshake = createAction(`${sliceName}/postHandshake`);
 
-export function* handshakeSaga(ipc: ReduxIPC) {
+export function* handshakeSaga(ipcs: Partial<Record<SynchronizationTarget, ReduxIPC>>) {
   yield all([
-    ipcWorker(ipc),
+    ...Object.values(ipcs).map(ipc => ipcWorker(ipc)),
     takeLatest(createKeyPair.type, createKeyPairWorker),
     takeEvery(sendPublicKey.type, setPublicKeyWorker)
   ]);
@@ -117,15 +117,21 @@ export function* putJson(json: string, isDecrypted: boolean = false): SagaIterat
     return;
   }
 
+  console.log('Received', action);
+
   if (isReduxAction(action) && (isDecrypted || action.type === sendPublicKey.type)) {
     yield put({ ...action, remote: true });
     return;
   }
 
-  const isHandshaken = yield select(getHandshaken);
+  const from = action.from;
+
+  const isHandshaken = yield select(getHandshaken(from));
   if (isHandshaken && isEncryptedAction(action)) {
     const privateKey: string = yield select(getPrivateKey);
     const json = decryptJson(privateKey, action);
+
+    console.log('Decrypted Received', json);
 
     yield call(putJson, json, true);
   }
@@ -158,6 +164,9 @@ export function* setPublicKeyWorker(
     const isHandshaken: boolean = yield select(getHandshaken(target));
     const publicKey: string = yield select(getPublicKey);
 
+    const handshakes = yield select((state) => state.synchronization.isHandshaken);
+
+    console.log('Handshakes', handshakes);
     if (!isHandshaken) {
       yield put(setHandshaken({ target: action.from, isHandshaken: true }));
       yield put(sendPublicKey(publicKey));

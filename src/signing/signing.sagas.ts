@@ -1,10 +1,11 @@
 import type { TransactionRequest } from '@ethersproject/abstract-provider';
 import { parse } from '@ethersproject/transactions';
+import { PrivateKey } from '@mycrypto/wallets';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { getWallet } from '@wallets/wallet-initialisation';
 import { push } from 'connected-react-router';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 
-import { signTransaction } from '@api/crypto';
 import { reply } from '@api/store/ws.sagas';
 import {
   addToHistory,
@@ -15,13 +16,30 @@ import {
 } from '@common/store';
 import { signFailed, signSuccess } from '@common/store/signing.slice';
 import { ROUTE_PATHS } from '@routing';
-import type { SerializedPersistentAccount, SerializedWallet } from '@types';
+import type { SerializedOptionalPersistentWallet, SerializedPersistentAccount, SerializedWallet, TUuid } from '@types';
 import { TxResult } from '@types';
 import { makeHistoryTx } from '@utils';
+
+import { getPrivateKey } from './secrets';
 
 export function* signingSaga() {
   yield takeLatest(sign.type, signWorker);
 }
+
+const getPersistentWallet = async (uuid: TUuid): Promise<PrivateKey> => {
+  const privateKey = await getPrivateKey(uuid);
+  return new PrivateKey(privateKey);
+};
+
+export const signTransaction = async (
+  wallet: SerializedOptionalPersistentWallet,
+  tx: TransactionRequest
+) => {
+  const initialisedWallet = wallet.persistent
+    ? await getPersistentWallet(wallet.uuid)
+    : await getWallet(wallet as SerializedWallet);
+  return initialisedWallet.signTransaction(tx);
+};
 
 export function* signWorker({
   payload: { wallet, tx }

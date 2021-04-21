@@ -21,7 +21,12 @@ export const createStore = (ipc: ReduxIPC): EnhancedStore<ApplicationState> => {
       thunk: false,
       serializableCheck: false
     })
-      .concat(synchronizationMiddleware(ipc, SynchronizationTarget.SIGNING))
+      .concat(
+        synchronizationMiddleware(
+          { [SynchronizationTarget.MAIN]: ipc },
+          SynchronizationTarget.SIGNING
+        )
+      )
       .concat(sagaMiddleware)
   });
 

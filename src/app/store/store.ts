@@ -27,7 +27,10 @@ export const createStore = (
     reducer,
     middleware: (getDefaultMiddleware) => [
       ...getDefaultMiddleware({ thunk: false, serializableCheck: false }),
-      synchronizationMiddleware(ipcBridgeRenderer.redux, SynchronizationTarget.RENDERER),
+      synchronizationMiddleware(
+        { [SynchronizationTarget.MAIN]: ipcBridgeRenderer.redux },
+        SynchronizationTarget.RENDERER
+      ),
       routerMiddleware(history),
       sagaMiddleware
     ],

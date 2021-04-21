@@ -1,4 +1,4 @@
-import { getWallet } from '@wallets/wallet-initialisation';
+
 import { app } from 'electron';
 import Store from 'electron-store';
 import { promises as fs } from 'fs';
@@ -6,8 +6,7 @@ import keytar from 'keytar';
 import path from 'path';
 
 import { KEYTAR_SERVICE } from '@config';
-import type { SerializedWallet, TUuid } from '@types';
-import { generateDeterministicAddressUUID, safeJSONParse } from '@utils';
+import { safeJSONParse } from '@utils';
 import { decrypt, encrypt, hashPassword } from '@utils/encryption';
 
 const store = new Store();
@@ -111,29 +110,4 @@ export const setInStore = <T>(key: string, obj: T, checkLogin = true) => {
   const json = JSON.stringify(obj);
   const encrypted = encrypt(json, encryptionKey);
   store.set(key, encrypted);
-};
-
-const savePrivateKey = (uuid: TUuid, privateKey: string) => {
-  const encryptedPKey = encrypt(privateKey, encryptionKey);
-  return keytar.setPassword(KEYTAR_SERVICE, uuid, encryptedPKey);
-};
-
-export const getPrivateKey = async (uuid: TUuid) => {
-  const result = await keytar.getPassword(KEYTAR_SERVICE, uuid);
-  if (result) {
-    return decrypt(result, encryptionKey);
-  }
-  return null;
-};
-
-export const deleteAccountSecrets = async (uuid: TUuid) => {
-  return keytar.deletePassword(KEYTAR_SERVICE, uuid);
-};
-
-export const saveAccountSecrets = async (initialiseWallet: SerializedWallet) => {
-  const wallet = await getWallet(initialiseWallet);
-  const privateKey = await wallet.getPrivateKey();
-  const uuid = generateDeterministicAddressUUID(await wallet.getAddress());
-
-  return savePrivateKey(uuid, privateKey);
 };

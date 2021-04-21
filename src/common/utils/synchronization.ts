@@ -11,7 +11,8 @@ const REDUX_ACTION_STRUCT = type({
 });
 
 const ENCRYPTED_ACTION_STRUCT = object({
-  data: string()
+  data: string(),
+  from: string()
 });
 
 export type ReduxAction = Infer<typeof REDUX_ACTION_STRUCT>;

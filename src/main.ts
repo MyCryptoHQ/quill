@@ -9,7 +9,7 @@ import { HEIGHT, WIDTH } from '@config';
 
 import { createStore } from './api/store';
 import { ipcBridgeMain } from './bridge';
-import { createKeyPair, setPersistor } from './common/store';
+import { createKeyPair, setPersistor, SynchronizationTarget } from './common/store';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -64,14 +64,21 @@ const createWindow = (): void => {
   const signingProcess = createSigningProcess();
 
   const store = createStore({
-    on: (listener) => {
-      ipcBridgeMain(ipcMain, window.webContents).redux.on(listener);
-      signingProcess.on('message', (msg) => listener(undefined, msg));
+    [SynchronizationTarget.RENDERER]: {
+      on: (listener) => {
+        ipcBridgeMain(ipcMain, window.webContents).redux.on(listener);
+      },
+      emit: (args) => {
+        ipcBridgeMain(ipcMain, window.webContents).redux.emit(args);
+      }
     },
-    emit: (args) => {
-      ipcBridgeMain(ipcMain, window.webContents).redux.emit(args);
-      console.log(`Sending to signing process ${args}`);
-      signingProcess.send(args);
+    [SynchronizationTarget.SIGNING]: {
+      on: (listener) => {
+        signingProcess.on('message', (msg) => listener(undefined, msg));
+      },
+      emit: (args) => {
+        signingProcess.send(args);
+      }
     }
   });
 

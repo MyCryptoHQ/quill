@@ -13,7 +13,7 @@ const reducer = createRootReducer();
 
 export type ApplicationState = ReturnType<typeof reducer>;
 
-export const createStore = (ipc: ReduxIPC): EnhancedStore<ApplicationState> => {
+export const createStore = (ipcs: Partial<Record<SynchronizationTarget, ReduxIPC>>): EnhancedStore<ApplicationState> => {
   const sagaMiddleware = createSagaMiddleware();
 
   const store = configureStore({
@@ -22,12 +22,12 @@ export const createStore = (ipc: ReduxIPC): EnhancedStore<ApplicationState> => {
       thunk: false,
       serializableCheck: false
     })
-      .concat(synchronizationMiddleware(ipc, SynchronizationTarget.MAIN))
+      .concat(synchronizationMiddleware(ipcs, SynchronizationTarget.MAIN))
       .concat(persistenceMiddleware())
       .concat(sagaMiddleware)
   });
 
-  sagaMiddleware.run(rootSaga, ipc);
+  sagaMiddleware.run(rootSaga, ipcs);
 
   return store;
 };
