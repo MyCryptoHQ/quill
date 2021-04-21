@@ -1,13 +1,12 @@
 import { getWallet } from '@wallets/wallet-initialisation';
-import { app, ipcMain } from 'electron';
+import { app } from 'electron';
 import Store from 'electron-store';
 import { promises as fs } from 'fs';
 import keytar from 'keytar';
 import path from 'path';
 
-import { IPC_CHANNELS, KEYTAR_SERVICE } from '@config';
-import type { DBRequest, DBResponse, SerializedWallet, TUuid } from '@types';
-import { DBRequestType } from '@types';
+import { KEYTAR_SERVICE } from '@config';
+import type { SerializedWallet, TUuid } from '@types';
 import { generateDeterministicAddressUUID, safeJSONParse } from '@utils';
 import { decrypt, encrypt, hashPassword } from '@utils/encryption';
 
@@ -137,25 +136,4 @@ export const saveAccountSecrets = async (initialiseWallet: SerializedWallet) => 
   const uuid = generateDeterministicAddressUUID(await wallet.getAddress());
 
   return savePrivateKey(uuid, privateKey);
-};
-
-export const handleRequest = async (request: DBRequest): Promise<DBResponse> => {
-  switch (request.type) {
-    case DBRequestType.GET_FROM_STORE:
-      return Promise.resolve(getFromStore(request.key));
-    case DBRequestType.SET_IN_STORE:
-      return Promise.resolve(setInStore(request.key, request.payload));
-    case DBRequestType.SAVE_ACCOUNT_SECRETS:
-      return saveAccountSecrets(request.wallet);
-    case DBRequestType.GET_PRIVATE_KEY:
-      return getPrivateKey(request.uuid);
-    case DBRequestType.DELETE_ACCOUNT_SECRETS:
-      return deleteAccountSecrets(request.uuid);
-    default:
-      throw new Error('Undefined request type');
-  }
-};
-
-export const runService = () => {
-  ipcMain.handle(IPC_CHANNELS.DATABASE, (_e, request: DBRequest) => handleRequest(request));
 };
