@@ -24,8 +24,6 @@ const requestSigning = (
 
     // @todo: Refactor this using Redux
     const listener = (response: Omit<JsonRPCResponse, 'jsonrpc'>) => {
-      console.log('listener', response, request.request);
-
       if (response.id === request.request.id) {
         // Resolve promise and remove listener if response matches request
         // Since it is then the actual result of the JSON RPC request in question

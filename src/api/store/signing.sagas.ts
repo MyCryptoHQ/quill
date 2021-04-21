@@ -37,6 +37,7 @@ export function* signWorker({
 
     const currentTx = yield select(getCurrentTransaction);
 
+    // @todo: Refactor to use Redux actions
     ipcMain.emit(IPC_CHANNELS.API, { id: currentTx.id, result: signedTx });
 
     yield put(dequeue(currentTx));

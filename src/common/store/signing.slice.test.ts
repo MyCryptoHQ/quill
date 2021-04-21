@@ -6,13 +6,6 @@ import { makeTx } from '@utils';
 
 import slice, { sign, signFailed, signSuccess } from './signing.slice';
 
-jest.mock('@bridge', () => ({
-  ipcBridgeRenderer: {
-    crypto: { invoke: jest.fn() },
-    api: { sendResponse: jest.fn() }
-  }
-}));
-
 const wallet = {
   walletType: WalletType.PRIVATE_KEY,
   privateKey: fPrivateKey

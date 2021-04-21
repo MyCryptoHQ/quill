@@ -1,13 +1,13 @@
 import { ipcMain } from 'electron';
 import { expectSaga } from 'redux-saga-test-plan';
 
-import { addToHistory, dequeue } from '@common/store';
+import { addToHistory, addTransaction, dequeue, enqueue } from '@common/store';
 import { IPC_CHANNELS } from '@config';
 import { fRequestOrigin, fTxRequest } from '@fixtures';
 import { TxResult } from '@types';
 import { makeHistoryTx, makeQueueTx } from '@utils';
 
-import { denyCurrentTransactionWorker } from './transactions.sagas';
+import { addTransactionWorker, denyCurrentTransactionWorker } from './transactions.sagas';
 
 const request = { origin: fRequestOrigin, request: fTxRequest };
 
@@ -19,6 +19,26 @@ jest.mock('electron', () => ({
     emit: jest.fn()
   }
 }));
+
+describe('addTransactionWorker', () => {
+  it('adds a transaction if the user is logged in', async () => {
+    await expectSaga(addTransactionWorker, addTransaction(request))
+      .withState({
+        auth: {
+          loggedIn: true
+        }
+      })
+      .put(enqueue(request));
+
+    await expectSaga(addTransactionWorker, addTransaction(request))
+      .withState({
+        auth: {
+          loggedIn: false
+        }
+      })
+      .not.put(enqueue(request));
+  });
+});
 
 describe('denyCurrentTransactionWorker()', () => {
   it('handles denying a tx', () => {
