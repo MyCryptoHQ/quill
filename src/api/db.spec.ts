@@ -1,15 +1,25 @@
-import { ipcMain } from 'electron';
 import Store from 'electron-store';
 import { promises as fs } from 'fs';
 import keytar, { deletePassword } from 'keytar';
 
-import { IPC_CHANNELS, KEYTAR_SERVICE } from '@config';
-import { fAccount, fPrivateKey } from '@fixtures';
+import { KEYTAR_SERVICE } from '@config';
+import { fAccount } from '@fixtures';
 import type { TUuid } from '@types';
-import { DBRequestType, WalletType } from '@types';
+import { WalletType } from '@types';
 
-import type { handleRequest as _handleRequest, runService as _runService } from './db';
-import { init, isLoggedIn, login, logout, reset, storeExists } from './db';
+import {
+  deleteAccountSecrets,
+  getFromStore,
+  getPrivateKey,
+  init,
+  isLoggedIn,
+  login,
+  logout,
+  reset,
+  saveAccountSecrets,
+  setInStore,
+  storeExists
+} from './db';
 
 jest.mock('fs', () => ({
   ...jest.requireActual('fs'),
@@ -31,11 +41,6 @@ jest.mock('crypto', () => ({
 jest.mock('electron', () => ({
   app: {
     getPath: jest.fn()
-  },
-  ipcMain: {
-    handle: jest.fn().mockImplementation((_e, callback) => {
-      callback();
-    })
   }
 }));
 
@@ -58,11 +63,6 @@ const encryptedPrivKey =
   '6860de1fab1e5e03c3880b92874195800906ec77f007484c19878abdb9e3a65af3bb65b2d72a0e997d04cea288882a4fc072ee0bd76f2f19bb1d09ad88c3f671def50b2987872f229241677f5f3a8d93a0682d21938ada7a165c39c8f3fd';
 const encryptedAccounts =
   '233a864faa421c5d86984f909906c3d40a02b071ab03574b4c8f8aa6b5b1a158eae532b6db3609c12907c8f3db877f199470fb579f792a4ee85f59edcad9fe66d9ba4dd3a72d8af881f38c42d67b09ab9124490f9dd32608f46280b8e59e03db5f81495adbc4bd7a2c1b49bebb06e14623cff4d515cd557261135c4a175da3af1bf8f20a5e3f5efef74a74a1d8c96dd22220fac2361c174dbd1d5e25c91401c3fb89f002e88eb1a6549877d4de362c55baea7fab238861282281c57d53fd3a1a3f1d33155bc879e282d9fbb8eb0762988577322f2d21938ada7a165c39c8f3fd';
-
-const { handleRequest, runService } = jest.requireActual<{
-  handleRequest: typeof _handleRequest;
-  runService: typeof _runService;
-}>('./db');
 
 describe('isLoggedIn', () => {
   it('checks if the user is logged in', () => {
@@ -131,32 +131,28 @@ describe('storeExists', () => {
   });
 });
 
-describe('handleRequest', () => {
-  it('get from store', async () => {
+describe('getFromStore', () => {
+  it('fetches from the store correctly', async () => {
     await init(password);
 
-    const result = await handleRequest({ type: DBRequestType.GET_FROM_STORE, key: 'accounts' });
+    const result = await getFromStore('accounts');
     expect(result).toStrictEqual({ accounts: { [fAccount.uuid]: fAccount } });
   });
 
-  it('get from store returns null if the key does not exist in the store', async () => {
+  it('returns null if the key does not exist in the store', async () => {
     const get = (Store as jest.MockedClass<typeof Store>).mock.instances[0].get;
     (get as jest.MockedFunction<typeof get>).mockReturnValueOnce(null);
 
-    await expect(
-      handleRequest({ type: DBRequestType.GET_FROM_STORE, key: 'foo bar' })
-    ).resolves.toBeNull();
+    await expect(getFromStore('foo bar')).toBeNull();
   });
+});
 
-  it('set in store', async () => {
+describe('setInStore', () => {
+  it('correctly sets value in store', async () => {
     const store = (Store as jest.MockedClass<typeof Store>).mock.instances[0];
 
     await init(password);
-    await handleRequest({
-      type: DBRequestType.SET_IN_STORE,
-      key: 'accounts',
-      payload: { accounts: { [fAccount.uuid]: fAccount } }
-    });
+    await setInStore('accounts', { accounts: { [fAccount.uuid]: fAccount } });
 
     expect(store.set).toHaveBeenCalledWith(
       'accounts',
@@ -164,68 +160,44 @@ describe('handleRequest', () => {
     );
   });
 
-  it('set in store does not set without an encryption key', async () => {
+  it('does not set without an encryption key', async () => {
     const store = (Store as jest.MockedClass<typeof Store>).mock.instances[0];
     (store.set as jest.MockedFunction<typeof store.set>).mockClear();
 
     // Ensure there is no encryption key set
     await logout();
-    await handleRequest({
-      type: DBRequestType.SET_IN_STORE,
-      key: 'accounts',
-      payload: { accounts: { [fAccount.uuid]: fAccount } }
-    });
+    await setInStore('accounts', { [fAccount.uuid]: fAccount });
 
     expect(store.set).not.toHaveBeenCalled();
   });
+});
 
-  it('SAVE_ACCOUNT_SECRETS calls setPassword with encrypted privkey', async () => {
+describe('saveAccountSecrets', () => {
+  it('calls setPassword with encrypted privkey', async () => {
     await init(password);
-    await handleRequest({
-      type: DBRequestType.SAVE_ACCOUNT_SECRETS,
-      wallet: {
-        walletType: WalletType.PRIVATE_KEY,
-        privateKey
-      }
+    await saveAccountSecrets({
+      walletType: WalletType.PRIVATE_KEY,
+      privateKey
     });
 
     expect(keytar.setPassword).toHaveBeenCalledWith(KEYTAR_SERVICE, uuid, encryptedPrivKey);
   });
+});
 
-  it('GET_PRIVATE_KEY returns decrypted private key', async () => {
+describe('getPrivateKey', () => {
+  it('returns decrypted private key', async () => {
     await init(password);
-    const response = await handleRequest({
-      type: DBRequestType.GET_PRIVATE_KEY,
-      uuid
-    });
+    const response = await getPrivateKey(uuid);
 
     expect(keytar.getPassword).toHaveBeenCalledWith(KEYTAR_SERVICE, uuid);
     expect(response).toBe(privateKey);
   });
-
-  it('DELETE_ACCOUNT_SECRETS calls deletePassword', async () => {
-    await handleRequest({
-      type: DBRequestType.DELETE_ACCOUNT_SECRETS,
-      uuid
-    });
-
-    expect(keytar.deletePassword).toHaveBeenCalledWith(KEYTAR_SERVICE, uuid);
-  });
-
-  it('errors if non supported type is passed', async () => {
-    await expect(
-      handleRequest({
-        // @ts-expect-error Unsupported type
-        type: 'bla',
-        privateKey: fPrivateKey
-      })
-    ).rejects.toThrow();
-  });
 });
 
-describe('runService', () => {
-  it('calls ipcMain handle', () => {
-    runService();
-    expect(ipcMain.handle).toHaveBeenCalledWith(IPC_CHANNELS.DATABASE, expect.any(Function));
+describe('deleteAccountSecrets', () => {
+  it('DELETE_ACCOUNT_SECRETS calls deletePassword', async () => {
+    await deleteAccountSecrets(uuid);
+
+    expect(keytar.deletePassword).toHaveBeenCalledWith(KEYTAR_SERVICE, uuid);
   });
 });

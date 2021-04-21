@@ -4,7 +4,6 @@ import path from 'path';
 import { URL } from 'url';
 
 import { runService as runCryptoService } from '@api/crypto';
-import { runService as runDatabaseService } from '@api/db';
 import { createPersistor } from '@api/store/persistor';
 import { HEIGHT, WIDTH } from '@config';
 
@@ -77,9 +76,6 @@ const createWindow = (): void => {
 
   // Run Signing Logic
   runCryptoService(window.webContents);
-
-  // Run Database Service
-  runDatabaseService();
 };
 
 const showWindow = () => {

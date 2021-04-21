@@ -15,7 +15,7 @@ describe('preload', () => {
       'ipcBridge',
       expect.objectContaining({
         api: expect.anything(),
-        db: expect.anything(),
+        redux: expect.anything(),
         crypto: expect.anything()
       })
     );

@@ -2,7 +2,6 @@ export * from './jsonRPCRequest';
 export * from './jsonRPCResponse';
 export { ISUPPORTED_METHODS } from './methods';
 export * from './crypto';
-export { DBRequest, DBResponse, DBRequestType } from './db';
 export { IAccount } from './account';
 export { TAddress } from './address';
 export { TUuid } from './uuid';

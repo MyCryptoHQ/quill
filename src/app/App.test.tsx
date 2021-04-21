@@ -4,11 +4,9 @@ import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
-import { ipcBridgeRenderer } from '@bridge';
 import { translateRaw } from '@common/translate';
 import { fAccount } from '@fixtures';
 import type { DeepPartial } from '@types';
-import { DBRequestType } from '@types';
 
 import App from './App';
 import type { ApplicationState } from './store';
@@ -55,9 +53,6 @@ describe('App', () => {
   });
 
   it('renders Home if user has config and is logged in', async () => {
-    (ipcBridgeRenderer.db.invoke as jest.Mock).mockImplementation(({ type }) =>
-      Promise.resolve(type !== DBRequestType.IS_NEW_USER)
-    );
     const { getByText } = getComponent(
       createMockStore({
         auth: { loggedIn: true, newUser: false },
