@@ -1,6 +1,7 @@
 import type { Middleware } from '@reduxjs/toolkit';
 import { PERSIST } from 'redux-persist';
 
+import signing from '@common/store/signing.slice';
 import synchronization, {
   getHandshaken,
   getTargetPublicKey,
@@ -44,11 +45,12 @@ export const synchronizationMiddleware = (
     return next(action);
   }
 
-  // @todo Figure out SIGNING
   const target =
-    self === SynchronizationTarget.RENDERER
-      ? SynchronizationTarget.MAIN
-      : SynchronizationTarget.RENDERER;
+    self === SynchronizationTarget.MAIN
+      ? path === signing.name
+        ? SynchronizationTarget.SIGNING
+        : SynchronizationTarget.RENDERER
+      : SynchronizationTarget.MAIN;
 
   console.log('Sending', target, json);
 
@@ -59,7 +61,8 @@ export const synchronizationMiddleware = (
     const encryptedAction = encryptJson(publicKey, json);
     ipc.emit(
       JSON.stringify({
-        data: encryptedAction
+        data: encryptedAction,
+        from: self
       })
     );
   }
