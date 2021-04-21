@@ -3,7 +3,7 @@ import type { Transaction } from '@ethersproject/transactions';
 import type { Overwrite } from 'utility-types';
 
 import type { TAddress } from './address';
-import type { JsonRPCRequest } from './jsonRPCRequest';
+import type { JsonRPCRequest } from './jsonrpc';
 import type { TUuid } from './uuid';
 
 export enum TxResult {

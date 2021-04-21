@@ -4,10 +4,10 @@ export enum IPC_CHANNELS {
   API = 'api'
 }
 
-export const SUPPORTED_METHODS = {
-  SIGN_TRANSACTION: 'eth_signTransaction',
-  ACCOUNTS: 'eth_accounts'
-};
+export enum JsonRPCMethod {
+  SignTransaction = 'eth_signTransaction',
+  Accounts = 'eth_accounts'
+}
 
 export const WS_PORT = 8000;
 

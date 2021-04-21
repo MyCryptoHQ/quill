@@ -1,6 +1,6 @@
-import type { JsonRPCRequest } from './jsonRPCRequest';
+import type { JsonRPCRequest } from './jsonrpc';
 
-export interface UserRequest<T> {
+export interface UserRequest<T = unknown> {
   origin?: string;
   request: JsonRPCRequest<T>;
 }

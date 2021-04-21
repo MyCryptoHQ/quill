@@ -1,4 +1,3 @@
-/* eslint-disable jest/expect-expect */
 import type { TAddress } from '@mycrypto/wallets';
 import { DEFAULT_ETH } from '@mycrypto/wallets';
 import { expectSaga } from 'redux-saga-test-plan';
@@ -6,6 +5,7 @@ import { call } from 'redux-saga-test-plan/matchers';
 
 import { createWallet, getAddress } from '@api/crypto';
 import { deleteAccountSecrets, saveAccountSecrets } from '@api/db';
+import { createJsonRpcRequest } from '@api/store/utils';
 import {
   addAccount,
   fetchAccounts,
@@ -13,12 +13,19 @@ import {
   removeAccount,
   setGeneratedAccount
 } from '@common/store';
+import { JsonRPCMethod } from '@config';
 import { DEFAULT_MNEMONIC_INDEX } from '@config/derivation';
-import { fAccount, fPrivateKey } from '@fixtures';
+import { fAccount, fAccounts, fPrivateKey } from '@fixtures';
 import type { SerializedWallet } from '@types';
 import { WalletType } from '@types';
 
-import { fetchAccountsWorker, generateAccountWorker, removeAccountWorker } from './accounts.sagas';
+import {
+  fetchAccountsWorker,
+  generateAccountWorker,
+  getAccountsWorker,
+  removeAccountWorker
+} from './accounts.sagas';
+import { reply, requestAccounts } from './ws.sagas';
 
 jest.mock('electron-store');
 jest.mock('keytar');
@@ -27,6 +34,16 @@ const wallet: SerializedWallet = {
   walletType: WalletType.PRIVATE_KEY,
   privateKey: fPrivateKey
 };
+
+describe('getAccountsWorker', () => {
+  it('gets the addresses of all accounts', async () => {
+    const request = createJsonRpcRequest(JsonRPCMethod.Accounts);
+    await expectSaga(getAccountsWorker, requestAccounts({ origin: 'app.mycrypto.com', request }))
+      .withState({ accounts: { accounts: fAccounts } })
+      .put(reply({ id: request.id, result: fAccounts.map((account) => account.address) }))
+      .silentRun();
+  });
+});
 
 describe('fetchAccountWorker()', () => {
   it('handles getting account address', () => {

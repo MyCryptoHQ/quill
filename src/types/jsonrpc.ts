@@ -38,6 +38,22 @@ export const JSONRPCRequestStruct = object({
   params: optional(array())
 });
 
-export type JsonRPCRequest<T = unknown[]> = Infer<typeof JSONRPCRequestStruct> & {
-  params: T;
+export type JsonRPCRequest<T = unknown[]> = Omit<Infer<typeof JSONRPCRequestStruct>, 'params'> & {
+  params?: T;
 };
+
+export interface JsonRPCResponse<Result = unknown, Error = unknown> {
+  id: string | number | null;
+  jsonrpc: string;
+  result?: Result;
+  error?: {
+    code: string;
+    message: string;
+    data?: Error;
+  };
+}
+
+export type JsonRPCResult<Result = unknown, Error = unknown> = Omit<
+  JsonRPCResponse<Result, Error>,
+  'jsonrpc'
+>;

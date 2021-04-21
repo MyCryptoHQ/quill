@@ -37,9 +37,6 @@ const slice = createSlice({
   }
 });
 
-export const addTransaction = createAction<UserRequest<TSignTransaction>>(
-  `${slice.name}/addTransaction`
-);
 export const denyCurrentTransaction = createAction(`${slice.name}/denyCurrentTransaction`);
 
 export const { enqueue, dequeue, addToHistory, selectTransaction } = slice.actions;

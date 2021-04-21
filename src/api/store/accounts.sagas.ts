@@ -16,16 +16,36 @@ import {
   setGeneratedAccount
 } from '@common/store';
 import { DEFAULT_MNEMONIC_INDEX } from '@config/derivation';
-import type { IAccount, SerializedMnemonicPhrase, SerializedWallet, TAddress } from '@types';
+import type {
+  IAccount,
+  SerializedMnemonicPhrase,
+  SerializedWallet,
+  TAddress,
+  UserRequest
+} from '@types';
 import { WalletType } from '@types';
 import { generateDeterministicAddressUUID } from '@utils';
 
+import { reply, requestAccounts } from './ws.sagas';
+
 export function* accountsSaga() {
   yield all([
+    takeLatest(requestAccounts.type, getAccountsWorker),
     takeLatest(fetchAccounts.type, fetchAccountsWorker),
     takeLatest(removeAccount.type, removeAccountWorker),
     takeLatest(generateAccount.type, generateAccountWorker)
   ]);
+}
+
+export function* getAccountsWorker({ payload }: PayloadAction<UserRequest>) {
+  const accounts: IAccount[] = yield select(getAccounts);
+
+  yield put(
+    reply({
+      id: payload.request.id,
+      result: accounts.map((account) => account.address)
+    })
+  );
 }
 
 export function* fetchAccountsWorker({

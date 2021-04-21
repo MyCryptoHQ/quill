@@ -1,4 +1,3 @@
-/* eslint-disable jest/expect-expect */
 import { fPrivateKey, fTxRequest } from '@fixtures';
 import type { SerializedWallet } from '@types';
 import { WalletType } from '@types';

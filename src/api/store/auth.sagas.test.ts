@@ -1,5 +1,3 @@
-/* eslint-disable jest/expect-expect */
-
 import { push } from 'connected-react-router';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';

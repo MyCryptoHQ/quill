@@ -27,7 +27,6 @@ export {
   getQueue,
   getQueueLength,
   getTxHistory,
-  addToHistory,
-  addTransaction
+  addToHistory
 } from './transactions.slice';
 export { sign, getSigningError } from './signing.slice';
