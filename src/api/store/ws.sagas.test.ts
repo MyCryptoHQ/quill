@@ -1,6 +1,6 @@
 import type { IncomingMessage } from 'http';
 import { expectSaga } from 'redux-saga-test-plan';
-import type WebSocket from 'ws';
+import WebSocket from 'ws';
 
 import { JsonRPCMethod } from '@config';
 import { fAccount, fRequestOrigin, fSignedTx, fTxRequest } from '@fixtures';
@@ -11,12 +11,14 @@ import {
   reply,
   requestAccounts,
   requestSignTransaction,
+  requestWatcherWorker,
   validateRequest,
   waitForResponse
 } from './ws.sagas';
 
 jest.mock('electron');
 jest.mock('electron-store');
+jest.mock('ws');
 
 describe('validateRequest', () => {
   it('returns an error for invalid JSON', () => {
@@ -177,5 +179,40 @@ describe('handleRequest', () => {
         result: fSignedTx
       })
     );
+  });
+});
+
+describe('requestWatcherWorker', () => {
+  it('handles socket requests', async () => {
+    const server = WebSocket.Server as jest.MockedClass<typeof WebSocket.Server>;
+    const saga = expectSaga(requestWatcherWorker);
+    const promise = saga.silentRun();
+
+    const socket = {
+      send: jest.fn(),
+      on: jest.fn()
+    };
+
+    const request = {
+      origin: fRequestOrigin
+    };
+
+    const instance = server.mock.instances[0];
+    const on = instance.on as jest.MockedFunction<typeof instance.on>;
+    const connectionCallback = on.mock.calls[0][1];
+
+    connectionCallback.bind(instance)(socket, request);
+
+    const messageCallback = socket.on.mock.calls[0][1];
+
+    messageCallback(fTxRequest);
+
+    saga.fork(handleRequest, {
+      socket,
+      request,
+      data: fTxRequest
+    });
+
+    await promise;
   });
 });
