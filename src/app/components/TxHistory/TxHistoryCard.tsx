@@ -2,10 +2,11 @@ import { Body } from '@mycrypto/ui';
 
 import { Box, Image } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
-import { selectTransaction, useDispatch } from '@app/store';
+import { useDispatch } from '@app/store';
 import circleArrow from '@assets/icons/circle-arrow.svg';
 import approved from '@assets/icons/circle-checkmark.svg';
 import denied from '@assets/icons/queue-denied.svg';
+import { selectTransaction } from '@common/store';
 import { translateRaw } from '@common/translate';
 import type { TxHistoryEntry } from '@types';
 import { TxResult } from '@types';

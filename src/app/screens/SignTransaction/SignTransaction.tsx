@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getCurrentTransaction, sign, useDispatch } from '@app/store';
-import { getAccounts } from '@common/store';
+import { useDispatch } from '@app/store';
+import { getAccounts, getCurrentTransaction, sign } from '@common/store';
 import type { SerializedWallet } from '@types';
 import { TxResult, WalletType } from '@types';
 

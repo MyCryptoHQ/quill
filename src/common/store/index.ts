@@ -18,3 +18,16 @@ export {
   AccountsState
 } from './accounts.slice';
 export * from './persistence.slice';
+export {
+  enqueue,
+  dequeue,
+  getCurrentTransaction,
+  denyCurrentTransaction,
+  selectTransaction,
+  getQueue,
+  getQueueLength,
+  getTxHistory,
+  addToHistory,
+  addTransaction
+} from './transactions.slice';
+export { sign, getSigningError } from './signing.slice';

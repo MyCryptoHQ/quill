@@ -5,7 +5,7 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import type { ApplicationState } from '@app/store';
-import { sign } from '@app/store';
+import { sign } from '@common/store';
 import { translateRaw } from '@common/translate';
 import {
   fAccount,

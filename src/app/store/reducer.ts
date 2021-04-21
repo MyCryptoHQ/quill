@@ -7,10 +7,9 @@ import { REHYDRATE } from 'redux-persist';
 import accountSlice from '@common/store/accounts.slice';
 import authSlice, { logout } from '@common/store/auth.slice';
 import persistenceSlice from '@common/store/persistence.slice';
+import signingSlice from '@common/store/signing.slice';
 import synchronizationSlice from '@common/store/synchronization.slice';
-
-import signingSlice from './signing.slice';
-import transactionsSlice, { reducer as transactionsReducer } from './transactions.slice';
+import transactionsSlice from '@common/store/transactions.slice';
 
 /**
  * Wraps the combined reducer to clear state when `logout` is dispatched.
@@ -20,7 +19,7 @@ export const createRootReducer = (history: History) => {
     router: connectRouter(history),
     [authSlice.name]: authSlice.reducer,
     [accountSlice.name]: accountSlice.reducer,
-    [transactionsSlice.name]: transactionsReducer,
+    [transactionsSlice.name]: transactionsSlice.reducer,
     [signingSlice.name]: signingSlice.reducer,
     [synchronizationSlice.name]: synchronizationSlice.reducer,
     [persistenceSlice.name]: persistenceSlice.reducer

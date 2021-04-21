@@ -1,19 +1,10 @@
 /* eslint-disable jest/expect-expect */
-import { expectSaga } from 'redux-saga-test-plan';
-
-import { ipcBridgeRenderer } from '@bridge';
 import { fRequestOrigin, fTxRequest } from '@fixtures';
 import type { TUuid } from '@types';
 import { TxResult } from '@types';
-import { makeHistoryTx, makeQueueTx, makeTx } from '@utils';
+import { makeQueueTx, makeTx } from '@utils';
 
-import slice, {
-  addToHistory,
-  denyCurrentTransactionWorker,
-  dequeue,
-  enqueue,
-  selectTransaction
-} from './transactions.slice';
+import slice, { addToHistory, dequeue, enqueue, selectTransaction } from './transactions.slice';
 
 Date.now = jest.fn(() => 1607602775360);
 
@@ -88,20 +79,5 @@ describe('TransactionsSlice', () => {
       selectTransaction(entry)
     );
     expect(result.currentTransaction).toStrictEqual(entry);
-  });
-});
-
-describe('denyCurrentTransactionWorker()', () => {
-  it('handles denying a tx', () => {
-    const tx = makeQueueTx(request);
-    return expectSaga(denyCurrentTransactionWorker)
-      .withState({ transactions: { queue: [tx], currentTransaction: tx } })
-      .call(ipcBridgeRenderer.api.sendResponse, {
-        id: fTxRequest.id,
-        error: { code: '-32000', message: 'User denied transaction' }
-      })
-      .put(dequeue(tx))
-      .put(addToHistory(makeHistoryTx(tx, TxResult.DENIED)))
-      .silentRun();
   });
 });

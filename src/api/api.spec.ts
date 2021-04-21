@@ -1,17 +1,20 @@
 import { waitFor } from '@testing-library/react';
-import type { WebContents } from 'electron';
+import configureStore from 'redux-mock-store';
 
-import { IPC_CHANNELS, SUPPORTED_METHODS } from '@config';
-import { fRequestOrigin, fSignedTx } from '@fixtures';
+import { SUPPORTED_METHODS } from '@config';
+import { fAccounts, fRequestOrigin, fSignedTx } from '@fixtures';
 
+import { addTransaction } from '../common/store';
+import type { DeepPartial, JsonRPCRequest, TSignTransaction } from '../types';
 import { handleRequest } from './api';
+import type { ApplicationState } from './store';
 
 jest.unmock('@bridge');
 
 jest.mock('electron', () => ({
   ipcMain: {
     on: jest.fn().mockImplementation((_channel, callback) => {
-      callback(undefined, {
+      callback({
         id: 1,
         result:
           '0xf86b0685012a05f20082520894b2bb2b958afa2e96dab3f3ce7162b87daea39017872386f26fc10000802aa0686df061021262b4e75eb1608c8baaf043cca2b5ac68fb24420ede62d13a8a7fa035389237414433ac06a33d95c863b8221fe2c797a9c650c47a555255be0234f3'
@@ -33,13 +36,14 @@ jest.mock('./db', () => ({
   })
 }));
 
-const mockWebContents = { send: jest.fn() };
+const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
 describe('handleRequest', () => {
   it('fails with invalid json', async () => {
     const result = await handleRequest(
       '',
-      (mockWebContents as unknown) as WebContents,
+      // @ts-expect-error Partial store
+      createMockStore(),
       fRequestOrigin
     );
     expect(result).toStrictEqual(
@@ -51,7 +55,8 @@ describe('handleRequest', () => {
     const request = { id: 0, jsonrpc: '1.0', method: 'bla' };
     const result = await handleRequest(
       JSON.stringify(request),
-      (mockWebContents as unknown) as WebContents,
+      // @ts-expect-error Partial store
+      createMockStore(),
       fRequestOrigin
     );
     expect(result).toStrictEqual(
@@ -63,7 +68,8 @@ describe('handleRequest', () => {
     const request = { id: 0, jsonrpc: '2.0', method: 'bla' };
     const result = await handleRequest(
       JSON.stringify(request),
-      (mockWebContents as unknown) as WebContents,
+      // @ts-expect-error Partial store
+      createMockStore(),
       fRequestOrigin
     );
     expect(result).toStrictEqual(
@@ -75,7 +81,8 @@ describe('handleRequest', () => {
     const request = { id: 0, jsonrpc: '2.0', method: SUPPORTED_METHODS.SIGN_TRANSACTION };
     const result = await handleRequest(
       JSON.stringify(request),
-      (mockWebContents as unknown) as WebContents,
+      // @ts-expect-error Partial store
+      createMockStore(),
       fRequestOrigin
     );
     expect(result).toStrictEqual(
@@ -105,7 +112,8 @@ describe('handleRequest', () => {
     await expect(
       handleRequest(
         JSON.stringify(request),
-        (mockWebContents as unknown) as WebContents,
+        // @ts-expect-error Partial store
+        createMockStore(),
         fRequestOrigin
       )
     ).resolves.toStrictEqual(
@@ -114,7 +122,8 @@ describe('handleRequest', () => {
   });
 
   it('requests signing with valid request', async () => {
-    const request = {
+    const store = createMockStore();
+    const request: JsonRPCRequest<TSignTransaction> = {
       id: 1,
       jsonrpc: '2.0',
       method: SUPPORTED_METHODS.SIGN_TRANSACTION,
@@ -131,16 +140,16 @@ describe('handleRequest', () => {
         }
       ]
     };
+
     const promise = handleRequest(
       JSON.stringify(request),
-      (mockWebContents as unknown) as WebContents,
+      // @ts-expect-error Partial store
+      store,
       fRequestOrigin
     );
+
     await waitFor(() =>
-      expect(mockWebContents.send).toHaveBeenCalledWith(IPC_CHANNELS.API, {
-        origin: fRequestOrigin,
-        request
-      })
+      expect(store.getActions()).toContainEqual(addTransaction({ request, origin: fRequestOrigin }))
     );
 
     const result = await promise;
@@ -156,7 +165,12 @@ describe('handleRequest', () => {
     };
     const promise = handleRequest(
       JSON.stringify(request),
-      (mockWebContents as unknown) as WebContents,
+      // @ts-expect-error Partial store
+      createMockStore({
+        accounts: {
+          accounts: fAccounts
+        }
+      }),
       fRequestOrigin
     );
     const result = await promise;
