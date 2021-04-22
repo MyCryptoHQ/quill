@@ -1,36 +1,8 @@
 import type { IpcMain, IpcMainEvent, IpcRenderer, IpcRendererEvent, WebContents } from 'electron';
 
-import { IPC_CHANNELS } from '@config';
-import type { CryptoRequest, CryptoResponse, JsonRPCRequest, JsonRPCResponse } from '@types';
+export const REDUX_CHANNEL = 'redux';
 
-const getAPIChannel = () => {
-  const asRenderer = (ipcRenderer: IpcRenderer) => ({
-    sendResponse: (data: Omit<JsonRPCResponse, 'jsonrpc'>) => {
-      ipcRenderer.send(IPC_CHANNELS.API, data);
-    },
-    subscribeToRequests: (listener: (request: JsonRPCRequest) => void) => {
-      const subscription = (_: IpcRendererEvent, request: JsonRPCRequest) => listener(request);
-      ipcRenderer.on(IPC_CHANNELS.API, subscription);
-
-      return () => {
-        ipcRenderer.removeListener(IPC_CHANNELS.API, subscription);
-      };
-    }
-  });
-
-  const asMain = (ipcMain: IpcMain) => ({
-    on: (
-      handler: (event: Electron.IpcMainEvent, response: Omit<JsonRPCResponse, 'jsonrpc'>) => void
-    ) => ipcMain.on(IPC_CHANNELS.API, handler)
-  });
-
-  return {
-    asRenderer,
-    asMain
-  };
-};
-
-const getChannel = <A, B>(channel: IPC_CHANNELS) => {
+const getChannel = (channel: string) => {
   // @todo: CHECK CHANNEL VALIDITY
 
   const asRenderer = (ipcRenderer: IpcRenderer) => ({
@@ -41,8 +13,7 @@ const getChannel = <A, B>(channel: IPC_CHANNELS) => {
       return () => {
         ipcRenderer.removeListener(channel, listener);
       };
-    },
-    invoke: (request: A) => ipcRenderer.invoke(channel, request)
+    }
   });
 
   const asMain = (ipcMain: IpcMain, webContents: WebContents) => ({
@@ -53,9 +24,7 @@ const getChannel = <A, B>(channel: IPC_CHANNELS) => {
       return () => {
         ipcMain.removeListener(channel, listener);
       };
-    },
-    handle: (handler: (event: Electron.IpcMainEvent, request: A) => Promise<B>) =>
-      ipcMain.handle(channel, handler)
+    }
   });
 
   return { asRenderer, asMain };
@@ -64,24 +33,16 @@ const getChannel = <A, B>(channel: IPC_CHANNELS) => {
 // Locked down according to: https://www.electronjs.org/docs/tutorial/context-isolation
 export const IpcBridgeRenderer = (ipcRenderer: IpcRenderer) => ({
   // These are constants as to not leak the ipcRenderer
-  redux: getChannel(IPC_CHANNELS.REDUX).asRenderer(ipcRenderer),
-  api: getAPIChannel().asRenderer(ipcRenderer),
-  crypto: getChannel<CryptoRequest, CryptoResponse>(IPC_CHANNELS.CRYPTO).asRenderer(ipcRenderer)
+  redux: getChannel(REDUX_CHANNEL).asRenderer(ipcRenderer)
 });
 
 export const ipcBridgeRenderer = (typeof window !== 'undefined'
   ? window.ipcBridge
-  : undefined) as IIpcBridgeRenderer;
+  : undefined) as ReturnType<typeof IpcBridgeRenderer>;
 
 export const ipcBridgeMain = (ipcMain: IpcMain, webContents: WebContents) => ({
-  redux: getChannel(IPC_CHANNELS.REDUX).asMain(ipcMain, webContents),
-  api: getAPIChannel().asMain(ipcMain),
-  crypto: getChannel<CryptoRequest, CryptoResponse>(IPC_CHANNELS.CRYPTO).asMain(
-    ipcMain,
-    webContents
-  )
+  redux: getChannel(REDUX_CHANNEL).asMain(ipcMain, webContents)
 });
 
 export type IIpcBridgeRenderer = ReturnType<typeof IpcBridgeRenderer>;
-
 export type IIpcBridgeMain = ReturnType<typeof ipcBridgeMain>;

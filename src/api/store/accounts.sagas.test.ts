@@ -13,8 +13,7 @@ import {
   removeAccount,
   setGeneratedAccount
 } from '@common/store';
-import { JsonRPCMethod } from '@config';
-import { DEFAULT_MNEMONIC_INDEX } from '@config/derivation';
+import { DEFAULT_MNEMONIC_INDEX, JsonRPCMethod } from '@config';
 import { fAccount, fAccounts, fPrivateKey, fRequestOrigin } from '@fixtures';
 import type { SerializedWallet } from '@types';
 import { WalletType } from '@types';

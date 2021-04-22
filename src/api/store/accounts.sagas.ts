@@ -15,7 +15,7 @@ import {
   removeAccount,
   setGeneratedAccount
 } from '@common/store';
-import { DEFAULT_MNEMONIC_INDEX } from '@config/derivation';
+import { DEFAULT_MNEMONIC_INDEX } from '@config';
 import type {
   IAccount,
   SerializedMnemonicPhrase,
