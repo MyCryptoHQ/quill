@@ -38,7 +38,7 @@ export const IpcBridgeRenderer = (ipcRenderer: IpcRenderer) => ({
 
 export const ipcBridgeRenderer = (typeof window !== 'undefined'
   ? window.ipcBridge
-  : undefined) as ReturnType<typeof IpcBridgeRenderer>;
+  : undefined) as IIpcBridgeRenderer;
 
 export const ipcBridgeMain = (ipcMain: IpcMain, webContents: WebContents) => ({
   redux: getChannel(REDUX_CHANNEL).asMain(ipcMain, webContents)
