@@ -6,7 +6,7 @@ import { getWallet } from '@wallets/wallet-initialisation';
 import { push } from 'connected-react-router';
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
-import { reply } from '@api/store/ws.sagas';
+import { reply } from '@api/store/ws.slice';
 import {
   addToHistory,
   dequeue,

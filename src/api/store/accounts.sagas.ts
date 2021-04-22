@@ -29,7 +29,7 @@ import type {
 import { WalletType } from '@types';
 import { generateDeterministicAddressUUID } from '@utils';
 
-import { reply, requestAccounts } from './ws.sagas';
+import { reply, requestAccounts } from './ws.slice';
 
 export function* accountsSaga() {
   yield all([
