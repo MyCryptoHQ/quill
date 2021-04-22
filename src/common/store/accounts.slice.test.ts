@@ -1,3 +1,5 @@
+import { DEFAULT_ETH, getFullPath } from '@mycrypto/wallets';
+
 import { fAccount, fPrivateKey } from '@fixtures';
 import type { SerializedWallet, TAddress } from '@types';
 import { WalletType } from '@types';
@@ -8,6 +10,7 @@ import slice, {
   fetchFailed,
   fetchReset,
   removeAccount,
+  setAddresses,
   setGeneratedAccount,
   updateAccount
 } from './accounts.slice';
@@ -20,7 +23,10 @@ const wallet: SerializedWallet = {
 describe('AccountSlice', () => {
   describe('addAccount()', () => {
     it('adds account to state', () => {
-      const result = slice.reducer({ accounts: [], isFetching: false }, addAccount(fAccount));
+      const result = slice.reducer(
+        { accounts: [], addresses: [], isFetching: false },
+        addAccount(fAccount)
+      );
       expect(result.accounts).toStrictEqual([fAccount]);
     });
   });
@@ -28,7 +34,7 @@ describe('AccountSlice', () => {
   describe('removeAccount()', () => {
     it('removes account from state', () => {
       const result = slice.reducer(
-        { accounts: [fAccount], isFetching: false },
+        { accounts: [fAccount], addresses: [], isFetching: false },
         removeAccount(fAccount)
       );
       expect(result.accounts).toStrictEqual([]);
@@ -39,27 +45,61 @@ describe('AccountSlice', () => {
     it('updates account in state', () => {
       const newAccount = { ...fAccount, label: 'new label' };
       const result = slice.reducer(
-        { accounts: [fAccount], isFetching: false },
+        { accounts: [fAccount], addresses: [], isFetching: false },
         updateAccount(newAccount)
       );
       expect(result.accounts).toStrictEqual([newAccount]);
     });
   });
 
+  describe('setAddresses', () => {
+    it('sets the addresses', () => {
+      const result = slice.reducer(
+        { accounts: [], addresses: [], isFetching: false },
+        setAddresses([{ dPath: getFullPath(DEFAULT_ETH, 0), address: 'foo' as TAddress, index: 0 }])
+      );
+      expect(result.addresses).toStrictEqual([
+        {
+          dPath: getFullPath(DEFAULT_ETH, 0),
+          address: 'foo' as TAddress,
+          index: 0
+        }
+      ]);
+    });
+  });
+
   describe('fetchAccount()', () => {
     it('sets isFetching to true', () => {
       const result = slice.reducer(
-        { accounts: [], isFetching: false },
+        { accounts: [], addresses: [], isFetching: false },
         fetchAccounts([{ ...wallet, persistent: true }])
       );
       expect(result.isFetching).toBe(true);
     });
   });
 
+  describe('fetchAddresses', () => {
+    it('sets isFetching to true and clears the fetch error', () => {
+      const result = slice.reducer(
+        { accounts: [], addresses: [], isFetching: false, fetchError: 'error' },
+        fetchAccounts([{ ...wallet, persistent: true }])
+      );
+      expect(result).toStrictEqual(
+        expect.objectContaining({
+          isFetching: true,
+          fetchError: undefined
+        })
+      );
+    });
+  });
+
   describe('fetchFailed()', () => {
     it('sets error', () => {
       const error = 'error';
-      const result = slice.reducer({ accounts: [], isFetching: false }, fetchFailed(error));
+      const result = slice.reducer(
+        { accounts: [], addresses: [], isFetching: false },
+        fetchFailed(error)
+      );
       expect(result.fetchError).toBe(error);
     });
   });
@@ -67,7 +107,7 @@ describe('AccountSlice', () => {
   describe('fetchReset()', () => {
     it('resets fetch state', () => {
       const result = slice.reducer(
-        { accounts: [], isFetching: true, fetchError: 'foo' },
+        { accounts: [], addresses: [], isFetching: true, fetchError: 'foo' },
         fetchReset()
       );
       expect(result.fetchError).toBeUndefined();
@@ -83,7 +123,7 @@ describe('AccountSlice', () => {
       };
 
       const result = slice.reducer(
-        { accounts: [], isFetching: false },
+        { accounts: [], addresses: [], isFetching: false },
         setGeneratedAccount(account)
       );
       expect(result.generatedAccount).toBe(account);

@@ -14,9 +14,7 @@ describe('preload', () => {
     expect(contextBridge.exposeInMainWorld).toHaveBeenCalledWith(
       'ipcBridge',
       expect.objectContaining({
-        api: expect.anything(),
-        redux: expect.anything(),
-        crypto: expect.anything()
+        redux: expect.anything()
       })
     );
   });

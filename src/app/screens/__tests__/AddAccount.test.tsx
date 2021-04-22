@@ -1,16 +1,12 @@
-import { DEFAULT_ETH, DEFAULT_EWC } from '@mycrypto/wallets';
+import { DEFAULT_ETH } from '@mycrypto/wallets';
 import type { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
-import selectEvent from 'react-select-event';
 import configureStore from 'redux-mock-store';
 
-import { handleRequest } from '@api/crypto';
 import type { ApplicationState } from '@app/store';
-import { createStore } from '@app/store';
-import { ipcBridgeRenderer } from '@bridge';
-import { fetchAccounts } from '@common/store';
+import { fetchAccounts, fetchAddresses } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey } from '@fixtures';
 import { AddAccount } from '@screens';
@@ -18,20 +14,9 @@ import { WalletType } from '@types';
 
 jest.mock('electron-store');
 
-jest.mock('@bridge', () => ({
-  ipcBridgeRenderer: {
-    crypto: {
-      invoke: jest.fn()
-    },
-    api: {
-      subscribeToRequests: jest.fn()
-    }
-  }
-}));
-
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 const mockStore = createMockStore({
-  accounts: { accounts: [], isFetching: false, fetchError: undefined }
+  accounts: { accounts: [], addresses: [], isFetching: false, fetchError: undefined }
 });
 
 function getComponent(store: EnhancedStore<DeepPartial<ApplicationState>> = mockStore) {
@@ -247,17 +232,43 @@ describe('AddAccount', () => {
     fireEvent.click(persistenceInput);
     fireEvent.click(persistenceInput);
 
-    ipcBridgeRenderer.crypto.invoke = jest.fn().mockImplementation(() => [
-      {
-        address: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f',
-        dPath: "m/44'/60'/0'/0/0",
-        index: 0
-      }
-    ]);
-
     const submitButton = getByText(translateRaw('NEXT'));
     expect(submitButton).toBeDefined();
-    fireEvent.click(submitButton);
+    await act(() => fireEvent.click(submitButton));
+
+    await waitFor(() =>
+      expect(mockStore.getActions()).toContainEqual(
+        fetchAddresses({
+          wallet: {
+            walletType: WalletType.MNEMONIC,
+            mnemonicPhrase: fMnemonicPhrase,
+            passphrase: 'password'
+          },
+          path: DEFAULT_ETH,
+          limit: 10,
+          offset: 0
+        })
+      )
+    );
+  });
+
+  it('shows the fetched addresses', async () => {
+    const mockStore = createMockStore({
+      accounts: {
+        addresses: [
+          {
+            address: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f',
+            dPath: "m/44'/60'/0'/0/0",
+            index: 0
+          }
+        ]
+      }
+    });
+
+    const { getByText, getByTestId } = getComponent(mockStore);
+    const mnemonicButton = getByTestId('select-MNEMONIC');
+    expect(mnemonicButton).toBeDefined();
+    fireEvent.click(mnemonicButton);
 
     const address = '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f';
     await waitFor(() => expect(getByText(address)).toBeDefined());
@@ -269,8 +280,8 @@ describe('AddAccount', () => {
       fetchAccounts([
         {
           walletType: WalletType.MNEMONIC,
-          mnemonicPhrase: fMnemonicPhrase,
-          passphrase: 'password',
+          mnemonicPhrase: '',
+          passphrase: '',
           path: DEFAULT_ETH,
           index: 0,
           persistent: true
@@ -293,106 +304,18 @@ describe('AddAccount', () => {
   });
 
   it('shows mnemonic crypto error', async () => {
-    const { getByLabelText, getByText, getByTestId } = getComponent(createStore());
-    const mnemonicButton = getByTestId('select-MNEMONIC');
-    expect(mnemonicButton).toBeDefined();
-    fireEvent.click(mnemonicButton);
-
-    await waitFor(() => expect(getByTestId('mnemonic-input')).toBeDefined());
-
-    const mnemonicInput = getByTestId('mnemonic-input');
-    expect(mnemonicInput).toBeDefined();
-    fireEvent.change(mnemonicInput, { target: { value: fMnemonicPhrase } });
-
-    const passwordInput = getByLabelText(translateRaw('MNEMONIC_PASSWORD'));
-    fireEvent.change(passwordInput, { target: { value: 'password' } });
-
-    ipcBridgeRenderer.crypto.invoke = jest.fn().mockImplementation(() => {
-      throw new Error('error');
+    const mockStore = createMockStore({
+      accounts: {
+        addresses: [],
+        fetchError: 'error'
+      }
     });
 
-    const submitButton = getByText(translateRaw('NEXT'));
-    expect(submitButton).toBeDefined();
-    fireEvent.click(submitButton);
-
-    await waitFor(() => expect(getByText('error', { exact: false })).toBeDefined());
-  });
-
-  it('can submit mnemonic from another DPath and page', async () => {
-    ipcBridgeRenderer.crypto.invoke = jest.fn().mockImplementation(handleRequest);
-
-    const { getByLabelText, getByText, getByTestId } = getComponent();
+    const { getByText, getByTestId } = getComponent(mockStore);
     const mnemonicButton = getByTestId('select-MNEMONIC');
     expect(mnemonicButton).toBeDefined();
     fireEvent.click(mnemonicButton);
 
-    await waitFor(() => expect(getByTestId('mnemonic-input')).toBeDefined());
-
-    const mnemonicInput = getByTestId('mnemonic-input');
-    expect(mnemonicInput).toBeDefined();
-    fireEvent.change(mnemonicInput, { target: { value: fMnemonicPhrase } });
-
-    const passwordInput = getByLabelText(translateRaw('MNEMONIC_PASSWORD'));
-    fireEvent.change(passwordInput, { target: { value: 'password' } });
-
-    const persistenceInput = getByTestId('toggle-persistence');
-    fireEvent.click(persistenceInput);
-    fireEvent.click(persistenceInput);
-
-    const submitButton = getByText(translateRaw('NEXT'));
-    expect(submitButton).toBeDefined();
-    fireEvent.click(submitButton);
-
-    await waitFor(() => expect(getByText(DEFAULT_ETH.name, { exact: false })).toBeDefined());
-
-    const dPathMenu = getByText(DEFAULT_ETH.name, { exact: false });
-    await selectEvent.openMenu(dPathMenu);
-
-    await waitFor(() => expect(getByTestId(`select-${DEFAULT_EWC.name}`)).toBeDefined());
-
-    const dPathOption = getByTestId(`select-${DEFAULT_EWC.name}`);
-    fireEvent.click(dPathOption);
-
-    const address = '0x0A5A196b0F565103C67A9B7A835e9C988Aff6403';
-    await waitFor(() => expect(getByText(address)).toBeDefined());
-    fireEvent.click(getByTestId(`checkbox-${address}`));
-
-    fireEvent.click(getByText(translateRaw('NEXT')));
-
-    const secondAddress = '0x0e0770FaBfd7466C87646A555e46f5Af35920366';
-    await waitFor(() => expect(getByText(secondAddress)).toBeDefined());
-    fireEvent.click(getByTestId(`checkbox-${secondAddress}`));
-
-    fireEvent.click(getByText(translateRaw('PREVIOUS')));
-
-    await waitFor(() => expect(getByText(address)).toBeDefined());
-    fireEvent.click(getByTestId(`checkbox-${address}`));
-
-    const thirdAddress = '0xe3e690609B64B05D1e3669EA49555f5BAB61e537';
-    await waitFor(() => expect(getByText(thirdAddress)).toBeDefined());
-    fireEvent.click(getByTestId(`checkbox-${thirdAddress}`));
-
-    fireEvent.click(getByText(translateRaw('SUBMIT')));
-
-    expect(mockStore.getActions()).toContainEqual(
-      fetchAccounts([
-        {
-          walletType: WalletType.MNEMONIC,
-          mnemonicPhrase: fMnemonicPhrase,
-          passphrase: 'password',
-          path: DEFAULT_EWC,
-          index: 19,
-          persistent: true
-        },
-        {
-          walletType: WalletType.MNEMONIC,
-          mnemonicPhrase: fMnemonicPhrase,
-          passphrase: 'password',
-          path: DEFAULT_EWC,
-          index: 6,
-          persistent: true
-        }
-      ])
-    );
+    await waitFor(() => expect(getByText('error')).toBeDefined());
   });
 });

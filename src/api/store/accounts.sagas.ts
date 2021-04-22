@@ -3,20 +3,24 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { replace } from 'connected-react-router';
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
-import { createWallet, getAddress } from '@api/crypto';
+import { createWallet, getAddress, getAddresses } from '@api/crypto';
 import { deleteAccountSecrets, saveAccountSecrets } from '@api/db';
 import { ROUTE_PATHS } from '@app/routing';
 import {
   addAccount,
   fetchAccounts,
+  fetchAddresses,
   fetchFailed,
+  fetchReset,
   generateAccount,
   getAccounts,
   removeAccount,
+  setAddresses,
   setGeneratedAccount
 } from '@common/store';
 import { DEFAULT_MNEMONIC_INDEX } from '@config';
 import type {
+  GetAddressesResult,
   IAccount,
   SerializedMnemonicPhrase,
   SerializedWallet,
@@ -32,6 +36,7 @@ export function* accountsSaga() {
   yield all([
     takeLatest(requestAccounts.type, getAccountsWorker),
     takeLatest(fetchAccounts.type, fetchAccountsWorker),
+    takeLatest(fetchAddresses.type, fetchAddressesWorker),
     takeLatest(removeAccount.type, removeAccountWorker),
     takeLatest(generateAccount.type, generateAccountWorker)
   ]);
@@ -83,6 +88,18 @@ export function* fetchAccountsWorker({
     yield put(replace(ROUTE_PATHS.ADD_ACCOUNT_END));
   } catch (err) {
     yield put(fetchFailed(err.message));
+  }
+}
+
+export function* fetchAddressesWorker({ payload }: ReturnType<typeof fetchAddresses>) {
+  const { wallet, path, limit, offset } = payload;
+
+  try {
+    const addresses: GetAddressesResult[] = yield call(getAddresses, wallet, path, limit, offset);
+    yield put(setAddresses(addresses));
+    yield put(fetchReset());
+  } catch (error) {
+    yield put(fetchFailed(error.message));
   }
 }
 
