@@ -1,4 +1,3 @@
-
 import { app } from 'electron';
 import Store from 'electron-store';
 import { promises as fs } from 'fs';

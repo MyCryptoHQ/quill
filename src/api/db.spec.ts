@@ -1,11 +1,9 @@
 import Store from 'electron-store';
 import { promises as fs } from 'fs';
-import keytar, { deletePassword } from 'keytar';
+import { deletePassword } from 'keytar';
 
 import { KEYTAR_SERVICE } from '@config';
 import { fAccount } from '@fixtures';
-import type { TUuid } from '@types';
-import { WalletType } from '@types';
 
 import {
   getFromStore,

@@ -13,7 +13,9 @@ const reducer = createRootReducer();
 
 export type ApplicationState = ReturnType<typeof reducer>;
 
-export const createStore = (ipcs: Partial<Record<SynchronizationTarget, ReduxIPC>>): EnhancedStore<ApplicationState> => {
+export const createStore = (
+  ipcs: Partial<Record<SynchronizationTarget, ReduxIPC>>
+): EnhancedStore<ApplicationState> => {
   const sagaMiddleware = createSagaMiddleware();
 
   const store = configureStore({

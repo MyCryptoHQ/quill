@@ -93,7 +93,7 @@ export const postHandshake = createAction(`${sliceName}/postHandshake`);
 
 export function* handshakeSaga(ipcs: Partial<Record<SynchronizationTarget, ReduxIPC>>) {
   yield all([
-    ...Object.values(ipcs).map(ipc => ipcWorker(ipc)),
+    ...Object.values(ipcs).map((ipc) => ipcWorker(ipc)),
     takeLatest(createKeyPair.type, createKeyPairWorker),
     takeEvery(sendPublicKey.type, setPublicKeyWorker)
   ]);

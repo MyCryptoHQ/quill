@@ -1,5 +1,5 @@
 import { createSigningProcess } from '@signing/signing';
-import type { IpcMainEvent} from 'electron';
+import type { IpcMainEvent } from 'electron';
 import { app, BrowserWindow, ipcMain, Menu, shell, Tray } from 'electron';
 import positioner from 'electron-traywindow-positioner';
 import path from 'path';
