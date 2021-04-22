@@ -1,4 +1,5 @@
 import { createStore } from '@api/store';
+import { SynchronizationTarget } from '@common/store';
 
 jest.mock('electron-store');
 
@@ -10,7 +11,7 @@ describe('createStore', () => {
       handle: jest.fn()
     };
 
-    expect(() => createStore(ipc)).not.toThrow();
+    expect(() => createStore({ [SynchronizationTarget.RENDERER]: ipc })).not.toThrow();
     expect(ipc.on).toHaveBeenCalled();
   });
 });

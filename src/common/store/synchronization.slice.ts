@@ -155,7 +155,7 @@ export function* createKeyPairWorker({ payload = false }: PayloadAction<boolean>
 }
 
 export function* setPublicKeyWorker(
-  action: PayloadAction<string> & { remote: boolean; from: SynchronizationTarget }
+  action: PayloadAction<string> & { remote: boolean; from?: SynchronizationTarget }
 ) {
   if (action.remote) {
     const target = action.from;
