@@ -1,6 +1,4 @@
-export * from './jsonRPCRequest';
-export * from './jsonRPCResponse';
-export { ISUPPORTED_METHODS } from './methods';
+export * from './jsonrpc';
 export * from './crypto';
 export { IAccount } from './account';
 export { TAddress } from './address';

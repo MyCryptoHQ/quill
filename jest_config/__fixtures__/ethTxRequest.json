@@ -1,9 +1,10 @@
 {
   "jsonrpc": "2.0",
   "id": 1,
+  "method": "eth_signTransaction",
   "params": [
     {
-      "nonce": 6,
+      "nonce": "0x6",
       "gasPrice": "0x012a05f200",
       "gasLimit": "0x5208",
       "from": "0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520",

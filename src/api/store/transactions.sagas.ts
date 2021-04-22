@@ -1,25 +1,24 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { ipcMain } from 'electron';
-import { all, call, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
+import { all, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
 
 import {
   addToHistory,
-  addTransaction,
   denyCurrentTransaction,
   dequeue,
   enqueue,
   getCurrentTransaction,
   selectTransaction
 } from '@common/store';
-import { IPC_CHANNELS } from '@config';
 import type { ApplicationState } from '@store';
 import type { TSignTransaction, UserRequest } from '@types';
 import { TxResult } from '@types';
 import { makeHistoryTx } from '@utils';
 
+import { reply, requestSignTransaction } from './ws.sagas';
+
 export function* transactionsSaga() {
   yield all([
-    takeEvery(addTransaction.type, addTransactionWorker),
+    takeEvery(requestSignTransaction.type, addTransactionWorker),
     takeLatest(denyCurrentTransaction.type, denyCurrentTransactionWorker)
   ]);
 }
@@ -32,17 +31,19 @@ export function* addTransactionWorker({ payload }: PayloadAction<UserRequest<TSi
 }
 
 export function* denyCurrentTransactionWorker() {
-  const currentTx = yield select(getCurrentTransaction);
+  const transaction = yield select(getCurrentTransaction);
 
-  yield call(ipcMain.emit, IPC_CHANNELS.API, {
-    id: currentTx.id,
-    error: { code: '-32000', message: 'User denied transaction' }
-  });
+  yield put(
+    reply({
+      id: transaction.id,
+      error: { code: '-32000', message: 'User denied transaction' }
+    })
+  );
 
-  yield put(dequeue(currentTx));
+  yield put(dequeue(transaction));
 
-  const txEntry = makeHistoryTx(currentTx, TxResult.DENIED);
+  const entry = makeHistoryTx(transaction, TxResult.DENIED);
 
-  yield put(addToHistory(txEntry));
-  yield put(selectTransaction(txEntry));
+  yield put(addToHistory(entry));
+  yield put(selectTransaction(entry));
 }

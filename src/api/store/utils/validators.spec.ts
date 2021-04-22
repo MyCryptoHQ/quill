@@ -1,4 +1,4 @@
-import { SUPPORTED_METHODS } from '@config';
+import { JsonRPCMethod } from '@config';
 
 import { isValidParams, isValidRequest } from './validators';
 
@@ -6,7 +6,7 @@ describe('isValidRequest', () => {
   it('detects valid requests', () => {
     const valid = isValidRequest({
       id: 1,
-      method: SUPPORTED_METHODS.SIGN_TRANSACTION,
+      method: JsonRPCMethod.SignTransaction,
       jsonrpc: '2.0',
       params: [
         {
@@ -29,7 +29,7 @@ describe('isValidParams', () => {
   it('detects invalid request if params dont match method schema', () => {
     const valid = isValidParams({
       id: 1,
-      method: SUPPORTED_METHODS.SIGN_TRANSACTION,
+      method: JsonRPCMethod.SignTransaction,
       jsonrpc: '2.0',
       params: []
     });
@@ -39,9 +39,9 @@ describe('isValidParams', () => {
   it('detects invalid requests without params', () => {
     const valid = isValidParams({
       id: 1,
-      method: SUPPORTED_METHODS.SIGN_TRANSACTION,
+      method: JsonRPCMethod.SignTransaction,
       jsonrpc: '2.0'
-    } as any);
+    });
     expect(valid).toBe(false);
   });
 });

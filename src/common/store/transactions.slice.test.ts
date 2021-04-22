@@ -1,4 +1,3 @@
-/* eslint-disable jest/expect-expect */
 import { fRequestOrigin, fTxRequest } from '@fixtures';
 import type { TUuid } from '@types';
 import { TxResult } from '@types';

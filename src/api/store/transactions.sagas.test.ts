@@ -1,13 +1,12 @@
-import { ipcMain } from 'electron';
 import { expectSaga } from 'redux-saga-test-plan';
 
-import { addToHistory, addTransaction, dequeue, enqueue } from '@common/store';
-import { IPC_CHANNELS } from '@config';
+import { addToHistory, dequeue, enqueue } from '@common/store';
 import { fRequestOrigin, fTxRequest } from '@fixtures';
 import { TxResult } from '@types';
 import { makeHistoryTx, makeQueueTx } from '@utils';
 
 import { addTransactionWorker, denyCurrentTransactionWorker } from './transactions.sagas';
+import { reply, requestSignTransaction } from './ws.sagas';
 
 const request = { origin: fRequestOrigin, request: fTxRequest };
 
@@ -22,7 +21,7 @@ jest.mock('electron', () => ({
 
 describe('addTransactionWorker', () => {
   it('adds a transaction if the user is logged in', async () => {
-    await expectSaga(addTransactionWorker, addTransaction(request))
+    await expectSaga(addTransactionWorker, requestSignTransaction(request))
       .withState({
         auth: {
           loggedIn: true
@@ -31,7 +30,7 @@ describe('addTransactionWorker', () => {
       .put(enqueue(request))
       .silentRun();
 
-    await expectSaga(addTransactionWorker, addTransaction(request))
+    await expectSaga(addTransactionWorker, requestSignTransaction(request))
       .withState({
         auth: {
           loggedIn: false
@@ -47,10 +46,12 @@ describe('denyCurrentTransactionWorker()', () => {
     const tx = makeQueueTx(request);
     return expectSaga(denyCurrentTransactionWorker)
       .withState({ transactions: { queue: [tx], currentTransaction: tx } })
-      .call(ipcMain.emit, IPC_CHANNELS.API, {
-        id: fTxRequest.id,
-        error: { code: '-32000', message: 'User denied transaction' }
-      })
+      .put(
+        reply({
+          id: fTxRequest.id,
+          error: { code: '-32000', message: 'User denied transaction' }
+        })
+      )
       .put(dequeue(tx))
       .put(addToHistory(makeHistoryTx(tx, TxResult.DENIED)))
       .silentRun();

@@ -10,6 +10,7 @@ import { WalletType } from '@types';
 import { makeQueueTx, makeTx } from '@utils';
 
 import { signWorker } from './signing.sagas';
+import { reply } from './ws.sagas';
 
 jest.mock('electron-store');
 jest.mock('electron', () => ({
@@ -27,22 +28,25 @@ const tx = makeTx(fTxRequest);
 describe('signWorker()', () => {
   it('handles signing', () => {
     const queueTx = makeQueueTx({ origin: fRequestOrigin, request: fTxRequest });
-    return (
-      expectSaga(
-        signWorker,
-        sign({
-          wallet,
-          tx
+    return expectSaga(
+      signWorker,
+      sign({
+        wallet,
+        tx
+      })
+    )
+      .withState({ transactions: { queue: [queueTx], currentTransaction: queueTx } })
+      .provide([[call.fn(signTransaction), fSignedTx]])
+      .call(signTransaction, wallet, tx)
+      .put(
+        reply({
+          id: queueTx.id,
+          result: fSignedTx
         })
       )
-        .withState({ transactions: { queue: [queueTx], currentTransaction: queueTx } })
-        .provide([[call.fn(signTransaction), fSignedTx]])
-        .call(signTransaction, wallet, tx)
-        .put(signSuccess())
-        // .call(ipcMain.emit, IPC_CHANNELS.API, { id: fTxRequest.id, result: fSignedTx })
-        .put(dequeue(queueTx))
-        .silentRun()
-    );
+      .put(signSuccess())
+      .put(dequeue(queueTx))
+      .silentRun();
   });
 
   it('handles signing errors', () => {

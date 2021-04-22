@@ -8,12 +8,11 @@ import { createPersistor } from '@api/store/persistor';
 import { HEIGHT, WIDTH } from '@config';
 
 import { createStore } from './api/store';
-import { runAPI } from './api/ws';
 import { ipcBridgeMain } from './bridge';
 import { createKeyPair, setPersistor } from './common/store';
 
-declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
-declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: any;
+declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
+declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 // eslint-disable-next-line global-require
@@ -70,9 +69,6 @@ const createWindow = (): void => {
 
   // and load the index.html of the app.
   window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-
-  // Run API
-  runAPI(store);
 
   // Run Signing Logic
   runCryptoService(window.webContents);

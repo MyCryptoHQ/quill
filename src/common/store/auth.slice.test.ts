@@ -1,5 +1,3 @@
-/* eslint-disable jest/expect-expect */
-
 import slice, {
   createPasswordFailed,
   createPasswordSuccess,
