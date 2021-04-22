@@ -21,6 +21,10 @@ jest.mock('electron');
 jest.mock('electron-store');
 jest.mock('ws');
 
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
 describe('validateRequest', () => {
   it('returns an error for invalid JSON', () => {
     expect(validateRequest('')).toStrictEqual([
