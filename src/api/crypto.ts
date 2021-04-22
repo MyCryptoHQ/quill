@@ -2,9 +2,7 @@ import type { DerivationPath } from '@mycrypto/wallets';
 import { MnemonicPhrase } from '@mycrypto/wallets';
 import { getDeterministicWallet, getWallet } from '@wallets/wallet-initialisation';
 
-import type {
-  SerializedDeterministicWallet,
-  SerializedWallet} from '@types';
+import type { SerializedDeterministicWallet, SerializedWallet } from '@types';
 import { WalletType } from '@types';
 
 export const getAddress = async (wallet: SerializedWallet) => {

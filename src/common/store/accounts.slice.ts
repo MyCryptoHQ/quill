@@ -98,6 +98,7 @@ export const {
 } = slice.actions;
 
 export const generateAccount = createAction(`${sliceName}/generateAccount`);
+export const saveAccountSecrets = createAction<SerializedWallet>(`${sliceName}/saveAccountSecrets`);
 
 export default slice;
 

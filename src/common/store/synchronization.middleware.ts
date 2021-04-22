@@ -1,7 +1,7 @@
 import type { Middleware } from '@reduxjs/toolkit';
 import { PERSIST } from 'redux-persist';
 
-import signing from '@common/store/signing.slice';
+import { init, sign } from '@common/store/signing.slice';
 import synchronization, {
   getHandshaken,
   getTargetPublicKey,
@@ -11,6 +11,7 @@ import synchronization, {
 import { encryptJson } from '@common/utils';
 import type { ReduxIPC } from '@types';
 
+import { saveAccountSecrets } from './accounts.slice';
 import { setPersistor } from './persistence.slice';
 
 /**
@@ -18,7 +19,7 @@ import { setPersistor } from './persistence.slice';
  */
 export const IGNORED_PATHS = [synchronization.name];
 export const IGNORED_ACTIONS = [PERSIST, setPersistor.type];
-export const SIGNING_PATHS = [signing.name];
+export const SIGNING_ACTIONS = [init.type, sign.type, saveAccountSecrets.type];
 
 /**
  * Middleware that dispatches any actions to the other Electron process.
@@ -35,7 +36,7 @@ export const synchronizationMiddleware = (
   const targetMapping = {
     [SynchronizationTarget.SIGNING]: SynchronizationTarget.MAIN,
     [SynchronizationTarget.MAIN]:
-      action.from === SynchronizationTarget.RENDERER || SIGNING_PATHS.includes(path)
+      action.from === SynchronizationTarget.RENDERER || SIGNING_ACTIONS.includes(action.type)
         ? SynchronizationTarget.SIGNING
         : SynchronizationTarget.RENDERER,
     [SynchronizationTarget.RENDERER]: SynchronizationTarget.MAIN

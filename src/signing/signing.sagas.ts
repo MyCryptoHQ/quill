@@ -33,6 +33,9 @@ export function* signingSaga() {
 
 const getPersistentWallet = async (uuid: TUuid): Promise<PrivateKey> => {
   const privateKey = await getPrivateKey(uuid);
+  if (privateKey == null) {
+    throw new Error('Saved Private Key is invalid');
+  }
   return new PrivateKey(privateKey);
 };
 

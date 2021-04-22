@@ -15,6 +15,7 @@ export {
   getAddresses,
   getAccountError,
   fetchReset,
+  saveAccountSecrets,
   getAccountsLength,
   getGeneratedMnemonicWords,
   getGeneratedAccount,
