@@ -41,7 +41,7 @@ export function* webSocketSaga() {
   yield all([requestWatcherWorker()]);
 }
 
-const createWebSocketServer = () => {
+export const createWebSocketServer = () => {
   return eventChannel<WebSocketMessage>((emitter) => {
     const server = new WebSocket.Server({ host: 'localhost', port: WS_PORT });
 

@@ -7,6 +7,7 @@ import { fAccount, fRequestOrigin, fSignedTx, fTxRequest } from '@fixtures';
 
 import { createJsonRpcRequest } from './utils';
 import {
+  createWebSocketServer,
   handleRequest,
   reply,
   requestAccounts,
@@ -179,6 +180,18 @@ describe('handleRequest', () => {
         result: fSignedTx
       })
     );
+  });
+});
+
+describe('createWebSocketServer', () => {
+  it('closes the connection when the channel is closed', () => {
+    const channel = createWebSocketServer();
+    channel.close();
+
+    const server = WebSocket.Server as jest.MockedClass<typeof WebSocket.Server>;
+    const instance = server.mock.instances[0];
+
+    expect(instance.close).toHaveBeenCalled();
   });
 });
 
