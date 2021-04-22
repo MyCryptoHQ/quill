@@ -1,7 +1,7 @@
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
-import { signTransaction } from '@api/crypto';
+import { reply } from '@api/store/ws.slice';
 import { sign, signFailed, signSuccess } from '@common/store/signing.slice';
 import { dequeue } from '@common/store/transactions.slice';
 import { fPrivateKey, fRequestOrigin, fSignedTx, fTxRequest } from '@fixtures';
@@ -9,8 +9,7 @@ import type { SerializedWallet } from '@types';
 import { WalletType } from '@types';
 import { makeQueueTx, makeTx } from '@utils';
 
-import { signWorker } from './signing.sagas';
-import { reply } from './ws.sagas';
+import { signTransaction, signWorker } from './signing.sagas';
 
 jest.mock('electron-store');
 jest.mock('electron', () => ({

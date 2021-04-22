@@ -1,4 +1,5 @@
 import { createSigningProcess } from '@signing/signing';
+import type { IpcMainEvent} from 'electron';
 import { app, BrowserWindow, ipcMain, Menu, shell, Tray } from 'electron';
 import positioner from 'electron-traywindow-positioner';
 import path from 'path';
@@ -64,20 +65,18 @@ const createWindow = (): void => {
   const signingProcess = createSigningProcess();
 
   const store = createStore({
-    [SynchronizationTarget.RENDERER]: {
-      on: (listener) => {
-        ipcBridgeMain(ipcMain, window.webContents).redux.on(listener);
-      },
-      emit: (args) => {
-        ipcBridgeMain(ipcMain, window.webContents).redux.emit(args);
-      }
-    },
+    [SynchronizationTarget.RENDERER]: ipcBridgeMain(ipcMain, window.webContents).redux,
     [SynchronizationTarget.SIGNING]: {
-      on: (listener) => {
-        signingProcess.on('message', (msg) => listener(undefined, msg));
+      on: (listener: (event: IpcMainEvent, ...args: unknown[]) => void) => {
+        const callback = (msg: unknown) => listener(undefined, msg);
+        signingProcess.on('message', callback);
+        return () => {
+          signingProcess.removeListener('message', callback);
+        };
       },
-      emit: (args) => {
-        signingProcess.send(args);
+      emit: (args) => signingProcess.send(args as string),
+      handle: () => {
+        throw new Error('Not implemented');
       }
     }
   });
