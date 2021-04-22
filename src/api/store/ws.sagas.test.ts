@@ -9,13 +9,11 @@ import { createJsonRpcRequest } from './utils';
 import {
   createWebSocketServer,
   handleRequest,
-  reply,
-  requestAccounts,
-  requestSignTransaction,
   requestWatcherWorker,
   validateRequest,
   waitForResponse
 } from './ws.sagas';
+import { reply, requestAccounts, requestSignTransaction } from './ws.slice';
 
 jest.mock('electron');
 jest.mock('electron-store');

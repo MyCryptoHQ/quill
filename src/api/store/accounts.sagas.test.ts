@@ -1,10 +1,8 @@
-import type { TAddress } from '@mycrypto/wallets';
 import { DEFAULT_ETH } from '@mycrypto/wallets';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
-import { createWallet, getAddress, getAddresses } from '@api/crypto';
-import { deleteAccountSecrets, saveAccountSecrets } from '@api/db';
+import { getAddress, getAddresses } from '@api/crypto';
 import { createJsonRpcRequest } from '@api/store/utils';
 import {
   addAccount,
@@ -12,22 +10,18 @@ import {
   fetchAddresses,
   fetchFailed,
   removeAccount,
-  setAddresses,
-  setGeneratedAccount
-} from '@common/store';
-import { DEFAULT_MNEMONIC_INDEX, JsonRPCMethod } from '@config';
+  setAddresses} from '@common/store';
+import { JsonRPCMethod } from '@config';
 import { fAccount, fAccounts, fMnemonicPhrase, fPrivateKey, fRequestOrigin } from '@fixtures';
-import type { SerializedWallet } from '@types';
+import type { SerializedWallet, TAddress } from '@types';
 import { WalletType } from '@types';
 
 import {
   fetchAccountsWorker,
   fetchAddressesWorker,
-  generateAccountWorker,
   getAccountsWorker,
-  removeAccountWorker
 } from './accounts.sagas';
-import { reply, requestAccounts } from './ws.sagas';
+import { reply, requestAccounts } from './ws.slice';
 
 jest.mock('electron-store');
 jest.mock('keytar');
@@ -58,17 +52,6 @@ describe('fetchAccountWorker()', () => {
       .silentRun();
   });
 
-  it('handles saving account secrets', () => {
-    const input = { ...wallet, persistent: true };
-    return expectSaga(fetchAccountsWorker, fetchAccounts([input]))
-      .withState({ accounts: { accounts: [] } })
-      .provide([[call.fn(getAddress), fAccount.address]])
-      .call(getAddress, input)
-      .call(saveAccountSecrets, input)
-      .put(addAccount({ ...fAccount, dPath: undefined, index: undefined, persistent: true }))
-      .silentRun();
-  });
-
   it('overwrites existing account', () => {
     const input = { ...wallet, persistent: false };
     return expectSaga(fetchAccountsWorker, fetchAccounts([input]))
@@ -94,6 +77,7 @@ describe('fetchAccountWorker()', () => {
       .silentRun();
   });
 });
+
 
 describe('fetchAddressesWorker', () => {
   const wallet = {
@@ -151,43 +135,6 @@ describe('fetchAddressesWorker', () => {
       })
       .call(getAddresses, wallet, DEFAULT_ETH, 3, 0)
       .put(fetchFailed('error'))
-      .silentRun();
-  });
-});
-
-describe('removeAccountWorker()', () => {
-  it('handles deleting account secrets', () => {
-    const input = { ...fAccount, persistent: true };
-    return expectSaga(removeAccountWorker, removeAccount(input))
-      .call(deleteAccountSecrets, input.uuid)
-      .silentRun();
-  });
-});
-
-describe('generateAccountWorker', () => {
-  it('generates an account', () => {
-    return expectSaga(generateAccountWorker)
-      .provide({
-        call(effect, next) {
-          if (effect.fn === createWallet) {
-            return 'foo bar';
-          }
-
-          if (effect.fn === getAddress) {
-            return 'baz qux';
-          }
-
-          return next();
-        }
-      })
-      .call(createWallet, WalletType.MNEMONIC)
-      .call(getAddress, {
-        walletType: WalletType.MNEMONIC,
-        path: DEFAULT_ETH,
-        index: DEFAULT_MNEMONIC_INDEX,
-        mnemonicPhrase: 'foo bar'
-      })
-      .put(setGeneratedAccount({ mnemonicPhrase: 'foo bar', address: 'baz qux' as TAddress }))
       .silentRun();
   });
 });

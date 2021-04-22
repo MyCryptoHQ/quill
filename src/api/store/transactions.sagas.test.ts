@@ -6,7 +6,7 @@ import { TxResult } from '@types';
 import { makeHistoryTx, makeQueueTx } from '@utils';
 
 import { addTransactionWorker, denyCurrentTransactionWorker } from './transactions.sagas';
-import { reply, requestSignTransaction } from './ws.sagas';
+import { reply, requestSignTransaction } from './ws.slice';
 
 const request = { origin: fRequestOrigin, request: fTxRequest };
 
