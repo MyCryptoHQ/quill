@@ -4,10 +4,17 @@ import keytar from 'keytar';
 import { KEYTAR_SERVICE } from '@config';
 import type { SerializedWallet, TUuid } from '@types';
 import { generateDeterministicAddressUUID } from '@utils';
-import { decrypt, encrypt } from '@utils/encryption';
+import { decrypt, encrypt, hashPassword } from '@utils/encryption';
 
 // @todo STORES HASHED PASSWORD FOR ENCRYPTION - THINK ABOUT THIS
 const encryptionKey = Buffer.alloc(32);
+
+const setEncryptionKey = async (key: Buffer) => {
+  key.copy(encryptionKey);
+  key.fill(0);
+};
+
+export const init = async (key: string) => setEncryptionKey(await hashPassword(key));
 
 const savePrivateKey = (uuid: TUuid, privateKey: string) => {
   const encryptedPKey = encrypt(privateKey, encryptionKey);

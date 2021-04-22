@@ -2,12 +2,19 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { push } from 'connected-react-router';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
-import { init, login as loginFn, logout as logoutFn, reset as resetFn, storeExists } from '@api/db';
+import {
+  init as initFn,
+  login as loginFn,
+  logout as logoutFn,
+  reset as resetFn,
+  storeExists
+} from '@api/db';
 import {
   checkNewUser,
   createPassword,
   createPasswordFailed,
   createPasswordSuccess,
+  init,
   login,
   loginFailed,
   loginSuccess,
@@ -34,7 +41,7 @@ export function* checkNewUserWorker() {
 }
 
 export function* createPasswordWorker({ payload }: PayloadAction<string>) {
-  const result = yield call(init, payload);
+  const result = yield call(initFn, payload);
 
   if (result) {
     yield put(createPasswordSuccess());
@@ -50,6 +57,7 @@ export function* loginWorker({ payload }: PayloadAction<string>) {
 
   if (result) {
     yield put(loginSuccess());
+    yield put(init(payload));
     return;
   }
 

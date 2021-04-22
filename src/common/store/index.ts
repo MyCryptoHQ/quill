@@ -32,4 +32,4 @@ export {
   getTxHistory,
   addToHistory
 } from './transactions.slice';
-export { sign, getSigningError } from './signing.slice';
+export { init, sign, getSigningError } from './signing.slice';

@@ -8,6 +8,7 @@ import synchronization, {
   sendPublicKey,
   SynchronizationTarget
 } from '@common/store/synchronization.slice';
+import transactions from '@common/store/transactions.slice';
 import { encryptJson } from '@common/utils';
 import type { ReduxIPC } from '@types';
 
@@ -18,7 +19,7 @@ import { setPersistor } from './persistence.slice';
  */
 export const IGNORED_PATHS = [synchronization.name];
 export const IGNORED_ACTIONS = [PERSIST, setPersistor.type];
-export const SIGNING_PATHS = [signing.name];
+export const SIGNING_PATHS = [signing.name, transactions.name];
 
 /**
  * Middleware that dispatches any actions to the other Electron process.
@@ -57,7 +58,7 @@ export const synchronizationMiddleware = (
 
   // Only allow handshake without encryption
   if (action.type === sendPublicKey.type) {
-    Object.values(ipcs).forEach(ipc => ipc.emit(json));
+    Object.values(ipcs).forEach((ipc) => ipc.emit(json));
     return next(action);
   }
 
@@ -72,8 +73,8 @@ export const synchronizationMiddleware = (
         from: self
       })
     );
-  }else{
-    console.log(self, "Send Failed", target, isHandshaken, publicKey)
+  } else {
+    console.log(self, 'Send Failed', target, isHandshaken, publicKey);
   }
 
   return next(action);

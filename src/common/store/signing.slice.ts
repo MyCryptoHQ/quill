@@ -13,6 +13,9 @@ const slice = createSlice({
   name: sliceName,
   initialState,
   reducers: {
+    init(_, __: PayloadAction<string>) {
+      // noop
+    },
     sign(
       state,
       _: PayloadAction<{
@@ -33,7 +36,7 @@ const slice = createSlice({
   }
 });
 
-export const { sign, signSuccess, signFailed } = slice.actions;
+export const { init, sign, signSuccess, signFailed } = slice.actions;
 
 export default slice;
 
