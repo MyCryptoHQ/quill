@@ -1,12 +1,13 @@
 import { DEFAULT_ETH, getFullPath } from '@mycrypto/wallets';
 
-import { fAccount, fPrivateKey } from '@fixtures';
+import { fAccount, fMnemonicPhrase, fPrivateKey } from '@fixtures';
 import type { SerializedWallet, TAddress } from '@types';
 import { WalletType } from '@types';
 
 import slice, {
   addAccount,
   fetchAccounts,
+  fetchAddresses,
   fetchFailed,
   fetchReset,
   removeAccount,
@@ -82,7 +83,12 @@ describe('AccountSlice', () => {
     it('sets isFetching to true and clears the fetch error', () => {
       const result = slice.reducer(
         { accounts: [], addresses: [], isFetching: false, fetchError: 'error' },
-        fetchAccounts([{ ...wallet, persistent: true }])
+        fetchAddresses({
+          wallet: { walletType: WalletType.MNEMONIC, mnemonicPhrase: fMnemonicPhrase },
+          path: DEFAULT_ETH,
+          limit: 5,
+          offset: 0
+        })
       );
       expect(result).toStrictEqual(
         expect.objectContaining({
