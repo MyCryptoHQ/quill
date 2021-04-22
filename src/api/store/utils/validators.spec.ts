@@ -1,4 +1,5 @@
-import { JsonRPCMethod } from '../../../config';
+import { JsonRPCMethod } from '@config';
+
 import { isValidParams, isValidRequest } from './validators';
 
 describe('isValidRequest', () => {
