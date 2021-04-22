@@ -42,17 +42,25 @@ export type JsonRPCRequest<T = unknown[]> = Omit<Infer<typeof JSONRPCRequestStru
   params?: T;
 };
 
-export interface JsonRPCResponse<Result = unknown, Error = unknown> {
+export interface JsonRPCBase {
   id: string | number | null;
-  jsonrpc: string;
-  result?: Result;
-  error?: {
+}
+
+export type JsonRPCError<Error = unknown> = JsonRPCBase & {
+  error: {
     code: string;
     message: string;
     data?: Error;
   };
-}
+};
 
-export type JsonRPCResult<Result = unknown, Error = unknown> =
-  | Required<Omit<JsonRPCResponse<Result, Error>, 'jsonrpc' | 'error'>>
-  | Required<Omit<JsonRPCResponse<Result, Error>, 'jsonrpc' | 'result'>>;
+export type JsonRPCResult<Result = unknown> = JsonRPCBase & {
+  result: Result;
+};
+
+export type JsonRPCResponse<Result = unknown, Error = unknown> =
+  | JsonRPCResult<Result>
+  | JsonRPCError<Error>;
+export type JsonRPCMessage<Result = unknown, Error = unknown> = JsonRPCResponse<Result, Error> & {
+  jsonrpc: '2.0';
+};

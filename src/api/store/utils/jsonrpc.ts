@@ -12,6 +12,6 @@ export const createJsonRpcRequest = <Params extends unknown[] = unknown[]>(
   params
 });
 
-export const toJsonRpcResponse = (response: Omit<JsonRPCResponse, 'jsonrpc'>) => {
+export const toJsonRpcResponse = (response: JsonRPCResponse) => {
   return { jsonrpc: '2.0', ...response };
 };

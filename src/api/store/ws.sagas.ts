@@ -30,7 +30,7 @@ export const requestSignTransaction = createAction<UserRequest<TSignTransaction>
 );
 export const requestAccounts = createAction<UserRequest>(`${sliceName}/requestAccounts`);
 
-export const reply = createAction<JsonRPCResult>(`${sliceName}/reply`);
+export const reply = createAction<JsonRPCResponse>(`${sliceName}/reply`);
 
 const SUPPORTED_METHODS = {
   [JsonRPCMethod.SignTransaction]: requestSignTransaction,
