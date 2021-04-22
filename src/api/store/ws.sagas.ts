@@ -10,7 +10,7 @@ import { safeJSONParse } from '@utils';
 
 import { toJsonRpcResponse } from './utils/jsonrpc';
 import { isValidMethod, isValidParams, isValidRequest } from './utils/validators';
-import { requestAccounts, requestSignTransaction } from './ws.slice';
+import { reply, requestAccounts, requestSignTransaction } from './ws.slice';
 
 interface WebSocketMessage {
   socket: WebSocket;

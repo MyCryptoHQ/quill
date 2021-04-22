@@ -8,7 +8,6 @@ import synchronization, {
   sendPublicKey,
   SynchronizationTarget
 } from '@common/store/synchronization.slice';
-import transactions from '@common/store/transactions.slice';
 import { encryptJson } from '@common/utils';
 import type { ReduxIPC } from '@types';
 
@@ -19,7 +18,7 @@ import { setPersistor } from './persistence.slice';
  */
 export const IGNORED_PATHS = [synchronization.name];
 export const IGNORED_ACTIONS = [PERSIST, setPersistor.type];
-export const SIGNING_PATHS = [signing.name, transactions.name];
+export const SIGNING_PATHS = [signing.name];
 
 /**
  * Middleware that dispatches any actions to the other Electron process.
@@ -32,12 +31,13 @@ export const synchronizationMiddleware = (
   const path = action.type.split('/')[0];
 
   // SIGNING and RENDERER only communicates with MAIN
-  // MAIN communicates with both
+  // MAIN communicates with both, mostly relaying requests from RENDERER
   const targetMapping = {
     [SynchronizationTarget.SIGNING]: SynchronizationTarget.MAIN,
-    [SynchronizationTarget.MAIN]: SIGNING_PATHS.includes(path)
-      ? SynchronizationTarget.SIGNING
-      : SynchronizationTarget.RENDERER,
+    [SynchronizationTarget.MAIN]:
+      action.from === SynchronizationTarget.RENDERER || SIGNING_PATHS.includes(path)
+        ? SynchronizationTarget.SIGNING
+        : SynchronizationTarget.RENDERER,
     [SynchronizationTarget.RENDERER]: SynchronizationTarget.MAIN
   };
 
@@ -46,9 +46,10 @@ export const synchronizationMiddleware = (
   if (
     (action.type !== sendPublicKey.type && IGNORED_PATHS.includes(path)) ||
     IGNORED_ACTIONS.includes(action.type) ||
-    (action.remote && target === action.from)
+    (action.remote && target === action.from) ||
+    (action.type === sendPublicKey.type && action.from !== undefined)
   ) {
-    console.log(self, 'Ignoring', target, action.type);
+    console.log(self, 'Ignoring', target, action.type, action.from);
     return next(action);
   }
 
