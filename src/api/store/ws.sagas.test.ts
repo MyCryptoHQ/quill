@@ -111,8 +111,8 @@ describe('waitForResponse', () => {
 
     await expectSaga(waitForResponse, 1)
       .take(reply)
-      .dispatch(reply({ id: 2, result: 'foo' }))
-      .not.returns({ id: 1, result: 'foo' })
+      .dispatch(reply({ id: 2, result: 'bar' }))
+      .not.returns({ id: 2, result: 'bar' })
       .silentRun();
   });
 });
@@ -194,19 +194,28 @@ describe('requestWatcherWorker', () => {
     };
 
     const request = {
-      origin: fRequestOrigin
+      origin: `https://${fRequestOrigin}/foo`
     };
 
+    // The request watcher initialises the websocket server, which is callback based. Using some
+    // Jest magic, we get the WebSocket server instance and get the callback function specified in
+    // the `createWebSocketServer` function here.
     const instance = server.mock.instances[0];
     const on = instance.on as jest.MockedFunction<typeof instance.on>;
     const connectionCallback = on.mock.calls[0][1];
 
+    // This simulates a callback of an incoming socket connection. This will register a callback for
+    // new messages coming in from that socket.
     connectionCallback.bind(instance)(socket, request);
 
+    // Here we get the socket message callback function and call that using a eth_signTransaction
+    // request. This calls the redux-saga `eventChannel` emitter with the socket and request data.
     const messageCallback = socket.on.mock.calls[0][1];
 
     messageCallback(fTxRequest);
 
+    // `handleRequest` should be called for any messages emitted from the `eventChannel`, so we can
+    // test that here using `redux-saga-test-plan`.
     saga.fork(handleRequest, {
       socket,
       request,

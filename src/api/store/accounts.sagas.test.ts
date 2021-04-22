@@ -15,7 +15,7 @@ import {
 } from '@common/store';
 import { JsonRPCMethod } from '@config';
 import { DEFAULT_MNEMONIC_INDEX } from '@config/derivation';
-import { fAccount, fAccounts, fPrivateKey } from '@fixtures';
+import { fAccount, fAccounts, fPrivateKey, fRequestOrigin } from '@fixtures';
 import type { SerializedWallet } from '@types';
 import { WalletType } from '@types';
 
@@ -38,7 +38,7 @@ const wallet: SerializedWallet = {
 describe('getAccountsWorker', () => {
   it('gets the addresses of all accounts', async () => {
     const request = createJsonRpcRequest(JsonRPCMethod.Accounts);
-    await expectSaga(getAccountsWorker, requestAccounts({ origin: 'app.mycrypto.com', request }))
+    await expectSaga(getAccountsWorker, requestAccounts({ origin: fRequestOrigin, request }))
       .withState({ accounts: { accounts: fAccounts } })
       .put(reply({ id: request.id, result: fAccounts.map((account) => account.address) }))
       .silentRun();

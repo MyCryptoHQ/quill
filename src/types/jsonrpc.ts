@@ -53,7 +53,6 @@ export interface JsonRPCResponse<Result = unknown, Error = unknown> {
   };
 }
 
-export type JsonRPCResult<Result = unknown, Error = unknown> = Omit<
-  JsonRPCResponse<Result, Error>,
-  'jsonrpc'
->;
+export type JsonRPCResult<Result = unknown, Error = unknown> =
+  | Required<Omit<JsonRPCResponse<Result, Error>, 'jsonrpc' | 'error'>>
+  | Required<Omit<JsonRPCResponse<Result, Error>, 'jsonrpc' | 'result'>>;

@@ -5,7 +5,6 @@ import { eventChannel } from 'redux-saga';
 import { all, call, fork, put, take } from 'redux-saga/effects';
 import WebSocket from 'ws';
 
-import { toJsonRpcResponse } from '@api/store/utils';
 import { JsonRPCMethod, WS_PORT } from '@config';
 import type {
   JsonRPCRequest,
@@ -14,7 +13,9 @@ import type {
   TSignTransaction,
   UserRequest
 } from '@types';
-import { isValidMethod, isValidParams, isValidRequest, safeJSONParse } from '@utils';
+import { safeJSONParse } from '@utils';
+
+import { isValidMethod, isValidParams, isValidRequest, toJsonRpcResponse } from './utils';
 
 interface WebSocketMessage {
   socket: WebSocket;
@@ -89,7 +90,7 @@ export const validateRequest = (data: string): [JsonRPCResponse, null] | [null, 
     ];
   }
 
-  if (!isValidParams(request, request.method)) {
+  if (!isValidParams(request)) {
     return [
       toJsonRpcResponse({
         id: request.id,
@@ -118,6 +119,7 @@ export function* handleRequest({ socket, request, data }: WebSocketMessage) {
     return socket.send(JSON.stringify(error));
   }
 
+  // @todo: Verify this if possible
   const origin = request.headers.origin && new URL(request.headers.origin).host;
   const method: ActionCreatorWithPayload<UserRequest> =
     SUPPORTED_METHODS[jsonRpcRequest.method as JsonRPCMethod];

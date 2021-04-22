@@ -9,8 +9,8 @@ const paramSchemas = {
   [JsonRPCMethod.Accounts]: unknown()
 };
 
-export const isValidParams = (request: JsonRPCRequest, method: JsonRPCMethod) => {
-  return is(request.params, paramSchemas[method]);
+export const isValidParams = (request: JsonRPCRequest) => {
+  return is(request.params, paramSchemas[request.method as JsonRPCMethod]);
 };
 
 export const isValidRequest = (request: JsonRPCRequest): boolean => {
