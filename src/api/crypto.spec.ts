@@ -1,14 +1,11 @@
 import { DEFAULT_ETH } from '@mycrypto/wallets';
-import type { WebContents } from 'electron';
-import { ipcMain } from 'electron';
 
 import { getPrivateKey } from '@api/db';
-import { IPC_CHANNELS } from '@config';
-import { fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey } from '@fixtures';
+import { fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey, fSignedTx } from '@fixtures';
 import type { TUuid } from '@types';
-import { CryptoRequestType, WalletType } from '@types';
+import { WalletType } from '@types';
 
-import { handleRequest, runService } from './crypto';
+import { createWallet, getAddress, getAddresses, signTransaction } from './crypto';
 
 jest.unmock('@bridge');
 
@@ -73,59 +70,106 @@ jest.mock('@api/db', () => ({
   getPrivateKey: jest.fn().mockImplementation(() => mockPrivateKey)
 }));
 
-describe('handleRequest', () => {
-  it('GET_ADDRESS returns address for PRIVATE_KEY', async () => {
-    const response = await handleRequest({
-      wallet: {
-        walletType: WalletType.PRIVATE_KEY,
-        privateKey: fPrivateKey
-      },
-      type: CryptoRequestType.GET_ADDRESS
-    });
-
-    expect(response).toBe('0x0961Ca10D49B9B8e371aA0Bcf77fE5730b18f2E4');
+describe('signTransaction', () => {
+  it('signs a transaction', async () => {
+    await expect(
+      signTransaction(
+        {
+          walletType: WalletType.PRIVATE_KEY,
+          privateKey: fPrivateKey
+        },
+        {
+          nonce: 6,
+          gasPrice: '0x012a05f200',
+          gasLimit: '0x5208',
+          to: '0xb2bb2b958AFa2e96dab3f3Ce7162b87daEa39017',
+          value: '0x2386f26fc10000',
+          data: '0x',
+          chainId: 3
+        }
+      )
+    ).resolves.toBe(fSignedTx);
   });
 
-  it('GET_ADDRESS returns address for KEYSTORE', async () => {
-    const response = await handleRequest({
-      wallet: {
+  it('signs a transaction for a persistent account', async () => {
+    await expect(
+      signTransaction(
+        {
+          persistent: true,
+          uuid: '709879a4-2241-4c07-8c83-16048e47d502' as TUuid
+        },
+        {
+          nonce: 6,
+          gasPrice: '0x012a05f200',
+          gasLimit: '0x5208',
+          to: '0xb2bb2b958AFa2e96dab3f3Ce7162b87daEa39017',
+          value: '0x2386f26fc10000',
+          data: '0x',
+          chainId: 3
+        }
+      )
+    ).resolves.toBe(fSignedTx);
+
+    expect(getPrivateKey).toHaveBeenCalledWith('709879a4-2241-4c07-8c83-16048e47d502');
+  });
+});
+
+describe('getAddress', () => {
+  it('returns the address for a private key', async () => {
+    await expect(
+      getAddress({
+        walletType: WalletType.PRIVATE_KEY,
+        privateKey: fPrivateKey
+      })
+    ).resolves.toBe('0x0961Ca10D49B9B8e371aA0Bcf77fE5730b18f2E4');
+  });
+
+  it('returns the address for a keystore', async () => {
+    await expect(
+      getAddress({
         walletType: WalletType.KEYSTORE,
         keystore: fKeystore,
         password: fKeystorePassword
-      },
-      type: CryptoRequestType.GET_ADDRESS
-    });
-
-    expect(response).toBe('0x0961Ca10D49B9B8e371aA0Bcf77fE5730b18f2E4');
+      })
+    ).resolves.toBe('0x0961Ca10D49B9B8e371aA0Bcf77fE5730b18f2E4');
   });
 
-  it('GET_ADDRESS returns a single address for MNEMONIC', async () => {
-    const response = await handleRequest({
-      type: CryptoRequestType.GET_ADDRESS,
-      wallet: {
+  it('returns the address for a mnemonic phrase', async () => {
+    await expect(
+      getAddress({
         walletType: WalletType.MNEMONIC,
         mnemonicPhrase: fMnemonicPhrase,
         path: DEFAULT_ETH,
         index: 0
-      }
-    });
+      })
+    ).resolves.toBe('0x0961Ca10D49B9B8e371aA0Bcf77fE5730b18f2E4');
+  });
+});
 
-    expect(response).toBe('0x0961Ca10D49B9B8e371aA0Bcf77fE5730b18f2E4');
+describe('createWallet', () => {
+  it('returns a mnemonic phrase', async () => {
+    await expect(createWallet(WalletType.MNEMONIC)).resolves.toBe(fMnemonicPhrase);
   });
 
-  it('GET_ADDRESSES returns multiple addresses for MNEMONIC', async () => {
-    const response = await handleRequest({
-      type: CryptoRequestType.GET_ADDRESSES,
-      limit: 3,
-      offset: 0,
-      path: DEFAULT_ETH,
-      wallet: {
-        walletType: WalletType.MNEMONIC,
-        mnemonicPhrase: fMnemonicPhrase
-      }
-    });
+  it('throws for invalid wallet types', async () => {
+    await expect(createWallet(WalletType.PRIVATE_KEY)).rejects.toThrow();
+    await expect(createWallet(WalletType.KEYSTORE)).rejects.toThrow();
+  });
+});
 
-    expect(response).toStrictEqual([
+describe('getAddresses', () => {
+  it('returns multiple addresses for a mnemonic phrase', async () => {
+    await expect(
+      getAddresses(
+        {
+          walletType: WalletType.MNEMONIC,
+          mnemonicPhrase: fMnemonicPhrase
+        },
+        DEFAULT_ETH,
+        3,
+        0
+      )
+    ).resolves.toStrictEqual([
       {
         address: '0x0961Ca10D49B9B8e371aA0Bcf77fE5730b18f2E4',
         dPath: "m/44'/60'/0'/0/0",
@@ -144,108 +188,19 @@ describe('handleRequest', () => {
     ]);
   });
 
-  it('GET_ADDRESSES fails with KEYSTORE', async () => {
+  it('throws an error for non-deterministic wallet types', async () => {
     await expect(
-      // @ts-expect-error Invalid wallet type
-      handleRequest({
-        type: CryptoRequestType.GET_ADDRESSES,
-        wallet: {
+      getAddresses(
+        {
+          // @ts-expect-error Invalid wallet type
           walletType: WalletType.KEYSTORE,
           keystore: fKeystore,
           password: fKeystorePassword
-        }
-      })
-    ).rejects.toBeDefined();
-  });
-
-  it('SIGN returns signed tx', async () => {
-    const response = await handleRequest({
-      type: CryptoRequestType.SIGN,
-      wallet: {
-        walletType: WalletType.PRIVATE_KEY,
-        privateKey: fPrivateKey
-      },
-      tx: {
-        nonce: 6,
-        gasPrice: '0x012a05f200',
-        gasLimit: '0x5208',
-        to: '0xb2bb2b958AFa2e96dab3f3Ce7162b87daEa39017',
-        value: '0x2386f26fc10000',
-        data: '0x',
-        chainId: 3
-      }
-    });
-
-    expect(response).toBe(
-      '0xf86b0685012a05f20082520894b2bb2b958afa2e96dab3f3ce7162b87daea39017872386f26fc10000802aa0686df061021262b4e75eb1608c8baaf043cca2b5ac68fb24420ede62d13a8a7fa035389237414433ac06a33d95c863b8221fe2c797a9c650c47a555255be0234f3'
-    );
-  });
-
-  it('SIGN returns signed transaction for persistent accounts', async () => {
-    const response = await handleRequest({
-      type: CryptoRequestType.SIGN,
-      wallet: {
-        persistent: true,
-        uuid: '709879a4-2241-4c07-8c83-16048e47d502' as TUuid
-      },
-      tx: {
-        nonce: 6,
-        gasPrice: '0x012a05f200',
-        gasLimit: '0x5208',
-        to: '0xb2bb2b958AFa2e96dab3f3Ce7162b87daEa39017',
-        value: '0x2386f26fc10000',
-        data: '0x',
-        chainId: 3
-      }
-    });
-
-    expect(getPrivateKey).toHaveBeenCalledWith('709879a4-2241-4c07-8c83-16048e47d502');
-    expect(response).toBe(
-      '0xf86b0685012a05f20082520894b2bb2b958afa2e96dab3f3ce7162b87daea39017872386f26fc10000802aa0686df061021262b4e75eb1608c8baaf043cca2b5ac68fb24420ede62d13a8a7fa035389237414433ac06a33d95c863b8221fe2c797a9c650c47a555255be0234f3'
-    );
-  });
-
-  it('CREATE_WALLET returns mnemonic phrase', async () => {
-    const response = await handleRequest({
-      type: CryptoRequestType.CREATE_WALLET,
-      wallet: WalletType.MNEMONIC
-    });
-
-    expect(response).toBe(fMnemonicPhrase);
-  });
-
-  it('CREATE_WALLET fails with PRIVATE_KEY', async () => {
-    await expect(
-      handleRequest({
-        type: CryptoRequestType.CREATE_WALLET,
-        wallet: WalletType.PRIVATE_KEY
-      })
-    ).rejects.toBeDefined();
-  });
-
-  it('CREATE_WALLET fails with KEYSTORE', async () => {
-    await expect(
-      handleRequest({
-        type: CryptoRequestType.CREATE_WALLET,
-        wallet: WalletType.KEYSTORE
-      })
-    ).rejects.toBeDefined();
-  });
-
-  it('errors if non supported type is passed', async () => {
-    await expect(
-      handleRequest({
-        // @ts-expect-error Unsupported type
-        type: 'bla',
-        privateKey: fPrivateKey
-      })
-    ).rejects.toBeDefined();
-  });
-});
-
-describe('runService', () => {
-  it('calls ipcMain handle', () => {
-    runService({} as WebContents);
-    expect(ipcMain.handle).toHaveBeenCalledWith(IPC_CHANNELS.CRYPTO, expect.any(Function));
+        },
+        DEFAULT_ETH,
+        3,
+        0
+      )
+    ).rejects.toThrow();
   });
 });

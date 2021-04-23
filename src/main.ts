@@ -3,7 +3,6 @@ import positioner from 'electron-traywindow-positioner';
 import path from 'path';
 import { URL } from 'url';
 
-import { runService as runCryptoService } from '@api/crypto';
 import { createPersistor } from '@api/store/persistor';
 import { HEIGHT, WIDTH } from '@config';
 
@@ -69,9 +68,6 @@ const createWindow = (): void => {
 
   // and load the index.html of the app.
   window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-
-  // Run Signing Logic
-  runCryptoService(window.webContents);
 };
 
 const showWindow = () => {

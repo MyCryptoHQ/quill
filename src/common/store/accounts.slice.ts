@@ -1,10 +1,18 @@
+import type { DerivationPath } from '@mycrypto/wallets';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAction, createSelector, createSlice } from '@reduxjs/toolkit';
 
-import type { IAccount, SerializedWallet, TAddress } from '@types';
+import type {
+  GetAddressesResult,
+  IAccount,
+  SerializedDeterministicWallet,
+  SerializedWallet,
+  TAddress
+} from '@types';
 
 export interface AccountsState {
   accounts: IAccount[];
+  addresses: GetAddressesResult[];
   isFetching: boolean;
   fetchError?: string;
   generatedAccount?: {
@@ -15,6 +23,7 @@ export interface AccountsState {
 
 export const initialState: AccountsState = {
   accounts: [],
+  addresses: [],
   isFetching: false
 };
 
@@ -37,7 +46,24 @@ const slice = createSlice({
       const idx = state.accounts.findIndex((a) => a.uuid === action.payload.uuid);
       state.accounts[idx] = action.payload;
     },
+    setAddresses(state, action: PayloadAction<GetAddressesResult[]>) {
+      state.addresses = action.payload;
+      state.isFetching = false;
+      state.fetchError = undefined;
+    },
     fetchAccounts(state, _: PayloadAction<(SerializedWallet & { persistent: boolean })[]>) {
+      state.isFetching = true;
+      state.fetchError = undefined;
+    },
+    fetchAddresses(
+      state,
+      _: PayloadAction<{
+        wallet: SerializedDeterministicWallet;
+        path: DerivationPath;
+        limit: number;
+        offset: number;
+      }>
+    ) {
       state.isFetching = true;
       state.fetchError = undefined;
     },
@@ -48,6 +74,7 @@ const slice = createSlice({
     fetchReset(state) {
       state.isFetching = false;
       state.fetchError = undefined;
+      state.addresses = [];
     },
     setGeneratedAccount(
       state,
@@ -62,7 +89,9 @@ export const {
   addAccount,
   removeAccount,
   updateAccount,
+  setAddresses,
   fetchAccounts,
+  fetchAddresses,
   fetchFailed,
   fetchReset,
   setGeneratedAccount
@@ -77,6 +106,11 @@ export const reducer = slice.reducer;
 export const getAccounts = createSelector(
   (state: { accounts: AccountsState }) => state.accounts,
   (accounts) => accounts.accounts
+);
+
+export const getAddresses = createSelector(
+  (state: { accounts: AccountsState }) => state.accounts,
+  (accounts) => accounts.addresses ?? []
 );
 
 export const getAccountError = createSelector(

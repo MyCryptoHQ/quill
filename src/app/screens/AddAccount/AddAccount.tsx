@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useDispatch } from '@app/store';
 import { fetchReset } from '@common/store';
+import { useUnmount } from '@hooks';
 import { AddAccountKeystore } from '@screens/AddAccount/AddAccountKeystore';
 import { WalletType } from '@types';
 
@@ -15,6 +16,10 @@ export const AddAccount = () => {
   useEffect(() => {
     dispatch(fetchReset());
   }, [walletType]);
+
+  useUnmount(() => {
+    dispatch(fetchReset());
+  });
 
   return (
     <>

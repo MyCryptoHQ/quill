@@ -1,50 +1,73 @@
-import type { IpcRenderer } from 'electron';
+import type { IpcMain, IpcRenderer, WebContents } from 'electron';
 
-import { IpcBridgeRenderer } from '@bridge';
-import { IPC_CHANNELS } from '@config';
-import type { CryptoRequest } from '@types';
-import { CryptoRequestType, WalletType } from '@types';
+import { ipcBridgeMain, IpcBridgeRenderer, REDUX_CHANNEL } from '@bridge';
 
 jest.unmock('@bridge');
 
-const mockIpcRenderer = ({
-  send: jest.fn(),
-  on: jest.fn().mockImplementation((_e, callback) => {
-    callback();
-  }),
-  invoke: jest.fn(),
-  handle: jest.fn(),
-  removeListener: jest.fn()
-} as unknown) as IpcRenderer;
+describe('ipcBridgeRenderer', () => {
+  const ipcRenderer = ({
+    send: jest.fn(),
+    on: jest.fn().mockImplementation((_, callback) => {
+      callback();
+    }),
+    removeListener: jest.fn()
+  } as unknown) as IpcRenderer;
 
-describe('IpcBridgeRenderer', () => {
-  it('api.sendResponse calls ipcRenderer.send', async () => {
-    const response = { id: 1, result: '0x' };
-    IpcBridgeRenderer(mockIpcRenderer).api.sendResponse(response);
-    expect(mockIpcRenderer.send).toHaveBeenCalledWith(IPC_CHANNELS.API, response);
+  describe('emit', () => {
+    it('sends an event', () => {
+      const ipc = IpcBridgeRenderer(ipcRenderer).redux;
+      ipc.emit('foo');
+
+      expect(ipcRenderer.send).toHaveBeenCalledWith(REDUX_CHANNEL, 'foo');
+    });
   });
 
-  it('api.subscribeToRequests calls ipcRenderer.on', async () => {
-    const listener = jest.fn();
-    const unsubscribe = IpcBridgeRenderer(mockIpcRenderer).api.subscribeToRequests(listener);
-    expect(mockIpcRenderer.on).toHaveBeenCalledWith(IPC_CHANNELS.API, expect.any(Function));
-    expect(listener).toHaveBeenCalled();
-    unsubscribe();
-    expect(mockIpcRenderer.removeListener).toHaveBeenCalledWith(
-      IPC_CHANNELS.API,
-      expect.any(Function)
-    );
+  describe('on', () => {
+    it('listens to an event and returns an unsubscribe function', () => {
+      const listener = jest.fn();
+      const ipc = IpcBridgeRenderer(ipcRenderer).redux;
+      const unsubscribe = ipc.on(listener);
+
+      unsubscribe();
+
+      expect(ipcRenderer.on).toHaveBeenCalledWith(REDUX_CHANNEL, listener);
+      expect(ipcRenderer.removeListener).toHaveBeenCalledWith(REDUX_CHANNEL, listener);
+    });
+  });
+});
+
+describe('ipcBridgeMain', () => {
+  const ipcMain = ({
+    send: jest.fn(),
+    on: jest.fn().mockImplementation((_, callback) => {
+      callback();
+    }),
+    removeListener: jest.fn()
+  } as unknown) as IpcMain;
+
+  const webContents = ({
+    send: jest.fn()
+  } as unknown) as WebContents;
+
+  describe('emit', () => {
+    it('sends an event', () => {
+      const ipc = ipcBridgeMain(ipcMain, webContents).redux;
+      ipc.emit('foo');
+
+      expect(webContents.send).toHaveBeenCalledWith(REDUX_CHANNEL, 'foo');
+    });
   });
 
-  it('crypto.invoke calls ipcRenderer.invoke', async () => {
-    const request: CryptoRequest = {
-      type: CryptoRequestType.GET_ADDRESS,
-      wallet: {
-        walletType: WalletType.PRIVATE_KEY,
-        privateKey: '0x93b3701cf8eeb6f7d3b22211c691734f24816a02efa933f67f34d37053182577'
-      }
-    };
-    IpcBridgeRenderer(mockIpcRenderer).crypto.invoke(request);
-    expect(mockIpcRenderer.invoke).toHaveBeenCalledWith(IPC_CHANNELS.CRYPTO, request);
+  describe('on', () => {
+    it('listens to an event and returns an unsubscribe function', () => {
+      const listener = jest.fn();
+      const ipc = ipcBridgeMain(ipcMain, webContents).redux;
+      const unsubscribe = ipc.on(listener);
+
+      unsubscribe();
+
+      expect(ipcMain.on).toHaveBeenCalledWith(REDUX_CHANNEL, listener);
+      expect(ipcMain.removeListener).toHaveBeenCalledWith(REDUX_CHANNEL, listener);
+    });
   });
 });

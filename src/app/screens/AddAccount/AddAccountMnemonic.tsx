@@ -12,12 +12,11 @@ import {
   ScrollableContainer,
   WalletTypeSelector
 } from '@app/components';
-import { useDispatch } from '@app/store';
-import { ipcBridgeRenderer } from '@bridge';
-import { fetchAccounts } from '@common/store';
+import { useDispatch, useSelector } from '@app/store';
+import { fetchAccounts, fetchAddresses, getAccountError, getAddresses } from '@common/store';
 import { translateRaw } from '@common/translate';
 import type { GetAddressesResult } from '@types';
-import { CryptoRequestType, WalletType } from '@types';
+import { WalletType } from '@types';
 
 import { MnemonicForm, useMnemonicForm } from '../forms/MnemonicForm';
 
@@ -54,11 +53,12 @@ const AddAccountMnemonicForm = ({
   const dispatch = useDispatch();
   const { offset, dPath, addresses, selectedAccounts } = form.state;
   const selectedPathData = ALL_DERIVATION_PATHS.find((p) => p.name === dPath);
+  const derivedAddresses = useSelector(getAddresses);
+  const fetchError = useSelector(getAccountError);
 
   const updateAddresses = async () => {
-    try {
-      const result: GetAddressesResult[] = await ipcBridgeRenderer.crypto.invoke({
-        type: CryptoRequestType.GET_ADDRESSES,
+    dispatch(
+      fetchAddresses({
         wallet: {
           walletType: WalletType.MNEMONIC,
           mnemonicPhrase: form.values.mnemonic,
@@ -67,12 +67,17 @@ const AddAccountMnemonicForm = ({
         path: selectedPathData,
         limit: ADDRESSES_PER_PAGE,
         offset
-      });
-      form.setState({ ...form.state, addresses: result });
-    } catch (err) {
-      form.setError('mnemonic', err.message);
-    }
+      })
+    );
   };
+
+  useEffect(() => {
+    form.setState({ ...form.state, addresses: derivedAddresses });
+  }, [derivedAddresses]);
+
+  useEffect(() => {
+    form.setError('mnemonic', fetchError);
+  }, [fetchError]);
 
   useEffect(() => {
     if (form.values.mnemonic.length > 0) {
