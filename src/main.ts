@@ -74,10 +74,7 @@ const createWindow = (): void => {
           signingProcess.removeListener('message', callback);
         };
       },
-      emit: (args) => signingProcess.send(args as string),
-      handle: () => {
-        throw new Error('Not implemented');
-      }
+      emit: (args) => signingProcess.send(args as string)
     }
   });
 

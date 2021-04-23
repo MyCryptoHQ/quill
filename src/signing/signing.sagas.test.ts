@@ -9,7 +9,8 @@ import type { SerializedWallet } from '@types';
 import { WalletType } from '@types';
 import { makeQueueTx, makeTx } from '@utils';
 
-import { signTransaction, signWorker } from './signing.sagas';
+import { signTransaction } from './crypto';
+import { signWorker } from './signing.sagas';
 
 jest.mock('electron-store');
 jest.mock('electron', () => ({

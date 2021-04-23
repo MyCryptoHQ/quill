@@ -13,8 +13,7 @@ const store = createStore({
     return () => {
       //process.removeListener('message', listener);
     };
-  },
-  handle: () => undefined
+  }
 });
 console.log('SIGNING PROCESS CREATING KEYPAIR');
 store.dispatch(createKeyPair());

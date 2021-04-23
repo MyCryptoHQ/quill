@@ -1,8 +1,9 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
+// @fixme DONT DO THIS
+import { getAddress } from '@signing/crypto';
 import { replace } from 'connected-react-router';
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
-import { getAddress } from '@api/crypto';
 import { ROUTE_PATHS } from '@app/routing';
 import {
   addAccount,
@@ -10,7 +11,8 @@ import {
   fetchFailed,
   getAccounts,
   removeAccount,
-  saveAccountSecrets} from '@common/store';
+  saveAccountSecrets
+} from '@common/store';
 import type {
   IAccount,
   SerializedMnemonicPhrase,

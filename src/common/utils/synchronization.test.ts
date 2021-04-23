@@ -2,6 +2,7 @@
  * @jest-environment node
  */
 
+import { SynchronizationTarget } from '@common/store';
 import { fEncryptionPrivateKey, fEncryptionPublicKey } from '@fixtures';
 
 import { decryptJson, encryptJson, isEncryptedAction, isReduxAction } from './synchronization';
@@ -18,7 +19,7 @@ describe('isReduxAction', () => {
 
 describe('isEncryptedAction', () => {
   it('checks if an object is an encrypted action', () => {
-    expect(isEncryptedAction({ data: 'foo' })).toBe(true);
+    expect(isEncryptedAction({ data: 'foo', from: SynchronizationTarget.MAIN })).toBe(true);
 
     expect(isEncryptedAction({})).toBe(false);
     expect(isEncryptedAction({ foo: 'bar' })).toBe(false);

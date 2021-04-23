@@ -7,8 +7,7 @@ describe('createStore', () => {
   it('creates a store', () => {
     const ipc = {
       emit: jest.fn(),
-      on: jest.fn(),
-      handle: jest.fn()
+      on: jest.fn()
     };
 
     expect(() => createStore({ [SynchronizationTarget.RENDERER]: ipc })).not.toThrow();

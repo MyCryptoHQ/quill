@@ -1,10 +1,8 @@
 import { app } from 'electron';
 import Store from 'electron-store';
 import { promises as fs } from 'fs';
-import keytar from 'keytar';
 import path from 'path';
 
-import { KEYTAR_SERVICE } from '@config';
 import { safeJSONParse } from '@utils';
 import { decrypt, encrypt, hashPassword } from '@utils/encryption';
 
@@ -58,11 +56,6 @@ export const logout = async () => {
 export const reset = async () => {
   clearEncryptionKey();
   store.clear();
-
-  const credentials = await keytar.findCredentials(KEYTAR_SERVICE);
-  for (const { account } of credentials) {
-    await keytar.deletePassword(KEYTAR_SERVICE, account);
-  }
 
   return fs.unlink(getStorePath());
 };

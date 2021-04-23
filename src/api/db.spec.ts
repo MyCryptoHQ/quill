@@ -1,8 +1,6 @@
 import Store from 'electron-store';
 import { promises as fs } from 'fs';
-import { deletePassword } from 'keytar';
 
-import { KEYTAR_SERVICE } from '@config';
 import { fAccount } from '@fixtures';
 
 import {
@@ -94,7 +92,6 @@ describe('reset', () => {
 
     expect(fs.unlink).toHaveBeenCalled();
     expect(store.clear).toHaveBeenCalled();
-    expect(deletePassword).toHaveBeenCalledWith(KEYTAR_SERVICE, 'foo');
   });
 });
 

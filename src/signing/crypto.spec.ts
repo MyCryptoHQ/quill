@@ -1,11 +1,11 @@
 import { DEFAULT_ETH } from '@mycrypto/wallets';
 
-import { getPrivateKey } from '@api/db';
 import { fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey, fSignedTx } from '@fixtures';
 import type { TUuid } from '@types';
 import { WalletType } from '@types';
 
 import { createWallet, getAddress, getAddresses, signTransaction } from './crypto';
+import { getPrivateKey } from './secrets';
 
 jest.unmock('@bridge');
 
@@ -49,14 +49,6 @@ jest.mock('crypto', () => ({
     ])
 }));
 
-jest.mock('electron', () => ({
-  ipcMain: {
-    handle: jest.fn().mockImplementation((_e, callback) => {
-      callback();
-    })
-  }
-}));
-
 jest.mock('electron-store', () => {
   return jest.fn().mockImplementation(() => ({
     get: jest.fn(),
@@ -66,7 +58,7 @@ jest.mock('electron-store', () => {
 });
 
 const mockPrivateKey = fPrivateKey;
-jest.mock('@api/db', () => ({
+jest.mock('./secrets', () => ({
   getPrivateKey: jest.fn().mockImplementation(() => mockPrivateKey)
 }));
 

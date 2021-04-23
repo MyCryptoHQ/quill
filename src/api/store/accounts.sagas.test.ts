@@ -1,13 +1,10 @@
+// @fixme DONT DO THIS
+import { getAddress } from '@signing/crypto';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
-import { getAddress } from '@api/crypto';
 import { createJsonRpcRequest } from '@api/store/utils';
-import {
-  addAccount,
-  fetchAccounts,
-  fetchFailed,
-  removeAccount} from '@common/store';
+import { addAccount, fetchAccounts, fetchFailed, removeAccount } from '@common/store';
 import { JsonRPCMethod } from '@config';
 import { fAccount, fAccounts, fPrivateKey, fRequestOrigin } from '@fixtures';
 import type { SerializedWallet } from '@types';

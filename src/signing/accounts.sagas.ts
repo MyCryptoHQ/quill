@@ -2,9 +2,8 @@ import { DEFAULT_ETH } from '@mycrypto/wallets';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
-import { createWallet, getAddress, getAddresses } from '@api/crypto';
-import type { fetchAddresses } from '@common/store';
 import {
+  fetchAddresses,
   fetchFailed,
   generateAccount,
   removeAccount,
@@ -16,13 +15,15 @@ import { DEFAULT_MNEMONIC_INDEX } from '@config/derivation';
 import type { GetAddressesResult, IAccount, SerializedWallet, TAddress } from '@types';
 import { WalletType } from '@types';
 
+import { createWallet, getAddress, getAddresses } from './crypto';
 import { deleteAccountSecrets, saveAccountSecrets as saveAccountSecretsFn } from './secrets';
 
 export function* accountsSaga() {
   yield all([
     takeLatest(saveAccountSecrets.type, saveAccountWorker),
     takeLatest(removeAccount.type, removeAccountWorker),
-    takeLatest(generateAccount.type, generateAccountWorker)
+    takeLatest(generateAccount.type, generateAccountWorker),
+    takeLatest(fetchAddresses.type, fetchAddressesWorker)
   ]);
 }
 

@@ -26,13 +26,11 @@ describe('synchronizationMiddleware', () => {
   const ipcs = {
     [SynchronizationTarget.RENDERER]: {
       emit: jest.fn(),
-      on: jest.fn(),
-      handle: jest.fn()
+      on: jest.fn()
     },
     [SynchronizationTarget.SIGNING]: {
       emit: jest.fn(),
-      on: jest.fn(),
-      handle: jest.fn()
+      on: jest.fn()
     }
   };
 
@@ -56,7 +54,7 @@ describe('synchronizationMiddleware', () => {
     const fn = jest.fn();
     const action = checkNewUser();
 
-    const ipc = { emit: jest.fn(), on: jest.fn(), handle: jest.fn() };
+    const ipc = { emit: jest.fn(), on: jest.fn() };
 
     synchronizationMiddleware(
       { [SynchronizationTarget.MAIN]: ipc },

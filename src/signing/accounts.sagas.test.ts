@@ -1,14 +1,26 @@
 import { DEFAULT_ETH } from '@mycrypto/wallets';
 import { expectSaga } from 'redux-saga-test-plan';
 
-import { createWallet, getAddress } from '@api/crypto';
-import { fetchAddresses, fetchFailed, getAddresses, removeAccount, saveAccountSecrets, setAddresses, setGeneratedAccount } from '@common/store';
+import {
+  fetchAddresses,
+  fetchFailed,
+  removeAccount,
+  saveAccountSecrets,
+  setAddresses,
+  setGeneratedAccount
+} from '@common/store';
 import { DEFAULT_MNEMONIC_INDEX } from '@config/derivation';
 import { fAccount, fMnemonicPhrase, fPrivateKey } from '@fixtures';
 import type { SerializedWallet, TAddress } from '@types';
 import { WalletType } from '@types';
 
-import { fetchAddressesWorker, generateAccountWorker, removeAccountWorker, saveAccountWorker } from './accounts.sagas';
+import {
+  fetchAddressesWorker,
+  generateAccountWorker,
+  removeAccountWorker,
+  saveAccountWorker
+} from './accounts.sagas';
+import { createWallet, getAddress, getAddresses } from './crypto';
 import { deleteAccountSecrets, saveAccountSecrets as saveAccountSecretsFn } from './secrets';
 
 const wallet: SerializedWallet = {
@@ -60,7 +72,6 @@ describe('generateAccountWorker', () => {
       .silentRun();
   });
 });
-
 
 describe('fetchAddressesWorker', () => {
   const wallet = {
