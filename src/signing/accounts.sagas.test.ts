@@ -23,6 +23,8 @@ import {
 import { createWallet, getAddress, getAddresses } from './crypto';
 import { deleteAccountSecrets, saveAccountSecrets as saveAccountSecretsFn } from './secrets';
 
+jest.mock('keytar');
+
 const wallet: SerializedWallet = {
   walletType: WalletType.PRIVATE_KEY,
   privateKey: fPrivateKey
