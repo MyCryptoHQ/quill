@@ -9,5 +9,11 @@ import { transactionsSaga } from './transactions.sagas';
 import { webSocketSaga } from './ws.sagas';
 
 export default function* rootSaga(ipcs: Partial<Record<SynchronizationTarget, ReduxIPC>>) {
-  yield all([webSocketSaga(), handshakeSaga(ipcs, SynchronizationTarget.MAIN), authSaga(), accountsSaga(), transactionsSaga()]);
+  yield all([
+    webSocketSaga(),
+    handshakeSaga(ipcs, SynchronizationTarget.MAIN),
+    authSaga(),
+    accountsSaga(),
+    transactionsSaga()
+  ]);
 }

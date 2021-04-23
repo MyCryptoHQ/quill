@@ -96,12 +96,12 @@ describe('Handshake', () => {
 describe('putJson', () => {
   it('puts an action if isDecrypted is set or if the action is handshake/sendPublicKey', async () => {
     const action = JSON.stringify(sendPublicKey(fEncryptionPublicKey));
-    await expectSaga(putJson, action)
+    await expectSaga(putJson, SynchronizationTarget.MAIN, {}, action)
       .put({ ...sendPublicKey(fEncryptionPublicKey), remote: true })
       .silentRun();
 
     const insecureAction = JSON.stringify(setNewUser(true));
-    await expectSaga(putJson, insecureAction, true)
+    await expectSaga(putJson, SynchronizationTarget.MAIN, {}, insecureAction, true)
       .put({ ...setNewUser(true), remote: true })
       .silentRun();
   });
@@ -112,6 +112,8 @@ describe('putJson', () => {
 
     await expectSaga(
       putJson,
+      SynchronizationTarget.MAIN,
+      {},
       JSON.stringify({ data: encryptedAction, from: SynchronizationTarget.MAIN }),
       true
     )
@@ -126,7 +128,7 @@ describe('putJson', () => {
   });
 
   it('does nothing on invalid JSON', async () => {
-    await expectSaga(putJson, 'foo bar').silentRun();
+    await expectSaga(putJson, SynchronizationTarget.MAIN, {}, 'foo bar').silentRun();
   });
 });
 
