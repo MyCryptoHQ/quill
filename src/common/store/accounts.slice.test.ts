@@ -54,11 +54,14 @@ describe('AccountSlice', () => {
   });
 
   describe('setAddresses', () => {
-    it('sets the addresses', () => {
+    it('sets the addresses and resets the fetch state', () => {
       const result = slice.reducer(
-        { accounts: [], addresses: [], isFetching: false },
+        { accounts: [], addresses: [], isFetching: true, fetchError: 'foo' },
         setAddresses([{ dPath: getFullPath(DEFAULT_ETH, 0), address: 'foo' as TAddress, index: 0 }])
       );
+
+      expect(result.isFetching).toBe(false);
+      expect(result.fetchError).toBeUndefined();
       expect(result.addresses).toStrictEqual([
         {
           dPath: getFullPath(DEFAULT_ETH, 0),

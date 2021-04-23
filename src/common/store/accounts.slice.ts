@@ -48,6 +48,8 @@ const slice = createSlice({
     },
     setAddresses(state, action: PayloadAction<GetAddressesResult[]>) {
       state.addresses = action.payload;
+      state.isFetching = false;
+      state.fetchError = undefined;
     },
     fetchAccounts(state, _: PayloadAction<(SerializedWallet & { persistent: boolean })[]>) {
       state.isFetching = true;

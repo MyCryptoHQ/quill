@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 
 import { useDispatch } from '@app/store';
 import { fetchReset } from '@common/store';
+import { useUnmount } from '@hooks';
 import { AddAccountKeystore } from '@screens/AddAccount/AddAccountKeystore';
 import { WalletType } from '@types';
 
-import { useUnmount } from '../../hooks';
 import { AddAccountMnemonic } from './AddAccountMnemonic';
 import { AddAccountPrivateKey } from './AddAccountPrivateKey';
 
