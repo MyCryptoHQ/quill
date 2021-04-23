@@ -6,7 +6,7 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import type { ApplicationState } from '@app/store';
-import { fetchAccounts, fetchAddresses } from '@common/store';
+import { fetchAccounts, fetchAddresses, fetchReset } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey } from '@fixtures';
 import { AddAccount } from '@screens';
@@ -47,6 +47,15 @@ describe('AddAccount', () => {
       })
     );
     expect(getByText(error).textContent).toBeDefined();
+  });
+
+  it('calls fetchReset on unmount', () => {
+    const store = createMockStore({ accounts: {} });
+    const { unmount } = getComponent(store);
+
+    unmount();
+
+    expect(store.getActions()).toContainEqual(fetchReset());
   });
 
   it('can submit private key', async () => {

@@ -13,13 +13,7 @@ import {
   WalletTypeSelector
 } from '@app/components';
 import { useDispatch, useSelector } from '@app/store';
-import {
-  fetchAccounts,
-  fetchAddresses,
-  getAccountError,
-  getAddresses,
-  setAddresses
-} from '@common/store';
+import { fetchAccounts, fetchAddresses, getAccountError, getAddresses } from '@common/store';
 import { translateRaw } from '@common/translate';
 import type { GetAddressesResult } from '@types';
 import { WalletType } from '@types';
@@ -111,7 +105,6 @@ const AddAccountMnemonicForm = ({
   };
 
   const handleSubmit = async () => {
-    dispatch(setAddresses([]));
     dispatch(
       fetchAccounts(
         selectedAccounts.map((index) => ({

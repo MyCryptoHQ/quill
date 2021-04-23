@@ -23,7 +23,7 @@ describe('ipcBridgeRenderer', () => {
   });
 
   describe('on', () => {
-    it('listens to an event', () => {
+    it('listens to an event and returns an unsubscribe function', () => {
       const listener = jest.fn();
       const ipc = IpcBridgeRenderer(ipcRenderer).redux;
       const unsubscribe = ipc.on(listener);
@@ -59,7 +59,7 @@ describe('ipcBridgeMain', () => {
   });
 
   describe('on', () => {
-    it('listens to an event', () => {
+    it('listens to an event and returns an unsubscribe function', () => {
       const listener = jest.fn();
       const ipc = ipcBridgeMain(ipcMain, webContents).redux;
       const unsubscribe = ipc.on(listener);

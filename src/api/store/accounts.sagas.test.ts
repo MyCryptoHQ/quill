@@ -11,7 +11,6 @@ import {
   fetchAccounts,
   fetchAddresses,
   fetchFailed,
-  fetchReset,
   removeAccount,
   setAddresses,
   setGeneratedAccount
@@ -132,7 +131,6 @@ describe('fetchAddressesWorker', () => {
           }
         ])
       )
-      .put(fetchReset())
       .silentRun();
   });
 

@@ -5,6 +5,7 @@ import { fetchReset } from '@common/store';
 import { AddAccountKeystore } from '@screens/AddAccount/AddAccountKeystore';
 import { WalletType } from '@types';
 
+import { useUnmount } from '../../hooks';
 import { AddAccountMnemonic } from './AddAccountMnemonic';
 import { AddAccountPrivateKey } from './AddAccountPrivateKey';
 
@@ -15,6 +16,10 @@ export const AddAccount = () => {
   useEffect(() => {
     dispatch(fetchReset());
   }, [walletType]);
+
+  useUnmount(() => {
+    dispatch(fetchReset());
+  });
 
   return (
     <>

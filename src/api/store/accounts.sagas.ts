@@ -11,7 +11,6 @@ import {
   fetchAccounts,
   fetchAddresses,
   fetchFailed,
-  fetchReset,
   generateAccount,
   getAccounts,
   removeAccount,
@@ -97,7 +96,6 @@ export function* fetchAddressesWorker({ payload }: ReturnType<typeof fetchAddres
   try {
     const addresses: GetAddressesResult[] = yield call(getAddresses, wallet, path, limit, offset);
     yield put(setAddresses(addresses));
-    yield put(fetchReset());
   } catch (error) {
     yield put(fetchFailed(error.message));
   }

@@ -72,6 +72,7 @@ const slice = createSlice({
     fetchReset(state) {
       state.isFetching = false;
       state.fetchError = undefined;
+      state.addresses = [];
     },
     setGeneratedAccount(
       state,
