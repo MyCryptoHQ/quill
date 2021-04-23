@@ -33,7 +33,7 @@ export const synchronizationMiddleware = (
 
   // SIGNING and RENDERER only communicates with MAIN
   // MAIN communicates with both, mostly relaying requests from RENDERER
-  const targetMapping = {
+  const ipcMapping = {
     [SynchronizationTarget.SIGNING]: SynchronizationTarget.MAIN,
     [SynchronizationTarget.MAIN]:
       action.from === SynchronizationTarget.RENDERER || SIGNING_ACTIONS.includes(action.type)
@@ -43,19 +43,18 @@ export const synchronizationMiddleware = (
   };
 
   const encryptionMapping = {
-    [SynchronizationTarget.SIGNING]: SynchronizationTarget.MAIN,
-    [SynchronizationTarget.MAIN]:
-      action.from === SynchronizationTarget.RENDERER || SIGNING_ACTIONS.includes(action.type)
-        ? SynchronizationTarget.SIGNING
-        : SynchronizationTarget.RENDERER,
+    ...ipcMapping,
     [SynchronizationTarget.RENDERER]: SIGNING_ACTIONS.includes(action.type)
       ? SynchronizationTarget.SIGNING
       : SynchronizationTarget.MAIN
   };
 
-  const target = targetMapping[self];
+  const target = ipcMapping[self];
 
-  const to = action.to ?? encryptionMapping[self];
+  const encryptionTarget = encryptionMapping[self];
+
+  // UNDEFINED = ALL
+  const to = action.to ?? SIGNING_ACTIONS.includes(action.type) ? encryptionTarget : undefined;
 
   const from = action.from ?? self;
 
@@ -63,7 +62,8 @@ export const synchronizationMiddleware = (
     (action.type !== sendPublicKey.type && IGNORED_PATHS.includes(path)) ||
     IGNORED_ACTIONS.includes(action.type) ||
     (action.remote && target === action.from) ||
-    to === self
+    to === self ||
+    (from !== self && self !== SynchronizationTarget.MAIN)
   ) {
     console.log(self, 'Ignoring', target, action.type, action.from);
     return next(action);
@@ -71,18 +71,16 @@ export const synchronizationMiddleware = (
 
   // Only allow handshake without encryption
   if (action.type === sendPublicKey.type) {
-    if (from === self || (from !== self && self === SynchronizationTarget.MAIN)) {
-      const json = JSON.stringify({ ...action, from });
-      console.log(self, 'Sending', target, json);
-      Object.entries(ipcs)
-        .filter(([target, _]) => target !== from)
-        .forEach(([_, ipc]) => ipc.emit(json));
-    }
+    const json = JSON.stringify({ ...action, from });
+    console.log(self, 'Sending', target, json);
+    Object.entries(ipcs)
+      .filter(([target, _]) => target !== from)
+      .forEach(([_, ipc]) => ipc.emit(json));
     return next(action);
   }
 
-  const isHandshaken: boolean = getHandshaken(to)(store.getState());
-  const publicKey: string = getTargetPublicKey(to)(store.getState());
+  const isHandshaken: boolean = getHandshaken(encryptionTarget)(store.getState());
+  const publicKey: string = getTargetPublicKey(encryptionTarget)(store.getState());
 
   if (isHandshaken && publicKey) {
     const json = JSON.stringify({ ...action, from, to });
