@@ -96,7 +96,7 @@ export function* handshakeSaga(
   self: SynchronizationTarget
 ) {
   yield all([
-    ...Object.values(ipcs).map((ipc) => ipcWorker(ipc, self)),
+    ...Object.keys(ipcs).map((target) => ipcWorker(ipcs, target as SynchronizationTarget, self)),
     takeLatest(createKeyPair.type, createKeyPairWorker),
     takeEvery(sendPublicKey.type, setPublicKeyWorker)
   ]);
@@ -116,6 +116,7 @@ export const subscribe = (ipc: ReduxIPC) => {
 
 export function* putJson(
   self: SynchronizationTarget,
+  ipcs: Partial<Record<SynchronizationTarget, ReduxIPC>>,
   json: string,
   isDecrypted: boolean = false
 ): SagaIterator {
@@ -131,11 +132,12 @@ export function* putJson(
     return;
   }
 
-  const from = action.from;
-  const to = action.to;
+  const from = action.from as SynchronizationTarget | undefined;
+  const to = action.to as SynchronizationTarget | undefined;
 
-  if (to && self !== to) {
-    console.log(self, 'Received not for me', action);
+  if (to && self !== to && to in ipcs) {
+    console.log(self, 'Received not for me, forwarding', action);
+    ipcs[to].emit(json);
     return;
   }
 
@@ -146,15 +148,19 @@ export function* putJson(
 
     console.log(self, 'Decrypted Received', json);
 
-    yield call(putJson, self, json, true);
+    yield call(putJson, self, ipcs, json, true);
   }
 }
 
-export function* ipcWorker(ipc: ReduxIPC, self: SynchronizationTarget) {
-  const channel = yield call(subscribe, ipc);
+export function* ipcWorker(
+  ipcs: Partial<Record<SynchronizationTarget, ReduxIPC>>,
+  target: SynchronizationTarget,
+  self: SynchronizationTarget
+) {
+  const channel = yield call(subscribe, ipcs[target]);
   while (true) {
     const request: string = yield take(channel);
-    yield call(putJson, self, request);
+    yield call(putJson, self, ipcs, request);
   }
 }
 
