@@ -91,9 +91,12 @@ export const getTargetPublicKey = (target: SynchronizationTarget) =>
 
 export const postHandshake = createAction(`${sliceName}/postHandshake`);
 
-export function* handshakeSaga(ipcs: Partial<Record<SynchronizationTarget, ReduxIPC>>) {
+export function* handshakeSaga(
+  ipcs: Partial<Record<SynchronizationTarget, ReduxIPC>>,
+  self: SynchronizationTarget
+) {
   yield all([
-    ...Object.values(ipcs).map((ipc) => ipcWorker(ipc)),
+    ...Object.values(ipcs).map((ipc) => ipcWorker(ipc, self)),
     takeLatest(createKeyPair.type, createKeyPairWorker),
     takeEvery(sendPublicKey.type, setPublicKeyWorker)
   ]);
@@ -111,13 +114,17 @@ export const subscribe = (ipc: ReduxIPC) => {
   });
 };
 
-export function* putJson(json: string, isDecrypted: boolean = false): SagaIterator {
+export function* putJson(
+  self: SynchronizationTarget,
+  json: string,
+  isDecrypted: boolean = false
+): SagaIterator {
   const [error, action] = safeJSONParse<AnyAction>(json);
   if (error) {
     return;
   }
 
-  console.log('Received', action);
+  console.log(self, 'Received', action);
 
   if (isReduxAction(action) && (isDecrypted || action.type === sendPublicKey.type)) {
     yield put({ ...action, remote: true });
@@ -125,23 +132,29 @@ export function* putJson(json: string, isDecrypted: boolean = false): SagaIterat
   }
 
   const from = action.from;
+  const to = action.to;
+
+  if (to && self !== to) {
+    console.log(self, 'Received not for me', action);
+    return;
+  }
 
   const isHandshaken = yield select(getHandshaken(from));
   if (isHandshaken && isEncryptedAction(action)) {
     const privateKey: string = yield select(getPrivateKey);
     const json = decryptJson(privateKey, action);
 
-    console.log('Decrypted Received', json);
+    console.log(self, 'Decrypted Received', json);
 
-    yield call(putJson, json, true);
+    yield call(putJson, self, json, true);
   }
 }
 
-export function* ipcWorker(ipc: ReduxIPC) {
+export function* ipcWorker(ipc: ReduxIPC, self: SynchronizationTarget) {
   const channel = yield call(subscribe, ipc);
   while (true) {
     const request: string = yield take(channel);
-    yield call(putJson, request);
+    yield call(putJson, self, request);
   }
 }
 

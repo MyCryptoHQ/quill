@@ -7,5 +7,5 @@ import { accountsSaga } from './accounts.sagas';
 import { signingSaga } from './signing.sagas';
 
 export default function* rootSaga(ipc: ReduxIPC) {
-  yield all([handshakeSaga({ [SynchronizationTarget.MAIN]: ipc }), signingSaga(), accountsSaga()]);
+  yield all([handshakeSaga({ [SynchronizationTarget.MAIN]: ipc }, SynchronizationTarget.SIGNING), signingSaga(), accountsSaga()]);
 }

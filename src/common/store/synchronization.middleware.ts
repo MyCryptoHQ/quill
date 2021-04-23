@@ -42,37 +42,57 @@ export const synchronizationMiddleware = (
     [SynchronizationTarget.RENDERER]: SynchronizationTarget.MAIN
   };
 
+  const encryptionMapping = {
+    [SynchronizationTarget.SIGNING]: SynchronizationTarget.MAIN,
+    [SynchronizationTarget.MAIN]:
+      action.from === SynchronizationTarget.RENDERER || SIGNING_ACTIONS.includes(action.type)
+        ? SynchronizationTarget.SIGNING
+        : SynchronizationTarget.RENDERER,
+    [SynchronizationTarget.RENDERER]: SIGNING_ACTIONS.includes(action.type)
+      ? SynchronizationTarget.SIGNING
+      : SynchronizationTarget.MAIN
+  };
+
   const target = targetMapping[self];
+
+  const to = action.to ?? encryptionMapping[self];
+
+  const from = action.from ?? self;
 
   if (
     (action.type !== sendPublicKey.type && IGNORED_PATHS.includes(path)) ||
     IGNORED_ACTIONS.includes(action.type) ||
     (action.remote && target === action.from) ||
-    (action.type === sendPublicKey.type && action.from !== undefined)
+    to === self
   ) {
     console.log(self, 'Ignoring', target, action.type, action.from);
     return next(action);
   }
 
-  const json = JSON.stringify({ ...action, from: self });
-
-  console.log(self, 'Sending', target, json);
-
   // Only allow handshake without encryption
   if (action.type === sendPublicKey.type) {
-    Object.values(ipcs).forEach((ipc) => ipc.emit(json));
+    if (from === self || (from !== self && self === SynchronizationTarget.MAIN)) {
+      const json = JSON.stringify({ ...action, from });
+      console.log(self, 'Sending', target, json);
+      Object.entries(ipcs)
+        .filter(([target, _]) => target !== from)
+        .forEach(([_, ipc]) => ipc.emit(json));
+    }
     return next(action);
   }
 
-  const isHandshaken: boolean = getHandshaken(target)(store.getState());
-  const publicKey: string = getTargetPublicKey(target)(store.getState());
+  const isHandshaken: boolean = getHandshaken(to)(store.getState());
+  const publicKey: string = getTargetPublicKey(to)(store.getState());
 
   if (isHandshaken && publicKey) {
+    const json = JSON.stringify({ ...action, from, to });
+    console.log(self, 'Sending Encrypted', target, json);
     const encryptedAction = encryptJson(publicKey, json);
     ipcs[target].emit(
       JSON.stringify({
         data: encryptedAction,
-        from: self
+        to,
+        from
       })
     );
   } else {

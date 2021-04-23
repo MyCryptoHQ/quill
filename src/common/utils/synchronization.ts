@@ -12,6 +12,7 @@ const REDUX_ACTION_STRUCT = type({
 
 const ENCRYPTED_ACTION_STRUCT = object({
   data: string(),
+  to: string(),
   from: string()
 });
 
