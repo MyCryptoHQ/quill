@@ -40,7 +40,7 @@ const slice = createSlice({
     },
     removeAccount(state, action: PayloadAction<IAccount>) {
       const idx = state.accounts.findIndex((a) => a.uuid === action.payload.uuid);
-      state.accounts.splice(idx, 1);
+      if (idx != -1) state.accounts.splice(idx, 1);
     },
     updateAccount(state, action: PayloadAction<IAccount>) {
       const idx = state.accounts.findIndex((a) => a.uuid === action.payload.uuid);

@@ -1,15 +1,15 @@
 import { DEFAULT_ETH } from '@mycrypto/wallets';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { replace } from 'connected-react-router';
-import { all, call, put, select, takeLatest } from 'redux-saga/effects';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import { ROUTE_PATHS } from '@app/routing';
 import {
   addAccount,
+  fetchAccounts,
   fetchAddresses,
   fetchFailed,
   generateAccount,
-  getAccounts,
   removeAccount,
   setAddresses,
   setGeneratedAccount
@@ -30,6 +30,7 @@ import { deleteAccountSecrets, saveAccountSecrets } from './secrets';
 
 export function* accountsSaga() {
   yield all([
+    takeLatest(fetchAccounts.type, fetchAccountsWorker),
     takeLatest(removeAccount.type, removeAccountWorker),
     takeLatest(generateAccount.type, generateAccountWorker),
     takeLatest(fetchAddresses.type, fetchAddressesWorker)
@@ -39,34 +40,29 @@ export function* accountsSaga() {
 export function* fetchAccountsWorker({
   payload: wallets
 }: PayloadAction<(SerializedWallet & { persistent: boolean })[]>) {
-  const accounts: IAccount[] = yield select(getAccounts);
-
   try {
     for (const wallet of wallets) {
       const address: TAddress = yield call(getAddress, wallet);
 
       const uuid = generateDeterministicAddressUUID(address);
 
-      const existingAccount = accounts.find((a) => a.uuid === uuid);
+      const account = {
+        type: wallet.walletType,
+        address,
+        uuid,
+        dPath: (wallet as SerializedMnemonicPhrase).path,
+        index: (wallet as SerializedMnemonicPhrase).index,
+        persistent: wallet.persistent
+      };
 
-      if (existingAccount) {
-        yield put(removeAccount(existingAccount));
-      }
+      // Remove existing account if present, set persistent to true to wipe saved secret if present too
+      yield put(removeAccount({ ...account, persistent: true }));
 
       if (wallet.persistent) {
         yield call(saveAccountSecrets, wallet);
       }
 
-      yield put(
-        addAccount({
-          type: wallet.walletType,
-          address,
-          uuid,
-          dPath: (wallet as SerializedMnemonicPhrase).path,
-          index: (wallet as SerializedMnemonicPhrase).index,
-          persistent: wallet.persistent
-        })
-      );
+      yield put(addAccount(account));
     }
     yield put(replace(ROUTE_PATHS.ADD_ACCOUNT_END));
   } catch (err) {

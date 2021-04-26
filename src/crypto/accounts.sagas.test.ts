@@ -36,7 +36,6 @@ describe('fetchAccountWorker()', () => {
   it('handles getting account address', () => {
     const input = { ...wallet, persistent: false };
     return expectSaga(fetchAccountsWorker, fetchAccounts([input]))
-      .withState({ accounts: { accounts: [] } })
       .provide([[call.fn(getAddress), fAccount.address]])
       .call(getAddress, input)
       .put(addAccount({ ...fAccount, dPath: undefined, index: undefined }))
@@ -46,7 +45,6 @@ describe('fetchAccountWorker()', () => {
   it('handles saving account secrets', () => {
     const input = { ...wallet, persistent: true };
     return expectSaga(fetchAccountsWorker, fetchAccounts([input]))
-      .withState({ accounts: { accounts: [] } })
       .provide([[call.fn(getAddress), fAccount.address]])
       .call(getAddress, input)
       .call(saveAccountSecrets, input)
@@ -57,10 +55,9 @@ describe('fetchAccountWorker()', () => {
   it('overwrites existing account', () => {
     const input = { ...wallet, persistent: false };
     return expectSaga(fetchAccountsWorker, fetchAccounts([input]))
-      .withState({ accounts: { accounts: [fAccount] } })
       .provide([[call.fn(getAddress), fAccount.address]])
       .call(getAddress, input)
-      .put(removeAccount(fAccount))
+      .put(removeAccount({ ...fAccount, persistent: true, dPath: undefined, index: undefined }))
       .put(addAccount({ ...fAccount, dPath: undefined, index: undefined }))
       .silentRun();
   });
@@ -68,7 +65,6 @@ describe('fetchAccountWorker()', () => {
   it('handles errors', () => {
     const input = { ...wallet, persistent: false };
     return expectSaga(fetchAccountsWorker, fetchAccounts([input]))
-      .withState({ accounts: { accounts: [] } })
       .provide({
         call() {
           throw new Error('error');
