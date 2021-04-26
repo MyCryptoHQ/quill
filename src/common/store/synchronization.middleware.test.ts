@@ -4,7 +4,7 @@
 
 import configureStore from 'redux-mock-store';
 
-import { checkNewUser } from '@common/store';
+import { checkNewUser, init } from '@common/store';
 import { synchronizationMiddleware } from '@common/store/synchronization.middleware';
 import { Process, sendPublicKey, setHandshaken } from '@common/store/synchronization.slice';
 import { decryptJson } from '@common/utils';
@@ -44,6 +44,37 @@ describe('synchronizationMiddleware', () => {
     Object.values(processes).map((ipc) =>
       expect(ipc.emit).toHaveBeenCalledWith(JSON.stringify({ ...action, from: self }))
     );
+  });
+
+  it('emits CRYPTO_ACTIONS encrypted for CRYPTO', () => {
+    const fn = jest.fn();
+    const action = init('foo');
+
+    const ipc = { emit: jest.fn(), on: jest.fn() };
+
+    synchronizationMiddleware(
+      { [Process.Main]: ipc },
+      Process.Renderer
+    )(
+      createMockStore({
+        synchronization: {
+          isHandshaken: { [Process.Crypto]: true },
+          targetPublicKey: { [Process.Crypto]: fEncryptionPublicKey }
+        }
+      })
+    )(fn)(action);
+
+    expect(fn).toHaveBeenCalledTimes(1);
+    expect(fn).toHaveBeenCalledWith(action);
+    expect(ipc.emit).toHaveBeenCalledTimes(1);
+
+    const encryptedJson = ipc.emit.mock.calls[0][0];
+
+    expect(JSON.parse(decryptJson(fEncryptionPrivateKey, JSON.parse(encryptedJson)))).toEqual({
+      ...action,
+      from: Process.Renderer,
+      to: Process.Crypto
+    });
   });
 
   it('emits the encrypted action if the handshake is performed', () => {
