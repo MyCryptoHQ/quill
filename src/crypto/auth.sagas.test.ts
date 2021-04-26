@@ -7,6 +7,8 @@ import { fAccount } from '@fixtures';
 
 import { resetWorker } from './auth.sagas';
 
+jest.mock('keytar');
+
 describe('resetWorker', () => {
   it('calls deletePassword on existing credentials', async () => {
     await expectSaga(resetWorker)
