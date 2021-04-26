@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { hot } from 'react-hot-loader';
 import { ThemeProvider } from 'styled-components';
 
-import { checkNewUser, getHandshaken, SynchronizationTarget } from '@common/store';
+import { checkNewUser, getHandshaken, Process } from '@common/store';
 import { Box, Flex, Navigation } from '@components';
 import { GlobalStyle, theme } from '@theme';
 
@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from './store';
 
 const App = () => {
   const loggedIn = useSelector((state) => state.auth.loggedIn);
-  const isHandshaken = useSelector(getHandshaken(SynchronizationTarget.MAIN));
+  const isHandshaken = useSelector(getHandshaken(Process.Main));
   const dispatch = useDispatch();
 
   useEffect(() => {

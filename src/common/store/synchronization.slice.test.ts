@@ -14,13 +14,13 @@ import slice, {
   createKeyPair,
   createKeyPairWorker,
   postHandshake,
+  Process,
   putJson,
   sendPublicKey,
   setHandshaken,
   setKeyPair,
   setPublicKeyWorker,
-  setTargetPublicKey,
-  SynchronizationTarget
+  setTargetPublicKey
 } from './synchronization.slice';
 
 describe('Handshake', () => {
@@ -29,12 +29,12 @@ describe('Handshake', () => {
       expect(
         slice.reducer(
           { isHandshaken: {}, targetPublicKey: {} },
-          setHandshaken({ target: SynchronizationTarget.MAIN, isHandshaken: true })
+          setHandshaken({ target: Process.Main, isHandshaken: true })
         )
       ).toStrictEqual(
         expect.objectContaining({
           isHandshaken: {
-            [SynchronizationTarget.MAIN]: true
+            [Process.Main]: true
           }
         })
       );
@@ -43,16 +43,16 @@ describe('Handshake', () => {
         slice.reducer(
           {
             isHandshaken: {
-              [SynchronizationTarget.MAIN]: true
+              [Process.Main]: true
             },
             targetPublicKey: {}
           },
-          setHandshaken({ target: SynchronizationTarget.MAIN, isHandshaken: false })
+          setHandshaken({ target: Process.Main, isHandshaken: false })
         )
       ).toStrictEqual(
         expect.objectContaining({
           isHandshaken: {
-            [SynchronizationTarget.MAIN]: false
+            [Process.Main]: false
           }
         })
       );
@@ -78,14 +78,14 @@ describe('Handshake', () => {
         slice.reducer(
           { isHandshaken: {}, targetPublicKey: {} },
           setTargetPublicKey({
-            target: SynchronizationTarget.MAIN,
+            target: Process.Main,
             publicKey: fEncryptionPublicKey
           })
         )
       ).toStrictEqual(
         expect.objectContaining({
           targetPublicKey: {
-            [SynchronizationTarget.MAIN]: fEncryptionPublicKey
+            [Process.Main]: fEncryptionPublicKey
           }
         })
       );
@@ -96,12 +96,12 @@ describe('Handshake', () => {
 describe('putJson', () => {
   it('puts an action if isDecrypted is set or if the action is handshake/sendPublicKey', async () => {
     const action = JSON.stringify(sendPublicKey(fEncryptionPublicKey));
-    await expectSaga(putJson, SynchronizationTarget.MAIN, {}, action)
+    await expectSaga(putJson, Process.Main, {}, action)
       .put({ ...sendPublicKey(fEncryptionPublicKey), remote: true })
       .silentRun();
 
     const insecureAction = JSON.stringify(setNewUser(true));
-    await expectSaga(putJson, SynchronizationTarget.MAIN, {}, insecureAction, true)
+    await expectSaga(putJson, Process.Main, {}, insecureAction, true)
       .put({ ...setNewUser(true), remote: true })
       .silentRun();
   });
@@ -112,14 +112,14 @@ describe('putJson', () => {
 
     await expectSaga(
       putJson,
-      SynchronizationTarget.MAIN,
+      Process.Main,
       {},
-      JSON.stringify({ data: encryptedAction, from: SynchronizationTarget.MAIN }),
+      JSON.stringify({ data: encryptedAction, from: Process.Main }),
       true
     )
       .withState({
         synchronization: {
-          isHandshaken: { [SynchronizationTarget.MAIN]: true },
+          isHandshaken: { [Process.Main]: true },
           privateKey: fEncryptionPrivateKey
         }
       })
@@ -128,7 +128,7 @@ describe('putJson', () => {
   });
 
   it('does nothing on invalid JSON', async () => {
-    await expectSaga(putJson, SynchronizationTarget.MAIN, {}, 'foo bar').silentRun();
+    await expectSaga(putJson, Process.Main, {}, 'foo bar').silentRun();
   });
 });
 
@@ -154,23 +154,19 @@ describe('setPublicKeyWorker', () => {
     const action = {
       ...sendPublicKey(fEncryptionPublicKey),
       remote: true,
-      from: SynchronizationTarget.MAIN
+      from: Process.Main
     };
     await expectSaga(setPublicKeyWorker, action)
       .withState({ synchronization: { isHandshaken: false, publicKey: fEncryptionPublicKey } })
-      .put(
-        setTargetPublicKey({ target: SynchronizationTarget.MAIN, publicKey: fEncryptionPublicKey })
-      )
-      .put(setHandshaken({ target: SynchronizationTarget.MAIN, isHandshaken: true }))
+      .put(setTargetPublicKey({ target: Process.Main, publicKey: fEncryptionPublicKey }))
+      .put(setHandshaken({ target: Process.Main, isHandshaken: true }))
       .put(sendPublicKey(fEncryptionPublicKey))
       .put(postHandshake())
       .silentRun();
 
     await expectSaga(setPublicKeyWorker, action)
       .withState({ synchronization: { isHandshaken: true, publicKey: fEncryptionPublicKey } })
-      .put(
-        setTargetPublicKey({ target: SynchronizationTarget.MAIN, publicKey: fEncryptionPublicKey })
-      )
+      .put(setTargetPublicKey({ target: Process.Main, publicKey: fEncryptionPublicKey }))
       .silentRun();
   });
 

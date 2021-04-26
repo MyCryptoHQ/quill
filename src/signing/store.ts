@@ -2,7 +2,7 @@ import type { EnhancedStore } from '@reduxjs/toolkit';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 
-import { synchronizationMiddleware, SynchronizationTarget } from '@common/store';
+import { Process, synchronizationMiddleware } from '@common/store';
 import type { ReduxIPC } from '@types';
 
 import { createRootReducer } from './reducer';
@@ -21,12 +21,7 @@ export const createStore = (ipc: ReduxIPC): EnhancedStore<ApplicationState> => {
       thunk: false,
       serializableCheck: false
     })
-      .concat(
-        synchronizationMiddleware(
-          { [SynchronizationTarget.MAIN]: ipc },
-          SynchronizationTarget.SIGNING
-        )
-      )
+      .concat(synchronizationMiddleware({ [Process.Main]: ipc }, Process.Crypto))
       .concat(sagaMiddleware)
   });
 

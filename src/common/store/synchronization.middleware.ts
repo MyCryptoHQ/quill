@@ -5,8 +5,8 @@ import { init, sign } from '@common/store/signing.slice';
 import synchronization, {
   getHandshaken,
   getTargetPublicKey,
-  sendPublicKey,
-  SynchronizationTarget
+  Process,
+  sendPublicKey
 } from '@common/store/synchronization.slice';
 import { encryptJson } from '@common/utils';
 import type { ReduxIPC } from '@types';
@@ -26,27 +26,25 @@ export const SIGNING_ACTIONS = [init.type, sign.type, saveAccountSecrets.type];
  * @param ipc The Electron process to dispatch from.
  */
 export const synchronizationMiddleware = (
-  ipcs: Partial<Record<SynchronizationTarget, ReduxIPC>>,
-  self: SynchronizationTarget
+  processes: Partial<Record<Process, ReduxIPC>>,
+  self: Process
 ): Middleware => (store) => (next) => (action) => {
   const path = action.type.split('/')[0];
 
-  // SIGNING and RENDERER only communicates with MAIN
+  // CRYPTO and RENDERER only communicates with MAIN
   // MAIN communicates with both, mostly relaying requests from RENDERER
   const ipcMapping = {
-    [SynchronizationTarget.SIGNING]: SynchronizationTarget.MAIN,
-    [SynchronizationTarget.MAIN]:
-      action.from === SynchronizationTarget.RENDERER || SIGNING_ACTIONS.includes(action.type)
-        ? SynchronizationTarget.SIGNING
-        : SynchronizationTarget.RENDERER,
-    [SynchronizationTarget.RENDERER]: SynchronizationTarget.MAIN
+    [Process.Crypto]: Process.Main,
+    [Process.Main]:
+      action.from === Process.Renderer || SIGNING_ACTIONS.includes(action.type)
+        ? Process.Crypto
+        : Process.Renderer,
+    [Process.Renderer]: Process.Main
   };
 
   const encryptionMapping = {
     ...ipcMapping,
-    [SynchronizationTarget.RENDERER]: SIGNING_ACTIONS.includes(action.type)
-      ? SynchronizationTarget.SIGNING
-      : SynchronizationTarget.MAIN
+    [Process.Renderer]: SIGNING_ACTIONS.includes(action.type) ? Process.Crypto : Process.Main
   };
 
   const target = ipcMapping[self];
@@ -63,7 +61,7 @@ export const synchronizationMiddleware = (
     IGNORED_ACTIONS.includes(action.type) ||
     (action.remote && target === action.from) ||
     to === self ||
-    (from !== self && self !== SynchronizationTarget.MAIN)
+    (from !== self && self !== Process.Main)
   ) {
     console.log(self, 'Ignoring', target, action.type, action.from);
     return next(action);
@@ -73,7 +71,7 @@ export const synchronizationMiddleware = (
   if (action.type === sendPublicKey.type) {
     const json = JSON.stringify({ ...action, from });
     console.log(self, 'Sending', target, json);
-    Object.entries(ipcs)
+    Object.entries(processes)
       .filter(([target, _]) => target !== from)
       .forEach(([_, ipc]) => ipc.emit(json));
     return next(action);
@@ -86,7 +84,7 @@ export const synchronizationMiddleware = (
     const json = JSON.stringify({ ...action, from, to });
     console.log(self, 'Sending Encrypted', target, json);
     const encryptedAction = encryptJson(publicKey, json);
-    ipcs[target].emit(
+    processes[target].emit(
       JSON.stringify({
         data: encryptedAction,
         to,

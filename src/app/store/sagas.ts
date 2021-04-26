@@ -1,13 +1,8 @@
 import { all } from 'redux-saga/effects';
 
 import { ipcBridgeRenderer } from '@bridge';
-import { handshakeSaga, SynchronizationTarget } from '@common/store';
+import { handshakeSaga, Process } from '@common/store';
 
 export default function* rootSaga() {
-  yield all([
-    handshakeSaga(
-      { [SynchronizationTarget.MAIN]: ipcBridgeRenderer.redux },
-      SynchronizationTarget.RENDERER
-    )
-  ]);
+  yield all([handshakeSaga({ [Process.Main]: ipcBridgeRenderer.redux }, Process.Renderer)]);
 }

@@ -2,7 +2,7 @@ import type { EnhancedStore } from '@reduxjs/toolkit';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 
-import { synchronizationMiddleware, SynchronizationTarget } from '@common/store';
+import { Process, synchronizationMiddleware } from '@common/store';
 import type { ReduxIPC } from '@types';
 
 import { persistenceMiddleware } from './persistence.middleware';
@@ -14,7 +14,7 @@ const reducer = createRootReducer();
 export type ApplicationState = ReturnType<typeof reducer>;
 
 export const createStore = (
-  ipcs: Partial<Record<SynchronizationTarget, ReduxIPC>>
+  processes: Partial<Record<Process, ReduxIPC>>
 ): EnhancedStore<ApplicationState> => {
   const sagaMiddleware = createSagaMiddleware();
 
@@ -24,12 +24,12 @@ export const createStore = (
       thunk: false,
       serializableCheck: false
     })
-      .concat(synchronizationMiddleware(ipcs, SynchronizationTarget.MAIN))
+      .concat(synchronizationMiddleware(processes, Process.Main))
       .concat(persistenceMiddleware())
       .concat(sagaMiddleware)
   });
 
-  sagaMiddleware.run(rootSaga, ipcs);
+  sagaMiddleware.run(rootSaga, processes);
 
   return store;
 };
