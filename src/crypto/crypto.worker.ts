@@ -8,11 +8,11 @@ export const init = () => {
       console.log('SIGNING EMITTING', msg);
       process.send(msg);
     },
-    on: (listener: any) => {
+    on: (listener: (event: undefined, ...args: unknown[]) => void) => {
       process.on('message', (msg) => listener(undefined, msg));
       process.on('message', (msg) => console.log('SIGNING RECEIVED', msg));
       return () => {
-        //process.removeListener('message', listener);
+        (process as NodeJS.EventEmitter).removeListener('message', listener);
       };
     }
   });
