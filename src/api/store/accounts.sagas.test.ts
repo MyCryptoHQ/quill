@@ -1,5 +1,5 @@
 // @fixme DONT DO THIS
-import { getAddress } from '@signing/crypto';
+import { getAddress } from '@crypto/crypto';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 

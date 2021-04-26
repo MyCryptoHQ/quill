@@ -1,4 +1,4 @@
-import { createCryptoProcess } from '@signing/signing';
+import { createCryptoProcess } from '@crypto/process';
 import { app, BrowserWindow, Menu, shell, Tray } from 'electron';
 import positioner from 'electron-traywindow-positioner';
 import path from 'path';

@@ -1,6 +1,6 @@
-import type { PayloadAction } from '@reduxjs/toolkit';
 // @fixme DONT DO THIS
-import { getAddress } from '@signing/crypto';
+import { getAddress } from '@crypto/crypto';
+import type { PayloadAction } from '@reduxjs/toolkit';
 import { replace } from 'connected-react-router';
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 

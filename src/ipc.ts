@@ -1,4 +1,4 @@
-import type { createCryptoProcess } from '@signing/signing';
+import type { createCryptoProcess } from '@crypto/process';
 import type { BrowserWindow, IpcMainEvent } from 'electron';
 import { ipcMain } from 'electron';
 
