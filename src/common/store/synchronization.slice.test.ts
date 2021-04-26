@@ -112,7 +112,7 @@ describe('putJson', () => {
 
     await expectSaga(
       putJson,
-      Process.Main,
+      Process.Renderer,
       {},
       JSON.stringify({ data: encryptedAction, from: Process.Main }),
       true
@@ -125,6 +125,30 @@ describe('putJson', () => {
       })
       .put({ ...setNewUser(true), remote: true })
       .silentRun();
+  });
+
+  it('forwards encrypted action with another recipient', async () => {
+    const insecureAction = JSON.stringify(setNewUser(true));
+    const encryptedAction = encryptJson(fEncryptionPublicKey, insecureAction);
+
+    const ipc = { [Process.Crypto]: { emit: jest.fn(), on: jest.fn() } };
+
+    const json = JSON.stringify({
+      data: encryptedAction,
+      to: Process.Crypto,
+      from: Process.Renderer
+    });
+
+    await expectSaga(putJson, Process.Main, ipc, json, true)
+      .withState({
+        synchronization: {
+          isHandshaken: { [Process.Crypto]: true },
+          privateKey: fEncryptionPrivateKey
+        }
+      })
+      .silentRun();
+
+    expect(ipc[Process.Crypto].emit).toHaveBeenCalledWith(json);
   });
 
   it('does nothing on invalid JSON', async () => {
