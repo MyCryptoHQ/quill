@@ -64,14 +64,12 @@ export const synchronizationMiddleware = (
     to === self ||
     (from !== self && self !== Process.Main)
   ) {
-    console.log(self, 'Ignoring', target, action.type, action.from);
     return next(action);
   }
 
   // Only allow handshake without encryption
   if (action.type === sendPublicKey.type) {
     const json = JSON.stringify({ ...action, from });
-    console.log(self, 'Sending', target, json);
     Object.entries(processes)
       .filter(([target, _]) => target !== from)
       .forEach(([_, ipc]) => ipc.emit(json));
@@ -83,7 +81,6 @@ export const synchronizationMiddleware = (
 
   if (isHandshaken && publicKey) {
     const json = JSON.stringify({ ...action, from, to });
-    console.log(self, 'Sending Encrypted', target, json);
     const encryptedAction = encryptJson(publicKey, json);
     processes[target].emit(
       JSON.stringify({
@@ -92,8 +89,6 @@ export const synchronizationMiddleware = (
         from
       })
     );
-  } else {
-    console.log(self, 'Send Failed', target, isHandshaken, publicKey);
   }
 
   return next(action);

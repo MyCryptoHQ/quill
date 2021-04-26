@@ -116,8 +116,6 @@ export function* putJson(
     return;
   }
 
-  console.log(self, 'Received', action);
-
   if (isReduxAction(action) && (isDecrypted || action.type === sendPublicKey.type)) {
     yield put({ ...action, remote: true });
     return;
@@ -127,7 +125,6 @@ export function* putJson(
   const to = action.to;
 
   if (to && self !== to && to in processes) {
-    console.log(self, 'Received not for me, forwarding', action);
     processes[to].emit(json);
     return;
   }
@@ -136,8 +133,6 @@ export function* putJson(
   if (isHandshaken && isEncryptedAction(action)) {
     const privateKey: string = yield select(getPrivateKey);
     const json = decryptJson(privateKey, action);
-
-    console.log(self, 'Decrypted Received', json);
 
     yield call(putJson, self, processes, json, true);
   }
@@ -174,9 +169,6 @@ export function* setPublicKeyWorker(
     const isHandshaken: boolean = yield select(getHandshaken(target));
     const publicKey: string = yield select(getPublicKey);
 
-    const handshakes = yield select((state) => state.synchronization.isHandshaken);
-
-    console.log('Handshakes', handshakes);
     if (!isHandshaken) {
       yield put(setHandshaken({ target: action.from, isHandshaken: true }));
       yield put(sendPublicKey(publicKey));
