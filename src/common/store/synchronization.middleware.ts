@@ -11,7 +11,7 @@ import synchronization, {
 import { encryptJson } from '@common/utils';
 import type { ReduxIPC } from '@types';
 
-import { saveAccountSecrets } from './accounts.slice';
+import { fetchAccounts } from './accounts.slice';
 import { setPersistor } from './persistence.slice';
 
 /**
@@ -19,7 +19,7 @@ import { setPersistor } from './persistence.slice';
  */
 export const IGNORED_PATHS = [synchronization.name];
 export const IGNORED_ACTIONS = [PERSIST, setPersistor.type];
-export const SIGNING_ACTIONS = [init.type, sign.type, saveAccountSecrets.type];
+export const CRYPTO_ACTIONS = [init.type, sign.type, fetchAccounts.type];
 
 /**
  * Middleware that dispatches any actions to the other Electron process.
@@ -36,7 +36,7 @@ export const synchronizationMiddleware = (
   const ipcMapping = {
     [Process.Crypto]: Process.Main,
     [Process.Main]:
-      action.from === Process.Renderer || SIGNING_ACTIONS.includes(action.type)
+      action.from === Process.Renderer || CRYPTO_ACTIONS.includes(action.type)
         ? Process.Crypto
         : Process.Renderer,
     [Process.Renderer]: Process.Main
@@ -44,7 +44,7 @@ export const synchronizationMiddleware = (
 
   const encryptionMapping = {
     ...ipcMapping,
-    [Process.Renderer]: SIGNING_ACTIONS.includes(action.type) ? Process.Crypto : Process.Main
+    [Process.Renderer]: CRYPTO_ACTIONS.includes(action.type) ? Process.Crypto : Process.Main
   };
 
   const target = ipcMapping[self];
@@ -52,7 +52,7 @@ export const synchronizationMiddleware = (
   const encryptionTarget = encryptionMapping[self];
 
   // UNDEFINED = ALL
-  const to = action.to ?? SIGNING_ACTIONS.includes(action.type) ? encryptionTarget : undefined;
+  const to = action.to ?? CRYPTO_ACTIONS.includes(action.type) ? encryptionTarget : undefined;
 
   const from = action.from ?? self;
 

@@ -1,11 +1,13 @@
 import { DEFAULT_ETH } from '@mycrypto/wallets';
 import { expectSaga } from 'redux-saga-test-plan';
+import { call } from 'redux-saga-test-plan/matchers';
 
 import {
+  addAccount,
+  fetchAccounts,
   fetchAddresses,
   fetchFailed,
   removeAccount,
-  saveAccountSecrets,
   setAddresses,
   setGeneratedAccount
 } from '@common/store';
@@ -15,13 +17,13 @@ import type { SerializedWallet, TAddress } from '@types';
 import { WalletType } from '@types';
 
 import {
+  fetchAccountsWorker,
   fetchAddressesWorker,
   generateAccountWorker,
-  removeAccountWorker,
-  saveAccountWorker
+  removeAccountWorker
 } from './accounts.sagas';
 import { createWallet, getAddress, getAddresses } from './crypto';
-import { deleteAccountSecrets, saveAccountSecrets as saveAccountSecretsFn } from './secrets';
+import { deleteAccountSecrets, saveAccountSecrets } from './secrets';
 
 jest.mock('keytar');
 
@@ -30,10 +32,50 @@ const wallet: SerializedWallet = {
   privateKey: fPrivateKey
 };
 
-describe('saveAccountWorker', () => {
+describe('fetchAccountWorker()', () => {
+  it('handles getting account address', () => {
+    const input = { ...wallet, persistent: false };
+    return expectSaga(fetchAccountsWorker, fetchAccounts([input]))
+      .withState({ accounts: { accounts: [] } })
+      .provide([[call.fn(getAddress), fAccount.address]])
+      .call(getAddress, input)
+      .put(addAccount({ ...fAccount, dPath: undefined, index: undefined }))
+      .silentRun();
+  });
+
   it('handles saving account secrets', () => {
-    return expectSaga(saveAccountWorker, saveAccountSecrets(wallet))
-      .call(saveAccountSecretsFn, wallet)
+    const input = { ...wallet, persistent: true };
+    return expectSaga(fetchAccountsWorker, fetchAccounts([input]))
+      .withState({ accounts: { accounts: [] } })
+      .provide([[call.fn(getAddress), fAccount.address]])
+      .call(getAddress, input)
+      .call(saveAccountSecrets, input)
+      .put(addAccount({ ...fAccount, dPath: undefined, index: undefined, persistent: true }))
+      .silentRun();
+  });
+
+  it('overwrites existing account', () => {
+    const input = { ...wallet, persistent: false };
+    return expectSaga(fetchAccountsWorker, fetchAccounts([input]))
+      .withState({ accounts: { accounts: [fAccount] } })
+      .provide([[call.fn(getAddress), fAccount.address]])
+      .call(getAddress, input)
+      .put(removeAccount(fAccount))
+      .put(addAccount({ ...fAccount, dPath: undefined, index: undefined }))
+      .silentRun();
+  });
+
+  it('handles errors', () => {
+    const input = { ...wallet, persistent: false };
+    return expectSaga(fetchAccountsWorker, fetchAccounts([input]))
+      .withState({ accounts: { accounts: [] } })
+      .provide({
+        call() {
+          throw new Error('error');
+        }
+      })
+      .call(getAddress, input)
+      .put(fetchFailed('error'))
       .silentRun();
   });
 });
