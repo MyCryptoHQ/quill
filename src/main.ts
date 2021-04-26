@@ -1,6 +1,5 @@
-import { createSigningProcess } from '@signing/signing';
-import type { IpcMainEvent } from 'electron';
-import { app, BrowserWindow, ipcMain, Menu, shell, Tray } from 'electron';
+import { createCryptoProcess } from '@signing/signing';
+import { app, BrowserWindow, Menu, shell, Tray } from 'electron';
 import positioner from 'electron-traywindow-positioner';
 import path from 'path';
 import { URL } from 'url';
@@ -9,8 +8,8 @@ import { createPersistor } from '@api/store/persistor';
 import { HEIGHT, WIDTH } from '@config';
 
 import { createStore } from './api/store';
-import { ipcBridgeMain } from './bridge';
-import { createKeyPair, Process, setPersistor } from './common/store';
+import { createKeyPair, setPersistor } from './common/store';
+import { createIpc } from './ipc';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -62,21 +61,11 @@ const createWindow = (): void => {
     shell.openExternal(value);
   });
 
-  const signingProcess = createSigningProcess();
+  const cryptoProcess = createCryptoProcess();
 
-  const store = createStore({
-    [Process.Renderer]: ipcBridgeMain(ipcMain, window.webContents).redux,
-    [Process.Crypto]: {
-      on: (listener: (event: IpcMainEvent, ...args: unknown[]) => void) => {
-        const callback = (msg: unknown) => listener(undefined, msg);
-        signingProcess.on('message', callback);
-        return () => {
-          signingProcess.removeListener('message', callback);
-        };
-      },
-      emit: (args) => signingProcess.send(args as string)
-    }
-  });
+  const ipc = createIpc(window, cryptoProcess);
+
+  const store = createStore(ipc);
 
   const persistor = createPersistor(store);
 
