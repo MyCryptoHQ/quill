@@ -111,7 +111,7 @@ export function* putJson(
   json: string,
   isDecrypted: boolean = false
 ): SagaIterator {
-  const [error, action] = safeJSONParse<AnyAction>(json);
+  const [error, action] = safeJSONParse<AnyAction & { to?: Process; from?: Process }>(json);
   if (error) {
     return;
   }
@@ -123,8 +123,8 @@ export function* putJson(
     return;
   }
 
-  const from = action.from as Process | undefined;
-  const to = action.to as Process | undefined;
+  const from = action.from;
+  const to = action.to;
 
   if (to && self !== to && to in processes) {
     console.log(self, 'Received not for me, forwarding', action);
