@@ -19,6 +19,7 @@ import { setPersistor } from './persistence.slice';
  */
 export const IGNORED_PATHS = [synchronization.name];
 export const IGNORED_ACTIONS = [PERSIST, setPersistor.type];
+// Certain actions that will be sent encrypted from RENDERER to CRYPTO since they contain secrets
 export const CRYPTO_ACTIONS = [init.type, sign.type, fetchAccounts.type];
 
 /**
