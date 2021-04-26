@@ -5,7 +5,7 @@ const { merge } = require('webpack-merge');
 const common = require('./common');
 
 module.exports = merge(common, {
-  entry: { index: './src/main.ts', worker: './src/signing/signing.worker.ts' },
+  entry: { index: './src/main.ts', worker: './src/crypto/crypto.worker.ts' },
   target: 'electron-main',
   plugins: [
     new CopyWebpackPlugin({
