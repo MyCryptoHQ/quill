@@ -5,12 +5,14 @@
 import configureStore from 'redux-mock-store';
 
 import { checkNewUser, init } from '@common/store';
-import { synchronizationMiddleware } from '@common/store/synchronization.middleware';
+import { shouldIgnore, synchronizationMiddleware } from '@common/store/synchronization.middleware';
 import { Process, sendPublicKey, setHandshaken } from '@common/store/synchronization.slice';
 import { decryptJson } from '@common/utils';
 import { fEncryptionPrivateKey, fEncryptionPublicKey } from '@fixtures';
 import type { ApplicationState } from '@store';
 import type { DeepPartial } from '@types';
+
+import { setPersistor } from './persistence.slice';
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
@@ -154,5 +156,42 @@ describe('synchronizationMiddleware', () => {
     expect(fn).toHaveBeenCalledTimes(2);
     expect(fn).toHaveBeenCalledWith({ ...checkNewUser(), remote: true });
     Object.values(processes).map((ipc) => expect(ipc.emit).not.toHaveBeenCalled());
+  });
+});
+
+describe('shouldIgnore', () => {
+  it('ignores IGNORED_PATHS', () => {
+    expect(
+      shouldIgnore(
+        setHandshaken({ target: Process.Main, isHandshaken: true }),
+        Process.Renderer,
+        Process.Main,
+        Process.Renderer
+      )
+    ).toBe(true);
+  });
+
+  it('ignores IGNORED_ACTIONS', () => {
+    expect(
+      shouldIgnore(setPersistor(undefined), Process.Main, Process.Renderer, Process.Main)
+    ).toBe(true);
+  });
+
+  it('ignores actions that would be dispatched back to where they came from', () => {
+    expect(
+      shouldIgnore(
+        { ...checkNewUser(), remote: true },
+        Process.Renderer,
+        Process.Renderer,
+        Process.Main
+      )
+    ).toBe(true);
+  });
+
+  it('ignores actions that come from elsewhere unless it is the main process', () => {
+    expect(shouldIgnore(checkNewUser(), Process.Renderer, Process.Main, Process.Crypto)).toBe(true);
+    expect(shouldIgnore(checkNewUser(), Process.Renderer, Process.Crypto, Process.Main)).toBe(
+      false
+    );
   });
 });

@@ -1,4 +1,4 @@
-import type { Middleware } from '@reduxjs/toolkit';
+import type { AnyAction, Middleware } from '@reduxjs/toolkit';
 import { PERSIST } from 'redux-persist';
 
 import { encryptJson } from '@common/utils';
@@ -22,6 +22,23 @@ export const IGNORED_ACTIONS = [PERSIST, setPersistor.type];
 // Certain actions that will be sent encrypted from RENDERER to CRYPTO since they contain secrets
 export const CRYPTO_ACTIONS = [init.type, sign.type, fetchAccounts.type];
 
+export const shouldIgnore = (action: AnyAction, from: Process, target: Process, self: Process) => {
+  const path = action.type.split('/')[0];
+  if (action.type !== sendPublicKey.type && IGNORED_PATHS.includes(path)) {
+    return true;
+  }
+  if (IGNORED_ACTIONS.includes(action.type)) {
+    return true;
+  }
+  if (action.remote && target === from) {
+    return true;
+  }
+  if (from !== self && self !== Process.Main) {
+    return true;
+  }
+  return false;
+};
+
 /**
  * Middleware that dispatches any actions to the other Electron process.
  * @param ipc The Electron process to dispatch from.
@@ -30,8 +47,6 @@ export const synchronizationMiddleware = (
   processes: Partial<Record<Process, ReduxIPC>>,
   self: Process
 ): Middleware => (store) => (next) => (action) => {
-  const path = action.type.split('/')[0];
-
   // CRYPTO and RENDERER only communicates with MAIN
   // MAIN communicates with both, mostly relaying requests from RENDERER
   const ipcMapping = {
@@ -57,13 +72,7 @@ export const synchronizationMiddleware = (
 
   const from = action.from ?? self;
 
-  if (
-    (action.type !== sendPublicKey.type && IGNORED_PATHS.includes(path)) ||
-    IGNORED_ACTIONS.includes(action.type) ||
-    (action.remote && target === action.from) ||
-    to === self ||
-    (from !== self && self !== Process.Main)
-  ) {
+  if (shouldIgnore(action, from, target, self)) {
     return next(action);
   }
 
