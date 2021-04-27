@@ -104,6 +104,30 @@ describe('signTransaction', () => {
 
     expect(getPrivateKey).toHaveBeenCalledWith('709879a4-2241-4c07-8c83-16048e47d502');
   });
+
+  it('throws if persistent account doesnt exist', async () => {
+    (getPrivateKey as jest.MockedFunction<typeof getPrivateKey>).mockImplementationOnce(() => {
+      throw new Error('foo');
+    });
+
+    return expect(
+      signTransaction(
+        {
+          persistent: true,
+          uuid: '709879a4-2241-4c07-8c83-16048e47d502' as TUuid
+        },
+        {
+          nonce: 6,
+          gasPrice: '0x012a05f200',
+          gasLimit: '0x5208',
+          to: '0xb2bb2b958AFa2e96dab3f3Ce7162b87daEa39017',
+          value: '0x2386f26fc10000',
+          data: '0x',
+          chainId: 3
+        }
+      )
+    ).rejects.toThrow('foo');
+  });
 });
 
 describe('getAddress', () => {

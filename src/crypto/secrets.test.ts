@@ -49,6 +49,14 @@ describe('getPrivateKey', () => {
     expect(keytar.getPassword).toHaveBeenCalledWith(KEYTAR_SERVICE, uuid);
     expect(response).toBe(privateKey);
   });
+
+  it('returns null if keytar returns null', async () => {
+    (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>).mockImplementationOnce(
+      () => null
+    );
+
+    return expect(getPrivateKey(uuid)).resolves.toBeNull();
+  });
 });
 
 describe('deleteAccountSecrets', () => {
