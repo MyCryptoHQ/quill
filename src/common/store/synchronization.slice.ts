@@ -10,7 +10,8 @@ import {
   createHandshakeKeyPair,
   decryptJson,
   isEncryptedAction,
-  isReduxAction
+  isReduxAction,
+  keys
 } from '@common/utils';
 import type { HandshakeKeyPair, ReduxIPC } from '@types';
 import { safeJSONParse } from '@utils';
@@ -78,7 +79,7 @@ export const postHandshake = createAction(`${sliceName}/postHandshake`);
 
 export function* handshakeSaga(processes: Partial<Record<Process, ReduxIPC>>, self: Process) {
   yield all([
-    ...Object.keys(processes).map((target) => ipcWorker(processes, target as Process, self)),
+    ...keys(processes).map((target) => ipcWorker(processes, target, self)),
     takeLatest(createKeyPair.type, createKeyPairWorker),
     takeEvery(sendPublicKey.type, setPublicKeyWorker)
   ]);
