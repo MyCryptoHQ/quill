@@ -106,9 +106,7 @@ describe('signTransaction', () => {
   });
 
   it('throws if persistent account doesnt exist', async () => {
-    (getPrivateKey as jest.MockedFunction<typeof getPrivateKey>).mockImplementationOnce(() => {
-      throw new Error('foo');
-    });
+    (getPrivateKey as jest.MockedFunction<typeof getPrivateKey>).mockImplementationOnce(() => null);
 
     return expect(
       signTransaction(
@@ -126,7 +124,7 @@ describe('signTransaction', () => {
           chainId: 3
         }
       )
-    ).rejects.toThrow('foo');
+    ).rejects.toThrow('Saved Private Key is invalid');
   });
 });
 
