@@ -1,7 +1,7 @@
 import { hexlify } from '@ethersproject/bytes';
 import { decrypt, encrypt } from 'eciesjs';
 import type { Infer } from 'superstruct';
-import { is, object, string, type, unknown } from 'superstruct';
+import { is, object, optional, string, type, unknown } from 'superstruct';
 
 import { stripHexPrefix } from '@utils';
 
@@ -11,7 +11,9 @@ const REDUX_ACTION_STRUCT = type({
 });
 
 const ENCRYPTED_ACTION_STRUCT = object({
-  data: string()
+  data: string(),
+  to: optional(string()),
+  from: string()
 });
 
 export type ReduxAction = Infer<typeof REDUX_ACTION_STRUCT>;

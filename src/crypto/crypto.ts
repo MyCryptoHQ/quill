@@ -3,7 +3,6 @@ import type { DerivationPath } from '@mycrypto/wallets';
 import { MnemonicPhrase, PrivateKey } from '@mycrypto/wallets';
 import { getDeterministicWallet, getWallet } from '@wallets/wallet-initialisation';
 
-import { getPrivateKey } from '@api/db';
 import type {
   SerializedDeterministicWallet,
   SerializedOptionalPersistentWallet,
@@ -12,8 +11,13 @@ import type {
 } from '@types';
 import { WalletType } from '@types';
 
+import { getPrivateKey } from './secrets';
+
 const getPersistentWallet = async (uuid: TUuid): Promise<PrivateKey> => {
   const privateKey = await getPrivateKey(uuid);
+  if (privateKey == null) {
+    throw new Error('Saved Private Key is invalid');
+  }
   return new PrivateKey(privateKey);
 };
 

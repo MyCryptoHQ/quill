@@ -1,16 +1,17 @@
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
-import { signTransaction } from '@api/crypto';
-import { sign, signFailed, signSuccess } from '@common/store/signing.slice';
+import { reply } from '@api/store/ws.slice';
+import { init, sign, signFailed, signSuccess } from '@common/store/signing.slice';
 import { dequeue } from '@common/store/transactions.slice';
 import { fPrivateKey, fRequestOrigin, fSignedTx, fTxRequest } from '@fixtures';
 import type { SerializedWallet } from '@types';
 import { WalletType } from '@types';
 import { makeQueueTx, makeTx } from '@utils';
 
-import { signWorker } from './signing.sagas';
-import { reply } from './ws.sagas';
+import { signTransaction } from './crypto';
+import { init as initFn } from './secrets';
+import { initWorker, signWorker } from './signing.sagas';
 
 jest.mock('electron-store');
 jest.mock('electron', () => ({
@@ -66,6 +67,15 @@ describe('signWorker()', () => {
       })
       .call(signTransaction, wallet, tx)
       .put(signFailed('error'))
+      .silentRun();
+  });
+});
+
+describe('initWorker', () => {
+  it('calls init function with password', async () => {
+    await expectSaga(initWorker, init('password'))
+      .provide([[call.fn(initFn), true]])
+      .call(initFn, 'password')
       .silentRun();
   });
 });

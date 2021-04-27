@@ -14,6 +14,7 @@ import slice, {
   createKeyPair,
   createKeyPairWorker,
   postHandshake,
+  Process,
   putJson,
   sendPublicKey,
   setHandshaken,
@@ -25,20 +26,45 @@ import slice, {
 describe('Handshake', () => {
   describe('setHandshaken', () => {
     it('sets isHandshaken to the payload', () => {
-      expect(slice.reducer({ isHandshaken: false }, setHandshaken(true))).toStrictEqual({
-        isHandshaken: true
-      });
+      expect(
+        slice.reducer(
+          { isHandshaken: {}, targetPublicKey: {} },
+          setHandshaken({ target: Process.Main, isHandshaken: true })
+        )
+      ).toStrictEqual(
+        expect.objectContaining({
+          isHandshaken: {
+            [Process.Main]: true
+          }
+        })
+      );
 
-      expect(slice.reducer({ isHandshaken: true }, setHandshaken(false))).toStrictEqual({
-        isHandshaken: false
-      });
+      expect(
+        slice.reducer(
+          {
+            isHandshaken: {
+              [Process.Main]: true
+            },
+            targetPublicKey: {}
+          },
+          setHandshaken({ target: Process.Main, isHandshaken: false })
+        )
+      ).toStrictEqual(
+        expect.objectContaining({
+          isHandshaken: {
+            [Process.Main]: false
+          }
+        })
+      );
     });
   });
 
   describe('setKeyPair', () => {
     it('sets publicKey and privateKey to the payload', async () => {
       const keyPair = await createHandshakeKeyPair();
-      expect(slice.reducer({ isHandshaken: false }, setKeyPair(keyPair))).toStrictEqual(
+      expect(
+        slice.reducer({ isHandshaken: {}, targetPublicKey: {} }, setKeyPair(keyPair))
+      ).toStrictEqual(
         expect.objectContaining({
           ...keyPair
         })
@@ -49,10 +75,18 @@ describe('Handshake', () => {
   describe('setTargetPublicKey', () => {
     it('sets targetPublicKey to the payload', () => {
       expect(
-        slice.reducer({ isHandshaken: false }, setTargetPublicKey(fEncryptionPublicKey))
+        slice.reducer(
+          { isHandshaken: {}, targetPublicKey: {} },
+          setTargetPublicKey({
+            target: Process.Main,
+            publicKey: fEncryptionPublicKey
+          })
+        )
       ).toStrictEqual(
         expect.objectContaining({
-          targetPublicKey: fEncryptionPublicKey
+          targetPublicKey: {
+            [Process.Main]: fEncryptionPublicKey
+          }
         })
       );
     });
@@ -62,12 +96,12 @@ describe('Handshake', () => {
 describe('putJson', () => {
   it('puts an action if isDecrypted is set or if the action is handshake/sendPublicKey', async () => {
     const action = JSON.stringify(sendPublicKey(fEncryptionPublicKey));
-    await expectSaga(putJson, action)
+    await expectSaga(putJson, Process.Main, {}, action)
       .put({ ...sendPublicKey(fEncryptionPublicKey), remote: true })
       .silentRun();
 
     const insecureAction = JSON.stringify(setNewUser(true));
-    await expectSaga(putJson, insecureAction, true)
+    await expectSaga(putJson, Process.Main, {}, insecureAction, true)
       .put({ ...setNewUser(true), remote: true })
       .silentRun();
   });
@@ -76,14 +110,49 @@ describe('putJson', () => {
     const insecureAction = JSON.stringify(setNewUser(true));
     const encryptedAction = encryptJson(fEncryptionPublicKey, insecureAction);
 
-    await expectSaga(putJson, JSON.stringify({ data: encryptedAction }), true)
-      .withState({ synchronization: { isHandshaken: true, privateKey: fEncryptionPrivateKey } })
+    await expectSaga(
+      putJson,
+      Process.Renderer,
+      {},
+      JSON.stringify({ data: encryptedAction, from: Process.Main }),
+      true
+    )
+      .withState({
+        synchronization: {
+          isHandshaken: { [Process.Main]: true },
+          privateKey: fEncryptionPrivateKey
+        }
+      })
       .put({ ...setNewUser(true), remote: true })
       .silentRun();
   });
 
+  it('forwards encrypted action with another recipient', async () => {
+    const insecureAction = JSON.stringify(setNewUser(true));
+    const encryptedAction = encryptJson(fEncryptionPublicKey, insecureAction);
+
+    const ipc = { [Process.Crypto]: { emit: jest.fn(), on: jest.fn() } };
+
+    const json = JSON.stringify({
+      data: encryptedAction,
+      to: Process.Crypto,
+      from: Process.Renderer
+    });
+
+    await expectSaga(putJson, Process.Main, ipc, json, true)
+      .withState({
+        synchronization: {
+          isHandshaken: { [Process.Crypto]: true },
+          privateKey: fEncryptionPrivateKey
+        }
+      })
+      .silentRun();
+
+    expect(ipc[Process.Crypto].emit).toHaveBeenCalledWith(json);
+  });
+
   it('does nothing on invalid JSON', async () => {
-    await expectSaga(putJson, 'foo bar').silentRun();
+    await expectSaga(putJson, Process.Main, {}, 'foo bar').silentRun();
   });
 });
 
@@ -106,18 +175,27 @@ describe('createKeyPairWorker', () => {
 
 describe('setPublicKeyWorker', () => {
   it('dispatches setTargetPublicKey and performs the handshake', async () => {
-    const action = { ...sendPublicKey(fEncryptionPublicKey), remote: true };
+    const action = {
+      ...sendPublicKey(fEncryptionPublicKey),
+      remote: true,
+      from: Process.Main
+    };
     await expectSaga(setPublicKeyWorker, action)
       .withState({ synchronization: { isHandshaken: false, publicKey: fEncryptionPublicKey } })
-      .put(setTargetPublicKey(fEncryptionPublicKey))
-      .put(setHandshaken(true))
+      .put(setTargetPublicKey({ target: Process.Main, publicKey: fEncryptionPublicKey }))
+      .put(setHandshaken({ target: Process.Main, isHandshaken: true }))
       .put(sendPublicKey(fEncryptionPublicKey))
       .put(postHandshake())
       .silentRun();
 
     await expectSaga(setPublicKeyWorker, action)
-      .withState({ synchronization: { isHandshaken: true, publicKey: fEncryptionPublicKey } })
-      .put(setTargetPublicKey(fEncryptionPublicKey))
+      .withState({
+        synchronization: {
+          isHandshaken: { [Process.Main]: true },
+          publicKey: { [Process.Main]: fEncryptionPublicKey }
+        }
+      })
+      .put(setTargetPublicKey({ target: Process.Main, publicKey: fEncryptionPublicKey }))
       .silentRun();
   });
 

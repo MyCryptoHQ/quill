@@ -10,22 +10,30 @@ import {
   createHandshakeKeyPair,
   decryptJson,
   isEncryptedAction,
-  isReduxAction
+  isReduxAction,
+  keys
 } from '@common/utils';
 import type { HandshakeKeyPair, ReduxIPC } from '@types';
 import { safeJSONParse } from '@utils';
+
+export enum Process {
+  Renderer = 'Renderer',
+  Main = 'Main',
+  Crypto = 'Crypto'
+}
 
 interface SynchronizationState {
   publicKey?: string;
   privateKey?: string;
 
-  isHandshaken: boolean;
+  isHandshaken: Partial<Record<Process, boolean>>;
 
-  targetPublicKey?: string;
+  targetPublicKey: Partial<Record<Process, string>>;
 }
 
 const initialState: SynchronizationState = {
-  isHandshaken: false
+  isHandshaken: {},
+  targetPublicKey: {}
 };
 
 const sliceName = 'synchronization';
@@ -34,32 +42,23 @@ const slice = createSlice({
   name: sliceName,
   initialState,
   reducers: {
-    createKeyPair(_, __: PayloadAction<boolean | undefined>) {
-      // noop
-    },
-    sendPublicKey(_, __: PayloadAction<string>) {
-      // noop
-    },
-    setHandshaken(state, action: PayloadAction<boolean>) {
-      state.isHandshaken = action.payload;
+    setHandshaken(state, action: PayloadAction<{ target: Process; isHandshaken: boolean }>) {
+      state.isHandshaken[action.payload.target] = action.payload.isHandshaken;
     },
     setKeyPair(state, action: PayloadAction<HandshakeKeyPair>) {
       state.publicKey = action.payload.publicKey;
       state.privateKey = action.payload.privateKey;
     },
-    setTargetPublicKey(state, action: PayloadAction<string>) {
-      state.targetPublicKey = action.payload;
+    setTargetPublicKey(state, action: PayloadAction<{ target: Process; publicKey: string }>) {
+      state.targetPublicKey[action.payload.target] = action.payload.publicKey;
     }
   }
 });
 
-export const {
-  createKeyPair,
-  setKeyPair,
-  sendPublicKey,
-  setHandshaken,
-  setTargetPublicKey
-} = slice.actions;
+export const createKeyPair = createAction<boolean | undefined>(`${sliceName}/createKeyPair`);
+export const sendPublicKey = createAction<string>(`${sliceName}/sendPublicKey`);
+
+export const { setKeyPair, setHandshaken, setTargetPublicKey } = slice.actions;
 
 export default slice;
 
@@ -70,18 +69,17 @@ export const getSynchronizationState = createSelector(
 
 export const getPublicKey = createSelector(getSynchronizationState, (state) => state.publicKey);
 export const getPrivateKey = createSelector(getSynchronizationState, (state) => state.privateKey);
-export const getHandshaken = createSelector(getSynchronizationState, (state) => state.isHandshaken);
+export const getHandshaken = (target: Process) =>
+  createSelector(getSynchronizationState, (state) => state.isHandshaken[target]);
 
-export const getTargetPublicKey = createSelector(
-  getSynchronizationState,
-  (state) => state.targetPublicKey
-);
+export const getTargetPublicKey = (target: Process) =>
+  createSelector(getSynchronizationState, (state) => state.targetPublicKey[target]);
 
 export const postHandshake = createAction(`${sliceName}/postHandshake`);
 
-export function* handshakeSaga(ipc: ReduxIPC) {
+export function* handshakeSaga(processes: Partial<Record<Process, ReduxIPC>>, self: Process) {
   yield all([
-    ipcWorker(ipc),
+    ...keys(processes).map((target) => ipcWorker(processes, target, self)),
     takeLatest(createKeyPair.type, createKeyPairWorker),
     takeEvery(sendPublicKey.type, setPublicKeyWorker)
   ]);
@@ -99,8 +97,13 @@ export const subscribe = (ipc: ReduxIPC) => {
   });
 };
 
-export function* putJson(json: string, isDecrypted: boolean = false): SagaIterator {
-  const [error, action] = safeJSONParse<AnyAction>(json);
+export function* putJson(
+  self: Process,
+  processes: Partial<Record<Process, ReduxIPC>>,
+  json: string,
+  isDecrypted: boolean = false
+): SagaIterator {
+  const [error, action] = safeJSONParse<AnyAction & { to?: Process; from?: Process }>(json);
   if (error) {
     return;
   }
@@ -110,20 +113,32 @@ export function* putJson(json: string, isDecrypted: boolean = false): SagaIterat
     return;
   }
 
-  const isHandshaken = yield select(getHandshaken);
+  const from = action.from;
+  const to = action.to;
+
+  if (to && self !== to && to in processes) {
+    processes[to].emit(json);
+    return;
+  }
+
+  const isHandshaken = yield select(getHandshaken(from));
   if (isHandshaken && isEncryptedAction(action)) {
     const privateKey: string = yield select(getPrivateKey);
     const json = decryptJson(privateKey, action);
 
-    yield call(putJson, json, true);
+    yield call(putJson, self, processes, json, true);
   }
 }
 
-export function* ipcWorker(ipc: ReduxIPC) {
-  const channel = yield call(subscribe, ipc);
+export function* ipcWorker(
+  processes: Partial<Record<Process, ReduxIPC>>,
+  target: Process,
+  self: Process
+) {
+  const channel = yield call(subscribe, processes[target]);
   while (true) {
     const request: string = yield take(channel);
-    yield call(putJson, request);
+    yield call(putJson, self, processes, request);
   }
 }
 
@@ -136,15 +151,18 @@ export function* createKeyPairWorker({ payload = false }: PayloadAction<boolean>
   }
 }
 
-export function* setPublicKeyWorker(action: PayloadAction<string> & { remote: boolean }) {
+export function* setPublicKeyWorker(
+  action: PayloadAction<string> & { remote: boolean; from?: Process }
+) {
   if (action.remote) {
-    yield put(setTargetPublicKey(action.payload));
+    const target = action.from;
+    yield put(setTargetPublicKey({ target, publicKey: action.payload }));
 
-    const isHandshaken: boolean = yield select(getHandshaken);
+    const isHandshaken: boolean = yield select(getHandshaken(target));
     const publicKey: string = yield select(getPublicKey);
 
     if (!isHandshaken) {
-      yield put(setHandshaken(true));
+      yield put(setHandshaken({ target: action.from, isHandshaken: true }));
       yield put(sendPublicKey(publicKey));
       yield put(postHandshake());
     }

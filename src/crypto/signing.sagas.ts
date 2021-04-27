@@ -2,10 +2,9 @@ import type { TransactionRequest } from '@ethersproject/abstract-provider';
 import { parse } from '@ethersproject/transactions';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { push } from 'connected-react-router';
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
-import { signTransaction } from '@api/crypto';
-import { reply } from '@api/store/ws.sagas';
+import { reply } from '@api/store/ws.slice';
 import {
   addToHistory,
   dequeue,
@@ -13,14 +12,21 @@ import {
   selectTransaction,
   sign
 } from '@common/store';
-import { signFailed, signSuccess } from '@common/store/signing.slice';
+import { init, signFailed, signSuccess } from '@common/store/signing.slice';
 import { ROUTE_PATHS } from '@routing';
 import type { SerializedPersistentAccount, SerializedWallet } from '@types';
 import { TxResult } from '@types';
 import { makeHistoryTx } from '@utils';
 
+import { signTransaction } from './crypto';
+import { init as initFn } from './secrets';
+
 export function* signingSaga() {
-  yield takeLatest(sign.type, signWorker);
+  yield all([takeLatest(sign.type, signWorker), takeLatest(init.type, initWorker)]);
+}
+
+export function* initWorker({ payload }: PayloadAction<string>) {
+  yield call(initFn, payload);
 }
 
 export function* signWorker({

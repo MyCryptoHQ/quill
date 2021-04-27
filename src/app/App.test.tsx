@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
+import { Process } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { fAccount } from '@fixtures';
 import type { DeepPartial } from '@types';
@@ -58,7 +59,7 @@ describe('App', () => {
         auth: { loggedIn: true, newUser: false },
         transactions: { queue: [], history: [] },
         accounts: { accounts: [fAccount] },
-        synchronization: { isHandshaken: true },
+        synchronization: { isHandshaken: { [Process.Main]: true } },
         persistence: { isPersisted: true }
       })
     );
@@ -74,7 +75,7 @@ describe('App', () => {
     const { getByText } = getComponent(
       createMockStore({
         auth: { loggedIn: false, newUser: true },
-        synchronization: { isHandshaken: true }
+        synchronization: { isHandshaken: { [Process.Main]: true } }
       })
     );
 
@@ -89,7 +90,7 @@ describe('App', () => {
         auth: { loggedIn: false, newUser: false },
         transactions: { queue: [], history: [] },
         accounts: { accounts: [fAccount] },
-        synchronization: { isHandshaken: true }
+        synchronization: { isHandshaken: { [Process.Main]: true } }
       })
     );
 

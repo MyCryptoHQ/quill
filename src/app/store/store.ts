@@ -5,7 +5,7 @@ import { createHashHistory } from 'history';
 import createSagaMiddleware from 'redux-saga';
 
 import { ipcBridgeRenderer } from '@bridge';
-import { createKeyPair, synchronizationMiddleware } from '@common/store';
+import { createKeyPair, Process, synchronizationMiddleware } from '@common/store';
 
 import { createRootReducer } from './reducer';
 import rootSaga from './sagas';
@@ -27,7 +27,7 @@ export const createStore = (
     reducer,
     middleware: (getDefaultMiddleware) => [
       ...getDefaultMiddleware({ thunk: false, serializableCheck: false }),
-      synchronizationMiddleware(ipcBridgeRenderer.redux),
+      synchronizationMiddleware({ [Process.Main]: ipcBridgeRenderer.redux }, Process.Renderer),
       routerMiddleware(history),
       sagaMiddleware
     ],

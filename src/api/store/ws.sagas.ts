@@ -1,36 +1,22 @@
 import type { ActionCreatorWithPayload, PayloadAction } from '@reduxjs/toolkit';
-import { createAction } from '@reduxjs/toolkit';
 import type { IncomingMessage } from 'http';
 import { eventChannel } from 'redux-saga';
 import { all, call, fork, put, take } from 'redux-saga/effects';
 import WebSocket from 'ws';
 
 import { JsonRPCMethod, WS_PORT } from '@config';
-import type {
-  JsonRPCRequest,
-  JsonRPCResponse,
-  JsonRPCResult,
-  TSignTransaction,
-  UserRequest
-} from '@types';
+import type { JsonRPCRequest, JsonRPCResponse, JsonRPCResult, UserRequest } from '@types';
 import { safeJSONParse } from '@utils';
 
-import { isValidMethod, isValidParams, isValidRequest, toJsonRpcResponse } from './utils';
+import { toJsonRpcResponse } from './utils/jsonrpc';
+import { isValidMethod, isValidParams, isValidRequest } from './utils/validators';
+import { reply, requestAccounts, requestSignTransaction } from './ws.slice';
 
 interface WebSocketMessage {
   socket: WebSocket;
   request: IncomingMessage;
   data: string;
 }
-
-const sliceName = 'ws';
-
-export const requestSignTransaction = createAction<UserRequest<TSignTransaction>>(
-  `${sliceName}/requestSignTransaction`
-);
-export const requestAccounts = createAction<UserRequest>(`${sliceName}/requestAccounts`);
-
-export const reply = createAction<JsonRPCResponse>(`${sliceName}/reply`);
 
 const SUPPORTED_METHODS = {
   [JsonRPCMethod.SignTransaction]: requestSignTransaction,

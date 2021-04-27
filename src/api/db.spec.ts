@@ -1,22 +1,15 @@
 import Store from 'electron-store';
 import { promises as fs } from 'fs';
-import keytar, { deletePassword } from 'keytar';
 
-import { KEYTAR_SERVICE } from '@config';
 import { fAccount } from '@fixtures';
-import type { TUuid } from '@types';
-import { WalletType } from '@types';
 
 import {
-  deleteAccountSecrets,
   getFromStore,
-  getPrivateKey,
   init,
   isLoggedIn,
   login,
   logout,
   reset,
-  saveAccountSecrets,
   setInStore,
   storeExists
 } from './db';
@@ -44,23 +37,7 @@ jest.mock('electron', () => ({
   }
 }));
 
-jest.mock('keytar', () => ({
-  setPassword: jest.fn(),
-  getPassword: jest
-    .fn()
-    .mockImplementation(
-      () =>
-        '6860de1fab1e5e03c3880b92874195800906ec77f007484c19878abdb9e3a65af3bb65b2d72a0e997d04cea288882a4fc072ee0bd76f2f19bb1d09ad88c3f671def50b2987872f229241677f5f3a8d93a0682d21938ada7a165c39c8f3fd'
-    ),
-  deletePassword: jest.fn(),
-  findCredentials: jest.fn().mockReturnValue([{ account: 'foo' }])
-}));
-
-const uuid = '304a57a4-1752-53db-8861-67785534e98e' as TUuid;
 const password = 'password';
-const privateKey = '0x93b3701cf8eeb6f7d3b22211c691734f24816a02efa933f67f34d37053182577';
-const encryptedPrivKey =
-  '6860de1fab1e5e03c3880b92874195800906ec77f007484c19878abdb9e3a65af3bb65b2d72a0e997d04cea288882a4fc072ee0bd76f2f19bb1d09ad88c3f671def50b2987872f229241677f5f3a8d93a0682d21938ada7a165c39c8f3fd';
 const encryptedAccounts =
   '233a864faa421c5d86984f909906c3d40a02b071ab03574b4c8f8aa6b5b1a158eae532b6db3609c12907c8f3db877f199470fb579f792a4ee85f59edcad9fe66d9ba4dd3a72d8af881f38c42d67b09ab9124490f9dd32608f46280b8e59e03db5f81495adbc4bd7a2c1b49bebb06e14623cff4d515cd557261135c4a175da3af1bf8f20a5e3f5efef74a74a1d8c96dd22220fac2361c174dbd1d5e25c91401c3fb89f002e88eb1a6549877d4de362c55baea7fab238861282281c57d53fd3a1a3f1d33155bc879e282d9fbb8eb0762988577322f2d21938ada7a165c39c8f3fd';
 
@@ -115,7 +92,6 @@ describe('reset', () => {
 
     expect(fs.unlink).toHaveBeenCalled();
     expect(store.clear).toHaveBeenCalled();
-    expect(deletePassword).toHaveBeenCalledWith(KEYTAR_SERVICE, 'foo');
   });
 });
 
@@ -169,35 +145,5 @@ describe('setInStore', () => {
     await setInStore('accounts', { [fAccount.uuid]: fAccount });
 
     expect(store.set).not.toHaveBeenCalled();
-  });
-});
-
-describe('saveAccountSecrets', () => {
-  it('calls setPassword with encrypted privkey', async () => {
-    await init(password);
-    await saveAccountSecrets({
-      walletType: WalletType.PRIVATE_KEY,
-      privateKey
-    });
-
-    expect(keytar.setPassword).toHaveBeenCalledWith(KEYTAR_SERVICE, uuid, encryptedPrivKey);
-  });
-});
-
-describe('getPrivateKey', () => {
-  it('returns decrypted private key', async () => {
-    await init(password);
-    const response = await getPrivateKey(uuid);
-
-    expect(keytar.getPassword).toHaveBeenCalledWith(KEYTAR_SERVICE, uuid);
-    expect(response).toBe(privateKey);
-  });
-});
-
-describe('deleteAccountSecrets', () => {
-  it('DELETE_ACCOUNT_SECRETS calls deletePassword', async () => {
-    await deleteAccountSecrets(uuid);
-
-    expect(keytar.deletePassword).toHaveBeenCalledWith(KEYTAR_SERVICE, uuid);
   });
 });

@@ -5,10 +5,11 @@
   "description": "A tool to sign transactions with Mnemonic Phrases, Private Keys and Keystore files",
   "main": ".webpack/main",
   "scripts": {
-    "start": "cross-env NODE_ENV=development electron-forge start",
-    "package": "cross-env NODE_ENV=production electron-forge package",
-    "make": "cross-env NODE_ENV=production electron-forge make",
-    "publish": "cross-env NODE_ENV=production electron-forge publish",
+    "start": "yarn build:worker && cross-env NODE_ENV=development electron-forge start",
+    "package": "yarn build:worker && cross-env NODE_ENV=production electron-forge package",
+    "make": "yarn build:worker && cross-env NODE_ENV=production electron-forge make",
+    "publish": "yarn build:worker && cross-env NODE_ENV=production electron-forge publish",
+    "build:worker": "webpack --config webpack_config/worker.js",
     "lint": "yarn lint:types && yarn lint:source && yarn lint:format && yarn lint:styles",
     "lint:types": "tsc --noEmit",
     "lint:source": "eslint --ignore-path .gitignore .",
@@ -105,6 +106,7 @@
     "tsconfig-paths-webpack-plugin": "3.3.0",
     "typescript": "4.0.2",
     "utility-types": "3.10.0",
+    "webpack-cli": "4.6.0",
     "webpack-merge": "5.1.4"
   },
   "dependencies": {

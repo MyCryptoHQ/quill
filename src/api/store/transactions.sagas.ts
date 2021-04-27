@@ -14,7 +14,7 @@ import type { TSignTransaction, UserRequest } from '@types';
 import { TxResult } from '@types';
 import { makeHistoryTx } from '@utils';
 
-import { reply, requestSignTransaction } from './ws.sagas';
+import { reply, requestSignTransaction } from './ws.slice';
 
 export function* transactionsSaga() {
   yield all([

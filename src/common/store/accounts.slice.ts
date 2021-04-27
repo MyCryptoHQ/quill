@@ -39,8 +39,8 @@ const slice = createSlice({
       state.isFetching = false;
     },
     removeAccount(state, action: PayloadAction<IAccount>) {
-      const idx = state.accounts.findIndex((a) => a.uuid === action.payload.uuid);
-      state.accounts.splice(idx, 1);
+      // This reducer can be called when an account does not exist with this UUID, hence why this reducer is written differently that the others
+      return { ...state, accounts: state.accounts.filter((a) => a.uuid !== action.payload.uuid) };
     },
     updateAccount(state, action: PayloadAction<IAccount>) {
       const idx = state.accounts.findIndex((a) => a.uuid === action.payload.uuid);

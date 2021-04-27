@@ -1,11 +1,11 @@
 import { DEFAULT_ETH } from '@mycrypto/wallets';
 
-import { getPrivateKey } from '@api/db';
 import { fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey, fSignedTx } from '@fixtures';
 import type { TUuid } from '@types';
 import { WalletType } from '@types';
 
 import { createWallet, getAddress, getAddresses, signTransaction } from './crypto';
+import { getPrivateKey } from './secrets';
 
 jest.unmock('@bridge');
 
@@ -49,14 +49,6 @@ jest.mock('crypto', () => ({
     ])
 }));
 
-jest.mock('electron', () => ({
-  ipcMain: {
-    handle: jest.fn().mockImplementation((_e, callback) => {
-      callback();
-    })
-  }
-}));
-
 jest.mock('electron-store', () => {
   return jest.fn().mockImplementation(() => ({
     get: jest.fn(),
@@ -66,7 +58,7 @@ jest.mock('electron-store', () => {
 });
 
 const mockPrivateKey = fPrivateKey;
-jest.mock('@api/db', () => ({
+jest.mock('./secrets', () => ({
   getPrivateKey: jest.fn().mockImplementation(() => mockPrivateKey)
 }));
 
@@ -111,6 +103,28 @@ describe('signTransaction', () => {
     ).resolves.toBe(fSignedTx);
 
     expect(getPrivateKey).toHaveBeenCalledWith('709879a4-2241-4c07-8c83-16048e47d502');
+  });
+
+  it('throws if persistent account doesnt exist', async () => {
+    (getPrivateKey as jest.MockedFunction<typeof getPrivateKey>).mockImplementationOnce(() => null);
+
+    return expect(
+      signTransaction(
+        {
+          persistent: true,
+          uuid: '709879a4-2241-4c07-8c83-16048e47d502' as TUuid
+        },
+        {
+          nonce: 6,
+          gasPrice: '0x012a05f200',
+          gasLimit: '0x5208',
+          to: '0xb2bb2b958AFa2e96dab3f3Ce7162b87daEa39017',
+          value: '0x2386f26fc10000',
+          data: '0x',
+          chainId: 3
+        }
+      )
+    ).rejects.toThrow('Saved Private Key is invalid');
   });
 });
 
