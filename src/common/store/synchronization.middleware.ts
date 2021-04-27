@@ -1,18 +1,18 @@
 import type { Middleware } from '@reduxjs/toolkit';
 import { PERSIST } from 'redux-persist';
 
-import { init, sign } from '@common/store/signing.slice';
-import synchronization, {
-  getHandshaken,
-  getTargetPublicKey,
-  Process,
-  sendPublicKey
-} from '@common/store/synchronization.slice';
 import { encryptJson } from '@common/utils';
 import type { ReduxIPC } from '@types';
 
 import { fetchAccounts } from './accounts.slice';
 import { setPersistor } from './persistence.slice';
+import { init, sign } from './signing.slice';
+import synchronization, {
+  getHandshaken,
+  getTargetPublicKey,
+  Process,
+  sendPublicKey
+} from './synchronization.slice';
 
 /**
  * An array of action paths that will not be synchronised with the other process.

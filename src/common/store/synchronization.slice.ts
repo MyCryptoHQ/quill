@@ -41,12 +41,6 @@ const slice = createSlice({
   name: sliceName,
   initialState,
   reducers: {
-    createKeyPair(_, __: PayloadAction<boolean | undefined>) {
-      // noop
-    },
-    sendPublicKey(_, __: PayloadAction<string>) {
-      // noop
-    },
     setHandshaken(state, action: PayloadAction<{ target: Process; isHandshaken: boolean }>) {
       state.isHandshaken[action.payload.target] = action.payload.isHandshaken;
     },
@@ -60,13 +54,10 @@ const slice = createSlice({
   }
 });
 
-export const {
-  createKeyPair,
-  setKeyPair,
-  sendPublicKey,
-  setHandshaken,
-  setTargetPublicKey
-} = slice.actions;
+export const createKeyPair = createAction<boolean | undefined>(`${sliceName}/createKeyPair`);
+export const sendPublicKey = createAction<string>(`${sliceName}/sendPublicKey`);
+
+export const { setKeyPair, setHandshaken, setTargetPublicKey } = slice.actions;
 
 export default slice;
 
