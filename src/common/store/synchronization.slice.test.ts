@@ -189,7 +189,12 @@ describe('setPublicKeyWorker', () => {
       .silentRun();
 
     await expectSaga(setPublicKeyWorker, action)
-      .withState({ synchronization: { isHandshaken: true, publicKey: fEncryptionPublicKey } })
+      .withState({
+        synchronization: {
+          isHandshaken: { [Process.Main]: true },
+          publicKey: { [Process.Main]: fEncryptionPublicKey }
+        }
+      })
       .put(setTargetPublicKey({ target: Process.Main, publicKey: fEncryptionPublicKey }))
       .silentRun();
   });
