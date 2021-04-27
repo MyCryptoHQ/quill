@@ -5,14 +5,13 @@ const { merge } = require('webpack-merge');
 const common = require('./common');
 
 module.exports = merge(common, {
-  entry: './src/main.ts',
+  entry: { index: './src/main.ts', worker: './src/crypto/crypto.worker.ts' },
   target: 'electron-main',
   plugins: [
     new CopyWebpackPlugin({
       patterns: [
         path.resolve(__dirname, '../', 'src', 'app', 'assets', 'images', 'favicon.png'),
-        path.resolve(__dirname, '../', 'src', 'app', 'assets', 'images', 'icon.png'),
-        { from: path.resolve(__dirname, '../', '.worker') }
+        path.resolve(__dirname, '../', 'src', 'app', 'assets', 'images', 'icon.png')
       ]
     })
   ],
@@ -20,5 +19,8 @@ module.exports = merge(common, {
     alias: {
       '@ethersproject/random': require.resolve('@ethersproject/random/lib/index.js')
     }
+  },
+  output: {
+    filename: '[name].js'
   }
 });
