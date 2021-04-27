@@ -12,7 +12,7 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
-        exclude: /(node_modules|\.webpack)/,
+        exclude: /(node_modules|\.webpack|crypto\.worker\.ts)/,
         use: {
           loader: 'babel-loader',
           options: {
