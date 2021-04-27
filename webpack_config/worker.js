@@ -11,7 +11,7 @@ module.exports = merge(common, {
   target: 'node',
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, '../.webpack/main')
+    path: path.resolve(__dirname, '../.worker')
   },
   module: {
     rules: [

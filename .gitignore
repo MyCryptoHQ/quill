@@ -84,6 +84,7 @@ typings/
 
 # Webpack
 .webpack/
+.worker/
 
 # Electron-Forge
 out/
