@@ -10,6 +10,7 @@ import {
   Home,
   Locked,
   Menu,
+  RequestPermission,
   SetupAccount,
   SignTransaction,
   Transaction
@@ -66,6 +67,12 @@ export const ROUTES: Record<string, Route> = {
   MENU: {
     path: ROUTE_PATHS.MENU,
     component: Menu,
+    exact: true,
+    requireLogin: true
+  },
+  REQUEST_PERMISSION: {
+    path: ROUTE_PATHS.REQUEST_PERMISSION,
+    component: RequestPermission,
     exact: true,
     requireLogin: true
   }

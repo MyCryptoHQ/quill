@@ -17,3 +17,4 @@ export * from './request';
 export * from './deep-partial';
 export * from './handshake';
 export * from './ipc';
+export * from './permission';
