@@ -19,7 +19,9 @@ describe('isValidRequest', () => {
           value: '0x',
           chainId: 3
         }
-      ]
+      ],
+      hash: '',
+      sig: ''
     });
     expect(valid).toBe(true);
   });

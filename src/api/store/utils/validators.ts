@@ -1,7 +1,7 @@
 import { is, unknown } from 'superstruct';
 
 import { JsonRPCMethod } from '@config';
-import type { JsonRPCRequest } from '@types';
+import type { JsonRPCRequest, JsonRPCRequestWithHash } from '@types';
 import { JSONRPCRequestStruct, SignTransactionStruct } from '@types';
 
 const paramSchemas = {
@@ -13,7 +13,7 @@ export const isValidParams = (request: JsonRPCRequest) => {
   return is(request.params, paramSchemas[request.method as JsonRPCMethod]);
 };
 
-export const isValidRequest = (request: JsonRPCRequest): boolean => {
+export const isValidRequest = (request: JsonRPCRequestWithHash): boolean => {
   return is(request, JSONRPCRequestStruct);
 };
 
