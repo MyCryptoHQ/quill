@@ -9840,6 +9840,11 @@ no-case@^3.0.3:
     lower-case "^2.0.1"
     tslib "^1.10.0"
 
+noble-ed25519@1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/noble-ed25519/-/noble-ed25519-1.2.1.tgz#6aadb1fa57e054f40483d71d470c70c0fddc0917"
+  integrity sha512-5ZoYpKxQtyQHVk8GHsAr1BsM91ogFuuIsJkKM116t4PxqJRZrBkg1i33wUu852Minr9+CDR8jqPRrhQ/l+msbQ==
+
 node-abi@^2.19.1, node-abi@^2.7.0:
   version "2.19.1"
   resolved "https://registry.yarnpkg.com/node-abi/-/node-abi-2.19.1.tgz#6aa32561d0a5e2fdb6810d8c25641b657a8cea85"

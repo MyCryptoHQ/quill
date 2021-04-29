@@ -1,5 +1,7 @@
+import { hexlify } from '@ethersproject/bytes';
 import type { ActionCreatorWithPayload, PayloadAction } from '@reduxjs/toolkit';
 import type { IncomingMessage } from 'http';
+import { utils, verify } from 'noble-ed25519';
 import { eventChannel } from 'redux-saga';
 import { all, call, fork, put, select, take } from 'redux-saga/effects';
 import WebSocket from 'ws';
@@ -13,7 +15,7 @@ import type {
   Permission,
   UserRequest
 } from '@types';
-import { safeJSONParse } from '@utils';
+import { safeJSONParse, stripHexPrefix } from '@utils';
 
 import { toJsonRpcResponse } from './utils/jsonrpc';
 import { isValidMethod, isValidParams, isValidRequest } from './utils/validators';
@@ -120,19 +122,27 @@ export function* waitForPermissions(permission: Permission) {
 }
 
 export function* handleRequest({ socket, request, data }: WebSocketMessage) {
-  const [error, jsonRpcRequest] = validateRequest(data);
+  const [error, fullRequest] = validateRequest(data);
   if (error) {
     return socket.send(JSON.stringify(error));
   }
 
+  const { hash, sig, ...jsonRpcRequest } = fullRequest;
+
   const permissions: Permission[] = yield select(getPermissions);
 
-  // @todo: Verify this if possible
   const origin = request.headers.origin && new URL(request.headers.origin).host;
-  const publicKey = 'bla'; // @todo
+  const publicKey = new URLSearchParams(request.url.slice(1)).get('publicKey');
 
-  // @todo: Verify public key etc
-  if (!permissions.find((p) => p.origin === origin)) {
+  const existingPermission = permissions.find(
+    (p) => p.origin === origin && p.publicKey === publicKey
+  );
+  const encoded = new TextEncoder().encode(JSON.stringify(jsonRpcRequest));
+  const ownHash: string = yield call(utils.sha512, encoded);
+  const verifiedHash: boolean = yield call(verify, sig, hash, publicKey);
+  const isVerified = stripHexPrefix(hexlify(ownHash)) === hash && verifiedHash;
+
+  if (!existingPermission || !isVerified) {
     const permission = { origin, publicKey };
     yield put(requestPermissions(permission));
     const result: boolean = yield call(waitForPermissions, permission);

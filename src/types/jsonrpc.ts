@@ -35,7 +35,9 @@ export const JSONRPCRequestStruct = object({
   id: union([string(), number()]),
   method: string(),
   jsonrpc: literal('2.0'),
-  params: optional(array())
+  params: optional(array()),
+  hash: string(),
+  sig: string()
 });
 
 export type JsonRPCRequest<T = unknown[]> = Omit<Infer<typeof JSONRPCRequestStruct>, 'params'> & {
