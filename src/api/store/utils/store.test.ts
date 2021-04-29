@@ -12,7 +12,7 @@ import {
   reset,
   setInStore,
   storeExists
-} from './db';
+} from './store';
 
 jest.mock('fs', () => ({
   ...jest.requireActual('fs'),

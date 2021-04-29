@@ -2,7 +2,13 @@ import { push } from 'connected-react-router';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
-import { init, login as loginFn, logout as logoutFn, reset as resetFn, storeExists } from '@api/db';
+import {
+  init,
+  login as loginFn,
+  logout as logoutFn,
+  reset as resetFn,
+  storeExists
+} from '@api/store/utils/store';
 import {
   createPassword,
   createPasswordFailed,

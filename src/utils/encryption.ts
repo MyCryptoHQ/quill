@@ -13,6 +13,10 @@ const ENCRYPTION_IV_LENGTH = 12;
 const ENCRYPTION_TAG_LENGTH = 16;
 const ENCRYPTION_ALGORITHM = 'aes-256-gcm';
 
+export const createEncryptionKey = (size: number = KEY_LENGTH): Buffer => {
+  return crypto.randomBytes(size);
+};
+
 export const encrypt = (data: string, key: Buffer) => {
   const buffer = Buffer.from(data, 'utf8');
   const iv = crypto.randomBytes(ENCRYPTION_IV_LENGTH);

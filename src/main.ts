@@ -4,11 +4,10 @@ import positioner from 'electron-traywindow-positioner';
 import path from 'path';
 import { URL } from 'url';
 
-import { createPersistor } from '@api/store/persistor';
 import { HEIGHT, WIDTH } from '@config';
 
 import { createStore } from './api/store';
-import { createKeyPair, setPersistor } from './common/store';
+import { createKeyPair } from './common/store';
 import { createIpc } from './ipc';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
@@ -62,15 +61,10 @@ const createWindow = (): void => {
   });
 
   const cryptoProcess = createCryptoProcess();
-
   const ipc = createIpc(window, cryptoProcess);
-
   const store = createStore(ipc);
 
-  const persistor = createPersistor(store);
-
   store.dispatch(createKeyPair());
-  store.dispatch(setPersistor(persistor));
 
   // and load the index.html of the app.
   window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);

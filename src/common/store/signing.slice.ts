@@ -1,6 +1,6 @@
 import type { TransactionRequest } from '@ethersproject/abstract-provider';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { createAction, createSelector, createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 
 import type { ApplicationState } from '@store';
 import type { SerializedPersistentAccount, SerializedWallet } from '@types';
@@ -36,8 +36,6 @@ const slice = createSlice({
 export const { sign, signSuccess, signFailed } = slice.actions;
 
 export default slice;
-
-export const init = createAction<string>(`${sliceName}/init`);
 
 export const getSigningError = createSelector(
   (state: ApplicationState) => state.signing,

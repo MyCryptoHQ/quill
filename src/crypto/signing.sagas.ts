@@ -12,21 +12,16 @@ import {
   selectTransaction,
   sign
 } from '@common/store';
-import { init, signFailed, signSuccess } from '@common/store/signing.slice';
+import { signFailed, signSuccess } from '@common/store/signing.slice';
 import { ROUTE_PATHS } from '@routing';
 import type { SerializedPersistentAccount, SerializedWallet } from '@types';
 import { TxResult } from '@types';
 import { makeHistoryTx } from '@utils';
 
 import { signTransaction } from './crypto';
-import { init as initFn } from './secrets';
 
 export function* signingSaga() {
-  yield all([takeLatest(sign.type, signWorker), takeLatest(init.type, initWorker)]);
-}
-
-export function* initWorker({ payload }: PayloadAction<string>) {
-  yield call(initFn, payload);
+  yield all([takeLatest(sign.type, signWorker)]);
 }
 
 export function* signWorker({
