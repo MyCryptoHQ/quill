@@ -40,7 +40,17 @@ export const JSONRPCRequestStruct = object({
   sig: string()
 });
 
-export type JsonRPCRequest<T = unknown[]> = Omit<Infer<typeof JSONRPCRequestStruct>, 'params'> & {
+export type JsonRPCRequestWithHash<T = unknown[]> = Omit<
+  Infer<typeof JSONRPCRequestStruct>,
+  'params'
+> & {
+  params?: T;
+};
+
+export type JsonRPCRequest<T = unknown[]> = Omit<
+  Infer<typeof JSONRPCRequestStruct>,
+  'params' | 'hash' | 'sig'
+> & {
   params?: T;
 };
 

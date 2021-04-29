@@ -1,7 +1,5 @@
-import { hexlify } from '@ethersproject/bytes';
 import type { ActionCreatorWithPayload, PayloadAction } from '@reduxjs/toolkit';
 import type { IncomingMessage } from 'http';
-import { utils, verify } from 'noble-ed25519';
 import { eventChannel } from 'redux-saga';
 import { all, call, fork, put, select, take } from 'redux-saga/effects';
 import WebSocket from 'ws';
@@ -9,14 +7,15 @@ import WebSocket from 'ws';
 import { denyPermission, getPermissions, grantPermission } from '@common/store';
 import { JsonRPCMethod, WS_PORT } from '@config';
 import type {
-  JsonRPCRequest,
+  JsonRPCRequestWithHash,
   JsonRPCResponse,
   JsonRPCResult,
   Permission,
   UserRequest
 } from '@types';
-import { safeJSONParse, stripHexPrefix } from '@utils';
+import { safeJSONParse } from '@utils';
 
+import { hashRequest, verifyRequest } from './utils';
 import { toJsonRpcResponse } from './utils/jsonrpc';
 import { isValidMethod, isValidParams, isValidRequest } from './utils/validators';
 import { reply, requestAccounts, requestPermissions, requestSignTransaction } from './ws.slice';
@@ -52,9 +51,11 @@ export const createWebSocketServer = () => {
   });
 };
 
-export const validateRequest = (data: string): [JsonRPCResponse, null] | [null, JsonRPCRequest] => {
+export const validateRequest = (
+  data: string
+): [JsonRPCResponse, null] | [null, JsonRPCRequestWithHash] => {
   // @todo: Further sanitation?
-  const [error, request] = safeJSONParse<JsonRPCRequest>(data);
+  const [error, request] = safeJSONParse<JsonRPCRequestWithHash>(data);
   if (error) {
     return [
       toJsonRpcResponse({
@@ -137,10 +138,9 @@ export function* handleRequest({ socket, request, data }: WebSocketMessage) {
   const existingPermission = permissions.find(
     (p) => p.origin === origin && p.publicKey === publicKey
   );
-  const encoded = new TextEncoder().encode(JSON.stringify(jsonRpcRequest));
-  const ownHash: string = yield call(utils.sha512, encoded);
-  const verifiedHash: boolean = yield call(verify, sig, hash, publicKey);
-  const isVerified = stripHexPrefix(hexlify(ownHash)) === hash && verifiedHash;
+  const ownHash: string = yield call(hashRequest, jsonRpcRequest);
+  const verifiedHash: boolean = yield call(verifyRequest, sig, hash, publicKey);
+  const isVerified = ownHash === hash && verifiedHash;
 
   if (!existingPermission || !isVerified) {
     const permission = { origin, publicKey };
