@@ -20,6 +20,10 @@ const slice = createSlice({
       state.permissions.push(action.payload);
       state.permissionRequest = undefined;
     },
+    updatePermission(state, action: PayloadAction<Permission>) {
+      const idx = state.permissions.findIndex((p) => p.origin === action.payload.origin);
+      state.permissions[idx] = action.payload;
+    },
     revokePermission(state, action: PayloadAction<Permission>) {
       const idx = state.permissions.findIndex((p) => p.origin === action.payload.origin);
       state.permissions.splice(idx, 1);
@@ -35,6 +39,7 @@ const slice = createSlice({
 
 export const {
   grantPermission,
+  updatePermission,
   revokePermission,
   requestPermission,
   denyPermission

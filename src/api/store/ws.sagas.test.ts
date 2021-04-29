@@ -2,6 +2,7 @@ import type { IncomingMessage } from 'http';
 import { expectSaga } from 'redux-saga-test-plan';
 import WebSocket from 'ws';
 
+import { denyPermission, grantPermission, requestPermission } from '@common/store';
 import { JsonRPCMethod } from '@config';
 import {
   fAccount,
@@ -18,6 +19,7 @@ import {
   handleRequest,
   requestWatcherWorker,
   validateRequest,
+  waitForPermissions,
   waitForResponse
 } from './ws.sagas';
 import { reply, requestAccounts, requestSignTransaction } from './ws.slice';
@@ -224,6 +226,66 @@ describe('handleRequest', () => {
         result: fSignedTx
       })
     );
+  });
+
+  it('waits for permissions if none exist', async () => {
+    const { params: _, ...accountsRequest } = createJsonRpcRequest(JsonRPCMethod.Accounts);
+    const signedRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      accountsRequest
+    );
+    const permission = { origin: fRequestOrigin, publicKey: fRequestPublicKey };
+    await expectSaga(handleRequest, { socket, request, data: JSON.stringify(signedRequest) })
+      .withState({
+        permissions: { permissions: [] }
+      })
+      .put(requestPermission(permission))
+      .call(waitForPermissions, permission)
+      .silentRun();
+  });
+
+  it('doesnt allow request if permissions denied', async () => {
+    const { params: _, ...accountsRequest } = createJsonRpcRequest(JsonRPCMethod.Accounts);
+    const signedRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      accountsRequest
+    );
+    const permission = { origin: fRequestOrigin, publicKey: fRequestPublicKey };
+    await expectSaga(handleRequest, { socket, request, data: JSON.stringify(signedRequest) })
+      .withState({
+        permissions: { permissions: [] }
+      })
+      .put(requestPermission(permission))
+      .call(waitForPermissions, permission)
+      .dispatch(denyPermission(permission))
+      .not.put(
+        reply({
+          id: accountsRequest.id,
+          result: [fAccount.address]
+        })
+      )
+      .silentRun();
+  });
+
+  it('allows request if permissions approved', async () => {
+    const { params: _, ...accountsRequest } = createJsonRpcRequest(JsonRPCMethod.Accounts);
+    const signedRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      accountsRequest
+    );
+    const permission = { origin: fRequestOrigin, publicKey: fRequestPublicKey };
+    await expectSaga(handleRequest, { socket, request, data: JSON.stringify(signedRequest) })
+      .withState({
+        permissions: { permissions: [] }
+      })
+      .put(requestPermission(permission))
+      .call(waitForPermissions, permission)
+      .dispatch(grantPermission(permission))
+      .put(requestAccounts({ origin: fRequestOrigin, request: accountsRequest }))
+      .silentRun();
   });
 });
 

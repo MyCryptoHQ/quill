@@ -4,7 +4,7 @@ import { eventChannel } from 'redux-saga';
 import { all, call, fork, put, select, take } from 'redux-saga/effects';
 import WebSocket from 'ws';
 
-import { denyPermission, getPermissions, grantPermission } from '@common/store';
+import { denyPermission, getPermissions, grantPermission, requestPermission } from '@common/store';
 import { JsonRPCMethod, WS_PORT } from '@config';
 import type {
   JsonRPCRequestWithHash,
@@ -18,7 +18,7 @@ import { safeJSONParse } from '@utils';
 import { hashRequest, verifyRequest } from './utils';
 import { toJsonRpcResponse } from './utils/jsonrpc';
 import { isValidMethod, isValidParams, isValidRequest } from './utils/validators';
-import { reply, requestAccounts, requestPermissions, requestSignTransaction } from './ws.slice';
+import { reply, requestAccounts, requestSignTransaction } from './ws.slice';
 
 interface WebSocketMessage {
   socket: WebSocket;
@@ -142,7 +142,7 @@ export function* handleRequest({ socket, request, data }: WebSocketMessage) {
 
   if (!existingPermission || !isVerified) {
     const permission = { origin, publicKey };
-    yield put(requestPermissions(permission));
+    yield put(requestPermission(permission));
     const result: boolean = yield call(waitForPermissions, permission);
     if (!result) {
       return;
