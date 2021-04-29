@@ -1,34 +1,12 @@
-import slice, { setPersisted, setPersistor } from './persistence.slice';
+import slice, { rehydrateState } from './persistence.slice';
 
 describe('Persistence', () => {
-  describe('setPersisted', () => {
-    it('sets isPersisted to the payload', () => {
-      expect(slice.reducer({ isPersisted: false }, setPersisted(true))).toStrictEqual({
-        isPersisted: true
-      });
-
-      expect(slice.reducer({ isPersisted: true }, setPersisted(false))).toStrictEqual({
-        isPersisted: false
-      });
-    });
-  });
-
-  describe('setPersistor', () => {
-    it('sets persistor to the payload', () => {
-      const persistor = {
-        pause: jest.fn(),
-        persist: jest.fn(),
-        purge: jest.fn(),
-        flush: jest.fn(),
-        dispatch: jest.fn(),
-        getState: jest.fn(),
-        subscribe: jest.fn()
-      };
+  describe('rehydrateState', () => {
+    it('adds the key to the rehydrated keys', () => {
       expect(
-        slice.reducer({ isPersisted: false, persistor: undefined }, setPersistor(persistor))
+        slice.reducer({ rehydratedKeys: [] }, rehydrateState({ key: 'foo', state: 'bar' }))
       ).toStrictEqual({
-        isPersisted: false,
-        persistor
+        rehydratedKeys: ['foo']
       });
     });
   });

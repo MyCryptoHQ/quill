@@ -15,7 +15,4 @@ export const storeEncryptedSettings = createAction<SettingsValue<string>>(
 );
 
 export const fetchSettings = createAction<string>(`${sliceName}/fetchSettings`);
-export const decryptSettings = createAction<SettingsValue>(`${sliceName}/decryptSettings`);
-export const storeDecryptedSettings = createAction<SettingsValue<string>>(
-  `${sliceName}/storeDecryptedSettings`
-);
+export const decryptSettings = createAction<SettingsValue<string>>(`${sliceName}/decryptSettings`);

@@ -60,7 +60,7 @@ describe('App', () => {
         transactions: { queue: [], history: [] },
         accounts: { accounts: [fAccount] },
         synchronization: { isHandshaken: { [Process.Main]: true } },
-        persistence: { isPersisted: true }
+        persistence: { rehydratedKeys: [] }
       })
     );
     await waitFor(() =>

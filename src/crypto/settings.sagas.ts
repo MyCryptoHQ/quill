@@ -29,11 +29,15 @@ export function* encryptSettingsWorker({ payload }: PayloadAction<SettingsValue>
 
 export function* decryptSettingsWorker({ payload }: PayloadAction<SettingsValue<string>>) {
   const settingsKey: Buffer = yield call(getSettingsKey);
-  const [error, json] = safeJSONParse(decrypt(payload.value, settingsKey));
 
-  if (error) {
-    return;
+  try {
+    const [error, json] = safeJSONParse(decrypt(payload.value, settingsKey));
+    if (error) {
+      return;
+    }
+
+    yield put(rehydrateState({ key: payload.key, state: json }));
+  } catch {
+    // noop
   }
-
-  yield put(rehydrateState({ key: payload.key, state: json }));
 }

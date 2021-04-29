@@ -26,13 +26,21 @@ export const injectPersistent = <A>(
   };
 };
 
+/**
+ * Creates a persist reducer, which will update the state when `rehydrateState` is dispatched with
+ * the key specified in the persist config. Note that this does a shallow merge of the rehydrated
+ * state with the old state.
+ *
+ * @param config The persist config to use for the reducer.
+ * @param reducer The reducer to wrap.
+ */
 export const createPersistReducer = <S, A extends AnyAction>(
   config: PersistConfig,
   reducer: Reducer<S, A>
 ): Reducer<S, A> => {
   return (state, action) => {
     if (action.type === rehydrateState.type && action.payload.key === config.key) {
-      return injectPersistent(config, action.payload.state);
+      return injectPersistent(config, { ...state, ...action.payload.state });
     }
 
     return injectPersistent(config, reducer(state, action));

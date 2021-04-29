@@ -1,5 +1,5 @@
 import { DEFAULT_ETH } from '@mycrypto/wallets';
-import type { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
+import type { EnhancedStore } from '@reduxjs/toolkit';
 import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
@@ -10,6 +10,7 @@ import { fetchAccounts, fetchAddresses, fetchReset } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey } from '@fixtures';
 import { AddAccount } from '@screens';
+import type { DeepPartial } from '@types';
 import { WalletType } from '@types';
 
 jest.mock('electron-store');

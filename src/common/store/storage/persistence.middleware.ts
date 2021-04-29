@@ -14,6 +14,7 @@ export const persistenceMiddleware = (): Middleware => (store) => (next) => (act
     const state = store.getState();
 
     getPersistentKeys(state).forEach((key) => store.dispatch(fetchSettings(key)));
+    return next(action);
   }
 
   // Runs the action to make sure the state is updated before it's persisted

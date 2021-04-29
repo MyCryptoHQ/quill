@@ -2,6 +2,7 @@ import type { AnyAction, Middleware } from '@reduxjs/toolkit';
 
 import { createPassword, login } from '@common/store/auth.slice';
 import { decryptSettings, encryptSettings } from '@common/store/settings.slice';
+import { rehydrateAllState } from '@common/store/storage';
 import { encryptJson } from '@common/utils';
 import type { ReduxIPC } from '@types';
 
@@ -18,7 +19,7 @@ import synchronization, {
  * An array of action paths that will not be synchronised with the other process.
  */
 export const IGNORED_PATHS = [synchronization.name];
-export const IGNORED_ACTIONS: string[] = [];
+export const IGNORED_ACTIONS = [rehydrateAllState.type];
 // Certain actions that will be sent encrypted from RENDERER to CRYPTO since they contain secrets
 export const CRYPTO_ACTIONS = [
   sign.type,

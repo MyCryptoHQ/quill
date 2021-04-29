@@ -24,7 +24,7 @@ export function* resetSettingsWorker() {
 }
 
 export function* fetchSettingsWorker({ payload }: PayloadAction<string>) {
-  const ciphertext = getFromStore(payload);
+  const ciphertext: string = yield call(getFromStore, payload);
   if (ciphertext) {
     yield put(decryptSettings({ key: payload, value: ciphertext }));
   }

@@ -38,10 +38,8 @@ export function* authSaga() {
   ]);
 }
 
-function* checkNewUserWorker() {
+export function* checkNewUserWorker() {
   const existingUser: boolean = yield call(hasSettingsKey);
-  console.log(existingUser);
-
   yield put(setNewUser(!existingUser));
 }
 
@@ -59,7 +57,8 @@ export function* loginWorker({ payload }: PayloadAction<string>) {
 }
 
 export function* createPasswordWorker({ payload }: PayloadAction<string>) {
-  yield put(resetSettings());
+  yield call(resetWorker);
+
   yield call(init, payload);
   yield call(getSettingsKey);
   yield put(createPasswordSuccess());
@@ -71,6 +70,8 @@ export function* logoutWorker() {
 }
 
 export function* resetWorker() {
+  yield put(resetSettings());
+
   const credentials = yield call(keytar.findCredentials, KEYTAR_SERVICE);
   for (const { account } of credentials) {
     yield call(keytar.deletePassword, KEYTAR_SERVICE, account);

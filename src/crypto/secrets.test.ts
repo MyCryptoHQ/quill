@@ -1,10 +1,18 @@
 import keytar from 'keytar';
 
-import { KEYTAR_SERVICE } from '@config';
+import { KEYTAR_SERVICE, KEYTAR_SETTINGS_KEY_NAME } from '@config';
 import type { TUuid } from '@types';
 import { WalletType } from '@types';
 
-import { deleteAccountSecrets, getPrivateKey, init, saveAccountSecrets } from './secrets';
+import {
+  checkSettingsKey,
+  deleteAccountSecrets,
+  getPrivateKey,
+  getSettingsKey,
+  hasSettingsKey,
+  init,
+  saveAccountSecrets
+} from './secrets';
 
 jest.mock('crypto', () => ({
   ...jest.requireActual('crypto'),
@@ -64,5 +72,70 @@ describe('deleteAccountSecrets', () => {
     await deleteAccountSecrets(uuid);
 
     expect(keytar.deletePassword).toHaveBeenCalledWith(KEYTAR_SERVICE, uuid);
+  });
+});
+
+describe('getSettingsKey', () => {
+  it('generates a settings key if it does not exist', async () => {
+    (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>).mockImplementationOnce(
+      async () => undefined
+    );
+
+    await init(password);
+    await expect(getSettingsKey()).resolves.toStrictEqual(
+      Buffer.from('2d21938ada7a165c39c8f3fd', 'hex')
+    );
+    await expect(keytar.setPassword).toHaveBeenCalledWith(
+      KEYTAR_SERVICE,
+      KEYTAR_SETTINGS_KEY_NAME,
+      '6a7cd51df01e5152968a5acbd312c2d55c08eb7cf4061c1a4d1de326ebcbbea026d35cd7b5c43ade2d21938ada7a165c39c8f3fd'
+    );
+  });
+
+  it('gets and decrypts the settings key from the keychain', async () => {
+    (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>).mockImplementationOnce(
+      async () =>
+        '6a7cd51df01e5152968a5acbd312c2d55c08eb7cf4061c1a4d1de326ebcbbea026d35cd7b5c43ade2d21938ada7a165c39c8f3fd'
+    );
+
+    await init(password);
+    await expect(getSettingsKey()).resolves.toStrictEqual(
+      Buffer.from('2d21938ada7a165c39c8f3fd', 'hex')
+    );
+  });
+
+  it('throws an error if the settings key cannot be decrypted', async () => {
+    (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>).mockImplementationOnce(
+      async () => 'foo'
+    );
+
+    await init(password);
+    await expect(getSettingsKey()).rejects.toThrow();
+  });
+});
+
+describe('hasSettingsKey', () => {
+  it('checks if the settings key is set', async () => {
+    (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>)
+      .mockImplementationOnce(async () => 'foo')
+      .mockImplementationOnce(async () => undefined);
+
+    await expect(hasSettingsKey()).resolves.toBe(true);
+    await expect(hasSettingsKey()).resolves.toBe(false);
+  });
+});
+
+describe('checkSettingsKey', () => {
+  it('checks if the settings key can be decrypted', async () => {
+    (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>)
+      .mockImplementationOnce(
+        async () =>
+          '6a7cd51df01e5152968a5acbd312c2d55c08eb7cf4061c1a4d1de326ebcbbea026d35cd7b5c43ade2d21938ada7a165c39c8f3fd'
+      )
+      .mockImplementationOnce(async () => 'foo');
+
+    await init(password);
+    await expect(checkSettingsKey()).resolves.toBe(true);
+    await expect(checkSettingsKey()).resolves.toBe(false);
   });
 });

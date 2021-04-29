@@ -17,22 +17,18 @@ const slice = createSlice({
   name: sliceName,
   initialState,
   reducers: {
-    addRehydratedKey(state, action: PayloadAction<string>) {
-      state.rehydratedKeys.push(action.payload);
+    rehydrateState(state, action: PayloadAction<{ key: string; state: unknown }>) {
+      state.rehydratedKeys.push(action.payload.key);
     }
   }
 });
 
-export const { addRehydratedKey } = slice.actions;
+export const { rehydrateState } = slice.actions;
 
 export default slice;
 
 export const rehydrateAllState = createAction<Record<string, unknown>>(
   `${sliceName}/rehydrateAllState`
-);
-
-export const rehydrateState = createAction<{ key: string; state: unknown }>(
-  `${sliceName}/rehydrateState`
 );
 
 export const getPersistenceState = createSelector(
