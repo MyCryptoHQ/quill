@@ -113,7 +113,7 @@ export function* waitForPermissions(permission: Permission) {
       denyPermission
     ]);
 
-    if (payload.uuid === permission.uuid) {
+    if (payload.origin === permission.origin) {
       return type === grantPermission.type;
     }
   }

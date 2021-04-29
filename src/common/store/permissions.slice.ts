@@ -21,7 +21,7 @@ const slice = createSlice({
       state.permissionRequest = undefined;
     },
     revokePermission(state, action: PayloadAction<Permission>) {
-      const idx = state.permissions.findIndex((p) => p.uuid === action.payload.uuid);
+      const idx = state.permissions.findIndex((p) => p.origin === action.payload.origin);
       state.permissions.splice(idx, 1);
     },
     requestPermission(state, action: PayloadAction<Permission>) {

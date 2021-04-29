@@ -146,6 +146,7 @@ describe('handleRequest', () => {
   it('puts a method request and sends the result', async () => {
     const { params: _, ...accountsRequest } = createJsonRpcRequest(JsonRPCMethod.Accounts);
     await expectSaga(handleRequest, { socket, request, data: JSON.stringify(accountsRequest) })
+      .withState({ permissions: { permissions: [{ origin: fRequestOrigin }] } })
       .put(requestAccounts({ origin: fRequestOrigin, request: accountsRequest }))
       .call(waitForResponse, accountsRequest.id)
       .dispatch(
@@ -165,6 +166,7 @@ describe('handleRequest', () => {
     );
 
     await expectSaga(handleRequest, { socket, request, data: JSON.stringify(fTxRequest) })
+      .withState({ permissions: { permissions: [{ origin: fRequestOrigin }] } })
       .put(requestSignTransaction({ origin: fRequestOrigin, request: fTxRequest }))
       .call(waitForResponse, fTxRequest.id)
       .dispatch(
