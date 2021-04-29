@@ -14,6 +14,6 @@ export const signRequest = async (hash: string, privateKey: string) => {
   return sign(hash, privateKey);
 };
 
-export const verifyRequest = async (hash: string, sig: string, publicKey: string) => {
+export const verifyRequest = async (sig: string, hash: string, publicKey: string) => {
   return verify(sig, hash, publicKey);
 };
