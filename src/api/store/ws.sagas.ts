@@ -145,6 +145,7 @@ export function* handleRequest({ socket, request, data }: WebSocketMessage) {
     yield put(requestPermission(permission));
     const result: boolean = yield call(waitForPermissions, permission);
     if (!result) {
+      // @todo Reply with error?
       return;
     }
   }
