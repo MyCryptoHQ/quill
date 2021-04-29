@@ -39,7 +39,13 @@ describe('validateRequest', () => {
   });
 
   it('returns an error for invalid requests', () => {
-    const request = JSON.stringify({ id: 0, jsonrpc: '1.0', method: 'bla' });
+    const request = JSON.stringify({
+      id: 0,
+      jsonrpc: '1.0',
+      method: 'bla',
+      sig: '',
+      publicKey: fRequestPublicKey
+    });
     expect(validateRequest(request)).toStrictEqual([
       expect.objectContaining({ error: expect.objectContaining({ code: '-32600' }) }),
       null
@@ -47,7 +53,13 @@ describe('validateRequest', () => {
   });
 
   it('returns an error for unsupported methods', () => {
-    const request = JSON.stringify({ id: 0, jsonrpc: '2.0', method: 'bla', hash: '', sig: '' });
+    const request = JSON.stringify({
+      id: 0,
+      jsonrpc: '2.0',
+      method: 'bla',
+      sig: '',
+      publicKey: fRequestPublicKey
+    });
     expect(validateRequest(request)).toStrictEqual([
       expect.objectContaining({ error: expect.objectContaining({ code: '-32601' }) }),
       null
@@ -59,8 +71,8 @@ describe('validateRequest', () => {
       id: 0,
       jsonrpc: '2.0',
       method: JsonRPCMethod.SignTransaction,
-      hash: '',
-      sig: ''
+      sig: '',
+      publicKey: fRequestPublicKey
     });
     expect(validateRequest(request)).toStrictEqual([
       expect.objectContaining({ error: expect.objectContaining({ code: '-32602' }) }),
@@ -83,8 +95,8 @@ describe('validateRequest', () => {
           chainId: 3
         }
       ],
-      hash: '',
-      sig: ''
+      sig: '',
+      publicKey: fRequestPublicKey
     });
     expect(validateRequest(invalidParamsRequest)).toStrictEqual([
       expect.objectContaining({ error: expect.objectContaining({ code: '-32602' }) }),
@@ -109,8 +121,8 @@ describe('validateRequest', () => {
           chainId: 3
         }
       ],
-      hash: '',
-      sig: ''
+      sig: '',
+      publicKey: fRequestPublicKey
     };
 
     expect(validateRequest(JSON.stringify(request))).toStrictEqual([null, request]);
@@ -159,7 +171,11 @@ describe('handleRequest', () => {
 
   it('puts a method request and sends the result', async () => {
     const { params: _, ...accountsRequest } = createJsonRpcRequest(JsonRPCMethod.Accounts);
-    const signedRequest = await createSignedJsonRpcRequest(fRequestPrivateKey, accountsRequest);
+    const signedRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      accountsRequest
+    );
     await expectSaga(handleRequest, { socket, request, data: JSON.stringify(signedRequest) })
       .withState({
         permissions: { permissions: [{ origin: fRequestOrigin, publicKey: fRequestPublicKey }] }
@@ -182,7 +198,11 @@ describe('handleRequest', () => {
       })
     );
 
-    const signedTxRequest = await createSignedJsonRpcRequest(fRequestPrivateKey, fTxRequest);
+    const signedTxRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      fTxRequest
+    );
     await expectSaga(handleRequest, { socket, request, data: JSON.stringify(signedTxRequest) })
       .withState({
         permissions: { permissions: [{ origin: fRequestOrigin, publicKey: fRequestPublicKey }] }

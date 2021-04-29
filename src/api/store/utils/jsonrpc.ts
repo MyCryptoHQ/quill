@@ -5,11 +5,12 @@ import { hashRequest, signRequest } from './hashing';
 
 export const createSignedJsonRpcRequest = async <Params extends unknown[] = unknown[]>(
   privateKey: string,
+  publicKey: string,
   request: JsonRPCRequest<Params>
 ): Promise<JsonRPCRequestWithHash<Params>> => {
   const hash = await hashRequest(request);
   const sig = await signRequest(hash, privateKey);
-  return { ...request, hash, sig };
+  return { ...request, sig, publicKey };
 };
 
 export const createJsonRpcRequest = <Params extends unknown[] = unknown[]>(

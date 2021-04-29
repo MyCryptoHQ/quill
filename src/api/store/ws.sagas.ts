@@ -116,7 +116,7 @@ export function* waitForPermissions(permission: Permission) {
       denyPermission
     ]);
 
-    if (payload.origin === permission.origin) {
+    if (payload.origin === permission.origin && payload.publicKey === permission.publicKey) {
       return type === grantPermission.type;
     }
   }
@@ -128,19 +128,17 @@ export function* handleRequest({ socket, request, data }: WebSocketMessage) {
     return socket.send(JSON.stringify(error));
   }
 
-  const { hash, sig, ...jsonRpcRequest } = fullRequest;
+  const { sig, publicKey, ...jsonRpcRequest } = fullRequest;
 
   const permissions: Permission[] = yield select(getPermissions);
 
   const origin = request.headers.origin && new URL(request.headers.origin).host;
-  const publicKey = new URLSearchParams(request.url.slice(1)).get('publicKey');
 
   const existingPermission = permissions.find(
     (p) => p.origin === origin && p.publicKey === publicKey
   );
-  const ownHash: string = yield call(hashRequest, jsonRpcRequest);
-  const verifiedHash: boolean = yield call(verifyRequest, sig, hash, publicKey);
-  const isVerified = ownHash === hash && verifiedHash;
+  const hash: string = yield call(hashRequest, jsonRpcRequest);
+  const isVerified: boolean = yield call(verifyRequest, sig, hash, publicKey);
 
   if (!existingPermission || !isVerified) {
     const permission = { origin, publicKey };
