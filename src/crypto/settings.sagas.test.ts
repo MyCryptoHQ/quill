@@ -60,6 +60,7 @@ describe('decryptSettingsWorker', () => {
   });
 
   it('does nothing on error', async () => {
+    // Invalid encryption key / encrypted data
     await expectSaga(
       decryptSettingsWorker,
       decryptSettings({
@@ -69,6 +70,23 @@ describe('decryptSettingsWorker', () => {
       })
     )
       .provide([[call.fn(getSettingsKey), Buffer.from('key', 'hex')]])
+      .not.put(rehydrateState({ key: 'foo', state: { foo: 'bar', baz: 'qux' } }))
+      .silentRun();
+
+    // Invalid JSON
+    await expectSaga(
+      decryptSettingsWorker,
+      decryptSettings({
+        key: 'foo',
+        value: '9be51d2bde0f437cd9a266097ca4a4a7c6d5c32d21938ada7a165c39c8f3fd'
+      })
+    )
+      .provide([
+        [
+          call.fn(getSettingsKey),
+          Buffer.from('9d4698a3accd9e76f1f5c021eac71e715c3fa5bb3089249b90d30737159905b4', 'hex')
+        ]
+      ])
       .not.put(rehydrateState({ key: 'foo', state: { foo: 'bar', baz: 'qux' } }))
       .silentRun();
   });

@@ -74,23 +74,30 @@ describe('loginWorker', () => {
 
 describe('createPasswordWorker', () => {
   it('sets up the store', async () => {
+    (keytar.findCredentials as jest.MockedFunction<
+      typeof keytar.findCredentials
+    >).mockImplementationOnce(async () => [
+      {
+        account: fAccount.uuid,
+        password: 'foo'
+      }
+    ]);
+
     await expectSaga(createPasswordWorker, createPassword('foo'))
-      .provide([[call.fn(resetWorker), undefined]])
+      .provide([[call.fn(keytar.findCredentials), [{ account: fAccount.uuid }]]])
       .provide([[call.fn(init), undefined]])
       .provide([[call.fn(getSettingsKey), undefined]])
       .call(init, 'foo')
       .call(getSettingsKey)
       .put(createPasswordSuccess())
-      .put(push(ROUTE_PATHS.SETUP_ACCOUNT));
+      .put(push(ROUTE_PATHS.SETUP_ACCOUNT))
+      .silentRun(5000);
   });
 });
 
 describe('logoutWorker', () => {
   it('clears the encryption key', async () => {
-    await expectSaga(logoutWorker)
-      .provide([[call.fn(clearEncryptionKey), undefined]])
-      .call(clearEncryptionKey)
-      .silentRun();
+    await expectSaga(logoutWorker).call(clearEncryptionKey).silentRun();
   });
 });
 
