@@ -22,7 +22,7 @@ export enum Process {
   Crypto = 'Crypto'
 }
 
-interface SynchronizationState {
+export interface SynchronizationState {
   publicKey?: string;
   privateKey?: string;
 
