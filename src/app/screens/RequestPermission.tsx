@@ -2,7 +2,7 @@ import { Body, Button } from '@mycrypto/ui';
 import { replace } from 'connected-react-router';
 import { useSelector } from 'react-redux';
 
-import { Box, Container, PanelBottom } from '@app/components';
+import { Box, Checkbox, Container, Logo, PanelBottom } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import { denyPermission, getPermissionRequest, grantPermission } from '@common/store';
 import { translateRaw } from '@common/translate';
@@ -25,11 +25,17 @@ export const RequestPermission = () => {
   return (
     <>
       <Container>
-        <Box variant="horizontal-center" height="100%">
-          <Box variant="vertical-start" sx={{ textAlign: 'center' }}>
-            <Body>{request.origin}</Body>
-            {/* @todo more ui */}
+        <Box variant="vertical-start" sx={{ textAlign: 'center' }} mt="2">
+          <Logo height="50px" width="50px" />
+          <Body mt="2">{request.origin}</Body>
+          <Body fontWeight="bold" mt="4">
+            {translateRaw('ALLOW_THIS_SITE')}
+          </Body>
+          <Box variant="horizontal-start" mt="2">
+            <Checkbox checked={true} mr="1" />
+            <Body>{translateRaw('PERMISSION_LIST_1')}</Body>
           </Box>
+          {/* @todo more ui */}
         </Box>
       </Container>
       <PanelBottom variant="clear">
