@@ -4,16 +4,27 @@ import { useSelector } from 'react-redux';
 
 import { Box, Checkbox, Container, Logo, PanelBottom } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
-import { denyPermission, getPermissionRequest, grantPermission } from '@common/store';
+import {
+  denyPermission,
+  getPermissionRequest,
+  getPermissions,
+  grantPermission,
+  updatePermission
+} from '@common/store';
 import { translateRaw } from '@common/translate';
 import { useDispatch } from '@store';
 
 export const RequestPermission = () => {
   const dispatch = useDispatch();
+  const permissions = useSelector(getPermissions);
   const request = useSelector(getPermissionRequest);
 
   const handleAllow = () => {
-    dispatch(grantPermission(request));
+    if (permissions.find((p) => p.origin === request.origin && p.publicKey === request.publicKey)) {
+      dispatch(updatePermission(request));
+    } else {
+      dispatch(grantPermission(request));
+    }
     dispatch(replace(ROUTE_PATHS.HOME));
   };
 
