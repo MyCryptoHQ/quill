@@ -1,6 +1,7 @@
 import type { Reducer } from '@reduxjs/toolkit';
 import type { AnyAction } from 'redux';
 
+import type { SynchronizationState } from '@common/store';
 import { logout } from '@common/store';
 
 /**
@@ -9,7 +10,10 @@ import { logout } from '@common/store';
  *
  * @param reducer The reducer to wrap.
  */
-export const wrapRootReducer = <S extends { synchronization: unknown }, A extends AnyAction>(
+export const wrapRootReducer = <
+  S extends { synchronization: SynchronizationState },
+  A extends AnyAction
+>(
   reducer: Reducer<S, A>
 ): Reducer<S, A> => {
   return (state: S, action: A) => {
