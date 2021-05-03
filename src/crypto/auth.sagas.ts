@@ -58,8 +58,9 @@ export function* loginWorker({ payload }: PayloadAction<string>) {
 
 export function* createPasswordWorker({ payload }: PayloadAction<string>) {
   yield call(resetWorker);
-
   yield call(init, payload);
+
+  // Generates a new settings key
   yield call(getSettingsKey);
   yield put(createPasswordSuccess());
   yield put(push(ROUTE_PATHS.SETUP_ACCOUNT));
@@ -72,6 +73,7 @@ export function* logoutWorker() {
 export function* resetWorker() {
   yield put(resetSettings());
 
+  // Clears all private keys from the keychain (including the settings key)
   const credentials = yield call(keytar.findCredentials, KEYTAR_SERVICE);
   for (const { account } of credentials) {
     yield call(keytar.deletePassword, KEYTAR_SERVICE, account);

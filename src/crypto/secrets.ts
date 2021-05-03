@@ -54,17 +54,24 @@ export const saveAccountSecrets = async (initialiseWallet: SerializedWallet) => 
  * stored in the keychain.
  *
  * This assumes that the global `encryptionKey` is set.
+ *
+ * @param generateKey If set to true, a new key will be generated if there is no key yet. If set to
+ *   false and there is no key yet, this function will throw an error.
  */
-export const getSettingsKey = async (): Promise<Buffer> => {
+export const getSettingsKey = async (generateKey: boolean = true): Promise<Buffer> => {
   const settingsKey = await getPrivateKey(KEYTAR_SETTINGS_KEY_NAME);
   if (settingsKey) {
     return Buffer.from(settingsKey, 'hex');
   }
 
-  const newKey = createEncryptionKey();
-  await savePrivateKey(KEYTAR_SETTINGS_KEY_NAME, newKey.toString('hex'));
+  if (generateKey) {
+    const newKey = createEncryptionKey();
+    await savePrivateKey(KEYTAR_SETTINGS_KEY_NAME, newKey.toString('hex'));
 
-  return newKey;
+    return newKey;
+  }
+
+  throw new Error('Settings key does not exist');
 };
 
 export const hasSettingsKey = async (): Promise<boolean> => {
@@ -74,7 +81,7 @@ export const hasSettingsKey = async (): Promise<boolean> => {
 
 export const checkSettingsKey = async (): Promise<boolean> => {
   try {
-    await getSettingsKey();
+    await getSettingsKey(false);
     return true;
   } catch {
     return false;

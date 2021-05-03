@@ -13,11 +13,11 @@ import {
   resetSettings,
   setNewUser
 } from '@common/store';
+import { translateRaw } from '@common/translate';
 import { KEYTAR_SERVICE } from '@config';
 import { fAccount } from '@fixtures';
+import { ROUTE_PATHS } from '@routing';
 
-import { ROUTE_PATHS } from '../app/routing';
-import { translateRaw } from '../common/translate';
 import {
   checkNewUserWorker,
   createPasswordWorker,
@@ -33,6 +33,7 @@ import {
   init
 } from './secrets';
 
+jest.mock('./secrets');
 jest.mock('keytar');
 
 describe('checkNewUserWorker', () => {
@@ -58,7 +59,7 @@ describe('loginWorker', () => {
       .call(checkSettingsKey)
       .put(loginSuccess())
       .put(rehydrateAllState())
-      .silentRun(5000);
+      .silentRun();
   });
 
   it('puts an error if the settings key is invalid', async () => {
@@ -68,7 +69,7 @@ describe('loginWorker', () => {
       .call(init, 'foo')
       .call(checkSettingsKey)
       .put(loginFailed(translateRaw('LOGIN_ERROR')))
-      .silentRun(5000);
+      .silentRun();
   });
 });
 
@@ -91,7 +92,7 @@ describe('createPasswordWorker', () => {
       .call(getSettingsKey)
       .put(createPasswordSuccess())
       .put(push(ROUTE_PATHS.SETUP_ACCOUNT))
-      .silentRun(5000);
+      .silentRun();
   });
 });
 

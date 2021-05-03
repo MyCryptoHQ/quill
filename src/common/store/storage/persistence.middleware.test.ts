@@ -36,6 +36,7 @@ describe('persistenceMiddleware', () => {
 
   it('persists the whitelisted state if a whitelisted action is dispatched', () => {
     const fooAction = createAction<string>('foo/fooAction');
+    const barAction = createAction<string>('foo/barAction');
 
     const next = jest.fn();
     const store = createMockStore({
@@ -49,6 +50,10 @@ describe('persistenceMiddleware', () => {
         quuz: 'corge'
       }
     });
+
+    persistenceMiddleware()(store)(next)(barAction());
+
+    expect(store.getActions()).toHaveLength(0);
 
     persistenceMiddleware()(store)(next)(fooAction());
 

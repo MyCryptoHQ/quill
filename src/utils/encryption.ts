@@ -13,6 +13,9 @@ const ENCRYPTION_IV_LENGTH = 12;
 const ENCRYPTION_TAG_LENGTH = 16;
 const ENCRYPTION_ALGORITHM = 'aes-256-gcm';
 
+/**
+ * Generates a random encryption key. Currently this is only used as settings key.
+ */
 export const createEncryptionKey = (size: number = KEY_LENGTH): Buffer => {
   return crypto.randomBytes(size);
 };

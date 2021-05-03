@@ -127,15 +127,21 @@ describe('hasSettingsKey', () => {
 
 describe('checkSettingsKey', () => {
   it('checks if the settings key can be decrypted', async () => {
-    (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>)
-      .mockImplementationOnce(
-        async () =>
-          '6a7cd51df01e5152968a5acbd312c2d55c08eb7cf4061c1a4d1de326ebcbbea026d35cd7b5c43ade2d21938ada7a165c39c8f3fd'
-      )
-      .mockImplementationOnce(async () => 'foo');
+    (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>).mockImplementation(
+      async () =>
+        '6a7cd51df01e5152968a5acbd312c2d55c08eb7cf4061c1a4d1de326ebcbbea026d35cd7b5c43ade2d21938ada7a165c39c8f3fd'
+    );
 
     await init(password);
     await expect(checkSettingsKey()).resolves.toBe(true);
+  });
+
+  it('returns false if the key cannot be decrypted', async () => {
+    (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>).mockImplementation(
+      async () => 'foo'
+    );
+
+    await init(password);
     await expect(checkSettingsKey()).resolves.toBe(false);
   });
 });
