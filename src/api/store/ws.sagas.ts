@@ -1,5 +1,6 @@
 import type { ActionCreatorWithPayload, PayloadAction } from '@reduxjs/toolkit';
 import type { IncomingMessage } from 'http';
+import type { EventChannel } from 'redux-saga';
 import { eventChannel } from 'redux-saga';
 import { all, call, fork, put, select, take } from 'redux-saga/effects';
 import WebSocket from 'ws';
@@ -144,8 +145,15 @@ export function* handleRequest({ socket, request, data }: WebSocketMessage) {
     yield put(requestPermission(permission));
     const result: boolean = yield call(waitForPermissions, permission);
     if (!result) {
-      // @todo Reply with error?
-      return;
+      // As per EIP-1193
+      return socket.send(
+        JSON.stringify(
+          toJsonRpcResponse({
+            id: jsonRpcRequest.id,
+            error: { code: '4001', message: 'The user rejected the request.' }
+          })
+        )
+      );
     }
   }
 
@@ -154,13 +162,13 @@ export function* handleRequest({ socket, request, data }: WebSocketMessage) {
   if (method) {
     yield put(method({ origin, request: jsonRpcRequest }));
 
-    const response = yield call(waitForResponse, jsonRpcRequest.id);
+    const response: JsonRPCResult = yield call(waitForResponse, jsonRpcRequest.id);
     return socket.send(JSON.stringify(toJsonRpcResponse(response)));
   }
 }
 
 export function* requestWatcherWorker() {
-  const channel = yield call(createWebSocketServer);
+  const channel: EventChannel<WebSocketMessage> = yield call(createWebSocketServer);
 
   while (true) {
     const payload: WebSocketMessage = yield take(channel);
