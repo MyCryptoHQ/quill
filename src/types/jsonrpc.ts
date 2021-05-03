@@ -36,11 +36,11 @@ export const JSONRPCRequestStruct = object({
   method: string(),
   jsonrpc: literal('2.0'),
   params: optional(array()),
-  sig: string(),
+  signature: string(),
   publicKey: string()
 });
 
-export type JsonRPCRequestWithHash<T = unknown[]> = Omit<
+export type SignedJsonRPCRequest<T = unknown[]> = Omit<
   Infer<typeof JSONRPCRequestStruct>,
   'params'
 > & {
@@ -49,7 +49,7 @@ export type JsonRPCRequestWithHash<T = unknown[]> = Omit<
 
 export type JsonRPCRequest<T = unknown[]> = Omit<
   Infer<typeof JSONRPCRequestStruct>,
-  'params' | 'publicKey' | 'sig'
+  'params' | 'publicKey' | 'signature'
 > & {
   params?: T;
 };

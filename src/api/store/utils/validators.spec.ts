@@ -21,7 +21,7 @@ describe('isValidRequest', () => {
           chainId: 3
         }
       ],
-      sig: '',
+      signature: '',
       publicKey: fRequestPublicKey
     });
     expect(valid).toBe(true);

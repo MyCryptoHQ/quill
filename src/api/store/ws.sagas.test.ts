@@ -45,7 +45,7 @@ describe('validateRequest', () => {
       id: 0,
       jsonrpc: '1.0',
       method: 'bla',
-      sig: '',
+      signature: '',
       publicKey: fRequestPublicKey
     });
     expect(validateRequest(request)).toStrictEqual([
@@ -59,7 +59,7 @@ describe('validateRequest', () => {
       id: 0,
       jsonrpc: '2.0',
       method: 'bla',
-      sig: '',
+      signature: '',
       publicKey: fRequestPublicKey
     });
     expect(validateRequest(request)).toStrictEqual([
@@ -73,7 +73,7 @@ describe('validateRequest', () => {
       id: 0,
       jsonrpc: '2.0',
       method: JsonRPCMethod.SignTransaction,
-      sig: '',
+      signature: '',
       publicKey: fRequestPublicKey
     });
     expect(validateRequest(request)).toStrictEqual([
@@ -97,7 +97,7 @@ describe('validateRequest', () => {
           chainId: 3
         }
       ],
-      sig: '',
+      signature: '',
       publicKey: fRequestPublicKey
     });
     expect(validateRequest(invalidParamsRequest)).toStrictEqual([
@@ -123,7 +123,7 @@ describe('validateRequest', () => {
           chainId: 3
         }
       ],
-      sig: '',
+      signature: '',
       publicKey: fRequestPublicKey
     };
 

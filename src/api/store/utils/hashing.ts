@@ -10,10 +10,12 @@ export const hashRequest = async (data: JsonRPCRequest) => {
   return stripHexPrefix(hexlify(buffer));
 };
 
-export const signRequest = async (hash: string, privateKey: string) => {
+export const signRequest = async (data: JsonRPCRequest, privateKey: string) => {
+  const hash = await hashRequest(data);
   return sign(hash, privateKey);
 };
 
-export const verifyRequest = async (sig: string, hash: string, publicKey: string) => {
+export const verifyRequest = async (sig: string, data: JsonRPCRequest, publicKey: string) => {
+  const hash = await hashRequest(data);
   return verify(sig, hash, publicKey);
 };

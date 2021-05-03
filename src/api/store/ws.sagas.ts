@@ -7,15 +7,15 @@ import WebSocket from 'ws';
 import { denyPermission, getPermissions, grantPermission, requestPermission } from '@common/store';
 import { JsonRPCMethod, WS_PORT } from '@config';
 import type {
-  JsonRPCRequestWithHash,
   JsonRPCResponse,
   JsonRPCResult,
   Permission,
+  SignedJsonRPCRequest,
   UserRequest
 } from '@types';
 import { safeJSONParse } from '@utils';
 
-import { hashRequest, verifyRequest } from './utils';
+import { verifyRequest } from './utils';
 import { toJsonRpcResponse } from './utils/jsonrpc';
 import { isValidMethod, isValidParams, isValidRequest } from './utils/validators';
 import { reply, requestAccounts, requestSignTransaction } from './ws.slice';
@@ -53,9 +53,9 @@ export const createWebSocketServer = () => {
 
 export const validateRequest = (
   data: string
-): [JsonRPCResponse, null] | [null, JsonRPCRequestWithHash] => {
+): [JsonRPCResponse, null] | [null, SignedJsonRPCRequest] => {
   // @todo: Further sanitation?
-  const [error, request] = safeJSONParse<JsonRPCRequestWithHash>(data);
+  const [error, request] = safeJSONParse<SignedJsonRPCRequest>(data);
   if (error) {
     return [
       toJsonRpcResponse({
@@ -128,7 +128,7 @@ export function* handleRequest({ socket, request, data }: WebSocketMessage) {
     return socket.send(JSON.stringify(error));
   }
 
-  const { sig, publicKey, ...jsonRpcRequest } = fullRequest;
+  const { signature, publicKey, ...jsonRpcRequest } = fullRequest;
 
   const permissions: Permission[] = yield select(getPermissions);
 
@@ -137,8 +137,7 @@ export function* handleRequest({ socket, request, data }: WebSocketMessage) {
   const existingPermission = permissions.find(
     (p) => p.origin === origin && p.publicKey === publicKey
   );
-  const hash: string = yield call(hashRequest, jsonRpcRequest);
-  const isVerified: boolean = yield call(verifyRequest, sig, hash, publicKey);
+  const isVerified: boolean = yield call(verifyRequest, signature, jsonRpcRequest, publicKey);
 
   if (!existingPermission || !isVerified) {
     const permission = { origin, publicKey };
