@@ -2,6 +2,11 @@ import { Process, sendPublicKey } from '@common/store';
 import { fEncryptionPublicKey } from '@fixtures';
 
 import { init } from './crypto.worker';
+import { createStore } from './store';
+
+jest.mock('./store', () => ({
+  createStore: jest.fn().mockImplementation(jest.requireActual('./store').createStore)
+}));
 
 describe('init', () => {
   it('sets up store with listeners', () => {
@@ -29,5 +34,23 @@ describe('init', () => {
     expect(global.process.send).toHaveBeenCalledWith(
       JSON.stringify({ ...action, remote: true, from: Process.Crypto })
     );
+  });
+
+  it('returns an unsubscribe function', () => {
+    global.process.on = jest.fn();
+    global.process.removeListener = jest.fn();
+
+    const fn = jest.fn().mockImplementation(() => ({ dispatch: jest.fn() }));
+    const createStoreMock = (createStore as jest.MockedFunction<
+      typeof createStore
+    >).mockImplementationOnce(fn);
+
+    init();
+
+    const listener = jest.fn();
+    const unsubscribe = createStoreMock.mock.calls[0][0].on(listener);
+    unsubscribe();
+
+    expect(process.removeListener).toHaveBeenCalledWith('message', listener);
   });
 });

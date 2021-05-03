@@ -33,7 +33,7 @@ const mockStore = createMockStore({
     history: [historyTx, historyTx]
   },
   persistence: {
-    isPersisted: true
+    rehydratedKeys: []
   }
 });
 
@@ -65,7 +65,7 @@ describe('Home', () => {
       createMockStore({
         accounts: { accounts: [fAccount] },
         transactions: { queue: [], history: [] },
-        persistence: { isPersisted: true }
+        persistence: { rehydratedKeys: [] }
       })
     );
     expect(
@@ -77,7 +77,7 @@ describe('Home', () => {
     const store = createMockStore({
       accounts: { accounts: [] },
       transactions: { queue: [], history: [] },
-      persistence: { isPersisted: true }
+      persistence: { rehydratedKeys: [] }
     });
 
     getComponent(store);

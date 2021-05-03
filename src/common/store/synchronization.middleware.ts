@@ -1,12 +1,13 @@
 import type { AnyAction, Middleware } from '@reduxjs/toolkit';
-import { PERSIST } from 'redux-persist';
 
+import { createPassword, login } from '@common/store/auth.slice';
+import { decryptSettings, encryptSettings } from '@common/store/settings.slice';
+import { rehydrateAllState } from '@common/store/storage';
 import { encryptJson } from '@common/utils';
 import type { ReduxIPC } from '@types';
 
 import { fetchAccounts } from './accounts.slice';
-import { setPersistor } from './persistence.slice';
-import { init, sign } from './signing.slice';
+import { sign } from './signing.slice';
 import synchronization, {
   getHandshaken,
   getTargetPublicKey,
@@ -18,30 +19,43 @@ import synchronization, {
  * An array of action paths that will not be synchronised with the other process.
  */
 export const IGNORED_PATHS = [synchronization.name];
-export const IGNORED_ACTIONS = [PERSIST, setPersistor.type];
+export const IGNORED_ACTIONS = [rehydrateAllState.type];
 // Certain actions that will be sent encrypted from RENDERER to CRYPTO since they contain secrets
-export const CRYPTO_ACTIONS = [init.type, sign.type, fetchAccounts.type];
+export const CRYPTO_ACTIONS = [
+  sign.type,
+  fetchAccounts.type,
+  login.type,
+  createPassword.type,
+  encryptSettings.type,
+  decryptSettings.type
+];
 
 export const shouldIgnore = (action: AnyAction, from: Process, target: Process, self: Process) => {
   const path = action.type.split('/')[0];
   if (action.type !== sendPublicKey.type && IGNORED_PATHS.includes(path)) {
     return true;
   }
+
   if (IGNORED_ACTIONS.includes(action.type)) {
     return true;
   }
+
   if (action.remote && target === from) {
     return true;
   }
+
   if (from !== self && self !== Process.Main) {
     return true;
   }
+
   return false;
 };
 
 /**
  * Middleware that dispatches any actions to the other Electron process.
- * @param ipc The Electron process to dispatch from.
+ *
+ * @param processes
+ * @param self
  */
 export const synchronizationMiddleware = (
   processes: Partial<Record<Process, ReduxIPC>>,
@@ -64,12 +78,10 @@ export const synchronizationMiddleware = (
   };
 
   const target = ipcMapping[self];
-
   const encryptionTarget = encryptionMapping[self];
 
   // UNDEFINED = ALL
   const to = action.to ?? CRYPTO_ACTIONS.includes(action.type) ? encryptionTarget : undefined;
-
   const from = action.from ?? self;
 
   if (shouldIgnore(action, from, target, self)) {

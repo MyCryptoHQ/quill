@@ -5,3 +5,4 @@ export const WIDTH = 460;
 
 // @todo Change to another name?
 export const KEYTAR_SERVICE = 'MyCrypto Signer';
+export const KEYTAR_SETTINGS_KEY_NAME = 'Settings Key';

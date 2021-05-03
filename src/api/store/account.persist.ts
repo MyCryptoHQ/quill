@@ -1,16 +1,11 @@
-import { persistReducer } from 'redux-persist';
-
+import type { PersistConfig } from '@common/store';
+import { addAccount, createPersistReducer, removeAccount, updateAccount } from '@common/store';
 import slice from '@common/store/accounts.slice';
 
-import { storage } from './utils';
-
-const persistConfig = {
+const persistConfig: PersistConfig = {
   key: slice.name,
-  keyPrefix: '',
-  storage,
-  serialize: false,
-  deserialize: false,
-  whitelist: ['accounts']
+  whitelistedActions: [addAccount.type, removeAccount.type, updateAccount.type],
+  whitelistedKeys: ['accounts']
 };
 
-export const persistedReducer = persistReducer(persistConfig, slice.reducer);
+export const persistedReducer = createPersistReducer(persistConfig, slice.reducer);

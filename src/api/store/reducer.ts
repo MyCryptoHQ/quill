@@ -2,7 +2,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 
 import accounts from '@common/store/accounts.slice';
 import authentication from '@common/store/auth.slice';
-import persistence from '@common/store/persistence.slice';
+import persistence from '@common/store/storage/persistence.slice';
 import synchronization from '@common/store/synchronization.slice';
 import transactions from '@common/store/transactions.slice';
 

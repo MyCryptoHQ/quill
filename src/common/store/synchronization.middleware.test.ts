@@ -4,15 +4,13 @@
 
 import configureStore from 'redux-mock-store';
 
-import { checkNewUser, init } from '@common/store';
+import { checkNewUser, login, rehydrateAllState } from '@common/store';
 import { shouldIgnore, synchronizationMiddleware } from '@common/store/synchronization.middleware';
 import { Process, sendPublicKey, setHandshaken } from '@common/store/synchronization.slice';
 import { decryptJson } from '@common/utils';
 import { fEncryptionPrivateKey, fEncryptionPublicKey } from '@fixtures';
 import type { ApplicationState } from '@store';
 import type { DeepPartial } from '@types';
-
-import { setPersistor } from './persistence.slice';
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
@@ -50,7 +48,7 @@ describe('synchronizationMiddleware', () => {
 
   it('emits CRYPTO_ACTIONS encrypted for CRYPTO', () => {
     const fn = jest.fn();
-    const action = init('foo');
+    const action = login('foo');
 
     const ipc = { emit: jest.fn(), on: jest.fn() };
 
@@ -173,7 +171,7 @@ describe('shouldIgnore', () => {
 
   it('ignores IGNORED_ACTIONS', () => {
     expect(
-      shouldIgnore(setPersistor(undefined), Process.Main, Process.Renderer, Process.Main)
+      shouldIgnore(rehydrateAllState(undefined), Process.Main, Process.Renderer, Process.Main)
     ).toBe(true);
   });
 

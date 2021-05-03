@@ -20,7 +20,6 @@ export {
   getGeneratedAccount,
   AccountsState
 } from './accounts.slice';
-export * from './persistence.slice';
 export {
   enqueue,
   dequeue,
@@ -32,4 +31,6 @@ export {
   getTxHistory,
   addToHistory
 } from './transactions.slice';
-export { init, sign, getSigningError } from './signing.slice';
+export { sign, getSigningError } from './signing.slice';
+export * from './settings.slice';
+export * from './storage';

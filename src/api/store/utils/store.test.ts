@@ -1,0 +1,58 @@
+import Store from 'electron-store';
+import { promises as fs } from 'fs';
+
+import { clearStore, getFromStore, getStorePath, setInStore } from './store';
+
+jest.mock('electron-store');
+
+jest.mock('fs', () => ({
+  ...jest.requireActual('fs'),
+  promises: {
+    unlink: jest.fn().mockImplementation(() => Promise.resolve())
+  }
+}));
+
+jest.mock('electron', () => ({
+  app: {
+    getPath: jest.fn().mockImplementation(() => 'foo')
+  }
+}));
+
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
+describe('getStorePath', () => {
+  it('returns the path to the store', () => {
+    expect(getStorePath()).toBe('foo/config.json');
+  });
+});
+
+describe('clearStore', () => {
+  it('clears the store', async () => {
+    await clearStore();
+
+    const store = (Store as jest.MockedClass<typeof Store>).mock.instances[0];
+
+    expect(fs.unlink).toHaveBeenCalledWith(getStorePath());
+    expect(store.clear).toHaveBeenCalled();
+  });
+});
+
+describe('getFromStore', () => {
+  it('fetches from the store', async () => {
+    await getFromStore('foo');
+
+    const store = (Store as jest.MockedClass<typeof Store>).mock.instances[0];
+    expect(store.get).toHaveBeenCalledWith('foo');
+  });
+});
+
+describe('setInStore', () => {
+  it('sets value in store', async () => {
+    await setInStore('foo', 'bar');
+
+    const store = (Store as jest.MockedClass<typeof Store>).mock.instances[0];
+    expect(store.set).toHaveBeenCalledWith('foo', 'bar');
+  });
+});

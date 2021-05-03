@@ -1,4 +1,6 @@
-import { decrypt, encrypt, hashPassword } from './encryption';
+import crypto from 'crypto';
+
+import { createEncryptionKey, decrypt, encrypt, hashPassword } from './encryption';
 
 jest.mock('crypto', () => ({
   ...jest.requireActual('crypto'),
@@ -12,6 +14,20 @@ const hashedPassword = Buffer.from(
 );
 const data = 'data';
 const encryptedData = 'bb61fdc07c1303b8bcf9e8618812557fa623c8d32d21938ada7a165c39c8f3fd';
+
+describe('createEncryptionKey', () => {
+  it('creates a random 32 byte encryption key', () => {
+    (crypto.randomBytes as jest.MockedFunction<
+      typeof crypto.randomBytes
+    >).mockImplementationOnce(() =>
+      Buffer.from('9d4698a3accd9e76f1f5c021eac71e715c3fa5bb3089249b90d30737159905b4', 'hex')
+    );
+
+    expect(createEncryptionKey()).toStrictEqual(
+      Buffer.from('9d4698a3accd9e76f1f5c021eac71e715c3fa5bb3089249b90d30737159905b4', 'hex')
+    );
+  });
+});
 
 describe('hashPassword', () => {
   it('correctly SHA256 hashes a string', async () => {

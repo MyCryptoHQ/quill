@@ -2,10 +2,9 @@ import type { EnhancedStore } from '@reduxjs/toolkit';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 
-import { Process, synchronizationMiddleware } from '@common/store';
+import { persistenceMiddleware, Process, synchronizationMiddleware } from '@common/store';
 import type { ReduxIPC } from '@types';
 
-import { persistenceMiddleware } from './persistence.middleware';
 import { createRootReducer } from './reducer';
 import rootSaga from './sagas';
 
