@@ -4,7 +4,7 @@
 
 import configureStore from 'redux-mock-store';
 
-import { checkNewUser, login, rehydrateAllState } from '@common/store';
+import { checkNewUser, login } from '@common/store';
 import { shouldIgnore, synchronizationMiddleware } from '@common/store/synchronization.middleware';
 import { Process, sendPublicKey, setHandshaken } from '@common/store/synchronization.slice';
 import { decryptJson } from '@common/utils';
@@ -169,11 +169,13 @@ describe('shouldIgnore', () => {
     ).toBe(true);
   });
 
-  it('ignores IGNORED_ACTIONS', () => {
-    expect(
-      shouldIgnore(rehydrateAllState(undefined), Process.Main, Process.Renderer, Process.Main)
-    ).toBe(true);
-  });
+  // Commented out since there are no ignored actions currently
+  // eslint-disable-next-line jest/no-commented-out-tests
+  // it('ignores IGNORED_ACTIONS', () => {
+  //   expect(
+  //     shouldIgnore(rehydrateAllState(undefined), Process.Main, Process.Renderer, Process.Main)
+  //   ).toBe(true);
+  // });
 
   it('ignores actions that would be dispatched back to where they came from', () => {
     expect(
