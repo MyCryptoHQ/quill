@@ -2,15 +2,24 @@ import type { IncomingMessage } from 'http';
 import { expectSaga } from 'redux-saga-test-plan';
 import WebSocket from 'ws';
 
+import { denyPermission, grantPermission, requestPermission } from '@common/store';
 import { JsonRPCMethod } from '@config';
-import { fAccount, fRequestOrigin, fSignedTx, fTxRequest } from '@fixtures';
+import {
+  fAccount,
+  fRequestOrigin,
+  fRequestPrivateKey,
+  fRequestPublicKey,
+  fSignedTx,
+  fTxRequest
+} from '@fixtures';
 
-import { createJsonRpcRequest } from './utils';
+import { createJsonRpcRequest, createSignedJsonRpcRequest } from './utils';
 import {
   createWebSocketServer,
   handleRequest,
   requestWatcherWorker,
   validateRequest,
+  waitForPermissions,
   waitForResponse
 } from './ws.sagas';
 import { reply, requestAccounts, requestSignTransaction } from './ws.slice';
@@ -32,7 +41,13 @@ describe('validateRequest', () => {
   });
 
   it('returns an error for invalid requests', () => {
-    const request = JSON.stringify({ id: 0, jsonrpc: '1.0', method: 'bla' });
+    const request = JSON.stringify({
+      id: 0,
+      jsonrpc: '1.0',
+      method: 'bla',
+      signature: '',
+      publicKey: fRequestPublicKey
+    });
     expect(validateRequest(request)).toStrictEqual([
       expect.objectContaining({ error: expect.objectContaining({ code: '-32600' }) }),
       null
@@ -40,7 +55,13 @@ describe('validateRequest', () => {
   });
 
   it('returns an error for unsupported methods', () => {
-    const request = JSON.stringify({ id: 0, jsonrpc: '2.0', method: 'bla' });
+    const request = JSON.stringify({
+      id: 0,
+      jsonrpc: '2.0',
+      method: 'bla',
+      signature: '',
+      publicKey: fRequestPublicKey
+    });
     expect(validateRequest(request)).toStrictEqual([
       expect.objectContaining({ error: expect.objectContaining({ code: '-32601' }) }),
       null
@@ -51,7 +72,9 @@ describe('validateRequest', () => {
     const request = JSON.stringify({
       id: 0,
       jsonrpc: '2.0',
-      method: JsonRPCMethod.SignTransaction
+      method: JsonRPCMethod.SignTransaction,
+      signature: '',
+      publicKey: fRequestPublicKey
     });
     expect(validateRequest(request)).toStrictEqual([
       expect.objectContaining({ error: expect.objectContaining({ code: '-32602' }) }),
@@ -73,7 +96,9 @@ describe('validateRequest', () => {
           value: '0x1',
           chainId: 3
         }
-      ]
+      ],
+      signature: '',
+      publicKey: fRequestPublicKey
     });
     expect(validateRequest(invalidParamsRequest)).toStrictEqual([
       expect.objectContaining({ error: expect.objectContaining({ code: '-32602' }) }),
@@ -97,7 +122,9 @@ describe('validateRequest', () => {
           value: '0x1',
           chainId: 3
         }
-      ]
+      ],
+      signature: '',
+      publicKey: fRequestPublicKey
     };
 
     expect(validateRequest(JSON.stringify(request))).toStrictEqual([null, request]);
@@ -145,7 +172,15 @@ describe('handleRequest', () => {
 
   it('puts a method request and sends the result', async () => {
     const { params: _, ...accountsRequest } = createJsonRpcRequest(JsonRPCMethod.Accounts);
-    await expectSaga(handleRequest, { socket, request, data: JSON.stringify(accountsRequest) })
+    const signedRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      accountsRequest
+    );
+    await expectSaga(handleRequest, { socket, request, data: JSON.stringify(signedRequest) })
+      .withState({
+        permissions: { permissions: [{ origin: fRequestOrigin, publicKey: fRequestPublicKey }] }
+      })
       .put(requestAccounts({ origin: fRequestOrigin, request: accountsRequest }))
       .call(waitForResponse, accountsRequest.id)
       .dispatch(
@@ -164,7 +199,15 @@ describe('handleRequest', () => {
       })
     );
 
-    await expectSaga(handleRequest, { socket, request, data: JSON.stringify(fTxRequest) })
+    const signedTxRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      fTxRequest
+    );
+    await expectSaga(handleRequest, { socket, request, data: JSON.stringify(signedTxRequest) })
+      .withState({
+        permissions: { permissions: [{ origin: fRequestOrigin, publicKey: fRequestPublicKey }] }
+      })
       .put(requestSignTransaction({ origin: fRequestOrigin, request: fTxRequest }))
       .call(waitForResponse, fTxRequest.id)
       .dispatch(
@@ -182,6 +225,66 @@ describe('handleRequest', () => {
         result: fSignedTx
       })
     );
+  });
+
+  it('waits for permissions if none exist', async () => {
+    const { params: _, ...accountsRequest } = createJsonRpcRequest(JsonRPCMethod.Accounts);
+    const signedRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      accountsRequest
+    );
+    const permission = { origin: fRequestOrigin, publicKey: fRequestPublicKey };
+    await expectSaga(handleRequest, { socket, request, data: JSON.stringify(signedRequest) })
+      .withState({
+        permissions: { permissions: [] }
+      })
+      .put(requestPermission(permission))
+      .call(waitForPermissions, permission)
+      .silentRun();
+  });
+
+  it('doesnt allow request if permissions denied', async () => {
+    const { params: _, ...accountsRequest } = createJsonRpcRequest(JsonRPCMethod.Accounts);
+    const signedRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      accountsRequest
+    );
+    const permission = { origin: fRequestOrigin, publicKey: fRequestPublicKey };
+    await expectSaga(handleRequest, { socket, request, data: JSON.stringify(signedRequest) })
+      .withState({
+        permissions: { permissions: [] }
+      })
+      .put(requestPermission(permission))
+      .call(waitForPermissions, permission)
+      .dispatch(denyPermission(permission))
+      .not.put(
+        reply({
+          id: accountsRequest.id,
+          result: [fAccount.address]
+        })
+      )
+      .silentRun();
+  });
+
+  it('allows request if permissions approved', async () => {
+    const { params: _, ...accountsRequest } = createJsonRpcRequest(JsonRPCMethod.Accounts);
+    const signedRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      accountsRequest
+    );
+    const permission = { origin: fRequestOrigin, publicKey: fRequestPublicKey };
+    await expectSaga(handleRequest, { socket, request, data: JSON.stringify(signedRequest) })
+      .withState({
+        permissions: { permissions: [] }
+      })
+      .put(requestPermission(permission))
+      .call(waitForPermissions, permission)
+      .dispatch(grantPermission(permission))
+      .put(requestAccounts({ origin: fRequestOrigin, request: accountsRequest }))
+      .silentRun();
   });
 });
 

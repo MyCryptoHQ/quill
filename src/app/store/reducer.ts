@@ -6,6 +6,7 @@ import { combineReducers } from 'redux';
 import { createPersistReducer } from '@common/store';
 import accountSlice from '@common/store/accounts.slice';
 import authSlice, { logout } from '@common/store/auth.slice';
+import permissionsSlice from '@common/store/permissions.slice';
 import signingSlice from '@common/store/signing.slice';
 import persistenceSlice from '@common/store/storage/persistence.slice';
 import synchronizationSlice from '@common/store/synchronization.slice';
@@ -28,7 +29,11 @@ export const createRootReducer = (history: History) => {
     ),
     [signingSlice.name]: signingSlice.reducer,
     [synchronizationSlice.name]: synchronizationSlice.reducer,
-    [persistenceSlice.name]: persistenceSlice.reducer
+    [persistenceSlice.name]: persistenceSlice.reducer,
+    [permissionsSlice.name]: createPersistReducer(
+      { key: permissionsSlice.name, whitelistedActions: [], whitelistedKeys: [] },
+      permissionsSlice.reducer
+    )
   });
 
   return (state: any, action: AnyAction) => {

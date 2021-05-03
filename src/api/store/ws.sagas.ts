@@ -1,13 +1,22 @@
 import type { ActionCreatorWithPayload, PayloadAction } from '@reduxjs/toolkit';
 import type { IncomingMessage } from 'http';
+import type { EventChannel } from 'redux-saga';
 import { eventChannel } from 'redux-saga';
-import { all, call, fork, put, take } from 'redux-saga/effects';
+import { all, call, fork, put, select, take } from 'redux-saga/effects';
 import WebSocket from 'ws';
 
+import { denyPermission, getPermissions, grantPermission, requestPermission } from '@common/store';
 import { JsonRPCMethod, WS_PORT } from '@config';
-import type { JsonRPCRequest, JsonRPCResponse, JsonRPCResult, UserRequest } from '@types';
+import type {
+  JsonRPCResponse,
+  JsonRPCResult,
+  Permission,
+  SignedJsonRPCRequest,
+  UserRequest
+} from '@types';
 import { safeJSONParse } from '@utils';
 
+import { verifyRequest } from './utils';
 import { toJsonRpcResponse } from './utils/jsonrpc';
 import { isValidMethod, isValidParams, isValidRequest } from './utils/validators';
 import { reply, requestAccounts, requestSignTransaction } from './ws.slice';
@@ -43,9 +52,11 @@ export const createWebSocketServer = () => {
   });
 };
 
-export const validateRequest = (data: string): [JsonRPCResponse, null] | [null, JsonRPCRequest] => {
+export const validateRequest = (
+  data: string
+): [JsonRPCResponse, null] | [null, SignedJsonRPCRequest] => {
   // @todo: Further sanitation?
-  const [error, request] = safeJSONParse<JsonRPCRequest>(data);
+  const [error, request] = safeJSONParse<SignedJsonRPCRequest>(data);
   if (error) {
     return [
       toJsonRpcResponse({
@@ -99,26 +110,65 @@ export function* waitForResponse(id: string | number) {
   }
 }
 
+export function* waitForPermissions(permission: Permission) {
+  while (true) {
+    const { type, payload }: PayloadAction<Permission> = yield take([
+      grantPermission,
+      denyPermission
+    ]);
+
+    if (payload.origin === permission.origin && payload.publicKey === permission.publicKey) {
+      return type === grantPermission.type;
+    }
+  }
+}
+
 export function* handleRequest({ socket, request, data }: WebSocketMessage) {
-  const [error, jsonRpcRequest] = validateRequest(data);
+  const [error, fullRequest] = validateRequest(data);
   if (error) {
     return socket.send(JSON.stringify(error));
   }
 
-  // @todo: Verify this if possible
+  const { signature, publicKey, ...jsonRpcRequest } = fullRequest;
+
+  const permissions: Permission[] = yield select(getPermissions);
+
   const origin = request.headers.origin && new URL(request.headers.origin).host;
+
+  const existingPermission = permissions.find(
+    (p) => p.origin === origin && p.publicKey === publicKey
+  );
+  const isVerified: boolean = yield call(verifyRequest, signature, jsonRpcRequest, publicKey);
+
+  if (!existingPermission || !isVerified) {
+    const permission = { origin, publicKey };
+    yield put(requestPermission(permission));
+    const result: boolean = yield call(waitForPermissions, permission);
+    if (!result) {
+      // As per EIP-1193
+      return socket.send(
+        JSON.stringify(
+          toJsonRpcResponse({
+            id: jsonRpcRequest.id,
+            error: { code: '4001', message: 'The user rejected the request.' }
+          })
+        )
+      );
+    }
+  }
+
   const method: ActionCreatorWithPayload<UserRequest> =
     SUPPORTED_METHODS[jsonRpcRequest.method as JsonRPCMethod];
   if (method) {
     yield put(method({ origin, request: jsonRpcRequest }));
 
-    const response = yield call(waitForResponse, jsonRpcRequest.id);
+    const response: JsonRPCResult = yield call(waitForResponse, jsonRpcRequest.id);
     return socket.send(JSON.stringify(toJsonRpcResponse(response)));
   }
 }
 
 export function* requestWatcherWorker() {
-  const channel = yield call(createWebSocketServer);
+  const channel: EventChannel<WebSocketMessage> = yield call(createWebSocketServer);
 
   while (true) {
     const payload: WebSocketMessage = yield take(channel);

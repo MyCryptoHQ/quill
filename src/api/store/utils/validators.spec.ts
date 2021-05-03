@@ -1,4 +1,5 @@
 import { JsonRPCMethod } from '@config';
+import { fRequestPublicKey } from '@fixtures';
 
 import { isValidParams, isValidRequest } from './validators';
 
@@ -19,7 +20,9 @@ describe('isValidRequest', () => {
           value: '0x',
           chainId: 3
         }
-      ]
+      ],
+      signature: '',
+      publicKey: fRequestPublicKey
     });
     expect(valid).toBe(true);
   });

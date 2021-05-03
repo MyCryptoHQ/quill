@@ -1,5 +1,6 @@
 import Store from 'electron-store';
 import { promises as fs } from 'fs';
+import path from 'path';
 
 import { clearStore, getFromStore, getStorePath, setInStore } from './store';
 
@@ -24,7 +25,7 @@ afterEach(() => {
 
 describe('getStorePath', () => {
   it('returns the path to the store', () => {
-    expect(getStorePath()).toBe('foo/config.json');
+    expect(getStorePath()).toBe(path.join('foo', 'config.json'));
   });
 });
 

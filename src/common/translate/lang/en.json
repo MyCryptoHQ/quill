@@ -139,6 +139,10 @@
     "SIGNING_WITH_NON_PERSISTED_ACCOUNT_BODY": "Enter your secret below to sign the transaction.",
     "YOUR_ACCOUNTS": "Your Accounts",
     "CONFIRM_ACCOUNT_DELETION": "Are you sure you want to delete “$label” account with address $address?",
-    "CANCEL": "Cancel"
+    "CANCEL": "Cancel",
+    "ALLOW_PERMISSIONS": "Allow Permissions",
+    "DENY_PERMISSIONS": "Deny Permissions",
+    "ALLOW_THIS_SITE": "Allow this site to:",
+    "PERMISSION_LIST_1": "View the addresses of your accounts (required)"
   }
 }
