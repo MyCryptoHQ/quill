@@ -1,15 +1,14 @@
-import { persistReducer } from 'redux-persist';
-
-import slice from '@common/store/permissions.slice';
-
-import { storage } from './utils';
+import { createPersistReducer } from '@common/store';
+import slice, {
+  grantPermission,
+  revokePermission,
+  updatePermission
+} from '@common/store/permissions.slice';
 
 const persistConfig = {
   key: slice.name,
-  keyPrefix: '',
-  storage,
-  serialize: false,
-  deserialize: false
+  whitelistedActions: [grantPermission.type, updatePermission.type, revokePermission.type],
+  whitelistedKeys: ['permissions']
 };
 
-export const persistedReducer = persistReducer(persistConfig, slice.reducer);
+export const persistedReducer = createPersistReducer(persistConfig, slice.reducer);

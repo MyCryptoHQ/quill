@@ -155,8 +155,7 @@ describe('handleRequest', () => {
   const request = ({
     headers: {
       origin: 'https://app.mycrypto.com/foo'
-    },
-    url: `/?publicKey=${fRequestPublicKey}`
+    }
   } as unknown) as IncomingMessage;
 
   it('sends an error on invalid request', async () => {

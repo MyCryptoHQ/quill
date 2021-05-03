@@ -30,7 +30,10 @@ export const createRootReducer = (history: History) => {
     [signingSlice.name]: signingSlice.reducer,
     [synchronizationSlice.name]: synchronizationSlice.reducer,
     [persistenceSlice.name]: persistenceSlice.reducer,
-    [permissionsSlice.name]: permissionsSlice.reducer
+    [permissionsSlice.name]: createPersistReducer(
+      { key: permissionsSlice.name, whitelistedActions: [], whitelistedKeys: [] },
+      permissionsSlice.reducer
+    )
   });
 
   return (state: any, action: AnyAction) => {
