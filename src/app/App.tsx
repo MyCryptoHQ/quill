@@ -2,16 +2,18 @@ import { useEffect } from 'react';
 import { hot } from 'react-hot-loader';
 import { ThemeProvider } from 'styled-components';
 
-import { checkNewUser, getHandshaken, Process } from '@common/store';
+import { checkNewUser, getHandshaken, getPersisted, Process } from '@common/store';
 import { Box, Flex, Navigation } from '@components';
 import { GlobalStyle, theme } from '@theme';
 
 import { AppRoutes } from './AppRoutes';
+import { Loading } from './screens';
 import { useDispatch, useSelector } from './store';
 
 const App = () => {
   const loggedIn = useSelector((state) => state.auth.loggedIn);
   const isHandshaken = useSelector(getHandshaken(Process.Main));
+  const isPersisted = useSelector(getPersisted);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -26,7 +28,7 @@ const App = () => {
       <Box height="100vh" overflow="hidden" sx={{ display: 'flex', flexDirection: 'column' }}>
         <Navigation isLoggedIn={loggedIn} />
         <Flex flexDirection="column" flex="1" overflowY="auto">
-          <AppRoutes />
+          {(loggedIn && isPersisted) || !loggedIn ? <AppRoutes /> : <Loading />}
         </Flex>
       </Box>
     </ThemeProvider>
