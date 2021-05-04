@@ -93,12 +93,10 @@ const createTray = () => {
   ]);
   tray.setToolTip('Signer');
   tray.on('double-click', toggleWindow);
-  tray.on('right-click', (e) => {
-    e.preventDefault();
+  tray.on('right-click', () => {
     tray.popUpContextMenu(contextMenu);
   });
-  tray.on('click', (e) => {
-    e.preventDefault();
+  tray.on('click', () => {
     toggleWindow();
   });
 };
