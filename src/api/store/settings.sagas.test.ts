@@ -10,7 +10,7 @@ import { clearStore, getFromStore, setInStore } from '@api/store/utils';
 import {
   decryptSettings,
   fetchSettings,
-  rehydrateState,
+  rehydrateEmptyState,
   storeEncryptedSettings
 } from '@common/store';
 
@@ -36,7 +36,7 @@ describe('fetchSettingsWorker', () => {
     await expectSaga(fetchSettingsWorker, fetchSettings('foo'))
       .provide([[call.fn(getFromStore), null]])
       .call(getFromStore, 'foo')
-      .put(rehydrateState({ key: 'foo', state: undefined }))
+      .put(rehydrateEmptyState({ key: 'foo' }))
       .silentRun();
   });
 });

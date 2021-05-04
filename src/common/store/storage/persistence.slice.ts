@@ -20,11 +20,14 @@ const slice = createSlice({
   reducers: {
     rehydrateState(state, action: PayloadAction<{ key: string; state: unknown }>) {
       state.rehydratedKeys.push(action.payload.key);
+    },
+    rehydrateEmptyState(state, action: PayloadAction<{ key: string }>) {
+      state.rehydratedKeys.push(action.payload.key);
     }
   }
 });
 
-export const { rehydrateState } = slice.actions;
+export const { rehydrateState, rehydrateEmptyState } = slice.actions;
 
 export default slice;
 
