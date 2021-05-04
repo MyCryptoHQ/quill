@@ -37,7 +37,7 @@ describe('AddAccount', () => {
 
   it('renders', async () => {
     const { getByText } = getComponent();
-    expect(getByText(translateRaw('SUBMIT')).textContent).toBeDefined();
+    expect(getByText(translateRaw('VERIFY_ACCOUNT')).textContent).toBeDefined();
   });
 
   it('renders errors from Redux', async () => {
@@ -73,7 +73,7 @@ describe('AddAccount', () => {
     fireEvent.click(persistenceInput);
     fireEvent.click(persistenceInput);
 
-    const submitButton = getByText(translateRaw('SUBMIT'));
+    const submitButton = getByText(translateRaw('VERIFY_ACCOUNT'));
     expect(submitButton).toBeDefined();
     fireEvent.click(submitButton);
 
@@ -96,7 +96,7 @@ describe('AddAccount', () => {
     expect(privateKeyButton).toBeDefined();
     fireEvent.click(privateKeyButton);
 
-    const submitButton = getByText(translateRaw('SUBMIT'));
+    const submitButton = getByText(translateRaw('VERIFY_ACCOUNT'));
     expect(submitButton).toBeDefined();
     fireEvent.click(submitButton);
 
@@ -125,7 +125,7 @@ describe('AddAccount', () => {
     fireEvent.click(persistenceInput);
     fireEvent.click(persistenceInput);
 
-    const submitButton = getByText(translateRaw('SUBMIT'));
+    const submitButton = getByText(translateRaw('VERIFY_ACCOUNT'));
     expect(submitButton).toBeDefined();
     fireEvent.click(submitButton);
 
@@ -166,7 +166,7 @@ describe('AddAccount', () => {
     fireEvent.click(persistenceInput);
     fireEvent.click(persistenceInput);
 
-    const submitButton = getByText('Submit');
+    const submitButton = getByText(translateRaw('VERIFY_ACCOUNT'));
     expect(submitButton).toBeDefined();
     await waitFor(() => fireEvent.click(submitButton));
 
@@ -188,7 +188,7 @@ describe('AddAccount', () => {
     expect(keystoreButton).toBeDefined();
     fireEvent.click(keystoreButton);
 
-    const submitButton = getByText(translateRaw('SUBMIT'));
+    const submitButton = getByText(translateRaw('VERIFY_ACCOUNT'));
     expect(submitButton).toBeDefined();
     fireEvent.click(submitButton);
 
@@ -216,7 +216,7 @@ describe('AddAccount', () => {
     expect(passwordInput).toBeDefined();
     fireEvent.change(passwordInput, { target: { value: fKeystorePassword } });
 
-    const submitButton = getByText(translateRaw('SUBMIT'));
+    const submitButton = getByText(translateRaw('VERIFY_ACCOUNT'));
     expect(submitButton).toBeDefined();
     fireEvent.click(submitButton);
 
@@ -284,7 +284,7 @@ describe('AddAccount', () => {
     await waitFor(() => expect(getByText(address)).toBeDefined());
     fireEvent.click(getByTestId(`checkbox-${address}`));
 
-    fireEvent.click(getByText(translateRaw('SUBMIT')));
+    fireEvent.click(getByText(translateRaw('VERIFY_ACCOUNT')));
 
     expect(mockStore.getActions()).toContainEqual(
       fetchAccounts([
