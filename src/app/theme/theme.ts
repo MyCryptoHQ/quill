@@ -1,6 +1,5 @@
 import { theme as UITheme } from '@mycrypto/ui';
 import merge from 'lodash.merge';
-import type { DefaultTheme } from 'styled-components';
 import { createGlobalStyle } from 'styled-components';
 
 const LINK_RECIPES = {
@@ -110,7 +109,7 @@ const BUTTON_VARIANTS = {
   }
 };
 
-const overrideTheme: Partial<DefaultTheme> = {
+const overrideTheme = {
   colors: {
     DEFAULT_BACKGROUND: '#fbfbfb',
 
@@ -221,7 +220,8 @@ const overrideTheme: Partial<DefaultTheme> = {
   }
 };
 
-export const theme: DefaultTheme = merge(UITheme, overrideTheme);
+export const theme = merge(UITheme, overrideTheme);
+export type Theme = typeof theme;
 
 // Global styling for default elements
 export const GlobalStyle = createGlobalStyle`
