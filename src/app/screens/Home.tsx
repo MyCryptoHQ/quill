@@ -1,14 +1,13 @@
 import { Body } from '@mycrypto/ui';
 import { push } from 'connected-react-router';
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 
 import { Box, Container, Image, TxHistory, TxQueue } from '@app/components';
 import info from '@assets/icons/circle-info.svg';
 import { getAccountsLength, getPersisted, getQueue, getTxHistory } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { ROUTE_PATHS } from '@routing';
-import { useDispatch } from '@store';
+import { useDispatch, useSelector } from '@store';
 
 export const Home = () => {
   const dispatch = useDispatch();

@@ -63,6 +63,7 @@ export function* createPasswordWorker({ payload }: PayloadAction<string>) {
   // Generates a new settings key
   yield call(getSettingsKey);
   yield put(createPasswordSuccess());
+  yield put(rehydrateAllState());
   yield put(push(ROUTE_PATHS.SETUP_ACCOUNT));
 }
 

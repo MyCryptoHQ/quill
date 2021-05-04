@@ -1,5 +1,6 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAction, createSelector, createSlice } from '@reduxjs/toolkit';
+import type { Optional } from 'utility-types';
 
 import type { PersistState } from '@common/store';
 
@@ -19,11 +20,14 @@ const slice = createSlice({
   reducers: {
     rehydrateState(state, action: PayloadAction<{ key: string; state: unknown }>) {
       state.rehydratedKeys.push(action.payload.key);
+    },
+    rehydrateEmptyState(state, action: PayloadAction<{ key: string }>) {
+      state.rehydratedKeys.push(action.payload.key);
     }
   }
 });
 
-export const { rehydrateState } = slice.actions;
+export const { rehydrateState, rehydrateEmptyState } = slice.actions;
 
 export default slice;
 
@@ -37,7 +41,7 @@ export const getPersistenceState = createSelector(
 );
 
 export const getPersistentKeys = createSelector(
-  (state: Record<string, PersistState>) => state,
+  (state: Record<string, Optional<PersistState>>) => state,
   (state) => Object.keys(state).filter((key) => !!state[key]._persistence)
 );
 

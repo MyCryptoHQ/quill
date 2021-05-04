@@ -12,3 +12,4 @@ export { SignTransaction } from './SignTransaction';
 export { Menu } from './Menu';
 export { SetupAccount } from './SetupAccount';
 export { RequestPermission } from './RequestPermission';
+export { Loading } from './Loading';

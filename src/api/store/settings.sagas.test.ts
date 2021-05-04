@@ -7,7 +7,12 @@ import {
   storeEncryptedSettingsWorker
 } from '@api/store/settings.sagas';
 import { clearStore, getFromStore, setInStore } from '@api/store/utils';
-import { decryptSettings, fetchSettings, storeEncryptedSettings } from '@common/store';
+import {
+  decryptSettings,
+  fetchSettings,
+  rehydrateEmptyState,
+  storeEncryptedSettings
+} from '@common/store';
 
 describe('resetSettingsWorker', () => {
   it('clears the store', async () => {
@@ -24,6 +29,14 @@ describe('fetchSettingsWorker', () => {
       .provide([[call.fn(getFromStore), 'bar']])
       .call(getFromStore, 'foo')
       .put(decryptSettings({ key: 'foo', value: 'bar' }))
+      .silentRun();
+  });
+
+  it('fetches settings from the store and dispatches rehydrateState if it is null', async () => {
+    await expectSaga(fetchSettingsWorker, fetchSettings('foo'))
+      .provide([[call.fn(getFromStore), null]])
+      .call(getFromStore, 'foo')
+      .put(rehydrateEmptyState({ key: 'foo' }))
       .silentRun();
   });
 });

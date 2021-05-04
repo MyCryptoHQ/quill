@@ -7,7 +7,7 @@ import { object, string } from 'yup';
 import { ROUTE_PATHS } from '@app/routing';
 import { useDispatch, useSelector } from '@app/store';
 import lock from '@assets/icons/lock.svg';
-import { login } from '@common/store';
+import { getLoggingIn, login } from '@common/store';
 import { translateRaw } from '@common/translate';
 import {
   Box,
@@ -25,9 +25,12 @@ const SCHEMA = object({
   password: string().required(translateRaw('PASSWORD_EMPTY'))
 });
 
+const initialValues = { password: '' };
+
 export const Login = () => {
-  const form = useForm({ password: '' }, yupValidator(SCHEMA), true);
+  const form = useForm(initialValues, yupValidator(SCHEMA), true);
   const error = useSelector((state) => state.auth.error);
+  const loggingIn = useSelector(getLoggingIn);
   const dispatch = useDispatch();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -45,7 +48,7 @@ export const Login = () => {
     if (error) {
       form.setError('password', error);
     }
-  }, [error]);
+  });
 
   return (
     <>
@@ -66,7 +69,7 @@ export const Login = () => {
         </form>
       </Container>
       <PanelBottom variant="clear">
-        <Button type="submit" form="login-form">
+        <Button type="submit" form="login-form" disabled={loggingIn}>
           {translateRaw('UNLOCK_NOW')}
         </Button>
         <Body mt="3" textAlign="center">

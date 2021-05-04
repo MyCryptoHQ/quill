@@ -96,4 +96,18 @@ describe('App', () => {
 
     await waitFor(() => expect(getByText(translateRaw('UNLOCK_NOW')).textContent).toBeDefined());
   });
+
+  it('renders Loading if not persisted', async () => {
+    const { getByTestId } = getComponent(
+      createMockStore({
+        auth: { loggedIn: true, newUser: false },
+        transactions: { queue: [], history: [] },
+        accounts: { accounts: [], _persistence: {} },
+        synchronization: { isHandshaken: { [Process.Main]: true } },
+        persistence: { rehydratedKeys: [] }
+      })
+    );
+
+    await waitFor(() => expect(getByTestId('spinner')).toBeDefined());
+  });
 });

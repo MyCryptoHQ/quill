@@ -37,7 +37,7 @@ export const injectPersistent = <A>(
 export const createPersistReducer = <S, A extends AnyAction>(
   config: PersistConfig,
   reducer: Reducer<S, A>
-): Reducer<S, A> => {
+): Reducer<S & PersistState, A> => {
   return (state, action) => {
     if (action.type === rehydrateState.type && action.payload.key === config.key) {
       return injectPersistent(config, { ...state, ...action.payload.state });
