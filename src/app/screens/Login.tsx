@@ -69,7 +69,7 @@ export const Login = () => {
         </form>
       </Container>
       <PanelBottom variant="clear">
-        <Button type="submit" form="login-form" disabled={loggingIn}>
+        <Button type="submit" form="login-form" loading={loggingIn}>
           {translateRaw('UNLOCK_NOW')}
         </Button>
         <Body mt="3" textAlign="center">

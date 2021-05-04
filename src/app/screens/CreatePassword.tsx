@@ -90,7 +90,7 @@ export const CreatePassword = () => {
         </form>
       </ScrollableContainer>
       <PanelBottom>
-        <Button type="submit" form="create-password-form" disabled={loggingIn}>
+        <Button type="submit" form="create-password-form" loading={loggingIn}>
           {translateRaw('CREATE_PASSWORD')}
         </Button>
       </PanelBottom>
