@@ -3,11 +3,12 @@ import { Route as ActualRoute, Redirect } from 'react-router-dom';
 
 import { ROUTE_PATHS } from '@app/routing';
 import { useSelector } from '@app/store';
+import { getLoggedIn } from '@common/store';
 
 type Props = RouteProps & { requireLogin: boolean };
 
 export const Route = ({ component: Component, requireLogin, ...rest }: Props) => {
-  const loggedIn = useSelector((state) => state.auth.loggedIn);
+  const loggedIn = useSelector(getLoggedIn);
   return (
     <ActualRoute
       {...rest}
