@@ -25,8 +25,10 @@ const SCHEMA = object({
   password: string().required(translateRaw('PASSWORD_EMPTY'))
 });
 
+const initialValues = { password: '' };
+
 export const Login = () => {
-  const form = useForm({ password: '' }, yupValidator(SCHEMA), true);
+  const form = useForm(initialValues, yupValidator(SCHEMA), true);
   const error = useSelector((state) => state.auth.error);
   const loggingIn = useSelector(getLoggingIn);
   const dispatch = useDispatch();
@@ -46,7 +48,7 @@ export const Login = () => {
     if (error) {
       form.setError('password', error);
     }
-  }, [error]);
+  });
 
   return (
     <>
