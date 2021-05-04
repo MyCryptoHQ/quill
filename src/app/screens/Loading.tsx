@@ -1,7 +1,6 @@
-import React from 'react';
+import { Spinner } from '@mycrypto/ui';
 
 import { Box, Container } from '@app/components';
-import Spinner from '@app/components/Spinner';
 
 export const Loading = () => (
   <Container>

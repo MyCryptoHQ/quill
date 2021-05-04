@@ -26,7 +26,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <Box height="100vh" overflow="hidden" sx={{ display: 'flex', flexDirection: 'column' }}>
-        <Navigation isLoggedIn={loggedIn} />
+        <Navigation isLoggedIn={loggedIn && isPersisted} />
         <Flex flexDirection="column" flex="1" overflowY="auto">
           {(loggedIn && isPersisted) || !loggedIn ? <AppRoutes /> : <Loading />}
         </Flex>
