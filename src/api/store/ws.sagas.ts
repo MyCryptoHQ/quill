@@ -5,7 +5,13 @@ import { eventChannel } from 'redux-saga';
 import { all, call, fork, put, select, take } from 'redux-saga/effects';
 import WebSocket from 'ws';
 
-import { denyPermission, getPermissions, grantPermission, requestPermission } from '@common/store';
+import {
+  denyPermission,
+  getPermissions,
+  grantPermission,
+  requestPermission,
+  updatePermission
+} from '@common/store';
 import { JsonRPCMethod, WS_PORT } from '@config';
 import type {
   JsonRPCResponse,
@@ -114,11 +120,12 @@ export function* waitForPermissions(permission: Permission) {
   while (true) {
     const { type, payload }: PayloadAction<Permission> = yield take([
       grantPermission,
+      updatePermission,
       denyPermission
     ]);
 
     if (payload.origin === permission.origin && payload.publicKey === permission.publicKey) {
-      return type === grantPermission.type;
+      return type !== denyPermission.type;
     }
   }
 }
