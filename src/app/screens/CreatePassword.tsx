@@ -7,7 +7,16 @@ import { object, ref, string } from 'yup';
 import warning from '@assets/icons/circle-warning.svg';
 import { createPassword } from '@common/store';
 import { translateRaw } from '@common/translate';
-import { Box, Container, Flex, FormError, FormInput, Image, Label, PanelBottom } from '@components';
+import {
+  Box,
+  Flex,
+  FormError,
+  FormInput,
+  Image,
+  Label,
+  PanelBottom,
+  ScrollableContainer
+} from '@components';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
 import { useDispatch } from '@store';
 import { translate } from '@translations';
@@ -48,11 +57,11 @@ export const CreatePassword = () => {
 
   return (
     <>
-      <Container pt="4">
+      <ScrollableContainer pt="4">
         <Heading fontSize="24px" lineHeight="150%" mb="2" textAlign="center">
           Create a Password
         </Heading>
-        <Body>{translateRaw('CREATE_PASSWORD_DESCRIPTION_1')}</Body>
+        <Body>{translate('CREATE_PASSWORD_DESCRIPTION_1')}</Body>
         <form onSubmit={handleSubmit} id="create-password-form">
           <Box width="100%" mt="3">
             <Label htmlFor="password">{translateRaw('ENTER_PASSWORD')}</Label>
@@ -78,7 +87,7 @@ export const CreatePassword = () => {
             </Body>
           </Flex>
         </form>
-      </Container>
+      </ScrollableContainer>
       <PanelBottom>
         <Button type="submit" form="create-password-form">
           {translateRaw('CREATE_PASSWORD')}
