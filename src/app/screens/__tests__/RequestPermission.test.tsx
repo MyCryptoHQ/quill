@@ -50,7 +50,7 @@ describe('RequestPermission', () => {
     );
   });
 
-  it('dispatches grantPermission on allow with existing perms', async () => {
+  it('dispatches updatePermission on allow with existing perms', async () => {
     const newPerm = { ...fPermission, publicKey: 'foo' };
     const mockStore = createMockStore({
       permissions: { permissions: [fPermission], permissionRequest: newPerm }

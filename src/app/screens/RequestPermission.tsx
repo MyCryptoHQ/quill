@@ -7,8 +7,8 @@ import { ROUTE_PATHS } from '@app/routing';
 import {
   denyPermission,
   getPermissionRequest,
-  getPermissions,
   grantPermission,
+  hasExistingPermission,
   updatePermission
 } from '@common/store';
 import { translateRaw } from '@common/translate';
@@ -16,11 +16,11 @@ import { useDispatch } from '@store';
 
 export const RequestPermission = () => {
   const dispatch = useDispatch();
-  const permissions = useSelector(getPermissions);
+  const existingPermission = useSelector(hasExistingPermission);
   const request = useSelector(getPermissionRequest);
 
   const handleAllow = () => {
-    if (permissions.find((p) => p.origin === request.origin)) {
+    if (existingPermission) {
       dispatch(updatePermission(request));
     } else {
       dispatch(grantPermission(request));

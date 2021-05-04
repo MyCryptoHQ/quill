@@ -56,3 +56,9 @@ export const getPermissions = createSelector(
   (state: { permissions: PermissionsState }) => state.permissions,
   (permissions) => permissions.permissions
 );
+
+export const hasExistingPermission = createSelector(
+  getPermissions,
+  getPermissionRequest,
+  (permissions, request) => permissions.find((p) => p.origin === request.origin)
+);
