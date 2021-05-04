@@ -20,7 +20,7 @@ export const RequestPermission = () => {
   const request = useSelector(getPermissionRequest);
 
   const handleAllow = () => {
-    if (permissions.find((p) => p.origin === request.origin && p.publicKey === request.publicKey)) {
+    if (permissions.find((p) => p.origin === request.origin)) {
       dispatch(updatePermission(request));
     } else {
       dispatch(grantPermission(request));

@@ -5,7 +5,7 @@ import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import type { ApplicationState } from '@app/store';
-import { denyPermission, grantPermission } from '@common/store';
+import { denyPermission, grantPermission, updatePermission } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { fPermission } from '@fixtures';
 
@@ -48,6 +48,21 @@ describe('RequestPermission', () => {
     await waitFor(() =>
       expect(mockStore.getActions()).toContainEqual(grantPermission(fPermission))
     );
+  });
+
+  it('dispatches grantPermission on allow with existing perms', async () => {
+    const newPerm = { ...fPermission, publicKey: 'foo' };
+    const mockStore = createMockStore({
+      permissions: { permissions: [fPermission], permissionRequest: newPerm }
+    });
+
+    const { getByText } = getComponent(mockStore);
+
+    const allowButton = getByText(translateRaw('ALLOW_PERMISSIONS'));
+    expect(allowButton).toBeDefined();
+    fireEvent.click(allowButton);
+
+    await waitFor(() => expect(mockStore.getActions()).toContainEqual(updatePermission(newPerm)));
   });
 
   it('dispatches denyPermission on deny', async () => {
