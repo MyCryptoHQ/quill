@@ -1,10 +1,13 @@
-import { Body } from '@mycrypto/ui';
+import { Body, Heading } from '@mycrypto/ui';
+import { goBack } from 'connected-react-router';
 
 import { Box, Image } from '@app/components';
+import back from '@assets/icons/back.svg';
 import keystore from '@assets/icons/keystore.svg';
 import mnemonic from '@assets/icons/mnemonic-phrase.svg';
 import privatekey from '@assets/icons/private-key.svg';
 import { translateRaw } from '@common/translate';
+import { useDispatch } from '@store';
 import { WalletType } from '@types';
 
 const configs = {
@@ -61,17 +64,45 @@ export const WalletTypeSelector = ({
 }: {
   walletType: WalletType;
   setWalletType(t: WalletType): void;
-}) => (
-  <Box variant="horizontal-start">
-    {Object.entries(configs).map(([type, config]) => (
-      <WalletTypeButton
-        key={type}
-        type={type as WalletType}
-        selected={type === walletType}
-        label={config.label}
-        icon={config.icon}
-        setWalletType={setWalletType}
-      />
-    ))}
-  </Box>
-);
+}) => {
+  const dispatch = useDispatch();
+
+  const handleBack = () => {
+    dispatch(goBack());
+  };
+
+  return (
+    <>
+      <Box mt="2">
+        <Image
+          alt="Back"
+          src={back}
+          width="20px"
+          height="16px"
+          onClick={handleBack}
+          data-testid="back-button"
+          sx={{
+            cursor: 'pointer'
+          }}
+        />
+      </Box>
+      <Box maxWidth="75%" mx="auto" mt="-10px">
+        <Heading as="h2" fontSize="24px" lineHeight="36px" textAlign="center" mb="2">
+          {translateRaw('ENTER_WALLET_TO_CONTINUE', { $wallet: configs[walletType].label })}
+        </Heading>
+      </Box>
+      <Box variant="horizontal-start">
+        {Object.entries(configs).map(([type, config]) => (
+          <WalletTypeButton
+            key={type}
+            type={type as WalletType}
+            selected={type === walletType}
+            label={config.label}
+            icon={config.icon}
+            setWalletType={setWalletType}
+          />
+        ))}
+      </Box>
+    </>
+  );
+};

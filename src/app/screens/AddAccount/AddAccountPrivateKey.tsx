@@ -58,7 +58,7 @@ const AddAccountPrivateKeyForm = ({
       </ScrollableContainer>
       <PanelBottom pb="24px">
         <Button type="submit" form="private-key-form">
-          {translateRaw('SUBMIT')}
+          {translateRaw('VERIFY_ACCOUNT')}
         </Button>
         <Box pt="2" variant="horizontal-start">
           <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
