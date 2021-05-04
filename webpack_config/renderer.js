@@ -20,10 +20,25 @@ module.exports = merge(common, {
     rules: [
       {
         test: /\.css$/,
-        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
-        include: [
-          path.join(__dirname, '../node_modules/@fontsource/lato'),
-          path.join(__dirname, '../node_modules/@fontsource/roboto-mono')
+        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }]
+      },
+
+      /**
+       * Fonts
+       */
+      {
+        test: /\.woff2?/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              hash: 'sha512',
+              digest: 'hex',
+              loader: 'file-loader',
+              outputPath: 'main_window',
+              publicPath: (url) => (isDev ? `main_window/${url}` : url)
+            }
+          }
         ]
       },
 
