@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { hot } from 'react-hot-loader';
 import { ThemeProvider } from 'styled-components';
 
-import { checkNewUser, getHandshaken, getPersisted, Process } from '@common/store';
+import { checkNewUser, getHandshaken, getLoggedIn, getPersisted, Process } from '@common/store';
 import { Box, Flex, Navigation } from '@components';
 import { GlobalStyle, theme } from '@theme';
 
@@ -11,7 +11,7 @@ import { Loading } from './screens';
 import { useDispatch, useSelector } from './store';
 
 const App = () => {
-  const loggedIn = useSelector((state) => state.auth.loggedIn);
+  const loggedIn = useSelector(getLoggedIn);
   const isHandshaken = useSelector(getHandshaken(Process.Main));
   const isPersisted = useSelector(getPersisted);
   const dispatch = useDispatch();

@@ -5,6 +5,7 @@ import type { SettingsValue } from '@common/store';
 import {
   decryptSettings,
   fetchSettings,
+  rehydrateState,
   resetSettings,
   storeEncryptedSettings
 } from '@common/store';
@@ -27,6 +28,8 @@ export function* fetchSettingsWorker({ payload }: PayloadAction<string>) {
   const ciphertext: string = yield call(getFromStore, payload);
   if (ciphertext) {
     yield put(decryptSettings({ key: payload, value: ciphertext }));
+  } else {
+    yield put(rehydrateState({ key: payload, state: undefined }));
   }
 }
 

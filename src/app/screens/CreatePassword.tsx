@@ -5,11 +5,11 @@ import { useForm, yupValidator } from 'typed-react-form';
 import { object, ref, string } from 'yup';
 
 import warning from '@assets/icons/circle-warning.svg';
-import { createPassword } from '@common/store';
+import { createPassword, getLoggingIn } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { Box, Container, Flex, FormError, FormInput, Image, Label, PanelBottom } from '@components';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
-import { useDispatch } from '@store';
+import { useDispatch, useSelector } from '@store';
 import { translate } from '@translations';
 import { PasswordStrength } from '@types';
 
@@ -34,6 +34,7 @@ export const CreatePassword = () => {
     yupValidator(SCHEMA),
     true
   );
+  const loggingIn = useSelector(getLoggingIn);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -80,7 +81,7 @@ export const CreatePassword = () => {
         </form>
       </Container>
       <PanelBottom>
-        <Button type="submit" form="create-password-form">
+        <Button type="submit" form="create-password-form" disabled={loggingIn}>
           {translateRaw('CREATE_PASSWORD')}
         </Button>
       </PanelBottom>
