@@ -17,7 +17,7 @@ export const GenerateAccountEnd = ({ onNext }: IFlowComponentProps) => {
   const [paperWalletImage, setPaperWalletImage] = useState<string>();
   const { address, mnemonicPhrase } = useSelector(getGeneratedAccount);
 
-  const handleClick = () => setShowMnemonicPhrase(true);
+  const handleClick = () => setShowMnemonicPhrase(!showMnemonicPhrase);
 
   useEffect(() => {
     if (paperWallet.current) {
@@ -40,7 +40,9 @@ export const GenerateAccountEnd = ({ onNext }: IFlowComponentProps) => {
           <Body fontSize="14px" mb="2">
             {translate('RECOVERY_PHRASE_SECRET')}{' '}
             {showMnemonicPhrase ? (
-              mnemonicPhrase
+              <Body fontSize="14px" onClick={handleClick}>
+                {mnemonicPhrase}
+              </Body>
             ) : (
               <Link variant="defaultLink" onClick={handleClick}>
                 {translate('CLICK_TO_SHOW')}
