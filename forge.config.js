@@ -17,10 +17,12 @@ module.exports = {
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config:  {
+      config: process.env.SHOULD_SIGN ? {
         name: 'signer',
         certificateFile: process.env.WINDOWS_PFX_FILE,
         certificatePassword: process.env.WINDOWS_PFX_PASSWORD
+      } : {
+        name: 'signer',
       }
     },
     {
