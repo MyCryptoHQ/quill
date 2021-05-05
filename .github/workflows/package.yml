@@ -66,11 +66,6 @@ jobs:
       - name: Make artifact
         if: github.event_name == 'pull_request'
         run: yarn make
-        env:
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
-          WINDOWS_PFX_FILE: ${{ steps.write_file.outputs.filePath }}
-          WINDOWS_PFX_PASSWORD: ${{ secrets.WINDOWS_PFX_PASSWORD }}
 
       - name: Upload artifacts
         if: github.event_name == 'pull_request'
