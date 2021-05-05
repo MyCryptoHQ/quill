@@ -84,7 +84,9 @@ const showWindow = () => {
   }
 };
 
-const toggleWindow = () => (window.isVisible() ? window.hide() : showWindow());
+const hideWindow = () => window.hide();
+
+const toggleWindow = () => (window.isVisible() ? hideWindow() : showWindow());
 
 const createTray = () => {
   tray = new Tray(path.join(__dirname, 'favicon.png'));
@@ -124,6 +126,12 @@ app.on('activate', () => {
   // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
+  }
+});
+
+app.on('browser-window-blur', (event, win) => {
+  if (!win.webContents.isDevToolsFocused()) {
+    hideWindow();
   }
 });
 
