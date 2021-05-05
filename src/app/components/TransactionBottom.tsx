@@ -14,7 +14,7 @@ export const TransactionBottom = ({
   handleDeny(): void;
   form?: string;
 }) => (
-  <PanelBottom>
+  <PanelBottom py="24px">
     <Button id="accept_button" type="submit" form={form} disabled={disabled} onClick={handleAccept}>
       {translateRaw('APPROVE_TX')}
     </Button>

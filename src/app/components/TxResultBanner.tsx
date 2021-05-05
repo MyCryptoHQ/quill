@@ -32,7 +32,7 @@ const configs = {
 export const TxResultBanner = ({ result }: { result: TxResult }) => {
   const { bg, color, icon, label } = configs[result];
   return (
-    <Box bg={bg} sx={{ borderRadius: '3px' }} variant="horizontal-start" p="2" my="2">
+    <Box bg={bg} sx={{ borderRadius: '3px' }} variant="horizontal-start" p="2" mb="2">
       <Image src={icon} height="20px" width="20px" mr="2" />
       <Body color={color} fontWeight="bold" sx={{ textTransform: 'uppercase' }}>
         {label}
