@@ -145,7 +145,11 @@ const overrideTheme = {
     RED: '#EF4747',
 
     // PURPLE
-    PURPLE: '#A682FF'
+    PURPLE: '#A682FF',
+
+    badge: {
+      muted: '#F6F8FA'
+    }
   },
   radii: { input: '2px', badge: '4px' },
   forms: {
@@ -221,7 +225,10 @@ const overrideTheme = {
       px: '2',
       color: 'WHITE',
       fontSize: '14px',
-      lineHeight: '20px'
+      lineHeight: '20px',
+      nonce: {
+        bg: 'badge.muted'
+      }
     }
   },
   buttons: {

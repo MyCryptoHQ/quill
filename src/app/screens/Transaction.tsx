@@ -51,6 +51,7 @@ export const Transaction = () => {
           <FromToAccount
             sender={{ address: tx.from, label: currentAccount?.label }}
             recipient={tx.to && { address: tx.to, label: recipientAccount?.label }}
+            nonce={tx.nonce}
           />
           <Body fontSize="14px" color="BLUE_GREY" mb="2" mt="2">
             {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
