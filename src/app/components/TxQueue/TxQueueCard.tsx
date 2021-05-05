@@ -1,7 +1,7 @@
 import { formatEther } from '@ethersproject/units';
 import { Body } from '@mycrypto/ui';
 
-import { Box, FromToAccount, Image, LinkApp, TimeElapsed } from '@app/components';
+import { Badge, Box, FromToAccount, Image, LinkApp, TimeElapsed } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import { useDispatch, useSelector } from '@app/store';
 import circleArrow from '@assets/icons/circle-arrow.svg';
@@ -24,10 +24,13 @@ export const TxQueueCard = ({ item, first }: { item: TxQueueEntry; first: boolea
   return (
     <Box pt={first ? '0' : '16px'} pb="16px">
       <Box variant="horizontal-start">
-        <Image src={waiting} height="20px" width="20px" mr="8px" />
-        <Body color="PURPLE" sx={{ textTransform: 'uppercase' }}>
-          {translateRaw('HOME_TX_RESULT_WAITING')}
-        </Body>
+        <Box variant="horizontal-start">
+          <Image src={waiting} height="20px" width="20px" mr="8px" />
+          <Body color="PURPLE" sx={{ textTransform: 'uppercase' }}>
+            {translateRaw('HOME_TX_RESULT_WAITING')}
+          </Body>
+        </Box>
+        {first && <Badge ml="auto">NEW</Badge>}
       </Box>
       <Box variant="horizontal-start" mt="2">
         <FromToAccount
