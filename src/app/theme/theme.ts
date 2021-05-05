@@ -147,7 +147,7 @@ const overrideTheme = {
     // PURPLE
     PURPLE: '#A682FF'
   },
-  radii: { input: '2px' },
+  radii: { input: '2px', badge: '4px' },
   forms: {
     label: {
       marginBottom: '6px'
@@ -213,6 +213,15 @@ const overrideTheme = {
       borderColor: 'none',
       padding: '24px',
       paddingTop: '0'
+    },
+    badge: {
+      borderRadius: 'badge',
+      bg: 'PURPLE',
+      py: '1',
+      px: '2',
+      color: 'WHITE',
+      fontSize: '14px',
+      lineHeight: '20px'
     }
   },
   buttons: {

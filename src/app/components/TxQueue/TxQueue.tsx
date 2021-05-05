@@ -10,9 +10,9 @@ export const TxQueue = ({ queue }: { queue: TxQueueEntry[] }) => (
     {queue
       .slice()
       .sort((a, b) => b.timestamp - a.timestamp)
-      .map((q) => (
+      .map((q, index) => (
         <Fragment key={q.uuid}>
-          <TxQueueCard item={q} />
+          <TxQueueCard item={q} first={index === 0} />
           <Divider />
         </Fragment>
       ))}

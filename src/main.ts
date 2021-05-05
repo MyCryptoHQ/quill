@@ -77,8 +77,11 @@ const showWindow = () => {
   window.setPosition(position.x, position.y, false);
   // Added because setPosition would sometimes squeeze the sizing
   window.setSize(WIDTH, HEIGHT, false);
+  // Hack to show on current desktop - see: https://github.com/electron/electron/issues/5362
+  window.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
   window.show();
   window.focus();
+  window.setVisibleOnAllWorkspaces(false);
   if (isDev) {
     window.webContents.openDevTools({ mode: 'undocked' });
   }
