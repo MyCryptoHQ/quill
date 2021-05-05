@@ -1,4 +1,4 @@
-import { Body, Button } from '@mycrypto/ui';
+import { Button } from '@mycrypto/ui';
 import { ALL_DERIVATION_PATHS, DEFAULT_ETH } from '@mycrypto/wallets';
 import { useEffect } from 'react';
 import { AnyListener } from 'typed-react-form';
@@ -6,7 +6,6 @@ import { AnyListener } from 'typed-react-form';
 import {
   Box,
   DPathSelector,
-  FormCheckbox,
   MnemonicAddressList,
   PanelBottom,
   ScrollableContainer,
@@ -112,8 +111,7 @@ const AddAccountMnemonicForm = ({
           mnemonicPhrase: form.values.mnemonic,
           passphrase: form.values.password,
           path: selectedPathData,
-          index,
-          persistent: form.values.persistent
+          index
         }))
       )
     );
@@ -145,27 +143,17 @@ const AddAccountMnemonicForm = ({
           </Box>
         )}
       </ScrollableContainer>
-      {addresses.length === 0 ? (
-        <PanelBottom pb="24px">
+      <PanelBottom>
+        {addresses.length === 0 ? (
           <Button type="submit" form="mnemonic-phrase-form">
             {translateRaw('NEXT')}
           </Button>
-          <Box pt="2" variant="horizontal-start">
-            <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
-            <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
-          </Box>
-        </PanelBottom>
-      ) : (
-        <PanelBottom pb="24px">
+        ) : (
           <Button onClick={handleSubmit} disabled={selectedAccounts.length === 0}>
             {translateRaw('VERIFY_ACCOUNT')}
           </Button>
-          <Box pt="2" variant="horizontal-start">
-            <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
-            <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
-          </Box>
-        </PanelBottom>
-      )}
+        )}
+      </PanelBottom>
     </>
   );
 };

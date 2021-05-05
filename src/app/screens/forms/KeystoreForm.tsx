@@ -18,8 +18,7 @@ export const useKeystoreForm = () =>
   useForm(
     {
       keystore: undefined as File | undefined,
-      password: '',
-      persistent: true
+      password: ''
     },
     yupValidator(SCHEMA, { abortEarly: false }),
     true

@@ -16,8 +16,7 @@ const SCHEMA = object({
 export const usePrivateKeyForm = () =>
   useForm(
     {
-      privateKey: '',
-      persistent: true
+      privateKey: ''
     },
     yupValidator(SCHEMA),
     true

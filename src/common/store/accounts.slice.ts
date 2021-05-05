@@ -7,11 +7,13 @@ import type {
   IAccount,
   SerializedDeterministicWallet,
   SerializedWallet,
+  SerializedWalletWithAddress,
   TAddress
 } from '@types';
 
 export interface AccountsState {
   accounts: IAccount[];
+  accountsToAdd: SerializedWalletWithAddress[];
   addresses: GetAddressesResult[];
   isFetching: boolean;
   fetchError?: string;
@@ -23,6 +25,7 @@ export interface AccountsState {
 
 export const initialState: AccountsState = {
   accounts: [],
+  accountsToAdd: [],
   addresses: [],
   isFetching: false
 };
@@ -39,19 +42,23 @@ const slice = createSlice({
       state.isFetching = false;
     },
     removeAccount(state, action: PayloadAction<IAccount>) {
-      // This reducer can be called when an account does not exist with this UUID, hence why this reducer is written differently that the others
+      // This reducer can be called when an account does not exist with this UUID, hence why this
+      // reducer is written differently that the others
       return { ...state, accounts: state.accounts.filter((a) => a.uuid !== action.payload.uuid) };
     },
     updateAccount(state, action: PayloadAction<IAccount>) {
       const idx = state.accounts.findIndex((a) => a.uuid === action.payload.uuid);
       state.accounts[idx] = action.payload;
     },
+    setAccountsToAdd(state, action: PayloadAction<SerializedWalletWithAddress[]>) {
+      state.accountsToAdd = action.payload;
+    },
     setAddresses(state, action: PayloadAction<GetAddressesResult[]>) {
       state.addresses = action.payload;
       state.isFetching = false;
       state.fetchError = undefined;
     },
-    fetchAccounts(state, _: PayloadAction<(SerializedWallet & { persistent: boolean })[]>) {
+    fetchAccounts(state, _: PayloadAction<SerializedWallet[]>) {
       state.isFetching = true;
       state.fetchError = undefined;
     },
@@ -89,6 +96,7 @@ export const {
   addAccount,
   removeAccount,
   updateAccount,
+  setAccountsToAdd,
   setAddresses,
   fetchAccounts,
   fetchAddresses,
@@ -97,6 +105,8 @@ export const {
   setGeneratedAccount
 } = slice.actions;
 
+export const addSavedAccounts = createAction<boolean>(`${sliceName}/addSavedAccounts`);
+export const persistAccount = createAction<SerializedWallet>(`${sliceName}/persistAccount`);
 export const generateAccount = createAction(`${sliceName}/generateAccount`);
 
 export default slice;
@@ -106,6 +116,11 @@ export const reducer = slice.reducer;
 export const getAccounts = createSelector(
   (state: { accounts: AccountsState }) => state.accounts,
   (accounts) => accounts.accounts
+);
+
+export const getAccountsToAdd = createSelector(
+  (state: { accounts: AccountsState }) => state.accounts,
+  (accounts) => accounts.accountsToAdd
 );
 
 export const getAddresses = createSelector(

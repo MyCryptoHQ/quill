@@ -18,8 +18,7 @@ export const useMnemonicForm = <T extends DefaultState>(defaultState?: T) =>
   useForm(
     {
       mnemonic: '',
-      password: '',
-      persistent: true
+      password: ''
     },
     yupValidator(SCHEMA),
     true,

@@ -5,7 +5,7 @@ import { decryptSettings, encryptSettings } from '@common/store/settings.slice';
 import { encryptJson } from '@common/utils';
 import type { ReduxIPC } from '@types';
 
-import { fetchAccounts } from './accounts.slice';
+import { fetchAccounts, persistAccount } from './accounts.slice';
 import { sign } from './signing.slice';
 import synchronization, {
   getHandshaken,
@@ -26,7 +26,8 @@ export const CRYPTO_ACTIONS = [
   login.type,
   createPassword.type,
   encryptSettings.type,
-  decryptSettings.type
+  decryptSettings.type,
+  persistAccount.type
 ];
 
 export const shouldIgnore = (action: AnyAction, from: Process, target: Process, self: Process) => {

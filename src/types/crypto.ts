@@ -1,5 +1,7 @@
 import type { DerivationPath } from '@mycrypto/wallets';
 
+import type { TAddress } from '@types';
+
 import type { TUuid } from './uuid';
 import type { WalletType } from './wallet';
 
@@ -28,6 +30,7 @@ export interface SerializedPersistentAccount {
 }
 
 export type SerializedWallet = SerializedPrivateKey | SerializedMnemonicPhrase | SerializedKeystore;
+export type SerializedWalletWithAddress = SerializedWallet & { address: TAddress };
 export type SerializedOptionalPersistentWallet =
   | (SerializedWallet & { persistent?: false })
   | SerializedPersistentAccount;

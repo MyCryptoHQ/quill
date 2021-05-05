@@ -1,16 +1,10 @@
-import { Body, Button } from '@mycrypto/ui';
+import { Button } from '@mycrypto/ui';
 import { useEffect } from 'react';
 
 import { useDispatch, useSelector } from '@app/store';
 import { fetchAccounts, getAccountError } from '@common/store';
 import { translateRaw } from '@common/translate';
-import {
-  Box,
-  FormCheckbox,
-  PanelBottom,
-  ScrollableContainer,
-  WalletTypeSelector
-} from '@components';
+import { PanelBottom, ScrollableContainer, WalletTypeSelector } from '@components';
 import { WalletType } from '@types';
 
 import { KeystoreForm, useKeystoreForm } from '../forms/KeystoreForm';
@@ -47,8 +41,7 @@ const AddAccountKeystoreForm = ({
             {
               walletType: WalletType.KEYSTORE,
               keystore,
-              password: form.values.password,
-              persistent: form.values.persistent
+              password: form.values.password
             }
           ])
         );
@@ -62,14 +55,10 @@ const AddAccountKeystoreForm = ({
         <WalletTypeSelector walletType={WalletType.KEYSTORE} setWalletType={setWalletType} />
         <KeystoreForm form={form} onSubmit={handleSubmit} />
       </ScrollableContainer>
-      <PanelBottom pb="24px">
+      <PanelBottom>
         <Button type="submit" form="keystore-form">
           {translateRaw('VERIFY_ACCOUNT')}
         </Button>
-        <Box pt="2" variant="horizontal-start">
-          <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
-          <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
-        </Box>
       </PanelBottom>
     </>
   );

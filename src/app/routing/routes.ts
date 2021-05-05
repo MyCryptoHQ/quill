@@ -1,3 +1,5 @@
+import { AddAccountSecurity } from '@screens/AddAccount';
+import { AddAccountBackup } from '@screens/AddAccount/AddAccountBackup';
 import type { Route } from '@types';
 
 import {
@@ -42,6 +44,18 @@ export const ROUTES: Record<string, Route> = {
   ADD_ACCOUNT: {
     path: ROUTE_PATHS.ADD_ACCOUNT,
     component: AddAccount,
+    exact: true,
+    requireLogin: true
+  },
+  ADD_ACCOUNT_SECURITY: {
+    path: ROUTE_PATHS.ADD_ACCOUNT_SECURITY,
+    component: AddAccountSecurity,
+    exact: true,
+    requireLogin: true
+  },
+  ADD_ACCOUNT_BACKUP: {
+    path: ROUTE_PATHS.ADD_ACCOUNT_BACKUP,
+    component: AddAccountBackup,
     exact: true,
     requireLogin: true
   },

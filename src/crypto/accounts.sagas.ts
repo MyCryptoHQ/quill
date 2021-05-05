@@ -1,29 +1,30 @@
 import { DEFAULT_ETH } from '@mycrypto/wallets';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { replace } from 'connected-react-router';
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { push } from 'connected-react-router';
+import type { SagaIterator } from 'redux-saga';
+import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 
 import { ROUTE_PATHS } from '@app/routing';
 import {
-  addAccount,
   fetchAccounts,
   fetchAddresses,
   fetchFailed,
   generateAccount,
+  persistAccount,
   removeAccount,
   setAddresses,
   setGeneratedAccount
 } from '@common/store';
+import { setAccountsToAdd } from '@common/store/accounts.slice';
 import { DEFAULT_MNEMONIC_INDEX } from '@config/derivation';
 import type {
   GetAddressesResult,
   IAccount,
-  SerializedMnemonicPhrase,
   SerializedWallet,
+  SerializedWalletWithAddress,
   TAddress
 } from '@types';
 import { WalletType } from '@types';
-import { generateDeterministicAddressUUID } from '@utils';
 
 import { createWallet, getAddress, getAddresses } from './crypto';
 import { deleteAccountSecrets, saveAccountSecrets } from './secrets';
@@ -33,38 +34,29 @@ export function* accountsSaga() {
     takeLatest(fetchAccounts.type, fetchAccountsWorker),
     takeLatest(removeAccount.type, removeAccountWorker),
     takeLatest(generateAccount.type, generateAccountWorker),
-    takeLatest(fetchAddresses.type, fetchAddressesWorker)
+    takeLatest(fetchAddresses.type, fetchAddressesWorker),
+    takeEvery(persistAccount.type, persistAccountWorker)
   ]);
 }
 
-export function* fetchAccountsWorker({
-  payload: wallets
-}: PayloadAction<(SerializedWallet & { persistent: boolean })[]>) {
+export function* fetchAccountWorker(
+  wallet: SerializedWallet
+): SagaIterator<SerializedWalletWithAddress> {
+  const address: TAddress = yield call(getAddress, wallet);
+  return {
+    ...wallet,
+    address
+  };
+}
+
+export function* fetchAccountsWorker({ payload }: PayloadAction<SerializedWallet[]>) {
   try {
-    for (const wallet of wallets) {
-      const address: TAddress = yield call(getAddress, wallet);
+    const wallets: SerializedWalletWithAddress[] = yield all(
+      payload.map((wallet) => call(fetchAccountWorker, wallet))
+    );
 
-      const uuid = generateDeterministicAddressUUID(address);
-
-      const account = {
-        type: wallet.walletType,
-        address,
-        uuid,
-        dPath: (wallet as SerializedMnemonicPhrase).path,
-        index: (wallet as SerializedMnemonicPhrase).index,
-        persistent: wallet.persistent
-      };
-
-      // Remove existing account if present, set persistent to true to wipe saved secret if present too
-      yield put(removeAccount({ ...account, persistent: true }));
-
-      if (wallet.persistent) {
-        yield call(saveAccountSecrets, wallet);
-      }
-
-      yield put(addAccount(account));
-    }
-    yield put(replace(ROUTE_PATHS.ADD_ACCOUNT_END));
+    yield put(setAccountsToAdd(wallets));
+    yield put(push(ROUTE_PATHS.ADD_ACCOUNT_SECURITY));
   } catch (err) {
     yield put(fetchFailed(err.message));
   }
@@ -98,4 +90,8 @@ export function* fetchAddressesWorker({ payload }: ReturnType<typeof fetchAddres
   } catch (error) {
     yield put(fetchFailed(error.message));
   }
+}
+
+export function* persistAccountWorker({ payload }: ReturnType<typeof persistAccount>) {
+  yield call(saveAccountSecrets, payload);
 }
