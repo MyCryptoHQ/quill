@@ -11,7 +11,7 @@ import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
 import { useSelector } from '@store';
 import { translate } from '@translations';
 
-export const GenerateAccountEnd = ({ onNext }: IFlowComponentProps) => {
+export const GenerateAccountEnd = ({ onNext, flowHeader }: IFlowComponentProps) => {
   const paperWallet = useRef<HTMLDivElement>();
   const [showMnemonicPhrase, setShowMnemonicPhrase] = useState(false);
   const [paperWalletImage, setPaperWalletImage] = useState<string>();
@@ -27,7 +27,8 @@ export const GenerateAccountEnd = ({ onNext }: IFlowComponentProps) => {
 
   return (
     <>
-      <Container pt="0">
+      <Container>
+        {flowHeader}
         <Box sx={{ position: 'absolute', top: '-1000%', left: '-1000%' }}>
           <PaperWallet ref={paperWallet} address={address} mnemonicPhrase={mnemonicPhrase} />
         </Box>

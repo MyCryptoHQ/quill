@@ -12,7 +12,7 @@ import { useSelector } from '@store';
 import { translate } from '@translations';
 import { getRandomNumbers } from '@utils/random';
 
-export const GenerateAccountVerify = ({ onNext }: IFlowComponentProps) => {
+export const GenerateAccountVerify = ({ onNext, flowHeader }: IFlowComponentProps) => {
   const mnemonicWords = useSelector(getGeneratedMnemonicWords);
   const [first, second, third] = useMemo(() => getRandomNumbers(24, 3), []);
 
@@ -55,7 +55,8 @@ export const GenerateAccountVerify = ({ onNext }: IFlowComponentProps) => {
 
   return (
     <>
-      <Container pt="0">
+      <Container>
+        {flowHeader}
         <Box sx={{ textAlign: 'center' }} mb="4">
           <Heading fontSize="24px" lineHeight="150%" mb="2">
             {translateRaw('VERIFY_MNEMONIC_PHRASE_TITLE')}

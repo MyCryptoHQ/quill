@@ -29,7 +29,7 @@ const Word = ({ index, children }: WordProps) => (
   </Flex>
 );
 
-export const GenerateAccountMnemonic = ({ onNext }: IFlowComponentProps) => {
+export const GenerateAccountMnemonic = ({ onNext, flowHeader }: IFlowComponentProps) => {
   const dispatch = useDispatch();
   const mnemonicWords = useSelector(getGeneratedMnemonicWords);
 
@@ -45,7 +45,8 @@ export const GenerateAccountMnemonic = ({ onNext }: IFlowComponentProps) => {
 
   return (
     <>
-      <ScrollableContainer pt="0">
+      <ScrollableContainer>
+        {flowHeader}
         <Box sx={{ textAlign: 'center' }} mb="4">
           <Heading fontSize="24px" lineHeight="150%" mb="2">
             {translateRaw('CREATE_MNEMONIC_PHRASE_TITLE')}
