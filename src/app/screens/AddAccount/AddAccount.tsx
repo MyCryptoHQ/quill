@@ -10,8 +10,12 @@ import { WalletType } from '@types';
 import { AddAccountMnemonic } from './AddAccountMnemonic';
 import { AddAccountPrivateKey } from './AddAccountPrivateKey';
 
-export const AddAccount = () => {
-  const [walletType, setWalletType] = useState(WalletType.PRIVATE_KEY);
+interface Props {
+  walletType?: WalletType;
+}
+
+export const AddAccount = ({ walletType: defaultWalletType = WalletType.PRIVATE_KEY }: Props) => {
+  const [walletType, setWalletType] = useState(defaultWalletType);
   const dispatch = useDispatch();
 
   useEffect(() => {

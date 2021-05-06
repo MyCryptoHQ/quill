@@ -1,11 +1,10 @@
 import { BlockieAddress, Body, Button, Heading } from '@mycrypto/ui';
+import { getFullPath } from '@mycrypto/wallets';
 import React, { useState } from 'react';
 
-import { addSavedAccounts, getAccountsToAdd } from '@common/store';
-import { setAccountsToAdd } from '@common/store/accounts.slice';
+import { addSavedAccounts, getAccountsToAdd, setAccountsToAdd } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { Box, Checkbox, Container, Panel, PanelBottom } from '@components';
-import { DEFAULT_DERIVATION_PATH } from '@config';
 import { useUnmount } from '@hooks';
 import { useDispatch, useSelector } from '@store';
 import { WalletType } from '@types';
@@ -44,7 +43,7 @@ export const AddAccountBackup = () => {
           <BlockieAddress address={accounts[0].address} mb="2" />
           {accounts[0].walletType === WalletType.MNEMONIC && (
             <Body fontSize="14px">
-              {translate('DERIVATION_PATH')} {DEFAULT_DERIVATION_PATH}
+              {translate('DERIVATION_PATH')} {getFullPath(accounts[0].path, accounts[0].index)}
             </Body>
           )}
         </Panel>
@@ -52,7 +51,7 @@ export const AddAccountBackup = () => {
       <PanelBottom variant="clear">
         <Button mb="2">Print Paper Wallet</Button>
         <Button mb="2" variant="inverted" onClick={handleAdd}>
-          My Phrase is Stored Safely, Add Account
+          {translateRaw('CONTINUE_ADD_ACCOUNT')}
         </Button>
         <Box pt="2" variant="horizontal-start">
           <Checkbox checked={persistent} onChange={handleToggle} data-testid="toggle-persistence" />

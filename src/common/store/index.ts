@@ -3,6 +3,7 @@ export * from './synchronization.slice';
 export * from './synchronization.middleware';
 export {
   addAccount,
+  setAccountsToAdd,
   removeAccount,
   updateAccount,
   setAddresses,

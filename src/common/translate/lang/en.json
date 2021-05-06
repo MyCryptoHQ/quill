@@ -146,6 +146,8 @@
     "ALLOW_PERMISSIONS": "Allow Permissions",
     "DENY_PERMISSIONS": "Deny Permissions",
     "ALLOW_THIS_SITE": "Allow this site to:",
-    "PERMISSION_LIST_1": "View the addresses of your accounts (required)"
+    "PERMISSION_LIST_1": "View the addresses of your accounts (required)",
+    "ACKNOWLEDGE_AND_CONTINUE": "Acknowledge and Continue",
+    "CONTINUE_ADD_ACCOUNT": "My Phrase is Stored Safely, Add Account"
   }
 }

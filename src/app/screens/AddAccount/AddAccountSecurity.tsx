@@ -3,7 +3,8 @@ import { push } from 'connected-react-router';
 import { useEffect, useRef, useState } from 'react';
 
 import secureIcon from '@assets/icons/secure-purple.svg';
-import { setAccountsToAdd } from '@common/store/accounts.slice';
+import { setAccountsToAdd } from '@common/store';
+import { translateRaw } from '@common/translate';
 import { IconList, ListItem, PanelBottom, ScrollableContainer } from '@components';
 import { BackHeading } from '@components/BackHeading';
 import { useUnmount } from '@hooks';
@@ -16,7 +17,6 @@ export const AddAccountSecurity = () => {
   const [isClickable, setClickable] = useState(false);
 
   const handleScroll = () => {
-    console.log(ref.current.scrollHeight <= ref.current.clientHeight);
     if (ref.current.scrollHeight <= ref.current.clientHeight) {
       return setClickable(true);
     }
@@ -34,7 +34,7 @@ export const AddAccountSecurity = () => {
       window.addEventListener('resize', handleScroll);
 
       return () => {
-        ref.current.removeEventListener('scroll', handleScroll);
+        ref.current?.removeEventListener('scroll', handleScroll);
         window.removeEventListener('resize', handleScroll);
       };
     }
@@ -68,7 +68,7 @@ export const AddAccountSecurity = () => {
       </ScrollableContainer>
       <PanelBottom>
         <Button onClick={handleClick} disabled={!isClickable}>
-          Acknowledge and Continue
+          {translateRaw('ACKNOWLEDGE_AND_CONTINUE')}
         </Button>
       </PanelBottom>
     </>
