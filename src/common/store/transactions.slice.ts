@@ -54,6 +54,9 @@ export const getQueue = createSelector(
   (transactions) => transactions.queue
 );
 
+export const getAccountQueue = (account: TAddress) =>
+  createSelector(getQueue, (queue) => queue.filter((tx) => tx.tx.from === account));
+
 export const getCurrentTransaction = createSelector(
   (state: ApplicationState) => state.transactions.currentTransaction,
   (t) => t

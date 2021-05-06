@@ -33,6 +33,7 @@ export {
   getQueueLength,
   getTxHistory,
   addToHistory,
+  getAccountQueue,
   hasNonceConflict,
   hasNonceConflictInQueue
 } from './transactions.slice';

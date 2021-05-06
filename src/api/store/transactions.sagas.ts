@@ -8,12 +8,11 @@ import {
   enqueue,
   getCurrentTransaction,
   getLoggedIn,
-  getQueue,
   hasNonceConflict,
   selectTransaction
 } from '@common/store';
-import { getAccountNonce, update } from '@common/store/transactions.slice';
-import type { TSignTransaction, TxQueueEntry, UserRequest } from '@types';
+import { getAccountNonce, getAccountQueue, update } from '@common/store/transactions.slice';
+import type { TSignTransaction, TxHistoryEntry, TxQueueEntry, UserRequest } from '@types';
 import { TxResult } from '@types';
 import type { Bigish } from '@utils';
 import { addHexPrefix, bigify, makeHistoryTx, makeQueueTx } from '@utils';
@@ -35,8 +34,8 @@ export function* addTransactionWorker({ payload }: PayloadAction<UserRequest<TSi
   }
 }
 
-export function* nonceConflictWorker() {
-  const queue: TxQueueEntry[] = yield select(getQueue);
+export function* nonceConflictWorker({ payload }: PayloadAction<TxQueueEntry | TxHistoryEntry>) {
+  const queue: TxQueueEntry[] = yield select(getAccountQueue(payload.tx.from));
   for (const item of queue) {
     const { nonce, from } = item.tx;
 
