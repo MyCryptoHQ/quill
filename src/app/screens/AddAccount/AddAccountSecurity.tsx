@@ -28,6 +28,8 @@ export const AddAccountSecurity = ({ flowHeader }: IFlowComponentProps) => {
 
   useEffect(() => {
     if (ref.current) {
+      handleScroll();
+
       ref.current.addEventListener('scroll', handleScroll);
       window.addEventListener('resize', handleScroll);
 

@@ -7,6 +7,7 @@ import {
   fetchAddresses,
   fetchFailed,
   nextFlow,
+  persistAccount,
   removeAccount,
   setAccountsToAdd,
   setAddresses,
@@ -22,10 +23,11 @@ import {
   fetchAccountsWorker,
   fetchAddressesWorker,
   generateAccountWorker,
+  persistAccountWorker,
   removeAccountWorker
 } from './accounts.sagas';
 import { createWallet, getAddress, getAddresses } from './crypto';
-import { deleteAccountSecrets } from './secrets';
+import { deleteAccountSecrets, saveAccountSecrets } from './secrets';
 
 jest.mock('keytar');
 
@@ -173,6 +175,14 @@ describe('fetchAddressesWorker', () => {
       })
       .call(getAddresses, wallet, DEFAULT_ETH, 3, 0)
       .put(fetchFailed('error'))
+      .silentRun();
+  });
+});
+
+describe('persistAccountWorker', () => {
+  it('calls saveAccountSecrets for an account', async () => {
+    await expectSaga(persistAccountWorker, persistAccount(wallet))
+      .call(saveAccountSecrets, wallet)
       .silentRun();
   });
 });

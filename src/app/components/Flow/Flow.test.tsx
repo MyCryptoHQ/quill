@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { ThemeProvider } from 'styled-components';
 
-import { previousFlow, resetFlow } from '@common/store';
+import { nextFlow, previousFlow, resetFlow } from '@common/store';
 import type { FlowProps } from '@components';
 import { Flow } from '@components';
 import type { ApplicationState } from '@store';
@@ -62,6 +62,31 @@ describe('Flow', () => {
     expect(getByText('Bar')).toBeDefined();
     expect(getAllByTestId('active-item')).toHaveLength(1);
     expect(getAllByTestId('item')).toHaveLength(1);
+  });
+
+  it('dispatches nextFlow when calling onNext', () => {
+    const store = createMockStore({ flow: 0 });
+    const { getByTestId } = getComponent(
+      {
+        components: [
+          {
+            component: ({ onNext }) => (
+              <>
+                Foo
+                <button data-testid="next-button" onClick={onNext} />
+              </>
+            )
+          }
+        ],
+        onDone: jest.fn()
+      },
+      store
+    );
+
+    const button = getByTestId('next-button');
+    fireEvent.click(button);
+
+    expect(store.getActions()).toContainEqual(nextFlow());
   });
 
   it('dispatches goBack when calling onPrevious on the first step', () => {
