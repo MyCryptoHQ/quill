@@ -40,6 +40,7 @@ const configs = {
   }
 };
 
+// @todo: Add accordion
 export const TxInfoBanner = ({ type }: { type: InfoType | TxResult }) => {
   const { bg, color, icon, label } = configs[type];
   return (
