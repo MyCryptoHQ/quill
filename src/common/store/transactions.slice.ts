@@ -2,8 +2,9 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAction, createSelector, createSlice } from '@reduxjs/toolkit';
 
 import type { ApplicationState } from '@store';
-import type { TSignTransaction, TxHistoryEntry, TxQueueEntry, UserRequest } from '@types';
-import { makeQueueTx } from '@utils';
+import type { TAddress, TSignTransaction, TxHistoryEntry, TxQueueEntry, UserRequest } from '@types';
+import { TxResult } from '@types';
+import { bigify, makeQueueTx } from '@utils';
 
 export const initialState: {
   queue: TxQueueEntry[];
@@ -59,3 +60,17 @@ export const getTxHistory = createSelector(
   (state: ApplicationState) => state.transactions.history,
   (h) => h
 );
+
+export const getApprovedTransactions = createSelector(getTxHistory, (history) =>
+  history.filter((h) => h.result === TxResult.APPROVED)
+);
+
+export const getAccountNonce = (account: TAddress) =>
+  createSelector(
+    getApprovedTransactions,
+    (transactions) =>
+      transactions
+        .filter((h) => h.tx.from === account)
+        .map((tx) => bigify(tx.tx.nonce))
+        .reduce((prev, current) => (prev.gt(current) ? prev : current)) || bigify(0)
+  );
