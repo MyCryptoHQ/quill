@@ -14,7 +14,7 @@ export enum TxResult {
 
 export type TransactionRequest = Overwrite<
   EthersTransactionRequest,
-  { to: TAddress; from: TAddress }
+  { to?: TAddress; from: TAddress }
 >;
 
 export interface TxHistoryEntry {

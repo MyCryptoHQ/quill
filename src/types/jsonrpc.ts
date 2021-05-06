@@ -18,7 +18,7 @@ const EvenHex = refine(Hex, 'Even Length', (value) => value.length % 2 === 0);
 
 export const SignTransactionStruct = tuple([
   object({
-    to: Address,
+    to: optional(Address),
     from: optional(Address),
     nonce: Hex,
     gasLimit: Hex,
