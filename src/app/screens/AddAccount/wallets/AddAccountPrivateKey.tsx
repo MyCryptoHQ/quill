@@ -55,7 +55,7 @@ const AddAccountPrivateKeyForm = ({
       </ScrollableContainer>
       <PanelBottom>
         <Button type="submit" form="private-key-form">
-          {translateRaw('VERIFY_ACCOUNT')}
+          {translateRaw('REVIEW_SECURITY_DETAILS')}
         </Button>
       </PanelBottom>
     </>

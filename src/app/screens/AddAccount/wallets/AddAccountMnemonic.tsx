@@ -1,5 +1,6 @@
-import { Button } from '@mycrypto/ui';
+import { Body, Button, Heading } from '@mycrypto/ui';
 import { ALL_DERIVATION_PATHS, DEFAULT_ETH } from '@mycrypto/wallets';
+import { Label } from '@rebass/forms/styled-components';
 import type { ReactElement } from 'react';
 import { useEffect } from 'react';
 import { AnyListener } from 'typed-react-form';
@@ -33,6 +34,7 @@ const useForm = () =>
 
 interface Props {
   flowHeader: ReactElement;
+
   setWalletType(walletType: WalletType): void;
 }
 
@@ -121,13 +123,22 @@ const AddAccountMnemonicForm = ({
     <>
       <ScrollableContainer>
         {flowHeader}
-        <WalletTypeSelector walletType={WalletType.MNEMONIC} setWalletType={setWalletType} />
-
         {addresses.length === 0 ? (
-          <MnemonicForm form={form} onSubmit={updateAddresses} />
+          <>
+            <WalletTypeSelector walletType={WalletType.MNEMONIC} setWalletType={setWalletType} />
+            <MnemonicForm form={form} onSubmit={updateAddresses} />
+          </>
         ) : (
           <Box>
+            {/* @todo: Extended key banner */}
+            <Heading as="h2" fontSize="18px" lineHeight="24px" textAlign="center" mb="2">
+              {translateRaw('ADD_ADDRESS_TO_SIGNER')}
+            </Heading>
+            <Body mb="3">{translateRaw('SELECT_ADDRESSES_TO_ADD')}</Body>
+
+            <Label htmlFor="derivation-path-selector">{translateRaw('NETWORK_PATH')}</Label>
             <DPathSelector selectedPath={dPath} setSelectedPath={handleDPathChange} />
+
             <MnemonicAddressList
               addresses={addresses}
               selectedAccounts={selectedAccounts}
@@ -151,7 +162,7 @@ const AddAccountMnemonicForm = ({
           </Button>
         ) : (
           <Button onClick={handleSubmit} disabled={selectedAccounts.length === 0}>
-            {translateRaw('VERIFY_ACCOUNT')}
+            {translateRaw('REVIEW_SECURITY_DETAILS')}
           </Button>
         )}
       </PanelBottom>

@@ -46,6 +46,7 @@ export const DPathSelector = ({
 
   return (
     <Selector<DPathOptionType>
+      name="derivation-path-selector"
       value={{ ...selectedPathData, isHardened: selectedPathData.isHardened || false }}
       options={Object.values(ALL_DERIVATION_PATHS).map((p) => ({
         ...p,

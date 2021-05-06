@@ -61,7 +61,7 @@ const AddAccountKeystoreForm = ({
       </ScrollableContainer>
       <PanelBottom>
         <Button type="submit" form="keystore-form">
-          {translateRaw('VERIFY_ACCOUNT')}
+          {translateRaw('REVIEW_SECURITY_DETAILS')}
         </Button>
       </PanelBottom>
     </>

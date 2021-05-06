@@ -52,7 +52,7 @@ describe('AddAccountKeystore', () => {
     expect(passwordInput).toBeDefined();
     fireEvent.change(passwordInput, { target: { value: fKeystorePassword } });
 
-    const submitButton = getByText(translateRaw('VERIFY_ACCOUNT'));
+    const submitButton = getByText(translateRaw('REVIEW_SECURITY_DETAILS'));
     expect(submitButton).toBeDefined();
     fireEvent.click(submitButton);
 
@@ -85,7 +85,7 @@ describe('AddAccountKeystore', () => {
     expect(passwordInput).toBeDefined();
     fireEvent.change(passwordInput, { target: { value: fKeystorePassword } });
 
-    const submitButton = getByText(translateRaw('VERIFY_ACCOUNT'));
+    const submitButton = getByText(translateRaw('REVIEW_SECURITY_DETAILS'));
     expect(submitButton).toBeDefined();
     fireEvent.click(submitButton);
 
@@ -105,7 +105,7 @@ describe('AddAccountKeystore', () => {
   it('shows keystore form validation', async () => {
     const { getByText } = getComponent();
 
-    const submitButton = getByText(translateRaw('VERIFY_ACCOUNT'));
+    const submitButton = getByText(translateRaw('REVIEW_SECURITY_DETAILS'));
     expect(submitButton).toBeDefined();
     fireEvent.click(submitButton);
 
@@ -130,7 +130,7 @@ describe('AddAccountKeystore', () => {
     expect(passwordInput).toBeDefined();
     fireEvent.change(passwordInput, { target: { value: fKeystorePassword } });
 
-    const submitButton = getByText(translateRaw('VERIFY_ACCOUNT'));
+    const submitButton = getByText(translateRaw('REVIEW_SECURITY_DETAILS'));
     expect(submitButton).toBeDefined();
     fireEvent.click(submitButton);
 

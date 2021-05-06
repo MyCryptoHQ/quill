@@ -84,7 +84,7 @@ describe('AddAccountMnemonic', () => {
     await waitFor(() => expect(getByText(address)).toBeDefined());
     fireEvent.click(getByTestId(`checkbox-${address}`));
 
-    fireEvent.click(getByText(translateRaw('VERIFY_ACCOUNT')));
+    fireEvent.click(getByText(translateRaw('REVIEW_SECURITY_DETAILS')));
 
     expect(mockStore.getActions()).toContainEqual(
       fetchAccounts([

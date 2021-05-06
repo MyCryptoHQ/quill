@@ -41,7 +41,7 @@ describe('AddAccountPrivateKey', () => {
     expect(privKeyInput).toBeDefined();
     fireEvent.change(privKeyInput, { target: { value: fPrivateKey } });
 
-    const submitButton = getByText(translateRaw('VERIFY_ACCOUNT'));
+    const submitButton = getByText(translateRaw('REVIEW_SECURITY_DETAILS'));
     expect(submitButton).toBeDefined();
     fireEvent.click(submitButton);
 
@@ -60,7 +60,7 @@ describe('AddAccountPrivateKey', () => {
   it('shows private key form validation', async () => {
     const { getByText } = getComponent();
 
-    const submitButton = getByText(translateRaw('VERIFY_ACCOUNT'));
+    const submitButton = getByText(translateRaw('REVIEW_SECURITY_DETAILS'));
     expect(submitButton).toBeDefined();
     fireEvent.click(submitButton);
 

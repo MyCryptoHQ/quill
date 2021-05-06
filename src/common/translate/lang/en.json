@@ -31,7 +31,6 @@
     "MENU_GENERATE_ACCOUNT": "Generate an Account",
     "SUBMIT": "Submit",
     "NEXT": "Next",
-    "VERIFY_ACCOUNT": "Verify Account",
     "HOME_TX_RESULT_WAITING": "Waiting on action",
     "NO_LABEL": "No Label",
     "FORGOT_PASSWORD_HELP": "Forgot your password? Discover options $link",
@@ -158,6 +157,10 @@
     "BACKUP_ACCOUNT": "Backup $wallet",
     "BACKUP_MNEMONIC_PHRASE": "Before continuing, ensure that you backup the secret phrase for your new wallet to reduce your risk of loss. If you'd like, download/print your paper wallet below. [Read more]($link)",
     "BACKUP_PRIVATE_KEY": "Before continuing, ensure that you backup the private key for this wallet* to reduce the risk of loss. If you'd like, download/print your paper wallet below. [Read more]($link)",
-    "BACKUP_PRIVATE_KEY_NOTE": "*Note that this is only the private key for this individual wallet, this is NOT a mnemonic phrase backup for multiple wallets."
+    "BACKUP_PRIVATE_KEY_NOTE": "*Note that this is only the private key for this individual wallet, this is NOT a mnemonic phrase backup for multiple wallets.",
+    "ADD_ADDRESS_TO_SIGNER": "Add Your Address to the Signer",
+    "SELECT_ADDRESSES_TO_ADD": "Select all addresses you would like to add.",
+    "NETWORK_PATH": "Network (Derivation path)",
+    "REVIEW_SECURITY_DETAILS": "Review Security Details"
   }
 }
