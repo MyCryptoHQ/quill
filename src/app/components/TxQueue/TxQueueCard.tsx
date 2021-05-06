@@ -35,7 +35,7 @@ export const TxQueueCard = ({ item, first }: { item: TxQueueEntry; first: boolea
       <Box variant="horizontal-start" mt="2">
         <FromToAccount
           sender={{ address: tx.from, label: currentAccount?.label }}
-          recipient={{ address: tx.to, label: recipientAccount?.label }}
+          recipient={tx.to && { address: tx.to, label: recipientAccount?.label }}
         />
         <LinkApp
           href={ROUTE_PATHS.TX}

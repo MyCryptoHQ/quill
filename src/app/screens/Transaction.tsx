@@ -50,7 +50,7 @@ export const Transaction = () => {
           <TxResultBanner result={result} />
           <FromToAccount
             sender={{ address: tx.from, label: currentAccount?.label }}
-            recipient={{ address: tx.to, label: recipientAccount?.label }}
+            recipient={tx.to && { address: tx.to, label: recipientAccount?.label }}
           />
           <Body fontSize="14px" color="BLUE_GREY" mb="2" mt="2">
             {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
