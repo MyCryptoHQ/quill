@@ -62,7 +62,8 @@ export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
         </Panel>
       </Container>
       <PanelBottom variant="clear">
-        <Button mb="2">Print Paper Wallet</Button>
+        {/* @todo: Add paper wallet functionality */}
+        <Button mb="2">{translateRaw('PRINT_PAPER_WALLET')}</Button>
         <Button mb="2" variant="inverted" onClick={handleAdd}>
           {translateRaw('CONTINUE_ADD_ACCOUNT')}
         </Button>
