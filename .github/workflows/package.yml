@@ -38,7 +38,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Add MacOS certificates
-        if: matrix.os == 'macos-latest' && startsWith(github.ref, 'refs/tags/')
+        if: matrix.os == 'macos-latest'
         run: |
           KEYCHAIN=build.keychain
           security create-keychain -p $MACOS_KEYCHAIN_PASSWORD $KEYCHAIN
@@ -56,7 +56,7 @@ jobs:
           MACOS_KEYCHAIN_PASSWORD: ${{ secrets.MACOS_KEYCHAIN_PASSWORD }}
 
       - name: Add Windows certificate
-        if: matrix.os == 'windows-latest' && startsWith(github.ref, 'refs/tags/')
+        if: matrix.os == 'windows-latest'
         id: write_file
         uses: timheuer/base64-to-file@v1
         with:
@@ -66,6 +66,13 @@ jobs:
       - name: Make artifact
         if: github.event_name == 'pull_request'
         run: yarn make
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          WINDOWS_PFX_FILE: ${{ steps.write_file.outputs.filePath }}
+          WINDOWS_PFX_PASSWORD: ${{ secrets.WINDOWS_PFX_PASSWORD }}
+          SHOULD_SIGN: true
 
       - name: Upload artifacts
         if: github.event_name == 'pull_request'
