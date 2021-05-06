@@ -1,10 +1,14 @@
+import { push } from 'connected-react-router';
 import { expectSaga } from 'redux-saga-test-plan';
 
 import { createJsonRpcRequest } from '@api/store/utils';
+import { addAccount, addSavedAccounts, persistAccount, removeAccount } from '@common/store';
 import { JsonRPCMethod } from '@config';
-import { fAccounts, fRequestOrigin } from '@fixtures';
+import { fAccount, fAccounts, fPrivateKey, fRequestOrigin } from '@fixtures';
+import { ROUTE_PATHS } from '@routing';
+import { WalletType } from '@types';
 
-import { getAccountsWorker } from './accounts.sagas';
+import { addSavedAccountsWorker, getAccountsWorker } from './accounts.sagas';
 import { reply, requestAccounts } from './ws.slice';
 
 jest.mock('electron-store');
@@ -15,6 +19,39 @@ describe('getAccountsWorker', () => {
     await expectSaga(getAccountsWorker, requestAccounts({ origin: fRequestOrigin, request }))
       .withState({ accounts: { accounts: fAccounts } })
       .put(reply({ id: request.id, result: fAccounts.map((account) => account.address) }))
+      .silentRun();
+  });
+});
+
+describe('addSavedAccountsWorker', () => {
+  it('adds saved accounts', async () => {
+    const account = {
+      walletType: WalletType.PRIVATE_KEY,
+      address: fAccount.address,
+      privateKey: fPrivateKey
+    } as const;
+
+    await expectSaga(addSavedAccountsWorker, addSavedAccounts(false))
+      .withState({
+        accounts: {
+          accountsToAdd: [account]
+        }
+      })
+      .put(removeAccount({ ...fAccount, dPath: undefined, index: undefined, persistent: true }))
+      .put(addAccount({ ...fAccount, dPath: undefined, index: undefined, persistent: false }))
+      .put(push(ROUTE_PATHS.ADD_ACCOUNT_END))
+      .silentRun();
+
+    await expectSaga(addSavedAccountsWorker, addSavedAccounts(true))
+      .withState({
+        accounts: {
+          accountsToAdd: [account]
+        }
+      })
+      .put(removeAccount({ ...fAccount, dPath: undefined, index: undefined, persistent: true }))
+      .put(addAccount({ ...fAccount, dPath: undefined, index: undefined, persistent: true }))
+      .put(persistAccount(account))
+      .put(push(ROUTE_PATHS.ADD_ACCOUNT_END))
       .silentRun();
   });
 });

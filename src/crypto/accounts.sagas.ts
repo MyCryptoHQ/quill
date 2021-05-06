@@ -39,9 +39,7 @@ export function* accountsSaga() {
   ]);
 }
 
-export function* fetchAccountWorker(
-  wallet: SerializedWallet
-): SagaIterator<SerializedWalletWithAddress> {
+export function* fetchAccount(wallet: SerializedWallet): SagaIterator<SerializedWalletWithAddress> {
   const address: TAddress = yield call(getAddress, wallet);
   return {
     ...wallet,
@@ -52,7 +50,7 @@ export function* fetchAccountWorker(
 export function* fetchAccountsWorker({ payload }: PayloadAction<SerializedWallet[]>) {
   try {
     const wallets: SerializedWalletWithAddress[] = yield all(
-      payload.map((wallet) => call(fetchAccountWorker, wallet))
+      payload.map((wallet) => call(fetchAccount, wallet))
     );
 
     yield put(setAccountsToAdd(wallets));

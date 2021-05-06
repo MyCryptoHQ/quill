@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router';
 import configureStore from 'redux-mock-store';
 
-import { addSavedAccounts, setAccountsToAdd } from '@common/store';
+import { addSavedAccounts } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { fAccount } from '@fixtures';
 import type { ApplicationState } from '@store';
@@ -88,22 +88,22 @@ describe('AddAccountBackup', () => {
   });
 
   it.todo('prints a paper wallet');
-
-  it('clears the state on unmount', async () => {
-    const store = createMockStore({
-      accounts: {
-        accountsToAdd: [
-          {
-            walletType: WalletType.PRIVATE_KEY,
-            address: fAccount.address
-          }
-        ]
-      }
-    });
-    const { unmount } = getComponent(store);
-
-    unmount();
-
-    expect(store.getActions()).toContainEqual(setAccountsToAdd([]));
-  });
+  it.todo('clears the state on unmount');
+  // it('clears the state on unmount', async () => {
+  //   const store = createMockStore({
+  //     accounts: {
+  //       accountsToAdd: [
+  //         {
+  //           walletType: WalletType.PRIVATE_KEY,
+  //           address: fAccount.address
+  //         }
+  //       ]
+  //     }
+  //   });
+  //   const { unmount } = getComponent(store);
+  //
+  //   unmount();
+  //
+  //   expect(store.getActions()).toContainEqual(setAccountsToAdd([]));
+  // });
 });

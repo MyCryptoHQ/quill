@@ -3,13 +3,13 @@ import { push } from 'connected-react-router';
 import { useEffect, useRef, useState } from 'react';
 
 import secureIcon from '@assets/icons/secure-purple.svg';
-import { setAccountsToAdd } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { IconList, ListItem, PanelBottom, ScrollableContainer } from '@components';
 import { BackHeading } from '@components/BackHeading';
 import { useUnmount } from '@hooks';
 import { ROUTE_PATHS } from '@routing';
 import { useDispatch } from '@store';
+import { translate } from '@translations';
 
 export const AddAccountSecurity = () => {
   const dispatch = useDispatch();
@@ -41,29 +41,19 @@ export const AddAccountSecurity = () => {
   }, [ref.current]);
 
   useUnmount(() => {
-    dispatch(setAccountsToAdd([]));
+    // @todo: Find a better solution for this
+    // dispatch(setAccountsToAdd([]));
   });
 
   return (
     <>
       <ScrollableContainer ref={ref}>
-        <BackHeading>Addressing Security for The MyCrypto Signer</BackHeading>
+        <BackHeading>{translateRaw('ADD_ACCOUNT_SECURITY_TITLE')}</BackHeading>
         <IconList icon={secureIcon} px="3">
-          <ListItem>
-            Storing an account within this application will <strong>ONLY</strong> store the private
-            key for that respective account.
-          </ListItem>
-          <ListItem>
-            This application does <strong>NOT</strong> store any mnemonic phrases.
-          </ListItem>
-          <ListItem>
-            If you lose your private key or mnemonic phrase for any account, there is no recovery
-            option.
-          </ListItem>
-          <ListItem>
-            If you lose the password to this application, you will need to re-import your account(s)
-            via backups that you've saved elsewhere.
-          </ListItem>
+          <ListItem>{translate('ADD_ACCOUNT_SECURITY_DESCRIPTION_1')}</ListItem>
+          <ListItem>{translate('ADD_ACCOUNT_SECURITY_DESCRIPTION_2')}</ListItem>
+          <ListItem>{translate('ADD_ACCOUNT_SECURITY_DESCRIPTION_3')}</ListItem>
+          <ListItem>{translate('ADD_ACCOUNT_SECURITY_DESCRIPTION_4')}</ListItem>
         </IconList>
       </ScrollableContainer>
       <PanelBottom>

@@ -21,6 +21,7 @@
     "KEYSTORE": "Keystore",
     "PERSISTENCE_CHECKBOX": "Remember this on my device next time",
     "MNEMONIC_PHRASE": "Mnemonic Phrase",
+    "MNEMONIC": "Mnemonic Phrase",
     "PRIVATE_KEY": "Private Key",
     "DELETE": "Delete",
     "HOME_EMPTY_HEADER": "There are no transactions in your Signer at this time",
@@ -148,6 +149,15 @@
     "ALLOW_THIS_SITE": "Allow this site to:",
     "PERMISSION_LIST_1": "View the addresses of your accounts (required)",
     "ACKNOWLEDGE_AND_CONTINUE": "Acknowledge and Continue",
-    "CONTINUE_ADD_ACCOUNT": "My Phrase is Stored Safely, Add Account"
+    "CONTINUE_ADD_ACCOUNT": "My Phrase is Stored Safely, Add Account",
+    "ADD_ACCOUNT_SECURITY_TITLE": "Addressing Security for The MyCrypto Signer",
+    "ADD_ACCOUNT_SECURITY_DESCRIPTION_1": "Storing an account within this application will **ONLY** store the private key for that respective account.",
+    "ADD_ACCOUNT_SECURITY_DESCRIPTION_2": "This application does **NOT** store any mnemonic phrases.",
+    "ADD_ACCOUNT_SECURITY_DESCRIPTION_3": "If you lose your private key or mnemonic phrase for any account, there is no recovery option.",
+    "ADD_ACCOUNT_SECURITY_DESCRIPTION_4": "If you lose the password to this application, you will need to re-import your account(s) via backups that you've saved elsewhere.",
+    "BACKUP_ACCOUNT": "Backup $wallet",
+    "BACKUP_MNEMONIC_PHRASE": "Before continuing, ensure that you backup the secret phrase for your new wallet to reduce your risk of loss. If you'd like, download/print your paper wallet below. [Read more]($link)",
+    "BACKUP_PRIVATE_KEY": "Before continuing, ensure that you backup the private key for this wallet* to reduce the risk of loss. If you'd like, download/print your paper wallet below. [Read more]($link)",
+    "BACKUP_PRIVATE_KEY_NOTE": "*Note that this is only the private key for this individual wallet, this is NOT a mnemonic phrase backup for multiple wallets."
   }
 }

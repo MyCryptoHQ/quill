@@ -1,8 +1,8 @@
+import type { PropsWithChildren } from 'react';
 import { useEffect, useState } from 'react';
 
 import { useDispatch } from '@app/store';
 import { fetchReset } from '@common/store';
-import { setAccountsToAdd } from '@common/store/accounts.slice';
 import { useUnmount } from '@hooks';
 import { AddAccountKeystore } from '@screens/AddAccount/AddAccountKeystore';
 import { WalletType } from '@types';
@@ -14,7 +14,9 @@ interface Props {
   walletType?: WalletType;
 }
 
-export const AddAccount = ({ walletType: defaultWalletType = WalletType.PRIVATE_KEY }: Props) => {
+export const AddAccount = ({
+  walletType: defaultWalletType = WalletType.PRIVATE_KEY
+}: PropsWithChildren<Props>) => {
   const [walletType, setWalletType] = useState(defaultWalletType);
   const dispatch = useDispatch();
 
@@ -24,7 +26,8 @@ export const AddAccount = ({ walletType: defaultWalletType = WalletType.PRIVATE_
 
   useUnmount(() => {
     dispatch(fetchReset());
-    dispatch(setAccountsToAdd([]));
+    // @todo: Find a better solution for this
+    // dispatch(setAccountsToAdd([]));
   });
 
   return (

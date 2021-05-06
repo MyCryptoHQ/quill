@@ -2,14 +2,14 @@ import { BlockieAddress, Body, Button, Heading } from '@mycrypto/ui';
 import { getFullPath } from '@mycrypto/wallets';
 import React, { useState } from 'react';
 
-import { addSavedAccounts, getAccountsToAdd, setAccountsToAdd } from '@common/store';
+import { addSavedAccounts, getAccountsToAdd } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { Box, Checkbox, Container, Panel, PanelBottom } from '@components';
+import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config';
 import { useUnmount } from '@hooks';
 import { useDispatch, useSelector } from '@store';
+import { translate } from '@translations';
 import { WalletType } from '@types';
-
-import { translate } from '../../../translations/translate';
 
 export const AddAccountBackup = () => {
   const dispatch = useDispatch();
@@ -23,19 +23,36 @@ export const AddAccountBackup = () => {
   };
 
   useUnmount(() => {
-    dispatch(setAccountsToAdd([]));
+    // @todo: Find a better solution for this
+    // dispatch(setAccountsToAdd([]));
   });
 
   return (
     <>
       <Container>
         <Heading as="h2" fontSize="24px" lineHeight="36px" my="1" textAlign="center">
-          Backup Recovery Phrase
+          {translateRaw('BACKUP_ACCOUNT', { $wallet: translateRaw(accounts[0].walletType) })}
         </Heading>
-        <Body mb="2">
-          Before continuing, ensure that you backup the secret phrase for your new wallet to reduce
-          your risk of loss. If you'd like, download/print your paper wallet below. Read more
-        </Body>
+        {accounts[0].walletType === WalletType.MNEMONIC ? (
+          <Body mb="2">
+            {translate('BACKUP_MNEMONIC_PHRASE', {
+              $link: getKBHelpArticle(KB_HELP_ARTICLE.HOW_TO_BACKUP)
+            })}
+          </Body>
+        ) : (
+          <>
+            <Body mb="2">
+              {translate('BACKUP_PRIVATE_KEY', {
+                $link: getKBHelpArticle(KB_HELP_ARTICLE.HOW_TO_BACKUP)
+              })}
+            </Body>
+            <Body mb="2" variant="muted" fontSize="1">
+              {translate('BACKUP_PRIVATE_KEY_NOTE', {
+                $link: getKBHelpArticle(KB_HELP_ARTICLE.HOW_TO_BACKUP)
+              })}
+            </Body>
+          </>
+        )}
         <Panel mb="4">
           <Body fontSize="14px" mb="1">
             {translate('ADDRESS')}
