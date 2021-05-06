@@ -10,7 +10,8 @@ import { TxResult } from '@types';
 import { Box, Image } from '.';
 
 export enum InfoType {
-  NONCE_CONFLICT_IN_QUEUE = 'NONCE_CONFLICT_IN_QUEUE'
+  NONCE_CONFLICT_IN_QUEUE = 'NONCE_CONFLICT_IN_QUEUE',
+  NONCE_ADJUSTED = 'NONCE_ADJUSTED'
 }
 
 const configs = {
@@ -28,15 +29,21 @@ const configs = {
   },
   [TxResult.APPROVED]: {
     bg: 'rgba(179, 221, 135, 0.15)',
-    color: 'GREEN',
+    color: 'text.success',
     icon: approved,
     label: translateRaw('TX_RESULT_APPROVED_LABEL')
   },
   [InfoType.NONCE_CONFLICT_IN_QUEUE]: {
     bg: 'rgba(250, 135, 63, 0.15)',
-    color: 'ORANGE',
+    color: 'text.warning',
     icon: warning,
     label: translateRaw('NONCE_CONFLICT_IN_QUEUE')
+  },
+  [InfoType.NONCE_ADJUSTED]: {
+    bg: 'rgba(250, 135, 63, 0.15)',
+    color: 'text.warning',
+    icon: warning,
+    label: translateRaw('NONCE_CHANGED')
   }
 };
 

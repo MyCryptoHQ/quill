@@ -27,7 +27,7 @@ describe('addTransactionWorker', () => {
           loggedIn: true
         }
       })
-      .put(enqueue(request))
+      .put(enqueue(makeQueueTx(request)))
       .silentRun();
 
     await expectSaga(addTransactionWorker, requestSignTransaction(request))
@@ -36,7 +36,7 @@ describe('addTransactionWorker', () => {
           loggedIn: false
         }
       })
-      .not.put(enqueue(request))
+      .not.put(enqueue(makeQueueTx(request)))
       .silentRun();
   });
 });

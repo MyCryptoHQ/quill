@@ -147,6 +147,11 @@ const overrideTheme = {
     // PURPLE
     PURPLE: '#A682FF',
 
+    text: {
+      success: '#B3DD87',
+      warning: '#FA873F'
+    },
+
     badge: {
       muted: '#F6F8FA'
     }

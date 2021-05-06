@@ -163,6 +163,7 @@
     "NETWORK_PATH": "Network (Derivation path)",
     "REVIEW_SECURITY_DETAILS": "Review Security Details",
     "NONCE_CHANGED": "Transaction nonce has been changed",
-    "NONCE_CONFLICT_IN_QUEUE": "Nonce is used in another transaction"
+    "NONCE_CONFLICT_IN_QUEUE": "Nonce is used in another transaction",
+    "NONCE_CHANGED_HELP": "This transaction had the same nonce as a previously sent Transaction. We’ve changed it for you but you may edit it if you need to using the pencil icon above."
   }
 }

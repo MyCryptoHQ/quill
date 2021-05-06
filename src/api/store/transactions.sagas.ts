@@ -7,26 +7,56 @@ import {
   dequeue,
   enqueue,
   getCurrentTransaction,
+  getLoggedIn,
+  getQueue,
+  hasNonceConflict,
   selectTransaction
 } from '@common/store';
-import type { ApplicationState } from '@store';
-import type { TSignTransaction, UserRequest } from '@types';
+import { getAccountNonce, update } from '@common/store/transactions.slice';
+import type { TSignTransaction, TxQueueEntry, UserRequest } from '@types';
 import { TxResult } from '@types';
-import { makeHistoryTx } from '@utils';
+import type { Bigish } from '@utils';
+import { addHexPrefix, bigify, makeHistoryTx, makeQueueTx } from '@utils';
 
 import { reply, requestSignTransaction } from './ws.slice';
 
 export function* transactionsSaga() {
   yield all([
     takeEvery(requestSignTransaction.type, addTransactionWorker),
+    takeEvery([enqueue.type, dequeue.type, addToHistory.type], nonceConflictWorker),
     takeLatest(denyCurrentTransaction.type, denyCurrentTransactionWorker)
   ]);
 }
 
 export function* addTransactionWorker({ payload }: PayloadAction<UserRequest<TSignTransaction>>) {
-  const isLoggedIn: boolean = yield select((state: ApplicationState) => state.auth.loggedIn);
+  const isLoggedIn: boolean = yield select(getLoggedIn);
   if (isLoggedIn) {
-    yield put(enqueue(payload));
+    yield put(enqueue(makeQueueTx(payload)));
+  }
+}
+
+export function* nonceConflictWorker() {
+  const queue: TxQueueEntry[] = yield select(getQueue);
+  for (const item of queue) {
+    const { nonce, from } = item.tx;
+
+    const nonceConflict: boolean = yield select(hasNonceConflict(from, nonce));
+    if (!nonceConflict) {
+      continue;
+    }
+    const accountNonce: Bigish = yield select(getAccountNonce(from));
+
+    const newNonce = nonceConflict ? accountNonce.plus(1) : bigify(nonce);
+
+    if (!newNonce.eq(bigify(nonce))) {
+      yield put(
+        update({
+          ...item,
+          tx: { ...item.tx, nonce: addHexPrefix(newNonce.toString(16)) },
+          adjustedNonce: true
+        })
+      );
+    }
   }
 }
 

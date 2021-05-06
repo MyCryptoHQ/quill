@@ -21,7 +21,7 @@ describe('TransactionsSlice', () => {
     const { uuid, ...tx } = makeQueueTx(request);
     const result = slice.reducer(
       { queue: [{ ...makeQueueTx(request), id: 1 }], history: [] },
-      enqueue({ origin: fRequestOrigin, request: { ...fTxRequest, id: 2 } })
+      enqueue(makeQueueTx({ origin: fRequestOrigin, request: { ...fTxRequest, id: 2 } }))
     );
     expect(result.queue).toStrictEqual([
       expect.objectContaining({ ...tx, id: 1 }),

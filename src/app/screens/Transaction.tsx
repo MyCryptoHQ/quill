@@ -26,13 +26,18 @@ import { TxResult } from '@types';
 export const Transaction = () => {
   const dispatch = useDispatch();
   const accounts = useSelector(getAccounts);
-  const { tx, timestamp, result, origin } = useSelector(getCurrentTransaction);
+  const currentTx = useSelector(getCurrentTransaction);
+  const { tx, timestamp, result, origin, adjustedNonce } = currentTx;
   const currentAccount = tx && accounts.find((a) => a.address === tx.from);
   const recipientAccount = tx && accounts.find((a) => a.address === tx.to);
   const nonceConflictInQueue = useSelector(
     hasNonceConflictInQueue(recipientAccount?.address, tx.nonce)
   );
-  const info = nonceConflictInQueue ? InfoType.NONCE_CONFLICT_IN_QUEUE : result;
+  const info = adjustedNonce
+    ? InfoType.NONCE_ADJUSTED
+    : nonceConflictInQueue
+    ? InfoType.NONCE_CONFLICT_IN_QUEUE
+    : result;
 
   const handleAccept = () => {
     if (currentAccount.persistent) {
@@ -67,7 +72,7 @@ export const Transaction = () => {
             {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
             <TimeElapsed value={timestamp} />
           </Body>
-          <TxDetails tx={tx} />
+          <TxDetails tx={currentTx} />
         </Box>
       </ScrollableContainer>
       {result === TxResult.WAITING && (
