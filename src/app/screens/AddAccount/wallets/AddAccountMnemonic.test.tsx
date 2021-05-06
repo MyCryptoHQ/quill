@@ -8,10 +8,10 @@ import configureStore from 'redux-mock-store';
 import { fetchAccounts, fetchAddresses } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { fMnemonicPhrase } from '@fixtures';
-import { AddAccount } from '@screens';
+import { AddAccountStart } from '@screens';
 import type { ApplicationState } from '@store';
-import { WalletType } from '@types';
 import type { DeepPartial } from '@types';
+import { WalletType } from '@types';
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 const mockStore = createMockStore({
@@ -22,7 +22,13 @@ const getComponent = (store: EnhancedStore<DeepPartial<ApplicationState>> = mock
   return render(
     <Router>
       <Provider store={store}>
-        <AddAccount walletType={WalletType.MNEMONIC} />
+        <AddAccountStart
+          walletType={WalletType.MNEMONIC}
+          onNext={jest.fn()}
+          onPrevious={jest.fn()}
+          onReset={jest.fn()}
+          flowHeader={<></>}
+        />
       </Provider>
     </Router>
   );

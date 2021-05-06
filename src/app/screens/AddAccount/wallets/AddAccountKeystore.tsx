@@ -1,4 +1,5 @@
 import { Button } from '@mycrypto/ui';
+import type { ReactElement } from 'react';
 import { useEffect } from 'react';
 
 import { useDispatch, useSelector } from '@app/store';
@@ -7,19 +8,21 @@ import { translateRaw } from '@common/translate';
 import { PanelBottom, ScrollableContainer, WalletTypeSelector } from '@components';
 import { WalletType } from '@types';
 
-import { KeystoreForm, useKeystoreForm } from '../forms/KeystoreForm';
+import { KeystoreForm, useKeystoreForm } from '../../forms/KeystoreForm';
 
 interface Props {
+  flowHeader: ReactElement;
   setWalletType(walletType: WalletType): void;
 }
 
-export const AddAccountKeystore = ({ setWalletType }: Props) => {
+export const AddAccountKeystore = (props: Props) => {
   const form = useKeystoreForm();
 
-  return <AddAccountKeystoreForm form={form} setWalletType={setWalletType} />;
+  return <AddAccountKeystoreForm form={form} {...props} />;
 };
 
 const AddAccountKeystoreForm = ({
+  flowHeader,
   form,
   setWalletType
 }: { form: ReturnType<typeof useKeystoreForm> } & Props) => {
@@ -52,6 +55,7 @@ const AddAccountKeystoreForm = ({
   return (
     <>
       <ScrollableContainer>
+        {flowHeader}
         <WalletTypeSelector walletType={WalletType.KEYSTORE} setWalletType={setWalletType} />
         <KeystoreForm form={form} onSubmit={handleSubmit} />
       </ScrollableContainer>

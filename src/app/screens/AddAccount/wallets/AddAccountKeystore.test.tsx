@@ -7,7 +7,7 @@ import configureStore from 'redux-mock-store';
 import { fetchAccounts } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { fKeystore, fKeystorePassword } from '@fixtures';
-import { AddAccount } from '@screens';
+import { AddAccountStart } from '@screens';
 import type { ApplicationState } from '@store';
 import type { DeepPartial } from '@types';
 import { WalletType } from '@types';
@@ -21,7 +21,13 @@ const getComponent = (store: EnhancedStore<DeepPartial<ApplicationState>> = mock
   return render(
     <Router>
       <Provider store={store}>
-        <AddAccount walletType={WalletType.KEYSTORE} />
+        <AddAccountStart
+          walletType={WalletType.KEYSTORE}
+          onNext={jest.fn()}
+          onPrevious={jest.fn()}
+          onReset={jest.fn()}
+          flowHeader={<></>}
+        />
       </Provider>
     </Router>
   );

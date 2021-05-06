@@ -1,5 +1,4 @@
 import { DEFAULT_ETH } from '@mycrypto/wallets';
-import { push } from 'connected-react-router';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
@@ -7,6 +6,7 @@ import {
   fetchAccounts,
   fetchAddresses,
   fetchFailed,
+  nextFlow,
   removeAccount,
   setAccountsToAdd,
   setAddresses,
@@ -14,7 +14,6 @@ import {
 } from '@common/store';
 import { DEFAULT_MNEMONIC_INDEX } from '@config/derivation';
 import { fAccount, fMnemonicPhrase, fPrivateKey } from '@fixtures';
-import { ROUTE_PATHS } from '@routing';
 import type { SerializedWallet, TAddress } from '@types';
 import { WalletType } from '@types';
 
@@ -63,7 +62,7 @@ describe('fetchAccountsWorker', () => {
           { ...otherWallet, address: '0x0961Ca10D49B9B8e371aA0Bcf77fE5730b18f2E4' as TAddress }
         ])
       )
-      .put(push(ROUTE_PATHS.ADD_ACCOUNT_SECURITY))
+      .put(nextFlow())
       .silentRun();
   });
 

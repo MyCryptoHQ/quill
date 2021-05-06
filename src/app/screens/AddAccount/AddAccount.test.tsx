@@ -1,60 +1,43 @@
 import type { EnhancedStore } from '@reduxjs/toolkit';
 import { render } from '@testing-library/react';
+import { push } from 'connected-react-router';
 import { Provider } from 'react-redux';
-import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
+import { ThemeProvider } from 'styled-components';
 
-import type { ApplicationState } from '@app/store';
-import { fetchReset } from '@common/store';
-import { translateRaw } from '@common/translate';
-import { AddAccount } from '@screens';
+import { fetchReset, setAccountsToAdd } from '@common/store';
+import { ROUTE_PATHS } from '@routing';
+import { AddAccount } from '@screens/AddAccount/AddAccount';
+import type { ApplicationState } from '@store';
+import { theme } from '@theme';
 import type { DeepPartial } from '@types';
 
-jest.mock('electron-store');
-
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
-const mockStore = createMockStore({
-  accounts: { accounts: [], addresses: [], isFetching: false, fetchError: undefined }
-});
 
-function getComponent(store: EnhancedStore<DeepPartial<ApplicationState>> = mockStore) {
+const getComponent = (store: EnhancedStore<DeepPartial<ApplicationState>> = createMockStore()) => {
   return render(
-    <Router>
-      <Provider store={store}>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
         <AddAccount />
-      </Provider>
-    </Router>
+      </ThemeProvider>
+    </Provider>
   );
-}
+};
 
 describe('AddAccount', () => {
-  beforeEach(() => {
-    jest.resetAllMocks();
-  });
-
-  it('renders', async () => {
-    const { getByText } = getComponent();
-    expect(getByText(translateRaw('VERIFY_ACCOUNT')).textContent).toBeDefined();
-  });
-
-  it('renders errors from Redux', async () => {
-    const error = 'foobar';
-    const { getByText } = getComponent(
-      createMockStore({
-        accounts: { accounts: [], isFetching: false, fetchError: error }
-      })
-    );
-    expect(getByText(error).textContent).toBeDefined();
-  });
-
-  it('clears the state on unmount', () => {
-    const store = createMockStore({ accounts: {} });
+  it('clears the generated account on unmount', () => {
+    const store = createMockStore();
     const { unmount } = getComponent(store);
-
     unmount();
 
+    expect(store.getActions()).toContainEqual(setAccountsToAdd([]));
     expect(store.getActions()).toContainEqual(fetchReset());
-    // @todo
-    // expect(store.getActions()).toContainEqual(setAccountsToAdd([]));
+  });
+
+  it('navigates to home when done', () => {
+    const store = createMockStore({ flow: 4 });
+    getComponent(store);
+
+    expect(store.getActions()).toContainEqual(push(ROUTE_PATHS.HOME));
   });
 });

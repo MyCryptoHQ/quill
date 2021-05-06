@@ -4,14 +4,14 @@ import React, { useState } from 'react';
 
 import { addSavedAccounts, getAccountsToAdd } from '@common/store';
 import { translateRaw } from '@common/translate';
+import type { IFlowComponentProps } from '@components';
 import { Box, Checkbox, Container, Panel, PanelBottom } from '@components';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config';
-import { useUnmount } from '@hooks';
 import { useDispatch, useSelector } from '@store';
 import { translate } from '@translations';
 import { WalletType } from '@types';
 
-export const AddAccountBackup = () => {
+export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
   const dispatch = useDispatch();
   const accounts = useSelector(getAccountsToAdd);
   const [persistent, setPersistent] = useState(true);
@@ -22,14 +22,10 @@ export const AddAccountBackup = () => {
     dispatch(addSavedAccounts(persistent));
   };
 
-  useUnmount(() => {
-    // @todo: Find a better solution for this
-    // dispatch(setAccountsToAdd([]));
-  });
-
   return (
     <>
       <Container>
+        {flowHeader}
         <Heading as="h2" fontSize="24px" lineHeight="36px" my="1" textAlign="center">
           {translateRaw('BACKUP_ACCOUNT', { $wallet: translateRaw(accounts[0].walletType) })}
         </Heading>
@@ -53,7 +49,7 @@ export const AddAccountBackup = () => {
             </Body>
           </>
         )}
-        <Panel mb="4">
+        <Panel mb="2">
           <Body fontSize="14px" mb="1">
             {translate('ADDRESS')}
           </Body>

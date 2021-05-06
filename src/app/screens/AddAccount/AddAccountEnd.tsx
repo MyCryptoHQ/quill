@@ -1,13 +1,15 @@
 import { Body, Button, Heading } from '@mycrypto/ui';
 
+import type { IFlowComponentProps } from '@app/components';
 import { Box, Container, LinkApp, Logo, PanelBottom } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import checkmark from '@assets/icons/circle-checkmark.svg';
 import { translateRaw } from '@common/translate';
 
-export const AddAccountEnd = () => (
+export const AddAccountEnd = ({ flowHeader }: IFlowComponentProps) => (
   <>
     <Container>
+      {flowHeader}
       <Box>
         <Logo width="100px" height="100px" icon={checkmark} mx="auto" />
         <Heading fontSize="30px" lineHeight="48px" mt="4" mb="3" textAlign="center">

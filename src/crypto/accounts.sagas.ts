@@ -1,21 +1,20 @@
 import { DEFAULT_ETH } from '@mycrypto/wallets';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { push } from 'connected-react-router';
 import type { SagaIterator } from 'redux-saga';
 import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 
-import { ROUTE_PATHS } from '@app/routing';
 import {
   fetchAccounts,
   fetchAddresses,
   fetchFailed,
   generateAccount,
+  nextFlow,
   persistAccount,
   removeAccount,
+  setAccountsToAdd,
   setAddresses,
   setGeneratedAccount
 } from '@common/store';
-import { setAccountsToAdd } from '@common/store/accounts.slice';
 import { DEFAULT_MNEMONIC_INDEX } from '@config/derivation';
 import type {
   GetAddressesResult,
@@ -54,7 +53,7 @@ export function* fetchAccountsWorker({ payload }: PayloadAction<SerializedWallet
     );
 
     yield put(setAccountsToAdd(wallets));
-    yield put(push(ROUTE_PATHS.ADD_ACCOUNT_SECURITY));
+    yield put(nextFlow());
   } catch (err) {
     yield put(fetchFailed(err.message));
   }

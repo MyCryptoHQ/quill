@@ -2,7 +2,7 @@ export { Home } from './Home';
 export { Login } from './Login';
 export { NewUser } from './NewUser';
 export { CreatePassword } from './CreatePassword';
-export { AddAccount, AddAccountEnd } from './AddAccount';
+export { AddAccountStart, AddAccountEnd } from './AddAccount';
 export { GenerateAccount } from './GenerateAccount';
 export { Accounts } from './Accounts';
 export { Locked } from './Locked';

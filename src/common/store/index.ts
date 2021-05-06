@@ -39,3 +39,4 @@ export { sign, getSigningError } from './signing.slice';
 export * from './settings.slice';
 export * from './storage';
 export * from './permissions.slice';
+export * from './flow.slice';

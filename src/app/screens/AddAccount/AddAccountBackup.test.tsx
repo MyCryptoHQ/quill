@@ -20,7 +20,12 @@ const getComponent = (store: EnhancedStore<DeepPartial<ApplicationState>> = crea
   return render(
     <Router>
       <Provider store={store}>
-        <AddAccountBackup />
+        <AddAccountBackup
+          onNext={jest.fn()}
+          onPrevious={jest.fn()}
+          onReset={jest.fn()}
+          flowHeader={<></>}
+        />
       </Provider>
     </Router>
   );
@@ -88,22 +93,4 @@ describe('AddAccountBackup', () => {
   });
 
   it.todo('prints a paper wallet');
-  it.todo('clears the state on unmount');
-  // it('clears the state on unmount', async () => {
-  //   const store = createMockStore({
-  //     accounts: {
-  //       accountsToAdd: [
-  //         {
-  //           walletType: WalletType.PRIVATE_KEY,
-  //           address: fAccount.address
-  //         }
-  //       ]
-  //     }
-  //   });
-  //   const { unmount } = getComponent(store);
-  //
-  //   unmount();
-  //
-  //   expect(store.getActions()).toContainEqual(setAccountsToAdd([]));
-  // });
 });

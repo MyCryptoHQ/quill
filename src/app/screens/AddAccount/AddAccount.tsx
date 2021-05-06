@@ -1,42 +1,43 @@
-import type { PropsWithChildren } from 'react';
-import { useEffect, useState } from 'react';
+import { push } from 'connected-react-router';
 
-import { useDispatch } from '@app/store';
-import { fetchReset } from '@common/store';
+import { fetchReset, setAccountsToAdd } from '@common/store';
+import type { IFlowComponent } from '@components';
+import { Flow } from '@components';
 import { useUnmount } from '@hooks';
-import { AddAccountKeystore } from '@screens/AddAccount/AddAccountKeystore';
-import { WalletType } from '@types';
+import { ROUTE_PATHS } from '@routing';
+import { useDispatch } from '@store';
 
-import { AddAccountMnemonic } from './AddAccountMnemonic';
-import { AddAccountPrivateKey } from './AddAccountPrivateKey';
+import { AddAccountBackup } from './AddAccountBackup';
+import { AddAccountEnd } from './AddAccountEnd';
+import { AddAccountSecurity } from './AddAccountSecurity';
+import { AddAccountStart } from './AddAccountStart';
 
-interface Props {
-  walletType?: WalletType;
-}
+const components: IFlowComponent[] = [
+  {
+    component: AddAccountStart
+  },
+  {
+    component: AddAccountSecurity
+  },
+  {
+    component: AddAccountBackup
+  },
+  {
+    component: AddAccountEnd
+  }
+];
 
-export const AddAccount = ({
-  walletType: defaultWalletType = WalletType.PRIVATE_KEY
-}: PropsWithChildren<Props>) => {
-  const [walletType, setWalletType] = useState(defaultWalletType);
+export const AddAccount = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchReset());
-  }, [walletType]);
+  const handleDone = () => {
+    dispatch(push(ROUTE_PATHS.HOME));
+  };
 
   useUnmount(() => {
     dispatch(fetchReset());
-    // @todo: Find a better solution for this
-    // dispatch(setAccountsToAdd([]));
+    dispatch(setAccountsToAdd([]));
   });
 
-  return (
-    <>
-      {walletType === WalletType.PRIVATE_KEY && (
-        <AddAccountPrivateKey setWalletType={setWalletType} />
-      )}
-      {walletType === WalletType.MNEMONIC && <AddAccountMnemonic setWalletType={setWalletType} />}
-      {walletType === WalletType.KEYSTORE && <AddAccountKeystore setWalletType={setWalletType} />}
-    </>
-  );
+  return <Flow components={components} onDone={handleDone} />;
 };

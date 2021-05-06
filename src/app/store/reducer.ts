@@ -5,6 +5,7 @@ import { combineReducers } from 'redux';
 import { createPersistReducer } from '@common/store';
 import accountSlice from '@common/store/accounts.slice';
 import authSlice from '@common/store/auth.slice';
+import flowSlice from '@common/store/flow.slice';
 import permissionsSlice from '@common/store/permissions.slice';
 import signingSlice from '@common/store/signing.slice';
 import persistenceSlice from '@common/store/storage/persistence.slice';
@@ -30,7 +31,8 @@ export const createRootReducer = (history: History) => {
     [permissionsSlice.name]: createPersistReducer(
       { key: permissionsSlice.name, whitelistedActions: [], whitelistedKeys: [] },
       permissionsSlice.reducer
-    )
+    ),
+    [flowSlice.name]: flowSlice.reducer
   });
 
   return wrapRootReducer(reducer);

@@ -1,5 +1,5 @@
 import type { EnhancedStore } from '@reduxjs/toolkit';
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { push } from 'connected-react-router';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
@@ -62,13 +62,8 @@ describe('GenerateAccount', () => {
   });
 
   it('navigates to home when done', () => {
-    const store = createMockStore();
-    const { getByTestId } = getComponent(store);
-
-    fireEvent.click(getByTestId('next-button'));
-    fireEvent.click(getByTestId('next-button'));
-    fireEvent.click(getByTestId('next-button'));
-    fireEvent.click(getByTestId('next-button'));
+    const store = createMockStore({ flow: 4 });
+    getComponent(store);
 
     expect(store.getActions()).toContainEqual(push(ROUTE_PATHS.HOME));
   });

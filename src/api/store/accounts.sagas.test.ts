@@ -1,11 +1,15 @@
-import { push } from 'connected-react-router';
 import { expectSaga } from 'redux-saga-test-plan';
 
 import { createJsonRpcRequest } from '@api/store/utils';
-import { addAccount, addSavedAccounts, persistAccount, removeAccount } from '@common/store';
+import {
+  addAccount,
+  addSavedAccounts,
+  nextFlow,
+  persistAccount,
+  removeAccount
+} from '@common/store';
 import { JsonRPCMethod } from '@config';
 import { fAccount, fAccounts, fPrivateKey, fRequestOrigin } from '@fixtures';
-import { ROUTE_PATHS } from '@routing';
 import { WalletType } from '@types';
 
 import { addSavedAccountsWorker, getAccountsWorker } from './accounts.sagas';
@@ -39,7 +43,7 @@ describe('addSavedAccountsWorker', () => {
       })
       .put(removeAccount({ ...fAccount, dPath: undefined, index: undefined, persistent: true }))
       .put(addAccount({ ...fAccount, dPath: undefined, index: undefined, persistent: false }))
-      .put(push(ROUTE_PATHS.ADD_ACCOUNT_END))
+      .put(nextFlow())
       .silentRun();
 
     await expectSaga(addSavedAccountsWorker, addSavedAccounts(true))
@@ -51,7 +55,7 @@ describe('addSavedAccountsWorker', () => {
       .put(removeAccount({ ...fAccount, dPath: undefined, index: undefined, persistent: true }))
       .put(addAccount({ ...fAccount, dPath: undefined, index: undefined, persistent: true }))
       .put(persistAccount(account))
-      .put(push(ROUTE_PATHS.ADD_ACCOUNT_END))
+      .put(nextFlow())
       .silentRun();
   });
 });

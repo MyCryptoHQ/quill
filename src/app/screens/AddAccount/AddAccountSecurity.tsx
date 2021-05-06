@@ -1,17 +1,15 @@
-import { Button } from '@mycrypto/ui';
-import { push } from 'connected-react-router';
+import { Button, Heading } from '@mycrypto/ui';
 import { useEffect, useRef, useState } from 'react';
 
 import secureIcon from '@assets/icons/secure-purple.svg';
+import { nextFlow } from '@common/store';
 import { translateRaw } from '@common/translate';
+import type { IFlowComponentProps } from '@components';
 import { IconList, ListItem, PanelBottom, ScrollableContainer } from '@components';
-import { BackHeading } from '@components/BackHeading';
-import { useUnmount } from '@hooks';
-import { ROUTE_PATHS } from '@routing';
 import { useDispatch } from '@store';
 import { translate } from '@translations';
 
-export const AddAccountSecurity = () => {
+export const AddAccountSecurity = ({ flowHeader }: IFlowComponentProps) => {
   const dispatch = useDispatch();
   const ref = useRef<HTMLDivElement>();
   const [isClickable, setClickable] = useState(false);
@@ -25,7 +23,7 @@ export const AddAccountSecurity = () => {
   };
 
   const handleClick = () => {
-    dispatch(push(ROUTE_PATHS.ADD_ACCOUNT_BACKUP));
+    dispatch(nextFlow());
   };
 
   useEffect(() => {
@@ -40,15 +38,13 @@ export const AddAccountSecurity = () => {
     }
   }, [ref.current]);
 
-  useUnmount(() => {
-    // @todo: Find a better solution for this
-    // dispatch(setAccountsToAdd([]));
-  });
-
   return (
     <>
       <ScrollableContainer ref={ref}>
-        <BackHeading>{translateRaw('ADD_ACCOUNT_SECURITY_TITLE')}</BackHeading>
+        {flowHeader}
+        <Heading as="h2" fontSize="24px" lineHeight="36px" textAlign="center" mb="2">
+          {translateRaw('ADD_ACCOUNT_SECURITY_TITLE')}
+        </Heading>
         <IconList icon={secureIcon} px="3">
           <ListItem>{translate('ADD_ACCOUNT_SECURITY_DESCRIPTION_1')}</ListItem>
           <ListItem>{translate('ADD_ACCOUNT_SECURITY_DESCRIPTION_2')}</ListItem>

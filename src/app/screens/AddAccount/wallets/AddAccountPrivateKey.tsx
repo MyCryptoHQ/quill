@@ -1,4 +1,5 @@
 import { Button } from '@mycrypto/ui';
+import type { ReactElement } from 'react';
 import React, { useEffect } from 'react';
 
 import { useDispatch, useSelector } from '@app/store';
@@ -7,19 +8,21 @@ import { translateRaw } from '@common/translate';
 import { PanelBottom, ScrollableContainer, WalletTypeSelector } from '@components';
 import { WalletType } from '@types';
 
-import { PrivateKeyForm, usePrivateKeyForm } from '../forms/PrivateKeyForm';
+import { PrivateKeyForm, usePrivateKeyForm } from '../../forms/PrivateKeyForm';
 
 interface Props {
+  flowHeader: ReactElement;
   setWalletType(walletType: WalletType): void;
 }
 
-export const AddAccountPrivateKey = ({ setWalletType }: Props) => {
+export const AddAccountPrivateKey = (props: Props) => {
   const form = usePrivateKeyForm();
 
-  return <AddAccountPrivateKeyForm form={form} setWalletType={setWalletType} />;
+  return <AddAccountPrivateKeyForm form={form} {...props} />;
 };
 
 const AddAccountPrivateKeyForm = ({
+  flowHeader,
   form,
   setWalletType
 }: { form: ReturnType<typeof usePrivateKeyForm> } & Props) => {
@@ -46,6 +49,7 @@ const AddAccountPrivateKeyForm = ({
   return (
     <>
       <ScrollableContainer>
+        {flowHeader}
         <WalletTypeSelector walletType={WalletType.PRIVATE_KEY} setWalletType={setWalletType} />
         <PrivateKeyForm form={form} onSubmit={handleSubmit} />
       </ScrollableContainer>

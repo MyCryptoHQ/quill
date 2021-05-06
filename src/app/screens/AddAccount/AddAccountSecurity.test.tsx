@@ -1,12 +1,11 @@
 import type { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render } from '@testing-library/react';
-import { push } from 'connected-react-router';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router';
 import configureStore from 'redux-mock-store';
 
+import { nextFlow } from '@common/store';
 import { translateRaw } from '@common/translate';
-import { ROUTE_PATHS } from '@routing';
 import type { ApplicationState } from '@store';
 import type { DeepPartial } from '@types';
 
@@ -18,7 +17,12 @@ const getComponent = (store: EnhancedStore<DeepPartial<ApplicationState>> = crea
   return render(
     <Router>
       <Provider store={store}>
-        <AddAccountSecurity />
+        <AddAccountSecurity
+          onNext={jest.fn()}
+          onPrevious={jest.fn()}
+          onReset={jest.fn()}
+          flowHeader={<></>}
+        />
       </Provider>
     </Router>
   );
@@ -31,22 +35,12 @@ describe('AddAccountSecurity', () => {
 
     const button = getByText(translateRaw('ACKNOWLEDGE_AND_CONTINUE'));
     fireEvent.click(button);
-    expect(store.getActions()).not.toContainEqual(push(ROUTE_PATHS.ADD_ACCOUNT_BACKUP));
+    expect(store.getActions()).not.toContainEqual(nextFlow());
 
     const wrapper = getByTestId('scroll-wrapper');
     fireEvent.scroll(wrapper);
 
     fireEvent.click(button);
-    expect(store.getActions()).toContainEqual(push(ROUTE_PATHS.ADD_ACCOUNT_BACKUP));
+    expect(store.getActions()).toContainEqual(nextFlow());
   });
-
-  it.todo('clears the state on unmount');
-  // it('clears the state on unmount', async () => {
-  //   const store = createMockStore();
-  //   const { unmount } = getComponent(store);
-  //
-  //   unmount();
-  //
-  //   expect(store.getActions()).toContainEqual(setAccountsToAdd([]));
-  // });
 });

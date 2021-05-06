@@ -7,7 +7,12 @@ import { GenerateAccountStart } from './GenerateAccountStart';
 describe('GenerateAccountStart', () => {
   it('renders', () => {
     const { getByText } = render(
-      <GenerateAccountStart onNext={jest.fn()} onPrevious={jest.fn()} onReset={jest.fn()} />
+      <GenerateAccountStart
+        onNext={jest.fn()}
+        onPrevious={jest.fn()}
+        onReset={jest.fn()}
+        flowHeader={<></>}
+      />
     );
     expect(getByText(translateRaw('GENERATE_ACCOUNT_MNEMONIC'))).toBeDefined();
   });
@@ -15,7 +20,12 @@ describe('GenerateAccountStart', () => {
   it('calls onNext when clicking the button', () => {
     const onNext = jest.fn();
     const { getByText } = render(
-      <GenerateAccountStart onNext={onNext} onPrevious={jest.fn()} onReset={jest.fn()} />
+      <GenerateAccountStart
+        onNext={onNext}
+        onPrevious={jest.fn()}
+        onReset={jest.fn()}
+        flowHeader={<></>}
+      />
     );
 
     const button = getByText(translateRaw('CREATE_MNEMONIC_PHRASE'));

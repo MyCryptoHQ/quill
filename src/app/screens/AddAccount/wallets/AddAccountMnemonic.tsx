@@ -1,5 +1,6 @@
 import { Button } from '@mycrypto/ui';
 import { ALL_DERIVATION_PATHS, DEFAULT_ETH } from '@mycrypto/wallets';
+import type { ReactElement } from 'react';
 import { useEffect } from 'react';
 import { AnyListener } from 'typed-react-form';
 
@@ -17,7 +18,7 @@ import { translateRaw } from '@common/translate';
 import type { GetAddressesResult } from '@types';
 import { WalletType } from '@types';
 
-import { MnemonicForm, useMnemonicForm } from '../forms/MnemonicForm';
+import { MnemonicForm, useMnemonicForm } from '../../forms/MnemonicForm';
 
 const ADDRESSES_PER_PAGE = 10;
 
@@ -31,21 +32,20 @@ const useForm = () =>
   });
 
 interface Props {
+  flowHeader: ReactElement;
   setWalletType(walletType: WalletType): void;
 }
 
-export const AddAccountMnemonic = ({ setWalletType }: Props) => {
+export const AddAccountMnemonic = (props: Props) => {
   const form = useForm();
 
   return (
-    <AnyListener
-      form={form}
-      render={(form) => <AddAccountMnemonicForm form={form} setWalletType={setWalletType} />}
-    />
+    <AnyListener form={form} render={(form) => <AddAccountMnemonicForm form={form} {...props} />} />
   );
 };
 
 const AddAccountMnemonicForm = ({
+  flowHeader,
   form,
   setWalletType
 }: { form: ReturnType<typeof useForm> } & Props) => {
@@ -120,6 +120,7 @@ const AddAccountMnemonicForm = ({
   return (
     <>
       <ScrollableContainer>
+        {flowHeader}
         <WalletTypeSelector walletType={WalletType.MNEMONIC} setWalletType={setWalletType} />
 
         {addresses.length === 0 ? (

@@ -1,5 +1,4 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { push } from 'connected-react-router';
 import { all, put, select, takeLatest } from 'redux-saga/effects';
 
 import {
@@ -7,10 +6,10 @@ import {
   addSavedAccounts,
   getAccounts,
   getAccountsToAdd,
+  nextFlow,
   persistAccount,
   removeAccount
 } from '@common/store';
-import { ROUTE_PATHS } from '@routing';
 import type {
   IAccount,
   SerializedMnemonicPhrase,
@@ -63,5 +62,5 @@ export function* addSavedAccountsWorker({ payload: persistent }: PayloadAction<b
     }
   }
 
-  yield put(push(ROUTE_PATHS.ADD_ACCOUNT_END));
+  yield put(nextFlow());
 }
