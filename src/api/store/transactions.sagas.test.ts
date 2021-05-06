@@ -12,6 +12,7 @@ const request = { origin: fRequestOrigin, request: fTxRequest };
 
 Date.now = jest.fn(() => 1607602775360);
 
+jest.mock('uuid', () => ({ v4: jest.fn() }));
 jest.mock('electron-store');
 jest.mock('electron', () => ({
   ipcMain: {
