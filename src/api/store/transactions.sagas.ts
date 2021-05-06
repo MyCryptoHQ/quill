@@ -40,13 +40,15 @@ export function* nonceConflictWorker() {
   for (const item of queue) {
     const { nonce, from } = item.tx;
 
+    const accountNonce: Bigish = yield select(getAccountNonce(from));
     const nonceConflict: boolean = yield select(hasNonceConflict(from, nonce));
-    if (!nonceConflict) {
+    const nonceTooLow: boolean = bigify(nonce).lte(accountNonce);
+    const changeNonce = nonceConflict || nonceTooLow;
+    if (!changeNonce) {
       continue;
     }
-    const accountNonce: Bigish = yield select(getAccountNonce(from));
 
-    const newNonce = nonceConflict ? accountNonce.plus(1) : bigify(nonce);
+    const newNonce = changeNonce ? accountNonce.plus(1) : bigify(nonce);
 
     if (!newNonce.eq(bigify(nonce))) {
       yield put(
@@ -61,7 +63,7 @@ export function* nonceConflictWorker() {
 }
 
 export function* denyCurrentTransactionWorker() {
-  const transaction = yield select(getCurrentTransaction);
+  const transaction: TxQueueEntry = yield select(getCurrentTransaction);
 
   yield put(
     reply({
