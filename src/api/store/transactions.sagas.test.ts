@@ -1,11 +1,16 @@
 import { expectSaga } from 'redux-saga-test-plan';
 
 import { addToHistory, dequeue, enqueue } from '@common/store';
+import { update } from '@common/store/transactions.slice';
 import { fRequestOrigin, fTxRequest } from '@fixtures';
 import { TxResult } from '@types';
-import { makeHistoryTx, makeQueueTx } from '@utils';
+import { addHexPrefix, bigify, makeHistoryTx, makeQueueTx } from '@utils';
 
-import { addTransactionWorker, denyCurrentTransactionWorker } from './transactions.sagas';
+import {
+  addTransactionWorker,
+  denyCurrentTransactionWorker,
+  nonceConflictWorker
+} from './transactions.sagas';
 import { reply, requestSignTransaction } from './ws.slice';
 
 const request = { origin: fRequestOrigin, request: fTxRequest };
@@ -38,6 +43,61 @@ describe('addTransactionWorker', () => {
         }
       })
       .not.put(enqueue(makeQueueTx(request)))
+      .silentRun();
+  });
+});
+
+describe('nonceConflictWorker', () => {
+  it('doesnt do anything if no other transactions exist', async () => {
+    const queueTx = makeQueueTx(request);
+    await expectSaga(nonceConflictWorker, enqueue(queueTx))
+      .withState({
+        transactions: {
+          queue: []
+        }
+      })
+      .not.put(update(queueTx))
+      .silentRun();
+  });
+
+  it('updates nonce if conflict detected', async () => {
+    const tx1 = { ...makeHistoryTx(makeQueueTx(request), TxResult.APPROVED), uuid: 'tx1' };
+    const tx2 = makeQueueTx(request);
+    await expectSaga(nonceConflictWorker, enqueue(tx2))
+      .withState({
+        transactions: {
+          queue: [tx2],
+          history: [tx1]
+        }
+      })
+      .put(
+        update({
+          ...tx2,
+          adjustedNonce: true,
+          tx: { ...tx2.tx, nonce: addHexPrefix(bigify(tx1.tx.nonce).plus(1).toString(16)) }
+        })
+      )
+      .silentRun();
+  });
+
+  it('updates nonce if lower than account nonce detected', async () => {
+    const tx1 = { ...makeHistoryTx(makeQueueTx(request), TxResult.APPROVED), uuid: 'tx1' };
+    const tx2 = makeQueueTx(request);
+    const newTx2 = { ...tx2, tx: { ...tx2.tx, nonce: '0x1' } };
+    await expectSaga(nonceConflictWorker, enqueue(tx2))
+      .withState({
+        transactions: {
+          queue: [newTx2],
+          history: [tx1]
+        }
+      })
+      .put(
+        update({
+          ...newTx2,
+          adjustedNonce: true,
+          tx: { ...newTx2.tx, nonce: addHexPrefix(bigify(tx1.tx.nonce).plus(1).toString(16)) }
+        })
+      )
       .silentRun();
   });
 });

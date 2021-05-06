@@ -3,7 +3,13 @@ import type { TUuid } from '@types';
 import { TxResult } from '@types';
 import { makeQueueTx, makeTx } from '@utils';
 
-import slice, { addToHistory, dequeue, enqueue, selectTransaction } from './transactions.slice';
+import slice, {
+  addToHistory,
+  dequeue,
+  enqueue,
+  selectTransaction,
+  update
+} from './transactions.slice';
 
 Date.now = jest.fn(() => 1607602775360);
 
@@ -27,6 +33,19 @@ describe('TransactionsSlice', () => {
       expect.objectContaining({ ...tx, id: 1 }),
       expect.objectContaining({ ...tx, id: 2 })
     ]);
+  });
+
+  it('update(): updates existing item in queue', () => {
+    const tx = makeQueueTx(request);
+    const newTx = { ...tx, tx: { ...tx.tx, nonce: '0x1' } };
+    const result = slice.reducer(
+      {
+        queue: [tx],
+        history: []
+      },
+      update(newTx)
+    );
+    expect(result.queue).toStrictEqual([newTx]);
   });
 
   it('dequeue(): removes item from queue', () => {
