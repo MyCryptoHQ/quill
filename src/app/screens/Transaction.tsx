@@ -4,15 +4,22 @@ import { push } from 'connected-react-router';
 import {
   Box,
   FromToAccount,
+  InfoType,
   ScrollableContainer,
   TimeElapsed,
   TransactionBottom,
   TxDetails,
-  TxResultBanner
+  TxInfoBanner
 } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import { useDispatch, useSelector } from '@app/store';
-import { denyCurrentTransaction, getAccounts, getCurrentTransaction, sign } from '@common/store';
+import {
+  denyCurrentTransaction,
+  getAccounts,
+  getCurrentTransaction,
+  hasNonceConflictInQueue,
+  sign
+} from '@common/store';
 import { translateRaw } from '@common/translate';
 import { TxResult } from '@types';
 
@@ -22,6 +29,10 @@ export const Transaction = () => {
   const { tx, timestamp, result, origin } = useSelector(getCurrentTransaction);
   const currentAccount = tx && accounts.find((a) => a.address === tx.from);
   const recipientAccount = tx && accounts.find((a) => a.address === tx.to);
+  const nonceConflictInQueue = useSelector(
+    hasNonceConflictInQueue(recipientAccount?.address, tx.nonce)
+  );
+  const info = nonceConflictInQueue ? InfoType.NONCE_CONFLICT_IN_QUEUE : result;
 
   const handleAccept = () => {
     if (currentAccount.persistent) {
@@ -47,7 +58,7 @@ export const Transaction = () => {
     <>
       <ScrollableContainer>
         <Box>
-          <TxResultBanner result={result} />
+          <TxInfoBanner type={info} />
           <FromToAccount
             sender={{ address: tx.from, label: currentAccount?.label }}
             recipient={tx.to && { address: tx.to, label: recipientAccount?.label }}

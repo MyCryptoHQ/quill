@@ -11,7 +11,7 @@ export * from './TxHistory';
 export * from './FromToAccount';
 export * from './Account';
 export * from './TxDetails';
-export * from './TxResultBanner';
+export * from './TxInfoBanner';
 export * from './SignBottom';
 export * from './Logo';
 export * from './WalletTypeSelector';

@@ -1,3 +1,4 @@
+import type { BigNumberish } from '@ethersproject/bignumber';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAction, createSelector, createSlice } from '@reduxjs/toolkit';
 
@@ -73,4 +74,22 @@ export const getAccountNonce = (account: TAddress) =>
         .filter((h) => h.tx.from === account)
         .map((tx) => bigify(tx.tx.nonce))
         .reduce((prev, current) => (prev.gt(current) ? prev : current)) || bigify(0)
+  );
+
+export const getNoncesInQueue = (account: TAddress, nonce: BigNumberish) =>
+  createSelector(
+    getQueue,
+    (transactions) =>
+      transactions.filter((h) => h.tx.from === account && bigify(h.tx.nonce).eq(bigify(nonce)))
+        .length
+  );
+
+export const hasNonceConflictInQueue = (account: TAddress, nonce: BigNumberish) =>
+  createSelector(getNoncesInQueue(account, nonce), (nonces) => nonces > 1);
+
+export const hasNonceConflict = (account: TAddress, nonce: number) =>
+  createSelector(
+    getApprovedTransactions,
+    (transactions) =>
+      transactions.find((h) => h.tx.from === account && h.tx.nonce === nonce) !== undefined
   );

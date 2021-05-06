@@ -161,6 +161,8 @@
     "ADD_ADDRESS_TO_SIGNER": "Add Your Address to the Signer",
     "SELECT_ADDRESSES_TO_ADD": "Select all addresses you would like to add.",
     "NETWORK_PATH": "Network (Derivation path)",
-    "REVIEW_SECURITY_DETAILS": "Review Security Details"
+    "REVIEW_SECURITY_DETAILS": "Review Security Details",
+    "NONCE_CHANGED": "Transaction nonce has been changed",
+    "NONCE_CONFLICT_IN_QUEUE": "Nonce is used in another transaction"
   }
 }

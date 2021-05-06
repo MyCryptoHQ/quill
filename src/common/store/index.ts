@@ -32,7 +32,9 @@ export {
   getQueue,
   getQueueLength,
   getTxHistory,
-  addToHistory
+  addToHistory,
+  hasNonceConflict,
+  hasNonceConflictInQueue
 } from './transactions.slice';
 export { sign, getSigningError } from './signing.slice';
 export * from './settings.slice';
