@@ -56,7 +56,7 @@ describe('App', () => {
   it('renders Home if user has config and is logged in', async () => {
     const { getByText } = getComponent(
       createMockStore({
-        auth: { loggedIn: true, newUser: false },
+        auth: { initialized: true, loggedIn: true, newUser: false },
         transactions: { queue: [], history: [] },
         accounts: { accounts: [fAccount] },
         synchronization: { isHandshaken: { [Process.Main]: true } },
@@ -74,7 +74,7 @@ describe('App', () => {
   it('renders NewUser if user has no config', async () => {
     const { getByText } = getComponent(
       createMockStore({
-        auth: { loggedIn: false, newUser: true },
+        auth: { initialized: true, loggedIn: false, newUser: true },
         synchronization: { isHandshaken: { [Process.Main]: true } }
       })
     );
@@ -87,7 +87,7 @@ describe('App', () => {
   it('renders Login if user has config and is not logged in', async () => {
     const { getByText } = getComponent(
       createMockStore({
-        auth: { loggedIn: false, newUser: false },
+        auth: { initialized: true, loggedIn: false, newUser: false },
         transactions: { queue: [], history: [] },
         accounts: { accounts: [fAccount] },
         synchronization: { isHandshaken: { [Process.Main]: true } }
@@ -100,9 +100,23 @@ describe('App', () => {
   it('renders Loading if not persisted', async () => {
     const { getByTestId } = getComponent(
       createMockStore({
-        auth: { loggedIn: true, newUser: false },
+        auth: { initialized: true, loggedIn: true, newUser: false },
         transactions: { queue: [], history: [] },
         accounts: { accounts: [], _persistence: {} },
+        synchronization: { isHandshaken: { [Process.Main]: true } },
+        persistence: { rehydratedKeys: [] }
+      })
+    );
+
+    await waitFor(() => expect(getByTestId('spinner')).toBeDefined());
+  });
+
+  it('renders Loading if not initialized', async () => {
+    const { getByTestId } = getComponent(
+      createMockStore({
+        auth: { initialized: false, loggedIn: false, newUser: false },
+        transactions: { queue: [], history: [] },
+        accounts: { accounts: [] },
         synchronization: { isHandshaken: { [Process.Main]: true } },
         persistence: { rehydratedKeys: [] }
       })

@@ -20,16 +20,24 @@ describe('authSlice', () => {
   describe('setNewUser', () => {
     it('sets newUser to the payload', () => {
       expect(
-        slice.reducer({ newUser: false, loggedIn: false, loggingIn: false }, setNewUser(true))
+        slice.reducer(
+          { initialized: false, newUser: false, loggedIn: false, loggingIn: false },
+          setNewUser(true)
+        )
       ).toStrictEqual({
+        initialized: true,
         newUser: true,
         loggedIn: false,
         loggingIn: false
       });
 
       expect(
-        slice.reducer({ newUser: true, loggedIn: false, loggingIn: false }, setNewUser(false))
+        slice.reducer(
+          { initialized: false, newUser: true, loggedIn: false, loggingIn: false },
+          setNewUser(false)
+        )
       ).toStrictEqual({
+        initialized: true,
         newUser: false,
         loggedIn: false,
         loggingIn: false
@@ -40,8 +48,12 @@ describe('authSlice', () => {
   describe('login', () => {
     it('sets logging in to true', () => {
       expect(
-        slice.reducer({ newUser: false, loggedIn: false, loggingIn: false }, login())
+        slice.reducer(
+          { initialized: true, newUser: false, loggedIn: false, loggingIn: false },
+          login()
+        )
       ).toStrictEqual({
+        initialized: true,
         newUser: false,
         loggedIn: false,
         loggingIn: true
@@ -52,8 +64,12 @@ describe('authSlice', () => {
   describe('loginSuccess', () => {
     it('sets loggedIn to true', () => {
       expect(
-        slice.reducer({ newUser: false, loggedIn: false, loggingIn: true }, loginSuccess())
+        slice.reducer(
+          { initialized: true, newUser: false, loggedIn: false, loggingIn: true },
+          loginSuccess()
+        )
       ).toStrictEqual({
+        initialized: true,
         newUser: false,
         loggedIn: true,
         loggingIn: false,
@@ -64,7 +80,7 @@ describe('authSlice', () => {
 
   describe('loginFailed', () => {
     it('sets error to the payload', () => {
-      const state = { newUser: false, loggedIn: false, loggingIn: true };
+      const state = { initialized: true, newUser: false, loggedIn: false, loggingIn: true };
       expect(slice.reducer(state, loginFailed('Foo bar'))).toStrictEqual({
         ...state,
         loggingIn: false,
@@ -76,8 +92,12 @@ describe('authSlice', () => {
   describe('logout', () => {
     it('sets loggedIn and newUser to false', () => {
       expect(
-        slice.reducer({ newUser: true, loggedIn: true, loggingIn: false }, logout())
+        slice.reducer(
+          { initialized: true, newUser: true, loggedIn: true, loggingIn: false },
+          logout()
+        )
       ).toStrictEqual({
+        initialized: true,
         newUser: false,
         loggedIn: false,
         loggingIn: false
@@ -88,8 +108,12 @@ describe('authSlice', () => {
   describe('createPassword', () => {
     it('sets logging in to true', () => {
       expect(
-        slice.reducer({ newUser: true, loggedIn: false, loggingIn: false }, createPassword())
+        slice.reducer(
+          { initialized: true, newUser: true, loggedIn: false, loggingIn: false },
+          createPassword()
+        )
       ).toStrictEqual({
+        initialized: true,
         newUser: true,
         loggedIn: false,
         loggingIn: true
@@ -100,8 +124,12 @@ describe('authSlice', () => {
   describe('createPasswordSuccess', () => {
     it('sets newUser to false and loggedIn to true', () => {
       expect(
-        slice.reducer({ newUser: true, loggedIn: false, loggingIn: true }, createPasswordSuccess())
+        slice.reducer(
+          { initialized: true, newUser: true, loggedIn: false, loggingIn: true },
+          createPasswordSuccess()
+        )
       ).toStrictEqual({
+        initialized: true,
         newUser: false,
         loggedIn: true,
         loggingIn: false,
@@ -112,10 +140,11 @@ describe('authSlice', () => {
     it('clears the error', () => {
       expect(
         slice.reducer(
-          { newUser: true, loggedIn: false, error: 'foo bar', loggingIn: true },
+          { initialized: true, newUser: true, loggedIn: false, error: 'foo bar', loggingIn: true },
           createPasswordSuccess()
         )
       ).toStrictEqual({
+        initialized: true,
         newUser: false,
         loggedIn: true,
         loggingIn: false,
@@ -126,7 +155,7 @@ describe('authSlice', () => {
 
   describe('createPasswordFailed', () => {
     it('sets error to the payload', () => {
-      const state = { newUser: true, loggedIn: false, loggingIn: true };
+      const state = { initialized: true, newUser: true, loggedIn: false, loggingIn: true };
       expect(slice.reducer(state, createPasswordFailed('Foo bar'))).toStrictEqual({
         ...state,
         loggingIn: false,
@@ -137,7 +166,7 @@ describe('authSlice', () => {
 
   describe('reset', () => {
     it('sets new user', () => {
-      const state = { newUser: false, loggedIn: false, loggingIn: false };
+      const state = { initialized: true, newUser: false, loggedIn: false, loggingIn: false };
       expect(slice.reducer(state, reset())).toStrictEqual({
         ...state,
         newUser: true

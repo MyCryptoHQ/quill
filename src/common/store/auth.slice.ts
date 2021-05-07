@@ -2,13 +2,19 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAction, createSelector, createSlice } from '@reduxjs/toolkit';
 
 interface AuthState {
+  initialized: boolean;
   newUser: boolean;
   loggingIn: boolean;
   loggedIn: boolean;
   error?: string;
 }
 
-export const initialState: AuthState = { newUser: true, loggedIn: false, loggingIn: false };
+export const initialState: AuthState = {
+  initialized: false,
+  newUser: true,
+  loggedIn: false,
+  loggingIn: false
+};
 
 const sliceName = 'auth';
 
@@ -17,6 +23,8 @@ const slice = createSlice({
   initialState,
   reducers: {
     setNewUser(state, action: PayloadAction<boolean>) {
+      // App is ready for login or creating an account when this has been called
+      state.initialized = true;
       state.newUser = action.payload;
     },
     login(state, _action: PayloadAction<string>) {
@@ -50,7 +58,7 @@ const slice = createSlice({
       state.error = action.payload;
     },
     reset() {
-      return initialState;
+      return { ...initialState, initialized: true };
     }
   }
 });
@@ -70,6 +78,11 @@ export const {
 } = slice.actions;
 
 export default slice;
+
+export const getInitialized = createSelector(
+  (state: { auth: AuthState }) => state.auth,
+  (auth) => auth.initialized
+);
 
 export const getLoggingIn = createSelector(
   (state: { auth: AuthState }) => state.auth,

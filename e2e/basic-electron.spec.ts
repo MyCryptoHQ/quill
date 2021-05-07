@@ -1,7 +1,6 @@
-import { translateRaw } from '../src/common/translate';
 import app from './setupElectron';
 
-jest.setTimeout(10000);
+jest.setTimeout(30000);
 
 describe('Basic E2E tests', () => {
   beforeAll(async () => {
@@ -25,8 +24,8 @@ describe('Basic E2E tests', () => {
   });
 
   it('renders the initial view', async () => {
-    const btn = await app.client.$('#create-password');
-    const text = await btn.getText();
-    expect(text).toBe(translateRaw('CREATE_PASSWORD'));
+    const spinner = await app.client.$('#loading-spinner');
+    const exists = await spinner.isExisting();
+    expect(exists).toBe(true);
   });
 });
