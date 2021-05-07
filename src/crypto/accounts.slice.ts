@@ -4,6 +4,7 @@ import { createAction, createSelector, createSlice } from '@reduxjs/toolkit';
 import type { SagaIterator } from 'redux-saga';
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
+import type { AccountsState } from '@common/store';
 import {
   fetchAccounts,
   fetchAddresses,
@@ -29,11 +30,9 @@ import { generateDeterministicAddressUUID } from '@utils';
 import { createWallet, getAddress, getAddresses } from './crypto';
 import { deleteAccountSecrets, saveAccountSecrets } from './secrets';
 
-export interface AccountsState {
-  accountsToAdd: SerializedWalletWithAddress[];
-}
+export type CryptoAccountsState = Pick<AccountsState, 'accountsToAdd'>;
 
-export const initialState: AccountsState = {
+export const initialState: CryptoAccountsState = {
   accountsToAdd: []
 };
 
@@ -58,7 +57,7 @@ export const addSavedAccounts = createAction<boolean>(`${sliceName}/addSavedAcco
 export default slice;
 
 export const getAccountsToAdd = createSelector(
-  (state: { accounts: AccountsState }) => state.accounts,
+  (state: { accounts: CryptoAccountsState }) => state.accounts,
   (accounts) => accounts.accountsToAdd
 );
 
