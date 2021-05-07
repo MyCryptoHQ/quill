@@ -106,7 +106,6 @@ export const {
 } = slice.actions;
 
 export const addSavedAccounts = createAction<boolean>(`${sliceName}/addSavedAccounts`);
-export const persistAccount = createAction<SerializedWallet>(`${sliceName}/persistAccount`);
 export const generateAccount = createAction(`${sliceName}/generateAccount`);
 
 export default slice;

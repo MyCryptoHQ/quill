@@ -3,7 +3,7 @@ import { all } from 'redux-saga/effects';
 import { handshakeSaga, Process } from '@common/store';
 import type { ReduxIPC } from '@types';
 
-import { accountsSaga } from './accounts.sagas';
+import { accountsSaga } from './accounts.slice';
 import { authSaga } from './auth.sagas';
 import { settingsSaga } from './settings.sagas';
 import { signingSaga } from './signing.sagas';

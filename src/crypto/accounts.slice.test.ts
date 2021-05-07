@@ -1,32 +1,33 @@
+import { createWallet, getAddress, getAddresses } from '@crypto/crypto';
 import { DEFAULT_ETH } from '@mycrypto/wallets';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
 import {
+  addAccount,
   fetchAccounts,
   fetchAddresses,
   fetchFailed,
   nextFlow,
-  persistAccount,
   removeAccount,
   setAccountsToAdd,
   setAddresses,
   setGeneratedAccount
 } from '@common/store';
-import { DEFAULT_MNEMONIC_INDEX } from '@config/derivation';
+import { DEFAULT_MNEMONIC_INDEX } from '@config';
 import { fAccount, fMnemonicPhrase, fPrivateKey } from '@fixtures';
 import type { SerializedWallet, TAddress } from '@types';
 import { WalletType } from '@types';
 
-import {
+import slice, {
+  addSavedAccounts,
+  addSavedAccountsWorker,
   fetchAccount,
   fetchAccountsWorker,
   fetchAddressesWorker,
   generateAccountWorker,
-  persistAccountWorker,
   removeAccountWorker
-} from './accounts.sagas';
-import { createWallet, getAddress, getAddresses } from './crypto';
+} from './accounts.slice';
 import { deleteAccountSecrets, saveAccountSecrets } from './secrets';
 
 jest.mock('keytar');
@@ -42,6 +43,30 @@ const otherWallet: SerializedWallet = {
   path: DEFAULT_ETH,
   index: 0
 };
+
+describe('AccountsSlice', () => {
+  describe('setAccountsToAdd', () => {
+    it('sets accounts to add', () => {
+      const result = slice.reducer(
+        { accounts: [], accountsToAdd: [], addresses: [], isFetching: false },
+        setAccountsToAdd([
+          {
+            walletType: WalletType.PRIVATE_KEY,
+            address: fAccount.address,
+            privateKey: fPrivateKey
+          }
+        ])
+      );
+      expect(result.accountsToAdd).toStrictEqual([
+        {
+          walletType: WalletType.PRIVATE_KEY,
+          address: fAccount.address,
+          privateKey: fPrivateKey
+        }
+      ]);
+    });
+  });
+});
 
 describe('fetchAccount', () => {
   it('handles getting account address', () => {
@@ -179,10 +204,35 @@ describe('fetchAddressesWorker', () => {
   });
 });
 
-describe('persistAccountWorker', () => {
-  it('calls saveAccountSecrets for an account', async () => {
-    await expectSaga(persistAccountWorker, persistAccount(wallet))
-      .call(saveAccountSecrets, wallet)
+describe('addSavedAccountsWorker', () => {
+  it('adds saved accounts', async () => {
+    const account = {
+      walletType: WalletType.PRIVATE_KEY,
+      address: fAccount.address,
+      privateKey: fPrivateKey
+    } as const;
+
+    await expectSaga(addSavedAccountsWorker, addSavedAccounts(false))
+      .withState({
+        accounts: {
+          accountsToAdd: [account]
+        }
+      })
+      .put(removeAccount({ ...fAccount, dPath: undefined, index: undefined, persistent: true }))
+      .put(addAccount({ ...fAccount, dPath: undefined, index: undefined, persistent: false }))
+      .put(nextFlow())
+      .silentRun();
+
+    await expectSaga(addSavedAccountsWorker, addSavedAccounts(true))
+      .withState({
+        accounts: {
+          accountsToAdd: [account]
+        }
+      })
+      .put(removeAccount({ ...fAccount, dPath: undefined, index: undefined, persistent: true }))
+      .put(addAccount({ ...fAccount, dPath: undefined, index: undefined, persistent: true }))
+      .call(saveAccountSecrets, account)
+      .put(nextFlow())
       .silentRun();
   });
 });

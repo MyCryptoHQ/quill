@@ -1,30 +1,13 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { all, put, select, takeLatest } from 'redux-saga/effects';
 
-import {
-  addAccount,
-  addSavedAccounts,
-  getAccounts,
-  getAccountsToAdd,
-  nextFlow,
-  persistAccount,
-  removeAccount
-} from '@common/store';
-import type {
-  IAccount,
-  SerializedMnemonicPhrase,
-  SerializedWalletWithAddress,
-  UserRequest
-} from '@types';
-import { generateDeterministicAddressUUID } from '@utils';
+import { getAccounts } from '@common/store';
+import type { IAccount, UserRequest } from '@types';
 
 import { reply, requestAccounts } from './ws.slice';
 
 export function* accountsSaga() {
-  yield all([
-    takeLatest(requestAccounts.type, getAccountsWorker),
-    takeLatest(addSavedAccounts.type, addSavedAccountsWorker)
-  ]);
+  yield all([takeLatest(requestAccounts.type, getAccountsWorker)]);
 }
 
 export function* getAccountsWorker({ payload }: PayloadAction<UserRequest>) {
@@ -36,31 +19,4 @@ export function* getAccountsWorker({ payload }: PayloadAction<UserRequest>) {
       result: accounts.map((account) => account.address)
     })
   );
-}
-
-export function* addSavedAccountsWorker({ payload: persistent }: PayloadAction<boolean>) {
-  const accounts: SerializedWalletWithAddress[] = yield select(getAccountsToAdd);
-
-  for (const wallet of accounts) {
-    const uuid = generateDeterministicAddressUUID(wallet.address);
-
-    const account = {
-      type: wallet.walletType,
-      address: wallet.address,
-      uuid,
-      dPath: (wallet as SerializedMnemonicPhrase).path,
-      index: (wallet as SerializedMnemonicPhrase).index,
-      persistent
-    };
-
-    // Remove existing account if present, set persistent to true to wipe saved secret if present too
-    yield put(removeAccount({ ...account, persistent: true }));
-    yield put(addAccount(account));
-
-    if (persistent) {
-      yield put(persistAccount(wallet));
-    }
-  }
-
-  yield put(nextFlow());
 }

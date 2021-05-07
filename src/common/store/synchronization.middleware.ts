@@ -5,7 +5,7 @@ import { decryptSettings, encryptSettings } from '@common/store/settings.slice';
 import { encryptJson } from '@common/utils';
 import type { ReduxIPC } from '@types';
 
-import { fetchAccounts, persistAccount } from './accounts.slice';
+import { addSavedAccounts, fetchAccounts, setAccountsToAdd } from './accounts.slice';
 import { sign } from './signing.slice';
 import synchronization, {
   getHandshaken,
@@ -18,7 +18,7 @@ import synchronization, {
  * An array of action paths that will not be synchronised with the other process.
  */
 export const IGNORED_PATHS = [synchronization.name];
-export const IGNORED_ACTIONS: string[] = [];
+// export const IGNORED_ACTIONS: string[] = [];
 // Certain actions that will be sent encrypted from RENDERER to CRYPTO since they contain secrets
 export const CRYPTO_ACTIONS = [
   sign.type,
@@ -27,8 +27,11 @@ export const CRYPTO_ACTIONS = [
   createPassword.type,
   encryptSettings.type,
   decryptSettings.type,
-  persistAccount.type
+  setAccountsToAdd.type,
+  addSavedAccounts.type
 ];
+
+export const CRYPTO_RENDERER_ACTIONS = [setAccountsToAdd.type];
 
 export const shouldIgnore = (action: AnyAction, from: Process, target: Process, self: Process) => {
   const path = action.type.split('/')[0];
@@ -36,9 +39,9 @@ export const shouldIgnore = (action: AnyAction, from: Process, target: Process, 
     return true;
   }
 
-  if (IGNORED_ACTIONS.includes(action.type)) {
-    return true;
-  }
+  // if (IGNORED_ACTIONS.includes(action.type)) {
+  //   return true;
+  // }
 
   if (action.remote && target === from) {
     return true;
@@ -74,7 +77,10 @@ export const synchronizationMiddleware = (
 
   const encryptionMapping = {
     ...ipcMapping,
-    [Process.Renderer]: CRYPTO_ACTIONS.includes(action.type) ? Process.Crypto : Process.Main
+    [Process.Renderer]: CRYPTO_ACTIONS.includes(action.type) ? Process.Crypto : Process.Main,
+    [Process.Crypto]: CRYPTO_RENDERER_ACTIONS.includes(action.type)
+      ? Process.Renderer
+      : Process.Main
   };
 
   const target = ipcMapping[self];
