@@ -25,7 +25,7 @@ const getComponent = (store: EnhancedStore<DeepPartial<ApplicationState>> = crea
 };
 
 describe('AddAccount', () => {
-  it('clears the generated account on unmount', () => {
+  it('clears the state on unmount', () => {
     const store = createMockStore();
     const { unmount } = getComponent(store);
     unmount();

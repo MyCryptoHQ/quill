@@ -3,7 +3,7 @@ import { MemoryRouter as Router } from 'react-router-dom';
 
 import { translateRaw } from '@common/translate';
 
-import { AddAccountEnd } from './index';
+import { AddAccountEnd } from './AddAccountEnd';
 
 describe('AddAccountEnd', () => {
   it('renders', async () => {

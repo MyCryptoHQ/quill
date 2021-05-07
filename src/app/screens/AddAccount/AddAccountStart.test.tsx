@@ -6,8 +6,9 @@ import configureStore from 'redux-mock-store';
 
 import type { ApplicationState } from '@app/store';
 import { translateRaw } from '@common/translate';
-import { AddAccountStart } from '@screens';
 import type { DeepPartial } from '@types';
+
+import { AddAccountStart } from './AddAccountStart';
 
 jest.mock('electron-store');
 

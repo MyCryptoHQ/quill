@@ -7,10 +7,11 @@ import configureStore from 'redux-mock-store';
 import { fetchAccounts } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { fPrivateKey } from '@fixtures';
-import { AddAccountStart } from '@screens';
 import type { ApplicationState } from '@store';
 import type { DeepPartial } from '@types';
 import { WalletType } from '@types';
+
+import { AddAccountStart } from '../AddAccountStart';
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 const mockStore = createMockStore({

@@ -1,8 +1,6 @@
-import { AddAccount } from '@screens/AddAccount/AddAccount';
-import type { Route } from '@types';
-
 import {
   Accounts,
+  AddAccount,
   CreatePassword,
   ForgotPassword,
   GenerateAccount,
@@ -13,7 +11,9 @@ import {
   SetupAccount,
   SignTransaction,
   Transaction
-} from '../screens';
+} from '@screens';
+import type { Route } from '@types';
+
 import { ROUTE_PATHS } from './routePaths';
 
 export const ROUTES: Record<string, Route> = {
