@@ -13,6 +13,7 @@ describe('rootReducer', () => {
       type: 'foo'
     });
 
+    initialState.auth.initialized = true;
     initialState.auth.newUser = false;
 
     const request = { origin: fRequestOrigin, request: fTxRequest };

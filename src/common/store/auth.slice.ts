@@ -41,6 +41,7 @@ const slice = createSlice({
     },
     logout(state) {
       // Required since we clear the entire state when logout is dispatched
+      state.initialized = true;
       state.newUser = false;
       state.loggedIn = false;
     },

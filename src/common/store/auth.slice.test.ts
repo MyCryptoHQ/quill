@@ -90,10 +90,10 @@ describe('authSlice', () => {
   });
 
   describe('logout', () => {
-    it('sets loggedIn and newUser to false', () => {
+    it('sets loggedIn and newUser to false, initialized to true', () => {
       expect(
         slice.reducer(
-          { initialized: true, newUser: true, loggedIn: true, loggingIn: false },
+          { initialized: false, newUser: true, loggedIn: true, loggingIn: false },
           logout()
         )
       ).toStrictEqual({
