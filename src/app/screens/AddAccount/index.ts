@@ -1,2 +1,1 @@
-export { AddAccount } from './AddAccount';
-export { AddAccountEnd } from './AddAccountEnd';
+export * from './AddAccount';

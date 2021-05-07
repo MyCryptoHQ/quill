@@ -19,7 +19,12 @@ const getComponent = (
   return render(
     <MemoryRouter>
       <Provider store={store}>
-        <GenerateAccountMnemonic onNext={onNext} onPrevious={jest.fn()} onReset={jest.fn()} />
+        <GenerateAccountMnemonic
+          onNext={onNext}
+          onPrevious={jest.fn()}
+          onReset={jest.fn()}
+          flowHeader={<></>}
+        />
       </Provider>
     </MemoryRouter>
   );

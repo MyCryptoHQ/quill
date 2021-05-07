@@ -1,165 +1,189 @@
+import type { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render } from '@testing-library/react';
+import { goBack } from 'connected-react-router';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 import { ThemeProvider } from 'styled-components';
 
+import { nextFlow, previousFlow, resetFlow } from '@common/store';
 import type { FlowProps } from '@components';
 import { Flow } from '@components';
+import type { ApplicationState } from '@store';
 import { theme } from '@theme';
+import type { DeepPartial } from '@types';
 
-const getComponent = (props: FlowProps) => {
+const createMockStore = configureStore<DeepPartial<ApplicationState>>();
+
+const getComponent = (
+  props: FlowProps,
+  store: EnhancedStore<DeepPartial<ApplicationState>> = createMockStore()
+) => {
   return render(
     <ThemeProvider theme={theme}>
-      <Flow {...props} />
+      <Provider store={store}>
+        <Flow {...props} />
+      </Provider>
     </ThemeProvider>
   );
 };
 
 describe('Flow', () => {
   it('renders', () => {
-    const { getByText } = getComponent({
-      components: [
-        {
-          component: () => <>Foo</>
-        }
-      ],
-      onDone: jest.fn()
-    });
+    const { getByText } = getComponent(
+      {
+        components: [
+          {
+            component: () => <>Foo</>
+          }
+        ],
+        onDone: jest.fn()
+      },
+      createMockStore({ flow: 0 })
+    );
     expect(getByText('Foo').textContent).toBeDefined();
   });
 
   it('shows the current step', () => {
-    const { getByText, getByTestId, getAllByTestId } = getComponent({
-      components: [
-        {
-          component: ({ onNext }) => (
-            <>
-              Foo
-              <button data-testid="next-button" onClick={onNext} />
-            </>
-          )
-        },
-        {
-          component: () => <>Bar</>
-        }
-      ],
-      onDone: jest.fn()
-    });
+    const { getByText, getAllByTestId } = getComponent(
+      {
+        components: [
+          {
+            component: ({ flowHeader }) => <>{flowHeader} Foo</>
+          },
+          {
+            component: ({ flowHeader }) => <>{flowHeader} Bar</>
+          }
+        ],
+        onDone: jest.fn()
+      },
+      createMockStore({ flow: 1 })
+    );
 
-    expect(getByText('Foo')).toBeDefined();
+    expect(getByText('Bar')).toBeDefined();
     expect(getAllByTestId('active-item')).toHaveLength(1);
     expect(getAllByTestId('item')).toHaveLength(1);
+  });
+
+  it('dispatches nextFlow when calling onNext', () => {
+    const store = createMockStore({ flow: 0 });
+    const { getByTestId } = getComponent(
+      {
+        components: [
+          {
+            component: ({ onNext }) => (
+              <>
+                Foo
+                <button data-testid="next-button" onClick={onNext} />
+              </>
+            )
+          }
+        ],
+        onDone: jest.fn()
+      },
+      store
+    );
 
     const button = getByTestId('next-button');
     fireEvent.click(button);
 
-    expect(getByText('Bar')).toBeDefined();
+    expect(store.getActions()).toContainEqual(nextFlow());
   });
 
-  it('does nothing when calling onPrevious on the first step', () => {
-    const { getByText, getByTestId } = getComponent({
-      components: [
-        {
-          component: ({ onPrevious }) => (
-            <>
-              Foo
-              <button data-testid="previous-button" onClick={onPrevious} />
-            </>
-          )
-        }
-      ],
-      onDone: jest.fn()
-    });
+  it('dispatches goBack when calling onPrevious on the first step', () => {
+    const store = createMockStore({ flow: 0 });
+    const { getByTestId } = getComponent(
+      {
+        components: [
+          {
+            component: ({ onPrevious }) => (
+              <>
+                Foo
+                <button data-testid="previous-button" onClick={onPrevious} />
+              </>
+            )
+          }
+        ],
+        onDone: jest.fn()
+      },
+      store
+    );
 
     const button = getByTestId('previous-button');
     fireEvent.click(button);
 
-    expect(getByText('Foo')).toBeDefined();
+    expect(store.getActions()).toContainEqual(goBack());
   });
 
   it('goes to the previous step when calling onPrevious', () => {
-    const { getByText, getByTestId } = getComponent({
-      components: [
-        {
-          component: ({ onNext }) => (
-            <>
-              Foo
-              <button data-testid="next-button" onClick={onNext} />
-            </>
-          )
-        },
-        {
-          component: ({ onPrevious }) => (
-            <>
-              Bar
-              <button data-testid="previous-button" onClick={onPrevious} />
-            </>
-          )
-        }
-      ],
-      onDone: jest.fn()
-    });
-
-    const nextButton = getByTestId('next-button');
-    fireEvent.click(nextButton);
-
-    expect(getByText('Bar')).toBeDefined();
+    const store = createMockStore({ flow: 1 });
+    const { getByTestId } = getComponent(
+      {
+        components: [
+          {
+            component: () => <>Foo</>
+          },
+          {
+            component: ({ onPrevious }) => (
+              <>
+                Bar
+                <button data-testid="previous-button" onClick={onPrevious} />
+              </>
+            )
+          }
+        ],
+        onDone: jest.fn()
+      },
+      store
+    );
 
     const previousButton = getByTestId('previous-button');
     fireEvent.click(previousButton);
 
-    expect(getByText('Foo')).toBeDefined();
+    expect(store.getActions()).toContainEqual(previousFlow());
   });
 
   it('goes to the first step when calling onReset', () => {
-    const { getByText, getByTestId } = getComponent({
-      components: [
-        {
-          component: ({ onNext }) => (
-            <>
-              Foo
-              <button data-testid="next-button" onClick={onNext} />
-            </>
-          )
-        },
-        {
-          component: ({ onReset }) => (
-            <>
-              Bar
-              <button data-testid="reset-button" onClick={onReset} />
-            </>
-          )
-        }
-      ],
-      onDone: jest.fn()
-    });
-
-    const nextButton = getByTestId('next-button');
-    fireEvent.click(nextButton);
-
-    expect(getByText('Bar')).toBeDefined();
+    const store = createMockStore({ flow: 1 });
+    const { getByTestId } = getComponent(
+      {
+        components: [
+          {
+            component: () => <>Foo</>
+          },
+          {
+            component: ({ onReset }) => (
+              <>
+                Bar
+                <button data-testid="reset-button" onClick={onReset} />
+              </>
+            )
+          }
+        ],
+        onDone: jest.fn()
+      },
+      store
+    );
 
     const resetButton = getByTestId('reset-button');
     fireEvent.click(resetButton);
 
-    expect(getByText('Foo')).toBeDefined();
+    expect(store.getActions()).toContainEqual(resetFlow());
   });
 
   it('calls onDone when done', () => {
     const onDone = jest.fn();
-    const { getByTestId } = getComponent({
-      components: [
-        {
-          component: ({ onNext }) => (
-            <>
-              <button data-testid="next-button" onClick={onNext} />
-            </>
-          )
-        }
-      ],
-      onDone
-    });
-
-    const button = getByTestId('next-button');
-    fireEvent.click(button);
+    const store = createMockStore({ flow: 1 });
+    getComponent(
+      {
+        components: [
+          {
+            component: () => <>Foo</>
+          }
+        ],
+        onDone
+      },
+      store
+    );
 
     expect(onDone).toHaveBeenCalledTimes(1);
   });

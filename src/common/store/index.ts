@@ -3,15 +3,18 @@ export * from './synchronization.slice';
 export * from './synchronization.middleware';
 export {
   addAccount,
+  setAccountsToAdd,
   removeAccount,
   updateAccount,
   setAddresses,
   fetchAccounts,
   fetchAddresses,
   fetchFailed,
+  addSavedAccounts,
   generateAccount,
   setGeneratedAccount,
   getAccounts,
+  getAccountsToAdd,
   getAddresses,
   getAccountError,
   fetchReset,
@@ -35,3 +38,4 @@ export { sign, getSigningError } from './signing.slice';
 export * from './settings.slice';
 export * from './storage';
 export * from './permissions.slice';
+export * from './flow.slice';

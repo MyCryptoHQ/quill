@@ -1,31 +1,28 @@
-import { Body, Button } from '@mycrypto/ui';
+import { Button } from '@mycrypto/ui';
+import type { ReactElement } from 'react';
 import React, { useEffect } from 'react';
 
 import { useDispatch, useSelector } from '@app/store';
 import { fetchAccounts, getAccountError } from '@common/store';
 import { translateRaw } from '@common/translate';
-import {
-  Box,
-  FormCheckbox,
-  PanelBottom,
-  ScrollableContainer,
-  WalletTypeSelector
-} from '@components';
+import { PanelBottom, ScrollableContainer, WalletTypeSelector } from '@components';
 import { WalletType } from '@types';
 
-import { PrivateKeyForm, usePrivateKeyForm } from '../forms/PrivateKeyForm';
+import { PrivateKeyForm, usePrivateKeyForm } from '../../forms/PrivateKeyForm';
 
 interface Props {
+  flowHeader: ReactElement;
   setWalletType(walletType: WalletType): void;
 }
 
-export const AddAccountPrivateKey = ({ setWalletType }: Props) => {
+export const AddAccountPrivateKey = (props: Props) => {
   const form = usePrivateKeyForm();
 
-  return <AddAccountPrivateKeyForm form={form} setWalletType={setWalletType} />;
+  return <AddAccountPrivateKeyForm form={form} {...props} />;
 };
 
 const AddAccountPrivateKeyForm = ({
+  flowHeader,
   form,
   setWalletType
 }: { form: ReturnType<typeof usePrivateKeyForm> } & Props) => {
@@ -43,8 +40,7 @@ const AddAccountPrivateKeyForm = ({
       fetchAccounts([
         {
           walletType: WalletType.PRIVATE_KEY,
-          privateKey: form.values.privateKey,
-          persistent: form.values.persistent
+          privateKey: form.values.privateKey
         }
       ])
     );
@@ -53,17 +49,14 @@ const AddAccountPrivateKeyForm = ({
   return (
     <>
       <ScrollableContainer>
+        {flowHeader}
         <WalletTypeSelector walletType={WalletType.PRIVATE_KEY} setWalletType={setWalletType} />
         <PrivateKeyForm form={form} onSubmit={handleSubmit} />
       </ScrollableContainer>
-      <PanelBottom pb="24px">
+      <PanelBottom>
         <Button type="submit" form="private-key-form">
-          {translateRaw('SUBMIT')}
+          {translateRaw('REVIEW_SECURITY_DETAILS')}
         </Button>
-        <Box pt="2" variant="horizontal-start">
-          <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
-          <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
-        </Box>
       </PanelBottom>
     </>
   );

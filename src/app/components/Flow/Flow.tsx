@@ -1,6 +1,9 @@
-import { useEffect, useState } from 'react';
+import { goBack } from 'connected-react-router';
+import { useEffect } from 'react';
 
-import { Container } from '@components';
+import { getFlowStep, nextFlow, previousFlow, resetFlow } from '@common/store/flow.slice';
+import { useUnmount } from '@hooks';
+import { useDispatch, useSelector } from '@store';
 
 import { FlowHeader } from './FlowHeader';
 import type { IFlowComponent } from './types';
@@ -12,26 +15,34 @@ export interface FlowProps {
 }
 
 export const Flow = ({ components, onDone }: FlowProps) => {
-  const [step, setStep] = useState(0);
+  const dispatch = useDispatch();
+  const step = useSelector(getFlowStep);
 
-  const handleNext = () => setStep((step) => step + 1);
+  const handleNext = () => {
+    dispatch(nextFlow());
+  };
 
-  const handlePrevious = () =>
-    setStep((step) => {
-      if (step >= 1) {
-        return step - 1;
-      }
+  const handlePrevious = () => {
+    if (step >= 1) {
+      return dispatch(previousFlow());
+    }
 
-      return 0;
-    });
+    dispatch(goBack());
+  };
 
-  const handleReset = () => setStep(0);
+  const handleReset = () => {
+    dispatch(resetFlow());
+  };
 
   useEffect(() => {
     if (step >= components.length) {
       onDone();
     }
   }, [step]);
+
+  useUnmount(() => {
+    dispatch(resetFlow());
+  });
 
   const Component = components[step]?.component;
   if (!Component) {
@@ -40,15 +51,19 @@ export const Flow = ({ components, onDone }: FlowProps) => {
 
   return (
     <>
-      <Container sx={{ flex: 'none' }}>
-        <FlowHeader
-          onPrevious={handlePrevious}
-          steps={components.length}
-          currentStep={step}
-          mb="2"
-        />
-      </Container>
-      <Component onNext={handleNext} onPrevious={handlePrevious} onReset={handleReset} />
+      <Component
+        onNext={handleNext}
+        onPrevious={handlePrevious}
+        onReset={handleReset}
+        flowHeader={
+          <FlowHeader
+            onPrevious={handlePrevious}
+            steps={components.length}
+            currentStep={step}
+            mb="2"
+          />
+        }
+      />
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { Body } from '@mycrypto/ui';
+import { Body, Heading } from '@mycrypto/ui';
 
 import { Box, Image } from '@app/components';
 import keystore from '@assets/icons/keystore.svg';
@@ -62,16 +62,21 @@ export const WalletTypeSelector = ({
   walletType: WalletType;
   setWalletType(t: WalletType): void;
 }) => (
-  <Box variant="horizontal-start">
-    {Object.entries(configs).map(([type, config]) => (
-      <WalletTypeButton
-        key={type}
-        type={type as WalletType}
-        selected={type === walletType}
-        label={config.label}
-        icon={config.icon}
-        setWalletType={setWalletType}
-      />
-    ))}
-  </Box>
+  <>
+    <Heading as="h2" fontSize="24px" lineHeight="36px" textAlign="center" mb="2">
+      {translateRaw('ENTER_WALLET_TO_CONTINUE', { $wallet: configs[walletType].label })}
+    </Heading>
+    <Box variant="horizontal-start">
+      {Object.entries(configs).map(([type, config]) => (
+        <WalletTypeButton
+          key={type}
+          type={type as WalletType}
+          selected={type === walletType}
+          label={config.label}
+          icon={config.icon}
+          setWalletType={setWalletType}
+        />
+      ))}
+    </Box>
+  </>
 );

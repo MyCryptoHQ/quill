@@ -1,12 +1,13 @@
-import { Body, Button } from '@mycrypto/ui';
+import { Body, Button, Heading } from '@mycrypto/ui';
 import { ALL_DERIVATION_PATHS, DEFAULT_ETH } from '@mycrypto/wallets';
+import { Label } from '@rebass/forms/styled-components';
+import type { ReactElement } from 'react';
 import { useEffect } from 'react';
 import { AnyListener } from 'typed-react-form';
 
 import {
   Box,
   DPathSelector,
-  FormCheckbox,
   MnemonicAddressList,
   PanelBottom,
   ScrollableContainer,
@@ -18,7 +19,7 @@ import { translateRaw } from '@common/translate';
 import type { GetAddressesResult } from '@types';
 import { WalletType } from '@types';
 
-import { MnemonicForm, useMnemonicForm } from '../forms/MnemonicForm';
+import { MnemonicForm, useMnemonicForm } from '../../forms/MnemonicForm';
 
 const ADDRESSES_PER_PAGE = 10;
 
@@ -32,21 +33,21 @@ const useForm = () =>
   });
 
 interface Props {
+  flowHeader: ReactElement;
+
   setWalletType(walletType: WalletType): void;
 }
 
-export const AddAccountMnemonic = ({ setWalletType }: Props) => {
+export const AddAccountMnemonic = (props: Props) => {
   const form = useForm();
 
   return (
-    <AnyListener
-      form={form}
-      render={(form) => <AddAccountMnemonicForm form={form} setWalletType={setWalletType} />}
-    />
+    <AnyListener form={form} render={(form) => <AddAccountMnemonicForm form={form} {...props} />} />
   );
 };
 
 const AddAccountMnemonicForm = ({
+  flowHeader,
   form,
   setWalletType
 }: { form: ReturnType<typeof useForm> } & Props) => {
@@ -112,8 +113,7 @@ const AddAccountMnemonicForm = ({
           mnemonicPhrase: form.values.mnemonic,
           passphrase: form.values.password,
           path: selectedPathData,
-          index,
-          persistent: form.values.persistent
+          index
         }))
       )
     );
@@ -122,13 +122,23 @@ const AddAccountMnemonicForm = ({
   return (
     <>
       <ScrollableContainer>
-        <WalletTypeSelector walletType={WalletType.MNEMONIC} setWalletType={setWalletType} />
-
+        {flowHeader}
         {addresses.length === 0 ? (
-          <MnemonicForm form={form} onSubmit={updateAddresses} />
+          <>
+            <WalletTypeSelector walletType={WalletType.MNEMONIC} setWalletType={setWalletType} />
+            <MnemonicForm form={form} onSubmit={updateAddresses} />
+          </>
         ) : (
           <Box>
+            {/* @todo: Extended key banner */}
+            <Heading as="h2" fontSize="18px" lineHeight="24px" textAlign="center" mb="2">
+              {translateRaw('ADD_ADDRESS_TO_SIGNER')}
+            </Heading>
+            <Body mb="3">{translateRaw('SELECT_ADDRESSES_TO_ADD')}</Body>
+
+            <Label htmlFor="derivation-path-selector">{translateRaw('NETWORK_PATH')}</Label>
             <DPathSelector selectedPath={dPath} setSelectedPath={handleDPathChange} />
+
             <MnemonicAddressList
               addresses={addresses}
               selectedAccounts={selectedAccounts}
@@ -145,27 +155,17 @@ const AddAccountMnemonicForm = ({
           </Box>
         )}
       </ScrollableContainer>
-      {addresses.length === 0 ? (
-        <PanelBottom pb="24px">
+      <PanelBottom>
+        {addresses.length === 0 ? (
           <Button type="submit" form="mnemonic-phrase-form">
             {translateRaw('NEXT')}
           </Button>
-          <Box pt="2" variant="horizontal-start">
-            <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
-            <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
-          </Box>
-        </PanelBottom>
-      ) : (
-        <PanelBottom pb="24px">
+        ) : (
           <Button onClick={handleSubmit} disabled={selectedAccounts.length === 0}>
-            {translateRaw('SUBMIT')}
+            {translateRaw('REVIEW_SECURITY_DETAILS')}
           </Button>
-          <Box pt="2" variant="horizontal-start">
-            <FormCheckbox name="persistent" form={form} data-testid="toggle-persistence" />
-            <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
-          </Box>
-        </PanelBottom>
-      )}
+        )}
+      </PanelBottom>
     </>
   );
 };

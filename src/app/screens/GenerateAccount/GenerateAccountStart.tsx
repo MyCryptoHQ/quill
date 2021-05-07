@@ -5,9 +5,10 @@ import { translateRaw } from '@common/translate';
 import type { IFlowComponentProps } from '@components';
 import { Box, Container, Image, List, ListItem, PanelBottom } from '@components';
 
-export const GenerateAccountStart = ({ onNext }: IFlowComponentProps) => (
+export const GenerateAccountStart = ({ onNext, flowHeader }: IFlowComponentProps) => (
   <>
-    <Container pt="0">
+    <Container>
+      {flowHeader}
       <Box sx={{ textAlign: 'center' }}>
         <Heading fontSize="24px" lineHeight="150%" mb="4">
           {translateRaw('GENERATE_ACCOUNT_MNEMONIC')}

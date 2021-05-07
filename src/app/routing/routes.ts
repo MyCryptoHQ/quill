@@ -1,9 +1,6 @@
-import type { Route } from '@types';
-
 import {
   Accounts,
   AddAccount,
-  AddAccountEnd,
   CreatePassword,
   ForgotPassword,
   GenerateAccount,
@@ -14,7 +11,9 @@ import {
   SetupAccount,
   SignTransaction,
   Transaction
-} from '../screens';
+} from '@screens';
+import type { Route } from '@types';
+
 import { ROUTE_PATHS } from './routePaths';
 
 export const ROUTES: Record<string, Route> = {
@@ -42,12 +41,6 @@ export const ROUTES: Record<string, Route> = {
   ADD_ACCOUNT: {
     path: ROUTE_PATHS.ADD_ACCOUNT,
     component: AddAccount,
-    exact: true,
-    requireLogin: true
-  },
-  ADD_ACCOUNT_END: {
-    path: ROUTE_PATHS.ADD_ACCOUNT_END,
-    component: AddAccountEnd,
     exact: true,
     requireLogin: true
   },

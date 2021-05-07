@@ -6,7 +6,6 @@ export const ROUTE_PATHS = {
   CREATE_PASSWORD: '/create-password',
   SETUP_ACCOUNT: '/setup-account',
   ADD_ACCOUNT: '/add-account',
-  ADD_ACCOUNT_END: '/add-account-end',
   GENERATE_ACCOUNT: '/generate-account',
   ACCOUNTS: '/accounts',
   FORGOT_PASSWORD: '/forgot-password',
