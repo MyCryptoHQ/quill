@@ -74,13 +74,11 @@ export const getApprovedTransactions = createSelector(getTxHistory, (history) =>
 );
 
 export const getAccountNonce = (account: TAddress) =>
-  createSelector(
-    getApprovedTransactions,
-    (transactions) =>
-      transactions
-        .filter((h) => h.tx.from === account)
-        .map((tx) => bigify(tx.tx.nonce))
-        .reduce((prev, current) => (prev.gt(current) ? prev : current)) || bigify(0)
+  createSelector(getApprovedTransactions, (transactions) =>
+    transactions
+      .filter((h) => h.tx.from === account)
+      .map((tx) => bigify(tx.tx.nonce))
+      .reduce((prev, current) => (prev.gt(current) ? prev : current), bigify(0))
   );
 
 export const getNoncesInQueue = (account: TAddress, nonce: BigNumberish) =>

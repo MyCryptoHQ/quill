@@ -53,7 +53,21 @@ describe('nonceConflictWorker', () => {
     await expectSaga(nonceConflictWorker, enqueue(queueTx))
       .withState({
         transactions: {
-          queue: []
+          queue: [],
+          history: []
+        }
+      })
+      .not.put(update(queueTx))
+      .silentRun();
+  });
+
+  it('doesnt do anything if no issues found', async () => {
+    const queueTx = makeQueueTx(request);
+    await expectSaga(nonceConflictWorker, enqueue(queueTx))
+      .withState({
+        transactions: {
+          queue: [queueTx, { ...queueTx, uuid: 'tx2', tx: { ...queueTx.tx, nonce: '0x7' } }],
+          history: []
         }
       })
       .not.put(update(queueTx))

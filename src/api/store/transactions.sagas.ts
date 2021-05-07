@@ -47,7 +47,7 @@ export function* nonceConflictWorker({ payload }: PayloadAction<TxQueueEntry | T
       continue;
     }
 
-    const newNonce = changeNonce ? accountNonce.plus(1) : bigify(nonce);
+    const newNonce = accountNonce.plus(1);
 
     if (!newNonce.eq(bigify(nonce))) {
       yield put(
