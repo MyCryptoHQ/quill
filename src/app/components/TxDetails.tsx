@@ -27,7 +27,7 @@ const Row = ({
     <Box py="1">
       <Box variant="horizontal-start" sx={{ justifyContent: 'space-between' }}>
         <Body fontWeight="bold">{label}:</Body>
-        <Body>{value}</Body>
+        {typeof value === 'string' ? <Body>{value}</Body> : value}
       </Box>
       {info !== undefined && info}
     </Box>
@@ -73,7 +73,7 @@ export const TxDetails = ({ tx: { tx, adjustedNonce } }: { tx: TxQueueEntry | Tx
         label={translateRaw('NONCE')}
         value={
           <Box variant="horizontal-start">
-            {bigify(tx.nonce).toString()}{' '}
+            <Body>{bigify(tx.nonce).toString()}</Body>{' '}
             {adjustedNonce && <Image ml="2" src={warning} height="20px" width="20px" />}
           </Box>
         }
