@@ -33,11 +33,19 @@ export const Transaction = () => {
   const nonceConflictInQueue = useSelector(
     hasNonceConflictInQueue(recipientAccount?.address, tx.nonce)
   );
-  const info = adjustedNonce
-    ? InfoType.NONCE_ADJUSTED
-    : nonceConflictInQueue
-    ? InfoType.NONCE_CONFLICT_IN_QUEUE
-    : result;
+  const info = (() => {
+    if (result !== TxResult.WAITING) {
+      return result;
+    }
+    if (adjustedNonce) {
+      return InfoType.NONCE_ADJUSTED;
+    }
+    if (nonceConflictInQueue) {
+      return InfoType.NONCE_CONFLICT_IN_QUEUE;
+    }
+
+    return result;
+  })();
 
   const handleAccept = () => {
     if (currentAccount.persistent) {
