@@ -25,8 +25,12 @@ describe('Basic E2E tests', () => {
   });
 
   it('renders the initial view', async () => {
+    await app.client.waitUntilTextExists(
+      '#create-password',
+      translateRaw('CREATE_PASSWORD'),
+      30000
+    );
     const btn = await app.client.$('#create-password');
-    await btn.waitForExist({ timeout: 30000 });
     const text = await btn.getText();
     expect(text).toBe(translateRaw('CREATE_PASSWORD'));
   });
