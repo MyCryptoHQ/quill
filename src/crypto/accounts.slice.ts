@@ -30,22 +30,11 @@ import { createWallet, getAddress, getAddresses } from './crypto';
 import { deleteAccountSecrets, saveAccountSecrets } from './secrets';
 
 export interface AccountsState {
-  accounts: IAccount[];
   accountsToAdd: SerializedWalletWithAddress[];
-  addresses: GetAddressesResult[];
-  isFetching: boolean;
-  fetchError?: string;
-  generatedAccount?: {
-    mnemonicPhrase: string;
-    address: TAddress;
-  };
 }
 
 export const initialState: AccountsState = {
-  accounts: [],
-  accountsToAdd: [],
-  addresses: [],
-  isFetching: false
+  accountsToAdd: []
 };
 
 const sliceName = accountsSlice.name;

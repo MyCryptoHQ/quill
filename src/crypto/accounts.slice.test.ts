@@ -48,7 +48,7 @@ describe('AccountsSlice', () => {
   describe('setAccountsToAdd', () => {
     it('sets accounts to add', () => {
       const result = slice.reducer(
-        { accounts: [], accountsToAdd: [], addresses: [], isFetching: false },
+        { accountsToAdd: [] },
         setAccountsToAdd([
           {
             walletType: WalletType.PRIVATE_KEY,
