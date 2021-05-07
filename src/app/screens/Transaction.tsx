@@ -8,20 +8,28 @@ import {
   TimeElapsed,
   TransactionBottom,
   TxDetails,
-  TxResultBanner
+  TxInfoBanner
 } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import { useDispatch, useSelector } from '@app/store';
-import { denyCurrentTransaction, getAccounts, getCurrentTransaction, sign } from '@common/store';
+import {
+  denyCurrentTransaction,
+  getAccounts,
+  getCurrentTransaction,
+  getTransactionInfoBannerType,
+  sign
+} from '@common/store';
 import { translateRaw } from '@common/translate';
 import { TxResult } from '@types';
 
 export const Transaction = () => {
   const dispatch = useDispatch();
   const accounts = useSelector(getAccounts);
-  const { tx, timestamp, result, origin } = useSelector(getCurrentTransaction);
+  const currentTx = useSelector(getCurrentTransaction);
+  const { tx, timestamp, result, origin } = currentTx;
   const currentAccount = tx && accounts.find((a) => a.address === tx.from);
   const recipientAccount = tx && accounts.find((a) => a.address === tx.to);
+  const info = useSelector(getTransactionInfoBannerType);
 
   const handleAccept = () => {
     if (currentAccount.persistent) {
@@ -47,7 +55,7 @@ export const Transaction = () => {
     <>
       <ScrollableContainer>
         <Box>
-          <TxResultBanner result={result} />
+          <TxInfoBanner type={info} />
           <FromToAccount
             sender={{ address: tx.from, label: currentAccount?.label }}
             recipient={tx.to && { address: tx.to, label: recipientAccount?.label }}
@@ -56,7 +64,7 @@ export const Transaction = () => {
             {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
             <TimeElapsed value={timestamp} />
           </Body>
-          <TxDetails tx={tx} />
+          <TxDetails tx={currentTx} />
         </Box>
       </ScrollableContainer>
       {result === TxResult.WAITING && (

@@ -33,10 +33,8 @@ export const makeHistoryTx = (
   result: TxResult,
   signedTx?: Transaction
 ): TxHistoryEntry => ({
-  uuid: prev.uuid,
-  tx: prev.tx,
+  ...prev,
   signedTx,
   result,
-  timestamp: Date.now(),
-  origin: prev.origin
+  timestamp: Date.now()
 });

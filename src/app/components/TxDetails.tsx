@@ -2,28 +2,34 @@ import { formatEther, formatUnits } from '@ethersproject/units';
 import { Body } from '@mycrypto/ui';
 import type { ReactNode } from 'react';
 
+import warning from '@assets/icons/circle-warning.svg';
 import { translateRaw } from '@common/translate';
 import { getChain } from '@data';
-import type { TransactionRequest } from '@types';
+import type { TxHistoryEntry, TxQueueEntry } from '@types';
 import { bigify } from '@utils';
 
-import { Box } from '.';
+import { Box, Image } from '.';
 import { CodeBlock } from './CodeBlock';
 import { Divider } from './Divider';
 
 const Row = ({
   label,
   value,
+  info,
   hideDivider
 }: {
   label: string;
-  value: string;
+  value: string | ReactNode;
+  info?: ReactNode;
   hideDivider?: boolean;
 }) => (
   <>
-    <Box variant="horizontal-start" sx={{ justifyContent: 'space-between' }} pb="1" pt="1">
-      <Body fontWeight="bold">{label}:</Body>
-      <Body>{value}</Body>
+    <Box py="1">
+      <Box variant="horizontal-start" sx={{ justifyContent: 'space-between' }}>
+        <Body fontWeight="bold">{label}:</Body>
+        {typeof value === 'string' ? <Body>{value}</Body> : value}
+      </Box>
+      {info !== undefined && info}
     </Box>
     {!hideDivider && <Divider />}
   </>
@@ -47,7 +53,7 @@ const BlockRow = ({
   </>
 );
 
-export const TxDetails = ({ tx }: { tx: TransactionRequest }) => {
+export const TxDetails = ({ tx: { tx, adjustedNonce } }: { tx: TxQueueEntry | TxHistoryEntry }) => {
   const chain = getChain(tx.chainId);
   const maxTxFee = bigify(tx.gasPrice).multipliedBy(bigify(tx.gasLimit));
   const symbol = chain?.nativeCurrency?.symbol ?? '?';
@@ -63,7 +69,18 @@ export const TxDetails = ({ tx }: { tx: TransactionRequest }) => {
         label={translateRaw('MAX_TX_FEE')}
         value={`${formatEther(maxTxFee.toString())} ${symbol}`}
       />
-      <Row label={translateRaw('NONCE')} value={bigify(tx.nonce).toString()} />
+      <Row
+        label={translateRaw('NONCE')}
+        value={
+          <Box variant="horizontal-start">
+            <Body>{bigify(tx.nonce).toString()}</Body>
+            {adjustedNonce && <Image ml="2" src={warning} height="20px" width="20px" />}
+          </Box>
+        }
+        info={
+          adjustedNonce && <Body color="text.warning">{translateRaw('NONCE_CHANGED_HELP')}</Body>
+        }
+      />
       {data === '0x' ? (
         <Row label={translateRaw('DATA')} value={translateRaw('TX_DETAILS_DATA_EMPTY')} />
       ) : (
