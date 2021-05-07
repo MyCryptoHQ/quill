@@ -1,12 +1,12 @@
 import type { BigNumberish } from '@ethersproject/bignumber';
-import { Body, Box } from '@mycrypto/ui';
+import { Box } from '@mycrypto/ui';
 
 import type { BoxProps } from '@app/components';
 import { translateRaw } from '@common/translate';
 import type { IAccount } from '@types';
-import { bigify } from '@utils';
 
 import { Account } from './Account';
+import { NonceBadge } from './NonceBadge';
 
 type AccountLabel = Pick<IAccount, 'address' | 'label'>;
 
@@ -23,20 +23,7 @@ export const FromToAccount = ({
     <Box mr="1">
       <Box variant="horizontal-start" color="text.secondary">
         {translateRaw('SENDER')}
-        {nonce && (
-          <Box ml="auto" mr="1" variant="badge.nonce">
-            <Body
-              p="1"
-              fontSize="10px"
-              fontWeight="bold"
-              lineHeight="14px"
-              color="text.discrete"
-              sx={{ textTransform: 'uppercase' }}
-            >
-              {translateRaw('NONCE')}: {bigify(nonce).toString()}
-            </Body>
-          </Box>
-        )}
+        {nonce && <NonceBadge nonce={nonce} />}
       </Box>
       <Account address={sender.address} label={sender.label} truncate={true} pr="4" />
     </Box>

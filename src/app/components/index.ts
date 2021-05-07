@@ -35,3 +35,4 @@ export * from './Divider';
 export * from './DeleteOverlay';
 export * from './EditableText';
 export * from './Badge';
+export * from './NonceBadge';
