@@ -4,7 +4,6 @@ import { push } from 'connected-react-router';
 import {
   Box,
   FromToAccount,
-  InfoType,
   ScrollableContainer,
   TimeElapsed,
   TransactionBottom,
@@ -17,8 +16,7 @@ import {
   denyCurrentTransaction,
   getAccounts,
   getCurrentTransaction,
-  hasNonceConflictInQueue,
-  hasNonceOutOfOrder,
+  getTransactionInfoBannerType,
   sign
 } from '@common/store';
 import { translateRaw } from '@common/translate';
@@ -28,29 +26,10 @@ export const Transaction = () => {
   const dispatch = useDispatch();
   const accounts = useSelector(getAccounts);
   const currentTx = useSelector(getCurrentTransaction);
-  const { tx, timestamp, result, origin, adjustedNonce } = currentTx;
+  const { tx, timestamp, result, origin } = currentTx;
   const currentAccount = tx && accounts.find((a) => a.address === tx.from);
   const recipientAccount = tx && accounts.find((a) => a.address === tx.to);
-  const nonceConflictInQueue = useSelector(
-    hasNonceConflictInQueue(currentAccount?.address, tx.nonce)
-  );
-  const nonceOutOfOrder = useSelector(hasNonceOutOfOrder(currentAccount?.address, tx.nonce));
-  const info = (() => {
-    if (result !== TxResult.WAITING) {
-      return result;
-    }
-    if (nonceOutOfOrder) {
-      return InfoType.NONCE_OUT_OF_ORDER;
-    }
-    if (adjustedNonce) {
-      return InfoType.NONCE_ADJUSTED;
-    }
-    if (nonceConflictInQueue) {
-      return InfoType.NONCE_CONFLICT_IN_QUEUE;
-    }
-
-    return result;
-  })();
+  const info = useSelector(getTransactionInfoBannerType);
 
   const handleAccept = () => {
     if (currentAccount.persistent) {

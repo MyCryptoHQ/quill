@@ -5,15 +5,9 @@ import warning from '@assets/icons/circle-warning.svg';
 import denied from '@assets/icons/queue-denied.svg';
 import waiting from '@assets/icons/queue-waiting.svg';
 import { translateRaw } from '@common/translate';
-import { TxResult } from '@types';
+import { InfoBannerType, TxResult } from '@types';
 
 import { Box, Image } from '.';
-
-export enum InfoType {
-  NONCE_CONFLICT_IN_QUEUE = 'NONCE_CONFLICT_IN_QUEUE',
-  NONCE_ADJUSTED = 'NONCE_ADJUSTED',
-  NONCE_OUT_OF_ORDER = 'NONCE_OUT_OF_ORDER'
-}
 
 const configs = {
   [TxResult.WAITING]: {
@@ -34,19 +28,19 @@ const configs = {
     icon: approved,
     label: translateRaw('TX_RESULT_APPROVED_LABEL')
   },
-  [InfoType.NONCE_CONFLICT_IN_QUEUE]: {
+  [InfoBannerType.NONCE_CONFLICT_IN_QUEUE]: {
     bg: 'rgba(250, 135, 63, 0.15)',
     color: 'text.warning',
     icon: warning,
     label: translateRaw('NONCE_CONFLICT_IN_QUEUE')
   },
-  [InfoType.NONCE_ADJUSTED]: {
+  [InfoBannerType.NONCE_ADJUSTED]: {
     bg: 'rgba(250, 135, 63, 0.15)',
     color: 'text.warning',
     icon: warning,
     label: translateRaw('NONCE_CHANGED')
   },
-  [InfoType.NONCE_OUT_OF_ORDER]: {
+  [InfoBannerType.NONCE_OUT_OF_ORDER]: {
     bg: 'rgba(250, 135, 63, 0.15)',
     color: 'text.warning',
     icon: warning,
@@ -55,7 +49,7 @@ const configs = {
 };
 
 // @todo: Add accordion
-export const TxInfoBanner = ({ type }: { type: InfoType | TxResult }) => {
+export const TxInfoBanner = ({ type }: { type: InfoBannerType | TxResult }) => {
   const { bg, color, icon, label } = configs[type];
   return (
     <Box bg={bg} sx={{ borderRadius: '3px' }} variant="horizontal-start" p="2" mb="2">
