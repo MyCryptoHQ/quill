@@ -4,7 +4,7 @@
 
 import configureStore from 'redux-mock-store';
 
-import { checkNewUser, login } from '@common/store';
+import { checkNewUser, login, setAccountsToAdd } from '@common/store';
 import { shouldIgnore, synchronizationMiddleware } from '@common/store/synchronization.middleware';
 import { Process, sendPublicKey, setHandshaken } from '@common/store/synchronization.slice';
 import { decryptJson } from '@common/utils';
@@ -74,6 +74,37 @@ describe('synchronizationMiddleware', () => {
       ...action,
       from: Process.Renderer,
       to: Process.Crypto
+    });
+  });
+
+  it('emits CRYPTO_RENDERER_ACTIONS encrypted for RENDERER', () => {
+    const fn = jest.fn();
+    const action = setAccountsToAdd([]);
+
+    const ipc = { emit: jest.fn(), on: jest.fn() };
+
+    synchronizationMiddleware(
+      { [Process.Main]: ipc },
+      Process.Crypto
+    )(
+      createMockStore({
+        synchronization: {
+          isHandshaken: { [Process.Renderer]: true },
+          targetPublicKey: { [Process.Renderer]: fEncryptionPublicKey }
+        }
+      })
+    )(fn)(action);
+
+    expect(fn).toHaveBeenCalledTimes(1);
+    expect(fn).toHaveBeenCalledWith(action);
+    expect(ipc.emit).toHaveBeenCalledTimes(1);
+
+    const encryptedJson = ipc.emit.mock.calls[0][0];
+
+    expect(JSON.parse(decryptJson(fEncryptionPrivateKey, JSON.parse(encryptedJson)))).toEqual({
+      ...action,
+      from: Process.Crypto,
+      to: Process.Renderer
     });
   });
 
