@@ -35,7 +35,8 @@ export {
   addToHistory,
   getAccountQueue,
   hasNonceConflict,
-  hasNonceConflictInQueue
+  hasNonceConflictInQueue,
+  hasNonceOutOfOrder
 } from './transactions.slice';
 export { sign, getSigningError } from './signing.slice';
 export * from './settings.slice';

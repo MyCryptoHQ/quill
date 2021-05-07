@@ -11,7 +11,8 @@ import { Box, Image } from '.';
 
 export enum InfoType {
   NONCE_CONFLICT_IN_QUEUE = 'NONCE_CONFLICT_IN_QUEUE',
-  NONCE_ADJUSTED = 'NONCE_ADJUSTED'
+  NONCE_ADJUSTED = 'NONCE_ADJUSTED',
+  NONCE_OUT_OF_ORDER = 'NONCE_OUT_OF_ORDER'
 }
 
 const configs = {
@@ -44,6 +45,12 @@ const configs = {
     color: 'text.warning',
     icon: warning,
     label: translateRaw('NONCE_CHANGED')
+  },
+  [InfoType.NONCE_OUT_OF_ORDER]: {
+    bg: 'rgba(250, 135, 63, 0.15)',
+    color: 'text.warning',
+    icon: warning,
+    label: translateRaw('NONCE_OUT_OF_ORDER')
   }
 };
 

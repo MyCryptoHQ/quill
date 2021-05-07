@@ -99,3 +99,11 @@ export const hasNonceConflict = (account: TAddress, nonce: BigNumberish) =>
       transactions.find((h) => h.tx.from === account && bigify(h.tx.nonce).eq(bigify(nonce))) !==
       undefined
   );
+
+export const hasNonceOutOfOrder = (account: TAddress, nonce: BigNumberish) =>
+  createSelector(
+    getQueue,
+    (transactions) =>
+      transactions.find((h) => h.tx.from === account && bigify(h.tx.nonce).lt(bigify(nonce))) !==
+      undefined
+  );

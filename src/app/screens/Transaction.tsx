@@ -18,6 +18,7 @@ import {
   getAccounts,
   getCurrentTransaction,
   hasNonceConflictInQueue,
+  hasNonceOutOfOrder,
   sign
 } from '@common/store';
 import { translateRaw } from '@common/translate';
@@ -33,9 +34,13 @@ export const Transaction = () => {
   const nonceConflictInQueue = useSelector(
     hasNonceConflictInQueue(currentAccount?.address, tx.nonce)
   );
+  const nonceOutOfOrder = useSelector(hasNonceOutOfOrder(currentAccount?.address, tx.nonce));
   const info = (() => {
     if (result !== TxResult.WAITING) {
       return result;
+    }
+    if (nonceOutOfOrder) {
+      return InfoType.NONCE_OUT_OF_ORDER;
     }
     if (adjustedNonce) {
       return InfoType.NONCE_ADJUSTED;

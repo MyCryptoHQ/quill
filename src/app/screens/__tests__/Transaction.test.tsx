@@ -131,4 +131,17 @@ describe('Transaction', () => {
     const { getByText } = getComponent(store);
     expect(getByText(translateRaw('NONCE_CONFLICT_IN_QUEUE')).textContent).toBeDefined();
   });
+
+  it('renders nonce out of order banner', async () => {
+    const queueTx = makeQueueTx(getTransactionRequest(fAccount.address));
+    const store = createMockStore({
+      accounts: { accounts: [fAccount] },
+      transactions: {
+        queue: [queueTx, { ...queueTx, uuid: 'tx2', tx: { ...queueTx.tx, nonce: '0x5' } }],
+        currentTransaction: queueTx
+      }
+    });
+    const { getByText } = getComponent(store);
+    expect(getByText(translateRaw('NONCE_OUT_OF_ORDER')).textContent).toBeDefined();
+  });
 });
