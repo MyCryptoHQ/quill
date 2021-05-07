@@ -1,4 +1,3 @@
-import { translateRaw } from '../src/common/translate';
 import app from './setupElectron';
 
 jest.setTimeout(30000);
@@ -25,13 +24,8 @@ describe('Basic E2E tests', () => {
   });
 
   it('renders the initial view', async () => {
-    await app.client.waitUntilTextExists(
-      '#create-password',
-      translateRaw('CREATE_PASSWORD'),
-      30000
-    );
-    const btn = await app.client.$('#create-password');
-    const text = await btn.getText();
-    expect(text).toBe(translateRaw('CREATE_PASSWORD'));
+    const spinner = await app.client.$('#loading-spinner');
+    const exists = await spinner.isExisting();
+    expect(exists).toBe(true);
   });
 });
