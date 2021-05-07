@@ -1,7 +1,7 @@
 import { translateRaw } from '../src/common/translate';
 import app from './setupElectron';
 
-jest.setTimeout(10000);
+jest.setTimeout(30000);
 
 describe('Basic E2E tests', () => {
   beforeAll(async () => {
