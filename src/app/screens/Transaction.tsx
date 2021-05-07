@@ -31,7 +31,7 @@ export const Transaction = () => {
   const currentAccount = tx && accounts.find((a) => a.address === tx.from);
   const recipientAccount = tx && accounts.find((a) => a.address === tx.to);
   const nonceConflictInQueue = useSelector(
-    hasNonceConflictInQueue(recipientAccount?.address, tx.nonce)
+    hasNonceConflictInQueue(currentAccount?.address, tx.nonce)
   );
   const info = (() => {
     if (result !== TxResult.WAITING) {

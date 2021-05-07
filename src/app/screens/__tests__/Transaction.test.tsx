@@ -9,7 +9,8 @@ import { denyCurrentTransaction, sign } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { fAccount, fAccounts, getTransactionRequest } from '@fixtures';
 import type { DeepPartial, IAccount, TSignTransaction } from '@types';
-import { makeQueueTx, makeTx } from '@utils';
+import { TxResult } from '@types';
+import { makeHistoryTx, makeQueueTx, makeTx } from '@utils';
 
 import { Transaction } from '../Transaction';
 
@@ -93,5 +94,41 @@ describe('Transaction', () => {
     fireEvent.click(denyButton);
 
     expect(mockStore.getActions()).toContainEqual(denyCurrentTransaction());
+  });
+
+  it('renders approved banner', async () => {
+    const queueTx = makeQueueTx(getTransactionRequest(fAccount.address));
+    const store = createMockStore({
+      accounts: { accounts: [fAccount] },
+      transactions: { queue: [], currentTransaction: makeHistoryTx(queueTx, TxResult.APPROVED) }
+    });
+    const { getByText } = getComponent(store);
+    expect(getByText(translateRaw('TX_RESULT_APPROVED_LABEL')).textContent).toBeDefined();
+  });
+
+  it('renders adjusted nonce banner', async () => {
+    const queueTx = makeQueueTx(getTransactionRequest(fAccount.address));
+    const store = createMockStore({
+      accounts: { accounts: [fAccount] },
+      transactions: {
+        queue: [queueTx],
+        currentTransaction: { ...queueTx, adjustedNonce: true }
+      }
+    });
+    const { getByText } = getComponent(store);
+    expect(getByText(translateRaw('NONCE_CHANGED')).textContent).toBeDefined();
+  });
+
+  it('renders nonce conflict banner', async () => {
+    const queueTx = makeQueueTx(getTransactionRequest(fAccount.address));
+    const store = createMockStore({
+      accounts: { accounts: [fAccount] },
+      transactions: {
+        queue: [queueTx, { ...queueTx, uuid: 'tx2' }],
+        currentTransaction: queueTx
+      }
+    });
+    const { getByText } = getComponent(store);
+    expect(getByText(translateRaw('NONCE_CONFLICT_IN_QUEUE')).textContent).toBeDefined();
   });
 });
