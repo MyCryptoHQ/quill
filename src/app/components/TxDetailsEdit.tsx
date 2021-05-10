@@ -1,5 +1,6 @@
-import { formatEther } from '@ethersproject/units';
-import type { ReactNode } from 'react';
+import { formatEther, parseUnits } from '@ethersproject/units';
+import { Body } from '@mycrypto/ui';
+import type { ComponentProps } from 'react';
 import type { FormState } from 'typed-react-form';
 
 import { translateRaw } from '@common/translate';
@@ -13,41 +14,71 @@ import { FormTextArea } from './FormTextArea';
 import { TxDetailsBlockRow as BlockRow } from './TxDetailsBlockRow';
 import { TxDetailsRow as Row } from './TxDetailsRow';
 
-const InputRow = ({ label, value }: { label: string; value: string | ReactNode }) => (
-  <Row label={label} value={<Box>{value}</Box>} />
+const InputRow = ({
+  label,
+  unit,
+  ...props
+}: { label: string; unit?: string } & ComponentProps<typeof FormInput>) => (
+  <Row
+    label={label}
+    value={
+      <Box variant="horizontal-start" width="45%">
+        {/* @ts-ignore for now */}
+        <FormInput
+          {...props}
+          css={`
+            ::-webkit-inner-spin-button {
+              -webkit-appearance: none;
+              margin: 0;
+            }
+            ::-webkit-outer-spin-button {
+              -webkit-appearance: none;
+              margin: 0;
+            }
+          `}
+        />
+        {unit && <Body ml="-3rem">{unit}</Body>}
+      </Box>
+    }
+  />
 );
 
 export const TxDetailsEdit = ({ form }: { form: FormState<TransactionRequest> }) => {
   const tx = form.values;
   const chain = getChain(tx.chainId);
-  const maxTxFee = bigify(tx.gasPrice).multipliedBy(bigify(tx.gasLimit));
+  const maxTxFee = bigify(parseUnits(tx.gasPrice.toString(), 'gwei')).multipliedBy(
+    bigify(tx.gasLimit)
+  );
   const symbol = chain?.nativeCurrency?.symbol ?? '?';
   return (
     <>
       <InputRow
         label={translateRaw('TX_DETAILS_AMOUNT')}
-        value={<FormInput id="value" name="value" type="number" form={form} />}
+        id="value"
+        name="value"
+        form={form}
+        unit={symbol}
       />
       <InputRow
         label={translateRaw('NETWORK')}
-        value={<FormInput id="chainId" name="chainId" type="number" form={form} />}
+        id="chainId"
+        name="chainId"
+        type="number"
+        form={form}
       />
-      <InputRow
-        label={translateRaw('GAS_LIMIT')}
-        value={<FormInput id="gasLimit" name="gasLimit" type="number" form={form} />}
-      />
+      <InputRow label={translateRaw('GAS_LIMIT')} id="gasLimit" name="gasLimit" form={form} />
       <InputRow
         label={translateRaw('GAS_PRICE')}
-        value={<FormInput id="gasPrice" name="gasPrice" type="number" form={form} />}
+        id="gasPrice"
+        name="gasPrice"
+        unit="Gwei"
+        form={form}
       />
-      <InputRow
+      <Row
         label={translateRaw('MAX_TX_FEE')}
         value={`${formatEther(maxTxFee.toString())} ${symbol}`}
       />
-      <InputRow
-        label={translateRaw('NONCE')}
-        value={<FormInput id="nonce" name="nonce" type="number" form={form} />}
-      />
+      <InputRow label={translateRaw('NONCE')} id="nonce" name="nonce" type="number" form={form} />
       <BlockRow label={translateRaw('DATA')} hideDivider={true}>
         <FormTextArea id="data" name="data" form={form} />
       </BlockRow>

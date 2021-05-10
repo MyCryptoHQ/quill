@@ -1,6 +1,8 @@
 import { Body, Button } from '@mycrypto/ui';
 import { replace } from 'connected-react-router';
-import { useForm } from 'typed-react-form';
+import { is } from 'superstruct';
+import { useForm, yupValidator } from 'typed-react-form';
+import { number, object, string } from 'yup';
 
 import {
   Box,
@@ -18,9 +20,21 @@ import { useDispatch, useSelector } from '@app/store';
 import { fromHumanReadable, toHumanReadable } from '@app/utils';
 import edit from '@assets/icons/edit.svg';
 import { getAccounts, getCurrentTransaction, getTransactionInfoBannerType } from '@common/store';
-import { update } from '@common/store/transactions.slice';
+import { selectTransaction, update } from '@common/store/transactions.slice';
 import { translateRaw } from '@common/translate';
 import type { TxQueueEntry } from '@types';
+import { EvenHex } from '@types';
+
+const SCHEMA = object({
+  value: number().required(),
+  nonce: number().required(),
+  gasPrice: number().required(),
+  gasLimit: number().required(),
+  chainId: number().required(),
+  data: string()
+    .required()
+    .test('valid-hex', (value) => is(value, EvenHex))
+});
 
 export const EditTransaction = () => {
   const accounts = useSelector(getAccounts);
@@ -31,12 +45,18 @@ export const EditTransaction = () => {
   const recipientAccount = tx && accounts.find((a) => a.address === tx.to);
   const info = useSelector(getTransactionInfoBannerType);
 
-  const form = useForm(toHumanReadable(tx));
+  const form = useForm(toHumanReadable(tx), yupValidator(SCHEMA), true);
 
   const handleSave = () => {
-    const tx = fromHumanReadable(form.values);
-    dispatch(update({ ...currentTx, tx, userEdited: true }));
-    dispatch(replace(ROUTE_PATHS.TX));
+    try {
+      const tx = fromHumanReadable(form.values);
+      const queueItem = { ...currentTx, tx, adjustedNonce: false, userEdited: true };
+      dispatch(update(queueItem));
+      dispatch(selectTransaction(queueItem));
+      dispatch(replace(ROUTE_PATHS.TX));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -61,7 +81,9 @@ export const EditTransaction = () => {
         </Box>
       </ScrollableContainer>
       <PanelBottom py="3">
-        <Button onClick={handleSave}>{translateRaw('SAVE_SETTINGS')}</Button>
+        <Button disabled={form.error} onClick={handleSave}>
+          {translateRaw('SAVE_SETTINGS')}
+        </Button>
       </PanelBottom>
     </>
   );
