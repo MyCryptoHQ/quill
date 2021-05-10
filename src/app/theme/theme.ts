@@ -154,6 +154,11 @@ const overrideTheme = {
 
     badge: {
       muted: '#F6F8FA'
+    },
+
+    border: {
+      light: '#e3edff',
+      dark: '#007a99'
     }
   },
   radii: { input: '2px', badge: '4px' },

@@ -165,6 +165,13 @@
     "NONCE_CHANGED": "Transaction nonce has been changed",
     "NONCE_CONFLICT_IN_QUEUE": "Nonce is used in another transaction",
     "NONCE_CHANGED_HELP": "This transaction had the same nonce as a previously sent Transaction. We’ve changed it for you but you may edit it if you need to using the pencil icon above.",
-    "NONCE_OUT_OF_ORDER": "Approving TX out of order affects nonce"
+    "NONCE_OUT_OF_ORDER": "Approving TX out of order affects nonce",
+    "YOUR_IDENTICON": "Your Identicon",
+    "IDENTICON_DESCRIPTION": "This image is associated with your address. Always look for this icon when sending funds to this wallet.",
+    "PUBLIC_ADDRESS": "Public Address",
+    "SHARE_WITH_YOUR_FRIENDS": "Share this with your friends when they need to send you crypto!",
+    "KEEPING_YOUR_CRYPTO_SAFE": "Keeping Your Crypto Safe",
+    "RESOURCES_AND_HELP": "For Resources and Help, Visit:",
+    "KEEP_PRIVATE": "**For your eyes only**: keep this private"
   }
 }
