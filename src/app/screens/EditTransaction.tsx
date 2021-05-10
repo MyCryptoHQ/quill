@@ -1,5 +1,6 @@
 import { Body, Button } from '@mycrypto/ui';
 import { replace } from 'connected-react-router';
+import type { FormEvent } from 'react';
 import { is } from 'superstruct';
 import { useForm, yupValidator } from 'typed-react-form';
 import { number, object, string } from 'yup';
@@ -47,7 +48,12 @@ export const EditTransaction = () => {
 
   const form = useForm(toHumanReadable(tx), yupValidator(SCHEMA), true);
 
-  const handleSave = () => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    await form.validate();
+    if (form.error) {
+      return;
+    }
     try {
       const tx = fromHumanReadable(form.values);
       const queueItem = { ...currentTx, tx, adjustedNonce: false, userEdited: true };
@@ -62,26 +68,28 @@ export const EditTransaction = () => {
   return (
     <>
       <ScrollableContainer>
-        <Box>
-          <TxInfoBanner type={info} />
-          <FromToAccount
-            sender={{ address: tx.from, label: currentAccount?.label }}
-            recipient={tx.to && { address: tx.to, label: recipientAccount?.label }}
-          />
-          <Box variant="horizontal-start">
-            <Body fontSize="14px" color="BLUE_GREY" mb="2" mt="2">
-              {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
-              <TimeElapsed value={timestamp} />
-            </Body>
-            <LinkApp href="#" variant="barren" ml="auto">
-              <Image src={edit} height="20px" width="20px" />
-            </LinkApp>
+        <form onSubmit={handleSubmit} id="edit-tx-form">
+          <Box>
+            <TxInfoBanner type={info} />
+            <FromToAccount
+              sender={{ address: tx.from, label: currentAccount?.label }}
+              recipient={tx.to && { address: tx.to, label: recipientAccount?.label }}
+            />
+            <Box variant="horizontal-start">
+              <Body fontSize="14px" color="BLUE_GREY" mb="2" mt="2">
+                {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
+                <TimeElapsed value={timestamp} />
+              </Body>
+              <LinkApp href="#" variant="barren" ml="auto">
+                <Image src={edit} height="20px" width="20px" />
+              </LinkApp>
+            </Box>
+            <TxDetailsEdit form={form} />
           </Box>
-          <TxDetailsEdit form={form} />
-        </Box>
+        </form>
       </ScrollableContainer>
       <PanelBottom py="3">
-        <Button disabled={form.error} onClick={handleSave}>
+        <Button type="submit" disabled={form.error} form="edit-tx-form">
           {translateRaw('SAVE_SETTINGS')}
         </Button>
       </PanelBottom>
