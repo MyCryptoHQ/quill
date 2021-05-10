@@ -27,14 +27,12 @@ import type {
 import { WalletType } from '@types';
 import { generateDeterministicAddressUUID } from '@utils';
 
-import { createWallet, getAddress, getAddresses } from './crypto';
+import { createWallet, derivePrivateKey, getAddress, getAddresses } from './crypto';
 import { deleteAccountSecrets, saveAccountSecrets } from './secrets';
 
-export type CryptoAccountsState = Pick<AccountsState, 'accountsToAdd'>;
+export type CryptoAccountsState = Pick<AccountsState, 'add'>;
 
-export const initialState: CryptoAccountsState = {
-  accountsToAdd: []
-};
+export const initialState: CryptoAccountsState = {};
 
 const sliceName = accountsSlice.name;
 
@@ -44,13 +42,23 @@ const slice = createSlice({
   name: sliceName,
   initialState,
   reducers: {
-    setAccountsToAdd(state, action: PayloadAction<SerializedWalletWithAddress[]>) {
-      state.accountsToAdd = action.payload;
+    setAddAccounts(
+      state,
+      action: PayloadAction<{
+        type: WalletType.PRIVATE_KEY | WalletType.MNEMONIC;
+        accounts: SerializedWalletWithAddress[];
+        secret: string;
+      }>
+    ) {
+      state.add = action.payload;
+    },
+    clearAddAccounts(state) {
+      state.add = undefined;
     }
   }
 });
 
-export const { setAccountsToAdd } = slice.actions;
+export const { setAddAccounts, clearAddAccounts } = slice.actions;
 
 export const addSavedAccounts = createAction<boolean>(`${sliceName}/addSavedAccounts`);
 
@@ -58,7 +66,7 @@ export default slice;
 
 export const getAccountsToAdd = createSelector(
   (state: { accounts: CryptoAccountsState }) => state.accounts,
-  (accounts) => accounts.accountsToAdd
+  (accounts) => accounts.add?.accounts
 );
 
 export function* accountsSaga() {
@@ -81,11 +89,29 @@ export function* fetchAccount(wallet: SerializedWallet): SagaIterator<Serialized
 
 export function* fetchAccountsWorker({ payload }: PayloadAction<SerializedWallet[]>) {
   try {
-    const wallets: SerializedWalletWithAddress[] = yield all(
+    const type =
+      payload[0].walletType === WalletType.KEYSTORE
+        ? WalletType.PRIVATE_KEY
+        : payload[0].walletType;
+
+    const secret: string =
+      payload[0].walletType === WalletType.KEYSTORE
+        ? yield call(derivePrivateKey, payload[0])
+        : payload[0].walletType === WalletType.PRIVATE_KEY
+        ? payload[0].privateKey
+        : payload[0].mnemonicPhrase;
+
+    const accounts: SerializedWalletWithAddress[] = yield all(
       payload.map((wallet) => call(fetchAccount, wallet))
     );
 
-    yield put(setAccountsToAdd(wallets));
+    yield put(
+      setAddAccounts({
+        type,
+        accounts,
+        secret
+      })
+    );
     yield put(nextFlow());
   } catch (err) {
     yield put(fetchFailed(err.message));

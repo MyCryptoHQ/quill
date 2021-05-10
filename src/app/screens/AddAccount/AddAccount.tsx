@@ -1,6 +1,6 @@
 import { push } from 'connected-react-router';
 
-import { fetchReset, setAccountsToAdd } from '@common/store';
+import { clearAddAccounts, fetchReset } from '@common/store';
 import type { IFlowComponent } from '@components';
 import { Flow } from '@components';
 import { useUnmount } from '@hooks';
@@ -36,7 +36,7 @@ export const AddAccount = () => {
 
   useUnmount(() => {
     dispatch(fetchReset());
-    dispatch(setAccountsToAdd([]));
+    dispatch(clearAddAccounts());
   });
 
   return <Flow components={components} onDone={handleDone} />;

@@ -8,15 +8,22 @@ import type {
   SerializedDeterministicWallet,
   SerializedWallet,
   SerializedWalletWithAddress,
-  TAddress
+  TAddress,
+  WalletType
 } from '@types';
 
 export interface AccountsState {
   accounts: IAccount[];
-  accountsToAdd: SerializedWalletWithAddress[];
   addresses: GetAddressesResult[];
   isFetching: boolean;
   fetchError?: string;
+  add?: {
+    // Keystore files can be added as well, but for saving paper wallets we only support mnemonics
+    // and private keys, so for keystore files, the private key is derived instead.
+    type: WalletType.PRIVATE_KEY | WalletType.MNEMONIC;
+    accounts: SerializedWalletWithAddress[];
+    secret: string;
+  };
   generatedAccount?: {
     mnemonicPhrase: string;
     address: TAddress;
@@ -25,7 +32,6 @@ export interface AccountsState {
 
 export const initialState: AccountsState = {
   accounts: [],
-  accountsToAdd: [],
   addresses: [],
   isFetching: false
 };
@@ -50,8 +56,18 @@ const slice = createSlice({
       const idx = state.accounts.findIndex((a) => a.uuid === action.payload.uuid);
       state.accounts[idx] = action.payload;
     },
-    setAccountsToAdd(state, action: PayloadAction<SerializedWalletWithAddress[]>) {
-      state.accountsToAdd = action.payload;
+    setAddAccounts(
+      state,
+      action: PayloadAction<{
+        type: WalletType.PRIVATE_KEY | WalletType.MNEMONIC;
+        accounts: SerializedWalletWithAddress[];
+        secret: string;
+      }>
+    ) {
+      state.add = action.payload;
+    },
+    clearAddAccounts(state) {
+      state.add = undefined;
     },
     setAddresses(state, action: PayloadAction<GetAddressesResult[]>) {
       state.addresses = action.payload;
@@ -96,7 +112,8 @@ export const {
   addAccount,
   removeAccount,
   updateAccount,
-  setAccountsToAdd,
+  setAddAccounts,
+  clearAddAccounts,
   setAddresses,
   fetchAccounts,
   fetchAddresses,
@@ -119,7 +136,7 @@ export const getAccounts = createSelector(
 
 export const getAccountsToAdd = createSelector(
   (state: { accounts: AccountsState }) => state.accounts,
-  (accounts) => accounts.accountsToAdd
+  (accounts) => accounts.add
 );
 
 export const getAddresses = createSelector(

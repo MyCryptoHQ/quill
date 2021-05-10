@@ -6,12 +6,13 @@ import { WalletType } from '@types';
 
 import slice, {
   addAccount,
+  clearAddAccounts,
   fetchAccounts,
   fetchAddresses,
   fetchFailed,
   fetchReset,
   removeAccount,
-  setAccountsToAdd,
+  setAddAccounts,
   setAddresses,
   setGeneratedAccount,
   updateAccount
@@ -26,7 +27,7 @@ describe('AccountSlice', () => {
   describe('addAccount()', () => {
     it('adds account to state', () => {
       const result = slice.reducer(
-        { accounts: [], accountsToAdd: [], addresses: [], isFetching: false },
+        { accounts: [], addresses: [], isFetching: false },
         addAccount(fAccount)
       );
       expect(result.accounts).toStrictEqual([fAccount]);
@@ -36,7 +37,7 @@ describe('AccountSlice', () => {
   describe('removeAccount()', () => {
     it('removes account from state', () => {
       const result = slice.reducer(
-        { accounts: [fAccount], accountsToAdd: [], addresses: [], isFetching: false },
+        { accounts: [fAccount], addresses: [], isFetching: false },
         removeAccount(fAccount)
       );
       expect(result.accounts).toStrictEqual([]);
@@ -47,39 +48,64 @@ describe('AccountSlice', () => {
     it('updates account in state', () => {
       const newAccount = { ...fAccount, label: 'new label' };
       const result = slice.reducer(
-        { accounts: [fAccount], accountsToAdd: [], addresses: [], isFetching: false },
+        { accounts: [fAccount], addresses: [], isFetching: false },
         updateAccount(newAccount)
       );
       expect(result.accounts).toStrictEqual([newAccount]);
     });
   });
 
-  describe('setAccountsToAdd', () => {
+  describe('setAddAccounts', () => {
     it('sets accounts to add', () => {
-      const result = slice.reducer(
-        { accounts: [], accountsToAdd: [], addresses: [], isFetching: false },
-        setAccountsToAdd([
+      const add = {
+        type: WalletType.PRIVATE_KEY as const,
+        accounts: [
           {
-            walletType: WalletType.PRIVATE_KEY,
+            walletType: WalletType.PRIVATE_KEY as const,
             address: fAccount.address,
             privateKey: fPrivateKey
           }
-        ])
+        ],
+        secret: fPrivateKey
+      };
+
+      const result = slice.reducer(
+        { accounts: [], addresses: [], isFetching: false },
+        setAddAccounts(add)
       );
-      expect(result.accountsToAdd).toStrictEqual([
+      expect(result.add).toStrictEqual(add);
+    });
+  });
+
+  describe('clearAddAccounts', () => {
+    it('clears accounts to add', () => {
+      const result = slice.reducer(
         {
-          walletType: WalletType.PRIVATE_KEY,
-          address: fAccount.address,
-          privateKey: fPrivateKey
-        }
-      ]);
+          accounts: [],
+          addresses: [],
+          isFetching: false,
+          add: {
+            type: WalletType.PRIVATE_KEY as const,
+            accounts: [
+              {
+                walletType: WalletType.PRIVATE_KEY as const,
+                address: fAccount.address,
+                privateKey: fPrivateKey
+              }
+            ],
+            secret: fPrivateKey
+          }
+        },
+        clearAddAccounts()
+      );
+      expect(result.add).toBeUndefined();
     });
   });
 
   describe('setAddresses', () => {
     it('sets the addresses and resets the fetch state', () => {
       const result = slice.reducer(
-        { accounts: [], accountsToAdd: [], addresses: [], isFetching: true, fetchError: 'foo' },
+        { accounts: [], addresses: [], isFetching: true, fetchError: 'foo' },
         setAddresses([{ dPath: getFullPath(DEFAULT_ETH, 0), address: 'foo' as TAddress, index: 0 }])
       );
 
@@ -98,7 +124,7 @@ describe('AccountSlice', () => {
   describe('fetchAccount()', () => {
     it('sets isFetching to true', () => {
       const result = slice.reducer(
-        { accounts: [], accountsToAdd: [], addresses: [], isFetching: false },
+        { accounts: [], addresses: [], isFetching: false },
         fetchAccounts([wallet])
       );
       expect(result.isFetching).toBe(true);
@@ -108,7 +134,7 @@ describe('AccountSlice', () => {
   describe('fetchAddresses', () => {
     it('sets isFetching to true and clears the fetch error', () => {
       const result = slice.reducer(
-        { accounts: [], accountsToAdd: [], addresses: [], isFetching: false, fetchError: 'error' },
+        { accounts: [], addresses: [], isFetching: false, fetchError: 'error' },
         fetchAddresses({
           wallet: { walletType: WalletType.MNEMONIC, mnemonicPhrase: fMnemonicPhrase },
           path: DEFAULT_ETH,
@@ -129,7 +155,7 @@ describe('AccountSlice', () => {
     it('sets error', () => {
       const error = 'error';
       const result = slice.reducer(
-        { accounts: [], accountsToAdd: [], addresses: [], isFetching: false },
+        { accounts: [], addresses: [], isFetching: false },
         fetchFailed(error)
       );
       expect(result.fetchError).toBe(error);
@@ -139,7 +165,7 @@ describe('AccountSlice', () => {
   describe('fetchReset()', () => {
     it('resets fetch state', () => {
       const result = slice.reducer(
-        { accounts: [], accountsToAdd: [], addresses: [], isFetching: true, fetchError: 'foo' },
+        { accounts: [], addresses: [], isFetching: true, fetchError: 'foo' },
         fetchReset()
       );
       expect(result.fetchError).toBeUndefined();
@@ -155,7 +181,7 @@ describe('AccountSlice', () => {
       };
 
       const result = slice.reducer(
-        { accounts: [], accountsToAdd: [], addresses: [], isFetching: false },
+        { accounts: [], addresses: [], isFetching: false },
         setGeneratedAccount(account)
       );
       expect(result.generatedAccount).toBe(account);

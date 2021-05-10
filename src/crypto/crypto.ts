@@ -36,6 +36,11 @@ export const getAddress = async (wallet: SerializedWallet) => {
   return initialisedWallet.getAddress();
 };
 
+export const derivePrivateKey = async (wallet: SerializedWallet) => {
+  const initialisedWallet = await getWallet(wallet);
+  return initialisedWallet.getPrivateKey();
+};
+
 export const createWallet = async (wallet: WalletType) => {
   if (wallet === WalletType.MNEMONIC) {
     return MnemonicPhrase.create().mnemonicPhrase;
