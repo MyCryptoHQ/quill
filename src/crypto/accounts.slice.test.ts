@@ -1,4 +1,4 @@
-import { createWallet, getAddress, getAddresses } from '@crypto/crypto';
+import { createWallet, derivePrivateKey, getAddress, getAddresses } from '@crypto/crypto';
 import { DEFAULT_ETH } from '@mycrypto/wallets';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
@@ -16,7 +16,7 @@ import {
   setGeneratedAccount
 } from '@common/store';
 import { DEFAULT_MNEMONIC_INDEX } from '@config';
-import { fAccount, fMnemonicPhrase, fPrivateKey } from '@fixtures';
+import { fAccount, fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey } from '@fixtures';
 import type { SerializedWallet, TAddress } from '@types';
 import { WalletType } from '@types';
 
@@ -114,6 +114,31 @@ describe('fetchAccountsWorker', () => {
         })
       )
       .put(nextFlow())
+      .silentRun();
+  });
+
+  it('derives a private key for a keystore file', async () => {
+    const keystoreWallet = {
+      walletType: WalletType.KEYSTORE as const,
+      keystore: fKeystore,
+      password: fKeystorePassword
+    };
+
+    await expectSaga(fetchAccountsWorker, fetchAccounts([keystoreWallet]))
+      .call(derivePrivateKey, keystoreWallet)
+      .call(fetchAccount, keystoreWallet)
+      .put(
+        setAddAccounts({
+          type: WalletType.PRIVATE_KEY,
+          accounts: [
+            {
+              ...keystoreWallet,
+              address: '0x0961Ca10D49B9B8e371aA0Bcf77fE5730b18f2E4' as TAddress
+            }
+          ],
+          secret: fPrivateKey
+        })
+      )
       .silentRun();
   });
 
