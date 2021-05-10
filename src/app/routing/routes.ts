@@ -2,6 +2,7 @@ import {
   Accounts,
   AddAccount,
   CreatePassword,
+  EditTransaction,
   ForgotPassword,
   GenerateAccount,
   Home,
@@ -26,6 +27,12 @@ export const ROUTES: Record<string, Route> = {
   },
   HOME: { path: ROUTE_PATHS.HOME, component: Home, exact: true, requireLogin: true },
   TX: { path: ROUTE_PATHS.TX, component: Transaction, exact: true, requireLogin: true },
+  EDIT_TX: {
+    path: ROUTE_PATHS.EDIT_TX,
+    component: EditTransaction,
+    exact: true,
+    requireLogin: true
+  },
   SIGN_TX: {
     path: ROUTE_PATHS.SIGN_TX,
     component: SignTransaction,

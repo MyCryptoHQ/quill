@@ -1,6 +1,5 @@
 import { formatEther, formatUnits } from '@ethersproject/units';
 import { Body } from '@mycrypto/ui';
-import type { ReactNode } from 'react';
 
 import warning from '@assets/icons/circle-warning.svg';
 import { translateRaw } from '@common/translate';
@@ -10,48 +9,8 @@ import { bigify } from '@utils';
 
 import { Box, Image } from '.';
 import { CodeBlock } from './CodeBlock';
-import { Divider } from './Divider';
-
-const Row = ({
-  label,
-  value,
-  info,
-  hideDivider
-}: {
-  label: string;
-  value: string | ReactNode;
-  info?: ReactNode;
-  hideDivider?: boolean;
-}) => (
-  <>
-    <Box py="1">
-      <Box variant="horizontal-start" sx={{ justifyContent: 'space-between' }}>
-        <Body fontWeight="bold">{label}:</Body>
-        {typeof value === 'string' ? <Body>{value}</Body> : value}
-      </Box>
-      {info !== undefined && info}
-    </Box>
-    {!hideDivider && <Divider />}
-  </>
-);
-
-const BlockRow = ({
-  label,
-  children,
-  hideDivider
-}: {
-  label: string;
-  children: ReactNode;
-  hideDivider?: boolean;
-}) => (
-  <>
-    <Box pb="1" pt="1">
-      <Body fontWeight="bold">{label}:</Body>
-      {children}
-    </Box>
-    {!hideDivider && <Divider />}
-  </>
-);
+import { TxDetailsBlockRow as BlockRow } from './TxDetailsBlockRow';
+import { TxDetailsRow as Row } from './TxDetailsRow';
 
 export const TxDetails = ({ tx: { tx, adjustedNonce } }: { tx: TxQueueEntry | TxHistoryEntry }) => {
   const chain = getChain(tx.chainId);
@@ -61,6 +20,7 @@ export const TxDetails = ({ tx: { tx, adjustedNonce } }: { tx: TxQueueEntry | Tx
   const data = tx.data?.toString() ?? '0x';
   return (
     <>
+      {/** @todo Consider units */}
       <Row label={translateRaw('TX_DETAILS_AMOUNT')} value={`${formatEther(tx.value)} ${symbol}`} />
       <Row label={translateRaw('NETWORK')} value={`${network} (${tx.chainId.toString()})`} />
       <Row label={translateRaw('GAS_LIMIT')} value={bigify(tx.gasLimit).toString()} />
