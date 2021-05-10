@@ -26,6 +26,7 @@ const InputRow = ({
         {/* @ts-ignore for now */}
         <FormInput
           {...props}
+          pr="3rem"
           css={`
             ::-webkit-inner-spin-button {
               -webkit-appearance: none;
