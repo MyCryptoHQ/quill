@@ -2275,10 +2275,10 @@
   dependencies:
     sourcemap-codec "^1.4.4"
 
-"@mycrypto/ui@1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@mycrypto/ui/-/ui-1.0.5.tgz#68d528f93c9d3a52b75dbefe2a00725977d95a81"
-  integrity sha512-Z3yo2NAyiByt9XXaq62rl5T1RlKPUA8TNafeI7E96yRPcZIJP1Hw5KoB/c/2hDshcdFGlxfo3Zl8HXQo4lZkEw==
+"@mycrypto/ui@1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@mycrypto/ui/-/ui-1.0.6.tgz#30086b1d3aff6c8fa9e59a77b4b92b9ba64bf56d"
+  integrity sha512-3vuGuvEtg3Q88OX5FwWBRR+BquQPLPxncISylfMLG9Npc2wSNGljpuXtJENefidTIEbJ5wfj9P1uNvIR1nWHdA==
   dependencies:
     "@rebass/forms" "4.0.6"
     ethereum-blockies-base64 "1.0.2"

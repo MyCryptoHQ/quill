@@ -1,5 +1,5 @@
-import type { TextareaProps } from '@rebass/forms/styled-components';
-import { Textarea as RebassTextArea } from '@rebass/forms/styled-components';
+import type { TextareaProps } from '@mycrypto/ui';
+import { Textarea as RebassTextArea } from '@mycrypto/ui';
 import type { DefaultError, DefaultState } from 'typed-react-form';
 import { FormTextArea as ReactFormTextArea, useListener } from 'typed-react-form';
 import type { FormInputProps } from 'typed-react-form/dist/elements/FormInput';
