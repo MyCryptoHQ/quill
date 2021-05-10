@@ -61,7 +61,7 @@ describe('AddAccountBackup', () => {
     const store = createMockStore({
       accounts: {
         add: {
-          type: WalletType.PRIVATE_KEY,
+          type: WalletType.MNEMONIC,
           accounts: [
             {
               walletType: WalletType.MNEMONIC,

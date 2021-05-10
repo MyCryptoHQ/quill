@@ -142,6 +142,24 @@ describe('fetchAccountsWorker', () => {
       .silentRun();
   });
 
+  it('uses the mnemonic phrase itself for mnemonic wallets', async () => {
+    await expectSaga(fetchAccountsWorker, fetchAccounts([otherWallet]))
+      .call(fetchAccount, otherWallet)
+      .put(
+        setAddAccounts({
+          type: WalletType.MNEMONIC,
+          accounts: [
+            {
+              ...otherWallet,
+              address: '0x0961Ca10D49B9B8e371aA0Bcf77fE5730b18f2E4' as TAddress
+            }
+          ],
+          secret: otherWallet.mnemonicPhrase
+        })
+      )
+      .silentRun();
+  });
+
   it('handles errors', () => {
     const input = { ...wallet, persistent: false };
     return expectSaga(fetchAccountsWorker, fetchAccounts([input]))
