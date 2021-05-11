@@ -2,6 +2,7 @@ import { formatEther, parseUnits } from '@ethersproject/units';
 import { Body } from '@mycrypto/ui';
 import type { ComponentProps } from 'react';
 import type { FormState } from 'typed-react-form';
+import { AnyListener } from 'typed-react-form';
 
 import { translateRaw } from '@common/translate';
 import { getChain } from '@data';
@@ -49,9 +50,6 @@ const InputRow = ({
 export const TxDetailsEdit = ({ form }: { form: FormState<TransactionRequest> }) => {
   const tx = form.values;
   const chain = getChain(tx.chainId);
-  const maxTxFee = bigify(parseUnits(tx.gasPrice.toString(), 'gwei')).multipliedBy(
-    bigify(tx.gasLimit)
-  );
   const symbol = chain?.nativeCurrency?.symbol ?? '?';
   return (
     <>
@@ -77,10 +75,19 @@ export const TxDetailsEdit = ({ form }: { form: FormState<TransactionRequest> })
         unit="Gwei"
         form={form}
       />
-      <Row
-        label={translateRaw('MAX_TX_FEE')}
-        value={`${formatEther(maxTxFee.toString())} ${symbol}`}
-        py="1rem"
+      <AnyListener
+        form={form}
+        render={({ values }) => (
+          <Row
+            label={translateRaw('MAX_TX_FEE')}
+            value={`${formatEther(
+              bigify(parseUnits(values.gasPrice.toString(), 'gwei'))
+                .multipliedBy(bigify(values.gasLimit))
+                .toString()
+            )} ${symbol}`}
+            py="1rem"
+          />
+        )}
       />
       <InputRow label={translateRaw('NONCE')} id="nonce" name="nonce" type="number" form={form} />
       <BlockRow label={translateRaw('DATA')} hideDivider={true}>
