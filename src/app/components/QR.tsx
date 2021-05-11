@@ -10,8 +10,6 @@ interface QRProps {
 export const QR = ({ data, size }: QRProps) => {
   const [image, setImage] = useState<string>();
 
-  console.log(qruri);
-
   useEffect(() => {
     setImage(
       qruri(data, {

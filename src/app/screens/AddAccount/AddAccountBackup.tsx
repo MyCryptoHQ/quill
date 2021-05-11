@@ -30,7 +30,7 @@ export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
     if (paperWallet.current) {
       toPng(paperWallet.current).then(setPaperWalletImage);
     }
-  }, [paperWallet]);
+  }, [paperWallet.current]);
 
   return (
     <>
