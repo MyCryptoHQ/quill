@@ -123,9 +123,9 @@ export const PaperWallet = forwardRef(
       <GridBox inverted={true}>
         <Block
           title={
-            type === WalletType.PRIVATE_KEY
-              ? translateRaw('PRIVATE_KEY')
-              : translateRaw('MNEMONIC_PHRASE')
+            type === WalletType.MNEMONIC
+              ? translateRaw('MNEMONIC_PHRASE')
+              : translateRaw('PRIVATE_KEY')
           }
         >
           <Flex variant="vertical-start" justifyContent="space-between" height="100%">
