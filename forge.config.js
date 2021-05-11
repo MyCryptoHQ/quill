@@ -69,5 +69,8 @@ module.exports = {
         prerelease: true
       }
     }
-  ]
+  ],
+  electronRebuildConfig: {
+    onlyModules: ['keccak', 'usb']
+  }
 };
