@@ -57,7 +57,7 @@ const slice = createSlice({
   }
 });
 
-export const { setAddAccounts, clearAddAccounts } = slice.actions;
+const { setAddAccounts } = slice.actions;
 
 export const addSavedAccounts = createAction<boolean>(`${sliceName}/addSavedAccounts`);
 
