@@ -1,7 +1,6 @@
 import { Blockie, Body, Flex, Image } from '@mycrypto/ui';
 import type { PropsWithChildren } from 'react';
 import { forwardRef } from 'react';
-import QRCode from 'react-qr-code';
 
 import alertRed from '@assets/icons/alert-red.svg';
 import alert from '@assets/icons/alert.svg';
@@ -9,7 +8,7 @@ import email from '@assets/icons/email.svg';
 import safeWallet from '@assets/icons/safe-wallet.svg';
 import logo from '@assets/images/logo-paper-wallet.svg';
 import { translateRaw } from '@common/translate';
-import { Box, LinkApp } from '@components';
+import { Box, LinkApp, QR } from '@components';
 import { translate } from '@translations';
 import type { TAddress } from '@types';
 import { WalletType } from '@types';
@@ -130,7 +129,7 @@ export const PaperWallet = forwardRef(({ type, address, secret }: PaperWalletPro
         <Flex variant="vertical-start" justifyContent="space-between" height="100%">
           <Box>
             <Box sx={{ lineHeight: '0' }}>
-              <QRCode size={120} level="M" value={secret} />
+              <QR size={120} data={secret} />
             </Box>
             <Body fontSize="10px" lineHeight="12px" sx={{ wordBreak: 'break-word' }}>
               {secret}
@@ -177,7 +176,7 @@ export const PaperWallet = forwardRef(({ type, address, secret }: PaperWalletPro
         <Flex variant="vertical-start" justifyContent="space-between" height="100%">
           <Box flex="1">
             <Box sx={{ lineHeight: '0' }}>
-              <QRCode size={120} level="M" value={address} />
+              <QR size={120} data={address} />
             </Box>
             <Body fontSize="10px">{address}</Body>
           </Box>
