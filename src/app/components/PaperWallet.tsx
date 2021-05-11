@@ -132,7 +132,7 @@ export const PaperWallet = forwardRef(({ type, address, secret }: PaperWalletPro
             <Box sx={{ lineHeight: '0' }}>
               <QRCode size={120} level="M" value={secret} />
             </Box>
-            <Body fontSize="10px" lineHeight="12px">
+            <Body fontSize="10px" lineHeight="12px" sx={{ wordBreak: 'break-word' }}>
               {secret}
             </Body>
           </Box>
