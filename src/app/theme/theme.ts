@@ -149,7 +149,8 @@ const overrideTheme = {
 
     text: {
       success: '#B3DD87',
-      warning: '#FA873F'
+      warning: '#FA873F',
+      alert: '#EF4747'
     },
 
     badge: {

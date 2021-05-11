@@ -3,6 +3,7 @@ import type { PropsWithChildren } from 'react';
 import { forwardRef } from 'react';
 import QRCode from 'react-qr-code';
 
+import alertRed from '@assets/icons/alert-red.svg';
 import alert from '@assets/icons/alert.svg';
 import email from '@assets/icons/email.svg';
 import safeWallet from '@assets/icons/safe-wallet.svg';
@@ -35,7 +36,7 @@ const Block = ({ title, children }: PropsWithChildren<BlockProps>) => (
     <Box
       width="100%"
       backgroundColor="white"
-      p="7px"
+      p="6px"
       sx={{ borderRadius: '6px', boxSizing: 'border-box', flex: '1', textAlign: 'center' }}
     >
       {children}
@@ -126,12 +127,22 @@ export const PaperWallet = forwardRef(({ type, address, secret }: PaperWalletPro
             : translateRaw('MNEMONIC_PHRASE')
         }
       >
-        <Box>
-          <QRCode size={125} level="M" value={secret} />
-        </Box>
-        <Body fontSize="10px" lineHeight="12px">
-          {secret}
-        </Body>
+        <Flex variant="vertical-start" justifyContent="space-between" height="100%">
+          <Box>
+            <Box sx={{ lineHeight: '0' }}>
+              <QRCode size={120} level="M" value={secret} />
+            </Box>
+            <Body fontSize="10px" lineHeight="12px">
+              {secret}
+            </Body>
+          </Box>
+          <Flex variant="horizontal-center" width="100%">
+            <Image src={alertRed} alt="Share" height="12px" mr="2" />
+            <Body fontSize="10px" color="text.alert">
+              {translateRaw('KEEP_THIS_SAFE')}
+            </Body>
+          </Flex>
+        </Flex>
       </Block>
     </GridBox>
     <GridBox inverted={true}>
@@ -163,17 +174,19 @@ export const PaperWallet = forwardRef(({ type, address, secret }: PaperWalletPro
     </GridBox>
     <GridBox>
       <Block title={translateRaw('PUBLIC_ADDRESS')}>
-        <Box>
-          <QRCode size={125} level="M" value={address} />
-        </Box>
-        <Body fontSize="10px" mb="2">
-          {address}
-        </Body>
-        <Flex justifyContent="space-between">
-          <Image src={email} alt="Share" />
-          <Body fontSize="10px" variant="muted">
-            {translateRaw('SHARE_WITH_YOUR_FRIENDS')}
-          </Body>
+        <Flex variant="vertical-start" justifyContent="space-between" height="100%">
+          <Box flex="1">
+            <Box sx={{ lineHeight: '0' }}>
+              <QRCode size={120} level="M" value={address} />
+            </Box>
+            <Body fontSize="10px">{address}</Body>
+          </Box>
+          <Flex justifyContent="space-between" width="100%">
+            <Image src={email} alt="Share" />
+            <Body fontSize="10px" variant="muted">
+              {translateRaw('SHARE_WITH_YOUR_FRIENDS')}
+            </Body>
+          </Flex>
         </Flex>
       </Block>
     </GridBox>

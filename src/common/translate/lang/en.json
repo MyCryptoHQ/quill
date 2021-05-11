@@ -166,6 +166,7 @@
     "NONCE_CONFLICT_IN_QUEUE": "Nonce is used in another transaction",
     "NONCE_CHANGED_HELP": "This transaction had the same nonce as a previously sent Transaction. We’ve changed it for you but you may edit it if you need to using the pencil icon above.",
     "NONCE_OUT_OF_ORDER": "Approving TX out of order affects nonce",
+    "KEEP_THIS_SAFE": "Keep this safe. Do not share.",
     "YOUR_IDENTICON": "Your Identicon",
     "IDENTICON_DESCRIPTION": "This image is associated with your address. Always look for this icon when sending funds to this wallet.",
     "PUBLIC_ADDRESS": "Public Address",
