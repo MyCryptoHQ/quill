@@ -8,7 +8,7 @@ import type { ApplicationState } from '@app/store';
 import { update } from '@common/store/transactions.slice';
 import { translateRaw } from '@common/translate';
 import { fAccount, getTransactionRequest } from '@fixtures';
-import type { DeepPartial, IAccount, TSignTransaction } from '@types';
+import type { DeepPartial } from '@types';
 import { TxResult } from '@types';
 import { makeHistoryTx, makeQueueTx } from '@utils';
 
@@ -26,34 +26,26 @@ function getComponent(store: EnhancedStore<DeepPartial<ApplicationState>>) {
   );
 }
 
-const getComponentWithStore = (account: IAccount = fAccount, tx?: Partial<TSignTransaction[0]>) => {
-  const transactionRequest = makeQueueTx(getTransactionRequest(account.address, tx));
-  const mockStore = createMockStore({
-    accounts: {
-      accounts: [account]
-    },
-    transactions: {
-      queue: [transactionRequest],
-      currentTransaction: transactionRequest
-    }
-  });
-
-  const component = getComponent(mockStore);
-  return { component, mockStore };
-};
+const transactionRequest = makeQueueTx(getTransactionRequest(fAccount.address));
 
 describe('EditTransaction', () => {
   it('renders', async () => {
-    const {
-      component: { getByText, getByDisplayValue }
-    } = getComponentWithStore();
+    const mockStore = createMockStore({
+      accounts: {
+        accounts: [fAccount]
+      },
+      transactions: {
+        queue: [transactionRequest],
+        currentTransaction: transactionRequest
+      }
+    });
+    const { getByText, getByDisplayValue } = getComponent(mockStore);
     expect(getByText('This transaction is waiting on action').textContent).toBeDefined();
     expect(getByText('Gas Limit', { exact: false }).textContent).toBeDefined();
     expect(getByDisplayValue('21000', { exact: false }).textContent).toBeDefined();
   });
 
   it('updates transaction based on form values', async () => {
-    const transactionRequest = makeQueueTx(getTransactionRequest(fAccount.address));
     const mockStore = createMockStore({
       accounts: {
         accounts: [fAccount]
@@ -85,10 +77,16 @@ describe('EditTransaction', () => {
   });
 
   it('doesnt update transaction if form is invalid', async () => {
-    const {
-      component: { getByText, container },
-      mockStore
-    } = getComponentWithStore();
+    const mockStore = createMockStore({
+      accounts: {
+        accounts: [fAccount]
+      },
+      transactions: {
+        queue: [transactionRequest],
+        currentTransaction: transactionRequest
+      }
+    });
+    const { getByText, container } = getComponent(mockStore);
     const gasLimit = container.querySelector('input[name="gasLimit"]');
     expect(gasLimit).toBeDefined();
     fireEvent.change(gasLimit, { target: { value: 'blabla' } });
@@ -101,10 +99,18 @@ describe('EditTransaction', () => {
   });
 
   it('renders data block', async () => {
-    const {
-      component: { getByText }
-    } = getComponentWithStore(fAccount, { data: '0x123' });
-    expect(getByText('0x123', { exact: false }).textContent).toBeDefined();
+    const request = makeQueueTx(getTransactionRequest(fAccount.address, { data: '0x1234' }));
+    const mockStore = createMockStore({
+      accounts: {
+        accounts: [fAccount]
+      },
+      transactions: {
+        queue: [request],
+        currentTransaction: request
+      }
+    });
+    const { getByText } = getComponent(mockStore);
+    expect(getByText('0x1234', { exact: false }).textContent).toBeDefined();
   });
 
   it('renders approved banner', async () => {
