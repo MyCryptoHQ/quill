@@ -54,15 +54,11 @@ export const EditTransaction = () => {
     if (form.error) {
       return;
     }
-    try {
-      const tx = fromHumanReadable(form.values);
-      const queueItem = { ...currentTx, tx, adjustedNonce: false, userEdited: true };
-      dispatch(update(queueItem));
-      dispatch(selectTransaction(queueItem));
-      dispatch(replace(ROUTE_PATHS.TX));
-    } catch (err) {
-      console.error(err);
-    }
+    const tx = fromHumanReadable(form.values);
+    const queueItem = { ...currentTx, tx, adjustedNonce: false, userEdited: true };
+    dispatch(update(queueItem));
+    dispatch(selectTransaction(queueItem));
+    dispatch(replace(ROUTE_PATHS.TX));
   };
 
   return (
