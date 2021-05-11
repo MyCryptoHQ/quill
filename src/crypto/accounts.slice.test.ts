@@ -27,6 +27,7 @@ import slice, {
   fetchAccountsWorker,
   fetchAddressesWorker,
   generateAccountWorker,
+  getSecret,
   removeAccountWorker
 } from './accounts.slice';
 import { deleteAccountSecrets, saveAccountSecrets } from './secrets';
@@ -49,7 +50,6 @@ describe('AccountsSlice', () => {
   describe('setAddAccounts', () => {
     it('sets accounts to add', () => {
       const add = {
-        type: WalletType.PRIVATE_KEY as const,
         accounts: [
           {
             walletType: WalletType.PRIVATE_KEY as const,
@@ -70,7 +70,6 @@ describe('AccountsSlice', () => {
       const result = slice.reducer(
         {
           add: {
-            type: WalletType.PRIVATE_KEY as const,
             accounts: [
               {
                 walletType: WalletType.PRIVATE_KEY as const,
@@ -105,7 +104,6 @@ describe('fetchAccountsWorker', () => {
       .call(fetchAccount, otherWallet)
       .put(
         setAddAccounts({
-          type: WalletType.PRIVATE_KEY,
           secret: wallet.privateKey,
           accounts: [
             { ...wallet, address: '0x0961Ca10D49B9B8e371aA0Bcf77fE5730b18f2E4' as TAddress },
@@ -129,7 +127,6 @@ describe('fetchAccountsWorker', () => {
       .call(fetchAccount, keystoreWallet)
       .put(
         setAddAccounts({
-          type: WalletType.PRIVATE_KEY,
           accounts: [
             {
               ...keystoreWallet,
@@ -147,7 +144,6 @@ describe('fetchAccountsWorker', () => {
       .call(fetchAccount, otherWallet)
       .put(
         setAddAccounts({
-          type: WalletType.MNEMONIC,
           accounts: [
             {
               ...otherWallet,
@@ -168,7 +164,7 @@ describe('fetchAccountsWorker', () => {
           throw new Error('error');
         }
       })
-      .call(fetchAccount, input)
+      .call(getSecret, input)
       .put(fetchFailed('error'))
       .silentRun();
   });

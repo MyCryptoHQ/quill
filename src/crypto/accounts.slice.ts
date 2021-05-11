@@ -45,7 +45,6 @@ const slice = createSlice({
     setAddAccounts(
       state,
       action: PayloadAction<{
-        type: WalletType.PRIVATE_KEY | WalletType.MNEMONIC;
         accounts: SerializedWalletWithAddress[];
         secret: string;
       }>
@@ -79,7 +78,7 @@ export function* accountsSaga() {
   ]);
 }
 
-function* getSecret(wallet: SerializedWallet): SagaIterator<string> {
+export function* getSecret(wallet: SerializedWallet): SagaIterator<string> {
   if (wallet.walletType === WalletType.KEYSTORE) {
     return yield call(derivePrivateKey, wallet);
   }
@@ -101,11 +100,6 @@ export function* fetchAccount(wallet: SerializedWallet): SagaIterator<Serialized
 
 export function* fetchAccountsWorker({ payload }: PayloadAction<SerializedWallet[]>) {
   try {
-    const type =
-      payload[0].walletType === WalletType.KEYSTORE
-        ? WalletType.PRIVATE_KEY
-        : payload[0].walletType;
-
     const secret: string = yield call(getSecret, payload[0]);
     const accounts: SerializedWalletWithAddress[] = yield all(
       payload.map((wallet) => call(fetchAccount, wallet))
@@ -113,7 +107,6 @@ export function* fetchAccountsWorker({ payload }: PayloadAction<SerializedWallet
 
     yield put(
       setAddAccounts({
-        type,
         accounts,
         secret
       })

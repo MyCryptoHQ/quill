@@ -79,12 +79,6 @@ const NotesBlock = ({ title, children }: PropsWithChildren<BlockProps>) => (
 
 const Line = () => <Box width="100%" height="1px" mt="21px" backgroundColor="BLUE_GREY" />;
 
-interface PaperWalletProps {
-  type: WalletType.PRIVATE_KEY | WalletType.MNEMONIC;
-  address: TAddress;
-  secret: string;
-}
-
 interface GridBoxProps {
   last?: boolean;
   inverted?: boolean;
@@ -105,6 +99,12 @@ const GridBox = ({ last, inverted, children }: PropsWithChildren<GridBoxProps>) 
     {children}
   </Box>
 );
+
+interface PaperWalletProps {
+  type: WalletType;
+  address: TAddress;
+  secret: string;
+}
 
 export const PaperWallet = forwardRef(({ type, address, secret }: PaperWalletProps, ref) => (
   <Box

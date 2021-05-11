@@ -41,7 +41,6 @@ describe('AddAccountBackup', () => {
     const store = createMockStore({
       accounts: {
         add: {
-          type: WalletType.PRIVATE_KEY,
           accounts: [
             {
               walletType: WalletType.PRIVATE_KEY,
@@ -61,7 +60,6 @@ describe('AddAccountBackup', () => {
     const store = createMockStore({
       accounts: {
         add: {
-          type: WalletType.MNEMONIC,
           accounts: [
             {
               walletType: WalletType.MNEMONIC,
@@ -84,7 +82,6 @@ describe('AddAccountBackup', () => {
     const store = createMockStore({
       accounts: {
         add: {
-          type: WalletType.PRIVATE_KEY,
           accounts: [
             {
               walletType: WalletType.PRIVATE_KEY,
@@ -114,7 +111,6 @@ describe('AddAccountBackup', () => {
       createMockStore({
         accounts: {
           add: {
-            type: WalletType.PRIVATE_KEY,
             accounts: [
               {
                 walletType: WalletType.PRIVATE_KEY,

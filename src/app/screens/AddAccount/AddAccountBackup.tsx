@@ -1,7 +1,7 @@
 import { BlockieAddress, Body, Button, Heading } from '@mycrypto/ui';
 import { getFullPath } from '@mycrypto/wallets';
 import { toPng } from 'html-to-image';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'rebass/styled-components';
 
 import { addSavedAccounts, getAccountsToAdd } from '@common/store';
@@ -16,7 +16,7 @@ import { WalletType } from '@types';
 export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
   const paperWallet = useRef<HTMLDivElement>();
   const dispatch = useDispatch();
-  const { type, accounts, secret } = useSelector(getAccountsToAdd);
+  const { accounts, secret } = useSelector(getAccountsToAdd);
   const [persistent, setPersistent] = useState(true);
   const [paperWalletImage, setPaperWalletImage] = useState<string>();
 
@@ -40,14 +40,14 @@ export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
           <PaperWallet
             ref={paperWallet}
             address={accounts[0].address}
-            type={type}
+            type={accounts[0].walletType}
             secret={secret}
           />
         </Box>
         <Heading as="h2" fontSize="24px" lineHeight="36px" my="1" textAlign="center">
           {translateRaw('BACKUP_ACCOUNT', { $wallet: translateRaw(accounts[0].walletType) })}
         </Heading>
-        {type === WalletType.MNEMONIC ? (
+        {accounts[0].walletType === WalletType.MNEMONIC ? (
           <Body mb="2">
             {translate('BACKUP_MNEMONIC_PHRASE', {
               $link: getKBHelpArticle(KB_HELP_ARTICLE.HOW_TO_BACKUP)

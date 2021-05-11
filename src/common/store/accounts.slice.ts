@@ -8,8 +8,7 @@ import type {
   SerializedDeterministicWallet,
   SerializedWallet,
   SerializedWalletWithAddress,
-  TAddress,
-  WalletType
+  TAddress
 } from '@types';
 
 export interface AccountsState {
@@ -18,9 +17,6 @@ export interface AccountsState {
   isFetching: boolean;
   fetchError?: string;
   add?: {
-    // Keystore files can be added as well, but for saving paper wallets we only support mnemonics
-    // and private keys, so for keystore files, the private key is derived instead.
-    type: WalletType.PRIVATE_KEY | WalletType.MNEMONIC;
     accounts: SerializedWalletWithAddress[];
     secret: string;
   };
@@ -59,7 +55,6 @@ const slice = createSlice({
     setAddAccounts(
       state,
       action: PayloadAction<{
-        type: WalletType.PRIVATE_KEY | WalletType.MNEMONIC;
         accounts: SerializedWalletWithAddress[];
         secret: string;
       }>

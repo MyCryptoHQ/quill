@@ -58,7 +58,6 @@ describe('AccountSlice', () => {
   describe('setAddAccounts', () => {
     it('sets accounts to add', () => {
       const add = {
-        type: WalletType.PRIVATE_KEY as const,
         accounts: [
           {
             walletType: WalletType.PRIVATE_KEY as const,
@@ -85,7 +84,6 @@ describe('AccountSlice', () => {
           addresses: [],
           isFetching: false,
           add: {
-            type: WalletType.PRIVATE_KEY as const,
             accounts: [
               {
                 walletType: WalletType.PRIVATE_KEY as const,
