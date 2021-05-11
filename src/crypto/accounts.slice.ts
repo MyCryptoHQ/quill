@@ -79,6 +79,18 @@ export function* accountsSaga() {
   ]);
 }
 
+function* getSecret(wallet: SerializedWallet): SagaIterator<string> {
+  if (wallet.walletType === WalletType.KEYSTORE) {
+    return yield call(derivePrivateKey, wallet);
+  }
+
+  if (wallet.walletType === WalletType.PRIVATE_KEY) {
+    return wallet.privateKey;
+  }
+
+  return wallet.mnemonicPhrase;
+}
+
 export function* fetchAccount(wallet: SerializedWallet): SagaIterator<SerializedWalletWithAddress> {
   const address: TAddress = yield call(getAddress, wallet);
   return {
@@ -94,13 +106,7 @@ export function* fetchAccountsWorker({ payload }: PayloadAction<SerializedWallet
         ? WalletType.PRIVATE_KEY
         : payload[0].walletType;
 
-    const secret: string =
-      payload[0].walletType === WalletType.KEYSTORE
-        ? yield call(derivePrivateKey, payload[0])
-        : payload[0].walletType === WalletType.PRIVATE_KEY
-        ? payload[0].privateKey
-        : payload[0].mnemonicPhrase;
-
+    const secret: string = yield call(getSecret, payload[0]);
     const accounts: SerializedWalletWithAddress[] = yield all(
       payload.map((wallet) => call(fetchAccount, wallet))
     );
