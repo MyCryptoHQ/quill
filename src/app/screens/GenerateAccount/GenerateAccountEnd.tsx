@@ -36,6 +36,7 @@ export const GenerateAccountEnd = ({ onNext, flowHeader }: IFlowComponentProps) 
             address={address}
             type={WalletType.MNEMONIC}
             secret={mnemonicPhrase}
+            derivationPath={DEFAULT_DERIVATION_PATH}
           />
         </Box>
         <Box sx={{ textAlign: 'center' }} mb="4">

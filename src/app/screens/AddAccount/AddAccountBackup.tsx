@@ -42,6 +42,10 @@ export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
             address={accounts[0].address}
             type={accounts[0].walletType}
             secret={secret}
+            derivationPath={
+              accounts[0].walletType === WalletType.MNEMONIC &&
+              getFullPath(accounts[0].path, accounts[0].index)
+            }
           />
         </Box>
         <Heading as="h2" fontSize="24px" lineHeight="36px" my="1" textAlign="center">
