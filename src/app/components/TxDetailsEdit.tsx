@@ -20,13 +20,15 @@ const InputRow = ({
   ...props
 }: { label: string; unit?: string } & ComponentProps<typeof FormInput>) => (
   <Row
+    py="2"
     label={label}
     value={
       <Box variant="horizontal-start" width="45%">
         {/* @ts-ignore for now */}
         <FormInput
           {...props}
-          pr="3rem"
+          pr={unit && '3rem'}
+          sx={{ textAlign: 'right' }}
           css={`
             ::-webkit-inner-spin-button {
               -webkit-appearance: none;
@@ -78,6 +80,7 @@ export const TxDetailsEdit = ({ form }: { form: FormState<TransactionRequest> })
       <Row
         label={translateRaw('MAX_TX_FEE')}
         value={`${formatEther(maxTxFee.toString())} ${symbol}`}
+        py="1rem"
       />
       <InputRow label={translateRaw('NONCE')} id="nonce" name="nonce" type="number" form={form} />
       <BlockRow label={translateRaw('DATA')} hideDivider={true}>
