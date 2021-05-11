@@ -10,6 +10,7 @@ import { DEFAULT_DERIVATION_PATH } from '@config/derivation';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
 import { useSelector } from '@store';
 import { translate } from '@translations';
+import { WalletType } from '@types';
 
 export const GenerateAccountEnd = ({ onNext, flowHeader }: IFlowComponentProps) => {
   const paperWallet = useRef<HTMLDivElement>();
@@ -23,14 +24,20 @@ export const GenerateAccountEnd = ({ onNext, flowHeader }: IFlowComponentProps) 
     if (paperWallet.current) {
       toPng(paperWallet.current).then(setPaperWalletImage);
     }
-  }, [paperWallet]);
+  }, [paperWallet.current]);
 
   return (
     <>
       <Container>
         {flowHeader}
         <Box sx={{ position: 'absolute', top: '-1000%', left: '-1000%' }}>
-          <PaperWallet ref={paperWallet} address={address} mnemonicPhrase={mnemonicPhrase} />
+          <PaperWallet
+            ref={paperWallet}
+            address={address}
+            type={WalletType.MNEMONIC}
+            secret={mnemonicPhrase}
+            derivationPath={DEFAULT_DERIVATION_PATH}
+          />
         </Box>
         <Box sx={{ textAlign: 'center' }} mb="4">
           <Heading fontSize="24px" lineHeight="150%">

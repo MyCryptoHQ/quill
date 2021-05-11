@@ -5,7 +5,12 @@ import { decryptSettings, encryptSettings } from '@common/store/settings.slice';
 import { encryptJson } from '@common/utils';
 import type { ReduxIPC } from '@types';
 
-import { addSavedAccounts, fetchAccounts, setAccountsToAdd } from './accounts.slice';
+import {
+  addSavedAccounts,
+  clearAddAccounts,
+  fetchAccounts,
+  setAddAccounts
+} from './accounts.slice';
 import { sign } from './signing.slice';
 import synchronization, {
   getHandshaken,
@@ -19,6 +24,7 @@ import synchronization, {
  */
 export const IGNORED_PATHS = [synchronization.name];
 // export const IGNORED_ACTIONS: string[] = [];
+
 // Certain actions that will be sent encrypted from RENDERER to CRYPTO since they contain secrets
 export const CRYPTO_ACTIONS = [
   sign.type,
@@ -27,11 +33,12 @@ export const CRYPTO_ACTIONS = [
   createPassword.type,
   encryptSettings.type,
   decryptSettings.type,
-  setAccountsToAdd.type,
+  setAddAccounts.type,
+  clearAddAccounts.type,
   addSavedAccounts.type
 ];
 
-export const CRYPTO_RENDERER_ACTIONS = [setAccountsToAdd.type];
+export const CRYPTO_RENDERER_ACTIONS = [setAddAccounts.type, clearAddAccounts.type];
 
 export const shouldIgnore = (action: AnyAction, from: Process, target: Process, self: Process) => {
   const path = action.type.split('/')[0];

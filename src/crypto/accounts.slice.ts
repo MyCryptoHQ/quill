@@ -27,14 +27,12 @@ import type {
 import { WalletType } from '@types';
 import { generateDeterministicAddressUUID } from '@utils';
 
-import { createWallet, getAddress, getAddresses } from './crypto';
+import { createWallet, derivePrivateKey, getAddress, getAddresses } from './crypto';
 import { deleteAccountSecrets, saveAccountSecrets } from './secrets';
 
-export type CryptoAccountsState = Pick<AccountsState, 'accountsToAdd'>;
+export type CryptoAccountsState = Pick<AccountsState, 'add'>;
 
-export const initialState: CryptoAccountsState = {
-  accountsToAdd: []
-};
+export const initialState: CryptoAccountsState = {};
 
 const sliceName = accountsSlice.name;
 
@@ -44,13 +42,22 @@ const slice = createSlice({
   name: sliceName,
   initialState,
   reducers: {
-    setAccountsToAdd(state, action: PayloadAction<SerializedWalletWithAddress[]>) {
-      state.accountsToAdd = action.payload;
+    setAddAccounts(
+      state,
+      action: PayloadAction<{
+        accounts: SerializedWalletWithAddress[];
+        secret: string;
+      }>
+    ) {
+      state.add = action.payload;
+    },
+    clearAddAccounts(state) {
+      state.add = undefined;
     }
   }
 });
 
-export const { setAccountsToAdd } = slice.actions;
+const { setAddAccounts } = slice.actions;
 
 export const addSavedAccounts = createAction<boolean>(`${sliceName}/addSavedAccounts`);
 
@@ -58,7 +65,7 @@ export default slice;
 
 export const getAccountsToAdd = createSelector(
   (state: { accounts: CryptoAccountsState }) => state.accounts,
-  (accounts) => accounts.accountsToAdd
+  (accounts) => accounts.add?.accounts
 );
 
 export function* accountsSaga() {
@@ -71,6 +78,18 @@ export function* accountsSaga() {
   ]);
 }
 
+export function* getSecret(wallet: SerializedWallet): SagaIterator<string> {
+  if (wallet.walletType === WalletType.KEYSTORE) {
+    return yield call(derivePrivateKey, wallet);
+  }
+
+  if (wallet.walletType === WalletType.PRIVATE_KEY) {
+    return wallet.privateKey;
+  }
+
+  return wallet.mnemonicPhrase;
+}
+
 export function* fetchAccount(wallet: SerializedWallet): SagaIterator<SerializedWalletWithAddress> {
   const address: TAddress = yield call(getAddress, wallet);
   return {
@@ -81,11 +100,17 @@ export function* fetchAccount(wallet: SerializedWallet): SagaIterator<Serialized
 
 export function* fetchAccountsWorker({ payload }: PayloadAction<SerializedWallet[]>) {
   try {
-    const wallets: SerializedWalletWithAddress[] = yield all(
+    const secret: string = yield call(getSecret, payload[0]);
+    const accounts: SerializedWalletWithAddress[] = yield all(
       payload.map((wallet) => call(fetchAccount, wallet))
     );
 
-    yield put(setAccountsToAdd(wallets));
+    yield put(
+      setAddAccounts({
+        accounts,
+        secret
+      })
+    );
     yield put(nextFlow());
   } catch (err) {
     yield put(fetchFailed(err.message));

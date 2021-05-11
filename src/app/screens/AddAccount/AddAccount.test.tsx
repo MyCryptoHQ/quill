@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { ThemeProvider } from 'styled-components';
 
-import { fetchReset, setAccountsToAdd } from '@common/store';
+import { clearAddAccounts, fetchReset } from '@common/store';
 import { ROUTE_PATHS } from '@routing';
 import { AddAccount } from '@screens/AddAccount/AddAccount';
 import type { ApplicationState } from '@store';
@@ -30,7 +30,7 @@ describe('AddAccount', () => {
     const { unmount } = getComponent(store);
     unmount();
 
-    expect(store.getActions()).toContainEqual(setAccountsToAdd([]));
+    expect(store.getActions()).toContainEqual(clearAddAccounts());
     expect(store.getActions()).toContainEqual(fetchReset());
   });
 

@@ -1,20 +1,24 @@
 import { BlockieAddress, Body, Button, Heading } from '@mycrypto/ui';
 import { getFullPath } from '@mycrypto/wallets';
-import React, { useState } from 'react';
+import { toPng } from 'html-to-image';
+import { useEffect, useRef, useState } from 'react';
+import { Link } from 'rebass/styled-components';
 
 import { addSavedAccounts, getAccountsToAdd } from '@common/store';
 import { translateRaw } from '@common/translate';
 import type { IFlowComponentProps } from '@components';
-import { Box, Checkbox, Container, Panel, PanelBottom } from '@components';
+import { Box, Checkbox, Container, Panel, PanelBottom, PaperWallet } from '@components';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config';
 import { useDispatch, useSelector } from '@store';
 import { translate } from '@translations';
 import { WalletType } from '@types';
 
 export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
+  const paperWallet = useRef<HTMLDivElement>();
   const dispatch = useDispatch();
-  const accounts = useSelector(getAccountsToAdd);
+  const { accounts, secret } = useSelector(getAccountsToAdd);
   const [persistent, setPersistent] = useState(true);
+  const [paperWalletImage, setPaperWalletImage] = useState<string>();
 
   const handleToggle = () => setPersistent((value) => !value);
 
@@ -22,10 +26,28 @@ export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
     dispatch(addSavedAccounts(persistent));
   };
 
+  useEffect(() => {
+    if (paperWallet.current) {
+      toPng(paperWallet.current).then(setPaperWalletImage);
+    }
+  }, [paperWallet.current]);
+
   return (
     <>
       <Container>
         {flowHeader}
+        <Box sx={{ position: 'absolute', top: '-1000%', left: '-1000%' }}>
+          <PaperWallet
+            ref={paperWallet}
+            address={accounts[0].address}
+            type={accounts[0].walletType}
+            secret={secret}
+            derivationPath={
+              accounts[0].walletType === WalletType.MNEMONIC &&
+              getFullPath(accounts[0].path, accounts[0].index)
+            }
+          />
+        </Box>
         <Heading as="h2" fontSize="24px" lineHeight="36px" my="1" textAlign="center">
           {translateRaw('BACKUP_ACCOUNT', { $wallet: translateRaw(accounts[0].walletType) })}
         </Heading>
@@ -62,8 +84,13 @@ export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
         </Panel>
       </Container>
       <PanelBottom variant="clear">
-        {/* @todo: Add paper wallet functionality */}
-        <Button mb="2">{translateRaw('PRINT_PAPER_WALLET')}</Button>
+        <Link
+          data-testid="download-link"
+          href={paperWalletImage}
+          download={`paper-wallet-${accounts[0].address}`}
+        >
+          <Button mb="2">{translateRaw('PRINT_PAPER_WALLET')}</Button>
+        </Link>
         <Button mb="2" variant="inverted" onClick={handleAdd}>
           {translateRaw('CONTINUE_ADD_ACCOUNT')}
         </Button>

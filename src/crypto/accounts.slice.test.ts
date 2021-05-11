@@ -1,21 +1,22 @@
-import { createWallet, getAddress, getAddresses } from '@crypto/crypto';
+import { createWallet, derivePrivateKey, getAddress, getAddresses } from '@crypto/crypto';
 import { DEFAULT_ETH } from '@mycrypto/wallets';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
 import {
   addAccount,
+  clearAddAccounts,
   fetchAccounts,
   fetchAddresses,
   fetchFailed,
   nextFlow,
   removeAccount,
-  setAccountsToAdd,
+  setAddAccounts,
   setAddresses,
   setGeneratedAccount
 } from '@common/store';
 import { DEFAULT_MNEMONIC_INDEX } from '@config';
-import { fAccount, fMnemonicPhrase, fPrivateKey } from '@fixtures';
+import { fAccount, fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey } from '@fixtures';
 import type { SerializedWallet, TAddress } from '@types';
 import { WalletType } from '@types';
 
@@ -26,6 +27,7 @@ import slice, {
   fetchAccountsWorker,
   fetchAddressesWorker,
   generateAccountWorker,
+  getSecret,
   removeAccountWorker
 } from './accounts.slice';
 import { deleteAccountSecrets, saveAccountSecrets } from './secrets';
@@ -45,25 +47,42 @@ const otherWallet: SerializedWallet = {
 };
 
 describe('AccountsSlice', () => {
-  describe('setAccountsToAdd', () => {
+  describe('setAddAccounts', () => {
     it('sets accounts to add', () => {
-      const result = slice.reducer(
-        { accountsToAdd: [] },
-        setAccountsToAdd([
+      const add = {
+        accounts: [
           {
-            walletType: WalletType.PRIVATE_KEY,
+            walletType: WalletType.PRIVATE_KEY as const,
             address: fAccount.address,
             privateKey: fPrivateKey
           }
-        ])
-      );
-      expect(result.accountsToAdd).toStrictEqual([
+        ],
+        secret: fPrivateKey
+      };
+
+      const result = slice.reducer(undefined, setAddAccounts(add));
+      expect(result.add).toStrictEqual(add);
+    });
+  });
+
+  describe('clearAddAccounts', () => {
+    it('clears accounts to add', () => {
+      const result = slice.reducer(
         {
-          walletType: WalletType.PRIVATE_KEY,
-          address: fAccount.address,
-          privateKey: fPrivateKey
-        }
-      ]);
+          add: {
+            accounts: [
+              {
+                walletType: WalletType.PRIVATE_KEY as const,
+                address: fAccount.address,
+                privateKey: fPrivateKey
+              }
+            ],
+            secret: fPrivateKey
+          }
+        },
+        clearAddAccounts()
+      );
+      expect(result.add).toBeUndefined();
     });
   });
 });
@@ -84,12 +103,56 @@ describe('fetchAccountsWorker', () => {
       .call(fetchAccount, wallet)
       .call(fetchAccount, otherWallet)
       .put(
-        setAccountsToAdd([
-          { ...wallet, address: '0x0961Ca10D49B9B8e371aA0Bcf77fE5730b18f2E4' as TAddress },
-          { ...otherWallet, address: '0x0961Ca10D49B9B8e371aA0Bcf77fE5730b18f2E4' as TAddress }
-        ])
+        setAddAccounts({
+          secret: wallet.privateKey,
+          accounts: [
+            { ...wallet, address: '0x0961Ca10D49B9B8e371aA0Bcf77fE5730b18f2E4' as TAddress },
+            { ...otherWallet, address: '0x0961Ca10D49B9B8e371aA0Bcf77fE5730b18f2E4' as TAddress }
+          ]
+        })
       )
       .put(nextFlow())
+      .silentRun();
+  });
+
+  it('derives a private key for a keystore file', async () => {
+    const keystoreWallet = {
+      walletType: WalletType.KEYSTORE as const,
+      keystore: fKeystore,
+      password: fKeystorePassword
+    };
+
+    await expectSaga(fetchAccountsWorker, fetchAccounts([keystoreWallet]))
+      .call(derivePrivateKey, keystoreWallet)
+      .call(fetchAccount, keystoreWallet)
+      .put(
+        setAddAccounts({
+          accounts: [
+            {
+              ...keystoreWallet,
+              address: '0x0961Ca10D49B9B8e371aA0Bcf77fE5730b18f2E4' as TAddress
+            }
+          ],
+          secret: fPrivateKey
+        })
+      )
+      .silentRun();
+  });
+
+  it('uses the mnemonic phrase itself for mnemonic wallets', async () => {
+    await expectSaga(fetchAccountsWorker, fetchAccounts([otherWallet]))
+      .call(fetchAccount, otherWallet)
+      .put(
+        setAddAccounts({
+          accounts: [
+            {
+              ...otherWallet,
+              address: '0x0961Ca10D49B9B8e371aA0Bcf77fE5730b18f2E4' as TAddress
+            }
+          ],
+          secret: otherWallet.mnemonicPhrase
+        })
+      )
       .silentRun();
   });
 
@@ -101,7 +164,7 @@ describe('fetchAccountsWorker', () => {
           throw new Error('error');
         }
       })
-      .call(fetchAccount, input)
+      .call(getSecret, input)
       .put(fetchFailed('error'))
       .silentRun();
   });
@@ -215,7 +278,14 @@ describe('addSavedAccountsWorker', () => {
     await expectSaga(addSavedAccountsWorker, addSavedAccounts(false))
       .withState({
         accounts: {
-          accountsToAdd: [account]
+          add: {
+            type: WalletType.PRIVATE_KEY,
+            secret: wallet.privateKey,
+            accounts: [
+              { ...wallet, address: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520' as TAddress },
+              { ...otherWallet, address: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520' as TAddress }
+            ]
+          }
         }
       })
       .put(removeAccount({ ...fAccount, dPath: undefined, index: undefined, persistent: true }))
@@ -226,7 +296,14 @@ describe('addSavedAccountsWorker', () => {
     await expectSaga(addSavedAccountsWorker, addSavedAccounts(true))
       .withState({
         accounts: {
-          accountsToAdd: [account]
+          add: {
+            type: WalletType.PRIVATE_KEY,
+            secret: wallet.privateKey,
+            accounts: [
+              { ...wallet, address: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520' as TAddress },
+              { ...otherWallet, address: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520' as TAddress }
+            ]
+          }
         }
       })
       .put(removeAccount({ ...fAccount, dPath: undefined, index: undefined, persistent: true }))

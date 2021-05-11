@@ -4,13 +4,14 @@
 
 import configureStore from 'redux-mock-store';
 
-import { checkNewUser, login, setAccountsToAdd } from '@common/store';
-import { shouldIgnore, synchronizationMiddleware } from '@common/store/synchronization.middleware';
-import { Process, sendPublicKey, setHandshaken } from '@common/store/synchronization.slice';
+import { checkNewUser, clearAddAccounts, login } from '@common/store';
 import { decryptJson } from '@common/utils';
 import { fEncryptionPrivateKey, fEncryptionPublicKey } from '@fixtures';
 import type { ApplicationState } from '@store';
 import type { DeepPartial } from '@types';
+
+import { shouldIgnore, synchronizationMiddleware } from './synchronization.middleware';
+import { Process, sendPublicKey, setHandshaken } from './synchronization.slice';
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
@@ -79,7 +80,7 @@ describe('synchronizationMiddleware', () => {
 
   it('emits CRYPTO_RENDERER_ACTIONS encrypted for RENDERER', () => {
     const fn = jest.fn();
-    const action = setAccountsToAdd([]);
+    const action = clearAddAccounts();
 
     const ipc = { emit: jest.fn(), on: jest.fn() };
 

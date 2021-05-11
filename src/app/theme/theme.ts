@@ -149,11 +149,17 @@ const overrideTheme = {
 
     text: {
       success: '#B3DD87',
-      warning: '#FA873F'
+      warning: '#FA873F',
+      alert: '#EF4747'
     },
 
     badge: {
       muted: '#F6F8FA'
+    },
+
+    border: {
+      light: '#e3edff',
+      dark: '#007a99'
     }
   },
   radii: { input: '2px', badge: '4px' },

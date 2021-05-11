@@ -1,18 +1,23 @@
 import { DEFAULT_ETH, getFullPath } from '@mycrypto/wallets';
 import type { EnhancedStore } from '@reduxjs/toolkit';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
+import { toPng } from 'html-to-image';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router';
 import configureStore from 'redux-mock-store';
 
 import { addSavedAccounts } from '@common/store';
 import { translateRaw } from '@common/translate';
-import { fAccount } from '@fixtures';
+import { fAccount, fMnemonicPhrase, fPrivateKey } from '@fixtures';
 import type { ApplicationState } from '@store';
 import type { DeepPartial } from '@types';
 import { WalletType } from '@types';
 
 import { AddAccountBackup } from './AddAccountBackup';
+
+jest.mock('html-to-image', () => ({
+  toPng: jest.fn().mockImplementation(async () => 'foo bar')
+}));
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
@@ -35,47 +40,56 @@ describe('AddAccountBackup', () => {
   it('shows the address of the account to add', () => {
     const store = createMockStore({
       accounts: {
-        accountsToAdd: [
-          {
-            walletType: WalletType.PRIVATE_KEY,
-            address: fAccount.address
-          }
-        ]
+        add: {
+          accounts: [
+            {
+              walletType: WalletType.PRIVATE_KEY,
+              address: fAccount.address
+            }
+          ],
+          secret: fPrivateKey
+        }
       }
     });
-    const { getByText } = getComponent(store);
+    const { getAllByText } = getComponent(store);
 
-    expect(getByText(fAccount.address)).toBeDefined();
+    expect(getAllByText(fAccount.address)).toBeDefined();
   });
 
   it('shows the derivation path for mnemonic phrases', () => {
     const store = createMockStore({
       accounts: {
-        accountsToAdd: [
-          {
-            walletType: WalletType.MNEMONIC,
-            address: fAccount.address,
-            path: DEFAULT_ETH,
-            index: 1
-          }
-        ]
+        add: {
+          accounts: [
+            {
+              walletType: WalletType.MNEMONIC,
+              address: fAccount.address,
+              path: DEFAULT_ETH,
+              index: 1
+            }
+          ],
+          secret: fMnemonicPhrase
+        }
       }
     });
-    const { getByText } = getComponent(store);
+    const { getAllByText } = getComponent(store);
 
-    expect(getByText(fAccount.address)).toBeDefined();
-    expect(getByText(getFullPath(DEFAULT_ETH, 1))).toBeDefined();
+    expect(getAllByText(fAccount.address)).toBeDefined();
+    expect(getAllByText(getFullPath(DEFAULT_ETH, 1))).toBeDefined();
   });
 
   it('adds accounts', () => {
     const store = createMockStore({
       accounts: {
-        accountsToAdd: [
-          {
-            walletType: WalletType.PRIVATE_KEY,
-            address: fAccount.address
-          }
-        ]
+        add: {
+          accounts: [
+            {
+              walletType: WalletType.PRIVATE_KEY,
+              address: fAccount.address
+            }
+          ],
+          secret: fPrivateKey
+        }
       }
     });
     const { getByText, getByTestId } = getComponent(store);
@@ -92,5 +106,24 @@ describe('AddAccountBackup', () => {
     expect(store.getActions()).toContainEqual(addSavedAccounts(false));
   });
 
-  it.todo('prints a paper wallet');
+  it('generates a paper wallet', async () => {
+    const { getByTestId } = getComponent(
+      createMockStore({
+        accounts: {
+          add: {
+            accounts: [
+              {
+                walletType: WalletType.PRIVATE_KEY,
+                address: fAccount.address
+              }
+            ],
+            secret: fPrivateKey
+          }
+        }
+      })
+    );
+
+    await waitFor(() => expect(toPng).toHaveBeenCalled());
+    expect(getByTestId('download-link').getAttribute('href')).toBe('foo bar');
+  });
 });
