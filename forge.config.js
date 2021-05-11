@@ -71,6 +71,6 @@ module.exports = {
     }
   ],
   electronRebuildConfig: {
-    onlyModules: ['keccak', 'usb']
+    onlyModules: ['keytar', 'keccak', 'usb']
   }
 };
