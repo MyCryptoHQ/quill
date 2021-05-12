@@ -162,7 +162,7 @@ const overrideTheme = {
       dark: '#007a99'
     }
   },
-  radii: { input: '2px', badge: '4px' },
+  radii: { input: '2px', banner: '3px', badge: '4px' },
   variants: {
     ...LINK_VARIANTS,
     divider: {

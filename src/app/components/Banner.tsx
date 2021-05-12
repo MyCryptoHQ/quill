@@ -1,6 +1,7 @@
 import { Body, Box, Flex, Image } from '@mycrypto/ui';
 import type { PropsWithChildren } from 'react';
 import { useState } from 'react';
+import { useTheme } from 'styled-components';
 
 import info from '@assets/icons/alert-grey.svg';
 import error from '@assets/icons/alert-red.svg';
@@ -8,7 +9,7 @@ import caret from '@assets/icons/caret.svg';
 import success from '@assets/icons/circle-checkmark.svg';
 import warning from '@assets/icons/circle-warning.svg';
 import action from '@assets/icons/queue-waiting.svg';
-import { theme } from '@theme';
+import type { theme } from '@theme';
 
 type BannerType = keyof typeof theme.variants.banner;
 
@@ -27,19 +28,23 @@ const icons: { [key in BannerType]: string } = {
   error
 };
 
-export const InnerBanner = ({ type, children }: PropsWithChildren<Pick<BannerProps, 'type'>>) => (
-  <Box backgroundColor={theme.variants.banner[type].color} sx={{ borderRadius: 'banner' }}>
-    <Body
-      fontSize="12px"
-      fontWeight="bold"
-      color="white"
-      sx={{ textTransform: 'uppercase' }}
-      px="6px"
-    >
-      {children}
-    </Body>
-  </Box>
-);
+export const InnerBanner = ({ type, children }: PropsWithChildren<Pick<BannerProps, 'type'>>) => {
+  const theme = useTheme();
+
+  return (
+    <Box backgroundColor={theme.variants.banner[type].color} sx={{ borderRadius: 'banner' }}>
+      <Body
+        fontSize="12px"
+        fontWeight="bold"
+        color="white"
+        sx={{ textTransform: 'uppercase' }}
+        px="6px"
+      >
+        {children}
+      </Body>
+    </Box>
+  );
+};
 
 export const Banner = ({
   type,
@@ -63,22 +68,27 @@ export const Banner = ({
         data-testid="banner-toggle"
       >
         <Flex variant="horizontal-start">
-          <Image src={icons[type]} alt="type" width="20px" height="20px" mr="2" />
+          <Image src={icons[type]} alt="type" width="20px" minWidth="20px" height="20px" mr="2" />
           <Body
             color="inherit"
             fontSize="12px"
             fontWeight="bold"
-            sx={{ textTransform: 'uppercase' }}
+            sx={{ textTransform: 'uppercase', wordBreak: 'break-word' }}
           >
             {label}
           </Body>
         </Flex>
-        <Flex variant="horizontal-start">
+        <Flex variant="horizontal-start" minWidth="10px">
           {banner && <InnerBanner type={type}>{banner}</InnerBanner>}
           {children && (
-            <Box ml="2" sx={{ userSelect: 'none' }}>
-              <Image src={caret} alt="Caret" sx={{ transform: isExtended && 'rotate(180deg)' }} />
-            </Box>
+            <Image
+              src={caret}
+              alt="Caret"
+              ml="2"
+              width="10px"
+              minWidth="10px"
+              sx={{ userSelect: 'none', transform: isExtended && 'rotate(180deg)' }}
+            />
           )}
         </Flex>
       </Flex>
