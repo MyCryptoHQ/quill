@@ -3,9 +3,9 @@ import { Body } from '@mycrypto/ui';
 import type { ComponentProps } from 'react';
 import type { FormState } from 'typed-react-form';
 
+import type { HumanReadableTx } from '@app/utils';
 import { translateRaw } from '@common/translate';
 import { getChain } from '@data';
-import type { TransactionRequest } from '@types';
 import { bigify } from '@utils';
 
 import { Box } from '.';
@@ -15,19 +15,28 @@ import { TxDetailsBlockRow as BlockRow } from './TxDetailsBlockRow';
 import { TxDetailsRow as Row } from './TxDetailsRow';
 import { ValidatedListener } from './ValidatedListener';
 
-const InputRow = ({
-  label,
-  unit,
-  ...props
-}: { label: string; unit?: string } & ComponentProps<typeof FormInput>) => (
+type EditTxType = Pick<
+  HumanReadableTx,
+  'gasLimit' | 'gasPrice' | 'chainId' | 'data' | 'value' | 'nonce'
+>;
+
+type InputRowProps = {
+  label: string;
+  unit?: string;
+  form: FormState<EditTxType>;
+  name: keyof EditTxType;
+  value?: EditTxType[keyof EditTxType];
+} & Omit<ComponentProps<typeof FormInput>, 'form'>;
+
+const InputRow = ({ label, unit, form, ...props }: InputRowProps) => (
   <Row
     py="2"
     label={label}
     value={
       <Box variant="horizontal-start" width="45%">
-        {/* @ts-ignore for now */}
         <FormInput
           {...props}
+          form={form}
           pr={unit && '3rem'}
           sx={{ textAlign: 'right' }}
           css={`
@@ -47,7 +56,7 @@ const InputRow = ({
   />
 );
 
-export const TxDetailsEdit = ({ form }: { form: FormState<TransactionRequest> }) => {
+export const TxDetailsEdit = ({ form }: { form: FormState<EditTxType> }) => {
   const tx = form.values;
   const chain = getChain(tx.chainId);
   const symbol = chain?.nativeCurrency?.symbol ?? '?';
