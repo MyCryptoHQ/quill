@@ -1,6 +1,6 @@
 import { DEFAULT_ETH, getFullPath } from '@mycrypto/wallets';
 
-import { fAccount, fMnemonicPhrase, fPrivateKey } from '@fixtures';
+import { fAccount, fExtendedKey, fMnemonicPhrase, fPrivateKey } from '@fixtures';
 import type { SerializedWallet, TAddress } from '@types';
 import { WalletType } from '@types';
 
@@ -14,6 +14,7 @@ import slice, {
   removeAccount,
   setAddAccounts,
   setAddresses,
+  setExtendedKey,
   setGeneratedAccount,
   updateAccount
 } from './accounts.slice';
@@ -30,6 +31,7 @@ describe('AccountSlice', () => {
         { accounts: [], addresses: [], isFetching: false },
         addAccount(fAccount)
       );
+
       expect(result.accounts).toStrictEqual([fAccount]);
     });
   });
@@ -40,6 +42,7 @@ describe('AccountSlice', () => {
         { accounts: [fAccount], addresses: [], isFetching: false },
         removeAccount(fAccount)
       );
+
       expect(result.accounts).toStrictEqual([]);
     });
   });
@@ -51,6 +54,7 @@ describe('AccountSlice', () => {
         { accounts: [fAccount], addresses: [], isFetching: false },
         updateAccount(newAccount)
       );
+
       expect(result.accounts).toStrictEqual([newAccount]);
     });
   });
@@ -72,6 +76,7 @@ describe('AccountSlice', () => {
         { accounts: [], addresses: [], isFetching: false },
         setAddAccounts(add)
       );
+
       expect(result.add).toStrictEqual(add);
     });
   });
@@ -96,6 +101,7 @@ describe('AccountSlice', () => {
         },
         clearAddAccounts()
       );
+
       expect(result.add).toBeUndefined();
     });
   });
@@ -119,12 +125,24 @@ describe('AccountSlice', () => {
     });
   });
 
-  describe('fetchAccount()', () => {
+  describe('setExtendedKey', () => {
+    it('sets the extended key', () => {
+      const result = slice.reducer(
+        { accounts: [], addresses: [], isFetching: false },
+        setExtendedKey('xpubfoobar')
+      );
+
+      expect(result.extendedKey).toBe('xpubfoobar');
+    });
+  });
+
+  describe('fetchAccounts', () => {
     it('sets isFetching to true', () => {
       const result = slice.reducer(
         { accounts: [], addresses: [], isFetching: false },
         fetchAccounts([wallet])
       );
+
       expect(result.isFetching).toBe(true);
     });
   });
@@ -140,6 +158,7 @@ describe('AccountSlice', () => {
           offset: 0
         })
       );
+
       expect(result).toStrictEqual(
         expect.objectContaining({
           isFetching: true,
@@ -156,6 +175,7 @@ describe('AccountSlice', () => {
         { accounts: [], addresses: [], isFetching: false },
         fetchFailed(error)
       );
+
       expect(result.fetchError).toBe(error);
     });
   });
@@ -163,10 +183,18 @@ describe('AccountSlice', () => {
   describe('fetchReset()', () => {
     it('resets fetch state', () => {
       const result = slice.reducer(
-        { accounts: [], addresses: [], isFetching: true, fetchError: 'foo' },
+        {
+          accounts: [],
+          addresses: [],
+          isFetching: true,
+          fetchError: 'foo',
+          extendedKey: fExtendedKey
+        },
         fetchReset()
       );
+
       expect(result.fetchError).toBeUndefined();
+      expect(result.extendedKey).toBeUndefined();
       expect(result.isFetching).toBe(false);
     });
   });
@@ -182,6 +210,7 @@ describe('AccountSlice', () => {
         { accounts: [], addresses: [], isFetching: false },
         setGeneratedAccount(account)
       );
+
       expect(result.generatedAccount).toBe(account);
     });
   });
