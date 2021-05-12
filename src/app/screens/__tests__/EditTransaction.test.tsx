@@ -95,6 +95,8 @@ describe('EditTransaction', () => {
     expect(saveButton).toBeDefined();
     fireEvent.click(saveButton);
 
+    // Hack to allow for async code to execute before we wait
+    await new Promise((resolve) => setTimeout(resolve, 1));
     await waitFor(() => expect(mockStore.getActions()).toHaveLength(0));
   });
 
