@@ -4,6 +4,8 @@ import { push } from 'connected-react-router';
 import {
   Box,
   FromToAccount,
+  Image,
+  LinkApp,
   ScrollableContainer,
   TimeElapsed,
   TransactionBottom,
@@ -12,6 +14,7 @@ import {
 } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import { useDispatch, useSelector } from '@app/store';
+import edit from '@assets/icons/edit.svg';
 import {
   denyCurrentTransaction,
   getAccounts,
@@ -60,10 +63,23 @@ export const Transaction = () => {
             sender={{ address: tx.from, label: currentAccount?.label }}
             recipient={tx.to && { address: tx.to, label: recipientAccount?.label }}
           />
-          <Body fontSize="14px" color="BLUE_GREY" mb="2" mt="2">
-            {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
-            <TimeElapsed value={timestamp} />
-          </Body>
+          <Box variant="horizontal-start">
+            <Body fontSize="14px" color="BLUE_GREY" mb="2" mt="2">
+              {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
+              <TimeElapsed value={timestamp} />
+            </Body>
+            {result === TxResult.WAITING && (
+              <LinkApp
+                href={ROUTE_PATHS.EDIT_TX}
+                variant="barren"
+                ml="auto"
+                height="20px"
+                width="20px"
+              >
+                <Image src={edit} height="20px" width="20px" />
+              </LinkApp>
+            )}
+          </Box>
           <TxDetails tx={currentTx} />
         </Box>
       </ScrollableContainer>

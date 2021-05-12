@@ -12,9 +12,9 @@ import {
   union
 } from 'superstruct';
 
-const Address = pattern(string(), /0x[a-fA-F0-9]{40}/);
-const Hex = pattern(string(), /(?:0x)(?:[a-fA-F0-9]+)?/);
-const EvenHex = refine(Hex, 'Even Length', (value) => value.length % 2 === 0);
+const Address = pattern(string(), /^0x[a-fA-F0-9]{40}$/);
+const Hex = pattern(string(), /^(?:0x)(?:[a-fA-F0-9]+)?$/);
+export const EvenHex = refine(Hex, 'Even Length', (value) => value.length % 2 === 0);
 
 export const SignTransactionStruct = tuple([
   object({

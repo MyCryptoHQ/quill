@@ -163,48 +163,6 @@ const overrideTheme = {
     }
   },
   radii: { input: '2px', badge: '4px' },
-  forms: {
-    label: {
-      marginBottom: '6px'
-    },
-    input: {
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: 'GREY_ATHENS',
-      boxShadow: '0px 1px 1px rgba(232, 234, 237, 0.5), inset 0px 1px 3px rgba(232, 234, 237, 0.5)',
-      borderRadius: 'input',
-      '&:focus': {
-        outline: 'none'
-      }
-    },
-    textarea: {
-      fontFamily: 'body',
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: 'GREY_ATHENS',
-      boxShadow: '0px 1px 1px rgba(232, 234, 237, 0.5), inset 0px 1px 3px rgba(232, 234, 237, 0.5)',
-      borderRadius: 'input',
-      '&:focus': {
-        outline: 'none'
-      }
-    },
-    error: {
-      fontFamily: 'body',
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: 'RED',
-      boxShadow: '0px 1px 1px rgba(232, 234, 237, 0.5), inset 0px 1px 3px rgba(232, 234, 237, 0.5)',
-      borderRadius: 'input',
-      '&:focus': {
-        outline: 'none'
-      }
-    },
-    none: {
-      margin: '0',
-      padding: '0',
-      border: 'none'
-    }
-  },
   variants: {
     ...LINK_VARIANTS,
     divider: {

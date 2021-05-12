@@ -1,5 +1,5 @@
-import type { InputProps } from '@rebass/forms/styled-components';
-import { Input as RebassInput } from '@rebass/forms/styled-components';
+import type { InputProps } from '@mycrypto/ui';
+import { Input as RebassInput } from '@mycrypto/ui';
 import type { DefaultError, DefaultState } from 'typed-react-form';
 import { FormInput as ReactFormInput, useListener } from 'typed-react-form';
 import type { FormInputProps } from 'typed-react-form/dist/elements/FormInput';

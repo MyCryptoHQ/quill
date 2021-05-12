@@ -37,6 +37,11 @@ export function* addTransactionWorker({ payload }: PayloadAction<UserRequest<TSi
 export function* nonceConflictWorker({ payload }: PayloadAction<TxQueueEntry | TxHistoryEntry>) {
   const queue: TxQueueEntry[] = yield select(getAccountQueue(payload.tx.from));
   for (const item of queue) {
+    // Don't run on user edited transactions
+    if (item.userEdited) {
+      continue;
+    }
+
     const { nonce, from } = item.tx;
 
     const accountNonce: Bigish = yield select(getAccountNonce(from));
