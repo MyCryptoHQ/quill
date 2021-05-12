@@ -162,7 +162,7 @@ const overrideTheme = {
       dark: '#007a99'
     }
   },
-  radii: { input: '2px', badge: '4px' },
+  radii: { input: '2px', banner: '3px', badge: '4px' },
   variants: {
     ...LINK_VARIANTS,
     divider: {
@@ -197,6 +197,28 @@ const overrideTheme = {
       lineHeight: '20px',
       nonce: {
         bg: 'badge.muted'
+      }
+    },
+    banner: {
+      success: {
+        background: '#f4faed',
+        color: '#b4dd88'
+      },
+      info: {
+        background: '#f4f6f7',
+        color: '#b6c0c8'
+      },
+      action: {
+        background: '#f2ecff',
+        color: '#a682ff'
+      },
+      warning: {
+        background: '#feede2',
+        color: '#fa873f'
+      },
+      error: {
+        background: '#fde4e4',
+        color: '#ef4747'
       }
     }
   },

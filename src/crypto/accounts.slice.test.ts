@@ -13,10 +13,18 @@ import {
   removeAccount,
   setAddAccounts,
   setAddresses,
+  setExtendedKey,
   setGeneratedAccount
 } from '@common/store';
 import { DEFAULT_MNEMONIC_INDEX } from '@config';
-import { fAccount, fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey } from '@fixtures';
+import {
+  fAccount,
+  fExtendedKey,
+  fKeystore,
+  fKeystorePassword,
+  fMnemonicPhrase,
+  fPrivateKey
+} from '@fixtures';
 import type { SerializedWallet, TAddress } from '@types';
 import { WalletType } from '@types';
 
@@ -224,6 +232,7 @@ describe('fetchAddressesWorker', () => {
       })
     )
       .call(getAddresses, wallet, DEFAULT_ETH, 3, 0)
+      .put(setExtendedKey(fExtendedKey))
       .put(
         setAddresses([
           {

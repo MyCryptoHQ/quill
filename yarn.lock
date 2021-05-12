@@ -2284,10 +2284,10 @@
     ethereum-blockies-base64 "1.0.2"
     rebass "4.0.7"
 
-"@mycrypto/wallets@1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@mycrypto/wallets/-/wallets-1.0.3.tgz#47916f6f019c353fd7c7714a48d1e1d17439b91e"
-  integrity sha512-+lDvDks4AmgHD0FJBrpx+Va/7uTc4y+XXhAQtZw7+h6E8MxT1nVRBmf6hB48VtK0b06lww1cRIB+d4W2cAqGCw==
+"@mycrypto/wallets@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@mycrypto/wallets/-/wallets-1.1.0.tgz#0ee3d611ae9451a95c2a51e4401cf747773807be"
+  integrity sha512-cXqOtYZ8P0YFUrUsqs+f0g+CGHEgjac8fcaOrXxVfuJJfgg/MB3dmiWQlUlUbWou6JZS+8/xHlFCuF4GSdKGbg==
   dependencies:
     "@ethersproject/abstract-provider" "5.1.0"
     "@ethersproject/address" "5.1.0"

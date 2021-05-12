@@ -6,15 +6,18 @@ import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
 import type { AccountsState } from '@common/store';
 import {
+  addAccount,
   fetchAccounts,
   fetchAddresses,
   fetchFailed,
   generateAccount,
   nextFlow,
+  removeAccount,
   setAddresses,
+  setExtendedKey,
   setGeneratedAccount
 } from '@common/store';
-import accountsSlice, { addAccount, removeAccount } from '@common/store/accounts.slice';
+import accountsSlice from '@common/store/accounts.slice';
 import { DEFAULT_MNEMONIC_INDEX } from '@config';
 import type {
   GetAddressesResult,
@@ -27,7 +30,7 @@ import type {
 import { WalletType } from '@types';
 import { generateDeterministicAddressUUID } from '@utils';
 
-import { createWallet, derivePrivateKey, getAddress, getAddresses } from './crypto';
+import { createWallet, derivePrivateKey, getAddress, getAddresses, getExtendedKey } from './crypto';
 import { deleteAccountSecrets, saveAccountSecrets } from './secrets';
 
 export type CryptoAccountsState = Pick<AccountsState, 'add'>;
@@ -141,6 +144,9 @@ export function* fetchAddressesWorker({ payload }: ReturnType<typeof fetchAddres
 
   try {
     const addresses: GetAddressesResult[] = yield call(getAddresses, wallet, path, limit, offset);
+    const extendedKey: string = yield call(getExtendedKey, wallet, path);
+
+    yield put(setExtendedKey(extendedKey));
     yield put(setAddresses(addresses));
   } catch (error) {
     yield put(fetchFailed(error.message));

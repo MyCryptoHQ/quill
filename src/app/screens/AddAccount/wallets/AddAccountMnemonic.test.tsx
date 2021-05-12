@@ -100,6 +100,28 @@ describe('AddAccountMnemonic', () => {
     );
   });
 
+  it('shows the fetched extended public key', () => {
+    const mockStore = createMockStore({
+      accounts: {
+        addresses: [
+          {
+            address: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f',
+            dPath: "m/44'/60'/0'/0/0",
+            index: 0
+          }
+        ],
+        extendedKey: 'xpubfoobar'
+      }
+    });
+
+    const { getByText, getByTestId } = getComponent(mockStore);
+
+    const banner = getByTestId('banner-toggle');
+    fireEvent.click(banner);
+
+    expect(() => getByText('xpubfoobar')).not.toThrow();
+  });
+
   it('shows mnemonic form validation', async () => {
     const { getByText } = getComponent();
 
