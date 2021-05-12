@@ -2,7 +2,6 @@ import { formatEther, parseUnits } from '@ethersproject/units';
 import { Body } from '@mycrypto/ui';
 import type { ComponentProps } from 'react';
 import type { FormState } from 'typed-react-form';
-import { AnyListener } from 'typed-react-form';
 
 import { translateRaw } from '@common/translate';
 import { getChain } from '@data';
@@ -14,6 +13,7 @@ import { FormInput } from './FormInput';
 import { FormTextArea } from './FormTextArea';
 import { TxDetailsBlockRow as BlockRow } from './TxDetailsBlockRow';
 import { TxDetailsRow as Row } from './TxDetailsRow';
+import { ValidatedListener } from './ValidatedListener';
 
 const InputRow = ({
   label,
@@ -75,9 +75,9 @@ export const TxDetailsEdit = ({ form }: { form: FormState<TransactionRequest> })
         unit="Gwei"
         form={form}
       />
-      <AnyListener
+      <ValidatedListener
         form={form}
-        render={({ values }) => (
+        render={(values) => (
           <Row
             label={translateRaw('MAX_TX_FEE')}
             value={`${formatEther(
