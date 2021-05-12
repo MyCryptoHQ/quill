@@ -85,7 +85,7 @@ export const EditTransaction = () => {
         </form>
       </ScrollableContainer>
       <PanelBottom py="3">
-        <Button type="submit" disabled={form.error} form="edit-tx-form">
+        <Button type="submit" form="edit-tx-form">
           {translateRaw('SAVE_SETTINGS')}
         </Button>
       </PanelBottom>
