@@ -15,6 +15,7 @@ export interface AccountsState {
   accounts: IAccount[];
   addresses: GetAddressesResult[];
   isFetching: boolean;
+  extendedKey?: string;
   fetchError?: string;
   add?: {
     accounts: SerializedWalletWithAddress[];
@@ -69,6 +70,9 @@ const slice = createSlice({
       state.isFetching = false;
       state.fetchError = undefined;
     },
+    setExtendedKey(state, action: PayloadAction<string>) {
+      state.extendedKey = action.payload;
+    },
     fetchAccounts(state, _: PayloadAction<SerializedWallet[]>) {
       state.isFetching = true;
       state.fetchError = undefined;
@@ -93,6 +97,7 @@ const slice = createSlice({
       state.isFetching = false;
       state.fetchError = undefined;
       state.addresses = [];
+      state.extendedKey = undefined;
     },
     setGeneratedAccount(
       state,
@@ -110,6 +115,7 @@ export const {
   setAddAccounts,
   clearAddAccounts,
   setAddresses,
+  setExtendedKey,
   fetchAccounts,
   fetchAddresses,
   fetchFailed,
@@ -137,6 +143,11 @@ export const getAccountsToAdd = createSelector(
 export const getAddresses = createSelector(
   (state: { accounts: AccountsState }) => state.accounts,
   (accounts) => accounts.addresses ?? []
+);
+
+export const getExtendedKey = createSelector(
+  (state: { accounts: AccountsState }) => state.accounts,
+  (accounts) => accounts.extendedKey
 );
 
 export const getAccountError = createSelector(

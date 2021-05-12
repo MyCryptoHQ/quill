@@ -8,6 +8,7 @@ export {
   removeAccount,
   updateAccount,
   setAddresses,
+  setExtendedKey,
   fetchAccounts,
   fetchAddresses,
   fetchFailed,
@@ -22,6 +23,7 @@ export {
   getAccountsLength,
   getGeneratedMnemonicWords,
   getGeneratedAccount,
+  getExtendedKey,
   AccountsState
 } from './accounts.slice';
 export {

@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { AnyListener } from 'typed-react-form';
 
 import {
+  Banner,
   Box,
   DPathSelector,
   MnemonicAddressList,
@@ -14,8 +15,15 @@ import {
   WalletTypeSelector
 } from '@app/components';
 import { useDispatch, useSelector } from '@app/store';
-import { fetchAccounts, fetchAddresses, getAccountError, getAddresses } from '@common/store';
+import {
+  fetchAccounts,
+  fetchAddresses,
+  getAccountError,
+  getAddresses,
+  getExtendedKey
+} from '@common/store';
 import { translateRaw } from '@common/translate';
+import { translate } from '@translations';
 import type { GetAddressesResult } from '@types';
 import { WalletType } from '@types';
 
@@ -55,6 +63,7 @@ const AddAccountMnemonicForm = ({
   const { offset, dPath, addresses, selectedAccounts } = form.state;
   const selectedPathData = ALL_DERIVATION_PATHS.find((p) => p.name === dPath);
   const derivedAddresses = useSelector(getAddresses);
+  const extendedKey = useSelector(getExtendedKey);
   const fetchError = useSelector(getAccountError);
 
   const updateAddresses = async () => {
@@ -130,7 +139,13 @@ const AddAccountMnemonicForm = ({
           </>
         ) : (
           <Box>
-            {/* @todo: Extended key banner */}
+            <Banner type="info" label={translateRaw('CANT_FIND_ADDRESS')}>
+              {translate('USE_FINDETH', { $link: 'https://beta.findeth.io' })}
+              <Box as="span" display="block" mt="1" sx={{ wordBreak: 'break-word' }}>
+                {extendedKey}
+              </Box>
+            </Banner>
+
             <Heading as="h2" fontSize="18px" lineHeight="24px" textAlign="center" mb="2">
               {translateRaw('ADD_ADDRESS_TO_SIGNER')}
             </Heading>

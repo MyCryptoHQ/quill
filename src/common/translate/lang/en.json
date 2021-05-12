@@ -175,6 +175,8 @@
     "KEEPING_YOUR_CRYPTO_SAFE": "Keeping Your Crypto Safe",
     "RESOURCES_AND_HELP": "For Resources and Help, Visit:",
     "KEEP_PRIVATE": "**For your eyes only**: keep this private",
-    "SAVE_SETTINGS": "Save Settings"
+    "SAVE_SETTINGS": "Save Settings",
+    "CANT_FIND_ADDRESS": "Can't find the address you're looking for?",
+    "USE_FINDETH": "You may be able to use [FindETH]($link) with your Extended Key (below) to find your address."
   }
 }

@@ -36,6 +36,14 @@ export const getAddress = async (wallet: SerializedWallet) => {
   return initialisedWallet.getAddress();
 };
 
+export const getExtendedKey = async (
+  wallet: SerializedDeterministicWallet,
+  derivationPath: DerivationPath
+): Promise<string> => {
+  const initialisedWallet = await getDeterministicWallet(wallet);
+  return initialisedWallet.getExtendedPublicKey(derivationPath);
+};
+
 export const derivePrivateKey = async (wallet: SerializedWallet) => {
   const initialisedWallet = await getWallet(wallet);
   return initialisedWallet.getPrivateKey();
