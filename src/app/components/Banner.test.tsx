@@ -43,8 +43,8 @@ describe('Banner', () => {
     expect(() => getByText('Baz qux')).not.toThrow();
   });
 
-  it('renders an inner banner', () => {
-    const { getByText } = getComponent({ type: 'info', label: 'Foo bar', banner: 'Baz qux' });
+  it('renders a badge', () => {
+    const { getByText } = getComponent({ type: 'info', label: 'Foo bar', badge: 'Baz qux' });
     expect(() => getByText('Baz qux')).not.toThrow();
   });
 });

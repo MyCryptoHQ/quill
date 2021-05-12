@@ -16,7 +16,7 @@ type BannerType = keyof typeof theme.variants.banner;
 interface BannerProps {
   type: BannerType;
   label: string;
-  banner?: string;
+  badge?: string;
   extended?: boolean;
 }
 
@@ -28,7 +28,7 @@ const icons: { [key in BannerType]: string } = {
   error
 };
 
-export const InnerBanner = ({ type, children }: PropsWithChildren<Pick<BannerProps, 'type'>>) => {
+const Badge = ({ type, children }: PropsWithChildren<Pick<BannerProps, 'type'>>) => {
   const theme = useTheme();
 
   return (
@@ -49,7 +49,7 @@ export const InnerBanner = ({ type, children }: PropsWithChildren<Pick<BannerPro
 export const Banner = ({
   type,
   label,
-  banner,
+  badge,
   extended,
   children
 }: PropsWithChildren<BannerProps>) => {
@@ -79,7 +79,7 @@ export const Banner = ({
           </Body>
         </Flex>
         <Flex variant="horizontal-start" minWidth="10px">
-          {banner && <InnerBanner type={type}>{banner}</InnerBanner>}
+          {badge && <Badge type={type}>{badge}</Badge>}
           {children && (
             <Image
               src={caret}
