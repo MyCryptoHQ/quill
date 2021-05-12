@@ -198,6 +198,28 @@ const overrideTheme = {
       nonce: {
         bg: 'badge.muted'
       }
+    },
+    banner: {
+      success: {
+        background: '#f4faed',
+        color: '#b4dd88'
+      },
+      info: {
+        background: '#f4f6f7',
+        color: '#b6c0c8'
+      },
+      action: {
+        background: '#f2ecff',
+        color: '#a682ff'
+      },
+      warning: {
+        background: '#feede2',
+        color: '#fa873f'
+      },
+      error: {
+        background: '#fde4e4',
+        color: '#ef4747'
+      }
     }
   },
   buttons: {
