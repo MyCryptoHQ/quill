@@ -1,3 +1,4 @@
+import isEqual from 'lodash.isequal';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import type { FormState } from 'typed-react-form';
@@ -35,10 +36,13 @@ const ValidatedListenerInner = <T,>({
   const { values } = useAnyListener(form);
 
   useEffect(() => {
+    if (isEqual(values, validatedValues)) {
+      return;
+    }
     form.validate().then((result) => {
       if (result) setValidatedValues(Object.assign({}, values));
     });
-  }, [values]);
+  });
 
   return <>{render(validatedValues)}</>;
 };
