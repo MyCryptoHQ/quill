@@ -16,7 +16,7 @@ export const TxDetails = ({ tx: { tx, adjustedNonce } }: { tx: TxQueueEntry | Tx
   const chain = getChain(tx.chainId);
   const maxTxFee = bigify(tx.gasPrice).multipliedBy(bigify(tx.gasLimit));
   const symbol = chain?.nativeCurrency?.symbol ?? '?';
-  const network = chain.name ?? translateRaw('UNKNOWN_NETWORK');
+  const network = chain?.name ?? translateRaw('UNKNOWN_NETWORK');
   const data = tx.data?.toString() ?? '0x';
   return (
     <>
