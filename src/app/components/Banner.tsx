@@ -3,11 +3,11 @@ import type { PropsWithChildren } from 'react';
 import { useState } from 'react';
 import { useTheme } from 'styled-components';
 
-import info from '@assets/icons/alert-grey.svg';
 import error from '@assets/icons/alert-red.svg';
 import caret from '@assets/icons/caret.svg';
 import success from '@assets/icons/circle-checkmark.svg';
 import warning from '@assets/icons/circle-warning.svg';
+import info from '@assets/icons/info.svg';
 import action from '@assets/icons/queue-waiting.svg';
 import type { theme } from '@theme';
 
