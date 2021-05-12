@@ -11,7 +11,7 @@ export const ValidatedListener = <T,>({
   form: FormState<T>;
   render(values: T): ReactNode;
 }) => {
-  const [validatedValues, setValidatedValues] = useState(Object.assign({}, form.values));
+  const [validatedValues, setValidatedValues] = useState({ ...form.values });
   return (
     <ValidatedListenerInner
       form={form}
@@ -40,7 +40,7 @@ const ValidatedListenerInner = <T,>({
       return;
     }
     form.validate().then((result) => {
-      if (result) setValidatedValues(Object.assign({}, values));
+      if (result) setValidatedValues({ ...values });
     });
   });
 
