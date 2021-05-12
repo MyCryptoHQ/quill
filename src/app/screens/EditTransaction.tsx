@@ -22,15 +22,21 @@ import edit from '@assets/icons/edit-grey.svg';
 import { getAccounts, getCurrentTransaction, getTransactionInfoBannerType } from '@common/store';
 import { selectTransaction, update } from '@common/store/transactions.slice';
 import { translateRaw } from '@common/translate';
+import {
+  GAS_LIMIT_LOWER_BOUND,
+  GAS_LIMIT_UPPER_BOUND,
+  GAS_PRICE_GWEI_LOWER_BOUND,
+  GAS_PRICE_GWEI_UPPER_BOUND
+} from '@config';
 import type { TxQueueEntry } from '@types';
 import { EvenHex } from '@types';
 
 const SCHEMA = object({
-  value: number().required(),
-  nonce: number().required(),
-  gasPrice: number().required(),
-  gasLimit: number().required(),
-  chainId: number().required(),
+  value: number().required().min(0),
+  nonce: number().required().min(0),
+  gasPrice: number().required().min(GAS_PRICE_GWEI_LOWER_BOUND).max(GAS_PRICE_GWEI_UPPER_BOUND),
+  gasLimit: number().required().min(GAS_LIMIT_LOWER_BOUND).max(GAS_LIMIT_UPPER_BOUND),
+  chainId: number().required().min(1),
   data: string()
     .required()
     .test('valid-hex', (value) => is(value, EvenHex))
