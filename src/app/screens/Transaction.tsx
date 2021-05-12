@@ -69,7 +69,13 @@ export const Transaction = () => {
               <TimeElapsed value={timestamp} />
             </Body>
             {result === TxResult.WAITING && (
-              <LinkApp href={ROUTE_PATHS.EDIT_TX} variant="barren" ml="auto">
+              <LinkApp
+                href={ROUTE_PATHS.EDIT_TX}
+                variant="barren"
+                ml="auto"
+                height="20px"
+                width="20px"
+              >
                 <Image src={edit} height="20px" width="20px" />
               </LinkApp>
             )}

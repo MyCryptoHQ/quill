@@ -9,7 +9,6 @@ import {
   Box,
   FromToAccount,
   Image,
-  LinkApp,
   PanelBottom,
   ScrollableContainer,
   TimeElapsed,
@@ -19,7 +18,7 @@ import {
 import { ROUTE_PATHS } from '@app/routing';
 import { useDispatch, useSelector } from '@app/store';
 import { fromHumanReadable, toHumanReadable } from '@app/utils';
-import edit from '@assets/icons/edit.svg';
+import edit from '@assets/icons/edit-grey.svg';
 import { getAccounts, getCurrentTransaction, getTransactionInfoBannerType } from '@common/store';
 import { selectTransaction, update } from '@common/store/transactions.slice';
 import { translateRaw } from '@common/translate';
@@ -76,9 +75,7 @@ export const EditTransaction = () => {
                 {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
                 <TimeElapsed value={timestamp} />
               </Body>
-              <LinkApp href="#" variant="barren" ml="auto">
-                <Image src={edit} height="20px" width="20px" />
-              </LinkApp>
+              <Image src={edit} height="20px" width="20px" ml="auto" />
             </Box>
             <TxDetailsEdit form={form} />
           </Box>
