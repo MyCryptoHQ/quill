@@ -1,10 +1,11 @@
-import { createCryptoProcess } from '@crypto/process';
 import { app, BrowserWindow, Menu, shell, Tray } from 'electron';
 import positioner from 'electron-traywindow-positioner';
 import path from 'path';
 import { URL } from 'url';
 
 import { HEIGHT, WIDTH } from '@config';
+import { createCryptoProcess } from '@crypto/process';
+import { showWindowOnTop } from '@window';
 
 import { createStore } from './api';
 import { createKeyPair } from './common/store';
@@ -62,7 +63,7 @@ const createWindow = (): void => {
 
   const cryptoProcess = createCryptoProcess();
   const ipc = createIpc(window, cryptoProcess);
-  const store = createStore(ipc);
+  const store = createStore(window, ipc);
 
   store.dispatch(createKeyPair());
 
@@ -77,11 +78,7 @@ const showWindow = () => {
   window.setPosition(position.x, position.y, false);
   // Added because setPosition would sometimes squeeze the sizing
   window.setSize(WIDTH, HEIGHT, false);
-  // Hack to show on current desktop - see: https://github.com/electron/electron/issues/5362
-  window.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
-  window.show();
-  window.focus();
-  window.setVisibleOnAllWorkspaces(false);
+  showWindowOnTop(window);
   if (isDev) {
     window.webContents.openDevTools({ mode: 'undocked' });
   }
