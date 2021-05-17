@@ -118,12 +118,15 @@ export const getTransactionInfoBannerType = createSelector(
     if (result !== TxResult.WAITING) {
       return result;
     }
+
     if (nonceOutOfOrder) {
       return InfoBannerType.NONCE_OUT_OF_ORDER;
     }
+
     if (adjustedNonce) {
       return InfoBannerType.NONCE_ADJUSTED;
     }
+
     if (nonceConflictInQueue) {
       return InfoBannerType.NONCE_CONFLICT_IN_QUEUE;
     }

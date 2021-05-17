@@ -219,6 +219,10 @@ const overrideTheme = {
       error: {
         background: '#fde4e4',
         color: '#ef4747'
+      },
+      clear: {
+        background: 'none',
+        color: '#a682ff'
       }
     }
   },

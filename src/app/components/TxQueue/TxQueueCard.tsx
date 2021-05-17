@@ -1,11 +1,10 @@
 import { formatEther } from '@ethersproject/units';
 import { Body } from '@mycrypto/ui';
 
-import { Badge, Box, FromToAccount, Image, LinkApp, TimeElapsed } from '@app/components';
+import { Banner, Box, FromToAccount, Image, LinkApp, TimeElapsed } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import { useDispatch, useSelector } from '@app/store';
 import circleArrow from '@assets/icons/circle-arrow.svg';
-import waiting from '@assets/icons/queue-waiting.svg';
 import { getAccounts, selectTransaction } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { getChain } from '@data';
@@ -23,15 +22,11 @@ export const TxQueueCard = ({ item, first }: { item: TxQueueEntry; first: boolea
 
   return (
     <Box pt={first ? '0' : '16px'} pb="16px">
-      <Box variant="horizontal-start">
-        <Box variant="horizontal-start">
-          <Image src={waiting} height="20px" width="20px" mr="8px" />
-          <Body color="PURPLE" sx={{ textTransform: 'uppercase' }}>
-            {translateRaw('HOME_TX_RESULT_WAITING')}
-          </Body>
-        </Box>
-        {first && <Badge ml="auto">NEW</Badge>}
-      </Box>
+      <Banner
+        type="clear"
+        label={translateRaw('HOME_TX_RESULT_WAITING')}
+        badge={first && translateRaw('NEW')}
+      />
       <Box variant="horizontal-start" mt="2">
         <FromToAccount
           sender={{ address: tx.from, label: currentAccount?.label }}

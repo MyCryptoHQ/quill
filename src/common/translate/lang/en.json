@@ -178,6 +178,7 @@
     "SAVE_SETTINGS": "Save Settings",
     "CANT_FIND_ADDRESS": "Can't find the address you're looking for?",
     "USE_FINDETH": "You may be able to use [FindETH]($link) with your Extended Key (below) to find your address.",
-    "SOMETHING_WENT_WRONG": "Something went wrong."
+    "SOMETHING_WENT_WRONG": "Something went wrong.",
+    "NEW": "New"
   }
 }

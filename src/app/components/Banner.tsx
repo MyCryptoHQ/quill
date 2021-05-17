@@ -25,10 +25,11 @@ const icons: { [key in BannerType]: string } = {
   info,
   action,
   warning,
-  error
+  error,
+  clear: action
 };
 
-const Badge = ({ type, children }: PropsWithChildren<Pick<BannerProps, 'type'>>) => {
+export const Badge = ({ type, children }: PropsWithChildren<Pick<BannerProps, 'type'>>) => {
   const theme = useTheme();
 
   return (
@@ -62,6 +63,7 @@ export const Banner = ({
       <Flex
         variant="horizontal-start"
         p="2"
+        px={type === 'clear' && '0'}
         justifyContent="space-between"
         onClick={children && handleToggle}
         sx={{ cursor: children && 'pointer' }}
