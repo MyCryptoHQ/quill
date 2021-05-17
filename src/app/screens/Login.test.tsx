@@ -8,7 +8,7 @@ import type { ApplicationState } from '@app/store';
 import { login } from '@common/store';
 import { translateRaw } from '@common/translate';
 
-import { Login } from '../Login';
+import { Login } from './Login';
 
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {

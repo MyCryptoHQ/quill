@@ -10,7 +10,7 @@ import { reset } from '@common/store';
 import { translateRaw } from '@common/translate';
 import type { DeepPartial } from '@types';
 
-import { ForgotPassword } from '../ForgotPassword';
+import { ForgotPassword } from './ForgotPassword';
 
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {

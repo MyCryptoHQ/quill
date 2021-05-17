@@ -2,7 +2,8 @@ import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import { translateRaw } from '@common/translate';
-import { SetupAccount } from '@screens';
+
+import { SetupAccount } from './SetupAccount';
 
 const getComponent = () =>
   render(

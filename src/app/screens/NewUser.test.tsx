@@ -9,7 +9,7 @@ import { translateRaw } from '@common/translate';
 import { ROUTE_PATHS } from '@routing';
 import type { DeepPartial } from '@types';
 
-import { NewUser } from '../NewUser';
+import { NewUser } from './NewUser';
 
 jest.mock('@bridge', () => ({
   ipcBridgeRenderer: {

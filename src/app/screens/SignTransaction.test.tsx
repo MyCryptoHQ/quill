@@ -21,7 +21,7 @@ import {
 import type { DeepPartial, IAccount } from '@types';
 import { WalletType } from '@types';
 
-import { SignTransaction } from '../SignTransaction';
+import { SignTransaction } from './SignTransaction';
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 

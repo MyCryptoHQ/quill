@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { MemoryRouter as Router } from 'react-router-dom';
 
-import { Menu } from '../Menu';
+import { Menu } from './Menu';
 
 function getComponent() {
   return render(

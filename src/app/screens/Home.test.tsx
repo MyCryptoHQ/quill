@@ -13,7 +13,7 @@ import { ROUTE_PATHS } from '@routing';
 import type { DeepPartial } from '@types';
 import { TxResult } from '@types';
 
-import { Home } from '../Home';
+import { Home } from './Home';
 
 jest.mock('@hooks', () => ({
   ...jest.requireActual('@hooks'),

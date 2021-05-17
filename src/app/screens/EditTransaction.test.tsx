@@ -12,7 +12,7 @@ import { fAccount, getTransactionRequest } from '@fixtures';
 import type { DeepPartial } from '@types';
 import { TxResult } from '@types';
 
-import { EditTransaction } from '../EditTransaction';
+import { EditTransaction } from './EditTransaction';
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 

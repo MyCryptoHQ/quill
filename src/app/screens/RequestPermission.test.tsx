@@ -9,7 +9,7 @@ import { denyPermission, grantPermission, updatePermission } from '@common/store
 import { translateRaw } from '@common/translate';
 import { fPermission } from '@fixtures';
 
-import { RequestPermission } from '../RequestPermission';
+import { RequestPermission } from './RequestPermission';
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 

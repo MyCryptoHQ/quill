@@ -10,7 +10,7 @@ import { translateRaw } from '@common/translate';
 import { fAccount } from '@fixtures';
 import type { DeepPartial } from '@types';
 
-import { Accounts } from '../Accounts';
+import { Accounts } from './Accounts';
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 const mockStore = createMockStore({
