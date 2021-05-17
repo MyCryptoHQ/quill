@@ -1,4 +1,3 @@
-import { createWallet, derivePrivateKey, getAddress, getAddresses } from '@crypto/crypto';
 import { DEFAULT_ETH } from '@mycrypto/wallets';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
@@ -17,6 +16,7 @@ import {
   setGeneratedAccount
 } from '@common/store';
 import { DEFAULT_MNEMONIC_INDEX } from '@config';
+import { createWallet, derivePrivateKey, getAddress, getAddresses } from '@crypto/crypto';
 import {
   fAccount,
   fExtendedKey,

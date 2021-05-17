@@ -1,5 +1,3 @@
-import { getSettingsKey } from '@crypto/secrets';
-import { decryptSettingsWorker, encryptSettingsWorker } from '@crypto/settings.sagas';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
@@ -9,6 +7,8 @@ import {
   rehydrateState,
   storeEncryptedSettings
 } from '@common/store';
+import { getSettingsKey } from '@crypto/secrets';
+import { decryptSettingsWorker, encryptSettingsWorker } from '@crypto/settings.sagas';
 
 jest.mock('keytar');
 jest.mock('crypto', () => ({
