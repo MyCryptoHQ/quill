@@ -4,7 +4,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { push } from 'connected-react-router';
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
-import { reply } from '@api/store/ws.slice';
+import { reply } from '@api/ws.slice';
 import {
   addToHistory,
   dequeue,

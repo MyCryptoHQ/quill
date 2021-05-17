@@ -1,7 +1,7 @@
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
-import { reply } from '@api/store/ws.slice';
+import { reply } from '@api/ws.slice';
 import { sign, signFailed, signSuccess } from '@common/store/signing.slice';
 import { dequeue } from '@common/store/transactions.slice';
 import { fPrivateKey, fRequestOrigin, fSignedTx, fTxRequest } from '@fixtures';

@@ -6,7 +6,7 @@ import { URL } from 'url';
 
 import { HEIGHT, WIDTH } from '@config';
 
-import { createStore } from './api/store';
+import { createStore } from './api';
 import { createKeyPair } from './common/store';
 import { createIpc } from './ipc';
 

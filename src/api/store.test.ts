@@ -1,4 +1,4 @@
-import { createStore } from '@api/store';
+import { createStore } from '@api/index';
 import { Process } from '@common/store';
 
 jest.mock('electron-store');

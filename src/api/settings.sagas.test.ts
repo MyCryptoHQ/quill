@@ -5,8 +5,8 @@ import {
   fetchSettingsWorker,
   resetSettingsWorker,
   storeEncryptedSettingsWorker
-} from '@api/store/settings.sagas';
-import { clearStore, getFromStore, setInStore } from '@api/store/utils';
+} from '@api/settings.sagas';
+import { clearStore, getFromStore, setInStore } from '@api/utils';
 import {
   decryptSettings,
   fetchSettings,
