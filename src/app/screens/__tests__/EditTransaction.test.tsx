@@ -7,10 +7,10 @@ import configureStore from 'redux-mock-store';
 import type { ApplicationState } from '@app/store';
 import { update } from '@common/store/transactions.slice';
 import { translateRaw } from '@common/translate';
+import { makeHistoryTx, makeQueueTx } from '@common/utils';
 import { fAccount, getTransactionRequest } from '@fixtures';
 import type { DeepPartial } from '@types';
 import { TxResult } from '@types';
-import { makeHistoryTx, makeQueueTx } from '@utils';
 
 import { EditTransaction } from '../EditTransaction';
 

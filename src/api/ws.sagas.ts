@@ -12,6 +12,7 @@ import {
   requestPermission,
   updatePermission
 } from '@common/store';
+import { safeJSONParse } from '@common/utils';
 import { JsonRPCMethod, WS_PORT } from '@config';
 import type {
   JsonRPCResponse,
@@ -20,11 +21,14 @@ import type {
   SignedJsonRPCRequest,
   UserRequest
 } from '@types';
-import { safeJSONParse } from '@utils';
+import {
+  isValidMethod,
+  isValidParams,
+  isValidRequest,
+  toJsonRpcResponse,
+  verifyRequest
+} from '@utils';
 
-import { verifyRequest } from './utils';
-import { toJsonRpcResponse } from './utils/jsonrpc';
-import { isValidMethod, isValidParams, isValidRequest } from './utils/validators';
 import { reply, requestAccounts, requestSignTransaction } from './ws.slice';
 
 interface WebSocketMessage {

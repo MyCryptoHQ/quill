@@ -6,13 +6,13 @@ import {
   resetSettingsWorker,
   storeEncryptedSettingsWorker
 } from '@api/settings.sagas';
-import { clearStore, getFromStore, setInStore } from '@api/utils';
 import {
   decryptSettings,
   fetchSettings,
   rehydrateEmptyState,
   storeEncryptedSettings
 } from '@common/store';
+import { clearStore, getFromStore, setInStore } from '@utils';
 
 describe('resetSettingsWorker', () => {
   it('clears the store', async () => {

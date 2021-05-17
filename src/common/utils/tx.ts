@@ -1,5 +1,6 @@
 import type { Transaction } from '@ethersproject/transactions';
 
+import { generateUUID } from '@common/utils';
 import type {
   JsonRPCRequest,
   TransactionRequest,
@@ -9,8 +10,6 @@ import type {
   UserRequest
 } from '@types';
 import { TxResult } from '@types';
-
-import { generateUUID } from './generateUUID';
 
 export const makeTx = (request: JsonRPCRequest): TransactionRequest =>
   request.params[0] as TransactionRequest;

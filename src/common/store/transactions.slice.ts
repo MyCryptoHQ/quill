@@ -2,10 +2,10 @@ import type { BigNumberish } from '@ethersproject/bignumber';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAction, createSelector, createSlice } from '@reduxjs/toolkit';
 
+import { bigify } from '@common/utils';
 import type { ApplicationState } from '@store';
 import type { TAddress, TxHistoryEntry, TxQueueEntry } from '@types';
 import { InfoBannerType, TxResult } from '@types';
-import { bigify } from '@utils';
 
 export const initialState: {
   queue: TxQueueEntry[];

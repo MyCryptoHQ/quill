@@ -12,10 +12,9 @@ import {
   selectTransaction
 } from '@common/store';
 import { getAccountNonce, getAccountQueue, update } from '@common/store/transactions.slice';
-import type { TSignTransaction, TxHistoryEntry, TxQueueEntry, UserRequest } from '@types';
+import { addHexPrefix, bigify, makeHistoryTx, makeQueueTx } from '@common/utils';
+import type { Bigish, TSignTransaction, TxHistoryEntry, TxQueueEntry, UserRequest } from '@types';
 import { TxResult } from '@types';
-import type { Bigish } from '@utils';
-import { addHexPrefix, bigify, makeHistoryTx, makeQueueTx } from '@utils';
 
 import { reply, requestSignTransaction } from './ws.slice';
 

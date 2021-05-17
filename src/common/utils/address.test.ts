@@ -1,4 +1,4 @@
-import { toChecksumAddress } from './toChecksumAddress';
+import { toChecksumAddress } from './address';
 
 describe('toChecksumAddress', () => {
   it('checksums non-checksummed address', () => {

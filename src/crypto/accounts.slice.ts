@@ -18,6 +18,7 @@ import {
   setGeneratedAccount
 } from '@common/store';
 import accountsSlice from '@common/store/accounts.slice';
+import { generateDeterministicAddressUUID } from '@common/utils';
 import { DEFAULT_MNEMONIC_INDEX } from '@config';
 import type {
   GetAddressesResult,
@@ -28,7 +29,6 @@ import type {
   TAddress
 } from '@types';
 import { WalletType } from '@types';
-import { generateDeterministicAddressUUID } from '@utils';
 
 import { createWallet, derivePrivateKey, getAddress, getAddresses, getExtendedKey } from './crypto';
 import { deleteAccountSecrets, saveAccountSecrets } from './secrets';

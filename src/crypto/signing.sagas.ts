@@ -13,10 +13,10 @@ import {
   sign
 } from '@common/store';
 import { signFailed, signSuccess } from '@common/store/signing.slice';
+import { makeHistoryTx } from '@common/utils';
 import { ROUTE_PATHS } from '@routing';
 import type { SerializedPersistentAccount, SerializedWallet } from '@types';
 import { TxResult } from '@types';
-import { makeHistoryTx } from '@utils';
 
 import { signTransaction } from './crypto';
 

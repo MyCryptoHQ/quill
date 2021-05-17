@@ -12,8 +12,8 @@ import {
   fSignedTx,
   fTxRequest
 } from '@fixtures';
+import { createJsonRpcRequest, createSignedJsonRpcRequest } from '@utils';
 
-import { createJsonRpcRequest, createSignedJsonRpcRequest } from './utils';
 import {
   createWebSocketServer,
   handleRequest,

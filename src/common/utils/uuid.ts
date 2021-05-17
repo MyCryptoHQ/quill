@@ -1,9 +1,8 @@
 import { v4 } from 'uuid';
 import getUuid from 'uuid-by-string';
 
+import { toChecksumAddress } from '@common/utils';
 import type { TAddress, TUuid } from '@types';
-
-import { toChecksumAddress } from './toChecksumAddress';
 
 export const generateDeterministicAddressUUID = (address: TAddress) =>
   getUUID(toChecksumAddress(address)) as TUuid;

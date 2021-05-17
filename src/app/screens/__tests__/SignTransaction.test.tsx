@@ -7,6 +7,7 @@ import configureStore from 'redux-mock-store';
 import type { ApplicationState } from '@app/store';
 import { sign } from '@common/store';
 import { translateRaw } from '@common/translate';
+import { makeQueueTx, makeTx } from '@common/utils';
 import {
   fAccount,
   fAccounts,
@@ -19,7 +20,6 @@ import {
 } from '@fixtures';
 import type { DeepPartial, IAccount } from '@types';
 import { WalletType } from '@types';
-import { makeQueueTx, makeTx } from '@utils';
 
 import { SignTransaction } from '../SignTransaction';
 

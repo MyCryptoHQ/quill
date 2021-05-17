@@ -1,8 +1,8 @@
 import { expectSaga } from 'redux-saga-test-plan';
 
-import { createJsonRpcRequest } from '@api/utils';
 import { JsonRPCMethod } from '@config';
 import { fAccounts, fRequestOrigin } from '@fixtures';
+import { createJsonRpcRequest } from '@utils';
 
 import { getAccountsWorker } from './accounts.sagas';
 import { reply, requestAccounts } from './ws.slice';

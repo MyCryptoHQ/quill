@@ -1,6 +1,6 @@
+import { makeTx } from '@common/utils/tx';
 import { JsonRPCMethod } from '@config';
 import { fTxRequest } from '@fixtures';
-import { makeTx } from '@utils/tx';
 
 describe('makeTx', () => {
   it('extracts tx from json rpc request', () => {

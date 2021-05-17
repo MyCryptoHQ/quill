@@ -3,9 +3,9 @@ import { Body } from '@mycrypto/ui';
 
 import warning from '@assets/icons/circle-warning.svg';
 import { translateRaw } from '@common/translate';
+import { bigify } from '@common/utils';
 import { getChain } from '@data';
 import type { TxHistoryEntry, TxQueueEntry } from '@types';
-import { bigify } from '@utils';
 
 import { Box, Image } from '.';
 import { CodeBlock } from './CodeBlock';

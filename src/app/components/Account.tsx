@@ -3,8 +3,8 @@ import { Blockie, Body } from '@mycrypto/ui';
 import type { BoxProps } from '@app/components';
 import { Box } from '@app/components';
 import { translateRaw } from '@common/translate';
+import { truncate } from '@common/utils';
 import type { TAddress } from '@types';
-import { truncate } from '@utils';
 
 export const Account = ({
   label,

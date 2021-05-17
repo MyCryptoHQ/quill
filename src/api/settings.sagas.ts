@@ -9,8 +9,7 @@ import {
   resetSettings,
   storeEncryptedSettings
 } from '@common/store';
-
-import { clearStore, getFromStore, setInStore } from './utils';
+import { clearStore, getFromStore, setInStore } from '@utils';
 
 export function* settingsSaga() {
   yield all([

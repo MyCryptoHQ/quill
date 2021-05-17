@@ -4,10 +4,10 @@ import { call } from 'redux-saga-test-plan/matchers';
 import { reply } from '@api/ws.slice';
 import { sign, signFailed, signSuccess } from '@common/store/signing.slice';
 import { dequeue } from '@common/store/transactions.slice';
+import { makeQueueTx, makeTx } from '@common/utils';
 import { fPrivateKey, fRequestOrigin, fSignedTx, fTxRequest } from '@fixtures';
 import type { SerializedWallet } from '@types';
 import { WalletType } from '@types';
-import { makeQueueTx, makeTx } from '@utils';
 
 import { signTransaction } from './crypto';
 import { signWorker } from './signing.sagas';

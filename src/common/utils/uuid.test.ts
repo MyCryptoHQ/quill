@@ -1,6 +1,6 @@
 import type { TAddress } from '@types';
 
-import { generateDeterministicAddressUUID } from './generateUUID';
+import { generateDeterministicAddressUUID } from './uuid';
 
 describe('generateUUID', () => {
   it('generates a deterministic address uuid', () => {

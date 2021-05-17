@@ -7,11 +7,11 @@ import configureStore from 'redux-mock-store';
 
 import type { ApplicationState } from '@app/store';
 import { selectTransaction } from '@common/store';
+import { makeHistoryTx, makeQueueTx } from '@common/utils';
 import { fAccount, fRequestOrigin, fTxRequest } from '@fixtures';
 import { ROUTE_PATHS } from '@routing';
 import type { DeepPartial } from '@types';
 import { TxResult } from '@types';
-import { makeHistoryTx, makeQueueTx } from '@utils';
 
 import { Home } from '../Home';
 

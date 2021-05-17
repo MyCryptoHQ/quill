@@ -2,8 +2,8 @@ import { hexlify } from '@ethersproject/bytes';
 import stringify from 'fast-json-stable-stringify';
 import { sign, utils, verify } from 'noble-ed25519';
 
+import { stripHexPrefix } from '@common/utils';
 import type { JsonRPCRequest } from '@types';
-import { stripHexPrefix } from '@utils';
 
 export const hashRequest = async (data: JsonRPCRequest) => {
   // Use fast-json-stable-stringify as it is deterministic

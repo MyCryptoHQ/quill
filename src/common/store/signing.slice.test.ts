@@ -1,7 +1,7 @@
+import { makeTx } from '@common/utils';
 import { fPrivateKey, fTxRequest } from '@fixtures';
 import type { SerializedWallet } from '@types';
 import { WalletType } from '@types';
-import { makeTx } from '@utils';
 
 import slice, { sign, signFailed, signSuccess } from './signing.slice';
 

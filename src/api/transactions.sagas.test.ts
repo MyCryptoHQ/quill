@@ -2,9 +2,9 @@ import { expectSaga } from 'redux-saga-test-plan';
 
 import { addToHistory, dequeue, enqueue } from '@common/store';
 import { update } from '@common/store/transactions.slice';
+import { addHexPrefix, bigify, makeHistoryTx, makeQueueTx } from '@common/utils';
 import { fRequestOrigin, fTxRequest } from '@fixtures';
 import { TxResult } from '@types';
-import { addHexPrefix, bigify, makeHistoryTx, makeQueueTx } from '@utils';
 
 import {
   addTransactionWorker,

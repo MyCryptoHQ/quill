@@ -3,7 +3,7 @@ import { decrypt, encrypt } from 'eciesjs';
 import type { Infer } from 'superstruct';
 import { is, object, optional, string, type, unknown } from 'superstruct';
 
-import { stripHexPrefix } from '@utils';
+import { stripHexPrefix } from '@common/utils';
 
 const REDUX_ACTION_STRUCT = type({
   type: string(),

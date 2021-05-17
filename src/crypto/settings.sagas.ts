@@ -8,7 +8,7 @@ import {
   rehydrateState,
   storeEncryptedSettings
 } from '@common/store';
-import { safeJSONParse } from '@utils';
+import { safeJSONParse } from '@common/utils';
 import { decrypt, encrypt } from '@utils/encryption';
 
 import { getSettingsKey } from './secrets';

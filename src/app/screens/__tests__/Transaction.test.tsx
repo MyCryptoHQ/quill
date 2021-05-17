@@ -7,10 +7,10 @@ import configureStore from 'redux-mock-store';
 import type { ApplicationState } from '@app/store';
 import { denyCurrentTransaction, sign } from '@common/store';
 import { translateRaw } from '@common/translate';
+import { makeHistoryTx, makeQueueTx, makeTx } from '@common/utils';
 import { fAccount, fAccounts, getTransactionRequest } from '@fixtures';
 import type { DeepPartial, IAccount, TSignTransaction } from '@types';
 import { TxResult } from '@types';
-import { makeHistoryTx, makeQueueTx, makeTx } from '@utils';
 
 import { Transaction } from '../Transaction';
 

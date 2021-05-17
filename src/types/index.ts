@@ -18,3 +18,4 @@ export * from './handshake';
 export * from './ipc';
 export * from './permission';
 export * from './info-banner';
+export * from './bigish';
