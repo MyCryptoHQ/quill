@@ -1,8 +1,9 @@
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import { LinkApp } from '@app/components';
-import { Trans } from '@translations';
+import { LinkApp } from '@components';
+
+import { Trans } from './Trans';
 
 describe('Trans', () => {
   it('replaces variables', () => {

@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
 
-import { default as TranslateMarkdown } from '@app/components/Core/TranslateMarkdown';
 import { translateRaw } from '@common/translate';
+import { TranslateMarkdown } from '@components';
 
 export type TranslatedText = ReactElement | string;
 
