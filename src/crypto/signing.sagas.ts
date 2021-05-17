@@ -4,7 +4,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { push } from 'connected-react-router';
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
-import { reply } from '@api/store/ws.slice';
+import { reply } from '@api/ws.slice';
 import {
   addToHistory,
   dequeue,
@@ -13,10 +13,10 @@ import {
   sign
 } from '@common/store';
 import { signFailed, signSuccess } from '@common/store/signing.slice';
+import { makeHistoryTx } from '@common/utils';
 import { ROUTE_PATHS } from '@routing';
 import type { SerializedPersistentAccount, SerializedWallet } from '@types';
 import { TxResult } from '@types';
-import { makeHistoryTx } from '@utils';
 
 import { signTransaction } from './crypto';
 

@@ -1,7 +1,7 @@
+import { makeQueueTx, makeTx } from '@common/utils';
 import { fRequestOrigin, fTxRequest } from '@fixtures';
 import type { TUuid } from '@types';
 import { TxResult } from '@types';
-import { makeQueueTx, makeTx } from '@utils';
 
 import slice, {
   addToHistory,

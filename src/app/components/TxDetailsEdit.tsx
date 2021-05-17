@@ -5,8 +5,8 @@ import type { FormState } from 'typed-react-form';
 
 import type { HumanReadableTx } from '@app/utils';
 import { translateRaw } from '@common/translate';
+import { bigify } from '@common/utils';
 import { getChain } from '@data';
-import { bigify } from '@utils';
 
 import { Box } from '.';
 import { FormInput } from './FormInput';

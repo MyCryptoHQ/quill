@@ -1,8 +1,8 @@
 import { createHashHistory } from 'history';
 
 import { logout } from '@common/store';
+import { makeQueueTx } from '@common/utils';
 import { fAccounts, fRequestOrigin, fTxRequest } from '@fixtures';
-import { makeQueueTx } from '@utils';
 
 import { createRootReducer } from './reducer';
 

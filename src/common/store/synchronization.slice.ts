@@ -11,10 +11,10 @@ import {
   decryptJson,
   isEncryptedAction,
   isReduxAction,
-  keys
+  keys,
+  safeJSONParse
 } from '@common/utils';
 import type { HandshakeKeyPair, ReduxIPC } from '@types';
-import { safeJSONParse } from '@utils';
 
 export enum Process {
   Renderer = 'Renderer',

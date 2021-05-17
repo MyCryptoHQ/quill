@@ -6,11 +6,11 @@ import { object, string } from 'yup';
 
 import { getGeneratedMnemonicWords } from '@common/store';
 import { translateRaw } from '@common/translate';
+import { getRandomNumbers } from '@common/utils/random';
 import type { IFlowComponentProps } from '@components';
 import { Box, Container, FormInput, Label, PanelBottom } from '@components';
 import { useSelector } from '@store';
 import { translate } from '@translations';
-import { getRandomNumbers } from '@utils/random';
 
 export const GenerateAccountVerify = ({ onNext, flowHeader }: IFlowComponentProps) => {
   const mnemonicWords = useSelector(getGeneratedMnemonicWords);
