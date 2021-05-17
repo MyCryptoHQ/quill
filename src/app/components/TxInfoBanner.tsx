@@ -1,9 +1,18 @@
+import type { ReactElement } from 'react';
+
 import { translateRaw } from '@common/translate';
+import type { BannerType } from '@types';
 import { InfoBannerType, TxResult } from '@types';
 
 import { Banner } from '.';
 
-const configs = {
+const configs: {
+  [key in TxResult | InfoBannerType]: {
+    type: BannerType;
+    label: string;
+    content?: string | ReactElement;
+  };
+} = {
   [TxResult.WAITING]: {
     type: 'action',
     label: translateRaw('TX_RESULT_WAITING_LABEL')
@@ -22,17 +31,23 @@ const configs = {
   },
   [InfoBannerType.NONCE_ADJUSTED]: {
     type: 'warning',
-    label: translateRaw('NONCE_CHANGED')
+    label: translateRaw('NONCE_CHANGED'),
+    content: translateRaw('NONCE_CHANGED_CONTENT')
   },
   [InfoBannerType.NONCE_OUT_OF_ORDER]: {
     type: 'warning',
-    label: translateRaw('NONCE_OUT_OF_ORDER')
+    label: translateRaw('NONCE_OUT_OF_ORDER'),
+    // @todo: Somehow pass link to this
+    content: translateRaw('NONCE_OUT_OF_ORDER_CONTENT')
   }
-} as const;
+};
 
-// @todo: Add accordion
 export const TxInfoBanner = ({ type }: { type: InfoBannerType | TxResult }) => {
-  const { type: bannerType, label } = configs[type];
+  const config = configs[type];
 
-  return <Banner type={bannerType} label={label} />;
+  return (
+    <Banner type={config.type} label={config.label}>
+      {config.content}
+    </Banner>
+  );
 };
