@@ -1,7 +1,6 @@
 import { Body, Box, Flex, Image } from '@mycrypto/ui';
 import type { PropsWithChildren } from 'react';
 import { useState } from 'react';
-import { useTheme } from 'styled-components';
 
 import error from '@assets/icons/alert-red.svg';
 import caret from '@assets/icons/caret.svg';
@@ -9,9 +8,9 @@ import success from '@assets/icons/circle-checkmark.svg';
 import warning from '@assets/icons/circle-warning.svg';
 import info from '@assets/icons/info.svg';
 import action from '@assets/icons/queue-waiting.svg';
-import type { theme } from '@theme';
+import type { BannerType } from '@types';
 
-type BannerType = keyof typeof theme.variants.banner;
+import { Badge } from './Badge';
 
 interface BannerProps {
   type: BannerType;
@@ -25,25 +24,8 @@ const icons: { [key in BannerType]: string } = {
   info,
   action,
   warning,
-  error
-};
-
-const Badge = ({ type, children }: PropsWithChildren<Pick<BannerProps, 'type'>>) => {
-  const theme = useTheme();
-
-  return (
-    <Box backgroundColor={theme.variants.banner[type].color} sx={{ borderRadius: 'banner' }}>
-      <Body
-        fontSize="12px"
-        fontWeight="bold"
-        color="white"
-        sx={{ textTransform: 'uppercase' }}
-        px="6px"
-      >
-        {children}
-      </Body>
-    </Box>
-  );
+  error,
+  clear: action
 };
 
 export const Banner = ({
@@ -62,6 +44,7 @@ export const Banner = ({
       <Flex
         variant="horizontal-start"
         p="2"
+        px={type === 'clear' && '0'}
         justifyContent="space-between"
         onClick={children && handleToggle}
         sx={{ cursor: children && 'pointer' }}

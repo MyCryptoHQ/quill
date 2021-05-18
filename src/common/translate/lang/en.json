@@ -164,9 +164,11 @@
     "NETWORK_PATH": "Network (Derivation path)",
     "REVIEW_SECURITY_DETAILS": "Review Security Details",
     "NONCE_CHANGED": "Transaction nonce has been changed",
+    "NONCE_CHANGED_CONTENT": "This transaction had the same nonce as a previously sent transaction. We've changed it for you, but you may edit it if you need to, using the pencil icon below.",
     "NONCE_CONFLICT_IN_QUEUE": "Nonce is used in another transaction",
-    "NONCE_CHANGED_HELP": "This transaction had the same nonce as a previously sent Transaction. We’ve changed it for you but you may edit it if you need to using the pencil icon above.",
+    "NONCE_CHANGED_HELP": "This transaction had the same nonce as a previously sent transaction. We’ve changed it for you, but you may edit it if you need to using the pencil icon above.",
     "NONCE_OUT_OF_ORDER": "Approving TX out of order affects nonce",
+    "NONCE_OUT_OF_ORDER_CONTENT": "Nonces have be pre-assigned by app.mycrypto.com. You may approve/deny the transactions out of order, but all transactions initiated after this one will be automatically denied.",
     "KEEP_THIS_SAFE": "Keep this safe. Do not share.",
     "YOUR_IDENTICON": "Your Identicon",
     "IDENTICON_DESCRIPTION": "This image is associated with your address. Always look for this icon when sending funds to this wallet.",
@@ -178,6 +180,7 @@
     "SAVE_SETTINGS": "Save Settings",
     "CANT_FIND_ADDRESS": "Can't find the address you're looking for?",
     "USE_FINDETH": "You may be able to use [FindETH]($link) with your Extended Key (below) to find your address.",
-    "SOMETHING_WENT_WRONG": "Something went wrong."
+    "SOMETHING_WENT_WRONG": "Something went wrong.",
+    "NEW": "New"
   }
 }

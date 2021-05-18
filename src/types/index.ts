@@ -19,3 +19,4 @@ export * from './ipc';
 export * from './permission';
 export * from './info-banner';
 export * from './bigish';
+export * from './banner';
