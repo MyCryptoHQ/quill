@@ -16,7 +16,6 @@ import {
   setGeneratedAccount
 } from '@common/store';
 import { DEFAULT_MNEMONIC_INDEX } from '@config';
-import { createWallet, derivePrivateKey, getAddress, getAddresses } from '@crypto/crypto';
 import {
   fAccount,
   fExtendedKey,
@@ -38,6 +37,7 @@ import slice, {
   getSecret,
   removeAccountWorker
 } from './accounts.slice';
+import { createWallet, derivePrivateKey, getAddress, getAddresses } from './crypto';
 import { deleteAccountSecrets, saveAccountSecrets } from './secrets';
 
 jest.mock('keytar');

@@ -8,7 +8,8 @@ import {
   storeEncryptedSettings
 } from '@common/store';
 import { getSettingsKey } from '@crypto/secrets';
-import { decryptSettingsWorker, encryptSettingsWorker } from '@crypto/settings.sagas';
+
+import { decryptSettingsWorker, encryptSettingsWorker } from './settings.sagas';
 
 jest.mock('keytar');
 jest.mock('crypto', () => ({
