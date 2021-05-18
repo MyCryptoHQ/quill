@@ -11,5 +11,6 @@ export const ROUTE_PATHS = {
   ACCOUNTS: '/accounts',
   FORGOT_PASSWORD: '/forgot-password',
   MENU: '/menu',
-  REQUEST_PERMISSION: '/request-permission'
+  REQUEST_PERMISSION: '/request-permission',
+  LOAD_UNSIGNED_TRANSACTION: '/load-unsigned-transaction'
 };
