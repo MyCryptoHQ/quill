@@ -60,7 +60,8 @@ describe('App', () => {
         transactions: { queue: [], history: [] },
         accounts: { accounts: [fAccount] },
         synchronization: { isHandshaken: { [Process.Main]: true } },
-        persistence: { rehydratedKeys: [] }
+        persistence: { rehydratedKeys: [] },
+        ui: { navigationBack: undefined }
       })
     );
     await waitFor(() =>
@@ -75,7 +76,8 @@ describe('App', () => {
     const { getByText } = getComponent(
       createMockStore({
         auth: { initialized: true, loggedIn: false, newUser: true },
-        synchronization: { isHandshaken: { [Process.Main]: true } }
+        synchronization: { isHandshaken: { [Process.Main]: true } },
+        ui: { navigationBack: undefined }
       })
     );
 
@@ -90,7 +92,8 @@ describe('App', () => {
         auth: { initialized: true, loggedIn: false, newUser: false },
         transactions: { queue: [], history: [] },
         accounts: { accounts: [fAccount] },
-        synchronization: { isHandshaken: { [Process.Main]: true } }
+        synchronization: { isHandshaken: { [Process.Main]: true } },
+        ui: { navigationBack: undefined }
       })
     );
 
@@ -104,7 +107,8 @@ describe('App', () => {
         transactions: { queue: [], history: [] },
         accounts: { accounts: [], _persistence: {} },
         synchronization: { isHandshaken: { [Process.Main]: true } },
-        persistence: { rehydratedKeys: [] }
+        persistence: { rehydratedKeys: [] },
+        ui: { navigationBack: undefined }
       })
     );
 
@@ -118,7 +122,8 @@ describe('App', () => {
         transactions: { queue: [], history: [] },
         accounts: { accounts: [] },
         synchronization: { isHandshaken: { [Process.Main]: true } },
-        persistence: { rehydratedKeys: [] }
+        persistence: { rehydratedKeys: [] },
+        ui: { navigationBack: undefined }
       })
     );
 
