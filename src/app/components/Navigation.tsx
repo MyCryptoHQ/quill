@@ -1,3 +1,5 @@
+import { getLocation } from 'connected-react-router';
+import type { PropsWithChildren } from 'react';
 import SVG from 'react-inlinesvg';
 import type { BoxProps } from 'rebass';
 
@@ -28,7 +30,6 @@ const NavIcon = ({
   >
     <Box
       variant="horizontal-start"
-      ml="30px"
       sx={{
         '-webkit-app-region': 'no-drag'
       }}
@@ -38,6 +39,17 @@ const NavIcon = ({
     </Box>
   </LinkApp>
 );
+
+const NavItem = ({ href, children }: PropsWithChildren<{ href?: string }>) => {
+  const location = useSelector(getLocation);
+  const isActive = href && location.pathname === href;
+
+  return (
+    <Box p="12px" backgroundColor={isActive && 'navigation.active'} sx={{ borderRadius: 'badge' }}>
+      {children}
+    </Box>
+  );
+};
 
 export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   const dispatch = useDispatch();
@@ -50,7 +62,7 @@ export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   return (
     <Box
       variant="horizontal-start"
-      px="30px"
+      px="2"
       sx={{
         borderTopLeftRadius: '5px',
         borderTopRightRadius: '5px',
@@ -62,20 +74,28 @@ export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
       height="65px"
       overflow="hidden"
     >
-      <Box variant="horizontal-start">
-        <LinkApp href={ROUTE_PATHS.HOME}>
-          <Logo />
-        </LinkApp>
-      </Box>
+      <NavItem href={ROUTE_PATHS.HOME}>
+        <Box variant="horizontal-start">
+          <LinkApp href={ROUTE_PATHS.HOME}>
+            <Logo />
+          </LinkApp>
+        </Box>
+      </NavItem>
       {isLoggedIn && (
         <Box display="flex" ml="auto" variant="horizontal-start">
-          <NavIcon icon={lock} href="#" onClick={handleLogout} data-testid="lock-button" />
-          <NavIcon icon={profile} href={ROUTE_PATHS.ACCOUNTS} />
-          {backUrl ? (
-            <NavIcon icon={back} href={backUrl} />
-          ) : (
-            <NavIcon icon={add} href={ROUTE_PATHS.MENU} />
-          )}
+          <NavItem>
+            <NavIcon icon={lock} href="#" onClick={handleLogout} data-testid="lock-button" />
+          </NavItem>
+          <NavItem href={ROUTE_PATHS.ACCOUNTS}>
+            <NavIcon icon={profile} href={ROUTE_PATHS.ACCOUNTS} />
+          </NavItem>
+          <NavItem href={ROUTE_PATHS.MENU}>
+            {backUrl ? (
+              <NavIcon icon={back} href={backUrl} />
+            ) : (
+              <NavIcon icon={add} href={ROUTE_PATHS.MENU} />
+            )}
+          </NavItem>
         </Box>
       )}
     </Box>

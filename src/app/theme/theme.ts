@@ -160,6 +160,10 @@ const overrideTheme = {
     border: {
       light: '#e3edff',
       dark: '#007a99'
+    },
+
+    navigation: {
+      active: '#39506a'
     }
   },
   radii: { input: '2px', banner: '3px', badge: '4px' },

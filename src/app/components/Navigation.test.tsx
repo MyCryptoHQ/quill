@@ -1,5 +1,7 @@
 import type { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
 import { render } from '@testing-library/react';
+import { connectRouter } from 'connected-react-router';
+import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
@@ -9,6 +11,7 @@ import type { ApplicationState } from '@store';
 
 import { Navigation } from './Navigation';
 
+const history = createMemoryHistory();
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
 const getComponent = (store: EnhancedStore<DeepPartial<ApplicationState>> = createMockStore()) => {
@@ -27,7 +30,8 @@ describe('Navigation', () => {
       auth: {
         loggedIn: true
       },
-      ui: {}
+      ui: {},
+      router: connectRouter(history)(undefined, undefined)
     });
 
     const { getByTestId } = getComponent(mockStore);
@@ -45,7 +49,8 @@ describe('Navigation', () => {
       },
       ui: {
         navigationBack: 'foo'
-      }
+      },
+      router: connectRouter(history)(undefined, undefined)
     });
 
     const { getAllByTestId } = getComponent(mockStore);
