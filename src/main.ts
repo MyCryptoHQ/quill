@@ -5,7 +5,7 @@ import { URL } from 'url';
 
 import { HEIGHT, WIDTH } from '@config';
 import { createCryptoProcess } from '@crypto/process';
-import { showWindowOnTop } from '@window';
+import { showWindowOnTop } from '@utils';
 
 import { createStore } from './api';
 import { createKeyPair } from './common/store';

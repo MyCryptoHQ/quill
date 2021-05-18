@@ -2,7 +2,7 @@ import type { BrowserWindow } from 'electron';
 import { all, call, takeEvery } from 'redux-saga/effects';
 
 import { requestPermission } from '@common/store';
-import { showWindowOnTop } from '@window';
+import { showWindowOnTop } from '@utils';
 
 import { requestSignTransaction } from './ws.slice';
 

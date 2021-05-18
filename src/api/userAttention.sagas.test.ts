@@ -3,7 +3,7 @@ import { expectSaga } from 'redux-saga-test-plan';
 
 import { requestPermission } from '@common/store';
 import { fPermission, fRequestOrigin, fTxRequest } from '@fixtures';
-import { showWindowOnTop } from '@window';
+import { showWindowOnTop } from '@utils';
 
 import { userAttentionSaga } from './userAttention.sagas';
 import { requestSignTransaction } from './ws.slice';
