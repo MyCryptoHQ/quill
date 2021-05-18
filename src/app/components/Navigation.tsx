@@ -4,11 +4,12 @@ import type { BoxProps } from 'rebass';
 import { Box } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import add from '@assets/icons/add.svg';
+import back from '@assets/icons/back.svg';
 import lock from '@assets/icons/lock.svg';
 import profile from '@assets/icons/profile.svg';
-import { logout } from '@common/store';
+import { getNavigationBack, logout } from '@common/store';
 import { Logo } from '@components/Logo';
-import { useDispatch } from '@store';
+import { useDispatch, useSelector } from '@store';
 
 import LinkApp from './Core/LinkApp';
 
@@ -18,10 +19,16 @@ const NavIcon = ({
   onClick,
   ...rest
 }: { icon: string; href: string; onClick?(): void } & BoxProps) => (
-  <LinkApp href={href} variant="barren" style={{ color: 'white' }} onClick={onClick}>
+  <LinkApp
+    data-testid="nav-icon"
+    href={href}
+    variant="barren"
+    style={{ color: 'white' }}
+    onClick={onClick}
+  >
     <Box
       variant="horizontal-start"
-      mx="10px"
+      ml="30px"
       sx={{
         '-webkit-app-region': 'no-drag'
       }}
@@ -34,6 +41,7 @@ const NavIcon = ({
 
 export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   const dispatch = useDispatch();
+  const backUrl = useSelector(getNavigationBack);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -42,6 +50,7 @@ export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   return (
     <Box
       variant="horizontal-start"
+      px="30px"
       sx={{
         borderTopLeftRadius: '5px',
         borderTopRightRadius: '5px',
@@ -55,14 +64,18 @@ export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
     >
       <Box variant="horizontal-start">
         <LinkApp href={ROUTE_PATHS.HOME}>
-          <Logo marginLeft="18px" />
+          <Logo />
         </LinkApp>
       </Box>
       {isLoggedIn && (
         <Box display="flex" ml="auto" variant="horizontal-start">
           <NavIcon icon={lock} href="#" onClick={handleLogout} data-testid="lock-button" />
           <NavIcon icon={profile} href={ROUTE_PATHS.ACCOUNTS} />
-          <NavIcon icon={add} href={ROUTE_PATHS.MENU} />
+          {backUrl ? (
+            <NavIcon icon={back} href={backUrl} />
+          ) : (
+            <NavIcon icon={add} href={ROUTE_PATHS.MENU} />
+          )}
         </Box>
       )}
     </Box>

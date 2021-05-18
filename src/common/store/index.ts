@@ -47,3 +47,4 @@ export * from './settings.slice';
 export * from './storage';
 export * from './permissions.slice';
 export * from './flow.slice';
+export * from './ui.slice';
