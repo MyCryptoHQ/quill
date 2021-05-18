@@ -15,7 +15,7 @@ import {
   getPersisted,
   Process
 } from '@common/store';
-import { Box, Flex, Navigation } from '@components';
+import { Box, ErrorBoundary, Flex, Navigation } from '@components';
 import { GlobalStyle, theme } from '@theme';
 
 import { AppRoutes } from './AppRoutes';
@@ -41,11 +41,13 @@ const App = () => {
       <Box height="100vh" overflow="hidden" sx={{ display: 'flex', flexDirection: 'column' }}>
         <Navigation isLoggedIn={loggedIn && isPersisted} />
         <Flex flexDirection="column" flex="1" overflowY="auto">
-          {(loggedIn && isPersisted && initialized) || (!loggedIn && initialized) ? (
-            <AppRoutes />
-          ) : (
-            <Loading />
-          )}
+          <ErrorBoundary>
+            {(loggedIn && isPersisted && initialized) || (!loggedIn && initialized) ? (
+              <AppRoutes />
+            ) : (
+              <Loading />
+            )}
+          </ErrorBoundary>
         </Flex>
       </Box>
     </ThemeProvider>
