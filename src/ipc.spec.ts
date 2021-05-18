@@ -1,9 +1,9 @@
-import type { createCryptoProcess } from '@crypto/process';
 import { createIpc } from '@ipc';
 import type { BrowserWindow } from 'electron';
 
 import { REDUX_CHANNEL } from '@bridge';
 import { Process } from '@common/store';
+import type { createCryptoProcess } from '@crypto/process';
 
 jest.unmock('@bridge');
 

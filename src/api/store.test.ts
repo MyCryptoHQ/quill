@@ -11,7 +11,7 @@ describe('createStore', () => {
       on: jest.fn()
     };
 
-    expect(() => createStore({ [Process.Renderer]: ipc })).not.toThrow();
+    expect(() => createStore(undefined, { [Process.Renderer]: ipc })).not.toThrow();
     expect(ipc.on).toHaveBeenCalled();
   });
 });

@@ -1,4 +1,3 @@
-import { createWallet, derivePrivateKey, getAddress, getAddresses } from '@crypto/crypto';
 import { DEFAULT_ETH } from '@mycrypto/wallets';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
@@ -38,6 +37,7 @@ import slice, {
   getSecret,
   removeAccountWorker
 } from './accounts.slice';
+import { createWallet, derivePrivateKey, getAddress, getAddresses } from './crypto';
 import { deleteAccountSecrets, saveAccountSecrets } from './secrets';
 
 jest.mock('keytar');
