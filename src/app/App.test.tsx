@@ -1,5 +1,7 @@
 import type { EnhancedStore } from '@reduxjs/toolkit';
 import { render, waitFor } from '@testing-library/react';
+import { connectRouter } from 'connected-react-router';
+import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
@@ -36,6 +38,7 @@ jest.mock('./store', () => ({
   }
 }));
 
+const history = createMemoryHistory();
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
 function getComponent(store: EnhancedStore<DeepPartial<ApplicationState>> = createStore()) {
@@ -61,7 +64,8 @@ describe('App', () => {
         accounts: { accounts: [fAccount] },
         synchronization: { isHandshaken: { [Process.Main]: true } },
         persistence: { rehydratedKeys: [] },
-        ui: { navigationBack: undefined }
+        ui: { navigationBack: undefined },
+        router: connectRouter(history)(undefined, undefined)
       })
     );
     await waitFor(() =>
@@ -77,7 +81,8 @@ describe('App', () => {
       createMockStore({
         auth: { initialized: true, loggedIn: false, newUser: true },
         synchronization: { isHandshaken: { [Process.Main]: true } },
-        ui: { navigationBack: undefined }
+        ui: { navigationBack: undefined },
+        router: connectRouter(history)(undefined, undefined)
       })
     );
 
@@ -93,7 +98,8 @@ describe('App', () => {
         transactions: { queue: [], history: [] },
         accounts: { accounts: [fAccount] },
         synchronization: { isHandshaken: { [Process.Main]: true } },
-        ui: { navigationBack: undefined }
+        ui: { navigationBack: undefined },
+        router: connectRouter(history)(undefined, undefined)
       })
     );
 
@@ -108,7 +114,8 @@ describe('App', () => {
         accounts: { accounts: [], _persistence: {} },
         synchronization: { isHandshaken: { [Process.Main]: true } },
         persistence: { rehydratedKeys: [] },
-        ui: { navigationBack: undefined }
+        ui: { navigationBack: undefined },
+        router: connectRouter(history)(undefined, undefined)
       })
     );
 
@@ -123,7 +130,8 @@ describe('App', () => {
         accounts: { accounts: [] },
         synchronization: { isHandshaken: { [Process.Main]: true } },
         persistence: { rehydratedKeys: [] },
-        ui: { navigationBack: undefined }
+        ui: { navigationBack: undefined },
+        router: connectRouter(history)(undefined, undefined)
       })
     );
 
