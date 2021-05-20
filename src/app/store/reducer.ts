@@ -11,6 +11,7 @@ import signingSlice from '@common/store/signing.slice';
 import persistenceSlice from '@common/store/storage/persistence.slice';
 import synchronizationSlice from '@common/store/synchronization.slice';
 import transactionsSlice from '@common/store/transactions.slice';
+import uiSlice from '@common/store/ui.slice';
 import { wrapRootReducer } from '@common/utils';
 
 export const createRootReducer = (history: History) => {
@@ -32,7 +33,8 @@ export const createRootReducer = (history: History) => {
       { key: permissionsSlice.name, whitelistedActions: [], whitelistedKeys: [] },
       permissionsSlice.reducer
     ),
-    [flowSlice.name]: flowSlice.reducer
+    [flowSlice.name]: flowSlice.reducer,
+    [uiSlice.name]: uiSlice.reducer
   });
 
   return wrapRootReducer(reducer);

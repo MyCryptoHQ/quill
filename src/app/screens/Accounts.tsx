@@ -1,10 +1,10 @@
 import { Blockie, Body, Heading } from '@mycrypto/ui';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useDispatch } from '@app/store';
 import deleteIcon from '@assets/icons/circle-delete.svg';
-import { getAccounts, removeAccount, updateAccount } from '@common/store';
+import { getAccounts, removeAccount, setNavigationBack, updateAccount } from '@common/store';
 import { translateRaw } from '@common/translate';
 import {
   Box,
@@ -16,6 +16,7 @@ import {
   Image,
   Link
 } from '@components';
+import { ROUTE_PATHS } from '@routing';
 import type { IAccount } from '@types';
 
 const Account = ({ account }: { account: IAccount }) => {
@@ -67,7 +68,14 @@ const Account = ({ account }: { account: IAccount }) => {
 };
 
 export const Accounts = () => {
+  const dispatch = useDispatch();
   const accounts = useSelector(getAccounts);
+
+  useEffect(() => {
+    dispatch(setNavigationBack(ROUTE_PATHS.HOME));
+
+    return () => dispatch(setNavigationBack(undefined));
+  }, []);
 
   return (
     <Container>
