@@ -1,9 +1,9 @@
-import { Body } from '@mycrypto/ui';
+import { Body, Button, Heading } from '@mycrypto/ui';
 import { push } from 'connected-react-router';
 import { useEffect } from 'react';
 
-import { Box, Container, Image, TxHistory, TxQueue } from '@app/components';
-import info from '@assets/icons/circle-info.svg';
+import { Box, Container, Image, LinkApp, PanelBottom, TxHistory, TxQueue } from '@app/components';
+import wallet from '@assets/icons/home.svg';
 import { getAccountsLength, getPersisted, getQueue, getTxHistory } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { ROUTE_PATHS } from '@routing';
@@ -22,24 +22,38 @@ export const Home = () => {
     }
   }, [isPersisted]);
 
+  if (queue.length === 0 && txHistory.length === 0) {
+    return (
+      <>
+        <Container pt="5">
+          <Box sx={{ textAlign: 'center' }}>
+            <Image alt="Wallet" src={wallet} width="100px" height="100px" />
+          </Box>
+          <Box maxWidth="80%" mx="auto" sx={{ textAlign: 'center' }}>
+            <Heading fontSize="24px" lineHeight="150%" mt="3" mb="2">
+              {translateRaw('HOME_EMPTY_HEADER')}
+            </Heading>
+            <Body variant="muted">{translateRaw('HOME_EMPTY_SUBHEADING')}</Body>
+          </Box>
+        </Container>
+        <PanelBottom variant="clear">
+          <LinkApp href={ROUTE_PATHS.ADD_ACCOUNT}>
+            <Button variant="inverted" mb="3">
+              {translateRaw('ADD_ANOTHER_ACCOUNT')}
+            </Button>
+          </LinkApp>
+          <LinkApp href={ROUTE_PATHS.LOAD_UNSIGNED_TRANSACTION}>
+            <Button variant="inverted">{translateRaw('PASTE_UNSIGNED_TRANSACTION')}</Button>
+          </LinkApp>
+        </PanelBottom>
+      </>
+    );
+  }
+
   return (
     <Container>
-      {queue.length === 0 && txHistory.length === 0 ? (
-        <Box variant="horizontal-center" height="100%">
-          <Box variant="vertical-start" sx={{ textAlign: 'center' }}>
-            <Image src={info} height="52px" width="52px" />
-            <Body color="BLUE_DARK_SLATE" fontWeight="bold">
-              {translateRaw('HOME_EMPTY_HEADER')}
-            </Body>
-            <Body color="BLUE_GREY">{translateRaw('HOME_EMPTY_SUBHEADING')}</Body>
-          </Box>
-        </Box>
-      ) : (
-        <>
-          <TxQueue queue={queue} />
-          <TxHistory history={txHistory} />
-        </>
-      )}
+      <TxQueue queue={queue} />
+      <TxHistory history={txHistory} />
     </Container>
   );
 };
