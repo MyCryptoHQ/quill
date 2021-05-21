@@ -1,5 +1,4 @@
 import type { TransactionRequest as EthersTransactionRequest } from '@ethersproject/abstract-provider';
-import type { Transaction } from '@ethersproject/transactions';
 import type { Overwrite } from 'utility-types';
 
 import type { TAddress } from './address';
@@ -20,12 +19,13 @@ export type TransactionRequest = Overwrite<
 export interface TxHistoryEntry {
   uuid: TUuid;
   tx: TransactionRequest;
-  signedTx?: Transaction;
+  signedTx?: string;
   timestamp: number;
   result: TxResult;
   origin?: string;
   adjustedNonce?: boolean;
   userEdited?: boolean;
+  offline?: boolean;
 }
 
 export interface TxQueueEntry {
@@ -38,4 +38,5 @@ export interface TxQueueEntry {
   origin?: string;
   adjustedNonce?: boolean;
   userEdited?: boolean;
+  offline?: boolean;
 }

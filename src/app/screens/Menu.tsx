@@ -5,6 +5,7 @@ import { Box, Container, Image, LinkApp } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import addAccount from '@assets/icons/add-account.svg';
 import generateAccount from '@assets/icons/generate-account.svg';
+import receipt from '@assets/icons/receipt.svg';
 import { setNavigationBack } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { useDispatch } from '@store';
@@ -15,6 +16,11 @@ const MENU_ITEMS = [
     icon: generateAccount,
     label: translateRaw('MENU_GENERATE_ACCOUNT'),
     route: ROUTE_PATHS.GENERATE_ACCOUNT
+  },
+  {
+    icon: receipt,
+    label: translateRaw('LOAD_UNSIGNED_TRANSACTION'),
+    route: ROUTE_PATHS.LOAD_TRANSACTION
   }
 ];
 

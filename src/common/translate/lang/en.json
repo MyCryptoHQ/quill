@@ -182,6 +182,18 @@
     "USE_FINDETH": "You may be able to use [FindETH]($link) with your Extended Key (below) to find your address.",
     "SOMETHING_WENT_WRONG": "Something went wrong.",
     "NEW": "New",
-    "PASTE_UNSIGNED_TRANSACTION": "Paste Unsigned Transaction"
+    "PASTE_UNSIGNED_TRANSACTION": "Paste Unsigned Transaction",
+    "LOAD_UNSIGNED_TRANSACTION": "Load Unsigned Transaction",
+    "ACCOUNT_EMPTY": "Please select an acocunt",
+    "TRANSACTION_EMPTY": "Please enter a transaction",
+    "NOT_RAW_TRANSACTION": "The transaction is not a valid raw transaction",
+    "MANUALLY_LOAD_TRANSACTION_HEADER": "Manually Load Transaction",
+    "MANUALLY_LOAD_TRANSACTION_DESCRIPTION": "This page allows you to paste an Unsigned Raw Transaction in hexadecimal format (i.e., characters 0-9, a-f) and sign it using your private key.",
+    "RAW_TRANSACTION_DETAILS": "Raw Transaction Details",
+    "ACCOUNT": "Account",
+    "LOAD_TRANSACTION": "Load Transaction",
+    "SELECT_ACCOUNT": "Select an account...",
+    "RAW_TRANSACTION_PLACEHOLDER": "0xeb01...",
+    "SIGNED_TRANSACTION": "Signed Transaction"
   }
 }

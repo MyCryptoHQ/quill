@@ -29,7 +29,18 @@ export const SignTransactionStruct = tuple([
   })
 ]);
 
-export type TSignTransaction = Infer<typeof SignTransactionStruct>;
+export type TSignTransaction = [
+  {
+    to?: string;
+    from?: string;
+    nonce: string;
+    gasLimit: string;
+    gasPrice: string;
+    data: string;
+    value: string;
+    chainId: number;
+  }
+];
 
 export const JSONRPCRequestStruct = object({
   id: union([string(), number()]),

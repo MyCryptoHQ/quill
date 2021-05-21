@@ -8,7 +8,7 @@ import type { ApplicationState } from '@app/store';
 import { denyCurrentTransaction, sign } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { makeHistoryTx, makeQueueTx, makeTx } from '@common/utils';
-import { fAccount, fAccounts, getTransactionRequest } from '@fixtures';
+import { fAccount, fAccounts, fSignedTx, getTransactionRequest } from '@fixtures';
 import type { DeepPartial, IAccount, TSignTransaction } from '@types';
 import { TxResult } from '@types';
 
@@ -143,5 +143,21 @@ describe('Transaction', () => {
     });
     const { getByText } = getComponent(store);
     expect(getByText(translateRaw('NONCE_OUT_OF_ORDER')).textContent).toBeDefined();
+  });
+
+  it('renders the signature for offline transactions', async () => {
+    const queueTx = makeQueueTx(getTransactionRequest(fAccount.address), true);
+    const history = makeHistoryTx(queueTx, TxResult.APPROVED, fSignedTx);
+
+    const store = createMockStore({
+      accounts: { accounts: [fAccount] },
+      transactions: {
+        queue: [],
+        currentTransaction: history
+      }
+    });
+
+    const { findByText } = getComponent(store);
+    expect(findByText(fSignedTx)).toBeDefined();
   });
 });

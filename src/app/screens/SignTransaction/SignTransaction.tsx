@@ -1,21 +1,25 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import { useDispatch } from '@app/store';
 import { getAccounts, getCurrentTransaction, sign } from '@common/store';
+import { ROUTE_PATHS } from '@routing';
 import type { SerializedWallet } from '@types';
 import { TxResult, WalletType } from '@types';
 
 import { SignTransactionKeystore } from './SignTransactionKeystore';
 import { SignTransactionMnemonic } from './SignTransactionMnemonic';
 import { SignTransactionPrivateKey } from './SignTransactionPrivateKey';
+import { SignTransactionUnknown } from './SignTransactionUnknown';
 
 export const SignTransaction = () => {
   const dispatch = useDispatch();
   const accounts = useSelector(getAccounts);
   const { tx, result } = useSelector(getCurrentTransaction);
-  const currentAccount = tx && accounts.find((a) => a.address === tx.from);
   const [error, setError] = useState('');
+
+  const currentAccount = tx && accounts.find((a) => a.address === tx.from);
   const isWaiting = result === TxResult.WAITING;
 
   const handleAccept = async (wallet: SerializedWallet) => {
@@ -27,25 +31,30 @@ export const SignTransaction = () => {
     );
   };
 
-  const components = {
-    [WalletType.PRIVATE_KEY]: SignTransactionPrivateKey,
-    [WalletType.MNEMONIC]: SignTransactionMnemonic,
-    [WalletType.KEYSTORE]: SignTransactionKeystore
-  };
+  if (!isWaiting) {
+    return <Redirect to={ROUTE_PATHS.HOME} />;
+  }
 
-  const SignComponent = currentAccount && components[currentAccount.type];
+  if (currentAccount) {
+    const components = {
+      [WalletType.PRIVATE_KEY]: SignTransactionPrivateKey,
+      [WalletType.MNEMONIC]: SignTransactionMnemonic,
+      [WalletType.KEYSTORE]: SignTransactionKeystore
+    };
 
-  return (
-    <>
-      {isWaiting && currentAccount && (
+    const SignComponent = currentAccount && components[currentAccount.type];
+    return (
+      <>
         <SignComponent
           onAccept={handleAccept}
           tx={tx}
           currentAccount={currentAccount}
-          setError={setError}
+          onError={setError}
         />
-      )}
-      {error}
-    </>
-  );
+        {error}
+      </>
+    );
+  }
+
+  return <SignTransactionUnknown />;
 };

@@ -49,6 +49,29 @@ describe('signWorker()', () => {
       .silentRun();
   });
 
+  it('does not call reply for offline transactions', async () => {
+    const queueTx = makeQueueTx({ origin: fRequestOrigin, request: fTxRequest }, true);
+    await expectSaga(
+      signWorker,
+      sign({
+        wallet,
+        tx
+      })
+    )
+      .withState({ transactions: { queue: [queueTx], currentTransaction: queueTx } })
+      .provide([[call.fn(signTransaction), fSignedTx]])
+      .call(signTransaction, wallet, tx)
+      .not.put(
+        reply({
+          id: queueTx.id,
+          result: fSignedTx
+        })
+      )
+      .put(signSuccess())
+      .put(dequeue(queueTx))
+      .silentRun();
+  });
+
   it('handles signing errors', () => {
     const queueTx = makeQueueTx({ origin: fRequestOrigin, request: fTxRequest });
     return expectSaga(

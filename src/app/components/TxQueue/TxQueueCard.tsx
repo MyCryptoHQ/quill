@@ -13,12 +13,15 @@ import type { TxQueueEntry } from '@types';
 export const TxQueueCard = ({ item, first }: { item: TxQueueEntry; first: boolean }) => {
   const dispatch = useDispatch();
   const accounts = useSelector(getAccounts);
+
   const { tx, origin } = item;
-  const currentAccount = accounts.find((a) => a.address === tx.from);
-  const recipientAccount = accounts.find((a) => a.address === tx.to);
-  const handleSelect = () => dispatch(selectTransaction(item));
+
   const chain = getChain(tx.chainId);
   const symbol = chain?.nativeCurrency?.symbol ?? '?';
+  const currentAccount = accounts.find((a) => a.address === tx.from);
+  const recipientAccount = accounts.find((a) => a.address === tx.to);
+
+  const handleSelect = () => dispatch(selectTransaction(item));
 
   return (
     <Box pt={first ? '0' : '16px'} pb="16px">

@@ -1,5 +1,4 @@
 import type { TransactionRequest } from '@ethersproject/abstract-provider';
-import { parse } from '@ethersproject/transactions';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { push } from 'connected-react-router';
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
@@ -15,7 +14,7 @@ import {
 import { signFailed, signSuccess } from '@common/store/signing.slice';
 import { makeHistoryTx } from '@common/utils';
 import { ROUTE_PATHS } from '@routing';
-import type { SerializedPersistentAccount, SerializedWallet } from '@types';
+import type { SerializedPersistentAccount, SerializedWallet, TxQueueEntry } from '@types';
 import { TxResult } from '@types';
 
 import { signTransaction } from './crypto';
@@ -31,21 +30,22 @@ export function* signWorker({
   tx: TransactionRequest;
 }>) {
   try {
-    const transaction = yield select(getCurrentTransaction);
+    const transaction: TxQueueEntry = yield select(getCurrentTransaction);
     const signedTransaction: string = yield call(signTransaction, wallet, tx);
 
-    yield put(
-      reply({
-        id: transaction.id,
-        result: signedTransaction
-      })
-    );
+    if (!transaction.offline) {
+      yield put(
+        reply({
+          id: transaction.id,
+          result: signedTransaction
+        })
+      );
+    }
 
     yield put(signSuccess());
     yield put(dequeue(transaction));
 
-    const parsedTx = parse(signedTransaction);
-    const txEntry = makeHistoryTx(transaction, TxResult.APPROVED, parsedTx);
+    const txEntry = makeHistoryTx(transaction, TxResult.APPROVED, signedTransaction);
 
     yield put(addToHistory(txEntry));
     yield put(selectTransaction(txEntry));
