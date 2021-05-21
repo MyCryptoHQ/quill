@@ -20,7 +20,7 @@ const MENU_ITEMS = [
   {
     icon: receipt,
     label: translateRaw('LOAD_UNSIGNED_TRANSACTION'),
-    route: ROUTE_PATHS.LOAD_TRANSACTION
+    route: ROUTE_PATHS.LOAD_UNSIGNED_TRANSACTION
   }
 ];
 

@@ -1,4 +1,4 @@
-import { parse, serialize } from '@ethersproject/transactions';
+import { parse } from '@ethersproject/transactions';
 import type { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { push } from 'connected-react-router';
@@ -6,10 +6,10 @@ import { Provider } from 'react-redux';
 import selectEvent from 'react-select-event';
 import configureStore from 'redux-mock-store';
 
-import { enqueue } from '@common/store';
+import { enqueue, setNavigationBack } from '@common/store';
 import { translateRaw } from '@common/translate';
 import { makeQueueTx, toTransactionRequest } from '@common/utils';
-import { fAccounts, fRawTransaction, fSignedTx } from '@fixtures';
+import { fAccounts, fRawTransaction } from '@fixtures';
 import { ROUTE_PATHS } from '@routing';
 import { LoadTransaction } from '@screens/LoadTransaction';
 import type { ApplicationState } from '@store';
@@ -30,11 +30,6 @@ const getComponent = (store: EnhancedStore<DeepPartial<ApplicationState>>) => {
 };
 
 describe('LoadTransaction', () => {
-  it('f', () => {
-    const { r, s, v, type, accessList, from, hash, ...rest } = parse(fSignedTx);
-    console.log(serialize(rest));
-  });
-
   it('validates the form inputs', () => {
     const mockStore = createMockStore({
       accounts: {
@@ -87,5 +82,21 @@ describe('LoadTransaction', () => {
         push(ROUTE_PATHS.HOME)
       ])
     );
+  });
+
+  it('sets navigationBack', () => {
+    const mockStore = createMockStore({
+      accounts: {
+        accounts: []
+      }
+    });
+
+    const { unmount } = getComponent(mockStore);
+    unmount();
+
+    expect(mockStore.getActions()).toStrictEqual([
+      setNavigationBack(ROUTE_PATHS.HOME),
+      setNavigationBack(undefined)
+    ]);
   });
 });
