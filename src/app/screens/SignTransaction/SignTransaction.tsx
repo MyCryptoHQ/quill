@@ -1,6 +1,6 @@
+import { push } from 'connected-react-router';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 
 import { useDispatch } from '@app/store';
 import { getAccounts, getCurrentTransaction, sign } from '@common/store';
@@ -11,7 +11,6 @@ import { TxResult, WalletType } from '@types';
 import { SignTransactionKeystore } from './SignTransactionKeystore';
 import { SignTransactionMnemonic } from './SignTransactionMnemonic';
 import { SignTransactionPrivateKey } from './SignTransactionPrivateKey';
-import { SignTransactionUnknown } from './SignTransactionUnknown';
 
 export const SignTransaction = () => {
   const dispatch = useDispatch();
@@ -31,8 +30,9 @@ export const SignTransaction = () => {
     );
   };
 
-  if (!isWaiting) {
-    return <Redirect to={ROUTE_PATHS.HOME} />;
+  if (!isWaiting || !currentAccount) {
+    dispatch(push(ROUTE_PATHS.HOME));
+    return null;
   }
 
   if (currentAccount) {
@@ -55,6 +55,4 @@ export const SignTransaction = () => {
       </>
     );
   }
-
-  return <SignTransactionUnknown />;
 };
