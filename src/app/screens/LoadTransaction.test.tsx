@@ -42,7 +42,7 @@ describe('LoadTransaction', () => {
     const button = getByText(translateRaw('LOAD_TRANSACTION'));
     fireEvent.click(button);
 
-    expect(mockStore.getActions()).toHaveLength(0);
+    expect(mockStore.getActions()).toHaveLength(1);
     expect(findByText(translateRaw('ACCOUNT_EMPTY'))).toBeDefined();
     expect(findByText(translateRaw('NOT_RAW_TRANSACTION'))).toBeDefined();
   });
@@ -76,12 +76,8 @@ describe('LoadTransaction', () => {
       true
     );
 
-    await waitFor(() =>
-      expect(mockStore.getActions()).toStrictEqual([
-        enqueue(queueTransaction),
-        push(ROUTE_PATHS.HOME)
-      ])
-    );
+    await waitFor(() => expect(mockStore.getActions()).toContainEqual(enqueue(queueTransaction)));
+    expect(mockStore.getActions()).toContainEqual(push(ROUTE_PATHS.HOME));
   });
 
   it('sets navigationBack', () => {
