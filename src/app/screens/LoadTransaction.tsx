@@ -8,7 +8,7 @@ import { object, string } from 'yup';
 
 import { enqueue, getAccounts, setNavigationBack } from '@common/store';
 import { translateRaw } from '@common/translate';
-import { bigify, makeQueueTx, toTransactionRequest } from '@common/utils';
+import { isRawTransaction, makeQueueTx, toTransactionRequest } from '@common/utils';
 import { Box, Container, FormError, FormTextArea, Label, PanelBottom } from '@components';
 import { AccountSelector } from '@components/AccountSelector';
 import { ROUTE_PATHS } from '@routing';
@@ -21,14 +21,7 @@ const SCHEMA = object({
     .typeError(translateRaw('ACCOUNT_EMPTY')),
   transaction: string()
     .required(translateRaw('TRANSACTION_EMPTY'))
-    .test('valid-raw-transaction', translateRaw('NOT_RAW_TRANSACTION'), (value) => {
-      try {
-        const transaction = parse(value);
-        return bigify(transaction.r ?? 0).isZero() && bigify(transaction.s ?? 0).isZero();
-      } catch {
-        return false;
-      }
-    })
+    .test('valid-raw-transaction', translateRaw('NOT_RAW_TRANSACTION'), isRawTransaction)
 });
 
 export const LoadTransaction = () => {
@@ -68,9 +61,7 @@ export const LoadTransaction = () => {
     dispatch(push(ROUTE_PATHS.HOME));
   };
 
-  const handleSelectAccount = (account: IAccount) => {
-    form.setValue('account', account.uuid);
-  };
+  const handleSelectAccount = (account: IAccount) => form.setValue('account', account.uuid);
 
   useEffect(() => {
     dispatch(setNavigationBack(ROUTE_PATHS.HOME));

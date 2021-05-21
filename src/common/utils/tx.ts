@@ -1,6 +1,7 @@
 import type { Transaction } from '@ethersproject/transactions';
+import { parse } from '@ethersproject/transactions';
 
-import { addHexPrefix, generateUUID } from '@common/utils';
+import { addHexPrefix, bigify, generateUUID } from '@common/utils';
 import { JsonRPCMethod } from '@config';
 import type {
   JsonRPCRequest,
@@ -68,4 +69,13 @@ export const toTransactionRequest = ({
       ]
     }
   };
+};
+
+export const isRawTransaction = (transaction: string): boolean => {
+  try {
+    const { r, s } = parse(transaction);
+    return bigify(r ?? 0).isZero() && bigify(s ?? 0).isZero();
+  } catch {
+    return false;
+  }
 };
