@@ -91,7 +91,7 @@ describe('LoadTransaction', () => {
     unmount();
 
     expect(mockStore.getActions()).toStrictEqual([
-      setNavigationBack(ROUTE_PATHS.HOME),
+      setNavigationBack(ROUTE_PATHS.MENU),
       setNavigationBack(undefined)
     ]);
   });

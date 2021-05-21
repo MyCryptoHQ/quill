@@ -64,7 +64,7 @@ export const LoadTransaction = () => {
   const handleSelectAccount = (account: IAccount) => form.setValue('account', account.uuid);
 
   useEffect(() => {
-    dispatch(setNavigationBack(ROUTE_PATHS.HOME));
+    dispatch(setNavigationBack(ROUTE_PATHS.MENU));
 
     return () => dispatch(setNavigationBack(undefined));
   }, []);
