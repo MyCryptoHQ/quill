@@ -8,7 +8,7 @@ export { WalletType } from './wallet';
 export * from './mnemonic';
 export * from './privatekey';
 export { SignTransactionProps } from './transactionProps';
-export * from './txhistory';
+export * from './transactions';
 export * from './chain';
 export * from './dpath';
 export * from './passwords';

@@ -6,6 +6,7 @@ import {
   ForgotPassword,
   GenerateAccount,
   Home,
+  LoadTransaction,
   Locked,
   Menu,
   RequestPermission,
@@ -73,6 +74,12 @@ export const ROUTES: Record<string, Route> = {
   REQUEST_PERMISSION: {
     path: ROUTE_PATHS.REQUEST_PERMISSION,
     component: RequestPermission,
+    exact: true,
+    requireLogin: true
+  },
+  LOAD_UNSIGNED_TRANSACTION: {
+    path: ROUTE_PATHS.LOAD_UNSIGNED_TRANSACTION,
+    component: LoadTransaction,
     exact: true,
     requireLogin: true
   }

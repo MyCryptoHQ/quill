@@ -1,5 +1,6 @@
 import type { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render, waitFor } from '@testing-library/react';
+import { push } from 'connected-react-router';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
@@ -18,10 +19,11 @@ import {
   fTxRequest,
   getTransactionRequest
 } from '@fixtures';
+import { ROUTE_PATHS } from '@routing';
 import type { DeepPartial, IAccount } from '@types';
 import { WalletType } from '@types';
 
-import { SignTransaction } from './SignTransaction';
+import { SignTransaction } from './index';
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
@@ -61,6 +63,22 @@ describe('SignTransaction', () => {
       component: { getByText }
     } = getComponentWithStore();
     expect(getByText(translateRaw('SIGN_TX')).textContent).toBeDefined();
+  });
+
+  it('navigates to home on invalid state', () => {
+    const currentTransaction = makeQueueTx(getTransactionRequest(fAccount.address));
+    const store = createMockStore({
+      accounts: {
+        accounts: []
+      },
+      transactions: {
+        currentTransaction
+      }
+    });
+
+    getComponent(store);
+
+    expect(store.getActions()).toContainEqual(push(ROUTE_PATHS.HOME));
   });
 
   it('can accept tx with private key', async () => {

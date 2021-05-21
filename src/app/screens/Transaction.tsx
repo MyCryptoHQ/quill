@@ -35,7 +35,7 @@ export const Transaction = () => {
   const info = useSelector(getTransactionInfoBannerType);
 
   const handleAccept = () => {
-    if (currentAccount.persistent) {
+    if (currentAccount?.persistent) {
       dispatch(
         sign({
           wallet: {

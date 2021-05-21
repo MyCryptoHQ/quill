@@ -1,8 +1,10 @@
+import { push } from 'connected-react-router';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useDispatch } from '@app/store';
 import { getAccounts, getCurrentTransaction, sign } from '@common/store';
+import { ROUTE_PATHS } from '@routing';
 import type { SerializedWallet } from '@types';
 import { TxResult, WalletType } from '@types';
 
@@ -14,8 +16,9 @@ export const SignTransaction = () => {
   const dispatch = useDispatch();
   const accounts = useSelector(getAccounts);
   const { tx, result } = useSelector(getCurrentTransaction);
-  const currentAccount = tx && accounts.find((a) => a.address === tx.from);
   const [error, setError] = useState('');
+
+  const currentAccount = tx && accounts.find((a) => a.address === tx.from);
   const isWaiting = result === TxResult.WAITING;
 
   const handleAccept = async (wallet: SerializedWallet) => {
@@ -27,25 +30,29 @@ export const SignTransaction = () => {
     );
   };
 
-  const components = {
-    [WalletType.PRIVATE_KEY]: SignTransactionPrivateKey,
-    [WalletType.MNEMONIC]: SignTransactionMnemonic,
-    [WalletType.KEYSTORE]: SignTransactionKeystore
-  };
+  if (!isWaiting || !currentAccount) {
+    dispatch(push(ROUTE_PATHS.HOME));
+    return null;
+  }
 
-  const SignComponent = currentAccount && components[currentAccount.type];
+  if (currentAccount) {
+    const components = {
+      [WalletType.PRIVATE_KEY]: SignTransactionPrivateKey,
+      [WalletType.MNEMONIC]: SignTransactionMnemonic,
+      [WalletType.KEYSTORE]: SignTransactionKeystore
+    };
 
-  return (
-    <>
-      {isWaiting && currentAccount && (
+    const SignComponent = currentAccount && components[currentAccount.type];
+    return (
+      <>
         <SignComponent
           onAccept={handleAccept}
           tx={tx}
           currentAccount={currentAccount}
-          setError={setError}
+          onError={setError}
         />
-      )}
-      {error}
-    </>
-  );
+        {error}
+      </>
+    );
+  }
 };

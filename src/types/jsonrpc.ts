@@ -29,7 +29,11 @@ export const SignTransactionStruct = tuple([
   })
 ]);
 
-export type TSignTransaction = Infer<typeof SignTransactionStruct>;
+// @todo Replace with simple `Infer` once superstruct bug is fixed
+// https://github.com/ianstormtaylor/superstruct/issues/804
+export type TSignTransaction = [
+  Omit<Infer<typeof SignTransactionStruct>[0], 'from' | 'to'> & { from?: string; to?: string }
+];
 
 export const JSONRPCRequestStruct = object({
   id: union([string(), number()]),

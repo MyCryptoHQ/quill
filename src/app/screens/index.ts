@@ -14,3 +14,4 @@ export { SetupAccount } from './SetupAccount';
 export { RequestPermission } from './RequestPermission';
 export { Loading } from './Loading';
 export { EditTransaction } from './EditTransaction';
+export { LoadTransaction } from './LoadTransaction';

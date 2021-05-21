@@ -1,3 +1,4 @@
+import type { ImageProps } from '@mycrypto/ui';
 import { Image } from '@mycrypto/ui';
 import qruri from 'qruri';
 import { useEffect, useState } from 'react';
@@ -7,7 +8,7 @@ interface QRProps {
   size?: number | string;
 }
 
-export const QR = ({ data, size }: QRProps) => {
+export const QR = ({ data, size, ...props }: QRProps & Omit<ImageProps, 'src'>) => {
   const [image, setImage] = useState<string>();
 
   useEffect(() => {
@@ -20,7 +21,7 @@ export const QR = ({ data, size }: QRProps) => {
   }, [data]);
 
   if (image) {
-    return <Image src={image} alt="QR" size={size} />;
+    return <Image src={image} alt="QR" size={size} {...props} />;
   }
 
   return null;
