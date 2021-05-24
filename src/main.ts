@@ -1,8 +1,10 @@
 import { app, BrowserWindow, Menu, shell, Tray } from 'electron';
+import contextMenu from 'electron-context-menu';
 import positioner from 'electron-traywindow-positioner';
 import path from 'path';
 import { URL } from 'url';
 
+import { translateRaw } from '@common/translate';
 import { HEIGHT, WIDTH } from '@config';
 import { createCryptoProcess } from '@crypto/process';
 import { showWindowOnTop } from '@utils';
@@ -24,6 +26,23 @@ let tray: Tray;
 let window: BrowserWindow;
 
 const isDev = process.env.NODE_ENV === 'development';
+
+const createContextMenu = (): void => {
+  contextMenu({
+    menu: (actions) => [
+      actions.cut({}),
+      actions.copy({}),
+      actions.paste({}),
+      ...(isDev ? [actions.inspect()] : [])
+    ],
+    labels: {
+      cut: translateRaw('CONTEXT_CUT'),
+      copy: translateRaw('CONTEXT_COPY'),
+      paste: translateRaw('CONTEXT_PASTE'),
+      inspect: translateRaw('CONTEXT_INSPECT')
+    }
+  });
+};
 
 const createWindow = (): void => {
   // Create the browser window.
@@ -105,6 +124,7 @@ const createTray = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
+  createContextMenu();
   createWindow();
   createTray();
   showWindow();

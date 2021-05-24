@@ -194,6 +194,10 @@
     "LOAD_TRANSACTION": "Load Transaction",
     "SELECT_ACCOUNT": "Select an account...",
     "RAW_TRANSACTION_PLACEHOLDER": "0xeb01...",
-    "SIGNED_TRANSACTION": "Signed Transaction"
+    "SIGNED_TRANSACTION": "Signed Transaction",
+    "CONTEXT_CUT": "Cut",
+    "CONTEXT_COPY": "Copy",
+    "CONTEXT_PASTE": "Paste",
+    "CONTEXT_INSPECT": "Inspect Element"
   }
 }
