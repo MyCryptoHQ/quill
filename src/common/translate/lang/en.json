@@ -184,7 +184,7 @@
     "NEW": "New",
     "PASTE_UNSIGNED_TRANSACTION": "Paste Unsigned Transaction",
     "LOAD_UNSIGNED_TRANSACTION": "Load Unsigned Transaction",
-    "ACCOUNT_EMPTY": "Please select an acocunt",
+    "ACCOUNT_EMPTY": "Please select an account",
     "TRANSACTION_EMPTY": "Please enter a transaction",
     "NOT_RAW_TRANSACTION": "The transaction is not a valid raw transaction",
     "MANUALLY_LOAD_TRANSACTION_HEADER": "Manually Load Transaction",
