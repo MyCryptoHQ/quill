@@ -4,12 +4,21 @@ import type { TAddress } from './address';
 import type { TUuid } from './uuid';
 import type { WalletType } from './wallet';
 
-export interface IAccount {
+export interface IAccountBase {
   uuid: TUuid;
-  type: WalletType;
   label?: string;
   address: TAddress;
   persistent: boolean;
-  dPath?: DerivationPath;
-  index?: number;
 }
+
+export type IAccountNonDeterministic = IAccountBase & {
+  type: WalletType.PRIVATE_KEY | WalletType.KEYSTORE;
+};
+
+export type IAccountDeterministic = IAccountBase & {
+  type: WalletType.MNEMONIC;
+  path?: DerivationPath;
+  index?: number;
+};
+
+export type IAccount = IAccountNonDeterministic | IAccountDeterministic;

@@ -17,7 +17,7 @@ export const fAccounts: IAccount[] = [
     address: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f' as TAddress,
     type: WalletType.MNEMONIC,
     persistent: false,
-    dPath: DEFAULT_ETH,
+    path: DEFAULT_ETH,
     index: 0
   },
   {
@@ -25,7 +25,7 @@ export const fAccounts: IAccount[] = [
     address: '0xF0850b736BB0DE14AE95718569A5032C944e86C8' as TAddress,
     type: WalletType.MNEMONIC,
     persistent: true,
-    dPath: DEFAULT_ETH,
+    path: DEFAULT_ETH,
     index: 1
   },
   {

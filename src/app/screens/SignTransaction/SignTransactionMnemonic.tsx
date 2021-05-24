@@ -5,12 +5,12 @@ import { Account, ScrollableContainer, SignBottom } from '@app/components';
 import { useSelector } from '@app/store';
 import { getSigningError } from '@common/store';
 import { translateRaw } from '@common/translate';
-import type { SignTransactionProps } from '@types';
+import type { IAccountDeterministic, SignTransactionProps } from '@types';
 import { WalletType } from '@types';
 
 import { MnemonicForm, useMnemonicForm } from '../forms/MnemonicForm';
 
-export const SignTransactionMnemonic = (props: SignTransactionProps) => {
+export const SignTransactionMnemonic = (props: SignTransactionProps<IAccountDeterministic>) => {
   const form = useMnemonicForm();
 
   return <SignTransactionMnemonicForm form={form} {...props} />;
@@ -20,7 +20,7 @@ const SignTransactionMnemonicForm = ({
   form,
   onAccept,
   currentAccount
-}: Pick<SignTransactionProps, 'onAccept' | 'currentAccount'> & {
+}: Pick<SignTransactionProps<IAccountDeterministic>, 'onAccept' | 'currentAccount'> & {
   form: ReturnType<typeof useMnemonicForm>;
 }) => {
   const error: string = useSelector(getSigningError);
@@ -36,7 +36,7 @@ const SignTransactionMnemonicForm = ({
       walletType: WalletType.MNEMONIC,
       mnemonicPhrase: form.values.mnemonic,
       passphrase: form.values.password,
-      path: currentAccount.dPath!,
+      path: currentAccount.path!,
       index: currentAccount.index
     });
   };
