@@ -1,11 +1,12 @@
 import { push } from 'connected-react-router';
+import type { ComponentType } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useDispatch } from '@app/store';
 import { getAccounts, getCurrentTransaction, sign } from '@common/store';
 import { ROUTE_PATHS } from '@routing';
-import type { SerializedWallet } from '@types';
+import type { IAccount, SerializedWallet, SignTransactionProps } from '@types';
 import { TxResult, WalletType } from '@types';
 
 import { SignTransactionKeystore } from './SignTransactionKeystore';
@@ -36,26 +37,15 @@ export const SignTransaction = () => {
   }
 
   if (currentAccount) {
-    if (currentAccount.type === WalletType.MNEMONIC) {
-      return (
-        <>
-          <SignTransactionMnemonic
-            onAccept={handleAccept}
-            tx={tx}
-            currentAccount={currentAccount}
-            onError={setError}
-          />
-          {error}
-        </>
-      );
-    }
-
     const components = {
       [WalletType.PRIVATE_KEY]: SignTransactionPrivateKey,
-      [WalletType.KEYSTORE]: SignTransactionKeystore
+      [WalletType.KEYSTORE]: SignTransactionKeystore,
+      [WalletType.MNEMONIC]: SignTransactionMnemonic
     };
 
-    const SignComponent = currentAccount && components[currentAccount.type];
+    const SignComponent =
+      currentAccount &&
+      (components[currentAccount.type] as ComponentType<SignTransactionProps<IAccount>>);
     return (
       <>
         <SignComponent
