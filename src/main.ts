@@ -1,4 +1,5 @@
 import { app, BrowserWindow, Menu, shell, Tray } from 'electron';
+import contextMenu from 'electron-context-menu';
 import positioner from 'electron-traywindow-positioner';
 import path from 'path';
 import { URL } from 'url';
@@ -24,6 +25,10 @@ let tray: Tray;
 let window: BrowserWindow;
 
 const isDev = process.env.NODE_ENV === 'development';
+
+const createContextMenu = (): void => {
+  contextMenu();
+};
 
 const createWindow = (): void => {
   // Create the browser window.
@@ -105,6 +110,7 @@ const createTray = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
+  createContextMenu();
   createWindow();
   createTray();
   showWindow();
