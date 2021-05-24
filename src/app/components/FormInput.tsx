@@ -24,7 +24,7 @@ export const FormInput = <
   return (
     <RebassInput
       as={ReactFormInput}
-      form={form as any}
+      form={(form as unknown) as string}
       name={name}
       variant={error ? 'error' : 'input'}
       {...rest}

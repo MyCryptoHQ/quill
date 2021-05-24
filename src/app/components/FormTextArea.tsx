@@ -24,7 +24,7 @@ export const FormTextArea = <
   return (
     <RebassTextArea
       as={ReactFormTextArea}
-      form={form as any}
+      form={(form as unknown) as string}
       name={name}
       variant={error ? 'error' : 'textarea'}
       {...rest}

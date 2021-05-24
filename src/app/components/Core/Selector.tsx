@@ -99,7 +99,7 @@ const getValueContainer = <T extends OptionTypeBase>(
 
 const getOption = <T extends OptionTypeBase>(
   { optionDivider = false, ...props }: OptionProps<T> & { optionDivider: boolean },
-  Component: ComponentType<OptionProps<any>>
+  Component: ComponentType<OptionProps<T>>
 ) => (
   <OptionWrapper optionDivider={optionDivider}>
     <Component {...props} />
@@ -199,7 +199,10 @@ const Selector: <T extends OptionTypeBase>(
           );
         },
         Option: <T extends OptionTypeBase>(oProps: OptionProps<T>) =>
-          getOption({ ...oProps, optionDivider }, optionComponent),
+          getOption(
+            { ...oProps, optionDivider },
+            (optionComponent as unknown) as ComponentType<typeof oProps>
+          ),
         ValueContainer: (oProps: OptionProps<unknown>) => getValueContainer(oProps, valueComponent),
         IndicatorSeparator: () => null,
         ...components
