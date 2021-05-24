@@ -1,7 +1,7 @@
 import { eventChannel } from 'redux-saga';
-import { all, call, delay, put, race, take } from 'redux-saga/effects';
+import { all, call, delay, put, race, select, take } from 'redux-saga/effects';
 
-import { logout } from '@common/store';
+import { getLoggedIn, logout } from '@common/store';
 import { AUTO_LOCK_TIMEOUT } from '@config';
 
 export function* autoLockSaga() {
@@ -11,7 +11,6 @@ export function* autoLockSaga() {
 export function* autoLockWorker() {
   const channel = yield call(subscribe);
   while (true) {
-    yield take(channel);
     yield race({
       task: call(delayedLock),
       cancel: take(channel)
@@ -21,7 +20,10 @@ export function* autoLockWorker() {
 
 export function* delayedLock() {
   yield delay(AUTO_LOCK_TIMEOUT);
-  yield put(logout());
+  const isLoggedIn: boolean = yield select(getLoggedIn);
+  if (isLoggedIn) {
+    yield put(logout());
+  }
 }
 
 const subscribe = () => {
