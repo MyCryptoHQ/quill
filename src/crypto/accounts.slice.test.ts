@@ -297,8 +297,8 @@ describe('addSavedAccountsWorker', () => {
           }
         }
       })
-      .put(removeAccount({ ...fAccount, dPath: undefined, index: undefined, persistent: true }))
-      .put(addAccount({ ...fAccount, dPath: undefined, index: undefined, persistent: false }))
+      .put(removeAccount({ ...fAccount, persistent: true }))
+      .put(addAccount({ ...fAccount, persistent: false }))
       .put(nextFlow())
       .silentRun();
 
@@ -315,8 +315,8 @@ describe('addSavedAccountsWorker', () => {
           }
         }
       })
-      .put(removeAccount({ ...fAccount, dPath: undefined, index: undefined, persistent: true }))
-      .put(addAccount({ ...fAccount, dPath: undefined, index: undefined, persistent: true }))
+      .put(removeAccount({ ...fAccount, persistent: true }))
+      .put(addAccount({ ...fAccount, persistent: true }))
       .call(saveAccountSecrets, account)
       .put(nextFlow())
       .silentRun();

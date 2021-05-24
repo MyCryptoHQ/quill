@@ -20,7 +20,7 @@ import {
   getTransactionRequest
 } from '@fixtures';
 import { ROUTE_PATHS } from '@routing';
-import type { DeepPartial, IAccount } from '@types';
+import type { DeepPartial, IAccount, IAccountDeterministic } from '@types';
 import { WalletType } from '@types';
 
 import { SignTransaction } from './index';
@@ -187,10 +187,11 @@ describe('SignTransaction', () => {
   });
 
   it('can accept tx with mnemonic', async () => {
+    const account = fAccounts[1] as IAccountDeterministic;
     const {
       component: { getByText, getByLabelText, getByTestId },
       mockStore
-    } = getComponentWithStore(fAccounts[1]);
+    } = getComponentWithStore(account);
     const acceptButton = getByText(translateRaw('SIGN_TX'));
     expect(acceptButton.textContent).toBeDefined();
 
@@ -203,7 +204,7 @@ describe('SignTransaction', () => {
 
     fireEvent.click(acceptButton);
 
-    const transactionRequest = getTransactionRequest(fAccounts[1].address);
+    const transactionRequest = getTransactionRequest(account.address);
     await waitFor(() =>
       expect(mockStore.getActions()).toContainEqual(
         sign({
@@ -211,8 +212,8 @@ describe('SignTransaction', () => {
             walletType: WalletType.MNEMONIC,
             mnemonicPhrase: fMnemonicPhrase,
             passphrase: 'password',
-            path: fAccounts[1].dPath,
-            index: fAccounts[1].index
+            path: account.path,
+            index: account.index
           },
           tx: makeTx(transactionRequest.request)
         })

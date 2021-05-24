@@ -36,9 +36,22 @@ export const SignTransaction = () => {
   }
 
   if (currentAccount) {
+    if (currentAccount.type === WalletType.MNEMONIC) {
+      return (
+        <>
+          <SignTransactionMnemonic
+            onAccept={handleAccept}
+            tx={tx}
+            currentAccount={currentAccount}
+            onError={setError}
+          />
+          {error}
+        </>
+      );
+    }
+
     const components = {
       [WalletType.PRIVATE_KEY]: SignTransactionPrivateKey,
-      [WalletType.MNEMONIC]: SignTransactionMnemonic,
       [WalletType.KEYSTORE]: SignTransactionKeystore
     };
 

@@ -1,6 +1,6 @@
 export * from './jsonrpc';
 export * from './crypto';
-export { IAccount } from './account';
+export * from './account';
 export { TAddress } from './address';
 export { TUuid } from './uuid';
 export { Route } from './route';

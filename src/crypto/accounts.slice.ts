@@ -23,7 +23,6 @@ import { DEFAULT_MNEMONIC_INDEX } from '@config';
 import type {
   GetAddressesResult,
   IAccount,
-  SerializedMnemonicPhrase,
   SerializedWallet,
   SerializedWalletWithAddress,
   TAddress
@@ -153,20 +152,36 @@ export function* fetchAddressesWorker({ payload }: ReturnType<typeof fetchAddres
   }
 }
 
+const getAccountFromSerializedWallet = (
+  wallet: SerializedWalletWithAddress,
+  persistent: boolean
+): IAccount => {
+  const uuid = generateDeterministicAddressUUID(wallet.address);
+
+  if (wallet.walletType === WalletType.MNEMONIC) {
+    return {
+      type: wallet.walletType,
+      address: wallet.address,
+      uuid,
+      persistent,
+      path: wallet.path,
+      index: wallet.index
+    };
+  }
+
+  return {
+    type: wallet.walletType,
+    address: wallet.address,
+    uuid,
+    persistent
+  };
+};
+
 export function* addSavedAccountsWorker({ payload: persistent }: PayloadAction<boolean>) {
   const accounts: SerializedWalletWithAddress[] = yield select(getAccountsToAdd);
 
   for (const wallet of accounts) {
-    const uuid = generateDeterministicAddressUUID(wallet.address);
-
-    const account = {
-      type: wallet.walletType,
-      address: wallet.address,
-      uuid,
-      dPath: (wallet as SerializedMnemonicPhrase).path,
-      index: (wallet as SerializedMnemonicPhrase).index,
-      persistent
-    };
+    const account = getAccountFromSerializedWallet(wallet, persistent);
 
     // Remove existing account if present, set persistent to true to wipe saved secret if present too
     yield put(removeAccount({ ...account, persistent: true }));
