@@ -4,6 +4,7 @@ import positioner from 'electron-traywindow-positioner';
 import path from 'path';
 import { URL } from 'url';
 
+import { translateRaw } from '@common/translate';
 import { HEIGHT, WIDTH } from '@config';
 import { createCryptoProcess } from '@crypto/process';
 import { showWindowOnTop } from '@utils';
@@ -27,7 +28,20 @@ let window: BrowserWindow;
 const isDev = process.env.NODE_ENV === 'development';
 
 const createContextMenu = (): void => {
-  contextMenu();
+  contextMenu({
+    menu: (actions) => [
+      actions.cut({}),
+      actions.copy({}),
+      actions.paste({}),
+      ...(isDev ? [actions.inspect()] : [])
+    ],
+    labels: {
+      cut: translateRaw('CONTEXT_CUT'),
+      copy: translateRaw('CONTEXT_COPY'),
+      paste: translateRaw('CONTEXT_PASTE'),
+      inspect: translateRaw('CONTEXT_INSPECT')
+    }
+  });
 };
 
 const createWindow = (): void => {
