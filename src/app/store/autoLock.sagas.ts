@@ -26,7 +26,7 @@ export function* delayedLock() {
   }
 }
 
-const subscribe = () => {
+export const subscribe = () => {
   return eventChannel((emitter) => {
     const events = ['mousemove', 'keydown'];
 

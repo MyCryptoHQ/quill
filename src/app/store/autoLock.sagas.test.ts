@@ -1,10 +1,10 @@
-import delayP from '@redux-saga/delay-p';
-import { expectSaga } from 'redux-saga-test-plan';
-import { call } from 'redux-saga-test-plan/matchers';
+import { testSaga } from 'redux-saga-test-plan';
+import { call, take } from 'redux-saga/effects';
 
-import { logout } from '@common/store';
+import { getLoggedIn, logout } from '@common/store';
+import { AUTO_LOCK_TIMEOUT } from '@config';
 
-import { autoLockSaga } from './autoLock.sagas';
+import { autoLockWorker, delayedLock, subscribe } from './autoLock.sagas';
 
 // Fake inputs
 global.window.addEventListener = jest.fn().mockImplementation((e, l) => {
@@ -12,44 +12,38 @@ global.window.addEventListener = jest.fn().mockImplementation((e, l) => {
 });
 
 describe('autoLockSaga', () => {
-  it('puts logout after timeout', async () => {
-    await expectSaga(autoLockSaga)
-      .withState({
-        auth: {
-          loggedIn: true
-        }
-      })
-      .provide([[call.fn(delayP), null]])
+  it('starts race between delayedLock and input', async () => {
+    const channel = subscribe();
+    testSaga(autoLockWorker)
+      .next()
+      .call(subscribe)
+      .next(channel)
+      .race({ task: call(delayedLock), cancel: take(channel) })
+      .finish()
+      .isDone();
+
+    expect(global.window.addEventListener).toHaveBeenCalled();
+  });
+
+  it('delayedLock logs out if not cancelled', async () => {
+    testSaga(delayedLock)
+      .next()
+      .delay(AUTO_LOCK_TIMEOUT)
+      .next()
+      .select(getLoggedIn)
+      .next(true)
       .put(logout())
-      .silentRun();
-
-    expect(global.window.addEventListener).toHaveBeenCalled();
+      .next()
+      .isDone();
   });
 
-  it('doesnt put logout if logged out', async () => {
-    await expectSaga(autoLockSaga)
-      .withState({
-        auth: {
-          loggedIn: false
-        }
-      })
-      .provide([[call.fn(delayP), null]])
-      .not.put(logout())
-      .silentRun();
-
-    expect(global.window.addEventListener).toHaveBeenCalled();
-  });
-
-  it('doesnt put logout if no timeout', async () => {
-    await expectSaga(autoLockSaga)
-      .withState({
-        auth: {
-          loggedIn: true
-        }
-      })
-      .not.put(logout())
-      .silentRun();
-
-    expect(global.window.addEventListener).toHaveBeenCalled();
+  it('delayedLock doesnt log out if already logged out', async () => {
+    testSaga(delayedLock)
+      .next()
+      .delay(AUTO_LOCK_TIMEOUT)
+      .next()
+      .select(getLoggedIn)
+      .next(false)
+      .isDone();
   });
 });
