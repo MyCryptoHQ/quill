@@ -6,10 +6,7 @@ import { AUTO_LOCK_TIMEOUT } from '@config';
 
 import { autoLockWorker, delayedLock, subscribe } from './autoLock.sagas';
 
-// Fake inputs
-global.window.addEventListener = jest.fn().mockImplementation((e, l) => {
-  setTimeout(() => l(e), 100);
-});
+global.window.addEventListener = jest.fn();
 
 describe('autoLockSaga', () => {
   it('starts race between delayedLock and input', async () => {
