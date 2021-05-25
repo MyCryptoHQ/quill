@@ -6,10 +6,9 @@ import { AUTO_LOCK_TIMEOUT } from '@config';
 
 import { autoLockWorker, delayedLock, subscribe } from './autoLock.sagas';
 
-global.window.addEventListener = jest.fn();
-
 describe('autoLockSaga', () => {
   it('starts race between delayedLock and input', async () => {
+    jest.spyOn(window, 'addEventListener');
     const channel = subscribe();
     testSaga(autoLockWorker)
       .next()
@@ -19,10 +18,12 @@ describe('autoLockSaga', () => {
       .finish()
       .isDone();
 
-    expect(global.window.addEventListener).toHaveBeenCalled();
+    expect(window.addEventListener).toHaveBeenCalled();
   });
+});
 
-  it('delayedLock logs out if not cancelled', async () => {
+describe('delayedLock', () => {
+  it('logs out if not cancelled', async () => {
     testSaga(delayedLock)
       .next()
       .delay(AUTO_LOCK_TIMEOUT)
@@ -34,7 +35,7 @@ describe('autoLockSaga', () => {
       .isDone();
   });
 
-  it('delayedLock doesnt log out if already logged out', async () => {
+  it('doesnt log out if already logged out', async () => {
     testSaga(delayedLock)
       .next()
       .delay(AUTO_LOCK_TIMEOUT)
@@ -42,5 +43,16 @@ describe('autoLockSaga', () => {
       .select(getLoggedIn)
       .next(false)
       .isDone();
+  });
+});
+
+describe('subscribe', () => {
+  jest.spyOn(window, 'addEventListener');
+  jest.spyOn(window, 'removeEventListener');
+  it('creates an event channel and tears it down', () => {
+    const channel = subscribe();
+    expect(window.addEventListener).toHaveBeenCalled();
+    channel.close();
+    expect(window.removeEventListener).toHaveBeenCalled();
   });
 });
