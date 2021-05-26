@@ -41,10 +41,10 @@ export function* nonceConflictWorker({ payload }: PayloadAction<TxQueueEntry | T
       continue;
     }
 
-    const { nonce, from } = item.tx;
+    const { nonce, from, chainId } = item.tx;
 
-    const accountNonce: Bigish = yield select(getAccountNonce(from));
-    const nonceConflict: boolean = yield select(hasNonceConflict(from, nonce));
+    const accountNonce: Bigish = yield select(getAccountNonce(from, chainId));
+    const nonceConflict: boolean = yield select(hasNonceConflict(from, chainId, nonce));
     const nonceTooLow: boolean = bigify(nonce).lte(accountNonce);
     const changeNonce = nonceConflict || nonceTooLow;
     if (!changeNonce) {
