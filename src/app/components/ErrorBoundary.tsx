@@ -2,9 +2,11 @@ import { Heading } from '@mycrypto/ui';
 import type { ErrorInfo, ReactNode } from 'react';
 import { Component } from 'react';
 
+import error from '@assets/icons/circle-error.svg';
 import { translateRaw } from '@common/translate';
 
 import { Container } from './Container';
+import { Logo } from './Logo';
 
 interface Props {
   children: ReactNode;
@@ -31,7 +33,8 @@ export class ErrorBoundary extends Component<
     if (this.state.errorInfo) {
       return (
         <Container>
-          <Heading as="h2" fontSize="1.5rem">
+          <Logo width="100px" height="100px" icon={error} fillIcon={false} mx="auto" />
+          <Heading as="h2" fontSize="1.5rem" textAlign="center">
             {translateRaw('SOMETHING_WENT_WRONG')}
           </Heading>
           <details style={{ whiteSpace: 'pre-wrap' }}>

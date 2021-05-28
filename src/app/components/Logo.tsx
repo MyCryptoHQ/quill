@@ -6,9 +6,10 @@ import { Box, Flex, Image } from '@components';
 
 interface Props {
   icon?: string;
+  fillIcon?: boolean;
 }
 
-export const InnerIcon = ({ icon }: { icon: string }) => (
+export const InnerIcon = ({ icon, fillIcon }: { icon: string; fillIcon: boolean }) => (
   <Flex
     width="48px"
     height="48px"
@@ -25,9 +26,11 @@ export const InnerIcon = ({ icon }: { icon: string }) => (
       as={SVG}
       width="20px"
       height="20px"
-      sx={{
-        fill: 'BLUE_BRIGHT'
-      }}
+      sx={
+        fillIcon && {
+          fill: 'BLUE_BRIGHT'
+        }
+      }
       src={icon}
     />
   </Flex>
@@ -37,6 +40,7 @@ export const Logo = ({
   width = '28px',
   height = '28px',
   icon,
+  fillIcon = true,
   ...rest
 }: Props & Omit<ImageProps, 'src'>) => (
   <Box
@@ -50,6 +54,6 @@ export const Logo = ({
     }}
   >
     <Image width={width} height={height} src={logo} />
-    {icon && <InnerIcon icon={icon} />}
+    {icon && <InnerIcon icon={icon} fillIcon={fillIcon} />}
   </Box>
 );
