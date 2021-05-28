@@ -73,10 +73,10 @@ export const getApprovedTransactions = createSelector(getTxHistory, (history) =>
   history.filter((h) => h.result === TxResult.APPROVED)
 );
 
-export const getAccountNonce = (account: TAddress) =>
+export const getAccountNonce = (account: TAddress, chainId: number) =>
   createSelector(getApprovedTransactions, (transactions) =>
     transactions
-      .filter((h) => h.tx.from === account)
+      .filter((h) => h.tx.from === account && h.tx.chainId === chainId)
       .map((tx) => bigify(tx.tx.nonce))
       .reduce((prev, current) => (prev.gt(current) ? prev : current), bigify(0))
   );
@@ -86,18 +86,23 @@ export const getNoncesInQueue = createSelector(
   getCurrentTransaction,
   (transactions, currentTx) =>
     transactions.filter(
-      (h) => h.tx.from === currentTx.tx.from && bigify(h.tx.nonce).eq(bigify(currentTx.tx.nonce))
+      (h) =>
+        h.tx.from === currentTx.tx.from &&
+        h.tx.chainId === currentTx.tx.chainId &&
+        bigify(h.tx.nonce).eq(bigify(currentTx.tx.nonce))
     ).length
 );
 
 export const hasNonceConflictInQueue = createSelector(getNoncesInQueue, (nonces) => nonces > 1);
 
-export const hasNonceConflict = (account: TAddress, nonce: BigNumberish) =>
+export const hasNonceConflict = (account: TAddress, chainId: number, nonce: BigNumberish) =>
   createSelector(
     getApprovedTransactions,
     (transactions) =>
-      transactions.find((h) => h.tx.from === account && bigify(h.tx.nonce).eq(bigify(nonce))) !==
-      undefined
+      transactions.find(
+        (h) =>
+          h.tx.from === account && h.tx.chainId === chainId && bigify(h.tx.nonce).eq(bigify(nonce))
+      ) !== undefined
   );
 
 export const hasNonceOutOfOrder = createSelector(
@@ -105,7 +110,10 @@ export const hasNonceOutOfOrder = createSelector(
   getCurrentTransaction,
   (transactions, currentTx) =>
     transactions.find(
-      (h) => h.tx.from === currentTx.tx.from && bigify(h.tx.nonce).lt(bigify(currentTx.tx.nonce))
+      (h) =>
+        h.tx.from === currentTx.tx.from &&
+        h.tx.chainId === currentTx.tx.chainId &&
+        bigify(h.tx.nonce).lt(bigify(currentTx.tx.nonce))
     ) !== undefined
 );
 
