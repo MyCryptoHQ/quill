@@ -1,6 +1,6 @@
 {
-  "name": "@mycrypto/signer",
-  "productName": "Signer",
+  "name": "signer",
+  "productName": "signer",
   "version": "1.0.0",
   "description": "A tool to sign transactions with Mnemonic Phrases, Private Keys and Keystore files",
   "main": ".webpack/main",

@@ -1,9 +1,9 @@
 {
   "scripts": {
-    "start": "yarn workspaces foreach -i --include @mycrypto/signer run start",
-    "package": "yarn workspaces foreach -i --include @mycrypto/signer run package",
-    "make": "yarn workspaces foreach -i --include @mycrypto/signer run make",
-    "publish": "yarn workspaces foreach -i --include @mycrypto/signer run publish",
+    "start": "yarn workspaces foreach -i --include signer run start",
+    "package": "yarn workspaces foreach -i --include signer run package",
+    "make": "yarn workspaces foreach -i --include signer run make",
+    "publish": "yarn workspaces foreach -i --include signer run publish",
     "lint": "yarn lint:types && yarn lint:source && yarn lint:format && yarn lint:styles",
     "lint:types": "yarn workspaces foreach -pt run lint:types",
     "lint:source": "yarn workspaces foreach -pt run lint:source",
