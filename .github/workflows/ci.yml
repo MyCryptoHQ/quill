@@ -36,7 +36,7 @@ jobs:
           key: ${{ runner.OS }}-yarn-${{ hashFiles('yarn.lock') }}
 
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Lint Types
         run: yarn lint:types
@@ -77,7 +77,7 @@ jobs:
           key: ${{ runner.OS }}-yarn-${{ hashFiles('yarn.lock') }}
 
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Test
         run: yarn test --coverage --maxWorkers=2
@@ -116,7 +116,7 @@ jobs:
           key: ${{ runner.OS }}-yarn-${{ hashFiles('yarn.lock') }}
 
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Test E2E
         uses: GabrielBB/xvfb-action@v1
