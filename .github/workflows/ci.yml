@@ -32,7 +32,9 @@ jobs:
       - name: Cache Dependencies
         uses: actions/cache@v2.1.4
         with:
-          path: node_modules
+          path: |
+            node_modules
+            .yarn/cache
           key: ${{ runner.OS }}-yarn-${{ hashFiles('yarn.lock') }}
 
       - name: Install Dependencies
@@ -73,7 +75,9 @@ jobs:
       - name: Cache Dependencies
         uses: actions/cache@v2.1.4
         with:
-          path: node_modules
+          path: |
+            node_modules
+            .yarn/cache
           key: ${{ runner.OS }}-yarn-${{ hashFiles('yarn.lock') }}
 
       - name: Install Dependencies
@@ -112,7 +116,9 @@ jobs:
       - name: Cache Dependencies
         uses: actions/cache@v2.1.4
         with:
-          path: node_modules
+          path: |
+            node_modules
+            .yarn/cache
           key: ${{ runner.OS }}-yarn-${{ hashFiles('yarn.lock') }}
 
       - name: Install Dependencies
