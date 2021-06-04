@@ -1,7 +1,8 @@
-import type { InputProps } from '@rebass/forms/styled-components';
 import type { DefaultError, DefaultState } from 'typed-react-form';
 import { useListener } from 'typed-react-form';
 import type { FormInputProps } from 'typed-react-form/dist/elements/FormInput';
+
+import type { BoxProps } from '@components';
 
 import { FileBox } from './FileBox';
 
@@ -15,7 +16,7 @@ export const FormFileInput = <
   form,
   name,
   ...rest
-}: Omit<Omit<InputProps, 'form'> & FormInputProps<T, State, Error, Key, Value>, 'as'>) => {
+}: Omit<Omit<BoxProps, 'form'> & FormInputProps<T, State, Error, Key, Value>, 'as'>) => {
   const { error, setValue } = (useListener(form, name) as unknown) as {
     error: string;
     setValue(value: File): void;
