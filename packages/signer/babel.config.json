@@ -1,3 +1,12 @@
 {
-  "extends": "../../babel.config.json"
+  "extends": "../../babel.config.json",
+  "presets": [
+    [
+      "@babel/preset-react",
+      {
+        "runtime": "automatic"
+      }
+    ]
+  ],
+  "plugins": ["babel-plugin-styled-components", "react-hot-loader/babel"]
 }

@@ -11,6 +11,7 @@
     "rootDir": ".",
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "strict": false,
     "paths": {
       "*": ["node_modules"],
       "@signer/*": ["packages/*/src"]

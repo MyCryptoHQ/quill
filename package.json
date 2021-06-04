@@ -1,12 +1,9 @@
 {
-  "name": "signer",
-  "version": "1.0.0",
-  "description": "A tool to sign transactions with Mnemonic Phrases, Private Keys and Keystore files",
   "scripts": {
-    "start": "cross-env NODE_ENV=development electron-forge start",
-    "package": "cross-env NODE_ENV=production electron-forge package",
-    "make": "cross-env NODE_ENV=production electron-forge make",
-    "publish": "cross-env NODE_ENV=production electron-forge publish",
+    "start": "yarn workspaces foreach -i --include @mycrypto/signer run start",
+    "package": "yarn workspaces foreach -i --include @mycrypto/signer run package",
+    "make": "yarn workspaces foreach -i --include @mycrypto/signer run make",
+    "publish": "yarn workspaces foreach -i --include @mycrypto/signer run publish",
     "lint": "yarn lint:types && yarn lint:source && yarn lint:format && yarn lint:styles",
     "lint:types": "yarn workspaces foreach -pt run lint:types",
     "lint:source": "yarn workspaces foreach -pt run lint:source",
@@ -14,7 +11,7 @@
     "lint:format": "prettier --check --ignore-path .gitignore \"**/*.{js,jsx,ts,tsx,json,yml}\"",
     "lint:styles": "stylelint packages/**/*.tsx",
     "format": "prettier --ignore-path .gitignore --write \"**/*.{js,jsx,ts,tsx,json,yml}\"",
-    "tsc": "tsc --noEmit -p ./tsconfig.json",
+    "tsc": "tsc --noEmit",
     "test": "jest --testPathIgnorePatterns e2e",
     "test:coverage": "yarn test --coverage",
     "test:e2e": "yarn package && cross-env IS_TEST=true jest packages/signer/tests/e2e"
@@ -50,10 +47,13 @@
     "@babel/plugin-proposal-nullish-coalescing-operator": "7.13.8",
     "@babel/plugin-proposal-optional-chaining": "7.13.12",
     "@babel/preset-env": "7.11.5",
-    "@babel/preset-react": "7.10.4",
     "@babel/preset-typescript": "7.10.4",
     "@types/jest": "^26.0.23",
+    "@types/stylelint": "^13",
+    "@typescript-eslint/eslint-plugin": "4.1.0",
+    "@typescript-eslint/parser": "4.1.0",
     "babel-jest": "26.3.0",
+    "cross-env": "^7.0.3",
     "eslint": "7.6.0",
     "eslint-config-prettier": "6.11.0",
     "eslint-plugin-import": "2.22.0",
@@ -66,6 +66,10 @@
     "jest-mock-random": "1.1.1",
     "lint-staged": "^11.0.0",
     "prettier": "2.1.1",
+    "stylelint": "13.13.1",
+    "stylelint-config-recommended": "3.0.0",
+    "stylelint-config-styled-components": "0.1.1",
+    "stylelint-processor-styled-components": "1.10.0",
     "typescript": "4.0.2"
   }
 }
