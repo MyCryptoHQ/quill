@@ -3551,7 +3551,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^26.0.23":
+"@types/jest@npm:26.0.23":
   version: 26.0.23
   resolution: "@types/jest@npm:26.0.23"
   dependencies:
@@ -3939,16 +3939,6 @@ __metadata:
   dependencies:
     csstype: ^3.0.2
   checksum: cf71d3fe1a219c97a89ce4bf728e9ab8db5219fee930844cae2bf155f25b62d3b79fae2f3b5acd08adf53f927bda4a4ae08e558c9a5388823ec0521e813f2a3a
-  languageName: node
-  linkType: hard
-
-"@types/stylelint@npm:^13":
-  version: 13.13.0
-  resolution: "@types/stylelint@npm:13.13.0"
-  dependencies:
-    globby: 11.x.x
-    postcss: 7.x.x
-  checksum: 75954c6c43b72ea11faee282721b8b460b16bb600863ede822c7c235f77b99a12b7499f848c9d01ff02d03e4b465b6e0831cc431fa0816e094ca3d2babf257e7
   languageName: node
   linkType: hard
 
@@ -6727,7 +6717,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-env@npm:^7.0.3":
+"cross-env@npm:7.0.3":
   version: 7.0.3
   resolution: "cross-env@npm:7.0.3"
   dependencies:
@@ -9594,7 +9584,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"globby@npm:11.x.x, globby@npm:^11.0.1, globby@npm:^11.0.3":
+"globby@npm:^11.0.1, globby@npm:^11.0.3":
   version: 11.0.3
   resolution: "globby@npm:11.0.3"
   dependencies:
@@ -11566,7 +11556,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"jest@npm:^27.0.4":
+"jest@npm:27.0.4":
   version: 27.0.4
   resolution: "jest@npm:27.0.4"
   dependencies:
@@ -11976,7 +11966,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^11.0.0":
+"lint-staged@npm:11.0.0":
   version: 11.0.0
   resolution: "lint-staged@npm:11.0.0"
   dependencies:
@@ -14491,7 +14481,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"postcss@npm:7.x.x, postcss@npm:^7.0.14, postcss@npm:^7.0.2, postcss@npm:^7.0.21, postcss@npm:^7.0.26, postcss@npm:^7.0.32, postcss@npm:^7.0.35, postcss@npm:^7.0.5, postcss@npm:^7.0.6":
+"postcss@npm:^7.0.14, postcss@npm:^7.0.2, postcss@npm:^7.0.21, postcss@npm:^7.0.26, postcss@npm:^7.0.32, postcss@npm:^7.0.35, postcss@npm:^7.0.5, postcss@npm:^7.0.6":
   version: 7.0.35
   resolution: "postcss@npm:7.0.35"
   dependencies:
@@ -15913,12 +15903,11 @@ fsevents@^1.2.7:
     "@babel/preset-env": 7.11.5
     "@babel/preset-react": 7.13.13
     "@babel/preset-typescript": 7.10.4
-    "@types/jest": ^26.0.23
-    "@types/stylelint": ^13
+    "@types/jest": 26.0.23
     "@typescript-eslint/eslint-plugin": 4.1.0
     "@typescript-eslint/parser": 4.1.0
     babel-jest: 26.3.0
-    cross-env: ^7.0.3
+    cross-env: 7.0.3
     eslint: 7.6.0
     eslint-config-prettier: 6.11.0
     eslint-plugin-import: 2.22.0
@@ -15927,9 +15916,9 @@ fsevents@^1.2.7:
     eslint-plugin-react: 7.21.2
     eslint-plugin-react-hooks: 4.1.2
     husky: 4.2.5
-    jest: ^27.0.4
+    jest: 27.0.4
     jest-mock-random: 1.1.1
-    lint-staged: ^11.0.0
+    lint-staged: 11.0.0
     prettier: 2.1.1
     stylelint: 13.13.1
     stylelint-config-recommended: 3.0.0
