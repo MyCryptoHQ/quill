@@ -32,11 +32,13 @@ jobs:
       - name: Cache Dependencies
         uses: actions/cache@v2.1.4
         with:
-          path: node_modules
+          path: |
+            node_modules
+            .yarn/cache
           key: ${{ runner.OS }}-yarn-${{ hashFiles('yarn.lock') }}
 
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Lint Types
         run: yarn lint:types
@@ -73,11 +75,13 @@ jobs:
       - name: Cache Dependencies
         uses: actions/cache@v2.1.4
         with:
-          path: node_modules
+          path: |
+            node_modules
+            .yarn/cache
           key: ${{ runner.OS }}-yarn-${{ hashFiles('yarn.lock') }}
 
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Test
         run: yarn test --coverage --maxWorkers=2
@@ -112,11 +116,13 @@ jobs:
       - name: Cache Dependencies
         uses: actions/cache@v2.1.4
         with:
-          path: node_modules
+          path: |
+            node_modules
+            .yarn/cache
           key: ${{ runner.OS }}-yarn-${{ hashFiles('yarn.lock') }}
 
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Test E2E
         uses: GabrielBB/xvfb-action@v1

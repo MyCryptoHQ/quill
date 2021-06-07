@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "baseUrl": "src",
+    "jsx": "preserve",
+    "paths": {
+      "@fixtures": ["../jest/__fixtures__"],
+      "test-utils": ["../jest/test-utils"],
+      "@*": ["./*", "./app/*"]
+    }
+  },
+  "include": ["src", "tests"]
+}

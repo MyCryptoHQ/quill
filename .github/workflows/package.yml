@@ -31,11 +31,13 @@ jobs:
         id: cache
         uses: actions/cache@v2
         with:
-          path: node_modules
+          path: |
+            node_modules
+            .yarn/cache
           key: ${{ runner.OS }}-build-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Add MacOS certificates
         if: matrix.os == 'macos-latest' && startsWith(github.ref, 'refs/tags/')

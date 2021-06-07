@@ -120,7 +120,7 @@
       }
     },
     {
-      "files": ["*.test.{ts,tsx}", "*.spec.{ts,tsx}", "jest_config/**/*"],
+      "files": ["*.test.{ts,tsx}", "*.spec.{ts,tsx}", "**/jest/**/*", "**/tests/**/*"],
       "env": {
         "node": true,
         "jest": true

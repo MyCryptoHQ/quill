@@ -1,4 +1,5 @@
 {
+  "projects": ["packages/*/jest.config.json"],
   "testRegex": "/*.*/?(.*).(spec|test).(jsx?|tsx?)$",
   "moduleDirectories": ["node_modules"],
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "worker.ts", "worker.tsx"],
@@ -8,14 +9,6 @@
     "<rootDir>/src/assets",
     "<rootDir>/out"
   ],
-  "moduleNameMapper": {
-    "fixtures": "<rootDir>/jest_config/__fixtures__",
-    "test-utils": "<rootDir>/jest_config/test-utils",
-    "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/jest_config/__mocks__/fileMock.ts",
-    "\\.(css|scss)$": "<rootDir>/jest_config/__mocks__/styleMock.ts",
-    "\\.worker.(ts|tsx)": "<rootDir>/jest_config/__mocks__/workerMock.js",
-    "^@(.+)$": ["<rootDir>/node_modules/$0", "<rootDir>/src/$1", "<rootDir>/src/app/$1"]
-  },
   "testPathIgnorePatterns": ["/node_modules/", "<rootDir>/dist", "/*\\.(stories)/"],
   "automock": false,
   "collectCoverageFrom": [
