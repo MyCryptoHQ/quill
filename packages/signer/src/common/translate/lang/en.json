@@ -198,6 +198,8 @@
     "CONTEXT_CUT": "Cut",
     "CONTEXT_COPY": "Copy",
     "CONTEXT_PASTE": "Paste",
-    "CONTEXT_INSPECT": "Inspect Element"
+    "CONTEXT_INSPECT": "Inspect Element",
+    "SHOW_SIGNED_TRANSACTION": "Show Signed Transaction",
+    "HIDE_SIGNED_TRANSACTION": "Hide Signed Transaction"
   }
 }

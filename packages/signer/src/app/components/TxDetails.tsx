@@ -32,8 +32,12 @@ export const TxDetails = ({ tx: entry }: { tx: TxQueueEntry | TxHistoryEntry }) 
   return (
     <>
       {offline && signedTx && (
-        <ExtendableButton title="Show Signed Transaction" extendedTitle="Hide Signed Transaction">
+        <ExtendableButton
+          title={translateRaw('SHOW_SIGNED_TRANSACTION')}
+          extendedTitle={translateRaw('HIDE_SIGNED_TRANSACTION')}
+        >
           <CopyableText>{signedTx}</CopyableText>
+          {/* @todo: Test how much data can fit into QR */}
           <QR data={signedTx} size="200px" mt="2" mx="auto" display="block" />
         </ExtendableButton>
       )}
