@@ -1,11 +1,17 @@
-import type { PersistConfig } from '@common/store';
-import { addToHistory, createPersistReducer, dequeue, enqueue } from '@common/store';
-import slice, { update } from '@common/store/transactions.slice';
+import type { PersistConfig } from '@signer/common';
+import {
+  addToHistory,
+  createPersistReducer,
+  dequeue,
+  enqueue,
+  transactionsSlice,
+  update
+} from '@signer/common';
 
 const persistConfig: PersistConfig = {
-  key: slice.name,
+  key: transactionsSlice.name,
   whitelistedActions: [enqueue.type, update.type, dequeue.type, addToHistory.type],
   whitelistedKeys: ['queue', 'history']
 };
 
-export const persistedReducer = createPersistReducer(persistConfig, slice.reducer);
+export const persistedReducer = createPersistReducer(persistConfig, transactionsSlice.reducer);

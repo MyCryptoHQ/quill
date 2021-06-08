@@ -1,13 +1,12 @@
 import type { EnhancedStore } from '@reduxjs/toolkit';
+import { nextFlow, translateRaw } from '@signer/common';
+import type { DeepPartial } from '@signer/common';
 import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router';
 import configureStore from 'redux-mock-store';
 
-import { nextFlow } from '@common/store';
-import { translateRaw } from '@common/translate';
 import type { ApplicationState } from '@store';
-import type { DeepPartial } from '@types';
 
 import { AddAccountSecurity } from './AddAccountSecurity';
 

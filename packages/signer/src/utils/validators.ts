@@ -1,8 +1,6 @@
+import type { JsonRPCRequest, SignedJsonRPCRequest } from '@signer/common';
+import { JsonRPCMethod, JSONRPCRequestStruct, SignTransactionStruct } from '@signer/common';
 import { is, unknown } from 'superstruct';
-
-import { JsonRPCMethod } from '@config';
-import type { JsonRPCRequest, SignedJsonRPCRequest } from '@types';
-import { JSONRPCRequestStruct, SignTransactionStruct } from '@types';
 
 const paramSchemas = {
   [JsonRPCMethod.SignTransaction]: SignTransactionStruct,

@@ -1,13 +1,18 @@
+import {
+  dequeue,
+  makeQueueTx,
+  makeTx,
+  sign,
+  signFailed,
+  signSuccess,
+  WalletType
+} from '@signer/common';
+import type { SerializedWallet } from '@signer/common';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
 import { reply } from '@api/ws.slice';
-import { sign, signFailed, signSuccess } from '@common/store/signing.slice';
-import { dequeue } from '@common/store/transactions.slice';
-import { makeQueueTx, makeTx } from '@common/utils';
 import { fPrivateKey, fRequestOrigin, fSignedTx, fTxRequest } from '@fixtures';
-import type { SerializedWallet } from '@types';
-import { WalletType } from '@types';
 
 import { signTransaction } from './crypto';
 import { signWorker } from './signing.sagas';

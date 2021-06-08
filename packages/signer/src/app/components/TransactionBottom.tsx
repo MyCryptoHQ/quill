@@ -1,7 +1,7 @@
 import { Button } from '@mycrypto/ui';
+import { translateRaw } from '@signer/common';
 
 import { Box, LinkApp, PanelBottom } from '@app/components';
-import { translateRaw } from '@common/translate';
 
 export const TransactionBottom = ({
   disabled,

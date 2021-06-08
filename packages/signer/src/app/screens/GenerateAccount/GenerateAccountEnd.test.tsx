@@ -1,13 +1,13 @@
 import type { EnhancedStore } from '@reduxjs/toolkit';
+import { translateRaw } from '@signer/common';
+import type { DeepPartial } from '@signer/common';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { toPng } from 'html-to-image';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
-import { translateRaw } from '@common/translate';
 import type { ApplicationState } from '@store';
-import type { DeepPartial } from '@types';
 
 import { GenerateAccountEnd } from './GenerateAccountEnd';
 

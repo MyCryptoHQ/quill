@@ -1,8 +1,8 @@
+import type { TUuid } from '@signer/common';
+import { WalletType } from '@signer/common';
 import keytar from 'keytar';
 
 import { KEYTAR_SERVICE, KEYTAR_SETTINGS_KEY_NAME } from '@config';
-import type { TUuid } from '@types';
-import { WalletType } from '@types';
 
 import {
   checkSettingsKey,

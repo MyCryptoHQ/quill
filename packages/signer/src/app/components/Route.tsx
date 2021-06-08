@@ -1,9 +1,9 @@
+import { getLoggedIn } from '@signer/common';
 import type { RouteProps } from 'react-router-dom';
 import { Route as ActualRoute, Redirect } from 'react-router-dom';
 
 import { ROUTE_PATHS } from '@app/routing';
 import { useSelector } from '@app/store';
-import { getLoggedIn } from '@common/store';
 
 type Props = RouteProps & { requireLogin: boolean };
 

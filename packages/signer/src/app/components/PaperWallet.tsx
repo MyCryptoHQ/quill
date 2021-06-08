@@ -1,4 +1,6 @@
 import { Blockie, Body, Flex, Image } from '@mycrypto/ui';
+import { translateRaw, WalletType } from '@signer/common';
+import type { TAddress } from '@signer/common';
 import type { PropsWithChildren } from 'react';
 import { forwardRef } from 'react';
 
@@ -7,11 +9,8 @@ import alert from '@assets/icons/alert.svg';
 import email from '@assets/icons/email.svg';
 import safeWallet from '@assets/icons/safe-wallet.svg';
 import logo from '@assets/images/logo-paper-wallet.svg';
-import { translateRaw } from '@common/translate';
 import { Box, LinkApp, QR } from '@components';
 import { translate } from '@translations';
-import type { TAddress } from '@types';
-import { WalletType } from '@types';
 
 interface BlockProps {
   title?: string;

@@ -1,6 +1,5 @@
+import { translateRaw } from '@signer/common';
 import { fireEvent, render } from '@testing-library/react';
-
-import { translateRaw } from '@common/translate';
 
 import { GenerateAccountStart } from './GenerateAccountStart';
 

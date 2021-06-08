@@ -1,6 +1,6 @@
 import { Body, Button, Heading } from '@mycrypto/ui';
+import { translateRaw } from '@signer/common';
 
-import { translateRaw } from '@common/translate';
 import { Box, Container, LinkApp, Logo, PanelBottom } from '@components';
 import { ROUTE_PATHS } from '@routing';
 import { translate } from '@translations';

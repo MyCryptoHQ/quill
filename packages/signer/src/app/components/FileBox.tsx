@@ -1,11 +1,11 @@
 import { Body } from '@mycrypto/ui';
+import { translateRaw } from '@signer/common';
 import type { ChangeEvent, DragEvent } from 'react';
 import { useState } from 'react';
 
 import type { BoxProps } from '@app/components';
 import { Box, Image } from '@app/components';
 import checkmark from '@assets/icons/circle-checkmark.svg';
-import { translateRaw } from '@common/translate';
 
 export const FileBox = ({
   onChange,

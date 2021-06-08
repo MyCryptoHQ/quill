@@ -1,8 +1,7 @@
 import { hexlify } from '@ethersproject/bytes';
 import { formatEther, formatUnits, parseEther, parseUnits } from '@ethersproject/units';
-
-import { addHexPrefix, bigify } from '@common/utils';
-import type { TransactionRequest } from '@types';
+import { addHexPrefix, bigify } from '@signer/common';
+import type { TransactionRequest } from '@signer/common';
 
 export type HumanReadableTx = ReturnType<typeof toHumanReadable>;
 

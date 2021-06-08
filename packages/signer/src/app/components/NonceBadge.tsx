@@ -1,8 +1,6 @@
 import type { BigNumberish } from '@ethersproject/bignumber';
 import { Body, Box } from '@mycrypto/ui';
-
-import { translateRaw } from '@common/translate';
-import { bigify } from '@common/utils';
+import { bigify, translateRaw } from '@signer/common';
 
 export const NonceBadge = ({ nonce }: { nonce: BigNumberish }) => (
   <Box ml="auto" mr="1" variant="badge.nonce">

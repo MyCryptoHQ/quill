@@ -1,7 +1,6 @@
+import { fallbackLanguage, repository } from '@signer/common';
 import type { ReactNode } from 'react';
 import { Fragment } from 'react';
-
-import { fallbackLanguage, repository } from '@common/translate';
 
 export const Trans = ({
   id,

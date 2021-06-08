@@ -1,13 +1,13 @@
+import { getAccounts, getCurrentTransaction, sign, TxResult, WalletType } from '@signer/common';
+import type { IAccount, SerializedWallet } from '@signer/common';
 import { push } from 'connected-react-router';
 import type { ComponentType } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useDispatch } from '@app/store';
-import { getAccounts, getCurrentTransaction, sign } from '@common/store';
 import { ROUTE_PATHS } from '@routing';
-import type { IAccount, SerializedWallet, SignTransactionProps } from '@types';
-import { TxResult, WalletType } from '@types';
+import type { SignTransactionProps } from '@types';
 
 import { SignTransactionKeystore } from './SignTransactionKeystore';
 import { SignTransactionMnemonic } from './SignTransactionMnemonic';

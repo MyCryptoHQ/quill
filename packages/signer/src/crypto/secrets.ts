@@ -1,9 +1,9 @@
+import { generateDeterministicAddressUUID } from '@signer/common';
+import type { SerializedWallet, TUuid } from '@signer/common';
 import { getWallet } from '@wallets/wallet-initialisation';
 import keytar from 'keytar';
 
-import { generateDeterministicAddressUUID } from '@common/utils';
 import { KEYTAR_SERVICE, KEYTAR_SETTINGS_KEY_NAME } from '@config';
-import type { SerializedWallet, TUuid } from '@types';
 import { createEncryptionKey, decrypt, encrypt, hashPassword } from '@utils/encryption';
 
 // @todo STORES HASHED PASSWORD FOR ENCRYPTION - THINK ABOUT THIS

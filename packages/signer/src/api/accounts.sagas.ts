@@ -1,8 +1,7 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
+import type { IAccount, UserRequest } from '@signer/common';
+import { getAccounts } from '@signer/common';
 import { all, put, select, takeLatest } from 'redux-saga/effects';
-
-import { getAccounts } from '@common/store';
-import type { IAccount, UserRequest } from '@types';
 
 import { reply, requestAccounts } from './ws.slice';
 

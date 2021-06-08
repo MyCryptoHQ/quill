@@ -1,12 +1,11 @@
 import type { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
+import { denyPermission, grantPermission, translateRaw, updatePermission } from '@signer/common';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import type { ApplicationState } from '@app/store';
-import { denyPermission, grantPermission, updatePermission } from '@common/store';
-import { translateRaw } from '@common/translate';
 import { fPermission } from '@fixtures';
 
 import { RequestPermission } from './RequestPermission';

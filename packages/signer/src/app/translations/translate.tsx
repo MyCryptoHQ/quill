@@ -1,6 +1,6 @@
+import { translateRaw } from '@signer/common';
 import type { ReactElement } from 'react';
 
-import { translateRaw } from '@common/translate';
 import { TranslateMarkdown } from '@components';
 
 export type TranslatedText = ReactElement | string;

@@ -1,14 +1,13 @@
 import { formatEther } from '@ethersproject/units';
 import { Body } from '@mycrypto/ui';
+import { getAccounts, selectTransaction, translateRaw } from '@signer/common';
+import type { TxQueueEntry } from '@signer/common';
 
 import { Banner, Box, FromToAccount, Image, LinkApp, TimeElapsed } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import { useDispatch, useSelector } from '@app/store';
 import circleArrow from '@assets/icons/circle-arrow.svg';
-import { getAccounts, selectTransaction } from '@common/store';
-import { translateRaw } from '@common/translate';
 import { getChain } from '@data';
-import type { TxQueueEntry } from '@types';
 
 export const TxQueueCard = ({ item, first }: { item: TxQueueEntry; first: boolean }) => {
   const dispatch = useDispatch();

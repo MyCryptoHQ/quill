@@ -1,6 +1,5 @@
+import type { TxHistoryEntry } from '@signer/common';
 import { Fragment } from 'react';
-
-import type { TxHistoryEntry } from '@types';
 
 import { Divider } from '../Divider';
 import { TxHistoryCard } from './TxHistoryCard';

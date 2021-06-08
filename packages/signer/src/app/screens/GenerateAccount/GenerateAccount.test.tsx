@@ -1,4 +1,6 @@
 import type { EnhancedStore } from '@reduxjs/toolkit';
+import { setGeneratedAccount } from '@signer/common';
+import type { DeepPartial } from '@signer/common';
 import { render } from '@testing-library/react';
 import { push } from 'connected-react-router';
 import { Provider } from 'react-redux';
@@ -6,11 +8,9 @@ import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { ThemeProvider } from 'styled-components';
 
-import { setGeneratedAccount } from '@common/store';
 import { ROUTE_PATHS } from '@routing';
 import type { ApplicationState } from '@store';
 import { theme } from '@theme';
-import type { DeepPartial } from '@types';
 
 import { GenerateAccount } from './GenerateAccount';
 

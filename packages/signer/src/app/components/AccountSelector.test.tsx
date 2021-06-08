@@ -1,8 +1,8 @@
+import { translateRaw } from '@signer/common';
 import { fireEvent, render } from '@testing-library/react';
 import type { ComponentProps } from 'react';
 import selectEvent from 'react-select-event';
 
-import { translateRaw } from '@common/translate';
 import { fAccount, fAccounts } from '@fixtures';
 
 import { AccountSelector } from './AccountSelector';

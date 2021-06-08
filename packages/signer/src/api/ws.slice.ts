@@ -1,6 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-
-import type { JsonRPCResponse, TSignTransaction, UserRequest } from '@types';
+import type { JsonRPCResponse, TSignTransaction, UserRequest } from '@signer/common';
 
 const sliceName = 'ws';
 

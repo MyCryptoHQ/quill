@@ -1,7 +1,7 @@
+import { handshakeSaga, Process } from '@signer/common';
 import { all } from 'redux-saga/effects';
 
 import { ipcBridgeRenderer } from '@bridge';
-import { handshakeSaga, Process } from '@common/store';
 
 import { autoLockSaga } from './autoLock.sagas';
 

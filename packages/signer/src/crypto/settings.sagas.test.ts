@@ -1,12 +1,12 @@
-import { expectSaga } from 'redux-saga-test-plan';
-import { call } from 'redux-saga-test-plan/matchers';
-
 import {
   decryptSettings,
   encryptSettings,
   rehydrateState,
   storeEncryptedSettings
-} from '@common/store';
+} from '@signer/common';
+import { expectSaga } from 'redux-saga-test-plan';
+import { call } from 'redux-saga-test-plan/matchers';
+
 import { getSettingsKey } from '@crypto/secrets';
 
 import { decryptSettingsWorker, encryptSettingsWorker } from './settings.sagas';

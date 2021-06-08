@@ -33,6 +33,7 @@ typings/
 .webpack/
 .worker/
 
-# Electron-Forge
+# Output files
 out/
 dist/
+lib/

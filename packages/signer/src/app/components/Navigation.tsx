@@ -1,3 +1,4 @@
+import { getNavigationBack, logout } from '@signer/common';
 import { getLocation } from 'connected-react-router';
 import type { PropsWithChildren } from 'react';
 import SVG from 'react-inlinesvg';
@@ -9,7 +10,6 @@ import add from '@assets/icons/add.svg';
 import back from '@assets/icons/back.svg';
 import lock from '@assets/icons/lock.svg';
 import profile from '@assets/icons/profile.svg';
-import { getNavigationBack, logout } from '@common/store';
 import { Logo } from '@components/Logo';
 import { useDispatch, useSelector } from '@store';
 

@@ -1,3 +1,5 @@
+import { reset, translateRaw } from '@signer/common';
+import type { DeepPartial } from '@signer/common';
 import { fireEvent, render } from '@testing-library/react';
 import { push } from 'connected-react-router';
 import { Provider } from 'react-redux';
@@ -6,9 +8,6 @@ import configureStore from 'redux-mock-store';
 
 import { ROUTE_PATHS } from '@app/routing';
 import type { ApplicationState } from '@app/store';
-import { reset } from '@common/store';
-import { translateRaw } from '@common/translate';
-import type { DeepPartial } from '@types';
 
 import { ForgotPassword } from './ForgotPassword';
 

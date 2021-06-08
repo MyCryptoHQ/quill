@@ -1,16 +1,16 @@
 import type { EnhancedStore } from '@reduxjs/toolkit';
+import { nextFlow, previousFlow, resetFlow } from '@signer/common';
+import type { DeepPartial } from '@signer/common';
 import { fireEvent, render } from '@testing-library/react';
 import { goBack } from 'connected-react-router';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { ThemeProvider } from 'styled-components';
 
-import { nextFlow, previousFlow, resetFlow } from '@common/store';
 import type { FlowProps } from '@components';
 import { Flow } from '@components';
 import type { ApplicationState } from '@store';
 import { theme } from '@theme';
-import type { DeepPartial } from '@types';
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 

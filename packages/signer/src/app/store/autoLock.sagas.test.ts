@@ -1,7 +1,7 @@
+import { getLoggedIn, logout } from '@signer/common';
 import { testSaga } from 'redux-saga-test-plan';
 import { call, take } from 'redux-saga/effects';
 
-import { getLoggedIn, logout } from '@common/store';
 import { AUTO_LOCK_TIMEOUT } from '@config';
 
 import { autoLockWorker, delayedLock, subscribe } from './autoLock.sagas';

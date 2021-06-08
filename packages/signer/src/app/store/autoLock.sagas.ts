@@ -1,7 +1,7 @@
+import { getLoggedIn, logout } from '@signer/common';
 import { eventChannel } from 'redux-saga';
 import { all, call, delay, put, race, select, take } from 'redux-saga/effects';
 
-import { getLoggedIn, logout } from '@common/store';
 import { AUTO_LOCK_TIMEOUT } from '@config';
 
 export function* autoLockSaga() {

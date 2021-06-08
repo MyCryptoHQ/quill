@@ -1,10 +1,10 @@
 import { Body, Button, Heading } from '@mycrypto/ui';
+import { translateRaw } from '@signer/common';
 
 import type { IFlowComponentProps } from '@app/components';
 import { Box, Container, LinkApp, Logo, PanelBottom } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import checkmark from '@assets/icons/circle-checkmark.svg';
-import { translateRaw } from '@common/translate';
 
 export const AddAccountEnd = ({ onReset }: IFlowComponentProps) => (
   <>

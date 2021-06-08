@@ -1,6 +1,6 @@
+import { setGeneratedAccount } from '@signer/common';
 import { push } from 'connected-react-router';
 
-import { setGeneratedAccount } from '@common/store';
 import type { IFlowComponent } from '@components';
 import { Flow } from '@components';
 import { useUnmount } from '@hooks';

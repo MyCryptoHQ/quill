@@ -1,8 +1,3 @@
-import { push } from 'connected-react-router';
-import keytar from 'keytar';
-import { expectSaga } from 'redux-saga-test-plan';
-import { call } from 'redux-saga-test-plan/matchers';
-
 import {
   createPassword,
   createPasswordSuccess,
@@ -11,9 +6,14 @@ import {
   loginSuccess,
   rehydrateAllState,
   resetSettings,
-  setNewUser
-} from '@common/store';
-import { translateRaw } from '@common/translate';
+  setNewUser,
+  translateRaw
+} from '@signer/common';
+import { push } from 'connected-react-router';
+import keytar from 'keytar';
+import { expectSaga } from 'redux-saga-test-plan';
+import { call } from 'redux-saga-test-plan/matchers';
+
 import { KEYTAR_SERVICE } from '@config';
 import { fAccount } from '@fixtures';
 import { ROUTE_PATHS } from '@routing';

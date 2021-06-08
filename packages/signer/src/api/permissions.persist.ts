@@ -1,14 +1,15 @@
-import { createPersistReducer } from '@common/store';
-import slice, {
+import {
+  createPersistReducer,
   grantPermission,
+  permissionsSlice,
   revokePermission,
   updatePermission
-} from '@common/store/permissions.slice';
+} from '@signer/common';
 
 const persistConfig = {
-  key: slice.name,
+  key: permissionsSlice.name,
   whitelistedActions: [grantPermission.type, updatePermission.type, revokePermission.type],
   whitelistedKeys: ['permissions']
 };
 
-export const persistedReducer = createPersistReducer(persistConfig, slice.reducer);
+export const persistedReducer = createPersistReducer(persistConfig, permissionsSlice.reducer);

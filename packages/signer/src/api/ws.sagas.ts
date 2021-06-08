@@ -1,26 +1,27 @@
 import type { ActionCreatorWithPayload, PayloadAction } from '@reduxjs/toolkit';
-import type { IncomingMessage } from 'http';
-import type { EventChannel } from 'redux-saga';
-import { eventChannel } from 'redux-saga';
-import { all, call, fork, put, select, take } from 'redux-saga/effects';
-import WebSocket from 'ws';
-
-import {
-  denyPermission,
-  getPermissions,
-  grantPermission,
-  requestPermission,
-  updatePermission
-} from '@common/store';
-import { safeJSONParse } from '@common/utils';
-import { JsonRPCMethod, WS_PORT } from '@config';
 import type {
   JsonRPCResponse,
   JsonRPCResult,
   Permission,
   SignedJsonRPCRequest,
   UserRequest
-} from '@types';
+} from '@signer/common';
+import {
+  denyPermission,
+  getPermissions,
+  grantPermission,
+  JsonRPCMethod,
+  requestPermission,
+  safeJSONParse,
+  updatePermission
+} from '@signer/common';
+import type { IncomingMessage } from 'http';
+import type { EventChannel } from 'redux-saga';
+import { eventChannel } from 'redux-saga';
+import { all, call, fork, put, select, take } from 'redux-saga/effects';
+import WebSocket from 'ws';
+
+import { WS_PORT } from '@config';
 import {
   isValidMethod,
   isValidParams,

@@ -1,4 +1,5 @@
 import { Body, Button, Heading } from '@mycrypto/ui';
+import { getLoggingIn, login, translateRaw } from '@signer/common';
 import type { FormEvent } from 'react';
 import { useEffect } from 'react';
 import { useForm, yupValidator } from 'typed-react-form';
@@ -7,8 +8,6 @@ import { object, string } from 'yup';
 import { ROUTE_PATHS } from '@app/routing';
 import { useDispatch, useSelector } from '@app/store';
 import lock from '@assets/icons/lock.svg';
-import { getLoggingIn, login } from '@common/store';
-import { translateRaw } from '@common/translate';
 import {
   Box,
   Container,

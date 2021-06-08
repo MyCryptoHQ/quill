@@ -1,17 +1,15 @@
 import { BlockieAddress, Body, Button, Heading } from '@mycrypto/ui';
 import { getFullPath } from '@mycrypto/wallets';
+import { addSavedAccounts, getAccountsToAdd, translateRaw, WalletType } from '@signer/common';
 import { toPng } from 'html-to-image';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'rebass/styled-components';
 
-import { addSavedAccounts, getAccountsToAdd } from '@common/store';
-import { translateRaw } from '@common/translate';
 import type { IFlowComponentProps } from '@components';
 import { Box, Checkbox, Container, Panel, PanelBottom, PaperWallet } from '@components';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config';
 import { useDispatch, useSelector } from '@store';
 import { translate } from '@translations';
-import { WalletType } from '@types';
 
 export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
   const paperWallet = useRef<HTMLDivElement>();

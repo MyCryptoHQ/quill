@@ -1,12 +1,11 @@
 import { Body, Button, Heading } from '@mycrypto/ui';
+import { createPassword, getLoggingIn, translateRaw } from '@signer/common';
 import { passwordStrength } from 'check-password-strength';
 import type { FormEvent } from 'react';
 import { useForm, yupValidator } from 'typed-react-form';
 import { object, ref, string } from 'yup';
 
 import warning from '@assets/icons/circle-warning.svg';
-import { createPassword, getLoggingIn } from '@common/store';
-import { translateRaw } from '@common/translate';
 import {
   Box,
   Flex,

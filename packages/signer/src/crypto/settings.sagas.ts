@@ -1,14 +1,14 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { all, call, put, takeEvery } from 'redux-saga/effects';
-
-import type { SettingsValue } from '@common/store';
+import type { SettingsValue } from '@signer/common';
 import {
   decryptSettings,
   encryptSettings,
   rehydrateState,
+  safeJSONParse,
   storeEncryptedSettings
-} from '@common/store';
-import { safeJSONParse } from '@common/utils';
+} from '@signer/common';
+import { all, call, put, takeEvery } from 'redux-saga/effects';
+
 import { decrypt, encrypt } from '@utils/encryption';
 
 import { getSettingsKey } from './secrets';

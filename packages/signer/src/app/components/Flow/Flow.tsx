@@ -1,7 +1,7 @@
+import { getFlowStep, nextFlow, previousFlow, resetFlow } from '@signer/common';
 import { goBack } from 'connected-react-router';
 import { useEffect } from 'react';
 
-import { getFlowStep, nextFlow, previousFlow, resetFlow } from '@common/store/flow.slice';
 import { useUnmount } from '@hooks';
 import { useDispatch, useSelector } from '@store';
 

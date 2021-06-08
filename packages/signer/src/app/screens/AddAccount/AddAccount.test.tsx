@@ -1,16 +1,16 @@
 import type { EnhancedStore } from '@reduxjs/toolkit';
+import { clearAddAccounts, fetchReset } from '@signer/common';
+import type { DeepPartial } from '@signer/common';
 import { render } from '@testing-library/react';
 import { push } from 'connected-react-router';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { ThemeProvider } from 'styled-components';
 
-import { clearAddAccounts, fetchReset } from '@common/store';
 import { ROUTE_PATHS } from '@routing';
 import { AddAccount } from '@screens/AddAccount/AddAccount';
 import type { ApplicationState } from '@store';
 import { theme } from '@theme';
-import type { DeepPartial } from '@types';
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 

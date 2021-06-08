@@ -1,4 +1,5 @@
-import { JsonRPCMethod } from '@config';
+import { JsonRPCMethod } from '@signer/common';
+
 import { fRequestPublicKey } from '@fixtures';
 
 import { isValidParams, isValidRequest } from './validators';

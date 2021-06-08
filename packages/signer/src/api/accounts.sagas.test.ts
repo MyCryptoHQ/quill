@@ -1,6 +1,6 @@
+import { JsonRPCMethod } from '@signer/common';
 import { expectSaga } from 'redux-saga-test-plan';
 
-import { JsonRPCMethod } from '@config';
 import { fAccounts, fRequestOrigin } from '@fixtures';
 import { createJsonRpcRequest } from '@utils';
 

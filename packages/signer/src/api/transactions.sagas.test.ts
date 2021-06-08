@@ -1,10 +1,17 @@
+import {
+  addHexPrefix,
+  addToHistory,
+  bigify,
+  dequeue,
+  enqueue,
+  makeHistoryTx,
+  makeQueueTx,
+  TxResult,
+  update
+} from '@signer/common';
 import { expectSaga } from 'redux-saga-test-plan';
 
-import { addToHistory, dequeue, enqueue } from '@common/store';
-import { update } from '@common/store/transactions.slice';
-import { addHexPrefix, bigify, makeHistoryTx, makeQueueTx } from '@common/utils';
 import { fRequestOrigin, fTxRequest } from '@fixtures';
-import { TxResult } from '@types';
 
 import {
   addTransactionWorker,

@@ -1,7 +1,7 @@
+import { requestPermission } from '@signer/common';
 import type { BrowserWindow } from 'electron';
 import { all, call, takeEvery } from 'redux-saga/effects';
 
-import { requestPermission } from '@common/store';
 import { showWindowOnTop } from '@utils';
 
 import { requestSignTransaction } from './ws.slice';

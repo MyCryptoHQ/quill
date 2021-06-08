@@ -1,3 +1,9 @@
+import {
+  decryptSettings,
+  fetchSettings,
+  rehydrateEmptyState,
+  storeEncryptedSettings
+} from '@signer/common';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 
@@ -6,12 +12,6 @@ import {
   resetSettingsWorker,
   storeEncryptedSettingsWorker
 } from '@api/settings.sagas';
-import {
-  decryptSettings,
-  fetchSettings,
-  rehydrateEmptyState,
-  storeEncryptedSettings
-} from '@common/store';
 import { clearStore, getFromStore, setInStore } from '@utils';
 
 describe('resetSettingsWorker', () => {

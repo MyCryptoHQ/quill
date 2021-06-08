@@ -1,10 +1,9 @@
 import { Blockie, Body } from '@mycrypto/ui';
+import { translateRaw, truncate } from '@signer/common';
+import type { TAddress } from '@signer/common';
 
 import type { BoxProps } from '@app/components';
 import { Box } from '@app/components';
-import { translateRaw } from '@common/translate';
-import { truncate } from '@common/utils';
-import type { TAddress } from '@types';
 
 export const Account = ({
   label,

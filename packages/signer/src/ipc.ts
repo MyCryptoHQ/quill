@@ -1,8 +1,8 @@
+import { Process } from '@signer/common';
 import type { BrowserWindow, IpcMainEvent } from 'electron';
 import { ipcMain } from 'electron';
 
 import { ipcBridgeMain } from '@bridge';
-import { Process } from '@common/store';
 import type { createCryptoProcess } from '@crypto/process';
 
 export const createIpc = (

@@ -1,7 +1,7 @@
 import { Button, Heading } from '@mycrypto/ui';
+import { translateRaw } from '@signer/common';
 
 import mnemonicPhrase from '@app/assets/icons/mnemonic-phrase.svg';
-import { translateRaw } from '@common/translate';
 import type { IFlowComponentProps } from '@components';
 import { Box, Container, Image, List, ListItem, PanelBottom } from '@components';
 

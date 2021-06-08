@@ -1,15 +1,12 @@
 import { combineReducers } from '@reduxjs/toolkit';
-
-import synchronization from '@common/store/synchronization.slice';
-import transactions from '@common/store/transactions.slice';
-import { wrapRootReducer } from '@common/utils';
+import { synchronizationSlice, transactionsSlice, wrapRootReducer } from '@signer/common';
 
 import accounts from './accounts.slice';
 
 export const createRootReducer = () => {
   const reducer = combineReducers({
-    [synchronization.name]: synchronization.reducer,
-    [transactions.name]: transactions.reducer,
+    [synchronizationSlice.name]: synchronizationSlice.reducer,
+    [transactionsSlice.name]: transactionsSlice.reducer,
     [accounts.name]: accounts.reducer
   });
 

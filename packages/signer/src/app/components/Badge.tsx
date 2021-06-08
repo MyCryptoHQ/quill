@@ -1,8 +1,7 @@
 import { Body, Box } from '@mycrypto/ui';
+import type { BannerType } from '@signer/common';
 import type { PropsWithChildren } from 'react';
 import { useTheme } from 'styled-components';
-
-import type { BannerType } from '@types';
 
 interface BadgeProps {
   type: BannerType;

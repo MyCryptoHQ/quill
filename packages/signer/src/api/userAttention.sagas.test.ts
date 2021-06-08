@@ -1,7 +1,7 @@
+import { requestPermission } from '@signer/common';
 import type { BrowserWindow } from 'electron';
 import { expectSaga } from 'redux-saga-test-plan';
 
-import { requestPermission } from '@common/store';
 import { fPermission, fRequestOrigin, fTxRequest } from '@fixtures';
 import { showWindowOnTop } from '@utils';
 
