@@ -1,6 +1,7 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAction, createSelector, createSlice } from '@reduxjs/toolkit';
-import type { SliceState } from '@signer/common';
+
+import type { SliceState } from '../types';
 
 interface AuthState {
   initialized: boolean;

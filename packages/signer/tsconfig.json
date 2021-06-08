@@ -11,7 +11,7 @@
       "@signer/*": ["../*/src"]
     }
   },
-  "include": ["src", "tests"],
+  "include": ["src", "tests", "jest"],
   "references": [
     {
       "path": "../common"

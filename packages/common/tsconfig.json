@@ -6,5 +6,5 @@
     "outDir": "lib",
     "composite": true
   },
-  "include": ["src/**/*.json"]
+  "include": ["src", "src/**/*.json"]
 }

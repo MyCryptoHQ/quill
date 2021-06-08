@@ -1,5 +1,6 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
-import type { SliceState } from '@signer/common';
+
+import type { SliceState } from '../types';
 
 export type FlowState = number;
 const initialState: FlowState = 0;

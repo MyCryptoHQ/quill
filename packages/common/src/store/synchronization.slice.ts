@@ -134,7 +134,7 @@ export function* ipcWorker(
   processes: Partial<Record<Process, ReduxIPC>>,
   target: Process,
   self: Process
-) {
+): SagaIterator {
   const channel = yield call(subscribe, processes[target]);
   while (true) {
     const request: string = yield take(channel);

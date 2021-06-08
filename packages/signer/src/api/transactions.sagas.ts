@@ -1,5 +1,11 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { TSignTransaction, TxHistoryEntry, TxQueueEntry, UserRequest } from '@signer/common';
+import type {
+  Bigish,
+  TSignTransaction,
+  TxHistoryEntry,
+  TxQueueEntry,
+  UserRequest
+} from '@signer/common';
 import {
   addHexPrefix,
   addToHistory,
@@ -19,8 +25,6 @@ import {
   update
 } from '@signer/common';
 import { all, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
-
-import type { Bigish } from '@types';
 
 import { reply, requestSignTransaction } from './ws.slice';
 

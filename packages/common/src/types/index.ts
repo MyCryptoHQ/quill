@@ -1,6 +1,7 @@
 export * from './account';
 export * from './address';
 export * from './banner';
+export * from './bigish';
 export * from './deep-partial';
 export * from './handshake';
 export * from './ipc';
@@ -12,3 +13,4 @@ export * from './store';
 export * from './transactions';
 export * from './uuid';
 export * from './wallet';
+export * from './wallet-type';

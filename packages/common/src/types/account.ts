@@ -2,7 +2,7 @@ import type { DerivationPath } from '@mycrypto/wallets';
 
 import type { TAddress } from './address';
 import type { TUuid } from './uuid';
-import type { WalletType } from './wallet';
+import type { WalletType } from './wallet-type';
 
 export interface IAccountBase {
   uuid: TUuid;

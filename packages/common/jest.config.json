@@ -1,3 +1,4 @@
 {
-  "displayName": "common"
+  "displayName": "common",
+  "modulePathIgnorePatterns": ["<rootDir>/lib"]
 }

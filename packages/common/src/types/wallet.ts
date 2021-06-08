@@ -2,12 +2,7 @@ import type { DerivationPath } from '@mycrypto/wallets';
 
 import type { TAddress } from './address';
 import type { TUuid } from './uuid';
-
-export enum WalletType {
-  PRIVATE_KEY = 'PRIVATE_KEY',
-  KEYSTORE = 'KEYSTORE',
-  MNEMONIC = 'MNEMONIC'
-}
+import type { WalletType } from './wallet-type';
 
 export interface SerializedPrivateKey {
   walletType: WalletType.PRIVATE_KEY;
