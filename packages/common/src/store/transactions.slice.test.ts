@@ -12,13 +12,6 @@ import slice, {
 
 Date.now = jest.fn(() => 1607602775360);
 
-jest.mock('@bridge', () => ({
-  ipcBridgeRenderer: {
-    crypto: { invoke: jest.fn() },
-    api: { sendResponse: jest.fn(), subscribeToRequests: jest.fn() }
-  }
-}));
-
 const request = { origin: fRequestOrigin, request: fTxRequest };
 
 describe('TransactionsSlice', () => {

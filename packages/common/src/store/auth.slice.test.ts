@@ -10,12 +10,6 @@ import slice, {
   setNewUser
 } from './auth.slice';
 
-jest.mock('@bridge', () => ({
-  ipcBridgeRenderer: {
-    db: { invoke: jest.fn() }
-  }
-}));
-
 describe('authSlice', () => {
   describe('setNewUser', () => {
     it('sets newUser to the payload', () => {
