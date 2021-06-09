@@ -14,7 +14,6 @@ export const CopyableText = ({ children }: CopyableTextProps) => {
   const handleCopy = () => {
     navigator.clipboard.writeText(children);
     setIcon(checkmark);
-    console.log('set icon to', checkmark);
   };
 
   useEffect(() => {
