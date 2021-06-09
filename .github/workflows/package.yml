@@ -39,6 +39,9 @@ jobs:
       - name: Install Dependencies
         run: yarn install --immutable
 
+      - name: Build Common
+        run: yarn workspace @signer/common build
+
       - name: Add MacOS certificates
         if: matrix.os == 'macos-latest' && startsWith(github.ref, 'refs/tags/')
         run: |
