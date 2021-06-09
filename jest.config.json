@@ -20,6 +20,8 @@
     "!**/vendor/**",
     "!**/spec/**",
     "!**/__tests__/**",
+    "!**/__mocks__/**",
+    "!**/__fixtures__/**",
     "!**/lib/**"
   ],
   "coverageThreshold": {
