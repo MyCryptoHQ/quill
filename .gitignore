@@ -37,3 +37,4 @@ typings/
 out/
 dist/
 lib/
+coverage/
