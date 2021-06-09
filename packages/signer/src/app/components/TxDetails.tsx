@@ -4,11 +4,12 @@ import { Body } from '@mycrypto/ui';
 import warning from '@assets/icons/circle-warning.svg';
 import { translateRaw } from '@common/translate';
 import { bigify } from '@common/utils';
+import { CopyableText } from '@components';
 import { getChain } from '@data';
 import type { TxHistoryEntry, TxQueueEntry } from '@types';
 
 import { CodeBlock } from './CodeBlock';
-import { Box, Image, QR } from './index';
+import { Box, ExtendableButton, Image, QR } from './index';
 import { TxDetailsBlockRow as BlockRow } from './TxDetailsBlockRow';
 import { TxDetailsRow as Row } from './TxDetailsRow';
 
@@ -30,12 +31,15 @@ export const TxDetails = ({ tx: entry }: { tx: TxQueueEntry | TxHistoryEntry }) 
 
   return (
     <>
-      {/* @todo Update design */}
       {offline && signedTx && (
-        <BlockRow label={translateRaw('SIGNED_TRANSACTION')}>
-          <CodeBlock>{signedTx}</CodeBlock>
+        <ExtendableButton
+          title={translateRaw('SHOW_SIGNED_TRANSACTION')}
+          extendedTitle={translateRaw('HIDE_SIGNED_TRANSACTION')}
+        >
+          <CopyableText>{signedTx}</CopyableText>
+          {/* @todo: Test how much data can fit into QR */}
           <QR data={signedTx} size="200px" mt="2" mx="auto" display="block" />
-        </BlockRow>
+        </ExtendableButton>
       )}
 
       {/** @todo Consider units */}
