@@ -27,6 +27,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "watch": "tsc --watch --preserveWatchOutput",
     "lint": "yarn lint:types && yarn lint:source && yarn lint:format",
     "lint:types": "yarn tsc --noEmit",
     "lint:source": "eslint . --ignore-path ../../.gitignore --ext .ts,.js,.tsx,.jsx",

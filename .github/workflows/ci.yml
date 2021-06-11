@@ -40,9 +40,6 @@ jobs:
       - name: Install Dependencies
         run: yarn install --immutable
 
-      - name: Build Common
-        run: yarn workspace @signer/common build
-
       - name: Lint Types
         run: yarn lint:types
 
@@ -86,9 +83,6 @@ jobs:
       - name: Install Dependencies
         run: yarn install --immutable
 
-      - name: Build Common
-        run: yarn workspace @signer/common build
-
       - name: Test
         run: yarn test --coverage --maxWorkers=2
 
@@ -129,9 +123,6 @@ jobs:
 
       - name: Install Dependencies
         run: yarn install --immutable
-
-      - name: Build Common
-        run: yarn workspace @signer/common build
 
       - name: Test E2E
         uses: GabrielBB/xvfb-action@v1
