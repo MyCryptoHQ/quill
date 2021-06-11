@@ -1,11 +1,10 @@
 import { formatEther, parseUnits } from '@ethersproject/units';
 import { Body } from '@mycrypto/ui';
+import { bigify, translateRaw } from '@signer/common';
 import type { ComponentProps } from 'react';
 import type { FormState } from 'typed-react-form';
 
 import type { HumanReadableTx } from '@app/utils';
-import { translateRaw } from '@common/translate';
-import { bigify } from '@common/utils';
 import { getChain } from '@data';
 
 import { FormInput } from './FormInput';

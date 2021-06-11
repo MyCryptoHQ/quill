@@ -1,6 +1,5 @@
+import type { TxQueueEntry } from '@signer/common';
 import { Fragment } from 'react';
-
-import type { TxQueueEntry } from '@types';
 
 import { Divider } from '../Divider';
 import { TxQueueCard } from './TxQueueCard';

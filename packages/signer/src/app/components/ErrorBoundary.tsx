@@ -1,9 +1,9 @@
 import { Heading } from '@mycrypto/ui';
+import { translateRaw } from '@signer/common';
 import type { ErrorInfo, ReactNode } from 'react';
 import { Component } from 'react';
 
 import error from '@assets/icons/circle-error.svg';
-import { translateRaw } from '@common/translate';
 
 import { Container } from './Container';
 import { Logo } from './Logo';

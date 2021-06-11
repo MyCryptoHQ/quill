@@ -1,8 +1,8 @@
 import { Blockie, Body } from '@mycrypto/ui';
+import type { GetAddressesResult } from '@signer/common';
 import { Fragment } from 'react';
 
 import { Box, Checkbox } from '@app/components';
-import type { GetAddressesResult } from '@types';
 
 import { Divider } from './Divider';
 

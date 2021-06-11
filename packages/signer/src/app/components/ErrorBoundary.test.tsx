@@ -1,7 +1,6 @@
+import { translateRaw } from '@signer/common';
 import { render } from '@testing-library/react';
 import type { ReactNode } from 'react';
-
-import { translateRaw } from '@common/translate';
 
 import { ErrorBoundary } from './ErrorBoundary';
 

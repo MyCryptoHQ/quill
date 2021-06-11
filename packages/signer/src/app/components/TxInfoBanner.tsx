@@ -1,8 +1,6 @@
+import { InfoBannerType, translateRaw, TxResult } from '@signer/common';
+import type { BannerType } from '@signer/common';
 import type { ReactElement } from 'react';
-
-import { translateRaw } from '@common/translate';
-import type { BannerType } from '@types';
-import { InfoBannerType, TxResult } from '@types';
 
 import { Banner } from './index';
 

@@ -1,9 +1,8 @@
 import { Button, Heading } from '@mycrypto/ui';
+import { nextFlow, translateRaw } from '@signer/common';
 import { useEffect, useRef, useState } from 'react';
 
 import secureIcon from '@assets/icons/secure-purple.svg';
-import { nextFlow } from '@common/store';
-import { translateRaw } from '@common/translate';
 import type { IFlowComponentProps } from '@components';
 import { IconList, ListItem, PanelBottom, ScrollableContainer } from '@components';
 import { useDispatch } from '@store';

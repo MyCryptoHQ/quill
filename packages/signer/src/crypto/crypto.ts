@@ -1,15 +1,14 @@
 import type { TransactionRequest } from '@ethersproject/abstract-provider';
 import type { DerivationPath } from '@mycrypto/wallets';
 import { MnemonicPhrase, PrivateKey } from '@mycrypto/wallets';
-import { getDeterministicWallet, getWallet } from '@wallets/wallet-initialisation';
-
 import type {
   SerializedDeterministicWallet,
   SerializedOptionalPersistentWallet,
   SerializedWallet,
   TUuid
-} from '@types';
-import { WalletType } from '@types';
+} from '@signer/common';
+import { WalletType } from '@signer/common';
+import { getDeterministicWallet, getWallet } from '@wallets/wallet-initialisation';
 
 import { getPrivateKey } from './secrets';
 

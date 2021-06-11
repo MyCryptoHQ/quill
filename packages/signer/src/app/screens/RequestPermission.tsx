@@ -1,17 +1,17 @@
 import { Body, Button } from '@mycrypto/ui';
-import { replace } from 'connected-react-router';
-import { useSelector } from 'react-redux';
-
-import { Box, Checkbox, Container, Logo, PanelBottom } from '@app/components';
-import { ROUTE_PATHS } from '@app/routing';
 import {
   denyPermission,
   getPermissionRequest,
   grantPermission,
   hasExistingPermission,
+  translateRaw,
   updatePermission
-} from '@common/store';
-import { translateRaw } from '@common/translate';
+} from '@signer/common';
+import { replace } from 'connected-react-router';
+import { useSelector } from 'react-redux';
+
+import { Box, Checkbox, Container, Logo, PanelBottom } from '@app/components';
+import { ROUTE_PATHS } from '@app/routing';
 import { useDispatch } from '@store';
 
 export const RequestPermission = () => {

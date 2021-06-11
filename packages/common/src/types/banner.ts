@@ -1,0 +1,7 @@
+export type BannerType = 'success' | 'info' | 'action' | 'warning' | 'error' | 'clear';
+
+export enum InfoBannerType {
+  NONCE_CONFLICT_IN_QUEUE = 'NONCE_CONFLICT_IN_QUEUE',
+  NONCE_ADJUSTED = 'NONCE_ADJUSTED',
+  NONCE_OUT_OF_ORDER = 'NONCE_OUT_OF_ORDER'
+}

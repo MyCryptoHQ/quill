@@ -1,16 +1,15 @@
+import { createKeyPair, translateRaw } from '@signer/common';
 import { app, BrowserWindow, Menu, shell, Tray } from 'electron';
 import contextMenu from 'electron-context-menu';
 import positioner from 'electron-traywindow-positioner';
 import path from 'path';
 import { URL } from 'url';
 
-import { translateRaw } from '@common/translate';
 import { HEIGHT, WIDTH } from '@config';
 import { createCryptoProcess } from '@crypto/process';
 import { showWindowOnTop } from '@utils';
 
 import { createStore } from './api';
-import { createKeyPair } from './common/store';
 import { createIpc } from './ipc';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;

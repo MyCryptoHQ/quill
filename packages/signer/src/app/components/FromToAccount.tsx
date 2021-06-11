@@ -1,9 +1,9 @@
 import type { BigNumberish } from '@ethersproject/bignumber';
 import { Box } from '@mycrypto/ui';
+import { translateRaw } from '@signer/common';
+import type { IAccount } from '@signer/common';
 
 import type { BoxProps } from '@app/components';
-import { translateRaw } from '@common/translate';
-import type { IAccount } from '@types';
 
 import { Account } from './Account';
 import { NonceBadge } from './NonceBadge';

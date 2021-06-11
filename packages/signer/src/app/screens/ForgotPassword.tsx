@@ -1,9 +1,8 @@
 import { Body, Button, Heading } from '@mycrypto/ui';
+import { reset, translateRaw } from '@signer/common';
 import { push } from 'connected-react-router';
 
 import warning from '@assets/icons/circle-error.svg';
-import { reset } from '@common/store';
-import { translateRaw } from '@common/translate';
 import { Container, Flex, Image, PanelBottom } from '@components';
 import { ROUTE_PATHS } from '@routing';
 import { useDispatch } from '@store';

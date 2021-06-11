@@ -1,8 +1,8 @@
+import type { PersistState } from '@signer/common';
 import type { TypedUseSelectorHook } from 'react-redux';
 import { useSelector as useReduxSelector } from 'react-redux';
 import type { Optional } from 'utility-types';
 
-import type { PersistState } from '@common/store';
 import type { ApplicationState } from '@store';
 
 /**

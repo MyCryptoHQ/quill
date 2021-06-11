@@ -1,8 +1,7 @@
+import type { ReduxIPC } from '@signer/common';
+import { handshakeSaga, Process } from '@signer/common';
 import type { BrowserWindow } from 'electron';
 import { all } from 'redux-saga/effects';
-
-import { handshakeSaga, Process } from '@common/store';
-import type { ReduxIPC } from '@types';
 
 import { accountsSaga } from './accounts.sagas';
 import { permissionsSaga } from './permissions.sagas';

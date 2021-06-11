@@ -1,17 +1,15 @@
 import { DEFAULT_ETH, getFullPath } from '@mycrypto/wallets';
 import type { EnhancedStore } from '@reduxjs/toolkit';
+import { addSavedAccounts, translateRaw, WalletType } from '@signer/common';
+import type { DeepPartial } from '@signer/common';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { toPng } from 'html-to-image';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router';
 import configureStore from 'redux-mock-store';
 
-import { addSavedAccounts } from '@common/store';
-import { translateRaw } from '@common/translate';
 import { fAccount, fMnemonicPhrase, fPrivateKey } from '@fixtures';
 import type { ApplicationState } from '@store';
-import type { DeepPartial } from '@types';
-import { WalletType } from '@types';
 
 import { AddAccountBackup } from './AddAccountBackup';
 

@@ -1,11 +1,16 @@
-import type { PersistConfig } from '@common/store';
-import { addAccount, createPersistReducer, removeAccount, updateAccount } from '@common/store';
-import slice from '@common/store/accounts.slice';
+import {
+  accountsSlice,
+  addAccount,
+  createPersistReducer,
+  removeAccount,
+  updateAccount
+} from '@signer/common';
+import type { PersistConfig } from '@signer/common';
 
 const persistConfig: PersistConfig = {
-  key: slice.name,
+  key: accountsSlice.name,
   whitelistedActions: [addAccount.type, removeAccount.type, updateAccount.type],
   whitelistedKeys: ['accounts']
 };
 
-export const persistedReducer = createPersistReducer(persistConfig, slice.reducer);
+export const persistedReducer = createPersistReducer(persistConfig, accountsSlice.reducer);

@@ -1,4 +1,4 @@
-import { Process } from '@common/store';
+import { Process } from '@signer/common';
 
 import { createStore } from './store';
 

@@ -1,9 +1,8 @@
+import { denyPermission, grantPermission, JsonRPCMethod, requestPermission } from '@signer/common';
 import type { IncomingMessage } from 'http';
 import { expectSaga } from 'redux-saga-test-plan';
 import WebSocket from 'ws';
 
-import { denyPermission, grantPermission, requestPermission } from '@common/store';
-import { JsonRPCMethod } from '@config';
 import {
   fAccount,
   fRequestOrigin,

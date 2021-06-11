@@ -1,14 +1,14 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects';
-
-import type { SettingsValue } from '@common/store';
+import type { SettingsValue } from '@signer/common';
 import {
   decryptSettings,
   fetchSettings,
   rehydrateEmptyState,
   resetSettings,
   storeEncryptedSettings
-} from '@common/store';
+} from '@signer/common';
+import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects';
+
 import { clearStore, getFromStore, setInStore } from '@utils';
 
 export function* settingsSaga() {

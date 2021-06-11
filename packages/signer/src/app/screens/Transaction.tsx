@@ -1,4 +1,13 @@
 import { Body } from '@mycrypto/ui';
+import {
+  denyCurrentTransaction,
+  getAccounts,
+  getCurrentTransaction,
+  getTransactionInfoBannerType,
+  sign,
+  translateRaw,
+  TxResult
+} from '@signer/common';
 import { push } from 'connected-react-router';
 
 import {
@@ -15,15 +24,6 @@ import {
 import { ROUTE_PATHS } from '@app/routing';
 import { useDispatch, useSelector } from '@app/store';
 import edit from '@assets/icons/edit.svg';
-import {
-  denyCurrentTransaction,
-  getAccounts,
-  getCurrentTransaction,
-  getTransactionInfoBannerType,
-  sign
-} from '@common/store';
-import { translateRaw } from '@common/translate';
-import { TxResult } from '@types';
 
 export const Transaction = () => {
   const dispatch = useDispatch();

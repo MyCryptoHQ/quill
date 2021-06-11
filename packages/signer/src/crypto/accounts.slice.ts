@@ -1,33 +1,33 @@
 import { DEFAULT_ETH } from '@mycrypto/wallets';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAction, createSelector, createSlice } from '@reduxjs/toolkit';
-import type { SagaIterator } from 'redux-saga';
-import { all, call, put, select, takeLatest } from 'redux-saga/effects';
-
-import type { AccountsState } from '@common/store';
 import {
+  accountsSlice,
   addAccount,
   fetchAccounts,
   fetchAddresses,
   fetchFailed,
   generateAccount,
+  generateDeterministicAddressUUID,
   nextFlow,
   removeAccount,
   setAddresses,
   setExtendedKey,
-  setGeneratedAccount
-} from '@common/store';
-import accountsSlice from '@common/store/accounts.slice';
-import { generateDeterministicAddressUUID } from '@common/utils';
-import { DEFAULT_MNEMONIC_INDEX } from '@config';
+  setGeneratedAccount,
+  WalletType
+} from '@signer/common';
 import type {
+  AccountsState,
   GetAddressesResult,
   IAccount,
   SerializedWallet,
   SerializedWalletWithAddress,
   TAddress
-} from '@types';
-import { WalletType } from '@types';
+} from '@signer/common';
+import type { SagaIterator } from 'redux-saga';
+import { all, call, put, select, takeLatest } from 'redux-saga/effects';
+
+import { DEFAULT_MNEMONIC_INDEX } from '@config';
 
 import { createWallet, derivePrivateKey, getAddress, getAddresses, getExtendedKey } from './crypto';
 import { deleteAccountSecrets, saveAccountSecrets } from './secrets';

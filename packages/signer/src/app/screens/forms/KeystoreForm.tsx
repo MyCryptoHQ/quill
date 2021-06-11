@@ -1,11 +1,11 @@
 import { Body } from '@mycrypto/ui';
+import { translateRaw } from '@signer/common';
 import type { FormEvent, ReactNode } from 'react';
 import { useForm, yupValidator } from 'typed-react-form';
 import { mixed, object, string } from 'yup';
 
 import { Box, FormError, FormFileInput, FormInput, Image } from '@app/components';
 import warning from '@assets/icons/circle-warning.svg';
-import { translateRaw } from '@common/translate';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
 import { translate } from '@translations';
 

@@ -1,10 +1,9 @@
+import { fetchReset, WalletType } from '@signer/common';
 import type { PropsWithChildren } from 'react';
 import { useEffect, useState } from 'react';
 
 import { useDispatch } from '@app/store';
-import { fetchReset } from '@common/store';
 import type { IFlowComponentProps } from '@components';
-import { WalletType } from '@types';
 
 import { AddAccountKeystore, AddAccountMnemonic, AddAccountPrivateKey } from './wallets';
 

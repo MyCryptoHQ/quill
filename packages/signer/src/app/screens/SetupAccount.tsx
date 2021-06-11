@@ -1,7 +1,7 @@
 import { Body, Button, Heading } from '@mycrypto/ui';
+import { translateRaw } from '@signer/common';
 
 import wallet from '@app/assets/icons/wallet.svg';
-import { translateRaw } from '@common/translate';
 import { Box, Container, Image, LinkApp, PanelBottom } from '@components';
 import { ROUTE_PATHS } from '@routing';
 

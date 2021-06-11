@@ -1,23 +1,25 @@
 import { parse } from '@ethersproject/transactions';
 import type { EnhancedStore } from '@reduxjs/toolkit';
+import type { DeepPartial } from '@signer/common';
+import {
+  enqueue,
+  makeQueueTx,
+  setNavigationBack,
+  toTransactionRequest,
+  translateRaw
+} from '@signer/common';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { push } from 'connected-react-router';
 import { Provider } from 'react-redux';
 import selectEvent from 'react-select-event';
 import configureStore from 'redux-mock-store';
 
-import { enqueue, setNavigationBack } from '@common/store';
-import { translateRaw } from '@common/translate';
-import { makeQueueTx, toTransactionRequest } from '@common/utils';
 import { fAccounts, fRawTransaction } from '@fixtures';
 import { ROUTE_PATHS } from '@routing';
 import { LoadTransaction } from '@screens/LoadTransaction';
 import type { ApplicationState } from '@store';
-import type { DeepPartial } from '@types';
 
 Date.now = jest.fn(() => 1607602775360);
-
-jest.mock('uuid', () => ({ v4: jest.fn() }));
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 

@@ -1,12 +1,11 @@
 import { Body, Heading } from '@mycrypto/ui';
+import { getSigningError, translateRaw, WalletType } from '@signer/common';
+import type { IAccountDeterministic } from '@signer/common';
 import { useEffect } from 'react';
 
 import { Account, ScrollableContainer, SignBottom } from '@app/components';
 import { useSelector } from '@app/store';
-import { getSigningError } from '@common/store';
-import { translateRaw } from '@common/translate';
-import type { IAccountDeterministic, SignTransactionProps } from '@types';
-import { WalletType } from '@types';
+import type { SignTransactionProps } from '@types';
 
 import { MnemonicForm, useMnemonicForm } from '../forms/MnemonicForm';
 

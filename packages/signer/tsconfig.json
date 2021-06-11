@@ -2,13 +2,19 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": ".",
-    "baseUrl": "src",
+    "baseUrl": ".",
     "jsx": "preserve",
     "paths": {
-      "@fixtures": ["../jest/__fixtures__"],
-      "test-utils": ["../jest/test-utils"],
-      "@*": ["./*", "./app/*"]
+      "@fixtures": ["./jest/__fixtures__"],
+      "test-utils": ["./jest/test-utils"],
+      "@*": ["./src/*", "./src/app/*"],
+      "@signer/*": ["../*/src"]
     }
   },
-  "include": ["src", "tests"]
+  "include": ["src", "tests", "jest"],
+  "references": [
+    {
+      "path": "../common"
+    }
+  ]
 }

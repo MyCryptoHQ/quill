@@ -1,12 +1,10 @@
 import { Button } from '@mycrypto/ui';
+import { fetchAccounts, getAccountError, translateRaw, WalletType } from '@signer/common';
 import type { ReactElement } from 'react';
 import { useEffect } from 'react';
 
 import { useDispatch, useSelector } from '@app/store';
-import { fetchAccounts, getAccountError } from '@common/store';
-import { translateRaw } from '@common/translate';
 import { PanelBottom, ScrollableContainer, WalletTypeSelector } from '@components';
-import { WalletType } from '@types';
 
 import { KeystoreForm, useKeystoreForm } from '../../forms/KeystoreForm';
 

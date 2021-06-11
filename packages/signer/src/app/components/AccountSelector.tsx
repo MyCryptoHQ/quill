@@ -1,8 +1,8 @@
+import { translateRaw } from '@signer/common';
+import type { IAccount, TUuid } from '@signer/common';
 import type { OptionProps } from 'react-select';
 
-import { translateRaw } from '@common/translate';
 import { Account, Selector } from '@components';
-import type { IAccount, TUuid } from '@types';
 
 interface Props {
   currentAccount: TUuid;

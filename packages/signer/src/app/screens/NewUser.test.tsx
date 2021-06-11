@@ -1,3 +1,5 @@
+import { translateRaw } from '@signer/common';
+import type { DeepPartial } from '@signer/common';
 import { fireEvent, render } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
@@ -5,9 +7,7 @@ import { Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import type { ApplicationState } from '@app/store';
-import { translateRaw } from '@common/translate';
 import { ROUTE_PATHS } from '@routing';
-import type { DeepPartial } from '@types';
 
 import { NewUser } from './NewUser';
 

@@ -1,9 +1,11 @@
 {
   "scripts": {
-    "start": "yarn workspaces foreach -i --include signer run start",
-    "package": "yarn workspaces foreach -i --include signer run package",
-    "make": "yarn workspaces foreach -i --include signer run make",
-    "publish": "yarn workspaces foreach -i --include signer run publish",
+    "start": "yarn build && concurrently --raw -k \"yarn workspaces foreach -i --include signer run start\" \"yarn watch\"",
+    "package": "yarn build && yarn workspaces foreach -i --include signer run package",
+    "make": "yarn build && yarn workspaces foreach -i --include signer run make",
+    "publish": "yarn build && yarn workspaces foreach -i --include signer run publish",
+    "build": "yarn workspaces foreach -i run build",
+    "watch": "yarn workspaces foreach -i run watch",
     "lint": "yarn lint:types && yarn lint:source && yarn lint:format && yarn lint:styles",
     "lint:types": "yarn workspaces foreach -pt run lint:types",
     "lint:source": "yarn workspaces foreach -pt run lint:source",
@@ -53,6 +55,7 @@
     "@typescript-eslint/eslint-plugin": "4.1.0",
     "@typescript-eslint/parser": "4.1.0",
     "babel-jest": "26.3.0",
+    "concurrently": "6.2.0",
     "cross-env": "7.0.3",
     "eslint": "7.6.0",
     "eslint-config-prettier": "6.11.0",

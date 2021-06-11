@@ -1,4 +1,6 @@
 import type { EnhancedStore } from '@reduxjs/toolkit';
+import { makeHistoryTx, makeQueueTx, selectTransaction, TxResult } from '@signer/common';
+import type { DeepPartial } from '@signer/common';
 import { fireEvent, render } from '@testing-library/react';
 import { push } from 'connected-react-router';
 import { Provider } from 'react-redux';
@@ -7,13 +9,9 @@ import configureStore from 'redux-mock-store';
 import { ThemeProvider } from 'styled-components';
 
 import type { ApplicationState } from '@app/store';
-import { selectTransaction } from '@common/store';
-import { makeHistoryTx, makeQueueTx } from '@common/utils';
 import { fAccount, fRequestOrigin, fTxRequest } from '@fixtures';
 import { ROUTE_PATHS } from '@routing';
 import { theme } from '@theme';
-import type { DeepPartial } from '@types';
-import { TxResult } from '@types';
 
 import { Home } from './Home';
 

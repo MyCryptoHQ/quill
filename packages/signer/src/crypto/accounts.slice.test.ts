@@ -1,7 +1,5 @@
 import { DEFAULT_ETH } from '@mycrypto/wallets';
-import { expectSaga } from 'redux-saga-test-plan';
-import { call } from 'redux-saga-test-plan/matchers';
-
+import type { SerializedWallet, TAddress } from '@signer/common';
 import {
   addAccount,
   clearAddAccounts,
@@ -13,8 +11,12 @@ import {
   setAddAccounts,
   setAddresses,
   setExtendedKey,
-  setGeneratedAccount
-} from '@common/store';
+  setGeneratedAccount,
+  WalletType
+} from '@signer/common';
+import { expectSaga } from 'redux-saga-test-plan';
+import { call } from 'redux-saga-test-plan/matchers';
+
 import { DEFAULT_MNEMONIC_INDEX } from '@config';
 import {
   fAccount,
@@ -24,8 +26,6 @@ import {
   fMnemonicPhrase,
   fPrivateKey
 } from '@fixtures';
-import type { SerializedWallet, TAddress } from '@types';
-import { WalletType } from '@types';
 
 import slice, {
   addSavedAccounts,

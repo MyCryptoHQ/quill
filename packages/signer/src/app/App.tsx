@@ -3,10 +3,6 @@ import '@fontsource/lato/400.css';
 import '@fontsource/lato/700.css';
 import '@fontsource/roboto-mono/400.css';
 
-import { useEffect } from 'react';
-import { hot } from 'react-hot-loader';
-import { ThemeProvider } from 'styled-components';
-
 import {
   checkNewUser,
   getHandshaken,
@@ -14,7 +10,11 @@ import {
   getLoggedIn,
   getPersisted,
   Process
-} from '@common/store';
+} from '@signer/common';
+import { useEffect } from 'react';
+import { hot } from 'react-hot-loader';
+import { ThemeProvider } from 'styled-components';
+
 import { Box, ErrorBoundary, Flex, Navigation } from '@components';
 import { GlobalStyle, theme } from '@theme';
 

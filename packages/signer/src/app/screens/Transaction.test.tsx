@@ -1,16 +1,21 @@
 import type { EnhancedStore } from '@reduxjs/toolkit';
+import {
+  denyCurrentTransaction,
+  makeHistoryTx,
+  makeQueueTx,
+  makeTx,
+  sign,
+  translateRaw,
+  TxResult
+} from '@signer/common';
+import type { DeepPartial, IAccount, TSignTransaction } from '@signer/common';
 import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import type { ApplicationState } from '@app/store';
-import { denyCurrentTransaction, sign } from '@common/store';
-import { translateRaw } from '@common/translate';
-import { makeHistoryTx, makeQueueTx, makeTx } from '@common/utils';
 import { fAccount, fAccounts, fSignedTx, getTransactionRequest } from '@fixtures';
-import type { DeepPartial, IAccount, TSignTransaction } from '@types';
-import { TxResult } from '@types';
 
 import { Transaction } from './Transaction';
 

@@ -1,8 +1,4 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { push } from 'connected-react-router';
-import keytar from 'keytar';
-import { all, call, put, takeLatest } from 'redux-saga/effects';
-
 import {
   checkNewUser,
   createPassword,
@@ -14,9 +10,13 @@ import {
   rehydrateAllState,
   reset,
   resetSettings,
-  setNewUser
-} from '@common/store';
-import { translateRaw } from '@common/translate';
+  setNewUser,
+  translateRaw
+} from '@signer/common';
+import { push } from 'connected-react-router';
+import keytar from 'keytar';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
+
 import { KEYTAR_SERVICE } from '@config';
 
 import { ROUTE_PATHS } from '../app/routing';

@@ -1,11 +1,16 @@
 import { Body, Button, Heading } from '@mycrypto/ui';
+import {
+  getAccountsLength,
+  getPersisted,
+  getQueue,
+  getTxHistory,
+  translateRaw
+} from '@signer/common';
 import { push } from 'connected-react-router';
 import { useEffect } from 'react';
 
 import { Box, Container, Image, LinkApp, PanelBottom, TxHistory, TxQueue } from '@app/components';
 import wallet from '@assets/icons/home.svg';
-import { getAccountsLength, getPersisted, getQueue, getTxHistory } from '@common/store';
-import { translateRaw } from '@common/translate';
 import { ROUTE_PATHS } from '@routing';
 import { useDispatch, useSelector } from '@store';
 

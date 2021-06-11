@@ -1,21 +1,22 @@
 import type { TransactionRequest } from '@ethersproject/abstract-provider';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { push } from 'connected-react-router';
-import { all, call, put, select, takeLatest } from 'redux-saga/effects';
-
-import { reply } from '@api/ws.slice';
 import {
   addToHistory,
   dequeue,
   getCurrentTransaction,
+  makeHistoryTx,
   selectTransaction,
-  sign
-} from '@common/store';
-import { signFailed, signSuccess } from '@common/store/signing.slice';
-import { makeHistoryTx } from '@common/utils';
+  sign,
+  signFailed,
+  signSuccess,
+  TxResult
+} from '@signer/common';
+import type { SerializedPersistentAccount, SerializedWallet, TxQueueEntry } from '@signer/common';
+import { push } from 'connected-react-router';
+import { all, call, put, select, takeLatest } from 'redux-saga/effects';
+
+import { reply } from '@api/ws.slice';
 import { ROUTE_PATHS } from '@routing';
-import type { SerializedPersistentAccount, SerializedWallet, TxQueueEntry } from '@types';
-import { TxResult } from '@types';
 
 import { signTransaction } from './crypto';
 

@@ -1,4 +1,5 @@
 import { Body, Heading } from '@mycrypto/ui';
+import { setNavigationBack, translateRaw } from '@signer/common';
 import { useEffect } from 'react';
 
 import { Box, Container, Image, LinkApp } from '@app/components';
@@ -6,8 +7,6 @@ import { ROUTE_PATHS } from '@app/routing';
 import addAccount from '@assets/icons/add-account.svg';
 import generateAccount from '@assets/icons/generate-account.svg';
 import receipt from '@assets/icons/receipt.svg';
-import { setNavigationBack } from '@common/store';
-import { translateRaw } from '@common/translate';
 import { useDispatch } from '@store';
 
 const MENU_ITEMS = [

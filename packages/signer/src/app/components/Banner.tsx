@@ -1,4 +1,5 @@
 import { Body, Box, Flex, Image } from '@mycrypto/ui';
+import type { BannerType } from '@signer/common';
 import type { PropsWithChildren } from 'react';
 import { useState } from 'react';
 
@@ -8,7 +9,6 @@ import success from '@assets/icons/circle-checkmark.svg';
 import warning from '@assets/icons/circle-warning.svg';
 import info from '@assets/icons/info.svg';
 import action from '@assets/icons/queue-waiting.svg';
-import type { BannerType } from '@types';
 
 import { Badge } from './Badge';
 

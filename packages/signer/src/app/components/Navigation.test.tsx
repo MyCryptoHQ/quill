@@ -1,4 +1,5 @@
 import type { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
+import { logout } from '@signer/common';
 import { render } from '@testing-library/react';
 import { connectRouter } from 'connected-react-router';
 import { createMemoryHistory } from 'history';
@@ -6,7 +7,6 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
-import { logout } from '@common/store';
 import type { ApplicationState } from '@store';
 
 import { Navigation } from './Navigation';

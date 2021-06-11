@@ -1,13 +1,13 @@
 import type { EnhancedStore } from '@reduxjs/toolkit';
+import { setNavigationBack } from '@signer/common';
+import type { DeepPartial } from '@signer/common';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
-import { setNavigationBack } from '@common/store';
 import { ROUTE_PATHS } from '@routing';
 import type { ApplicationState } from '@store';
-import type { DeepPartial } from '@types';
 
 import { Menu } from './Menu';
 

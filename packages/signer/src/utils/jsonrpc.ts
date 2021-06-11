@@ -1,5 +1,9 @@
-import type { JsonRPCMethod } from '@config';
-import type { JsonRPCRequest, JsonRPCResponse, SignedJsonRPCRequest } from '@types';
+import type {
+  JsonRPCMethod,
+  JsonRPCRequest,
+  JsonRPCResponse,
+  SignedJsonRPCRequest
+} from '@signer/common';
 
 import { signRequest } from './hashing';
 

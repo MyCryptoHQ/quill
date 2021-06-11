@@ -1,4 +1,5 @@
-import { Process, sendPublicKey } from '@common/store';
+import { Process, sendPublicKey } from '@signer/common';
+
 import { fEncryptionPublicKey } from '@fixtures';
 
 import { init } from './crypto.worker';

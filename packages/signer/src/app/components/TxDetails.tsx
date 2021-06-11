@@ -1,12 +1,11 @@
 import { formatEther, formatUnits } from '@ethersproject/units';
 import { Body } from '@mycrypto/ui';
+import { bigify, translateRaw } from '@signer/common';
+import type { TxHistoryEntry, TxQueueEntry } from '@signer/common';
 
 import warning from '@assets/icons/circle-warning.svg';
-import { translateRaw } from '@common/translate';
-import { bigify } from '@common/utils';
 import { CopyableText } from '@components';
 import { getChain } from '@data';
-import type { TxHistoryEntry, TxQueueEntry } from '@types';
 
 import { CodeBlock } from './CodeBlock';
 import { Box, ExtendableButton, Image, QR } from './index';

@@ -1,7 +1,6 @@
+import { logout, makeQueueTx } from '@signer/common';
 import { createHashHistory } from 'history';
 
-import { logout } from '@common/store';
-import { makeQueueTx } from '@common/utils';
 import { fAccounts, fRequestOrigin, fTxRequest } from '@fixtures';
 
 import { createRootReducer } from './reducer';

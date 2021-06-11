@@ -7,7 +7,8 @@
     "<rootDir>/dist",
     "<rootDir>/src/types",
     "<rootDir>/src/assets",
-    "<rootDir>/out"
+    "<rootDir>/out",
+    "<rootDir>/lib"
   ],
   "testPathIgnorePatterns": ["/node_modules/", "<rootDir>/dist", "/*\\.(stories)/"],
   "automock": false,
@@ -18,7 +19,10 @@
     "!**/node_modules/**",
     "!**/vendor/**",
     "!**/spec/**",
-    "!**/__tests__/**"
+    "!**/__tests__/**",
+    "!**/__mocks__/**",
+    "!**/__fixtures__/**",
+    "!**/lib/**"
   ],
   "coverageThreshold": {
     "global": {

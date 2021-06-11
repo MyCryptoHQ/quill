@@ -6,6 +6,7 @@
     "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/jest/__mocks__/fileMock.ts",
     "\\.(css|scss)$": "<rootDir>/jest/__mocks__/styleMock.ts",
     "\\.worker.(ts|tsx)": "<rootDir>/jest/__mocks__/workerMock.js",
+    "^@signer/(.+)$": "<rootDir>/../$1/src",
     "^@(.+)$": [
       "<rootDir>/node_modules/$0",
       "<rootDir>/../../node_modules/$0",

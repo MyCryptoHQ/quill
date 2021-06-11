@@ -1,4 +1,14 @@
 import { Body, Button } from '@mycrypto/ui';
+import {
+  EvenHex,
+  getAccounts,
+  getCurrentTransaction,
+  getTransactionInfoBannerType,
+  selectTransaction,
+  translateRaw,
+  update
+} from '@signer/common';
+import type { TxQueueEntry } from '@signer/common';
 import { replace } from 'connected-react-router';
 import type { FormEvent } from 'react';
 import { is } from 'superstruct';
@@ -19,17 +29,12 @@ import { ROUTE_PATHS } from '@app/routing';
 import { useDispatch, useSelector } from '@app/store';
 import { fromHumanReadable, toHumanReadable } from '@app/utils';
 import edit from '@assets/icons/edit-grey.svg';
-import { getAccounts, getCurrentTransaction, getTransactionInfoBannerType } from '@common/store';
-import { selectTransaction, update } from '@common/store/transactions.slice';
-import { translateRaw } from '@common/translate';
 import {
   GAS_LIMIT_LOWER_BOUND,
   GAS_LIMIT_UPPER_BOUND,
   GAS_PRICE_GWEI_LOWER_BOUND,
   GAS_PRICE_GWEI_UPPER_BOUND
 } from '@config';
-import type { TxQueueEntry } from '@types';
-import { EvenHex } from '@types';
 
 const SCHEMA = object({
   value: number().required().min(0),

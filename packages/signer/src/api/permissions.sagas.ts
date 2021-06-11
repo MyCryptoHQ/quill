@@ -1,8 +1,8 @@
+import { requestPermission } from '@signer/common';
 import { replace } from 'connected-react-router';
 import { all, put, takeLatest } from 'redux-saga/effects';
 
 import { ROUTE_PATHS } from '@app/routing';
-import { requestPermission } from '@common/store';
 
 export function* permissionsSaga() {
   yield all([takeLatest(requestPermission.type, requestPermissionsWorker)]);

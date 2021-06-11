@@ -1,8 +1,6 @@
 import { Body, Button } from '@mycrypto/ui';
-
-import { translateRaw } from '@common/translate';
-import { truncate } from '@common/utils';
-import type { IAccount } from '@types';
+import { translateRaw, truncate } from '@signer/common';
+import type { IAccount } from '@signer/common';
 
 import type { BoxProps } from './index';
 import { Box } from './index';

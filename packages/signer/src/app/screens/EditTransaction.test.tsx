@@ -1,16 +1,13 @@
 import type { EnhancedStore } from '@reduxjs/toolkit';
+import { makeHistoryTx, makeQueueTx, translateRaw, TxResult, update } from '@signer/common';
+import type { DeepPartial } from '@signer/common';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import type { ApplicationState } from '@app/store';
-import { update } from '@common/store/transactions.slice';
-import { translateRaw } from '@common/translate';
-import { makeHistoryTx, makeQueueTx } from '@common/utils';
 import { fAccount, getTransactionRequest } from '@fixtures';
-import type { DeepPartial } from '@types';
-import { TxResult } from '@types';
 
 import { EditTransaction } from './EditTransaction';
 
