@@ -1,11 +1,13 @@
 const { execSync } = require('child_process');
 
 const afterAllInstalled = (project) => {
-  execSync('yarn build', { cwd: project.cwd, stdio: 'inherit' });
+  // `project.cwd` has a leading `/` on Windows, which breaks `cwd` of `execSync`
+  const cwd = process.platform === 'win32' ? project.cwd.slice(1) : project.cwd;
+  execSync('yarn build', { cwd, stdio: 'inherit' });
 };
 
 module.exports = {
-  name: 'plugin-git-hooks',
+  name: 'plugin-build',
   factory: () => {
     return {
       default: {
