@@ -1,0 +1,28 @@
+{
+  "name": "@signer/extension",
+  "version": "0.1.0",
+  "description": "MyCrypto Signer browser extension",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack --config ./webpack/production.ts",
+    "watch": "yarn build --watch",
+    "lint": "yarn lint:types && yarn lint:source && yarn lint:format",
+    "lint:types": "yarn tsc --noEmit",
+    "lint:source": "eslint . --ignore-path ../../.gitignore --ext .ts,.js,.tsx,.jsx",
+    "lint:source:fix": "yarn workspaces foreach -pt run lint:source:fix",
+    "lint:format": "prettier --check --ignore-path ../../.gitignore \"**/*.{js,jsx,ts,tsx,json,yml,html}\"",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.{js,jsx,ts,tsx,json,yml,html}\""
+  },
+  "devDependencies": {
+    "@types/chrome": "0.0.145",
+    "@types/webpack": "5.28.0",
+    "babel-loader": "8.2.2",
+    "html-webpack-plugin": "5.3.1",
+    "ts-node": "10.0.0",
+    "typescript": "4.3.2",
+    "webpack": "5.38.1",
+    "webpack-cli": "4.7.2",
+    "webpack-merge": "5.8.0",
+    "webpackbar": "5.0.0-3"
+  }
+}

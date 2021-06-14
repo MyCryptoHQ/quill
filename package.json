@@ -10,9 +10,9 @@
     "lint:types": "yarn workspaces foreach -pt run lint:types",
     "lint:source": "yarn workspaces foreach -pt run lint:source",
     "lint:source:fix": "yarn workspaces foreach -pt run lint:source:fix",
-    "lint:format": "prettier --check --ignore-path .gitignore \"**/*.{js,jsx,ts,tsx,json,yml}\"",
+    "lint:format": "prettier --check --ignore-path .gitignore \"**/*.{js,jsx,ts,tsx,json,yml,html}\"",
     "lint:styles": "stylelint packages/**/*.tsx",
-    "format": "prettier --ignore-path .gitignore --write \"**/*.{js,jsx,ts,tsx,json,yml}\"",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.{js,jsx,ts,tsx,json,yml,html}\"",
     "tsc": "tsc --noEmit",
     "test": "jest --testPathIgnorePatterns e2e",
     "test:coverage": "yarn test --coverage",
@@ -27,7 +27,7 @@
       "eslint --fix",
       "yarn lint:styles"
     ],
-    "*.{json,yml}": [
+    "*.{json,yml,html}": [
       "prettier --write"
     ]
   },
