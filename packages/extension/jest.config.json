@@ -1,0 +1,4 @@
+{
+  "displayName": "extension",
+  "modulePathIgnorePatterns": ["<rootDir>/lib"]
+}

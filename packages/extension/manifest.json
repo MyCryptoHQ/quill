@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "MyCrypto Signer",
+  "description": "A tool to sign transactions with mnemonic phrases and keystore files",
+  "version": "0.1.0",
+  "action": {
+    "default_popup": "lib/popup.html"
+  },
+  "permissions": ["nativeMessaging", "tabs"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["lib/content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["lib/page.js"],
+      "matches": ["*://*/*"]
+    }
+  ]
+}
