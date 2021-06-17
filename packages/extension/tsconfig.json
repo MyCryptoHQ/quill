@@ -3,7 +3,10 @@
   "compilerOptions": {
     "rootDir": ".",
     "baseUrl": ".",
-    "composite": true
+    "composite": true,
+    "paths": {
+      "@signer/*": ["../*/src"]
+    }
   },
   "include": ["src", "src/**/*.json"],
   "references": [

@@ -78,7 +78,8 @@ export const synchronizationMiddleware = (
       action.from === Process.Renderer || CRYPTO_ACTIONS.includes(action.type)
         ? Process.Crypto
         : Process.Renderer,
-    [Process.Renderer]: Process.Main
+    [Process.Renderer]: Process.Main,
+    [Process.Extension]: Process.Main
   };
 
   const encryptionMapping = {

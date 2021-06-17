@@ -19,7 +19,8 @@ import {
 export enum Process {
   Renderer = 'Renderer',
   Main = 'Main',
-  Crypto = 'Crypto'
+  Crypto = 'Crypto',
+  Extension = 'Extension'
 }
 
 export interface SynchronizationState {
@@ -27,7 +28,6 @@ export interface SynchronizationState {
   privateKey?: string;
 
   isHandshaken: Partial<Record<Process, boolean>>;
-
   targetPublicKey: Partial<Record<Process, string>>;
 }
 
