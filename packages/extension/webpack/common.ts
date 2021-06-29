@@ -17,7 +17,12 @@ const config: Configuration = {
     filename: '[name].js'
   },
   resolve: {
-    extensions: ['.js', '.ts']
+    extensions: ['.js', '.ts'],
+    fallback: {
+      crypto: require.resolve('crypto-browserify'),
+      buffer: require.resolve('buffer/'),
+      stream: require.resolve('stream-browserify')
+    }
   },
   module: {
     rules: [

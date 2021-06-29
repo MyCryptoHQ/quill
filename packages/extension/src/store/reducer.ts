@@ -1,10 +1,9 @@
-import { synchronizationSlice, wrapRootReducer } from '@signer/common';
 import { combineReducers } from 'redux';
 
-export const createRootReducer = () => {
-  const reducer = combineReducers({
-    [synchronizationSlice.name]: synchronizationSlice.reducer
-  });
+import socketsSlice from './sockets.slice';
 
-  return wrapRootReducer(reducer);
+export const createRootReducer = () => {
+  return combineReducers({
+    sockets: socketsSlice.reducer
+  });
 };
