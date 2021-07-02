@@ -38,3 +38,6 @@ out/
 dist/
 lib/
 coverage/
+types/
+packages/*/types/
+background.js
