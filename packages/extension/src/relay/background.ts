@@ -8,15 +8,19 @@ import { RelayResponseStruct } from '../types';
  * on the request ID. This function does basic validation, but the result should be further validated before using.
  */
 export const createBackgroundMessageSender = (
-  name: RelayTarget,
+  self: RelayTarget,
   target: RelayTarget
-): ((message: RelayMessage) => Promise<RelayResponse>) => {
+): ((message: Omit<RelayMessage, 'target'>) => Promise<RelayResponse>) => {
   return (message) => {
     chrome.runtime.sendMessage({ ...message, target });
 
     return new Promise((resolve) => {
       const listener = (response: RelayResponse) => {
-        if (!is(response, RelayResponseStruct) || response.id !== message.id) {
+        if (
+          !is(response, RelayResponseStruct) ||
+          response.id !== message.id ||
+          response.target !== self
+        ) {
           return;
         }
 

@@ -1,7 +1,5 @@
 import type { PayloadAction, Slice } from '@reduxjs/toolkit';
-import { createAction, createSlice } from '@reduxjs/toolkit';
-import type { JsonRPCRequest } from '@signer/common';
-import { all, call, takeEvery } from 'redux-saga/effects';
+import { createSlice } from '@reduxjs/toolkit';
 
 export interface JsonRpcState {
   network: {
@@ -29,15 +27,5 @@ const slice: Slice<JsonRpcState> = createSlice({
   }
 });
 
-export const request = createAction<JsonRPCRequest>(`${sliceName}/request`);
-
 export const { setNetwork } = slice.actions;
 export default slice;
-
-export function* jsonRpcSaga() {
-  yield all([takeEvery(request.type, requestWorker)]);
-}
-
-export function* requestWorker({ payload }: PayloadAction<JsonRPCRequest>) {
-  yield call(console.log, payload);
-}

@@ -8,7 +8,7 @@ import { RelayResponseStruct } from '../types';
  * request ID. This function does basic validation, but the result should be further validated before using.
  */
 export const createWindowMessageSender = (
-  name: RelayTarget,
+  self: RelayTarget,
   target: RelayTarget
 ): ((message: Omit<RelayMessage, 'target'>) => Promise<RelayResponse>) => {
   return (message) => {
@@ -17,9 +17,9 @@ export const createWindowMessageSender = (
     return new Promise((resolve) => {
       const listener = (event: MessageEvent) => {
         if (
-          event.source !== window ||
           !is(event.data, RelayResponseStruct) ||
-          event.data.id !== message.id
+          event.data.id !== message.id ||
+          event.data.target !== self
         ) {
           return;
         }

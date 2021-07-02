@@ -102,11 +102,11 @@ export function* handleRequestWorker({ payload }: ReturnType<typeof handleReques
 }
 
 // @todo Don't hardcode this
-const createConnection = (endpoint: string = 'ws://localhost:8000'): WebSocket => {
+export const createConnection = (endpoint: string = 'ws://localhost:8000'): WebSocket => {
   return new WebSocket(endpoint);
 };
 
-const createConnectionChannel = (socket: WebSocket) => {
+export const createConnectionChannel = (socket: WebSocket) => {
   return eventChannel((emit) => {
     socket.addEventListener('message', (event) => {
       emit(event);
@@ -183,8 +183,8 @@ export function* socketWorker(wait?: number): SagaIterator {
  */
 export function* setConnectedWorker({ payload }: ReturnType<typeof setConnected>) {
   if (payload) {
-    yield call(chrome.action.setBadgeText, { text: ' ' });
     yield call(chrome.action.setBadgeBackgroundColor, { color: '#55B6E2' });
+    yield call(chrome.action.setBadgeText, { text: ' ' });
     return;
   }
 

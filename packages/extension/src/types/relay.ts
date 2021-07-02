@@ -1,5 +1,5 @@
 import type { Infer } from 'superstruct';
-import { array, number, object, optional, pattern, string, union, unknown } from 'superstruct';
+import { any, array, number, object, optional, pattern, string, union, unknown } from 'superstruct';
 
 export enum RelayTarget {
   Page = 'Page',
@@ -27,7 +27,7 @@ export type RelayMessage = Infer<typeof RelayMessageStruct>;
 export const RelayResponseStruct = object({
   id: UuidStruct,
   target: string(),
-  data: optional(unknown()),
+  data: optional(any()),
   error: optional(
     object({
       code: number(),

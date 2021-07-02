@@ -23,5 +23,3 @@ export const createStore = (): EnhancedStore<ApplicationState> => {
 
   return store;
 };
-
-export const store = createStore();

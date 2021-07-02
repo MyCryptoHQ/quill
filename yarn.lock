@@ -3266,6 +3266,7 @@ __metadata:
     "@reduxjs/toolkit": 1.6.0
     "@signer/common": "workspace:packages/common"
     "@types/chrome": 0.0.145
+    "@types/redux-mock-store": 1.0.2
     "@types/uuid": 8.3.0
     "@types/webpack": 5.28.0
     babel-loader: 8.2.2
@@ -3273,9 +3274,13 @@ __metadata:
     crypto-browserify: 3.12.0
     fast-json-stable-stringify: 2.1.0
     html-webpack-plugin: 5.3.1
+    jest-chrome: 0.7.1
+    mock-socket: 9.0.3
     noble-ed25519: 1.2.5
     redux: 4.1.0
+    redux-mock-store: 1.5.4
     redux-saga: 1.1.3
+    redux-saga-test-plan: 4.0.1
     stream-browserify: 3.0.0
     superstruct: 0.15.2
     ts-node: 10.0.0
@@ -3651,6 +3656,16 @@ __metadata:
     "@types/filesystem": "*"
     "@types/har-format": "*"
   checksum: f826d0a071ac7ea68aa97b2f8e34a944c470fbd036fdd6a413987fea03062d354fb14708cc0b59693b4a78ec88f9c5b1fce0c622a8e29e3e4b0917509eaf2a1a
+  languageName: node
+  linkType: hard
+
+"@types/chrome@npm:^0.0.114":
+  version: 0.0.114
+  resolution: "@types/chrome@npm:0.0.114"
+  dependencies:
+    "@types/filesystem": "*"
+    "@types/har-format": "*"
+  checksum: c03b1579ada5fd3bff88da145790a439417bd2fa8e7cb63e889d3391a54e4076147c9df915bc789c313ff5809357e7f357e1d07f9740f2c636405add2d7a8411
   languageName: node
   linkType: hard
 
@@ -11692,6 +11707,17 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"jest-chrome@npm:0.7.1":
+  version: 0.7.1
+  resolution: "jest-chrome@npm:0.7.1"
+  dependencies:
+    "@types/chrome": ^0.0.114
+  peerDependencies:
+    jest: ^26.0.1
+  checksum: 9997e55307c9417648568ec65e4dec3d2ca56b29d0cbe85d05a5e518bdd2038bc0f657044fb90a4f1bc10ba11b65b56fa47f458f2dcdee19fa60128594202655
+  languageName: node
+  linkType: hard
+
 "jest-circus@npm:^27.0.4":
   version: 27.0.4
   resolution: "jest-circus@npm:27.0.4"
@@ -13730,6 +13756,15 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"mock-socket@npm:9.0.3":
+  version: 9.0.3
+  resolution: "mock-socket@npm:9.0.3"
+  dependencies:
+    url-parse: ^1.4.4
+  checksum: adb652014a176f907908f16ab8a5c46633d153a990500a51572ed2e2f9e160a53f2fca15baf7e447e907c4a8795c0ae19a3a3d6bb0e94917f4620747ad042bdf
+  languageName: node
+  linkType: hard
+
 "modify-filename@npm:^1.1.0":
   version: 1.1.0
   resolution: "modify-filename@npm:1.1.0"
@@ -15655,6 +15690,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"querystringify@npm:^2.1.1":
+  version: 2.2.0
+  resolution: "querystringify@npm:2.2.0"
+  checksum: 6235036be3aedff7919dfc06b23f759264915c5794c6352d52a917401d40d2b9bb43b1d82e4e5be983e469aa320e06992aefc218192f6fa1d9eba4f54dc4786c
+  languageName: node
+  linkType: hard
+
 "queue-microtask@npm:^1.2.2":
   version: 1.2.3
   resolution: "queue-microtask@npm:1.2.3"
@@ -16437,6 +16479,13 @@ fsevents@^1.2.7:
   version: 2.0.0
   resolution: "require-main-filename@npm:2.0.0"
   checksum: 8d3633149a7fef67d14613146247137fe1dc4cc969bf2d1adcd40e3c28056de503229f41e78cba5efebad3a223cbfb4215fd220d879148df10c6d9a877099dbd
+  languageName: node
+  linkType: hard
+
+"requires-port@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "requires-port@npm:1.0.0"
+  checksum: 0db25fb2ac9b4f2345a350846b7ba99d1f25a6686b1728246d14f05450c8f2fc066bdfae4561b4be2627c184a030a27e17268cfefdf46836e271db13734bc49e
   languageName: node
   linkType: hard
 
@@ -19230,6 +19279,16 @@ typescript@4.3.2:
   dependencies:
     prepend-http: ^2.0.0
   checksum: 334817036b300c35023798b8ceac23ea61b51f231a867112e3a85778d65191a3ccb67e7b69b608d45433d55da392cf0d72cd3c85f2542f6ec34733e455c229d5
+  languageName: node
+  linkType: hard
+
+"url-parse@npm:^1.4.4":
+  version: 1.5.1
+  resolution: "url-parse@npm:1.5.1"
+  dependencies:
+    querystringify: ^2.1.1
+    requires-port: ^1.0.0
+  checksum: d8342b597bf1760c4b9e3c78458524d783fa1c901658f3db8b576fc73451c89e6686d218ddca4845b082a63b23971b4a8b916cccc91f4156cc9f97ffdabe0079
   languageName: node
   linkType: hard
 
