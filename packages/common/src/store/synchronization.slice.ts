@@ -19,8 +19,7 @@ import {
 export enum Process {
   Renderer = 'Renderer',
   Main = 'Main',
-  Crypto = 'Crypto',
-  Extension = 'Extension'
+  Crypto = 'Crypto'
 }
 
 export interface SynchronizationState {
