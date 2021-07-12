@@ -3,11 +3,14 @@ import stringify from 'fast-json-stable-stringify';
 import { chrome } from 'jest-chrome';
 import { WebSocket } from 'mock-socket';
 import { expectSaga } from 'redux-saga-test-plan';
+import { call } from 'redux-saga-test-plan/matchers';
 
 import { RelayTarget } from '../types';
+import { createRandomPrivateKey } from '../utils';
 import slice, {
   createConnection,
   createConnectionChannel,
+  createPrivateKeyWorker,
   handleRequest,
   handleRequestWorker,
   message,
@@ -36,6 +39,16 @@ describe('SocketsSlice', () => {
       expect(slice.reducer(undefined, setConnected(true)).isConnected).toBe(true);
       expect(slice.reducer(undefined, setConnected(false)).isConnected).toBe(false);
     });
+  });
+});
+
+describe('createPrivateKeyWorker', () => {
+  it('creates a random private key', async () => {
+    await expectSaga(createPrivateKeyWorker)
+      .provide([[call.fn(createRandomPrivateKey), 'foo']])
+      .call(createRandomPrivateKey)
+      .put(setPrivateKey('foo'))
+      .silentRun();
   });
 });
 
@@ -142,6 +155,25 @@ describe('socketWorker', () => {
     >;
 
     const callback = addEventListener.mock.calls[2][1] as () => void;
+
+    callback();
+
+    saga.spawn(socketWorker, 5000);
+
+    await promise;
+  });
+
+  it('reconnects on error', async () => {
+    const saga = await expectSaga(socketWorker);
+    const promise = saga.silentRun();
+
+    const mock = WebSocket as jest.MockedClass<typeof WebSocket>;
+    const instance = mock.mock.instances[0];
+    const addEventListener = instance.addEventListener as jest.MockedFunction<
+      typeof instance.addEventListener
+    >;
+
+    const callback = addEventListener.mock.calls[1][1] as () => void;
 
     callback();
 

@@ -1,6 +1,7 @@
 import { v4 as uuid } from 'uuid';
 
 import { RelayTarget } from '../../types';
+import { sleep } from '../../utils';
 import { createBackgroundMessageSender } from '../background';
 import { handleContentMessages } from './content';
 
@@ -51,7 +52,7 @@ describe('handleContentMessages', () => {
 
     expect(sendMessage).toHaveBeenCalledWith(message);
 
-    await new Promise((resolve) => setTimeout(resolve, 1));
+    await sleep();
 
     expect(window.postMessage).toHaveBeenCalledWith(
       { ...mockResponse, target: RelayTarget.Page },
@@ -105,5 +106,60 @@ describe('handleContentMessages', () => {
     } as MessageEvent);
 
     expect(sendMessage).not.toHaveBeenCalled();
+  });
+
+  it('ignores invalid responses', async () => {
+    jest.spyOn(window, 'addEventListener');
+    jest.spyOn(window, 'postMessage');
+
+    const mock = window.addEventListener as jest.MockedFunction<typeof window.addEventListener>;
+
+    handleContentMessages();
+
+    const message = {
+      id: uuid(),
+      target: RelayTarget.Content,
+      payload: {
+        method: 'eth_accounts',
+        params: []
+      }
+    };
+
+    const callback = mock.mock.calls[0][1] as (event: MessageEvent) => void;
+    const sendMessage = (createBackgroundMessageSender as jest.MockedFunction<
+      typeof createBackgroundMessageSender
+    >).mock.results[0].value;
+
+    sendMessage.mockImplementationOnce(() =>
+      Promise.resolve({
+        ...mockResponse,
+        target: RelayTarget.Page
+      })
+    );
+
+    callback({ data: message, origin: '*' } as MessageEvent);
+
+    sendMessage.mockImplementationOnce(() =>
+      Promise.resolve({
+        foo: 'bar'
+      })
+    );
+
+    callback({ data: message, origin: '*' } as MessageEvent);
+
+    sendMessage.mockImplementationOnce(() =>
+      Promise.resolve({
+        ...mockResponse,
+        id: 'foo'
+      })
+    );
+
+    callback({ data: message, origin: '*' } as MessageEvent);
+
+    expect(sendMessage).toHaveBeenCalledWith(message);
+
+    await sleep();
+
+    expect(window.postMessage).not.toHaveBeenCalled();
   });
 });

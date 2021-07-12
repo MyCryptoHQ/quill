@@ -1,4 +1,5 @@
 import { hexlify } from '@ethersproject/bytes';
+import { toUtf8Bytes } from '@ethersproject/strings';
 import { decrypt, encrypt } from 'eciesjs';
 import stringify from 'fast-json-stable-stringify';
 import { getPublicKey, sign, utils } from 'noble-ed25519';
@@ -6,7 +7,7 @@ import type { Infer } from 'superstruct';
 import { is, object, optional, string, type, unknown } from 'superstruct';
 
 import type { JsonRPCRequest, SignedJsonRPCRequest } from '../types';
-import { fromUtf8, stripHexPrefix } from './hex';
+import { stripHexPrefix } from './hex';
 
 const REDUX_ACTION_STRUCT = type({
   type: string(),
@@ -43,9 +44,11 @@ export const signJsonRpcRequest = async (
   privateKey: string,
   request: JsonRPCRequest
 ): Promise<SignedJsonRPCRequest> => {
-  const buffer = fromUtf8(stringify(request));
-  const hash = stripHexPrefix(hexlify(await utils.sha512(buffer)));
-  const signature = await sign(hash, privateKey);
+  const key = stripHexPrefix(privateKey);
 
-  return { ...request, signature, publicKey: await getPublicKey(privateKey) };
+  const buffer = toUtf8Bytes(stringify(request));
+  const hash = stripHexPrefix(hexlify(await utils.sha512(buffer)));
+  const signature = await sign(hash, key);
+
+  return { ...request, signature, publicKey: await getPublicKey(key) };
 };

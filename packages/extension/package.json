@@ -4,8 +4,8 @@
   "description": "MyCrypto Signer browser extension",
   "license": "MIT",
   "scripts": {
-    "build": "webpack --config ./webpack/development.ts",
-    "watch": "yarn build --watch",
+    "build": "webpack --config ./webpack/production.ts",
+    "watch": "webpack --config ./webpack/development.ts --watch",
     "lint": "yarn lint:types && yarn lint:source && yarn lint:format",
     "lint:types": "yarn tsc --noEmit",
     "lint:source": "eslint . --ignore-path ../../.gitignore --ext .ts,.js,.tsx,.jsx",

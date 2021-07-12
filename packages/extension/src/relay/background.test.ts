@@ -2,9 +2,8 @@ import { generateUUID } from '@signer/common';
 import { chrome } from 'jest-chrome';
 
 import { RelayTarget } from '../types';
+import { sleep } from '../utils';
 import { createBackgroundMessageSender } from './background';
-
-const sleep = () => new Promise((resolve) => setTimeout(resolve, 1));
 
 describe('createBackgroundMessageSender', () => {
   it('sends messages using the Chrome API and waits for a response', async () => {

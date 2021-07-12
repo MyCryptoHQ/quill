@@ -1,9 +1,8 @@
 import { generateUUID } from '@signer/common';
 
 import { RelayTarget } from '../types';
+import { sleep } from '../utils';
 import { createWindowMessageSender } from './window';
-
-const sleep = () => new Promise((resolve) => setTimeout(resolve, 1));
 
 describe('createWindowMessageSender', () => {
   jest.spyOn(window, 'postMessage');

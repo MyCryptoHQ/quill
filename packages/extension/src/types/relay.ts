@@ -4,8 +4,7 @@ import { any, array, number, object, optional, pattern, string, union, unknown }
 export enum RelayTarget {
   Page = 'Page',
   Content = 'Content',
-  Background = 'Background',
-  External = 'External'
+  Background = 'Background'
 }
 
 const UuidStruct = pattern(

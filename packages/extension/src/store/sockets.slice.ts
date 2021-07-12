@@ -115,6 +115,7 @@ export const createConnectionChannel = (socket: WebSocket) => {
     socket.addEventListener('error', (event) => {
       // @todo Handle errors
       console.error(event);
+      emit(new Error('Socket error'));
     });
 
     socket.addEventListener('close', () => {
