@@ -27,6 +27,10 @@ global.WebSocket = WebSocket;
 
 const PRIVATE_KEY = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
 
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
 describe('SocketsSlice', () => {
   describe('setPrivateKey', () => {
     it('sets the private key', () => {
