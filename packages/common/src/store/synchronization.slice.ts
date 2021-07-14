@@ -27,7 +27,6 @@ export interface SynchronizationState {
   privateKey?: string;
 
   isHandshaken: Partial<Record<Process, boolean>>;
-
   targetPublicKey: Partial<Record<Process, string>>;
 }
 

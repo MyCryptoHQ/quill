@@ -3,7 +3,9 @@
   "compilerOptions": {
     "rootDir": ".",
     "baseUrl": ".",
-    "composite": true
+    "composite": true,
+    "strict": true,
+    "strictNullChecks": true
   },
   "include": ["src", "src/**/*.json"],
   "references": [

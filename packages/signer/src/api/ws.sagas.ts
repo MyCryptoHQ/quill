@@ -144,7 +144,6 @@ export function* handleRequest({ socket, request, data }: WebSocketMessage) {
   const { signature, publicKey, ...jsonRpcRequest } = fullRequest;
 
   const permissions: Permission[] = yield select(getPermissions);
-
   const origin = request.headers.origin && new URL(request.headers.origin).host;
 
   const existingPermission = permissions.find(
@@ -155,6 +154,7 @@ export function* handleRequest({ socket, request, data }: WebSocketMessage) {
   if (!existingPermission || !isVerified) {
     const permission = { origin, publicKey };
     yield put(requestPermission(permission));
+
     const result: boolean = yield call(waitForPermissions, permission);
     if (!result) {
       // As per EIP-1193
@@ -171,6 +171,7 @@ export function* handleRequest({ socket, request, data }: WebSocketMessage) {
 
   const method: ActionCreatorWithPayload<UserRequest> =
     SUPPORTED_METHODS[jsonRpcRequest.method as JsonRPCMethod];
+
   if (method) {
     yield put(method({ origin, request: jsonRpcRequest }));
 

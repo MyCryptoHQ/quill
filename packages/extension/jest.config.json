@@ -1,4 +1,6 @@
 {
   "displayName": "extension",
-  "modulePathIgnorePatterns": ["<rootDir>/lib"]
+  "modulePathIgnorePatterns": ["<rootDir>/lib"],
+  "setupFilesAfterEnv": ["./jest.setup.js"],
+  "testEnvironment": "jsdom"
 }

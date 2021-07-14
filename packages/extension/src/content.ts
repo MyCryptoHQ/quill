@@ -3,17 +3,9 @@
  * relays any messages sent from it to the background script.
  */
 
-const injectScript = (): Promise<void> => {
-  return new Promise((resolve) => {
-    const script = document.createElement('script');
-    script.src = chrome.runtime.getURL('lib/page.js');
-    script.addEventListener('load', () => {
-      script.remove();
-      resolve();
-    });
+import { handleContentMessages } from './relay/handlers';
+import { injectScript } from './utils/inject';
 
-    (document.head || document.documentElement).appendChild(script);
-  });
-};
-
-injectScript();
+// Injects the page script into every tab
+injectScript().catch(console.error);
+handleContentMessages();

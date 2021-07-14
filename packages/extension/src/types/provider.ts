@@ -6,7 +6,7 @@ export class ProviderRpcError extends Error {
 
 export interface RequestArguments {
   readonly method: string;
-  readonly params?: readonly unknown[] | Record<string, unknown>;
+  readonly params?: unknown[] | Record<string, unknown>;
 }
 
 export interface ProviderMessage {
@@ -42,9 +42,9 @@ interface ProviderEvents {
  */
 export interface Provider {
   /**
-   * A flag that can be used to distinguish the provider from other providers.
+   * A flag that can be used to distinguish the provider from other providers. This is not specified by EIP-1193.
    */
-  isMyCrypto: boolean;
+  isMyCrypto?: boolean;
 
   /**
    * The `request` method is intended as a transport- and protocol-agnostic wrapper function for Remote Procedure Calls

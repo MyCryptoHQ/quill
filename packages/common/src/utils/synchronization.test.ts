@@ -2,9 +2,20 @@
  * @jest-environment node
  */
 
-import { fEncryptionPrivateKey, fEncryptionPublicKey } from '../__fixtures__';
+import {
+  fEncryptionPrivateKey,
+  fEncryptionPublicKey,
+  fPrivateKey,
+  fTxRequest
+} from '../__fixtures__';
 import { Process } from '../store';
-import { decryptJson, encryptJson, isEncryptedAction, isReduxAction } from './synchronization';
+import {
+  decryptJson,
+  encryptJson,
+  isEncryptedAction,
+  isReduxAction,
+  signJsonRpcRequest
+} from './synchronization';
 
 describe('isReduxAction', () => {
   it('checks if an object is a Redux action', () => {
@@ -44,5 +55,16 @@ describe('decryptJson', () => {
     };
 
     expect(decryptJson(fEncryptionPrivateKey, action)).toBe(json);
+  });
+});
+
+describe('signJsonRpcRequest', () => {
+  it('signs a JSON-RPC request', async () => {
+    await expect(signJsonRpcRequest(fPrivateKey, fTxRequest)).resolves.toStrictEqual({
+      ...fTxRequest,
+      publicKey: '7ffb25fc9c2621ca02bfafa545e7fdbfb4839d70c1d3dda52587b7beb001eb14',
+      signature:
+        'bd6ad2eb20423f24de9b6ab2607ab0e08a544128c9f2cb41c93d52a08fea862e487210428efca7ae94cafd41afd5f6ee55540e5774dc13135761fd8278cc2302'
+    });
   });
 });
