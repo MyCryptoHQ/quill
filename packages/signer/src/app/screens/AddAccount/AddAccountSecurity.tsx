@@ -1,6 +1,6 @@
 import { Button, Heading } from '@mycrypto/ui';
 import { nextFlow, translateRaw } from '@signer/common';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 
 import secureIcon from '@assets/icons/secure-purple.svg';
 import type { IFlowComponentProps } from '@components';
@@ -11,33 +11,33 @@ import { translate } from '@translations';
 export const AddAccountSecurity = ({ flowHeader }: IFlowComponentProps) => {
   const dispatch = useDispatch();
   const ref = useRef<HTMLDivElement>();
-  const [isClickable, setClickable] = useState(false);
+  // const [isClickable, setClickable] = useState(false);
 
-  const handleScroll = () => {
-    if (ref.current.scrollHeight <= ref.current.clientHeight) {
-      return setClickable(true);
-    }
-
-    setClickable(ref.current.scrollTop === ref.current.scrollHeight - ref.current.offsetHeight);
-  };
+  // const handleScroll = () => {
+  //   if (ref.current.scrollHeight <= ref.current.clientHeight) {
+  //     return setClickable(true);
+  //   }
+  //
+  //   setClickable(ref.current.scrollTop === ref.current.scrollHeight - ref.current.offsetHeight);
+  // };
 
   const handleClick = () => {
     dispatch(nextFlow());
   };
 
-  useEffect(() => {
-    if (ref.current) {
-      handleScroll();
-
-      ref.current.addEventListener('scroll', handleScroll);
-      window.addEventListener('resize', handleScroll);
-
-      return () => {
-        ref.current?.removeEventListener('scroll', handleScroll);
-        window.removeEventListener('resize', handleScroll);
-      };
-    }
-  }, [ref.current]);
+  // useEffect(() => {
+  //   if (ref.current) {
+  //     handleScroll();
+  //
+  //     ref.current.addEventListener('scroll', handleScroll);
+  //     window.addEventListener('resize', handleScroll);
+  //
+  //     return () => {
+  //       ref.current?.removeEventListener('scroll', handleScroll);
+  //       window.removeEventListener('resize', handleScroll);
+  //     };
+  //   }
+  // }, [ref.current]);
 
   return (
     <>
@@ -54,9 +54,7 @@ export const AddAccountSecurity = ({ flowHeader }: IFlowComponentProps) => {
         </IconList>
       </ScrollableContainer>
       <PanelBottom>
-        <Button onClick={handleClick} disabled={!isClickable}>
-          {translateRaw('ACKNOWLEDGE_AND_CONTINUE')}
-        </Button>
+        <Button onClick={handleClick}>{translateRaw('ACKNOWLEDGE_AND_CONTINUE')}</Button>
       </PanelBottom>
     </>
   );
