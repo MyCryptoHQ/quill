@@ -7,6 +7,7 @@ import { call } from 'redux-saga-test-plan/matchers';
 
 import { RelayTarget } from '../types';
 import { createRandomPrivateKey } from '../utils';
+import { fSignedTx } from './__fixtures__/transaction';
 import { broadcastTransaction } from './jsonrpc.slice';
 import slice, {
   createConnection,
@@ -123,10 +124,10 @@ describe('handleResponseWorker', () => {
       response: {
         jsonrpc: '2.0',
         id: request.id,
-        result: '0xf000'
+        result: fSignedTx
       }
     })
-      .put(broadcastTransaction('0xf000'))
+      .put(broadcastTransaction(fSignedTx))
       .silentRun();
   });
 

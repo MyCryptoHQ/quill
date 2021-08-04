@@ -22,19 +22,21 @@ describe('toJsonRpcRequest', () => {
 });
 
 describe('normalizeRequest', () => {
-  it('normalizes JSON-RPC requests', () => {
-    const request = {
-      jsonrpc: '2.0' as const,
-      id: 'foo',
-      method: 'eth_sendTransaction',
-      params: []
-    };
+  const request = {
+    jsonrpc: '2.0' as const,
+    id: 'foo',
+    method: 'eth_sendTransaction',
+    params: []
+  };
 
+  it('normalizes specific JSON-RPC requests', () => {
     expect(normalizeRequest(request)).toStrictEqual({
       ...request,
       method: 'eth_signTransaction'
     });
+  });
 
+  it('returns the same request for other requests', () => {
     expect(normalizeRequest({ ...request, method: 'eth_accounts' })).toStrictEqual({
       ...request,
       method: 'eth_accounts'
