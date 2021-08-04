@@ -14,6 +14,8 @@ import {
 
 // Supported JSON-RPC methods
 export enum JsonRPCMethod {
+  RequestPermissions = 'wallet_requestPermissions',
+  GetPermissions = 'wallet_getPermissions',
   SignTransaction = 'eth_signTransaction',
   Accounts = 'eth_accounts'
 }
@@ -40,6 +42,14 @@ export const SignTransactionStruct = tuple([
 export type TSignTransaction = [
   Omit<Infer<typeof SignTransactionStruct>[0], 'from' | 'to'> & { from?: string; to?: string }
 ];
+
+export const RequestWalletPermissionsStruct = tuple([
+  object({
+    eth_accounts: object()
+  })
+]);
+
+export type TRequestWalletPermissions = Infer<typeof RequestWalletPermissionsStruct>;
 
 export const JSONRPCRequestStruct = object({
   id: union([string(), number()]),

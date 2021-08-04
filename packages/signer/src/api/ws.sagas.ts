@@ -30,6 +30,7 @@ import {
   verifyRequest
 } from '@utils';
 
+import { getWalletPermissions, requestWalletPermissions } from './permissions.sagas';
 import { reply, requestAccounts, requestSignTransaction } from './ws.slice';
 
 interface WebSocketMessage {
@@ -39,6 +40,8 @@ interface WebSocketMessage {
 }
 
 const SUPPORTED_METHODS = {
+  [JsonRPCMethod.RequestPermissions]: requestWalletPermissions,
+  [JsonRPCMethod.GetPermissions]: getWalletPermissions,
   [JsonRPCMethod.SignTransaction]: requestSignTransaction,
   [JsonRPCMethod.Accounts]: requestAccounts
 };

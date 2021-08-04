@@ -7,12 +7,15 @@ import { call } from 'redux-saga-test-plan/matchers';
 
 import { RelayTarget } from '../types';
 import { createRandomPrivateKey } from '../utils';
+import { fSignedTx } from './__fixtures__/transaction';
+import { broadcastTransaction } from './jsonrpc.slice';
 import slice, {
   createConnection,
   createConnectionChannel,
   createPrivateKeyWorker,
   handleRequest,
   handleRequestWorker,
+  handleResponseWorker,
   message,
   send,
   setConnected,
@@ -93,6 +96,56 @@ describe('handleRequestWorker', () => {
       target: RelayTarget.Content,
       data: 'bar'
     });
+  });
+});
+
+describe('handleResponseWorker', () => {
+  const request = {
+    jsonrpc: '2.0' as const,
+    id: 1,
+    method: 'eth_sendTransaction',
+    params: [
+      {
+        nonce: '0x6',
+        gasPrice: '0x012a05f200',
+        gasLimit: '0x5208',
+        from: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520',
+        to: '0xb2bb2b958AFa2e96dab3f3Ce7162b87daEa39017',
+        value: '0x2386f26fc10000',
+        data: '0x',
+        chainId: 3
+      }
+    ]
+  };
+
+  it('handles JSON-RPC responses from the signer', async () => {
+    await expectSaga(handleResponseWorker, {
+      request,
+      response: {
+        jsonrpc: '2.0',
+        id: request.id,
+        result: fSignedTx
+      }
+    })
+      .put(broadcastTransaction(fSignedTx))
+      .silentRun();
+  });
+
+  it('ignores error responses', async () => {
+    await expectSaga(handleResponseWorker, {
+      request,
+      response: {
+        jsonrpc: '2.0',
+        id: request.id,
+        result: '0x',
+        error: {
+          message: 'foo',
+          code: '-1'
+        }
+      }
+    })
+      .not.put(broadcastTransaction('0xf000'))
+      .silentRun();
   });
 });
 

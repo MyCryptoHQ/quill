@@ -11,7 +11,7 @@
     "@mycrypto/wallets": "1.1.0",
     "@reduxjs/toolkit": "1.6.0",
     "date-fns": "2.22.1",
-    "eciesjs": "0.3.10",
+    "eciesjs": "0.3.11",
     "fast-json-stable-stringify": "2.1.0",
     "noble-ed25519": "1.2.5",
     "redux-saga": "1.1.3",

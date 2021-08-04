@@ -21,7 +21,8 @@ import { is } from 'superstruct';
 
 import type { JsonRpcResponse } from '../types';
 import { JsonRpcResponseStruct, RelayTarget } from '../types';
-import { createRandomPrivateKey } from '../utils';
+import { createRandomPrivateKey, isJsonRpcError, normalizeRequest } from '../utils';
+import { broadcastTransaction } from './jsonrpc.slice';
 import type { ApplicationState } from './store';
 
 export interface SocketsState {
@@ -91,14 +92,33 @@ export function* waitForResponse(id: string | number) {
  * Handles JSON-RPC requests sent to the signer.
  */
 export function* handleRequestWorker({ payload }: ReturnType<typeof handleRequest>) {
-  yield put(send(payload.request));
+  yield put(send(normalizeRequest(payload.request)));
 
   const response: JsonRpcResponse = yield call(waitForResponse, payload.request.id);
+  yield call(handleResponseWorker, { request: payload.request, response });
+
   chrome.tabs.sendMessage(payload.tabId, {
     id: response.id,
     target: RelayTarget.Content,
-    data: response.result
+    data: response.result,
+    error: response.error
   });
+}
+
+export function* handleResponseWorker({
+  request,
+  response
+}: {
+  request: JsonRPCRequest;
+  response: JsonRpcResponse;
+}) {
+  if (isJsonRpcError(response)) {
+    return;
+  }
+
+  if (request.method === 'eth_sendTransaction' && typeof response.result === 'string') {
+    yield put(broadcastTransaction(response.result));
+  }
 }
 
 // @todo Don't hardcode this

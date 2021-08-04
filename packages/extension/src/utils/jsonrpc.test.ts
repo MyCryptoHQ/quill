@@ -1,5 +1,5 @@
 import { RelayTarget } from '../types';
-import { toJsonRpcRequest } from './jsonrpc';
+import { isJsonRpcError, normalizeRequest, toJsonRpcRequest } from './jsonrpc';
 
 describe('toJsonRpcRequest', () => {
   it('returns a JSON-RPC compatible request for a relay message', () => {
@@ -18,5 +18,49 @@ describe('toJsonRpcRequest', () => {
       method: 'eth_accounts',
       params: []
     });
+  });
+});
+
+describe('normalizeRequest', () => {
+  const request = {
+    jsonrpc: '2.0' as const,
+    id: 'foo',
+    method: 'eth_sendTransaction',
+    params: []
+  };
+
+  it('normalizes specific JSON-RPC requests', () => {
+    expect(normalizeRequest(request)).toStrictEqual({
+      ...request,
+      method: 'eth_signTransaction'
+    });
+  });
+
+  it('returns the same request for other requests', () => {
+    expect(normalizeRequest({ ...request, method: 'eth_accounts' })).toStrictEqual({
+      ...request,
+      method: 'eth_accounts'
+    });
+  });
+});
+
+describe('isJsonRpcError', () => {
+  it('checks if a JSON-RPC response is an error response', () => {
+    expect(
+      isJsonRpcError({
+        id: 'foo',
+        error: {
+          message: 'foo',
+          code: '-1'
+        }
+      })
+    ).toBe(true);
+
+    expect(
+      isJsonRpcError({
+        id: 'foo',
+        result: '0xf000'
+      })
+    ).toBe(false);
   });
 });

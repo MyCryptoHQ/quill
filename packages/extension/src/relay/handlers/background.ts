@@ -1,13 +1,14 @@
 import type { EnhancedStore } from '@reduxjs/toolkit';
+import { JsonRPCMethod } from '@signer/common';
 import { is } from 'superstruct';
 
 import type { ApplicationState } from '../../store';
-import { handleRequest } from '../../store';
+import { handleJsonRpcRequest, handleRequest } from '../../store';
 import { RelayMessageStruct, RelayTarget } from '../../types';
 import { toJsonRpcRequest } from '../../utils';
 
 // Request methods that are forwarded to the Signer application
-const SIGNER_EVENTS: string[] = ['eth_accounts', 'eth_signTransaction'];
+const SIGNER_EVENTS: string[] = Object.values(JsonRPCMethod);
 
 export const handleBackgroundMessages = (store: EnhancedStore<ApplicationState>) => {
   chrome.runtime.onMessage.addListener(async (data, sender) => {
@@ -19,16 +20,16 @@ export const handleBackgroundMessages = (store: EnhancedStore<ApplicationState>)
       return;
     }
 
+    const request = toJsonRpcRequest(data);
     if (SIGNER_EVENTS.includes(data.payload.method)) {
-      const request = toJsonRpcRequest(data);
       return store.dispatch(handleRequest({ request, tabId: sender.tab.id }));
     }
 
-    // @todo Fetch result from network
-    chrome.tabs.sendMessage(sender.tab.id, {
-      id: data.id,
-      target: RelayTarget.Content,
-      result: '0xf000'
-    });
+    store.dispatch(
+      handleJsonRpcRequest({
+        tabId: sender.tab.id,
+        request
+      })
+    );
   });
 };
