@@ -17014,6 +17014,7 @@ fsevents@^1.2.7:
     stylelint-config-recommended: 3.0.0
     stylelint-config-styled-components: 0.1.1
     stylelint-processor-styled-components: 1.10.0
+    tar: 6.1.6
     typescript: 4.0.2
   languageName: unknown
   linkType: soft
@@ -18593,6 +18594,20 @@ fsevents@^1.2.7:
     inherits: ^2.0.3
     readable-stream: ^3.1.1
   checksum: 7eec0a7fc8d0337729c1c2356d567a7527141d6ba0dd4804db979e17fc6389163e70fd4abdb855fc5ab54b944aeff7988e35e95ab6cee34a4156ca2d42980576
+  languageName: node
+  linkType: hard
+
+"tar@npm:6.1.6":
+  version: 6.1.6
+  resolution: "tar@npm:6.1.6"
+  dependencies:
+    chownr: ^2.0.0
+    fs-minipass: ^2.0.0
+    minipass: ^3.0.0
+    minizlib: ^2.1.1
+    mkdirp: ^1.0.3
+    yallist: ^4.0.0
+  checksum: 45b87c0026e639b7eca2c318c934a4376c6adc6f39c5c4dc9ee8fb7a09b95515b22432c57438dc6b6a621410a06f1789a6bfb5151217a43f0db64f4fb5e99d24
   languageName: node
   linkType: hard
 
