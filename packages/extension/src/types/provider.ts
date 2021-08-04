@@ -1,5 +1,5 @@
 export class ProviderRpcError extends Error {
-  constructor(public message: string, public code: number, public data?: unknown) {
+  constructor(public message: string, public code: string | number, public data?: unknown) {
     super(message);
   }
 }

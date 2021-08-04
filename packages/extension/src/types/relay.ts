@@ -1,3 +1,4 @@
+import type { JsonRPCRequest } from '@signer/common';
 import type { Infer } from 'superstruct';
 import { any, array, number, object, optional, pattern, string, union, unknown } from 'superstruct';
 
@@ -29,7 +30,7 @@ export const RelayResponseStruct = object({
   data: optional(any()),
   error: optional(
     object({
-      code: number(),
+      code: union([string(), number()]),
       message: string()
     })
   )
@@ -40,7 +41,18 @@ export type RelayResponse = Infer<typeof RelayResponseStruct>;
 export const JsonRpcResponseStruct = object({
   jsonrpc: string(),
   id: string(),
-  result: unknown()
+  result: optional(unknown()),
+  error: optional(
+    object({
+      code: union([string(), number()]),
+      message: string()
+    })
+  )
 });
 
 export type JsonRpcResponse = Infer<typeof JsonRpcResponseStruct>;
+
+export interface JsonRpcRelayRequest {
+  tabId: number;
+  request: JsonRPCRequest;
+}

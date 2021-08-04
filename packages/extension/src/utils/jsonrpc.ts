@@ -1,4 +1,4 @@
-import type { JsonRPCRequest } from '@signer/common';
+import type { JsonRPCError, JsonRPCRequest, JsonRPCResponse } from '@signer/common';
 
 import type { RelayMessage } from '../types';
 
@@ -9,3 +9,17 @@ export const toJsonRpcRequest = (message: RelayMessage): JsonRPCRequest => ({
   // @todo: Handle object params
   params: Array.isArray(message.payload.params) ? message.payload.params : []
 });
+
+export const normalizeRequest = <T = unknown[]>(request: JsonRPCRequest<T>): JsonRPCRequest<T> => {
+  if (request.method === 'eth_sendTransaction') {
+    return { ...request, method: 'eth_signTransaction' };
+  }
+
+  return request;
+};
+
+export const isJsonRpcError = <Result, Error>(
+  response: JsonRPCResponse<Result, Error>
+): response is JsonRPCError<Error> => {
+  return 'error' in response;
+};
