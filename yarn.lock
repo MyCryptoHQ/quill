@@ -18586,7 +18586,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"tar@npm:6.1.6":
+"tar@npm:6.1.6, tar@npm:^6.0.2, tar@npm:^6.0.5, tar@npm:^6.1.0":
   version: 6.1.6
   resolution: "tar@npm:6.1.6"
   dependencies:
@@ -18601,8 +18601,8 @@ fsevents@^1.2.7:
   linkType: hard
 
 "tar@npm:^4":
-  version: 4.4.13
-  resolution: "tar@npm:4.4.13"
+  version: 4.4.15
+  resolution: "tar@npm:4.4.15"
   dependencies:
     chownr: ^1.1.1
     fs-minipass: ^1.2.5
@@ -18611,21 +18611,7 @@ fsevents@^1.2.7:
     mkdirp: ^0.5.0
     safe-buffer: ^5.1.2
     yallist: ^3.0.3
-  checksum: d325c316ac329ecb18f2b8cd3f85a80ab4a4105ada601b9253aaafae3fc14268e3cd874ccc265b6a08e60ebd17fbc31bd3dbc0d1018f874b536eb2a6e8ef6d9c
-  languageName: node
-  linkType: hard
-
-"tar@npm:^6.0.2, tar@npm:^6.0.5, tar@npm:^6.1.0":
-  version: 6.1.0
-  resolution: "tar@npm:6.1.0"
-  dependencies:
-    chownr: ^2.0.0
-    fs-minipass: ^2.0.0
-    minipass: ^3.0.0
-    minizlib: ^2.1.1
-    mkdirp: ^1.0.3
-    yallist: ^4.0.0
-  checksum: d1d988eceb1ad2ecfaaf6fc5ecfe0c46fa005d04fe4c283355ccc52d3ffb4b6bf459a62f9ac7e36fd35251ab020399bdf527ab48b968120e06b4f61906a87d62
+  checksum: 15b6a6f3e3981a49485abbd991d6eadf51236faf797069df3401b2be9f8548fdf029efcca7a943c4267ee1f89345e627ed86e70cb7c039edfeafb34c924493b8
   languageName: node
   linkType: hard
 
