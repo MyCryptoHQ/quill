@@ -33,7 +33,7 @@
     "webpackbar": "5.0.0-3"
   },
   "dependencies": {
-    "@ethersproject/providers": "^5.4.2",
+    "@ethersproject/providers": "5.4.3",
     "@reduxjs/toolkit": "1.6.0",
     "@signer/common": "workspace:packages/common",
     "buffer": "6.0.3",

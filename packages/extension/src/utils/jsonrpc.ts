@@ -11,6 +11,8 @@ export const toJsonRpcRequest = (message: RelayMessage): JsonRPCRequest => ({
 });
 
 export const normalizeRequest = <T = unknown[]>(request: JsonRPCRequest<T>): JsonRPCRequest<T> => {
+  // The signer does not support broadcasting transactions, so instead we ask it to sign a
+  // transaction and broadcast the transaction from the Chrome extension.
   if (request.method === 'eth_sendTransaction') {
     return { ...request, method: 'eth_signTransaction' };
   }

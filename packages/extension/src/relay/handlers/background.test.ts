@@ -3,7 +3,7 @@ import createMockStore from 'redux-mock-store';
 import { v4 as uuid } from 'uuid';
 
 import type { ApplicationState } from '../../store';
-import { handleRequest } from '../../store';
+import { handleJsonRpcRequest, handleRequest } from '../../store';
 import { RelayTarget } from '../../types';
 import { toJsonRpcRequest } from '../../utils';
 import { handleBackgroundMessages } from './background';
@@ -34,6 +34,33 @@ describe('handleBackgroundMessages', () => {
 
     expect(store.getActions()).toStrictEqual([
       handleRequest({
+        request: toJsonRpcRequest(message),
+        tabId: 1
+      })
+    ]);
+  });
+
+  it('handles external JSON-RPC calls', () => {
+    const store = createMockStore<ApplicationState>()();
+    handleBackgroundMessages(store);
+
+    const message = {
+      id: uuid(),
+      target: RelayTarget.Background,
+      payload: {
+        method: 'eth_chainId',
+        params: []
+      }
+    };
+
+    chrome.runtime.onMessage.callListeners(
+      message,
+      { tab: { id: 1 } as chrome.tabs.Tab },
+      jest.fn()
+    );
+
+    expect(store.getActions()).toStrictEqual([
+      handleJsonRpcRequest({
         request: toJsonRpcRequest(message),
         tabId: 1
       })

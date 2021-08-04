@@ -40,7 +40,7 @@ export type RelayResponse = Infer<typeof RelayResponseStruct>;
 
 export const JsonRpcResponseStruct = object({
   jsonrpc: string(),
-  id: string(),
+  id: union([string(), number()]),
   result: optional(unknown()),
   error: optional(
     object({

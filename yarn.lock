@@ -2367,9 +2367,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethersproject/providers@npm:^5.4.2":
-  version: 5.4.2
-  resolution: "@ethersproject/providers@npm:5.4.2"
+"@ethersproject/providers@npm:5.4.3":
+  version: 5.4.3
+  resolution: "@ethersproject/providers@npm:5.4.3"
   dependencies:
     "@ethersproject/abstract-provider": ^5.4.0
     "@ethersproject/abstract-signer": ^5.4.0
@@ -2390,7 +2390,7 @@ __metadata:
     "@ethersproject/web": ^5.4.0
     bech32: 1.1.4
     ws: 7.4.6
-  checksum: b7ce24896a7ee38f7c8df548a2a2a2279288c5cfec5b8f2d916eea2b1b1b5fbe3994341e3483271f63afe10b0007b846424ecbb9a906387bd2b5aaf08e59f515
+  checksum: abe19b021faa6688f03e6b206fdf2efc9d3c865c41993bc4822fe8fb2d1ff592436d1243df68b5b286d666f5c4bf36e06c0823e621cb7dc13b3c6521b6838a31
   languageName: node
   linkType: hard
 
@@ -3517,7 +3517,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@signer/extension@workspace:packages/extension"
   dependencies:
-    "@ethersproject/providers": ^5.4.2
+    "@ethersproject/providers": 5.4.3
     "@reduxjs/toolkit": 1.6.0
     "@signer/common": "workspace:packages/common"
     "@types/chrome": 0.0.145

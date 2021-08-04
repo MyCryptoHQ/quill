@@ -42,7 +42,10 @@ export const { setNetwork } = slice.actions;
 export default slice;
 
 export function* jsonRpcSaga() {
-  yield all([takeEvery(handleJsonRpcRequest.type, handleJsonRpcRequestWorker)]);
+  yield all([
+    takeEvery(handleJsonRpcRequest.type, handleJsonRpcRequestWorker),
+    takeEvery(broadcastTransaction.type, broadcastTransactionWorker)
+  ]);
 }
 
 export function* broadcastTransactionWorker({ payload }: ReturnType<typeof broadcastTransaction>) {
