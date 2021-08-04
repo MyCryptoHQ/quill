@@ -3499,7 +3499,7 @@ __metadata:
     "@types/uuid": 8.3.0
     babel-plugin-inline-json-import: 0.3.2
     date-fns: 2.22.1
-    eciesjs: 0.3.10
+    eciesjs: 0.3.11
     electron: 13.1.1
     fast-json-stable-stringify: 2.1.0
     noble-ed25519: 1.2.5
@@ -8397,25 +8397,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eciesjs@npm:0.3.10":
-  version: 0.3.10
-  resolution: "eciesjs@npm:0.3.10"
+"eciesjs@npm:0.3.11":
+  version: 0.3.11
+  resolution: "eciesjs@npm:0.3.11"
   dependencies:
     "@types/secp256k1": ^4.0.2
     futoin-hkdf: ^1.3.3
     secp256k1: ^4.0.2
-  checksum: e8917e4432aa1ddbcdbf7c4d81c8e33e1187349344e5f933384346770532ff3654e88552b123657ed4c3445cb6f8a97a6f8139bc8d2d7b73eaa5a4420c39724a
-  languageName: node
-  linkType: hard
-
-"eciesjs@npm:0.3.9":
-  version: 0.3.9
-  resolution: "eciesjs@npm:0.3.9"
-  dependencies:
-    "@types/secp256k1": ^4.0.1
-    futoin-hkdf: ^1.3.2
-    secp256k1: ^4.0.2
-  checksum: 0d3cafaf8e0a2fbef5522f21f88b18980bd33f881eb5aaa6222a24f8b48fe6b197fcddfe293cfff7c8f619a128a92fb9ddeabfd1283a7c2ac4a5172237fbca0f
+  checksum: 83e9de6cb30fb4893a8641f9f33bb5c64ed11f8665966998b225366d031216866712425267747b6194dae2dcc6883ad3dfbcb670e02c8e83ebe4ab2d14cdf9cc
   languageName: node
   linkType: hard
 
@@ -10194,7 +10183,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"futoin-hkdf@npm:^1.3.2, futoin-hkdf@npm:^1.3.3":
+"futoin-hkdf@npm:^1.3.3":
   version: 1.3.3
   resolution: "futoin-hkdf@npm:1.3.3"
   checksum: 039ce283450d72230830597cf38b61c29f6c8d6bf112d928c113a77582d609a28b51fd4913b985029ee4467dcffa5ae65d70c8a0457052fd3aa70b070efa2c82
@@ -12837,14 +12826,14 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"keytar@npm:7.6.0":
-  version: 7.6.0
-  resolution: "keytar@npm:7.6.0"
+"keytar@npm:7.7.0":
+  version: 7.7.0
+  resolution: "keytar@npm:7.7.0"
   dependencies:
     node-addon-api: ^3.0.0
     node-gyp: latest
     prebuild-install: ^6.0.0
-  checksum: 15c749ed09d799eff85b7ab50cc2c13b4167cbf17c03cdabcaee93bef9cd3506308e4c7416e85f9466dbc5f41aabb7e09b197a643c5e03a251b1671796b56875
+  checksum: 1523f64c2137132171395cd2de53f7740c316e6c488aa7a4b7a01b87fc65dc2c55989f5ae8879ec720797cc5b2519a7482fe9d236ddbaed50eab214ae2c1ce62
   languageName: node
   linkType: hard
 
@@ -17507,7 +17496,7 @@ fsevents@^1.2.7:
     csp-html-webpack-plugin: 4.0.0
     css-loader: 4.2.1
     date-fns: 2.18.0
-    eciesjs: 0.3.9
+    eciesjs: 0.3.11
     electron: 12.0.6
     electron-context-menu: 3.1.0
     electron-log: 4.2.4
@@ -17523,7 +17512,7 @@ fsevents@^1.2.7:
     html-webpack-plugin: 4.5.0
     immer: 9.0.3
     jest-styled-components: 7.0.3
-    keytar: 7.6.0
+    keytar: 7.7.0
     lodash.isequal: 4.5.0
     lodash.merge: 4.6.2
     noble-ed25519: 1.2.1
