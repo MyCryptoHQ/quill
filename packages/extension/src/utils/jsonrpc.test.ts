@@ -1,3 +1,4 @@
+import type { ApplicationState } from '../store';
 import { RelayTarget } from '../types';
 import { isJsonRpcError, normalizeRequest, toJsonRpcRequest } from './jsonrpc';
 
@@ -29,15 +30,23 @@ describe('normalizeRequest', () => {
     params: []
   };
 
+  const state = {
+    jsonrpc: {
+      network: {
+        chainId: 1
+      }
+    }
+  } as ApplicationState;
+
   it('normalizes specific JSON-RPC requests', () => {
-    expect(normalizeRequest(request)).toStrictEqual({
+    expect(normalizeRequest(request, state)).toStrictEqual({
       ...request,
       method: 'eth_signTransaction'
     });
   });
 
   it('returns the same request for other requests', () => {
-    expect(normalizeRequest({ ...request, method: 'eth_accounts' })).toStrictEqual({
+    expect(normalizeRequest({ ...request, method: 'eth_accounts' }, state)).toStrictEqual({
       ...request,
       method: 'eth_accounts'
     });

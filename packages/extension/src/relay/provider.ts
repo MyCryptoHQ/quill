@@ -1,37 +1,52 @@
 import { v4 as uuid } from 'uuid';
 
-import type { RequestArguments } from '../types';
+import type { Provider, RequestArguments } from '../types';
 import { ProviderRpcError, RelayTarget } from '../types';
 import { createWindowMessageSender } from './window';
 
-export const createProvider = () => {
-  const sendMessage = createWindowMessageSender(RelayTarget.Page, RelayTarget.Content);
+class WindowProvider implements Provider {
+  isMyCrypto = true;
 
-  return {
-    isMyCrypto: true,
-    request: async (payload: RequestArguments) => {
-      const id = uuid();
-      const response = await sendMessage({ id, payload });
+  private sendMessage = createWindowMessageSender(RelayTarget.Page, RelayTarget.Content);
 
-      if (response.error) {
-        throw new ProviderRpcError(response.error.message, response.error.code);
-      }
+  async request(payload: RequestArguments): Promise<unknown> {
+    const id = uuid();
+    const response = await this.sendMessage({ id, payload });
 
-      return response.data;
-    },
-
-    // @todo
-    on: () => {
-      throw new Error('Not implemented');
-    },
-    once: () => {
-      throw new Error('Not implemented');
-    },
-    emit: () => {
-      throw new Error('Not implemented');
+    if (response.error) {
+      throw new ProviderRpcError(response.error.message, response.error.code);
     }
-  };
-};
+
+    return response.data;
+  }
+
+  async enable(): Promise<unknown> {
+    return this.request({
+      method: 'eth_requestAccounts',
+      params: []
+    });
+  }
+
+  // @todo
+  on(): this {
+    return this;
+  }
+
+  // @todo
+  once(): this {
+    return this;
+  }
+
+  // @todo
+  emit(): boolean {
+    return true;
+  }
+
+  // @todo
+  removeAllListeners(): this {
+    return this;
+  }
+}
 
 export const injectProvider = () => {
   // @todo: Think about how to handle existing providers
@@ -39,5 +54,5 @@ export const injectProvider = () => {
     return console.warn('Existing window.ethereum provider detected, skipping injection');
   }
 
-  window.ethereum = createProvider();
+  window.ethereum = new WindowProvider();
 };

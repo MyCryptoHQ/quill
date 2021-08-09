@@ -12,8 +12,13 @@ import type {
 } from '../types';
 import { JsonRPCMethod, TxResult } from '../types';
 
-export const makeTx = (request: JsonRPCRequest): TransactionRequest =>
-  request.params[0] as TransactionRequest;
+export const makeTx = (request: JsonRPCRequest): TransactionRequest => {
+  const { gas, ...rest } = request.params[0] as Record<string, unknown>;
+  return {
+    ...rest,
+    gasLimit: gas
+  } as TransactionRequest;
+};
 
 export const makeQueueTx = (
   payload: UserRequest<TSignTransaction>,
@@ -61,7 +66,7 @@ export const toTransactionRequest = ({
           ...transaction,
           value: transaction.value.toHexString(),
           gasPrice: transaction.gasPrice.toHexString(),
-          gasLimit: transaction.gasLimit.toHexString(),
+          gas: transaction.gasLimit.toHexString(),
           nonce: addHexPrefix(transaction.nonce.toString(16))
         }
       ]
