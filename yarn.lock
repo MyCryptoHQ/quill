@@ -8652,16 +8652,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron@npm:12.0.6":
-  version: 12.0.6
-  resolution: "electron@npm:12.0.6"
+"electron@npm:12.0.16":
+  version: 12.0.16
+  resolution: "electron@npm:12.0.16"
   dependencies:
     "@electron/get": ^1.0.1
     "@types/node": ^14.6.2
     extract-zip: ^1.0.3
   bin:
     electron: cli.js
-  checksum: 3bbf158e5c28d016d8550991f2859891de84439fa9e46e01c6b9cb75f51d35ca1f8b73c6460e28ea51e978aea26b0cb1135eef31c7a16f57e9cfd2a69d32ec99
+  checksum: a2a266e958470ce8e3ee9ac2839a7a1d1c94b976a95089e6b65040cbacdf1dc6091ba65ba532ef5be2c194c4cce3937077a260a1652d0f3da2fead1ee45aed1d
   languageName: node
   linkType: hard
 
@@ -17497,7 +17497,7 @@ fsevents@^1.2.7:
     css-loader: 4.2.1
     date-fns: 2.18.0
     eciesjs: 0.3.11
-    electron: 12.0.6
+    electron: 12.0.16
     electron-context-menu: 3.1.0
     electron-log: 4.2.4
     electron-squirrel-startup: 1.0.0
