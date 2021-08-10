@@ -1777,12 +1777,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@electron/remote@npm:^1.0.4":
-  version: 1.1.0
-  resolution: "@electron/remote@npm:1.1.0"
+"@electron/remote@npm:^1.1.0":
+  version: 1.2.1
+  resolution: "@electron/remote@npm:1.2.1"
   peerDependencies:
     electron: ">= 10.0.0-beta.1"
-  checksum: f05e5f85077debe2ed77fa8dc1c1b2bd799ff2f48ab996c718f38d735ed9ed7fd356a5b67b42c4fbff3b063ca2104b2dee27f6ad925446e0afc8cf85ac865a19
+  checksum: 81477f51ac16166c700178b53122124472134b2793710663abc0e67b8015ea5d1aad2d9c3f07eb5c6eba96d95af0ba41f8611cfb65c07388df02ff4c16bb2a50
   languageName: node
   linkType: hard
 
@@ -8474,15 +8474,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-chromedriver@npm:^12.0.0":
-  version: 12.0.0
-  resolution: "electron-chromedriver@npm:12.0.0"
+"electron-chromedriver@npm:^13.0.0":
+  version: 13.0.0
+  resolution: "electron-chromedriver@npm:13.0.0"
   dependencies:
     "@electron/get": ^1.12.4
     extract-zip: ^2.0.0
   bin:
     chromedriver: chromedriver.js
-  checksum: 3b263f3dd351a163b8d934631ab3a56b9a85a691e700f3fb5d84fd63ee0bc30233677e3661c1f3e3b1bfbbf2fd7ab108aed5c5fb772b44e03d1e9fd74d96b55b
+  checksum: 0c78e8d0058c3c4fae16b65cb8652f974d6efaf77699916b1e2ff1b57b9f17267b2bda7264814f7861c6506872781d759de4cd16945b4de48f53b8c0cacd0946
   languageName: node
   linkType: hard
 
@@ -17585,7 +17585,7 @@ fsevents@^1.2.7:
     redux-mock-store: 1.5.4
     redux-saga: 1.1.3
     redux-saga-test-plan: 4.0.1
-    spectron: 14.0.0
+    spectron: 15.0.0
     style-loader: 1.2.1
     styled-components: 5.2.0
     styled-system: 5.1.5
@@ -17881,17 +17881,17 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"spectron@npm:14.0.0":
-  version: 14.0.0
-  resolution: "spectron@npm:14.0.0"
+"spectron@npm:15.0.0":
+  version: 15.0.0
+  resolution: "spectron@npm:15.0.0"
   dependencies:
-    "@electron/remote": ^1.0.4
+    "@electron/remote": ^1.1.0
     dev-null: ^0.1.1
-    electron-chromedriver: ^12.0.0
+    electron-chromedriver: ^13.0.0
     got: ^11.8.0
     split: ^1.0.1
     webdriverio: ^6.9.1
-  checksum: 2b3827c89c7c66232ed54b28b52d0f687160ff82143a9492bcb992645376cac4154dce1f0986429c5d9bae2b4165e8572ed06b9d3fa1f595fa97e40230b8bc47
+  checksum: 690d3de4aa12d054eb9330b4df1f645d4084c647f68f9cdef373e2797f9c099a0dcf1c1c18caa0953af04c346c273ae5ba9d2d1420214639e34c140b1be775f2
   languageName: node
   linkType: hard
 
