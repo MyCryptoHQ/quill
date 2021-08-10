@@ -2,6 +2,7 @@ const CspHtmlWebpackPlugin = require('csp-html-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const { v4 } = require('uuid');
+const { ProvidePlugin } = require('webpack');
 const { merge } = require('webpack-merge');
 
 const common = require('./common');
@@ -64,6 +65,10 @@ module.exports = merge(common, {
     ]
   },
   plugins: [
+    // @todo This doesn't currently work
+    new ProvidePlugin({
+      Buffer: ['buffer', 'Buffer']
+    }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, '../src/app/index.html'),
       inject: false,
@@ -84,9 +89,13 @@ module.exports = merge(common, {
       'react-dom': '@hot-loader/react-dom'
     },
     extensions: ['.jsx', '.tsx', '.css'],
-    mainFields: ['browser', 'module', 'main']
-  },
-  node: {
-    fs: 'empty'
+    mainFields: ['browser', 'module', 'main'],
+    fallback: {
+      crypto: require.resolve('crypto-browserify'),
+      stream: require.resolve('stream-browserify'),
+      path: false,
+      os: false,
+      fs: false
+    }
   }
 });
