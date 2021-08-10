@@ -3,7 +3,8 @@ export * from './Navigation';
 export * from './Core';
 
 // Re-export as these should be used over the ones imported from rebass!
-export { Box, Flex, Image, Link, ImageProps, BoxProps, FlexProps } from 'rebass/styled-components';
+export { Box, Flex, Image, Link } from 'rebass/styled-components';
+export type { ImageProps, BoxProps, FlexProps } from 'rebass/styled-components';
 export { Input, Label, Textarea, Select } from '@rebass/forms/styled-components';
 
 export * from './TxQueue';

@@ -1,5 +1,5 @@
-export { Route } from './route';
-export { SignTransactionProps } from './transactionProps';
+export type { Route } from './route';
+export type { SignTransactionProps } from './transactionProps';
 export * from './chain';
 export * from './dpath';
 export * from './passwords';
