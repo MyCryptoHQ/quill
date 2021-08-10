@@ -121,12 +121,12 @@
     "copy-webpack-plugin": "6.1.1",
     "csp-html-webpack-plugin": "4.0.0",
     "css-loader": "4.2.1",
-    "electron": "12.0.16",
+    "electron": "13.1.8",
     "file-loader": "6.2.0",
     "fork-ts-checker-webpack-plugin": "5.0.14",
     "html-webpack-plugin": "4.5.0",
     "jest-styled-components": "7.0.3",
-    "node-abi": "2.26.0",
+    "node-abi": "2.30.0",
     "node-loader": "1.0.1",
     "react-select-event": "5.2.0",
     "react-test-renderer": "16.13.1",
@@ -141,6 +141,6 @@
     "webpack-merge": "5.1.4"
   },
   "resolutions": {
-    "node-abi": "2.26.0"
+    "node-abi": "2.30.0"
   }
 }
