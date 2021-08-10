@@ -1777,12 +1777,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@electron/remote@npm:^1.0.4":
-  version: 1.1.0
-  resolution: "@electron/remote@npm:1.1.0"
+"@electron/remote@npm:^1.1.0":
+  version: 1.2.1
+  resolution: "@electron/remote@npm:1.2.1"
   peerDependencies:
     electron: ">= 10.0.0-beta.1"
-  checksum: f05e5f85077debe2ed77fa8dc1c1b2bd799ff2f48ab996c718f38d735ed9ed7fd356a5b67b42c4fbff3b063ca2104b2dee27f6ad925446e0afc8cf85ac865a19
+  checksum: 81477f51ac16166c700178b53122124472134b2793710663abc0e67b8015ea5d1aad2d9c3f07eb5c6eba96d95af0ba41f8611cfb65c07388df02ff4c16bb2a50
   languageName: node
   linkType: hard
 
@@ -2564,7 +2564,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethersproject/transactions@npm:^5.4.0":
+"@ethersproject/transactions@npm:5.4.0, @ethersproject/transactions@npm:^5.4.0":
   version: 5.4.0
   resolution: "@ethersproject/transactions@npm:5.4.0"
   dependencies:
@@ -3255,18 +3255,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@octokit/core@npm:^3.1.2, @octokit/core@npm:^3.2.3":
-  version: 3.4.0
-  resolution: "@octokit/core@npm:3.4.0"
+"@octokit/core@npm:^3.1.2, @octokit/core@npm:^3.5.0":
+  version: 3.5.1
+  resolution: "@octokit/core@npm:3.5.1"
   dependencies:
     "@octokit/auth-token": ^2.4.4
     "@octokit/graphql": ^4.5.8
-    "@octokit/request": ^5.4.12
+    "@octokit/request": ^5.6.0
     "@octokit/request-error": ^2.0.5
     "@octokit/types": ^6.0.3
     before-after-hook: ^2.2.0
     universal-user-agent: ^6.0.0
-  checksum: bb8ba9be2c3d944361afff7c674c2bac22e831d37bfcf9b5e676fa19fd1d72d335e4d97e33103e6e91f87b4511c4353116945ade326587ef7a6d5e1f95c0c786
+  checksum: 2967d97b43ee152068980f22258c8f32cc4f9f62cf627eb3640724fa0a8465421edb274fc9d1b2aa804081f3a3e902d36d0dc88cfce3115989ffb39d1a8ae4cd
   languageName: node
   linkType: hard
 
@@ -3299,6 +3299,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@octokit/openapi-types@npm:^9.4.0":
+  version: 9.4.0
+  resolution: "@octokit/openapi-types@npm:9.4.0"
+  checksum: 9e4d972c153e461f2a4b28f5f5deda8d30d73ac28466a9fc0f2cef4375e0b1b69b8fdc3358cf1e255ac4a95acafe4b8683a819c33183db9dca042a391854a149
+  languageName: node
+  linkType: hard
+
 "@octokit/plugin-paginate-rest@npm:^2.6.2":
   version: 2.13.3
   resolution: "@octokit/plugin-paginate-rest@npm:2.13.3"
@@ -3319,15 +3326,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@octokit/plugin-rest-endpoint-methods@npm:5.3.1":
-  version: 5.3.1
-  resolution: "@octokit/plugin-rest-endpoint-methods@npm:5.3.1"
+"@octokit/plugin-rest-endpoint-methods@npm:5.7.0":
+  version: 5.7.0
+  resolution: "@octokit/plugin-rest-endpoint-methods@npm:5.7.0"
   dependencies:
-    "@octokit/types": ^6.16.2
+    "@octokit/types": ^6.24.0
     deprecation: ^2.3.1
   peerDependencies:
     "@octokit/core": ">=3"
-  checksum: 29198043ef29c6520e3fbf40998170f359ddd05bcdf31fcea74af5559bbc91a1d5f95edc42ab5ac51e14b497bdc669b8715f6a9a878254ef528188412593916e
+  checksum: 40d235f46722bcdd0a2bacf884121afee64d7577222fe365bfd3ba8aa4ef47b9afd8875982b5158c02f58c8b1b0e72e33f8e377326664aff2de7475330193f87
   languageName: node
   linkType: hard
 
@@ -3342,7 +3349,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@octokit/request@npm:^5.3.0, @octokit/request@npm:^5.4.12":
+"@octokit/request-error@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@octokit/request-error@npm:2.1.0"
+  dependencies:
+    "@octokit/types": ^6.0.3
+    deprecation: ^2.0.0
+    once: ^1.4.0
+  checksum: 0fdf0075bce449f07a376eae9e623f10859943ffcb8db4a97e5052ea09a16a9fc5c009153f750efc6ba3b0ca5f068b975b0d9eca180405533a6af78d318001fd
+  languageName: node
+  linkType: hard
+
+"@octokit/request@npm:^5.3.0":
   version: 5.4.15
   resolution: "@octokit/request@npm:5.4.15"
   dependencies:
@@ -3356,15 +3374,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@octokit/rest@npm:^18.0.6":
-  version: 18.5.6
-  resolution: "@octokit/rest@npm:18.5.6"
+"@octokit/request@npm:^5.6.0":
+  version: 5.6.0
+  resolution: "@octokit/request@npm:5.6.0"
   dependencies:
-    "@octokit/core": ^3.2.3
+    "@octokit/endpoint": ^6.0.1
+    "@octokit/request-error": ^2.1.0
+    "@octokit/types": ^6.16.1
+    is-plain-object: ^5.0.0
+    node-fetch: ^2.6.1
+    universal-user-agent: ^6.0.0
+  checksum: d9a6312f53292ee1b7c73e88fac1b26870bb524fcc8d80d3e5fc0b3d87d941e0728ba6ae2e1d8ac292a23ccaa73cfb27dbeb1cef73e185c24b97231f982d06a1
+  languageName: node
+  linkType: hard
+
+"@octokit/rest@npm:^18.0.6":
+  version: 18.9.0
+  resolution: "@octokit/rest@npm:18.9.0"
+  dependencies:
+    "@octokit/core": ^3.5.0
     "@octokit/plugin-paginate-rest": ^2.6.2
     "@octokit/plugin-request-log": ^1.0.2
-    "@octokit/plugin-rest-endpoint-methods": 5.3.1
-  checksum: a25aaafe3614269da1d80956b073e2c2d056e686cd054611839621e3bbc130b191e5bd1365001a7018e5b82102cf810f28afba9a7e164e74ab4967c411116481
+    "@octokit/plugin-rest-endpoint-methods": 5.7.0
+  checksum: 1eca84adfb81eb6b3d871d6731b2464ee8d422cbb0c88861fac36244b74388b72c6605c9e0507a3e943c535c5571cf534d9a50c34e4a30ae625aa46649e60cda
   languageName: node
   linkType: hard
 
@@ -3377,12 +3409,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@octokit/types@npm:^6.0.3, @octokit/types@npm:^6.11.0, @octokit/types@npm:^6.16.2, @octokit/types@npm:^6.7.1":
+"@octokit/types@npm:^6.0.3, @octokit/types@npm:^6.11.0, @octokit/types@npm:^6.7.1":
   version: 6.16.2
   resolution: "@octokit/types@npm:6.16.2"
   dependencies:
     "@octokit/openapi-types": ^7.2.3
   checksum: b9cf7c0482fbce388a78fb7a7b86b012091087d27e831b428abaa8fbcf9a5c255fa39ab14658b8653e8b639895c00b75849d276fc74c033ee0cdd7046d0ad0e5
+  languageName: node
+  linkType: hard
+
+"@octokit/types@npm:^6.16.1, @octokit/types@npm:^6.24.0":
+  version: 6.24.0
+  resolution: "@octokit/types@npm:6.24.0"
+  dependencies:
+    "@octokit/openapi-types": ^9.4.0
+  checksum: c8df38d339503f4f6affe88138cc1683e8dc3d5c12a09648a0605f75505885b32a3c7e805eeb74c187ec4acc1756e2637008cd9d32e03b3d6bd045b785d74987
   languageName: node
   linkType: hard
 
@@ -3500,7 +3541,7 @@ __metadata:
     babel-plugin-inline-json-import: 0.3.2
     date-fns: 2.22.1
     eciesjs: 0.3.11
-    electron: 13.1.1
+    electron: 12.0.16
     fast-json-stable-stringify: 2.1.0
     noble-ed25519: 1.2.5
     redux-mock-store: 1.5.4
@@ -3518,6 +3559,7 @@ __metadata:
   resolution: "@signer/extension@workspace:packages/extension"
   dependencies:
     "@ethersproject/providers": 5.4.3
+    "@ethersproject/transactions": 5.4.0
     "@reduxjs/toolkit": 1.6.0
     "@signer/common": "workspace:packages/common"
     "@types/chrome": 0.0.145
@@ -4155,10 +4197,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>= 8":
+"@types/node@npm:*":
   version: 15.9.0
   resolution: "@types/node@npm:15.9.0"
   checksum: 09399100eae55644ac56c554b456444ab157696aba9d73bab7ce52a16151260d70297beffd3bdfdca94e9ab840474da7d45a8d4d5acbea0c3bfd68868774c1e8
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:>= 8":
+  version: 16.4.13
+  resolution: "@types/node@npm:16.4.13"
+  checksum: 3e5f80c62a2fc459a4a87f22c62ae2f5c18ff7019d155b4711c3b079184fd1fb694f64cd85dddf473da13b9eba449e44394f5c2be4c4cbd62b5cb2184f6b81e0
   languageName: node
   linkType: hard
 
@@ -8425,15 +8474,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-chromedriver@npm:^12.0.0":
-  version: 12.0.0
-  resolution: "electron-chromedriver@npm:12.0.0"
+"electron-chromedriver@npm:^13.0.0":
+  version: 13.0.0
+  resolution: "electron-chromedriver@npm:13.0.0"
   dependencies:
     "@electron/get": ^1.12.4
     extract-zip: ^2.0.0
   bin:
     chromedriver: chromedriver.js
-  checksum: 3b263f3dd351a163b8d934631ab3a56b9a85a691e700f3fb5d84fd63ee0bc30233677e3661c1f3e3b1bfbbf2fd7ab108aed5c5fb772b44e03d1e9fd74d96b55b
+  checksum: 0c78e8d0058c3c4fae16b65cb8652f974d6efaf77699916b1e2ff1b57b9f17267b2bda7264814f7861c6506872781d759de4cd16945b4de48f53b8c0cacd0946
   languageName: node
   linkType: hard
 
@@ -8651,29 +8700,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron@npm:12.0.6":
-  version: 12.0.6
-  resolution: "electron@npm:12.0.6"
+"electron@npm:12.0.16":
+  version: 12.0.16
+  resolution: "electron@npm:12.0.16"
   dependencies:
     "@electron/get": ^1.0.1
     "@types/node": ^14.6.2
     extract-zip: ^1.0.3
   bin:
     electron: cli.js
-  checksum: 3bbf158e5c28d016d8550991f2859891de84439fa9e46e01c6b9cb75f51d35ca1f8b73c6460e28ea51e978aea26b0cb1135eef31c7a16f57e9cfd2a69d32ec99
+  checksum: a2a266e958470ce8e3ee9ac2839a7a1d1c94b976a95089e6b65040cbacdf1dc6091ba65ba532ef5be2c194c4cce3937077a260a1652d0f3da2fead1ee45aed1d
   languageName: node
   linkType: hard
 
-"electron@npm:13.1.1":
-  version: 13.1.1
-  resolution: "electron@npm:13.1.1"
+"electron@npm:13.1.8":
+  version: 13.1.8
+  resolution: "electron@npm:13.1.8"
   dependencies:
     "@electron/get": ^1.0.1
     "@types/node": ^14.6.2
     extract-zip: ^1.0.3
   bin:
     electron: cli.js
-  checksum: 21875e8cb04f992c93b06cd47cc94b89bb14d144e4d5eda0fbdba214d0d6d307c87efe93a57fdc0c7160a8cf49460656d50c7532e2c16d57e04fa69bf2cbfabf
+  checksum: a20b49e752530fd75a9e0c5bc52ea19dcec21ef35c4bc03203155b1fa332ba09c588adeb1ef7b866c5c12f437cf5ede8bc4fccb497d45f4bcef44676cf8bb999
   languageName: node
   linkType: hard
 
@@ -14179,12 +14228,12 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"node-abi@npm:2.26.0":
-  version: 2.26.0
-  resolution: "node-abi@npm:2.26.0"
+"node-abi@npm:2.30.0":
+  version: 2.30.0
+  resolution: "node-abi@npm:2.30.0"
   dependencies:
     semver: ^5.4.1
-  checksum: 29c7ee7486635ab6f49227a74e37cf07560fbc2bed14b8a64a91f831a76da3ed8e7a3b80ebfa07f0e3a3b53287f1b30b736e01809799d71239c47c5249c407bd
+  checksum: d048604a9f5694051a9d23650f4ce2e881d751385d913534c964895fea9849dceb6bffd2a0e0581aa03f5743bd2f3d6de37316bf1ed106f382e4492929806970
   languageName: node
   linkType: hard
 
@@ -17496,7 +17545,7 @@ fsevents@^1.2.7:
     css-loader: 4.2.1
     date-fns: 2.18.0
     eciesjs: 0.3.11
-    electron: 12.0.6
+    electron: 13.1.8
     electron-context-menu: 3.1.0
     electron-log: 4.2.4
     electron-squirrel-startup: 1.0.0
@@ -17515,7 +17564,7 @@ fsevents@^1.2.7:
     lodash.isequal: 4.5.0
     lodash.merge: 4.6.2
     noble-ed25519: 1.2.1
-    node-abi: 2.26.0
+    node-abi: 2.30.0
     node-ipc: 9.1.4
     node-loader: 1.0.1
     qruri: 0.0.4
@@ -17536,7 +17585,7 @@ fsevents@^1.2.7:
     redux-mock-store: 1.5.4
     redux-saga: 1.1.3
     redux-saga-test-plan: 4.0.1
-    spectron: 14.0.0
+    spectron: 15.0.0
     style-loader: 1.2.1
     styled-components: 5.2.0
     styled-system: 5.1.5
@@ -17832,17 +17881,17 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"spectron@npm:14.0.0":
-  version: 14.0.0
-  resolution: "spectron@npm:14.0.0"
+"spectron@npm:15.0.0":
+  version: 15.0.0
+  resolution: "spectron@npm:15.0.0"
   dependencies:
-    "@electron/remote": ^1.0.4
+    "@electron/remote": ^1.1.0
     dev-null: ^0.1.1
-    electron-chromedriver: ^12.0.0
+    electron-chromedriver: ^13.0.0
     got: ^11.8.0
     split: ^1.0.1
     webdriverio: ^6.9.1
-  checksum: 2b3827c89c7c66232ed54b28b52d0f687160ff82143a9492bcb992645376cac4154dce1f0986429c5d9bae2b4165e8572ed06b9d3fa1f595fa97e40230b8bc47
+  checksum: 690d3de4aa12d054eb9330b4df1f645d4084c647f68f9cdef373e2797f9c099a0dcf1c1c18caa0953af04c346c273ae5ba9d2d1420214639e34c140b1be775f2
   languageName: node
   linkType: hard
 
@@ -20004,23 +20053,13 @@ typescript@4.3.2:
   languageName: node
   linkType: hard
 
-"webpack-merge@npm:5.8.0, webpack-merge@npm:^5.7.3":
+"webpack-merge@npm:5.8.0, webpack-merge@npm:^5.1.1, webpack-merge@npm:^5.7.3":
   version: 5.8.0
   resolution: "webpack-merge@npm:5.8.0"
   dependencies:
     clone-deep: ^4.0.1
     wildcard: ^2.0.0
   checksum: ee3ff2cc97de7f35a80a81c7f0f211ceb12aa392344fae4e1c4d3e0090b5222e90a784af2eb886948bc0023e275c239961b0177f9b09f23da97e720006db9d1a
-  languageName: node
-  linkType: hard
-
-"webpack-merge@npm:^5.1.1":
-  version: 5.7.3
-  resolution: "webpack-merge@npm:5.7.3"
-  dependencies:
-    clone-deep: ^4.0.1
-    wildcard: ^2.0.0
-  checksum: 5e28f66f597cb34ac5f7ca0881cd3f106265091e47d7cda9ae00f4902283efdfdab36a70e34a9cf7b1467aac021178981513393b7dcddbb84caf11920f269379
   languageName: node
   linkType: hard
 
@@ -20317,11 +20356,11 @@ typescript@4.3.2:
   linkType: hard
 
 "ws@npm:^5.2.0":
-  version: 5.2.2
-  resolution: "ws@npm:5.2.2"
+  version: 5.2.3
+  resolution: "ws@npm:5.2.3"
   dependencies:
     async-limiter: ~1.0.0
-  checksum: c8217b54821ac9109bd395029487fd2a577867d6227624079dfa04c927728be13fdbe43070b2d349e9360d7dd17416c33362ba1062bff3bd9ddab6e9a9272915
+  checksum: 03941abe8d073b0bbb9cecb4c02b5e6d06efa6ef7d2ac7a8ba2769ec4fc280fc04ecf06b4479fa04ae255c45b66e9e962ac229964b427ee2484a40a1bd84bc2d
   languageName: node
   linkType: hard
 
@@ -20388,9 +20427,9 @@ typescript@4.3.2:
   linkType: hard
 
 "xterm@npm:^4.8.1":
-  version: 4.12.0
-  resolution: "xterm@npm:4.12.0"
-  checksum: 3c0d251e00a11750722626b1cc069f98e80d1670f0e1a1bb1163585efa36d3827d6b45d8fcbe9ff7a59e752f7047dc40e9bd57780ef962302ac1eb78b56e6cbc
+  version: 4.13.0
+  resolution: "xterm@npm:4.13.0"
+  checksum: 2d4c2d23d3b93298d39199fcfdb625dacb80abb037b1fe2217acda113facc7182cc56d3ebf40e73cb2fe00e90023b739cc20c6098c0ca8f0550f921137d6b0b1
   languageName: node
   linkType: hard
 

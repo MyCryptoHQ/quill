@@ -56,6 +56,11 @@ export interface Provider {
    */
   request(args: RequestArguments): Promise<unknown>;
 
+  /**
+   * @deprecated Use `request({ method: 'eth_requestAccounts' })` instead.
+   */
+  enable(): Promise<unknown>;
+
   on<Event extends keyof ProviderEvents>(event: Event, listener: ProviderEvents[Event]): this;
   once<Event extends keyof ProviderEvents>(event: Event, listener: ProviderEvents[Event]): this;
   emit<Event extends keyof ProviderEvents>(

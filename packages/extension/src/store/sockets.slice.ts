@@ -92,7 +92,8 @@ export function* waitForResponse(id: string | number) {
  * Handles JSON-RPC requests sent to the signer.
  */
 export function* handleRequestWorker({ payload }: ReturnType<typeof handleRequest>) {
-  yield put(send(normalizeRequest(payload.request)));
+  const state: ApplicationState = yield select((state) => state);
+  yield put(send(normalizeRequest(payload.request, state)));
 
   const response: JsonRpcResponse = yield call(waitForResponse, payload.request.id);
   yield call(handleResponseWorker, { request: payload.request, response });

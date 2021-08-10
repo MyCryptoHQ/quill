@@ -29,10 +29,12 @@ export const SignTransactionStruct = tuple([
     to: optional(Address),
     from: optional(Address),
     nonce: Hex,
-    gasLimit: Hex,
+    gas: Hex,
     gasPrice: Hex,
     data: EvenHex,
     value: Hex,
+    // Note: this is technically not compliant to the JSON-RPC spec, but since the signer isn't
+    // aware of the chain ID otherwise, we need to include it.
     chainId: number()
   })
 ]);

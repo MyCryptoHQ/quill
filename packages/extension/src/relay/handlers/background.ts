@@ -8,7 +8,11 @@ import { RelayMessageStruct, RelayTarget } from '../../types';
 import { toJsonRpcRequest } from '../../utils';
 
 // Request methods that are forwarded to the Signer application
-const SIGNER_EVENTS: string[] = Object.values(JsonRPCMethod);
+const SIGNER_EVENTS: string[] = [
+  ...Object.values(JsonRPCMethod),
+  'eth_requestAccounts',
+  'eth_sendTransaction'
+];
 
 export const handleBackgroundMessages = (store: EnhancedStore<ApplicationState>) => {
   chrome.runtime.onMessage.addListener(async (data, sender) => {

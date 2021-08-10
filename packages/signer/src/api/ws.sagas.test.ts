@@ -115,7 +115,7 @@ describe('validateRequest', () => {
           to: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520',
           from: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520',
           nonce: '0x1',
-          gasLimit: '0x1',
+          gas: '0x1',
           gasPrice: '0x1',
           data: '0x',
           value: '0x1',
@@ -176,6 +176,7 @@ describe('handleRequest', () => {
       fRequestPublicKey,
       accountsRequest
     );
+
     await expectSaga(handleRequest, { socket, request, data: JSON.stringify(signedRequest) })
       .withState({
         permissions: { permissions: [{ origin: fRequestOrigin, publicKey: fRequestPublicKey }] }
@@ -203,6 +204,7 @@ describe('handleRequest', () => {
       fRequestPublicKey,
       fTxRequest
     );
+
     await expectSaga(handleRequest, { socket, request, data: JSON.stringify(signedTxRequest) })
       .withState({
         permissions: { permissions: [{ origin: fRequestOrigin, publicKey: fRequestPublicKey }] }

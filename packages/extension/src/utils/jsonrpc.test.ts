@@ -1,5 +1,6 @@
+import type { ApplicationState } from '../store';
 import { RelayTarget } from '../types';
-import { isJsonRpcError, normalizeRequest, toJsonRpcRequest } from './jsonrpc';
+import { addChainId, isJsonRpcError, normalizeRequest, toJsonRpcRequest } from './jsonrpc';
 
 describe('toJsonRpcRequest', () => {
   it('returns a JSON-RPC compatible request for a relay message', () => {
@@ -21,6 +22,21 @@ describe('toJsonRpcRequest', () => {
   });
 });
 
+describe('addChainId', () => {
+  it('adds the chain ID to the request parameters', () => {
+    expect(addChainId([{ foo: 'bar' }], 1)).toStrictEqual([
+      {
+        foo: 'bar',
+        chainId: 1
+      }
+    ]);
+  });
+
+  it('returns undefined if no parameters are specified', () => {
+    expect(addChainId(undefined, 1)).toBeUndefined();
+  });
+});
+
 describe('normalizeRequest', () => {
   const request = {
     jsonrpc: '2.0' as const,
@@ -29,15 +45,52 @@ describe('normalizeRequest', () => {
     params: []
   };
 
+  const state = {
+    jsonrpc: {
+      network: {
+        chainId: 1
+      }
+    }
+  } as ApplicationState;
+
   it('normalizes specific JSON-RPC requests', () => {
-    expect(normalizeRequest(request)).toStrictEqual({
+    expect(normalizeRequest(request, state)).toStrictEqual({
       ...request,
-      method: 'eth_signTransaction'
+      method: 'eth_signTransaction',
+      params: [
+        {
+          chainId: 1
+        }
+      ]
+    });
+
+    expect(
+      normalizeRequest({ ...request, method: 'eth_requestAccounts', params: [] }, state)
+    ).toStrictEqual({
+      ...request,
+      method: 'wallet_requestPermissions',
+      params: [
+        {
+          eth_accounts: {}
+        }
+      ]
+    });
+
+    expect(
+      normalizeRequest({ ...request, method: 'eth_signTransaction', params: [] }, state)
+    ).toStrictEqual({
+      ...request,
+      method: 'eth_signTransaction',
+      params: [
+        {
+          chainId: 1
+        }
+      ]
     });
   });
 
   it('returns the same request for other requests', () => {
-    expect(normalizeRequest({ ...request, method: 'eth_accounts' })).toStrictEqual({
+    expect(normalizeRequest({ ...request, method: 'eth_accounts' }, state)).toStrictEqual({
       ...request,
       method: 'eth_accounts'
     });

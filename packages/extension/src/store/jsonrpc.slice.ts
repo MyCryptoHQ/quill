@@ -16,8 +16,8 @@ export interface JsonRpcState {
 
 const initialState: JsonRpcState = {
   network: {
-    providers: ['https://api.mycryptoapi.com/eth'],
-    chainId: 1
+    providers: ['https://goerli.infura.io/v3/b53ee8e579c444d186a259f7f5e3f6e0'],
+    chainId: 5
   }
 };
 

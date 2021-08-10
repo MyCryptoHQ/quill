@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "@ethersproject/providers": "5.4.3",
+    "@ethersproject/transactions": "5.4.0",
     "@reduxjs/toolkit": "1.6.0",
     "@signer/common": "workspace:packages/common",
     "buffer": "6.0.3",
@@ -47,6 +48,6 @@
     "uuid": "8.3.2"
   },
   "resolutions": {
-    "node-abi": "2.26.0"
+    "node-abi": "2.30.0"
   }
 }

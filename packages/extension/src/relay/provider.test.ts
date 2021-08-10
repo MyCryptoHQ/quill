@@ -1,5 +1,5 @@
 import { RelayTarget } from '../types';
-import { createProvider, injectProvider } from './provider';
+import { injectProvider, WindowProvider } from './provider';
 import { createWindowMessageSender } from './window';
 
 jest.mock('./window', () => ({
@@ -10,15 +10,8 @@ jest.mock('uuid', () => ({
   v4: jest.fn().mockImplementation(() => '4653e3d5-b720-4b7f-8dce-41b7c8d9d8d8')
 }));
 
-describe('createProvider', () => {
-  it('creates an EIP-1193 provider', () => {
-    const provider = createProvider();
-
-    expect(provider.isMyCrypto).toBe(true);
-    expect(provider.request).toBeDefined();
-  });
-
-  describe('provider', () => {
+describe('Provider', () => {
+  describe('request', () => {
     it('returns the response data', async () => {
       (createWindowMessageSender as jest.MockedFunction<
         typeof createWindowMessageSender
@@ -28,7 +21,7 @@ describe('createProvider', () => {
         data: '0xf000'
       }));
 
-      const provider = createProvider();
+      const provider = new WindowProvider();
       await expect(provider.request({ method: 'eth_accounts', params: [] })).resolves.toBe(
         '0xf000'
       );
@@ -46,8 +39,33 @@ describe('createProvider', () => {
         }
       }));
 
-      const provider = createProvider();
+      const provider = new WindowProvider();
       await expect(provider.request({ method: 'eth_accounts', params: [] })).rejects.toThrow('foo');
+    });
+  });
+
+  describe('enable', () => {
+    it('calls eth_requestAccounts', async () => {
+      const fn = jest.fn().mockResolvedValue({
+        id: '4653e3d5-b720-4b7f-8dce-41b7c8d9d8d8',
+        target: RelayTarget.Page,
+        data: '0xf000'
+      });
+
+      (createWindowMessageSender as jest.MockedFunction<
+        typeof createWindowMessageSender
+      >).mockImplementation(() => async (...args: unknown[]) => fn(...args));
+
+      const provider = new WindowProvider();
+      await provider.enable();
+
+      expect(fn).toHaveBeenCalledWith({
+        id: '4653e3d5-b720-4b7f-8dce-41b7c8d9d8d8',
+        payload: {
+          method: 'eth_requestAccounts',
+          params: []
+        }
+      });
     });
   });
 });
