@@ -4,7 +4,7 @@ import type { Provider, RequestArguments } from '../types';
 import { ProviderRpcError, RelayTarget } from '../types';
 import { createWindowMessageSender } from './window';
 
-class WindowProvider implements Provider {
+export class WindowProvider implements Provider {
   isMyCrypto = true;
 
   private sendMessage = createWindowMessageSender(RelayTarget.Page, RelayTarget.Content);

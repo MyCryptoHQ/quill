@@ -1,6 +1,6 @@
 import type { ApplicationState } from '../store';
 import { RelayTarget } from '../types';
-import { isJsonRpcError, normalizeRequest, toJsonRpcRequest } from './jsonrpc';
+import { addChainId, isJsonRpcError, normalizeRequest, toJsonRpcRequest } from './jsonrpc';
 
 describe('toJsonRpcRequest', () => {
   it('returns a JSON-RPC compatible request for a relay message', () => {
@@ -19,6 +19,21 @@ describe('toJsonRpcRequest', () => {
       method: 'eth_accounts',
       params: []
     });
+  });
+});
+
+describe('addChainId', () => {
+  it('adds the chain ID to the request parameters', () => {
+    expect(addChainId([{ foo: 'bar' }], 1)).toStrictEqual([
+      {
+        foo: 'bar',
+        chainId: 1
+      }
+    ]);
+  });
+
+  it('returns undefined if no parameters are specified', () => {
+    expect(addChainId(undefined, 1)).toBeUndefined();
   });
 });
 
