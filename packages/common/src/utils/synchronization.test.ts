@@ -64,7 +64,7 @@ describe('signJsonRpcRequest', () => {
       ...fTxRequest,
       publicKey: '7ffb25fc9c2621ca02bfafa545e7fdbfb4839d70c1d3dda52587b7beb001eb14',
       signature:
-        'bd6ad2eb20423f24de9b6ab2607ab0e08a544128c9f2cb41c93d52a08fea862e487210428efca7ae94cafd41afd5f6ee55540e5774dc13135761fd8278cc2302'
+        'fcd95cd8f2cfdb1779c64bf17843f154c92cd9a784051d08c09c4ebe961c2d03222040b2f1d5ecfda4039ad87408ae6a277513a107e16f520626263d845b6e08'
     });
   });
 });

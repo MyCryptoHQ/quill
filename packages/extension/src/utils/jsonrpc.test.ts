@@ -41,7 +41,36 @@ describe('normalizeRequest', () => {
   it('normalizes specific JSON-RPC requests', () => {
     expect(normalizeRequest(request, state)).toStrictEqual({
       ...request,
-      method: 'eth_signTransaction'
+      method: 'eth_signTransaction',
+      params: [
+        {
+          chainId: 1
+        }
+      ]
+    });
+
+    expect(
+      normalizeRequest({ ...request, method: 'eth_requestAccounts', params: [] }, state)
+    ).toStrictEqual({
+      ...request,
+      method: 'wallet_requestPermissions',
+      params: [
+        {
+          eth_accounts: {}
+        }
+      ]
+    });
+
+    expect(
+      normalizeRequest({ ...request, method: 'eth_signTransaction', params: [] }, state)
+    ).toStrictEqual({
+      ...request,
+      method: 'eth_signTransaction',
+      params: [
+        {
+          chainId: 1
+        }
+      ]
     });
   });
 
