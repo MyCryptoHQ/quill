@@ -17,6 +17,10 @@ export const signRequest = async (data: JsonRPCRequest, privateKey: string) => {
 };
 
 export const verifyRequest = async (sig: string, data: JsonRPCRequest, publicKey: string) => {
-  const hash = await hashRequest(data);
-  return verify(sig, hash, publicKey);
+  try {
+    const hash = await hashRequest(data);
+    return await verify(sig, hash, publicKey);
+  } catch {
+    return false;
+  }
 };

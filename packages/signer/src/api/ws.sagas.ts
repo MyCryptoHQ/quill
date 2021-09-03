@@ -138,6 +138,14 @@ export function* waitForPermissions(permission: Permission) {
   }
 }
 
+const getOriginHost = (request: IncomingMessage) => {
+  try {
+    return request.headers.origin && new URL(request.headers.origin).host;
+  } catch {
+    return null;
+  }
+};
+
 export function* handleRequest({ socket, request, data }: WebSocketMessage) {
   const [error, fullRequest] = validateRequest(data);
   if (error) {
@@ -146,15 +154,29 @@ export function* handleRequest({ socket, request, data }: WebSocketMessage) {
 
   const { signature, publicKey, ...jsonRpcRequest } = fullRequest;
 
-  const permissions: Permission[] = yield select(getPermissions);
-  const origin = request.headers.origin && new URL(request.headers.origin).host;
+  // @todo Verify public key and signature format
 
+  const origin = getOriginHost(request);
+  // Dont serve requests without origin
+  if (origin === undefined || origin === null) {
+    // @todo Return error?
+    return;
+  }
+
+  const isVerified: boolean = yield call(verifyRequest, signature, jsonRpcRequest, publicKey);
+
+  // Dont serve invalid signed requests
+  if (!isVerified) {
+    // @todo Return error?
+    return;
+  }
+
+  const permissions: Permission[] = yield select(getPermissions);
   const existingPermission = permissions.find(
     (p) => p.origin === origin && p.publicKey === publicKey
   );
-  const isVerified: boolean = yield call(verifyRequest, signature, jsonRpcRequest, publicKey);
 
-  if (!existingPermission || !isVerified) {
+  if (!existingPermission) {
     const permission = { origin, publicKey };
     yield put(requestPermission(permission));
 
