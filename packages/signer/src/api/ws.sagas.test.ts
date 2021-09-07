@@ -1,11 +1,5 @@
-import type {
-  JsonRPCRequest} from '@signer/common';
-import {
-  denyPermission,
-  grantPermission,
-  JsonRPCMethod,
-  requestPermission
-} from '@signer/common';
+import type { JsonRPCRequest } from '@signer/common';
+import { denyPermission, grantPermission, JsonRPCMethod, requestPermission } from '@signer/common';
 import type { IncomingMessage } from 'http';
 import { expectSaga } from 'redux-saga-test-plan';
 import WebSocket from 'ws';
@@ -316,6 +310,53 @@ describe('handleRequest', () => {
       .dispatch(grantPermission(permission))
       .put(requestAccounts({ origin: fRequestOrigin, request: accountsRequest }))
       .silentRun();
+  });
+
+  it('returns an error if origin is missing', async () => {
+    const { params: _, ...accountsRequest } = createJsonRpcRequest(JsonRPCMethod.Accounts, 3);
+    const signedRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      accountsRequest
+    );
+    await expectSaga(handleRequest, {
+      socket,
+      request: {} as IncomingMessage,
+      data: JSON.stringify(signedRequest)
+    }).silentRun();
+
+    expect(socket.send).toHaveBeenCalledWith(
+      JSON.stringify({
+        jsonrpc: '2.0',
+        id: 3,
+        error: { code: '-32600', message: 'Invalid Request' }
+      })
+    );
+  });
+
+  it('returns an error if signature is invalid', async () => {
+    const { params: _, ...accountsRequest } = createJsonRpcRequest(JsonRPCMethod.Accounts, 1);
+
+    const { signature } = await createSignedJsonRpcRequest(fRequestPrivateKey, fRequestPublicKey, {
+      ...accountsRequest,
+      id: 42
+    });
+
+    const invalidSignedRequest = { ...accountsRequest, publicKey: fRequestPublicKey, signature };
+
+    await expectSaga(handleRequest, {
+      socket,
+      request: {} as IncomingMessage,
+      data: JSON.stringify(invalidSignedRequest)
+    }).silentRun();
+
+    expect(socket.send).toHaveBeenCalledWith(
+      JSON.stringify({
+        jsonrpc: '2.0',
+        id: 1,
+        error: { code: '-32600', message: 'Invalid Request' }
+      })
+    );
   });
 });
 

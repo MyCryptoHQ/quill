@@ -157,16 +157,30 @@ export function* handleRequest({ socket, request, data }: WebSocketMessage) {
   const origin = getOriginHost(request);
   // Dont serve requests without origin
   if (origin === undefined || origin === null) {
-    // @todo Return error?
-    return;
+    // @todo Decide what error message to use
+    return socket.send(
+      JSON.stringify(
+        toJsonRpcResponse({
+          id: jsonRpcRequest.id,
+          error: { code: '-32600', message: 'Invalid Request' }
+        })
+      )
+    );
   }
 
   const isVerified: boolean = yield call(verifyRequest, signature, jsonRpcRequest, publicKey);
 
   // Dont serve invalid signed requests
   if (!isVerified) {
-    // @todo Return error?
-    return;
+    // @todo Decide what error message to use
+    return socket.send(
+      JSON.stringify(
+        toJsonRpcResponse({
+          id: jsonRpcRequest.id,
+          error: { code: '-32600', message: 'Invalid Request' }
+        })
+      )
+    );
   }
 
   const permissions: Permission[] = yield select(getPermissions);
