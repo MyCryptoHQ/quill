@@ -3492,18 +3492,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@reduxjs/toolkit@npm:1.5.0":
-  version: 1.5.0
-  resolution: "@reduxjs/toolkit@npm:1.5.0"
-  dependencies:
-    immer: ^8.0.0
-    redux: ^4.0.0
-    redux-thunk: ^2.3.0
-    reselect: ^4.0.0
-  checksum: 421f5e7534347b20692f7883393fd1338f903544de48feacef61e38ee9faffb4e61264129a60161b0d1b4c0ad0f8fee635b35ee343d7111f5d53e41ae778935f
-  languageName: node
-  linkType: hard
-
 "@reduxjs/toolkit@npm:1.6.0":
   version: 1.6.0
   resolution: "@reduxjs/toolkit@npm:1.6.0"
@@ -11222,17 +11210,10 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"immer@npm:9.0.3":
-  version: 9.0.3
-  resolution: "immer@npm:9.0.3"
-  checksum: 98e0dabde5361afe30fb72d6b662682af2cd9be82919d78955901dabb9851ce00e8655cf935f68f4b055f250f9f33a0f80f94f3e954e7887228ee6710c9d05b4
-  languageName: node
-  linkType: hard
-
-"immer@npm:^8.0.0":
-  version: 8.0.4
-  resolution: "immer@npm:8.0.4"
-  checksum: 047d4af1c6d9dbba3ecbcf39aed9fa2f5323f80205c0618085d25a981d061353f4417b53fad95c71bd834eb9aa9ffdc2db53c7aa7726736b80bf1ae5f206eca7
+"immer@npm:9.0.6":
+  version: 9.0.6
+  resolution: "immer@npm:9.0.6"
+  checksum: 48c9b673ee0f3a05f0651f26c8ccdcbc034a47502dd26e716bd7bb301bcede194d1c5e895d4d6ec8d1e7bfb6444dd1056095b3f10e6c5e08cc3e798497a96531
   languageName: node
   linkType: hard
 
@@ -17512,7 +17493,7 @@ fsevents@^1.2.7:
     "@mycrypto/ui": 1.0.6
     "@mycrypto/wallets": 1.1.0
     "@rebass/forms": 4.0.6
-    "@reduxjs/toolkit": 1.5.0
+    "@reduxjs/toolkit": 1.6.0
     "@signer/common": "workspace:packages/common"
     "@sindresorhus/is": 3.1.2
     "@szmarczak/http-timer": 4.0.5
@@ -17558,7 +17539,7 @@ fsevents@^1.2.7:
     history: 4.7.2
     html-to-image: 1.3.24
     html-webpack-plugin: 4.5.0
-    immer: 9.0.3
+    immer: 9.0.6
     jest-styled-components: 7.0.3
     keytar: 7.7.0
     lodash.isequal: 4.5.0
