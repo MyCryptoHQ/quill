@@ -40,7 +40,7 @@
     "@mycrypto/ui": "1.0.6",
     "@mycrypto/wallets": "1.1.0",
     "@rebass/forms": "4.0.6",
-    "@reduxjs/toolkit": "1.5.0",
+    "@reduxjs/toolkit": "1.6.1",
     "@signer/common": "workspace:packages/common",
     "bignumber.js": "9.0.1",
     "check-password-strength": "2.0.2",
