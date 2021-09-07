@@ -346,7 +346,7 @@ describe('handleRequest', () => {
 
     await expectSaga(handleRequest, {
       socket,
-      request: {} as IncomingMessage,
+      request,
       data: JSON.stringify(invalidSignedRequest)
     }).silentRun();
 
