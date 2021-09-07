@@ -154,8 +154,6 @@ export function* handleRequest({ socket, request, data }: WebSocketMessage) {
 
   const { signature, publicKey, ...jsonRpcRequest } = fullRequest;
 
-  // @todo Verify public key and signature format
-
   const origin = getOriginHost(request);
   // Dont serve requests without origin
   if (origin === undefined || origin === null) {

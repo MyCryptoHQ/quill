@@ -1,15 +1,16 @@
 import { JsonRPCMethod } from '@signer/common';
 
-import { fRequestPublicKey } from '@fixtures';
+import { fRequestPrivateKey, fRequestPublicKey } from '@fixtures';
+import { createSignedJsonRpcRequest } from '@utils';
 
 import { isValidParams, isValidRequest } from './validators';
 
 describe('isValidRequest', () => {
-  it('detects valid requests', () => {
-    const valid = isValidRequest({
+  it('detects valid requests', async () => {
+    const request = {
       id: 1,
       method: JsonRPCMethod.SignTransaction,
-      jsonrpc: '2.0',
+      jsonrpc: '2.0' as const,
       params: [
         {
           to: '0x',
@@ -21,10 +22,14 @@ describe('isValidRequest', () => {
           value: '0x',
           chainId: 3
         }
-      ],
-      signature: '',
-      publicKey: fRequestPublicKey
-    });
+      ]
+    };
+    const signedRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      request
+    );
+    const valid = isValidRequest(signedRequest);
     expect(valid).toBe(true);
   });
 });

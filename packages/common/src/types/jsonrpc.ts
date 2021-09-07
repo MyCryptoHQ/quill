@@ -22,6 +22,7 @@ export enum JsonRPCMethod {
 
 const Address = pattern(string(), /^0x[a-fA-F0-9]{40}$/);
 const Hex = pattern(string(), /^(?:0x)(?:[a-fA-F0-9]+)?$/);
+const NonPrefixedHex = pattern(string(), /^(?:[a-fA-F0-9]+)?$/);
 export const EvenHex = refine(Hex, 'Even Length', (value) => value.length % 2 === 0);
 
 export const SignTransactionStruct = tuple([
@@ -58,8 +59,8 @@ export const JSONRPCRequestStruct = object({
   method: string(),
   jsonrpc: literal('2.0'),
   params: optional(array()),
-  signature: string(),
-  publicKey: string()
+  signature: refine(NonPrefixedHex, 'Has Correct Length', (value) => value.length === 128), // 64 bytes = 128 hex chars
+  publicKey: refine(NonPrefixedHex, 'Has Correct Length', (value) => value.length === 64) // 32 bytes = 64 hex chars
 });
 
 export type SignedJsonRPCRequest<T = unknown[]> = Omit<

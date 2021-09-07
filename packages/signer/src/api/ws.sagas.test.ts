@@ -1,4 +1,11 @@
-import { denyPermission, grantPermission, JsonRPCMethod, requestPermission } from '@signer/common';
+import type {
+  JsonRPCRequest} from '@signer/common';
+import {
+  denyPermission,
+  grantPermission,
+  JsonRPCMethod,
+  requestPermission
+} from '@signer/common';
 import type { IncomingMessage } from 'http';
 import { expectSaga } from 'redux-saga-test-plan';
 import WebSocket from 'ws';
@@ -39,50 +46,65 @@ describe('validateRequest', () => {
     ]);
   });
 
-  it('returns an error for invalid requests', () => {
-    const request = JSON.stringify({
+  it('returns an error for invalid requests', async () => {
+    const request = {
       id: 0,
       jsonrpc: '1.0',
-      method: 'bla',
-      signature: '',
-      publicKey: fRequestPublicKey
-    });
-    expect(validateRequest(request)).toStrictEqual([
+      method: 'bla'
+    };
+
+    const signedRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      request as JsonRPCRequest
+    );
+
+    expect(validateRequest(JSON.stringify(signedRequest))).toStrictEqual([
       expect.objectContaining({ error: expect.objectContaining({ code: '-32600' }) }),
       null
     ]);
   });
 
-  it('returns an error for unsupported methods', () => {
-    const request = JSON.stringify({
+  it('returns an error for unsupported methods', async () => {
+    const request = {
       id: 0,
-      jsonrpc: '2.0',
-      method: 'bla',
-      signature: '',
-      publicKey: fRequestPublicKey
-    });
-    expect(validateRequest(request)).toStrictEqual([
+      jsonrpc: '2.0' as const,
+      method: 'bla'
+    };
+
+    const signedRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      request
+    );
+
+    expect(validateRequest(JSON.stringify(signedRequest))).toStrictEqual([
       expect.objectContaining({ error: expect.objectContaining({ code: '-32601' }) }),
       null
     ]);
   });
 
-  it('returns an error for invalid params', () => {
-    const request = JSON.stringify({
+  it('returns an error for invalid params', async () => {
+    const request = {
       id: 0,
-      jsonrpc: '2.0',
-      method: JsonRPCMethod.SignTransaction,
-      signature: '',
-      publicKey: fRequestPublicKey
-    });
-    expect(validateRequest(request)).toStrictEqual([
+      jsonrpc: '2.0' as const,
+      method: JsonRPCMethod.SignTransaction
+    };
+
+    const signedRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      request
+    );
+
+    expect(validateRequest(JSON.stringify(signedRequest))).toStrictEqual([
       expect.objectContaining({ error: expect.objectContaining({ code: '-32602' }) }),
       null
     ]);
 
-    const invalidParamsRequest = JSON.stringify({
+    const invalidParamsRequest = {
       id: 0,
-      jsonrpc: '2.0',
+      jsonrpc: '2.0' as const,
       method: JsonRPCMethod.SignTransaction,
       params: [
         {
@@ -95,20 +117,25 @@ describe('validateRequest', () => {
           value: '0x1',
           chainId: 3
         }
-      ],
-      signature: '',
-      publicKey: fRequestPublicKey
-    });
-    expect(validateRequest(invalidParamsRequest)).toStrictEqual([
+      ]
+    };
+
+    const signedInvalidParamsRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      invalidParamsRequest
+    );
+
+    expect(validateRequest(JSON.stringify(signedInvalidParamsRequest))).toStrictEqual([
       expect.objectContaining({ error: expect.objectContaining({ code: '-32602' }) }),
       null
     ]);
   });
 
-  it('returns the parsed JSON-RPC request for valid requests', () => {
+  it('returns the parsed JSON-RPC request for valid requests', async () => {
     const request = {
       id: 1,
-      jsonrpc: '2.0',
+      jsonrpc: '2.0' as const,
       method: JsonRPCMethod.SignTransaction,
       params: [
         {
@@ -121,12 +148,15 @@ describe('validateRequest', () => {
           value: '0x1',
           chainId: 3
         }
-      ],
-      signature: '',
-      publicKey: fRequestPublicKey
+      ]
     };
+    const signedRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      request
+    );
 
-    expect(validateRequest(JSON.stringify(request))).toStrictEqual([null, request]);
+    expect(validateRequest(JSON.stringify(signedRequest))).toStrictEqual([null, signedRequest]);
   });
 });
 
