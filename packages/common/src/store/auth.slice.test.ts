@@ -66,7 +66,8 @@ describe('authSlice', () => {
         initialized: true,
         newUser: false,
         loggedIn: true,
-        loggingIn: false
+        loggingIn: false,
+        error: undefined
       });
     });
   });
@@ -125,7 +126,8 @@ describe('authSlice', () => {
         initialized: true,
         newUser: false,
         loggedIn: true,
-        loggingIn: false
+        loggingIn: false,
+        error: undefined
       });
     });
 

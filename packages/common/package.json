@@ -9,7 +9,7 @@
     "@ethersproject/bytes": "5.3.0",
     "@ethersproject/strings": "5.4.0",
     "@mycrypto/wallets": "1.1.0",
-    "@reduxjs/toolkit": "1.6.0",
+    "@reduxjs/toolkit": "1.6.1",
     "date-fns": "2.22.1",
     "eciesjs": "0.3.11",
     "fast-json-stable-stringify": "2.1.0",
