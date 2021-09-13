@@ -10,4 +10,10 @@ describe('translateRaw', () => {
       'Forgot your password? Discover options foo'
     );
   });
+
+  it('handles escaping of $', () => {
+    expect(translateRaw('CONFIRM_ACCOUNT_DELETION', { $label: '$`', $address: '0x' })).toBe(
+      'Are you sure you want to delete “$`” account with address 0x?'
+    );
+  });
 });
