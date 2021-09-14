@@ -21,6 +21,9 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
+// Must be called before everything else
+app.enableSandbox();
+
 let tray: Tray;
 let window: BrowserWindow;
 
