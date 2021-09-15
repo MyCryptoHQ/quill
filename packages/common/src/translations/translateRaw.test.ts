@@ -16,4 +16,10 @@ describe('translateRaw', () => {
       'Are you sure you want to delete “$`” account with address 0x?'
     );
   });
+
+  it('handles errors', () => {
+    expect(translateRaw('CONFIRM_ACCOUNT_DELETION', { $label: undefined })).toBe(
+      'CONFIRM_ACCOUNT_DELETION'
+    );
+  });
 });
