@@ -29,6 +29,7 @@
 import { ConnectedRouter } from 'connected-react-router';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { NonceProvider } from 'react-select';
 
 import { history, store } from './store';
 
@@ -41,7 +42,9 @@ const render = () => {
   ReactDOM.render(
     <Provider store={store}>
       <ConnectedRouter history={history}>
-        <App />
+        <NonceProvider nonce={__webpack_nonce__}>
+          <App />
+        </NonceProvider>
       </ConnectedRouter>
     </Provider>,
     document.getElementById('root')
