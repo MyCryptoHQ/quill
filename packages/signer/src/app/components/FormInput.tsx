@@ -1,5 +1,6 @@
 import type { InputProps } from '@mycrypto/ui';
 import { Input as RebassInput } from '@mycrypto/ui';
+import type { KeyboardEvent, WheelEvent } from 'react';
 import type { DefaultError, DefaultState } from 'typed-react-form';
 import { FormInput as ReactFormInput, useListener } from 'typed-react-form';
 import type { FormInputProps } from 'typed-react-form/dist/elements/FormInput';
@@ -21,12 +22,21 @@ export const FormInput = <
 >) => {
   const { error } = useListener(form, name);
 
+  const handleWheel = (e: WheelEvent<HTMLInputElement>) => e.currentTarget.blur();
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+    }
+  };
+
   return (
     <RebassInput
       as={ReactFormInput}
       form={(form as unknown) as string}
       name={name}
       variant={error ? 'error' : 'input'}
+      onWheel={handleWheel}
+      onKeyDown={handleKeyDown}
       {...rest}
     >
       {children}
