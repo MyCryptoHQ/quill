@@ -10,11 +10,11 @@ jest.mock('crypto', () => ({
 const password = 'test';
 const salt = Buffer.from('dc509bcfc343f1bebb4d75749695fd3ef204306f07eff6f86eec91587ba03bbc', 'hex');
 const hashedPassword = Buffer.from(
-  '6f47c771304e73f322f69a0227bca6ca3e6a9dc3746c0c45ccba606e590cf19e',
+  '4dc22633cd96d74478e7f47f43e2fc99ae1d0ca9a3e98e28b27f944280cd5f56',
   'hex'
 );
 const data = 'data';
-const encryptedData = 'ec06ddd82b70574afee87eaca4432a01ab5fd7492d21938ada7a165c39c8f3fd';
+const encryptedData = 'c2c3af23eb19f6d9c0c955f7ef2d52d9522b420f2d21938ada7a165c39c8f3fd';
 
 describe('createEncryptionKey', () => {
   it('creates a random 32 byte encryption key', () => {

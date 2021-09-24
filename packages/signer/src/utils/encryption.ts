@@ -54,12 +54,18 @@ export const hashPassword = async (password: string, salt: Buffer): Promise<Buff
   // `util.promisify` doesn't properly infer the types of Scrypt, so it's wrapped in a promise here
   // instead
   return new Promise((resolve, reject) => {
-    crypto.scrypt(password, salt, KEY_LENGTH, (error, key) => {
-      if (error) {
-        return reject(error);
-      }
+    crypto.scrypt(
+      password,
+      salt,
+      KEY_LENGTH,
+      { N: 2 ** 17, maxmem: 256 * 1024 * 1024 },
+      (error, key) => {
+        if (error) {
+          return reject(error);
+        }
 
-      resolve(key);
-    });
+        resolve(key);
+      }
+    );
   });
 };

@@ -28,7 +28,7 @@ jest.mock('keytar', () => ({
       return 'dc509bcfc343f1bebb4d75749695fd3ef204306f07eff6f86eec91587ba03bbc';
     }
 
-    return '834a035a579c76cac422149e164c7f861363619e37ea1e1a749be3ea2bd3832d75eb1e4ac51ae2f97514bdeefeaa9c61bbdc8622985f371ba5878be13a40bf7071d858ff175c2e91475f77304a272c1558092d21938ada7a165c39c8f3fd';
+    return '77da3aadfd0d4907fc208f9b970ab7d59d03fa2e3e0cbbace37798b46ec9c8638e175a60c0421c01f3706e6e8e3d1836737311d90450ceaf7f3a7bf32c77b39e769b46929aab77f2982b39aaa9d433876c2e2d21938ada7a165c39c8f3fd';
   }),
   deletePassword: jest.fn(),
   findCredentials: jest.fn().mockReturnValue([{ account: 'foo' }])
@@ -39,7 +39,7 @@ const password = 'password';
 const salt = 'dc509bcfc343f1bebb4d75749695fd3ef204306f07eff6f86eec91587ba03bbc';
 const privateKey = '0x93b3701cf8eeb6f7d3b22211c691734f24816a02efa933f67f34d37053182577';
 const encryptedPrivKey =
-  '834a035a579c76cac422149e164c7f861363619e37ea1e1a749be3ea2bd3832d75eb1e4ac51ae2f97514bdeefeaa9c61bbdc8622985f371ba5878be13a40bf7071d858ff175c2e91475f77304a272c1558092d21938ada7a165c39c8f3fd';
+  '77da3aadfd0d4907fc208f9b970ab7d59d03fa2e3e0cbbace37798b46ec9c8638e175a60c0421c01f3706e6e8e3d1836737311d90450ceaf7f3a7bf32c77b39e769b46929aab77f2982b39aaa9d433876c2e2d21938ada7a165c39c8f3fd';
 
 describe('saveAccountSecrets', () => {
   it('calls setPassword with encrypted privkey', async () => {
@@ -92,7 +92,7 @@ describe('getSettingsKey', () => {
     await expect(keytar.setPassword).toHaveBeenCalledWith(
       KEYTAR_SERVICE,
       KEYTAR_SETTINGS_KEY_NAME,
-      '815608580c9c799b912045c7421f28d3466d669533eb4a4c444ae03aead3a5992b2559ffe610f2bf2d21938ada7a165c39c8f3fd'
+      '75c631afa60d4656a922dec2c359e080c80dfd253a0deffadeba90098bd6e2e55ca1c61787e3291d2d21938ada7a165c39c8f3fd'
     );
   });
 
@@ -101,7 +101,7 @@ describe('getSettingsKey', () => {
       .mockImplementationOnce(async () => salt)
       .mockImplementationOnce(
         async () =>
-          '815608580c9c799b912045c7421f28d3466d669533eb4a4c444ae03aead3a5992b2559ffe610f2bf2d21938ada7a165c39c8f3fd'
+          '75c631afa60d4656a922dec2c359e080c80dfd253a0deffadeba90098bd6e2e55ca1c61787e3291d2d21938ada7a165c39c8f3fd'
       );
 
     await init(password);
@@ -137,7 +137,7 @@ describe('checkSettingsKey', () => {
       .mockImplementationOnce(async () => salt)
       .mockImplementationOnce(
         async () =>
-          '815608580c9c799b912045c7421f28d3466d669533eb4a4c444ae03aead3a5992b2559ffe610f2bf2d21938ada7a165c39c8f3fd'
+          '75c631afa60d4656a922dec2c359e080c80dfd253a0deffadeba90098bd6e2e55ca1c61787e3291d2d21938ada7a165c39c8f3fd'
       );
 
     await init(password);
