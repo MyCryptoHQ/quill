@@ -1,3 +1,5 @@
+import { hexlify } from '@ethersproject/bytes';
+import { FallbackProvider, JsonRpcProvider } from '@ethersproject/providers';
 import type { JsonRPCError, JsonRPCRequest, JsonRPCResponse } from '@signer/common';
 
 import type { ApplicationState } from '../store';
@@ -11,28 +13,37 @@ export const toJsonRpcRequest = (message: RelayMessage): JsonRPCRequest => ({
   params: Array.isArray(message.payload.params) ? message.payload.params : []
 });
 
-export const addChainId = (
+export const addMissingParams = async (
   params: unknown[] | undefined,
-  chainId: number
-): unknown[] | undefined => {
+  state: ApplicationState
+): Promise<unknown[] | undefined> => {
   if (!Array.isArray(params)) {
     return undefined;
   }
 
-  return [{ ...((params[0] as Record<string, unknown>) ?? {}), chainId }];
+  const providers = state.jsonrpc.network.providers;
+  const provider = new FallbackProvider(providers.map((url) => new JsonRpcProvider(url)));
+
+  // @ts-expect-error No type atm
+  const nonce = params[0].nonce ?? hexlify(await provider.getTransactionCount(params[0].from));
+
+  // @todo Respect chainId from params if possible?
+  const chainId = state.jsonrpc.network.chainId;
+
+  return [{ ...((params[0] as Record<string, unknown>) ?? {}), nonce, chainId }];
 };
 
-export const normalizeRequest = (
+export const normalizeRequest = async (
   request: JsonRPCRequest,
   state: ApplicationState
-): JsonRPCRequest => {
+): Promise<JsonRPCRequest> => {
   // The signer does not support broadcasting transactions, so instead we ask it to sign a
   // transaction and broadcast the transaction from the Chrome extension.
   if (request.method === 'eth_sendTransaction') {
     return {
       ...request,
       method: 'eth_signTransaction',
-      params: addChainId(request.params, state.jsonrpc.network.chainId)
+      params: await addMissingParams(request.params, state)
     };
   }
 
@@ -55,7 +66,7 @@ export const normalizeRequest = (
   if (request.method === 'eth_signTransaction') {
     return {
       ...request,
-      params: addChainId(request.params, state.jsonrpc.network.chainId)
+      params: await addMissingParams(request.params, state)
     };
   }
 

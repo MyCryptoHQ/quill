@@ -93,7 +93,8 @@ export function* waitForResponse(id: string | number) {
  */
 export function* handleRequestWorker({ payload }: ReturnType<typeof handleRequest>) {
   const state: ApplicationState = yield select((state) => state);
-  yield put(send(normalizeRequest(payload.request, state)));
+  const normalizedRequest: JsonRPCRequest = yield call(normalizeRequest, payload.request, state);
+  yield put(send(normalizedRequest));
 
   const response: JsonRpcResponse = yield call(waitForResponse, payload.request.id);
   yield call(handleResponseWorker, { request: payload.request, response });
