@@ -38,6 +38,7 @@ const getComponentWithStore = (account: IAccount = fAccount, tx?: Partial<TSignT
       accounts: [account]
     },
     transactions: {
+      history: [],
       queue: [transactionRequest],
       currentTransaction: transactionRequest
     }
@@ -105,17 +106,22 @@ describe('Transaction', () => {
     const queueTx = makeQueueTx(getTransactionRequest(fAccount.address));
     const store = createMockStore({
       accounts: { accounts: [fAccount] },
-      transactions: { queue: [], currentTransaction: makeHistoryTx(queueTx, TxResult.APPROVED) }
+      transactions: {
+        history: [],
+        queue: [],
+        currentTransaction: makeHistoryTx(queueTx, TxResult.APPROVED)
+      }
     });
     const { getByText } = getComponent(store);
     expect(getByText(translateRaw('TX_RESULT_APPROVED_LABEL')).textContent).toBeDefined();
   });
 
-  it('renders nonce conflict banner', async () => {
+  it('renders nonce conflict in queue banner', async () => {
     const queueTx = makeQueueTx(getTransactionRequest(fAccount.address));
     const store = createMockStore({
       accounts: { accounts: [fAccount] },
       transactions: {
+        history: [],
         queue: [queueTx, { ...queueTx, uuid: 'tx2' }],
         currentTransaction: queueTx
       }
@@ -124,11 +130,28 @@ describe('Transaction', () => {
     expect(getByText(translateRaw('NONCE_CONFLICT_IN_QUEUE')).textContent).toBeDefined();
   });
 
+  it('renders nonce conflict banner', async () => {
+    const queueTx = makeQueueTx(getTransactionRequest(fAccount.address));
+    const historyTx = makeHistoryTx(queueTx, TxResult.APPROVED);
+    const currentTx = { ...queueTx, uuid: 'tx2' };
+    const store = createMockStore({
+      accounts: { accounts: [fAccount] },
+      transactions: {
+        history: [historyTx],
+        queue: [currentTx],
+        currentTransaction: currentTx
+      }
+    });
+    const { getByText } = getComponent(store);
+    expect(getByText(translateRaw('NONCE_CONFLICT')).textContent).toBeDefined();
+  });
+
   it('renders nonce out of order banner', async () => {
     const queueTx = makeQueueTx(getTransactionRequest(fAccount.address));
     const store = createMockStore({
       accounts: { accounts: [fAccount] },
       transactions: {
+        history: [],
         queue: [queueTx, { ...queueTx, uuid: 'tx2', tx: { ...queueTx.tx, nonce: '0x5' } }],
         currentTransaction: queueTx
       }
@@ -144,6 +167,7 @@ describe('Transaction', () => {
     const store = createMockStore({
       accounts: { accounts: [fAccount] },
       transactions: {
+        history: [],
         queue: [],
         currentTransaction: history
       }

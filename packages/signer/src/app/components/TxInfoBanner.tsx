@@ -27,10 +27,9 @@ const configs: {
     type: 'warning',
     label: translateRaw('NONCE_CONFLICT_IN_QUEUE')
   },
-  [InfoBannerType.NONCE_ADJUSTED]: {
+  [InfoBannerType.NONCE_CONFLICT]: {
     type: 'warning',
-    label: translateRaw('NONCE_CHANGED'),
-    content: translateRaw('NONCE_CHANGED_CONTENT')
+    label: translateRaw('NONCE_CONFLICT')
   },
   [InfoBannerType.NONCE_OUT_OF_ORDER]: {
     type: 'warning',
