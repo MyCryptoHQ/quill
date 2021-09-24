@@ -31,7 +31,7 @@ describe('createEncryptionKey', () => {
 });
 
 describe('hashPassword', () => {
-  it('correctly SHA256 hashes a string', async () => {
+  it('correctly hashes a string', async () => {
     const result = await hashPassword(password, salt);
     expect(result).toStrictEqual(hashedPassword);
   });

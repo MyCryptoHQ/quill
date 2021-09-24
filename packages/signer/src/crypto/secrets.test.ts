@@ -36,6 +36,7 @@ jest.mock('keytar', () => ({
 
 const uuid = '304a57a4-1752-53db-8861-67785534e98e' as TUuid;
 const password = 'password';
+const salt = 'dc509bcfc343f1bebb4d75749695fd3ef204306f07eff6f86eec91587ba03bbc';
 const privateKey = '0x93b3701cf8eeb6f7d3b22211c691734f24816a02efa933f67f34d37053182577';
 const encryptedPrivKey =
   '834a035a579c76cac422149e164c7f861363619e37ea1e1a749be3ea2bd3832d75eb1e4ac51ae2f97514bdeefeaa9c61bbdc8622985f371ba5878be13a40bf7071d858ff175c2e91475f77304a272c1558092d21938ada7a165c39c8f3fd';
@@ -81,9 +82,7 @@ describe('deleteAccountSecrets', () => {
 describe('getSettingsKey', () => {
   it('generates a settings key if it does not exist', async () => {
     (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>)
-      .mockImplementationOnce(
-        async () => 'dc509bcfc343f1bebb4d75749695fd3ef204306f07eff6f86eec91587ba03bbc'
-      )
+      .mockImplementationOnce(async () => salt)
       .mockImplementationOnce(async () => undefined);
 
     await init(password);
@@ -99,9 +98,7 @@ describe('getSettingsKey', () => {
 
   it('gets and decrypts the settings key from the keychain', async () => {
     (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>)
-      .mockImplementationOnce(
-        async () => 'dc509bcfc343f1bebb4d75749695fd3ef204306f07eff6f86eec91587ba03bbc'
-      )
+      .mockImplementationOnce(async () => salt)
       .mockImplementationOnce(
         async () =>
           '815608580c9c799b912045c7421f28d3466d669533eb4a4c444ae03aead3a5992b2559ffe610f2bf2d21938ada7a165c39c8f3fd'
@@ -137,9 +134,7 @@ describe('hasSettingsKey', () => {
 describe('checkSettingsKey', () => {
   it('checks if the settings key can be decrypted', async () => {
     (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>)
-      .mockImplementationOnce(
-        async () => 'dc509bcfc343f1bebb4d75749695fd3ef204306f07eff6f86eec91587ba03bbc'
-      )
+      .mockImplementationOnce(async () => salt)
       .mockImplementationOnce(
         async () =>
           '815608580c9c799b912045c7421f28d3466d669533eb4a4c444ae03aead3a5992b2559ffe610f2bf2d21938ada7a165c39c8f3fd'
@@ -175,9 +170,9 @@ describe('getSalt', () => {
 
   it('gets the salt from the keychain', async () => {
     (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>).mockImplementationOnce(
-      async () => 'f00f00'
+      async () => salt
     );
 
-    await expect(getSalt()).resolves.toStrictEqual(Buffer.from('f00f00', 'hex'));
+    await expect(getSalt()).resolves.toStrictEqual(Buffer.from(salt, 'hex'));
   });
 });

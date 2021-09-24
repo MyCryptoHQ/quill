@@ -19,7 +19,8 @@ export const clearEncryptionKey = () => {
 };
 
 export const init = async (password: string) => {
-  const key = await hashPassword(password, await getSalt());
+  const salt = await getSalt();
+  const key = await hashPassword(password, salt);
   await setEncryptionKey(key);
 };
 
