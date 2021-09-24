@@ -8,12 +8,13 @@ jest.mock('crypto', () => ({
 }));
 
 const password = 'test';
+const salt = Buffer.from('dc509bcfc343f1bebb4d75749695fd3ef204306f07eff6f86eec91587ba03bbc', 'hex');
 const hashedPassword = Buffer.from(
-  '181521fd2ec26655207830887e1bc52b33d3ea67bba5f6ec50ea6f21c3964e13',
+  '4dc22633cd96d74478e7f47f43e2fc99ae1d0ca9a3e98e28b27f944280cd5f56',
   'hex'
 );
 const data = 'data';
-const encryptedData = 'bb61fdc07c1303b8bcf9e8618812557fa623c8d32d21938ada7a165c39c8f3fd';
+const encryptedData = 'c2c3af23eb19f6d9c0c955f7ef2d52d9522b420f2d21938ada7a165c39c8f3fd';
 
 describe('createEncryptionKey', () => {
   it('creates a random 32 byte encryption key', () => {
@@ -30,8 +31,8 @@ describe('createEncryptionKey', () => {
 });
 
 describe('hashPassword', () => {
-  it('correctly SHA256 hashes a string', async () => {
-    const result = await hashPassword(password);
+  it('correctly hashes a string', async () => {
+    const result = await hashPassword(password, salt);
     expect(result).toStrictEqual(hashedPassword);
   });
 });

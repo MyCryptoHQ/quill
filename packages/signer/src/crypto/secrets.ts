@@ -3,7 +3,7 @@ import type { SerializedWallet, TUuid } from '@signer/common';
 import { getWallet } from '@wallets/wallet-initialisation';
 import keytar from 'keytar';
 
-import { KEYTAR_SERVICE, KEYTAR_SETTINGS_KEY_NAME } from '@config';
+import { KEYTAR_SALT_NAME, KEYTAR_SERVICE, KEYTAR_SETTINGS_KEY_NAME } from '@config';
 import { createEncryptionKey, decrypt, encrypt, hashPassword } from '@utils/encryption';
 
 // @todo STORES HASHED PASSWORD FOR ENCRYPTION - THINK ABOUT THIS
@@ -19,7 +19,8 @@ export const clearEncryptionKey = () => {
 };
 
 export const init = async (password: string) => {
-  const key = await hashPassword(password);
+  const salt = await getSalt();
+  const key = await hashPassword(password, salt);
   await setEncryptionKey(key);
 };
 
@@ -86,4 +87,16 @@ export const checkSettingsKey = async (): Promise<boolean> => {
   } catch {
     return false;
   }
+};
+
+export const getSalt = async (): Promise<Buffer> => {
+  const salt = await keytar.getPassword(KEYTAR_SERVICE, KEYTAR_SALT_NAME);
+  if (salt) {
+    return Buffer.from(salt, 'hex');
+  }
+
+  const newSalt = createEncryptionKey();
+  await keytar.setPassword(KEYTAR_SERVICE, KEYTAR_SALT_NAME, newSalt.toString('hex'));
+
+  return newSalt;
 };
