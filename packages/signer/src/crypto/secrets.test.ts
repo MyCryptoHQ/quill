@@ -2,12 +2,13 @@ import type { TUuid } from '@signer/common';
 import { WalletType } from '@signer/common';
 import keytar from 'keytar';
 
-import { KEYTAR_SERVICE, KEYTAR_SETTINGS_KEY_NAME } from '@config';
+import { KEYTAR_SALT_NAME, KEYTAR_SERVICE, KEYTAR_SETTINGS_KEY_NAME } from '@config';
 
 import {
   checkSettingsKey,
   deleteAccountSecrets,
   getPrivateKey,
+  getSalt,
   getSettingsKey,
   hasSettingsKey,
   init,
@@ -21,12 +22,14 @@ jest.mock('crypto', () => ({
 
 jest.mock('keytar', () => ({
   setPassword: jest.fn(),
-  getPassword: jest
-    .fn()
-    .mockImplementation(
-      () =>
-        '6860de1fab1e5e03c3880b92874195800906ec77f007484c19878abdb9e3a65af3bb65b2d72a0e997d04cea288882a4fc072ee0bd76f2f19bb1d09ad88c3f671def50b2987872f229241677f5f3a8d93a0682d21938ada7a165c39c8f3fd'
-    ),
+  getPassword: jest.fn().mockImplementation((_, name) => {
+    if (name === 'Salt') {
+      // KEYTAR_SALT_NAME
+      return 'dc509bcfc343f1bebb4d75749695fd3ef204306f07eff6f86eec91587ba03bbc';
+    }
+
+    return '834a035a579c76cac422149e164c7f861363619e37ea1e1a749be3ea2bd3832d75eb1e4ac51ae2f97514bdeefeaa9c61bbdc8622985f371ba5878be13a40bf7071d858ff175c2e91475f77304a272c1558092d21938ada7a165c39c8f3fd';
+  }),
   deletePassword: jest.fn(),
   findCredentials: jest.fn().mockReturnValue([{ account: 'foo' }])
 }));
@@ -35,7 +38,7 @@ const uuid = '304a57a4-1752-53db-8861-67785534e98e' as TUuid;
 const password = 'password';
 const privateKey = '0x93b3701cf8eeb6f7d3b22211c691734f24816a02efa933f67f34d37053182577';
 const encryptedPrivKey =
-  '6860de1fab1e5e03c3880b92874195800906ec77f007484c19878abdb9e3a65af3bb65b2d72a0e997d04cea288882a4fc072ee0bd76f2f19bb1d09ad88c3f671def50b2987872f229241677f5f3a8d93a0682d21938ada7a165c39c8f3fd';
+  '834a035a579c76cac422149e164c7f861363619e37ea1e1a749be3ea2bd3832d75eb1e4ac51ae2f97514bdeefeaa9c61bbdc8622985f371ba5878be13a40bf7071d858ff175c2e91475f77304a272c1558092d21938ada7a165c39c8f3fd';
 
 describe('saveAccountSecrets', () => {
   it('calls setPassword with encrypted privkey', async () => {
@@ -77,9 +80,11 @@ describe('deleteAccountSecrets', () => {
 
 describe('getSettingsKey', () => {
   it('generates a settings key if it does not exist', async () => {
-    (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>).mockImplementationOnce(
-      async () => undefined
-    );
+    (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>)
+      .mockImplementationOnce(
+        async () => 'dc509bcfc343f1bebb4d75749695fd3ef204306f07eff6f86eec91587ba03bbc'
+      )
+      .mockImplementationOnce(async () => undefined);
 
     await init(password);
     await expect(getSettingsKey()).resolves.toStrictEqual(
@@ -88,15 +93,19 @@ describe('getSettingsKey', () => {
     await expect(keytar.setPassword).toHaveBeenCalledWith(
       KEYTAR_SERVICE,
       KEYTAR_SETTINGS_KEY_NAME,
-      '6a7cd51df01e5152968a5acbd312c2d55c08eb7cf4061c1a4d1de326ebcbbea026d35cd7b5c43ade2d21938ada7a165c39c8f3fd'
+      '815608580c9c799b912045c7421f28d3466d669533eb4a4c444ae03aead3a5992b2559ffe610f2bf2d21938ada7a165c39c8f3fd'
     );
   });
 
   it('gets and decrypts the settings key from the keychain', async () => {
-    (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>).mockImplementationOnce(
-      async () =>
-        '6a7cd51df01e5152968a5acbd312c2d55c08eb7cf4061c1a4d1de326ebcbbea026d35cd7b5c43ade2d21938ada7a165c39c8f3fd'
-    );
+    (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>)
+      .mockImplementationOnce(
+        async () => 'dc509bcfc343f1bebb4d75749695fd3ef204306f07eff6f86eec91587ba03bbc'
+      )
+      .mockImplementationOnce(
+        async () =>
+          '815608580c9c799b912045c7421f28d3466d669533eb4a4c444ae03aead3a5992b2559ffe610f2bf2d21938ada7a165c39c8f3fd'
+      );
 
     await init(password);
     await expect(getSettingsKey()).resolves.toStrictEqual(
@@ -127,10 +136,14 @@ describe('hasSettingsKey', () => {
 
 describe('checkSettingsKey', () => {
   it('checks if the settings key can be decrypted', async () => {
-    (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>).mockImplementation(
-      async () =>
-        '6a7cd51df01e5152968a5acbd312c2d55c08eb7cf4061c1a4d1de326ebcbbea026d35cd7b5c43ade2d21938ada7a165c39c8f3fd'
-    );
+    (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>)
+      .mockImplementationOnce(
+        async () => 'dc509bcfc343f1bebb4d75749695fd3ef204306f07eff6f86eec91587ba03bbc'
+      )
+      .mockImplementationOnce(
+        async () =>
+          '815608580c9c799b912045c7421f28d3466d669533eb4a4c444ae03aead3a5992b2559ffe610f2bf2d21938ada7a165c39c8f3fd'
+      );
 
     await init(password);
     await expect(checkSettingsKey()).resolves.toBe(true);
@@ -143,5 +156,28 @@ describe('checkSettingsKey', () => {
 
     await init(password);
     await expect(checkSettingsKey()).resolves.toBe(false);
+  });
+});
+
+describe('getSalt', () => {
+  it('generates a salt if it does not exist', async () => {
+    (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>).mockImplementationOnce(
+      async () => undefined
+    );
+
+    await expect(getSalt()).resolves.toStrictEqual(Buffer.from('2d21938ada7a165c39c8f3fd', 'hex'));
+    await expect(keytar.setPassword).toHaveBeenCalledWith(
+      KEYTAR_SERVICE,
+      KEYTAR_SALT_NAME,
+      '2d21938ada7a165c39c8f3fd'
+    );
+  });
+
+  it('gets the salt from the keychain', async () => {
+    (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>).mockImplementationOnce(
+      async () => 'f00f00'
+    );
+
+    await expect(getSalt()).resolves.toStrictEqual(Buffer.from('f00f00', 'hex'));
   });
 });
