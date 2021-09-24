@@ -121,17 +121,13 @@ export const getTransactionInfoBannerType = createSelector(
   hasNonceConflictInQueue,
   hasNonceOutOfOrder,
   (currentTx, nonceConflictInQueue, nonceOutOfOrder) => {
-    const { result, adjustedNonce } = currentTx;
+    const { result } = currentTx;
     if (result !== TxResult.WAITING) {
       return result;
     }
 
     if (nonceOutOfOrder) {
       return InfoBannerType.NONCE_OUT_OF_ORDER;
-    }
-
-    if (adjustedNonce) {
-      return InfoBannerType.NONCE_ADJUSTED;
     }
 
     if (nonceConflictInQueue) {

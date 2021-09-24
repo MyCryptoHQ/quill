@@ -111,19 +111,6 @@ describe('Transaction', () => {
     expect(getByText(translateRaw('TX_RESULT_APPROVED_LABEL')).textContent).toBeDefined();
   });
 
-  it('renders adjusted nonce banner', async () => {
-    const queueTx = makeQueueTx(getTransactionRequest(fAccount.address));
-    const store = createMockStore({
-      accounts: { accounts: [fAccount] },
-      transactions: {
-        queue: [queueTx],
-        currentTransaction: { ...queueTx, adjustedNonce: true }
-      }
-    });
-    const { getByText } = getComponent(store);
-    expect(getByText(translateRaw('NONCE_CHANGED')).textContent).toBeDefined();
-  });
-
   it('renders nonce conflict banner', async () => {
     const queueTx = makeQueueTx(getTransactionRequest(fAccount.address));
     const store = createMockStore({
