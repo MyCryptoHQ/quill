@@ -68,13 +68,6 @@ export const TxDetailsEdit = ({ form }: { form: FormState<EditTxType> }) => {
         form={form}
         unit={symbol}
       />
-      <InputRow
-        label={translateRaw('NETWORK')}
-        id="chainId"
-        name="chainId"
-        type="number"
-        form={form}
-      />
       <InputRow label={translateRaw('GAS_LIMIT')} id="gasLimit" name="gasLimit" form={form} />
       <InputRow
         label={translateRaw('GAS_PRICE')}
@@ -98,6 +91,13 @@ export const TxDetailsEdit = ({ form }: { form: FormState<EditTxType> }) => {
         )}
       />
       <InputRow label={translateRaw('NONCE')} id="nonce" name="nonce" type="number" form={form} />
+      <InputRow
+        label={translateRaw('NETWORK')}
+        id="chainId"
+        name="chainId"
+        type="number"
+        form={form}
+      />
       <BlockRow label={translateRaw('DATA')} hideDivider={true}>
         <FormTextArea id="data" name="data" form={form} />
       </BlockRow>
