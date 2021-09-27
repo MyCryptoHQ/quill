@@ -25,19 +25,36 @@ const Hex = pattern(string(), /^(?:0x)(?:[a-fA-F0-9]+)?$/);
 const NonPrefixedHex = pattern(string(), /^(?:[a-fA-F0-9]+)?$/);
 export const EvenHex = refine(Hex, 'Even Length', (value) => value.length % 2 === 0);
 
+const SignTransactionLegacy = object({
+  to: optional(Address),
+  from: optional(Address),
+  nonce: Hex,
+  gas: Hex,
+  gasPrice: Hex,
+  data: EvenHex,
+  value: Hex,
+  // Note: this is technically not compliant to the JSON-RPC spec, but since the signer isn't
+  // aware of the chain ID otherwise, we need to include it.
+  chainId: number()
+});
+
+const SignTransactionEIP1559 = object({
+  to: optional(Address),
+  from: optional(Address),
+  nonce: Hex,
+  gas: Hex,
+  maxFeePerGas: Hex,
+  maxPriorityFeePerGas: Hex,
+  data: EvenHex,
+  value: Hex,
+  type: number(),
+  // Note: this is technically not compliant to the JSON-RPC spec, but since the signer isn't
+  // aware of the chain ID otherwise, we need to include it.
+  chainId: number()
+});
+
 export const SignTransactionStruct = tuple([
-  object({
-    to: optional(Address),
-    from: optional(Address),
-    nonce: Hex,
-    gas: Hex,
-    gasPrice: Hex,
-    data: EvenHex,
-    value: Hex,
-    // Note: this is technically not compliant to the JSON-RPC spec, but since the signer isn't
-    // aware of the chain ID otherwise, we need to include it.
-    chainId: number()
-  })
+  union([SignTransactionLegacy, SignTransactionEIP1559])
 ]);
 
 // @todo Replace with simple `Infer` once superstruct bug is fixed

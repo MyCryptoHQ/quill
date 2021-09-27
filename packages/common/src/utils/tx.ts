@@ -56,6 +56,13 @@ export const toTransactionRequest = ({
   hash,
   ...transaction
 }: Transaction): UserRequest<TSignTransaction> => {
+  const gas =
+    type === 2
+      ? {
+          maxFeePerGas: transaction.maxFeePerGas.toHexString(),
+          maxPriorityFeePerGas: transaction.maxPriorityFeePerGas.toHexString()
+        }
+      : { gasPrice: transaction.gasPrice.toHexString() };
   return {
     request: {
       jsonrpc: '2.0',
@@ -65,7 +72,7 @@ export const toTransactionRequest = ({
         {
           ...transaction,
           value: transaction.value.toHexString(),
-          gasPrice: transaction.gasPrice.toHexString(),
+          ...gas,
           gas: transaction.gasLimit.toHexString(),
           nonce: addHexPrefix(transaction.nonce.toString(16))
         }
