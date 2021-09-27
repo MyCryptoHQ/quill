@@ -8,7 +8,7 @@ export const TxHistory = ({ history }: { history: TxHistoryEntry[] }) => (
   <>
     {history
       .slice()
-      .sort((a, b) => b.timestamp - a.timestamp)
+      .sort((a, b) => b.actionTakenTimestamp - a.actionTakenTimestamp)
       .map((h) => (
         <Fragment key={h.uuid}>
           <TxHistoryCard item={h} />

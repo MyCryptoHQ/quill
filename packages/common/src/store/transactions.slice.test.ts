@@ -59,7 +59,8 @@ describe('TransactionsSlice', () => {
       uuid: 'uuid' as TUuid,
       tx: makeTx(fTxRequest),
       result: TxResult.DENIED,
-      timestamp: Date.now(),
+      actionTakenTimestamp: Date.now(),
+      receivedTimestamp: Date.now(),
       origin: fRequestOrigin
     };
     const result = slice.reducer(
@@ -77,7 +78,8 @@ describe('TransactionsSlice', () => {
       uuid: 'uuid' as TUuid,
       tx: makeTx(fTxRequest),
       result: TxResult.DENIED,
-      timestamp: Date.now(),
+      actionTakenTimestamp: Date.now(),
+      receivedTimestamp: Date.now(),
       origin: fRequestOrigin
     };
     const result = slice.reducer(

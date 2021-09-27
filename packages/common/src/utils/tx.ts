@@ -30,7 +30,7 @@ export const makeQueueTx = (
     id: request.id,
     tx: makeTx(request),
     result: TxResult.WAITING,
-    timestamp: Date.now(),
+    receivedTimestamp: Date.now(),
     origin,
     offline
   };
@@ -44,7 +44,7 @@ export const makeHistoryTx = (
   ...prev,
   signedTx,
   result,
-  timestamp: Date.now()
+  actionTakenTimestamp: Date.now()
 });
 
 export const toTransactionRequest = ({

@@ -36,7 +36,7 @@ const slice = createSlice({
     addToHistory(state, action: PayloadAction<TxHistoryEntry>) {
       state.history.push(action.payload);
     },
-    selectTransaction(state, action: PayloadAction<TxHistoryEntry>) {
+    selectTransaction(state, action: PayloadAction<TxHistoryEntry | TxQueueEntry>) {
       state.currentTransaction = action.payload;
     }
   }

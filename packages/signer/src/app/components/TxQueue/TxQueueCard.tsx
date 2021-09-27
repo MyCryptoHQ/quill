@@ -52,7 +52,7 @@ export const TxQueueCard = ({ item, first }: { item: TxQueueEntry; first: boolea
         </Body>
         <Body fontSize="1" ml="1" color="BLUE_GREY">
           {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
-          <TimeElapsed value={item.timestamp} />
+          <TimeElapsed value={item.receivedTimestamp} />
         </Body>
       </Box>
     </Box>

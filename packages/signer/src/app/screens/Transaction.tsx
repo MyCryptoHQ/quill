@@ -29,7 +29,7 @@ export const Transaction = () => {
   const dispatch = useDispatch();
   const accounts = useSelector(getAccounts);
   const currentTx = useSelector(getCurrentTransaction);
-  const { tx, timestamp, result, origin } = currentTx;
+  const { tx, receivedTimestamp, result, origin } = currentTx;
   const currentAccount = tx && accounts.find((a) => a.address === tx.from);
   const recipientAccount = tx && accounts.find((a) => a.address === tx.to);
   const info = useSelector(getTransactionInfoBannerType);
@@ -66,7 +66,7 @@ export const Transaction = () => {
           <Box variant="horizontal-start">
             <Body fontSize="14px" color="BLUE_GREY" mb="2" mt="2">
               {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
-              <TimeElapsed value={timestamp} />
+              <TimeElapsed value={receivedTimestamp} />
             </Body>
             {result === TxResult.WAITING && (
               <LinkApp
