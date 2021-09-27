@@ -124,6 +124,7 @@ describe('AccountSlice', () => {
         {
           dPath: getFullPath(DEFAULT_ETH, 0),
           address: 'foo' as TAddress,
+          dPathInfo,
           index: 0
         }
       ]);
