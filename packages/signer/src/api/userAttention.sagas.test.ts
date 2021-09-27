@@ -1,7 +1,9 @@
 import { requestPermission } from '@signer/common';
+import { push } from 'connected-react-router';
 import type { BrowserWindow } from 'electron';
 import { expectSaga } from 'redux-saga-test-plan';
 
+import { ROUTE_PATHS } from '@app/routing';
 import { fPermission, fRequestOrigin, fTxRequest } from '@fixtures';
 import { showWindowOnTop } from '@utils';
 
@@ -23,9 +25,9 @@ describe('userAttentionSaga', () => {
     await expectSaga(userAttentionSaga, mockWindow)
       .dispatch(requestSignTransaction(request))
       .call(showWindowOnTop, mockWindow)
+      .put(push(ROUTE_PATHS.HOME))
       .silentRun();
 
-    expect(mockWindow.hide).toHaveBeenCalled();
     expect(mockWindow.show).toHaveBeenCalled();
     expect(mockWindow.focus).toHaveBeenCalled();
     expect(mockWindow.setAlwaysOnTop).toHaveBeenCalled();
@@ -36,9 +38,9 @@ describe('userAttentionSaga', () => {
     await expectSaga(userAttentionSaga, mockWindow)
       .dispatch(requestPermission(fPermission))
       .call(showWindowOnTop, mockWindow)
+      .not.put(push(ROUTE_PATHS.HOME))
       .silentRun();
 
-    expect(mockWindow.hide).toHaveBeenCalled();
     expect(mockWindow.show).toHaveBeenCalled();
     expect(mockWindow.focus).toHaveBeenCalled();
     expect(mockWindow.setAlwaysOnTop).toHaveBeenCalled();
