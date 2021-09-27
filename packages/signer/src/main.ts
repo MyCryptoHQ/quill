@@ -1,5 +1,5 @@
 import { createKeyPair, translateRaw } from '@signer/common';
-import { app, BrowserWindow, Menu, shell, Tray } from 'electron';
+import { app, BrowserWindow, Menu, protocol, shell, Tray } from 'electron';
 import contextMenu from 'electron-context-menu';
 import positioner from 'electron-traywindow-positioner';
 import path from 'path';
@@ -126,6 +126,17 @@ const createTray = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
+  protocol.interceptFileProtocol('file', (request, callback) => {
+    const appPath = path.resolve(__dirname, '../');
+    // Remove an extra slash on Windows
+    const filePath = path.normalize(request.url.slice(process.platform === 'win32' ? 8 : 7));
+
+    if (filePath.startsWith(appPath)) {
+      return callback({ path: filePath });
+    }
+    // ACCESS_DENIED error = -10
+    callback({ error: -10 });
+  });
   createContextMenu();
   createWindow();
   createTray();
