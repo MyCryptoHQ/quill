@@ -1,4 +1,4 @@
-import type { TAddress } from './address';
+import type { DeterministicAddress } from '@mycrypto/wallets';
 
 export interface GetMnemonicAddressArgs {
   dPath: string;
@@ -14,8 +14,4 @@ export interface GetMnemonicAddressesArgs {
   limit: number;
 }
 
-export interface GetAddressesResult {
-  dPath: string;
-  address: TAddress;
-  index: number;
-}
+export type GetAddressesResult = DeterministicAddress;

@@ -237,6 +237,11 @@ describe('fetchAddressesWorker', () => {
   } as const;
 
   it('fetches addresses for a deterministic wallet', async () => {
+    const dPathInfo = {
+      name: 'Default (ETH)',
+      path: "m/44'/60'/0'/0/<account>"
+    };
+
     await expectSaga(
       fetchAddressesWorker,
       fetchAddresses({
@@ -253,16 +258,19 @@ describe('fetchAddressesWorker', () => {
           {
             address: '0x0961Ca10D49B9B8e371aA0Bcf77fE5730b18f2E4' as TAddress,
             dPath: "m/44'/60'/0'/0/0",
+            dPathInfo,
             index: 0
           },
           {
             address: '0xa34F236d4Ead4D668b9335891f1BC4011A92B2CD' as TAddress,
             dPath: "m/44'/60'/0'/0/1",
+            dPathInfo,
             index: 1
           },
           {
             address: '0x5e147f4A4224428c2978dca3A95aee7625FDB3Fd' as TAddress,
             dPath: "m/44'/60'/0'/0/2",
+            dPathInfo,
             index: 2
           }
         ])

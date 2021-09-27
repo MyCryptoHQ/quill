@@ -107,9 +107,15 @@ describe('AccountSlice', () => {
 
   describe('setAddresses', () => {
     it('sets the addresses and resets the fetch state', () => {
+      const dPathInfo = {
+        name: 'Default (ETH)',
+        path: "m/44'/60'/0'/0/<account>"
+      };
       const result = slice.reducer(
         { accounts: [], addresses: [], isFetching: true, fetchError: 'foo' },
-        setAddresses([{ dPath: getFullPath(DEFAULT_ETH, 0), address: 'foo' as TAddress, index: 0 }])
+        setAddresses([
+          { dPath: getFullPath(DEFAULT_ETH, 0), dPathInfo, address: 'foo' as TAddress, index: 0 }
+        ])
       );
 
       expect(result.isFetching).toBe(false);
