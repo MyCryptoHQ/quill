@@ -28,7 +28,6 @@ describe('userAttentionSaga', () => {
       .put(push(ROUTE_PATHS.HOME))
       .silentRun();
 
-    expect(mockWindow.hide).toHaveBeenCalled();
     expect(mockWindow.show).toHaveBeenCalled();
     expect(mockWindow.focus).toHaveBeenCalled();
     expect(mockWindow.setAlwaysOnTop).toHaveBeenCalled();
@@ -42,7 +41,6 @@ describe('userAttentionSaga', () => {
       .not.put(push(ROUTE_PATHS.HOME))
       .silentRun();
 
-    expect(mockWindow.hide).toHaveBeenCalled();
     expect(mockWindow.show).toHaveBeenCalled();
     expect(mockWindow.focus).toHaveBeenCalled();
     expect(mockWindow.setAlwaysOnTop).toHaveBeenCalled();

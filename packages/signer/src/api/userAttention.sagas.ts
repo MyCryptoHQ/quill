@@ -16,7 +16,6 @@ export function* userAttentionSaga(window: BrowserWindow) {
 }
 
 export function* userAttentionWorker(window: BrowserWindow, action: Action) {
-  window.hide();
   yield call(showWindowOnTop, window);
   if (action.type === requestSignTransaction.type) {
     yield put(push(ROUTE_PATHS.HOME));
