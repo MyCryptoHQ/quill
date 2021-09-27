@@ -20,7 +20,8 @@ export interface TxHistoryEntry {
   uuid: TUuid;
   tx: TransactionRequest;
   signedTx?: string;
-  timestamp: number;
+  actionTakenTimestamp: number;
+  receivedTimestamp: number;
   result: TxResult;
   origin?: string;
   adjustedNonce?: boolean;
@@ -32,7 +33,7 @@ export interface TxQueueEntry {
   uuid: TUuid;
   id: JsonRPCRequest['id'];
   tx: TransactionRequest;
-  timestamp: number;
+  receivedTimestamp: number;
   result: TxResult.WAITING;
   origin?: string;
   adjustedNonce?: boolean;

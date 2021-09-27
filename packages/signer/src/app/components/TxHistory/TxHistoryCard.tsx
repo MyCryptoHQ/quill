@@ -29,7 +29,7 @@ export const TxHistoryCard = ({ item }: { item: TxHistoryEntry }) => {
           sx={{ textDecoration: isApproved ? 'none' : 'line-through' }}
         >
           {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
-          <TimeElapsed value={item.timestamp} />
+          <TimeElapsed value={item.receivedTimestamp} />
         </Body>
         <LinkApp href={ROUTE_PATHS.TX} data-testid={`select-tx-history`} onClick={handleSelect}>
           <Box variant="horizontal-start">

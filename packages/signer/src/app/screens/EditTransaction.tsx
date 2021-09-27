@@ -51,7 +51,7 @@ export const EditTransaction = () => {
   const accounts = useSelector(getAccounts);
   const currentTx = useSelector(getCurrentTransaction) as TxQueueEntry;
   const dispatch = useDispatch();
-  const { tx, timestamp, origin } = currentTx;
+  const { tx, receivedTimestamp, origin } = currentTx;
   const currentAccount = tx && accounts.find((a) => a.address === tx.from);
   const recipientAccount = tx && accounts.find((a) => a.address === tx.to);
   const info = useSelector(getTransactionInfoBannerType);
@@ -84,7 +84,7 @@ export const EditTransaction = () => {
             <Box variant="horizontal-start">
               <Body fontSize="14px" color="BLUE_GREY" mb="2" mt="2">
                 {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
-                <TimeElapsed value={timestamp} />
+                <TimeElapsed value={receivedTimestamp} />
               </Body>
               <Image src={edit} height="20px" width="20px" ml="auto" />
             </Box>
