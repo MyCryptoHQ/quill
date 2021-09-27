@@ -132,11 +132,10 @@ app.on('ready', () => {
     const filePath = path.normalize(request.url.slice(process.platform === 'win32' ? 8 : 7));
 
     if (filePath.startsWith(appPath)) {
-      callback({ path: filePath });
-    } else {
-      // ACCESS_DENIED error = -10
-      callback({ error: -10 });
+      return callback({ path: filePath });
     }
+    // ACCESS_DENIED error = -10
+    callback({ error: -10 });
   });
   createContextMenu();
   createWindow();
