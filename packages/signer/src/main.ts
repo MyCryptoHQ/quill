@@ -128,10 +128,14 @@ const createTray = () => {
 app.on('ready', () => {
   protocol.interceptFileProtocol('file', (request, callback) => {
     const appPath = path.resolve(__dirname, '../');
+    // Remove an extra slash on Windows
     const filePath = path.normalize(request.url.slice(process.platform === 'win32' ? 8 : 7));
 
     if (filePath.startsWith(appPath)) {
       callback({ path: filePath });
+    } else {
+      // ACCESS_DENIED error = -10
+      callback({ error: -10 });
     }
   });
   createContextMenu();
