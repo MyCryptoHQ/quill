@@ -1,5 +1,5 @@
 import { BlockieAddress, Body, Button, Heading } from '@mycrypto/ui';
-import { getGeneratedAccount, translateRaw, WalletType } from '@signer/common';
+import { addGeneratedAccount, getGeneratedAccount, translateRaw, WalletType } from '@signer/common';
 import { toPng } from 'html-to-image';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -7,16 +7,18 @@ import type { IFlowComponentProps } from '@components';
 import { Box, Container, Link, Panel, PanelBottom, PaperWallet } from '@components';
 import { DEFAULT_DERIVATION_PATH } from '@config/derivation';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
-import { useSelector } from '@store';
+import { useDispatch, useSelector } from '@store';
 import { translate } from '@translations';
 
-export const GenerateAccountEnd = ({ onNext, flowHeader }: IFlowComponentProps) => {
+export const GenerateAccountEnd = ({ flowHeader }: IFlowComponentProps) => {
   const paperWallet = useRef<HTMLDivElement>();
   const [showMnemonicPhrase, setShowMnemonicPhrase] = useState(false);
   const [paperWalletImage, setPaperWalletImage] = useState<string>();
   const { address, mnemonicPhrase } = useSelector(getGeneratedAccount);
+  const dispatch = useDispatch();
 
   const handleClick = () => setShowMnemonicPhrase(!showMnemonicPhrase);
+  const handleNext = () => dispatch(addGeneratedAccount(true));
 
   useEffect(() => {
     if (paperWallet.current) {
@@ -77,7 +79,7 @@ export const GenerateAccountEnd = ({ onNext, flowHeader }: IFlowComponentProps) 
         >
           <Button mb="3">{translateRaw('PRINT_PAPER_WALLET')}</Button>
         </Link>
-        <Button variant="inverted" onClick={onNext}>
+        <Button variant="inverted" onClick={handleNext}>
           {translateRaw('PAPER_WALLET_PRINTED')}
         </Button>
       </PanelBottom>

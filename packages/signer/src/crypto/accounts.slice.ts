@@ -1,14 +1,17 @@
 import { DEFAULT_ETH } from '@mycrypto/wallets';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { createAction, createSelector, createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 import {
   accountsSlice,
   addAccount,
+  addGeneratedAccount,
+  addSavedAccounts,
   fetchAccounts,
   fetchAddresses,
   fetchFailed,
   generateAccount,
   generateDeterministicAddressUUID,
+  getGeneratedAccount,
   nextFlow,
   removeAccount,
   setAddresses,
@@ -32,7 +35,7 @@ import { DEFAULT_MNEMONIC_INDEX } from '@config';
 import { createWallet, derivePrivateKey, getAddress, getAddresses, getExtendedKey } from './crypto';
 import { deleteAccountSecrets, saveAccountSecrets } from './secrets';
 
-export type CryptoAccountsState = Pick<AccountsState, 'add'>;
+export type CryptoAccountsState = Pick<AccountsState, 'add' | 'generatedAccount'>;
 
 export const initialState: CryptoAccountsState = {};
 
@@ -55,13 +58,17 @@ const slice = createSlice({
     },
     clearAddAccounts(state) {
       state.add = undefined;
+    },
+    setGeneratedAccount(
+      state,
+      action: PayloadAction<{ mnemonicPhrase: string; address: TAddress } | undefined>
+    ) {
+      state.generatedAccount = action.payload;
     }
   }
 });
 
 const { setAddAccounts } = slice.actions;
-
-export const addSavedAccounts = createAction<boolean>(`${sliceName}/addSavedAccounts`);
 
 export default slice;
 
@@ -76,7 +83,8 @@ export function* accountsSaga() {
     takeLatest(removeAccount.type, removeAccountWorker),
     takeLatest(generateAccount.type, generateAccountWorker),
     takeLatest(fetchAddresses.type, fetchAddressesWorker),
-    takeLatest(addSavedAccounts.type, addSavedAccountsWorker)
+    takeLatest(addSavedAccounts.type, addSavedAccountsWorker),
+    takeLatest(addGeneratedAccount.type, addGeneratedAccountWorker)
   ]);
 }
 
@@ -190,6 +198,32 @@ export function* addSavedAccountsWorker({ payload: persistent }: PayloadAction<b
     if (persistent) {
       yield call(saveAccountSecrets, wallet);
     }
+  }
+
+  yield put(nextFlow());
+}
+
+export function* addGeneratedAccountWorker({ payload: persistent }: PayloadAction<boolean>) {
+  const { address, mnemonicPhrase }: { mnemonicPhrase: string; address: TAddress } = yield select(
+    getGeneratedAccount
+  );
+
+  const wallet: SerializedWalletWithAddress = {
+    walletType: WalletType.MNEMONIC,
+    path: DEFAULT_ETH,
+    index: DEFAULT_MNEMONIC_INDEX,
+    mnemonicPhrase,
+    address
+  };
+
+  const account = getAccountFromSerializedWallet(wallet, persistent);
+
+  // Remove existing account if present, set persistent to true to wipe saved secret if present too
+  yield put(removeAccount({ ...account, persistent: true }));
+  yield put(addAccount(account));
+
+  if (persistent) {
+    yield call(saveAccountSecrets, wallet);
   }
 
   yield put(nextFlow());

@@ -2,6 +2,7 @@ import { DEFAULT_ETH } from '@mycrypto/wallets';
 import type { SerializedWallet, TAddress } from '@signer/common';
 import {
   addAccount,
+  addSavedAccounts,
   clearAddAccounts,
   fetchAccounts,
   fetchAddresses,
@@ -28,7 +29,6 @@ import {
 } from '@fixtures';
 
 import slice, {
-  addSavedAccounts,
   addSavedAccountsWorker,
   fetchAccount,
   fetchAccountsWorker,

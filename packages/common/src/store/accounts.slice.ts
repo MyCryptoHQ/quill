@@ -125,6 +125,7 @@ export const {
 } = slice.actions;
 
 export const addSavedAccounts = createAction<boolean>(`${sliceName}/addSavedAccounts`);
+export const addGeneratedAccount = createAction<boolean>(`${sliceName}/addGeneratedAccount`);
 export const generateAccount = createAction(`${sliceName}/generateAccount`);
 
 export default slice;
