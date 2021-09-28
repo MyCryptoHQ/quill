@@ -81,7 +81,7 @@ export const TxDetails = ({ tx: entry }: { tx: TxQueueEntry | TxHistoryEntry }) 
           <CodeBlock>{data}</CodeBlock>
         </BlockRow>
       )}
-      {tx.type > 0 && <Row label={translateRaw('TX_TYPE')} value={tx.type} />}
+      {tx.type && tx.type > 0 && <Row label={translateRaw('TX_TYPE')} value={tx.type} />}
     </>
   );
 };

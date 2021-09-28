@@ -1,5 +1,6 @@
 import { Body, Button } from '@mycrypto/ui';
 import {
+  bigify,
   EvenHex,
   getAccounts,
   getCurrentTransaction,
@@ -36,17 +37,6 @@ import {
   GAS_PRICE_GWEI_UPPER_BOUND
 } from '@config';
 
-const SCHEMA = object({
-  value: number().required().min(0),
-  nonce: number().required().min(0),
-  gasPrice: number().required().min(GAS_PRICE_GWEI_LOWER_BOUND).max(GAS_PRICE_GWEI_UPPER_BOUND),
-  gasLimit: number().required().min(GAS_LIMIT_LOWER_BOUND).max(GAS_LIMIT_UPPER_BOUND),
-  chainId: number().required().min(1),
-  data: string()
-    .required()
-    .test('valid-hex', (value) => is(value, EvenHex))
-});
-
 export const EditTransaction = () => {
   const accounts = useSelector(getAccounts);
   const currentTx = useSelector(getCurrentTransaction) as TxQueueEntry;
@@ -55,6 +45,41 @@ export const EditTransaction = () => {
   const currentAccount = tx && accounts.find((a) => a.address === tx.from);
   const recipientAccount = tx && accounts.find((a) => a.address === tx.to);
   const info = useSelector(getTransactionInfoBannerType);
+
+  // @todo Type Guard?
+  const isEIP1559 = tx.type === 2;
+
+  const SCHEMA = object({
+    value: number().required().min(0),
+    nonce: number().required().min(0),
+    // @todo Better way to do this?
+    ...(!isEIP1559
+      ? {
+          gasPrice: number()
+            .required()
+            .min(GAS_PRICE_GWEI_LOWER_BOUND)
+            .max(GAS_PRICE_GWEI_UPPER_BOUND)
+        }
+      : {
+          maxFeePerGas: number()
+            .required()
+            .min(GAS_PRICE_GWEI_LOWER_BOUND)
+            .max(GAS_PRICE_GWEI_UPPER_BOUND),
+          maxPriorityFeePerGas: number()
+            .required()
+            .min(GAS_PRICE_GWEI_LOWER_BOUND)
+            .max(GAS_PRICE_GWEI_UPPER_BOUND)
+            .test('check-max', translateRaw('PRIORITY_FEE_MAX_ERROR'), function (value) {
+              const maxFeePerGas = this.parent.maxFeePerGas;
+              return bigify(maxFeePerGas).gte(value);
+            })
+        }),
+    gasLimit: number().required().min(GAS_LIMIT_LOWER_BOUND).max(GAS_LIMIT_UPPER_BOUND),
+    chainId: number().required().min(1),
+    data: string()
+      .required()
+      .test('valid-hex', (value) => is(value, EvenHex))
+  });
 
   const form = useForm(toHumanReadable(tx), yupValidator(SCHEMA), true);
 

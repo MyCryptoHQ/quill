@@ -17,7 +17,15 @@ import { ValidatedListener } from './ValidatedListener';
 
 type EditTxType = Pick<
   HumanReadableTx,
-  'gasLimit' | 'gasPrice' | 'chainId' | 'data' | 'value' | 'nonce'
+  | 'gasLimit'
+  | 'gasPrice'
+  | 'chainId'
+  | 'data'
+  | 'value'
+  | 'nonce'
+  | 'maxFeePerGas'
+  | 'maxPriorityFeePerGas'
+  | 'type'
 >;
 
 type InputRowProps = {
@@ -60,6 +68,8 @@ export const TxDetailsEdit = ({ form }: { form: FormState<EditTxType> }) => {
   const tx = form.values;
   const chain = getChain(tx.chainId);
   const symbol = chain?.nativeCurrency?.symbol ?? '?';
+  // @todo Type Guard?
+  const isEIP1559 = tx.type === 2;
   return (
     <>
       <InputRow
@@ -70,21 +80,48 @@ export const TxDetailsEdit = ({ form }: { form: FormState<EditTxType> }) => {
         unit={symbol}
       />
       <InputRow label={translateRaw('GAS_LIMIT')} id="gasLimit" name="gasLimit" form={form} />
-      <InputRow
-        label={translateRaw('GAS_PRICE')}
-        id="gasPrice"
-        name="gasPrice"
-        unit="Gwei"
-        form={form}
-        processInput={sanitizeGasPriceInput}
-      />
+      {isEIP1559 ? (
+        <>
+          <InputRow
+            label={translateRaw('MAX_FEE')}
+            id="maxFeePerGas"
+            name="maxFeePerGas"
+            unit="Gwei"
+            form={form}
+            processInput={sanitizeGasPriceInput}
+          />
+          <InputRow
+            label={translateRaw('MAX_PRIORITY_FEE')}
+            id="maxPriorityFeePerGas"
+            name="maxPriorityFeePerGas"
+            unit="Gwei"
+            form={form}
+            processInput={sanitizeGasPriceInput}
+          />
+        </>
+      ) : (
+        <InputRow
+          label={translateRaw('GAS_PRICE')}
+          id="gasPrice"
+          name="gasPrice"
+          unit="Gwei"
+          form={form}
+          processInput={sanitizeGasPriceInput}
+        />
+      )}
+
       <ValidatedListener
         form={form}
         render={(values) => (
           <Row
             label={translateRaw('MAX_TX_FEE')}
             value={`${formatEther(
-              bigify(parseUnits(values.gasPrice.toString(), 'gwei'))
+              bigify(
+                parseUnits(
+                  isEIP1559 ? values.maxFeePerGas.toString() : values.gasPrice.toString(),
+                  'gwei'
+                )
+              )
                 .multipliedBy(bigify(values.gasLimit))
                 .toString()
             )} ${symbol}`}
@@ -103,6 +140,7 @@ export const TxDetailsEdit = ({ form }: { form: FormState<EditTxType> }) => {
       <BlockRow label={translateRaw('DATA')} hideDivider={true}>
         <FormTextArea id="data" name="data" form={form} />
       </BlockRow>
+      {tx.type && tx.type > 0 && <Row label={translateRaw('TX_TYPE')} value={tx.type} />}
     </>
   );
 };
