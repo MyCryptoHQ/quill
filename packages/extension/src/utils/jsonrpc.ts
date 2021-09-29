@@ -21,6 +21,20 @@ export const toJsonRpcRequest = (message: RelayMessage): JsonRPCRequest => ({
 
 export type TParams = [Omit<Optional<TSignTransaction[0], 'nonce'>, 'chainId'>];
 
+export const resolveNonce = async (params: TParams, state: ApplicationState) => {
+  if (params[0].nonce) {
+    return params[0].nonce;
+  }
+
+  const providers = state.jsonrpc.network.providers;
+  const provider = new FallbackProvider(providers.map((url) => new JsonRpcProvider(url)));
+
+  if (params[0].from) {
+    return hexlify(await provider.getTransactionCount(params[0].from!));
+  }
+  return null;
+};
+
 export const addMissingParams = async (
   params: TParams | undefined,
   state: ApplicationState
@@ -29,13 +43,7 @@ export const addMissingParams = async (
     return undefined;
   }
 
-  const providers = state.jsonrpc.network.providers;
-  const provider = new FallbackProvider(providers.map((url) => new JsonRpcProvider(url)));
-
-  const nonce =
-    params[0].nonce ?? params[0].from
-      ? hexlify(await provider.getTransactionCount(params[0].from!))
-      : null;
+  const nonce = await resolveNonce(params, state);
 
   // @todo Respect chainId from params if possible?
   const chainId = state.jsonrpc.network.chainId;
