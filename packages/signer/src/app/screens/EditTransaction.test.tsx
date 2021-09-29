@@ -140,7 +140,10 @@ describe('EditTransaction', () => {
       }
     });
     const { getByText } = getComponent(store);
-    expect(getByText(translateRaw('NONCE_CONFLICT_IN_QUEUE')).textContent).toBeDefined();
+    expect(
+      getByText('The selected nonce is used by another TX in your queue.', { exact: false })
+        .textContent
+    ).toBeDefined();
   });
 
   it('renders nonce conflict banner', async () => {
@@ -156,7 +159,10 @@ describe('EditTransaction', () => {
       }
     });
     const { getByText } = getComponent(store);
-    expect(getByText(translateRaw('NONCE_CONFLICT')).textContent).toBeDefined();
+    expect(
+      getByText('The selected nonce has been used in another transaction.', { exact: false })
+        .textContent
+    ).toBeDefined();
   });
 
   it('renders nonce out of order banner', async () => {
