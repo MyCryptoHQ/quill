@@ -165,7 +165,7 @@
     "REVIEW_SECURITY_DETAILS": "Review Security Details",
     "NONCE_CHANGED": "Transaction nonce has been changed",
     "NONCE_CHANGED_CONTENT": "This transaction had the same nonce as a previously sent transaction. We've changed it for you, but you may edit it if you need to, using the pencil icon below.",
-    "NONCE_CONFLICT_IN_QUEUE": "The selected nonce is used by another TX in your queue. [Read More](https://support.mycrypto.com/general-knowledge/ethereum-blockchain/what-is-nonce?utm_medium=organic&utm_source=quill&utm_campaign=txrequest)",
+    "NONCE_CONFLICT_IN_QUEUE": "The selected nonce is used by another transaction in your queue. [Read More](https://support.mycrypto.com/general-knowledge/ethereum-blockchain/what-is-nonce?utm_medium=organic&utm_source=quill&utm_campaign=txrequest)",
     "NONCE_CONFLICT": "The selected nonce has been used in another transaction. [Read More](https://support.mycrypto.com/general-knowledge/ethereum-blockchain/what-is-nonce?utm_medium=organic&utm_source=quill&utm_campaign=txrequest)",
     "NONCE_CHANGED_HELP": "This transaction had the same nonce as a previously sent transaction. We’ve changed it for you, but you may edit it if you need to using the pencil icon above.",
     "NONCE_OUT_OF_ORDER": "Approving TX out of order affects nonce",
