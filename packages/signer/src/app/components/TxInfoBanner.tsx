@@ -2,12 +2,14 @@ import { InfoBannerType, translateRaw, TxResult } from '@signer/common';
 import type { BannerType } from '@signer/common';
 import type { ReactElement } from 'react';
 
+import { translate } from '@app/translations';
+
 import { Banner } from './index';
 
 const configs: {
   [key in TxResult | InfoBannerType]: {
     type: BannerType;
-    label: string;
+    label: string | ReactElement;
     content?: string | ReactElement;
   };
 } = {
@@ -25,11 +27,11 @@ const configs: {
   },
   [InfoBannerType.NONCE_CONFLICT_IN_QUEUE]: {
     type: 'warning',
-    label: translateRaw('NONCE_CONFLICT_IN_QUEUE')
+    label: translate('NONCE_CONFLICT_IN_QUEUE')
   },
   [InfoBannerType.NONCE_CONFLICT]: {
     type: 'warning',
-    label: translateRaw('NONCE_CONFLICT')
+    label: translate('NONCE_CONFLICT')
   },
   [InfoBannerType.NONCE_OUT_OF_ORDER]: {
     type: 'warning',
