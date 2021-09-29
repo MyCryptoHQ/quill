@@ -1,6 +1,12 @@
 import { hexlify } from '@ethersproject/bytes';
 import { FallbackProvider, JsonRpcProvider } from '@ethersproject/providers';
-import type { JsonRPCError, JsonRPCRequest, JsonRPCResponse } from '@signer/common';
+import type {
+  JsonRPCError,
+  JsonRPCRequest,
+  JsonRPCResponse,
+  TSignTransaction
+} from '@signer/common';
+import type { Optional } from 'utility-types';
 
 import type { ApplicationState } from '../store';
 import type { RelayMessage } from '../types';
@@ -13,8 +19,10 @@ export const toJsonRpcRequest = (message: RelayMessage): JsonRPCRequest => ({
   params: Array.isArray(message.payload.params) ? message.payload.params : []
 });
 
+export type TParams = [Omit<Optional<TSignTransaction[0], 'nonce'>, 'chainId'>];
+
 export const addMissingParams = async (
-  params: unknown[] | undefined,
+  params: TParams | undefined,
   state: ApplicationState
 ): Promise<unknown[] | undefined> => {
   if (!Array.isArray(params)) {
@@ -24,8 +32,10 @@ export const addMissingParams = async (
   const providers = state.jsonrpc.network.providers;
   const provider = new FallbackProvider(providers.map((url) => new JsonRpcProvider(url)));
 
-  // @ts-expect-error No type atm
-  const nonce = params[0].nonce ?? hexlify(await provider.getTransactionCount(params[0].from));
+  const nonce =
+    params[0].nonce ?? params[0].from
+      ? hexlify(await provider.getTransactionCount(params[0].from!))
+      : null;
 
   // @todo Respect chainId from params if possible?
   const chainId = state.jsonrpc.network.chainId;
@@ -43,7 +53,7 @@ export const normalizeRequest = async (
     return {
       ...request,
       method: 'eth_signTransaction',
-      params: await addMissingParams(request.params, state)
+      params: await addMissingParams(request.params as TSignTransaction, state)
     };
   }
 
@@ -66,7 +76,7 @@ export const normalizeRequest = async (
   if (request.method === 'eth_signTransaction') {
     return {
       ...request,
-      params: await addMissingParams(request.params, state)
+      params: await addMissingParams(request.params as TSignTransaction, state)
     };
   }
 

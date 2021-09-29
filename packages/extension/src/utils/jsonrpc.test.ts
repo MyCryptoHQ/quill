@@ -1,3 +1,4 @@
+import type { TParams } from '.';
 import type { ApplicationState } from '../store';
 import { RelayTarget } from '../types';
 import { addMissingParams, isJsonRpcError, normalizeRequest, toJsonRpcRequest } from './jsonrpc';
@@ -38,7 +39,7 @@ const state = {
   }
 } as ApplicationState;
 
-const params = [
+const params: TParams = [
   {
     gasPrice: '0x012a05f200',
     gas: '0x5208',
@@ -50,11 +51,24 @@ const params = [
 ];
 
 describe('addMissingParams', () => {
-  it('adds the chain ID to the request parameters', () => {
+  it('adds the chain ID and nonce to the request parameters', () => {
     return expect(addMissingParams(params, state)).resolves.toStrictEqual([
       {
         ...params[0],
         nonce: '0x02',
+        chainId: 1
+      }
+    ]);
+  });
+
+  it('nulls nonce if not able to estimate', () => {
+    return expect(
+      addMissingParams([{ ...params[0], nonce: undefined, from: undefined }], state)
+    ).resolves.toStrictEqual([
+      {
+        ...params[0],
+        from: undefined,
+        nonce: null,
         chainId: 1
       }
     ]);
