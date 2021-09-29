@@ -141,8 +141,9 @@ describe('EditTransaction', () => {
     });
     const { getByText } = getComponent(store);
     expect(
-      getByText('The selected nonce is used by another TX in your queue.', { exact: false })
-        .textContent
+      getByText('The selected nonce is used by another transaction in your queue.', {
+        exact: false
+      }).textContent
     ).toBeDefined();
   });
 
