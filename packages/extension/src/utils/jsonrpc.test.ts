@@ -61,6 +61,18 @@ describe('addMissingParams', () => {
     ]);
   });
 
+  it('uses passed nonce nonce if possible', () => {
+    return expect(
+      addMissingParams([{ ...params[0], nonce: '0x04' }], state)
+    ).resolves.toStrictEqual([
+      {
+        ...params[0],
+        nonce: '0x04',
+        chainId: 1
+      }
+    ]);
+  });
+
   it('nulls nonce if not able to estimate', () => {
     return expect(
       addMissingParams([{ ...params[0], nonce: undefined, from: undefined }], state)
