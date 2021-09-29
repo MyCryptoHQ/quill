@@ -12,4 +12,8 @@ describe('sanitizeGasPriceInput', () => {
   it('doesnt do anything if not needed', () => {
     expect(sanitizeGasPriceInput('5.25')).toBe('5.25');
   });
+
+  it('doesnt do anything if no decimals', () => {
+    expect(sanitizeGasPriceInput('5')).toBe('5');
+  });
 });
