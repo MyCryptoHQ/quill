@@ -88,7 +88,7 @@ export const validateRequest = (
     return [
       toJsonRpcResponse({
         id: null,
-        error: { code: '-32600', message: 'Invalid Request' }
+        error: { code: '-32600', message: 'Invalid request' }
       }),
       null
     ];
@@ -98,7 +98,7 @@ export const validateRequest = (
     return [
       toJsonRpcResponse({
         id: request.id,
-        error: { code: '-32601', message: 'Unsupported Method' }
+        error: { code: '-32601', message: 'Unsupported method' }
       }),
       null
     ];
@@ -108,7 +108,7 @@ export const validateRequest = (
     return [
       toJsonRpcResponse({
         id: request.id,
-        error: { code: '-32602', message: 'Invalid Params' }
+        error: { code: '-32602', message: 'Invalid params' }
       }),
       null
     ];
@@ -233,7 +233,7 @@ export function* handleRequest({ socket, request, data }: WebSocketMessage) {
         JSON.stringify(
           toJsonRpcResponse({
             id: jsonRpcRequest.id,
-            error: { code: '4001', message: 'The user rejected the request.' }
+            error: { code: '4001', message: 'The user rejected the request' }
           })
         )
       );

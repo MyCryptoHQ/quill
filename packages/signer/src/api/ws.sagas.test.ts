@@ -203,13 +203,18 @@ describe('handleRequest', () => {
 
     await expectSaga(handleRequest, { socket, request, data: JSON.stringify(signedRequest) })
       .withState({
-        permissions: { permissions: [{ origin: fRequestOrigin, publicKey: fRequestPublicKey }] }
+        permissions: { permissions: [{ origin: fRequestOrigin, publicKey: fRequestPublicKey }] },
+        ws: {
+          nonces: {
+            [fRequestPublicKey]: 0
+          }
+        }
       })
       .put(requestAccounts({ origin: fRequestOrigin, request: accountsRequest }))
       .call(waitForResponse, accountsRequest.id)
       .dispatch(
         reply({
-          id: accountsRequest.id,
+          id: 0,
           result: [fAccount.address]
         })
       )
@@ -218,7 +223,7 @@ describe('handleRequest', () => {
     expect(socket.send).toHaveBeenCalledWith(
       JSON.stringify({
         jsonrpc: '2.0',
-        id: accountsRequest.id,
+        id: 0,
         result: [fAccount.address]
       })
     );
@@ -231,13 +236,18 @@ describe('handleRequest', () => {
 
     await expectSaga(handleRequest, { socket, request, data: JSON.stringify(signedTxRequest) })
       .withState({
-        permissions: { permissions: [{ origin: fRequestOrigin, publicKey: fRequestPublicKey }] }
+        permissions: { permissions: [{ origin: fRequestOrigin, publicKey: fRequestPublicKey }] },
+        ws: {
+          nonces: {
+            [fRequestPublicKey]: 0
+          }
+        }
       })
       .put(requestSignTransaction({ origin: fRequestOrigin, request: fTxRequest }))
-      .call(waitForResponse, fTxRequest.id)
+      .call(waitForResponse, 0)
       .dispatch(
         reply({
-          id: fTxRequest.id,
+          id: 0,
           result: fSignedTx
         })
       )
@@ -262,14 +272,19 @@ describe('handleRequest', () => {
     const permission = { origin: fRequestOrigin, publicKey: fRequestPublicKey };
     await expectSaga(handleRequest, { socket, request, data: JSON.stringify(signedRequest) })
       .withState({
-        permissions: { permissions: [] }
+        permissions: { permissions: [] },
+        ws: {
+          nonces: {
+            [fRequestPublicKey]: 0
+          }
+        }
       })
       .put(requestPermission(permission))
       .call(waitForPermissions, permission)
       .silentRun();
   });
 
-  it('doesnt allow request if permissions denied', async () => {
+  it("doesn't allow request if permissions denied", async () => {
     const { params: _, ...accountsRequest } = createJsonRpcRequest(JsonRPCMethod.Accounts);
     const signedRequest = await createSignedJsonRpcRequest(
       fRequestPrivateKey,
@@ -279,7 +294,12 @@ describe('handleRequest', () => {
     const permission = { origin: fRequestOrigin, publicKey: fRequestPublicKey };
     await expectSaga(handleRequest, { socket, request, data: JSON.stringify(signedRequest) })
       .withState({
-        permissions: { permissions: [] }
+        permissions: { permissions: [] },
+        ws: {
+          nonces: {
+            [fRequestPublicKey]: 0
+          }
+        }
       })
       .put(requestPermission(permission))
       .call(waitForPermissions, permission)
@@ -303,7 +323,12 @@ describe('handleRequest', () => {
     const permission = { origin: fRequestOrigin, publicKey: fRequestPublicKey };
     await expectSaga(handleRequest, { socket, request, data: JSON.stringify(signedRequest) })
       .withState({
-        permissions: { permissions: [] }
+        permissions: { permissions: [] },
+        ws: {
+          nonces: {
+            [fRequestPublicKey]: 0
+          }
+        }
       })
       .put(requestPermission(permission))
       .call(waitForPermissions, permission)
@@ -329,7 +354,7 @@ describe('handleRequest', () => {
       JSON.stringify({
         jsonrpc: '2.0',
         id: 3,
-        error: { code: '-32600', message: 'Invalid Request' }
+        error: { code: '-32600', message: 'Invalid request' }
       })
     );
   });
@@ -354,7 +379,7 @@ describe('handleRequest', () => {
       JSON.stringify({
         jsonrpc: '2.0',
         id: 1,
-        error: { code: '-32600', message: 'Invalid Request' }
+        error: { code: '-32600', message: 'Invalid request' }
       })
     );
   });

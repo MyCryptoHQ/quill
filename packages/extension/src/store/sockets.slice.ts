@@ -98,13 +98,14 @@ export function* waitForResponse(id: string | number) {
  */
 export function* handleRequestWorker({ payload }: ReturnType<typeof handleRequest>) {
   const state: ApplicationState = yield select((state) => state);
-  const normalizedRequest: JsonRPCRequest = yield call(normalizeRequest, payload.request, state);
-  yield put(send(normalizedRequest));
+  const id = state.sockets.nonce;
 
-  yield put(send({ ...normalizedRequest, id: state.sockets.nonce }));
+  const normalizedRequest: JsonRPCRequest = yield call(normalizeRequest, payload.request, state);
+
+  yield put(send({ ...normalizedRequest, id }));
   yield put(incrementNonce());
 
-  const response: JsonRpcResponse = yield call(waitForResponse, payload.request.id);
+  const response: JsonRpcResponse = yield call(waitForResponse, id);
   yield call(handleResponseWorker, { request: payload.request, response });
 
   chrome.tabs.sendMessage(payload.tabId, {

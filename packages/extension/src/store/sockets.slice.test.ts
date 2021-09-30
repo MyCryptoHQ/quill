@@ -86,13 +86,18 @@ describe('handleRequestWorker', () => {
         tabId: 0
       })
     )
-      .put(send(request))
-      .call(waitForResponse, 'foo')
-      .dispatch(message({ jsonrpc: '2.0', id: 'foo', result: 'bar' }))
+      .withState({
+        sockets: {
+          nonce: 0
+        }
+      })
+      .put(send({ ...request, id: 0 }))
+      .call(waitForResponse, 0)
+      .dispatch(message({ jsonrpc: '2.0', id: 0, result: 'bar' }))
       .silentRun();
 
     expect(chrome.tabs.sendMessage).toHaveBeenCalledWith(0, {
-      id: 'foo',
+      id: 0,
       target: RelayTarget.Content,
       data: 'bar'
     });
