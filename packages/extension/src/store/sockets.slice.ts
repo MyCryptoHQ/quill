@@ -1,4 +1,4 @@
-import type { PayloadAction, Slice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import type { JsonRPCRequest } from '@signer/common';
 import { signJsonRpcRequest } from '@signer/common';
