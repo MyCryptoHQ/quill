@@ -1,5 +1,11 @@
 import type { JsonRPCRequest } from '@signer/common';
-import { denyPermission, grantPermission, JsonRPCMethod, requestPermission } from '@signer/common';
+import {
+  denyPermission,
+  grantPermission,
+  incrementNonce,
+  JsonRPCMethod,
+  requestPermission
+} from '@signer/common';
 import type { IncomingMessage } from 'http';
 import { expectSaga } from 'redux-saga-test-plan';
 import WebSocket from 'ws';
@@ -19,6 +25,7 @@ import {
   handleRequest,
   requestWatcherWorker,
   validateRequest,
+  verifyRequestNonce,
   waitForPermissions,
   waitForResponse
 } from './ws.sagas';
@@ -166,6 +173,52 @@ describe('waitForResponse', () => {
       .take(reply)
       .dispatch(reply({ id: 2, result: 'bar' }))
       .not.returns({ id: 2, result: 'bar' })
+      .silentRun();
+  });
+});
+
+describe('verifyRequestNonce', () => {
+  it('checks and increments the request nonce', async () => {
+    const request = createJsonRpcRequest(JsonRPCMethod.Accounts);
+
+    await expectSaga(verifyRequestNonce, request, fRequestPublicKey)
+      .withState({
+        ws: {
+          nonces: {
+            [fRequestPublicKey]: 0
+          }
+        }
+      })
+      .put(incrementNonce(fRequestPublicKey))
+      .returns(true)
+      .silentRun();
+
+    await expectSaga(verifyRequestNonce, { ...request, id: 1 }, fRequestPublicKey)
+      .withState({
+        ws: {
+          nonces: {
+            [fRequestPublicKey]: 1
+          }
+        }
+      })
+      .put(incrementNonce(fRequestPublicKey))
+      .returns(true)
+      .silentRun();
+  });
+
+  it('returns false for invalid nonces', async () => {
+    const request = createJsonRpcRequest(JsonRPCMethod.Accounts);
+
+    await expectSaga(verifyRequestNonce, request, fRequestPublicKey)
+      .withState({
+        ws: {
+          nonces: {
+            [fRequestPublicKey]: 1
+          }
+        }
+      })
+      .not.put(incrementNonce(fRequestPublicKey))
+      .returns(false)
       .silentRun();
   });
 });
