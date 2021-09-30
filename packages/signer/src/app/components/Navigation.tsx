@@ -9,7 +9,7 @@ import { ROUTE_PATHS } from '@app/routing';
 import add from '@assets/icons/add.svg';
 import back from '@assets/icons/back.svg';
 import lock from '@assets/icons/lock.svg';
-import profile from '@assets/icons/profile.svg';
+import settings from '@assets/icons/settings.svg';
 import { Logo } from '@components/Logo';
 import { useDispatch, useSelector } from '@store';
 
@@ -86,8 +86,8 @@ export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
           <NavItem>
             <NavIcon icon={lock} href="#" onClick={handleLogout} data-testid="lock-button" />
           </NavItem>
-          <NavItem href={ROUTE_PATHS.ACCOUNTS}>
-            <NavIcon icon={profile} href={ROUTE_PATHS.ACCOUNTS} />
+          <NavItem href={ROUTE_PATHS.SETTINGS}>
+            <NavIcon icon={settings} href={ROUTE_PATHS.SETTINGS} />
           </NavItem>
           <NavItem href={ROUTE_PATHS.MENU}>
             {backUrl ? (
