@@ -28,16 +28,18 @@ import type { ApplicationState } from './store';
 export interface SocketsState {
   isConnected: boolean;
   privateKey: string;
+  nonce: number;
 }
 
 const initialState: SocketsState = {
   isConnected: false,
-  privateKey: ''
+  privateKey: '',
+  nonce: 0
 };
 
 const sliceName = 'sockets';
 
-const slice: Slice<SocketsState> = createSlice({
+const slice = createSlice({
   name: sliceName,
   initialState,
   reducers: {
@@ -46,6 +48,9 @@ const slice: Slice<SocketsState> = createSlice({
     },
     setConnected(state, action: PayloadAction<boolean>) {
       state.isConnected = action.payload;
+    },
+    incrementNonce(state) {
+      state.nonce++;
     }
   }
 });
@@ -58,7 +63,7 @@ export const handleRequest = createAction<{ request: JsonRPCRequest; tabId: numb
   `${sliceName}/handleRequest`
 );
 
-export const { setPrivateKey, setConnected } = slice.actions;
+export const { setPrivateKey, setConnected, incrementNonce } = slice.actions;
 export default slice;
 
 export function* socketsSaga() {
@@ -95,6 +100,9 @@ export function* handleRequestWorker({ payload }: ReturnType<typeof handleReques
   const state: ApplicationState = yield select((state) => state);
   const normalizedRequest: JsonRPCRequest = yield call(normalizeRequest, payload.request, state);
   yield put(send(normalizedRequest));
+
+  yield put(send({ ...normalizedRequest, id: state.sockets.nonce }));
+  yield put(incrementNonce());
 
   const response: JsonRpcResponse = yield call(waitForResponse, payload.request.id);
   yield call(handleResponseWorker, { request: payload.request, response });
