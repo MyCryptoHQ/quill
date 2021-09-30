@@ -3,12 +3,11 @@ import { Body } from '@mycrypto/ui';
 import { bigify, translateRaw } from '@signer/common';
 import type { TxHistoryEntry, TxQueueEntry } from '@signer/common';
 
-import warning from '@assets/icons/circle-warning.svg';
 import { CopyableText } from '@components';
 import { getChain } from '@data';
 
 import { CodeBlock } from './CodeBlock';
-import { Box, ExtendableButton, Image, QR } from './index';
+import { Box, ExtendableButton, QR } from './index';
 import { TxDetailsBlockRow as BlockRow } from './TxDetailsBlockRow';
 import { TxDetailsRow as Row } from './TxDetailsRow';
 
@@ -19,7 +18,7 @@ const isHistoryEntry = (
 };
 
 export const TxDetails = ({ tx: entry }: { tx: TxQueueEntry | TxHistoryEntry }) => {
-  const { tx, adjustedNonce, offline } = entry;
+  const { tx, offline } = entry;
 
   const chain = getChain(tx.chainId);
   const maxTxFee = bigify(tx.gasPrice).multipliedBy(bigify(tx.gasLimit));
@@ -55,11 +54,7 @@ export const TxDetails = ({ tx: entry }: { tx: TxQueueEntry | TxHistoryEntry }) 
         value={
           <Box variant="horizontal-start">
             <Body>{bigify(tx.nonce).toString()}</Body>
-            {adjustedNonce && <Image ml="2" src={warning} height="20px" width="20px" />}
           </Box>
-        }
-        info={
-          adjustedNonce && <Body color="text.warning">{translateRaw('NONCE_CHANGED_HELP')}</Body>
         }
       />
       {data === '0x' ? (

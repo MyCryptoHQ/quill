@@ -1,4 +1,3 @@
-import type { BigNumberish } from '@ethersproject/bignumber';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAction, createSelector, createSlice } from '@reduxjs/toolkit';
 
@@ -94,15 +93,17 @@ export const getNoncesInQueue = createSelector(
 
 export const hasNonceConflictInQueue = createSelector(getNoncesInQueue, (nonces) => nonces > 1);
 
-export const hasNonceConflict = (account: TAddress, chainId: number, nonce: BigNumberish) =>
-  createSelector(
-    getApprovedTransactions,
-    (transactions) =>
-      transactions.find(
-        (h) =>
-          h.tx.from === account && h.tx.chainId === chainId && bigify(h.tx.nonce).eq(bigify(nonce))
-      ) !== undefined
-  );
+export const hasNonceConflict = createSelector(
+  getApprovedTransactions,
+  getCurrentTransaction,
+  (transactions, currentTx) =>
+    transactions.find(
+      (h) =>
+        h.tx.from === currentTx.tx.from &&
+        h.tx.chainId === currentTx.tx.chainId &&
+        bigify(h.tx.nonce).eq(bigify(currentTx.tx.nonce))
+    ) !== undefined
+);
 
 export const hasNonceOutOfOrder = createSelector(
   getQueue,
@@ -119,9 +120,10 @@ export const hasNonceOutOfOrder = createSelector(
 export const getTransactionInfoBannerType = createSelector(
   getCurrentTransaction,
   hasNonceConflictInQueue,
+  hasNonceConflict,
   hasNonceOutOfOrder,
-  (currentTx, nonceConflictInQueue, nonceOutOfOrder) => {
-    const { result, adjustedNonce } = currentTx;
+  (currentTx, nonceConflictInQueue, nonceConflict, nonceOutOfOrder) => {
+    const { result } = currentTx;
     if (result !== TxResult.WAITING) {
       return result;
     }
@@ -130,12 +132,12 @@ export const getTransactionInfoBannerType = createSelector(
       return InfoBannerType.NONCE_OUT_OF_ORDER;
     }
 
-    if (adjustedNonce) {
-      return InfoBannerType.NONCE_ADJUSTED;
-    }
-
     if (nonceConflictInQueue) {
       return InfoBannerType.NONCE_CONFLICT_IN_QUEUE;
+    }
+
+    if (nonceConflict) {
+      return InfoBannerType.NONCE_CONFLICT;
     }
 
     return result;

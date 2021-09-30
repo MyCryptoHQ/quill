@@ -1,6 +1,14 @@
+import type { TParams } from '.';
 import type { ApplicationState } from '../store';
 import { RelayTarget } from '../types';
-import { addChainId, isJsonRpcError, normalizeRequest, toJsonRpcRequest } from './jsonrpc';
+import { addMissingParams, isJsonRpcError, normalizeRequest, toJsonRpcRequest } from './jsonrpc';
+
+jest.mock('@ethersproject/providers', () => ({
+  ...jest.requireActual('@ethersproject/providers'),
+  FallbackProvider: jest.fn().mockImplementation(() => ({
+    getTransactionCount: jest.fn().mockResolvedValue(2)
+  }))
+}));
 
 describe('toJsonRpcRequest', () => {
   it('returns a JSON-RPC compatible request for a relay message', () => {
@@ -22,18 +30,64 @@ describe('toJsonRpcRequest', () => {
   });
 });
 
-describe('addChainId', () => {
-  it('adds the chain ID to the request parameters', () => {
-    expect(addChainId([{ foo: 'bar' }], 1)).toStrictEqual([
+const state = {
+  jsonrpc: {
+    network: {
+      providers: ['https://example.com'],
+      chainId: 1
+    }
+  }
+} as ApplicationState;
+
+const params: TParams = [
+  {
+    gasPrice: '0x012a05f200',
+    gas: '0x5208',
+    from: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520',
+    to: '0xb2bb2b958AFa2e96dab3f3Ce7162b87daEa39017',
+    value: '0x2386f26fc10000',
+    data: '0x'
+  }
+];
+
+describe('addMissingParams', () => {
+  it('adds the chain ID and nonce to the request parameters', () => {
+    return expect(addMissingParams(params, state)).resolves.toStrictEqual([
       {
-        foo: 'bar',
+        ...params[0],
+        nonce: '0x02',
+        chainId: 1
+      }
+    ]);
+  });
+
+  it('uses passed nonce nonce if possible', () => {
+    return expect(
+      addMissingParams([{ ...params[0], nonce: '0x04' }], state)
+    ).resolves.toStrictEqual([
+      {
+        ...params[0],
+        nonce: '0x04',
+        chainId: 1
+      }
+    ]);
+  });
+
+  it('nulls nonce if not able to estimate', () => {
+    return expect(
+      addMissingParams([{ ...params[0], nonce: undefined, from: undefined }], state)
+    ).resolves.toStrictEqual([
+      {
+        ...params[0],
+        from: undefined,
+        nonce: null,
         chainId: 1
       }
     ]);
   });
 
   it('returns undefined if no parameters are specified', () => {
-    expect(addChainId(undefined, 1)).toBeUndefined();
+    return expect(addMissingParams(undefined, state)).resolves.toBeUndefined();
   });
 });
 
@@ -42,31 +96,25 @@ describe('normalizeRequest', () => {
     jsonrpc: '2.0' as const,
     id: 'foo',
     method: 'eth_sendTransaction',
-    params: []
+    params
   };
 
-  const state = {
-    jsonrpc: {
-      network: {
-        chainId: 1
-      }
-    }
-  } as ApplicationState;
-
-  it('normalizes specific JSON-RPC requests', () => {
-    expect(normalizeRequest(request, state)).toStrictEqual({
+  it('normalizes specific JSON-RPC requests', async () => {
+    await expect(normalizeRequest(request, state)).resolves.toStrictEqual({
       ...request,
       method: 'eth_signTransaction',
       params: [
         {
+          ...params[0],
+          nonce: '0x02',
           chainId: 1
         }
       ]
     });
 
-    expect(
+    await expect(
       normalizeRequest({ ...request, method: 'eth_requestAccounts', params: [] }, state)
-    ).toStrictEqual({
+    ).resolves.toStrictEqual({
       ...request,
       method: 'wallet_requestPermissions',
       params: [
@@ -75,22 +123,12 @@ describe('normalizeRequest', () => {
         }
       ]
     });
-
-    expect(
-      normalizeRequest({ ...request, method: 'eth_signTransaction', params: [] }, state)
-    ).toStrictEqual({
-      ...request,
-      method: 'eth_signTransaction',
-      params: [
-        {
-          chainId: 1
-        }
-      ]
-    });
   });
 
   it('returns the same request for other requests', () => {
-    expect(normalizeRequest({ ...request, method: 'eth_accounts' }, state)).toStrictEqual({
+    return expect(
+      normalizeRequest({ ...request, method: 'eth_accounts' }, state)
+    ).resolves.toStrictEqual({
       ...request,
       method: 'eth_accounts'
     });

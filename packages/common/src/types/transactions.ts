@@ -24,7 +24,6 @@ export interface TxHistoryEntry {
   receivedTimestamp: number;
   result: TxResult;
   origin?: string;
-  adjustedNonce?: boolean;
   userEdited?: boolean;
   offline?: boolean;
 }
@@ -36,7 +35,6 @@ export interface TxQueueEntry {
   receivedTimestamp: number;
   result: TxResult.WAITING;
   origin?: string;
-  adjustedNonce?: boolean;
   userEdited?: boolean;
   offline?: boolean;
 }

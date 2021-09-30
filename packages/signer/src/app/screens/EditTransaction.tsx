@@ -65,7 +65,7 @@ export const EditTransaction = () => {
       return;
     }
     const tx = fromHumanReadable(form.values);
-    const queueItem = { ...currentTx, tx, adjustedNonce: false, userEdited: true };
+    const queueItem = { ...currentTx, tx, userEdited: true };
     dispatch(update(queueItem));
     dispatch(selectTransaction(queueItem));
     dispatch(replace(ROUTE_PATHS.TX));

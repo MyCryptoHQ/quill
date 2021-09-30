@@ -38,6 +38,7 @@ const getComponentWithStore = (account: IAccount = fAccount, tx?: Partial<TSignT
       accounts: [account]
     },
     transactions: {
+      history: [],
       queue: [transactionRequest],
       currentTransaction: transactionRequest
     }
@@ -105,36 +106,51 @@ describe('Transaction', () => {
     const queueTx = makeQueueTx(getTransactionRequest(fAccount.address));
     const store = createMockStore({
       accounts: { accounts: [fAccount] },
-      transactions: { queue: [], currentTransaction: makeHistoryTx(queueTx, TxResult.APPROVED) }
+      transactions: {
+        history: [],
+        queue: [],
+        currentTransaction: makeHistoryTx(queueTx, TxResult.APPROVED)
+      }
     });
     const { getByText } = getComponent(store);
     expect(getByText(translateRaw('TX_RESULT_APPROVED_LABEL')).textContent).toBeDefined();
   });
 
-  it('renders adjusted nonce banner', async () => {
+  it('renders nonce conflict in queue banner', async () => {
     const queueTx = makeQueueTx(getTransactionRequest(fAccount.address));
     const store = createMockStore({
       accounts: { accounts: [fAccount] },
       transactions: {
-        queue: [queueTx],
-        currentTransaction: { ...queueTx, adjustedNonce: true }
-      }
-    });
-    const { getByText } = getComponent(store);
-    expect(getByText(translateRaw('NONCE_CHANGED')).textContent).toBeDefined();
-  });
-
-  it('renders nonce conflict banner', async () => {
-    const queueTx = makeQueueTx(getTransactionRequest(fAccount.address));
-    const store = createMockStore({
-      accounts: { accounts: [fAccount] },
-      transactions: {
+        history: [],
         queue: [queueTx, { ...queueTx, uuid: 'tx2' }],
         currentTransaction: queueTx
       }
     });
     const { getByText } = getComponent(store);
-    expect(getByText(translateRaw('NONCE_CONFLICT_IN_QUEUE')).textContent).toBeDefined();
+    expect(
+      getByText('The selected nonce is used by another transaction in your queue.', {
+        exact: false
+      }).textContent
+    ).toBeDefined();
+  });
+
+  it('renders nonce conflict banner', async () => {
+    const queueTx = makeQueueTx(getTransactionRequest(fAccount.address));
+    const historyTx = makeHistoryTx(queueTx, TxResult.APPROVED);
+    const currentTx = { ...queueTx, uuid: 'tx2' };
+    const store = createMockStore({
+      accounts: { accounts: [fAccount] },
+      transactions: {
+        history: [historyTx],
+        queue: [currentTx],
+        currentTransaction: currentTx
+      }
+    });
+    const { getByText } = getComponent(store);
+    expect(
+      getByText('The selected nonce has been used in another transaction.', { exact: false })
+        .textContent
+    ).toBeDefined();
   });
 
   it('renders nonce out of order banner', async () => {
@@ -142,6 +158,7 @@ describe('Transaction', () => {
     const store = createMockStore({
       accounts: { accounts: [fAccount] },
       transactions: {
+        history: [],
         queue: [queueTx, { ...queueTx, uuid: 'tx2', tx: { ...queueTx.tx, nonce: '0x5' } }],
         currentTransaction: queueTx
       }
@@ -157,6 +174,7 @@ describe('Transaction', () => {
     const store = createMockStore({
       accounts: { accounts: [fAccount] },
       transactions: {
+        history: [],
         queue: [],
         currentTransaction: history
       }

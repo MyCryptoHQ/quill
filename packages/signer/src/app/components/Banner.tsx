@@ -1,6 +1,6 @@
 import { Body, Box, Flex, Image } from '@mycrypto/ui';
 import type { BannerType } from '@signer/common';
-import type { PropsWithChildren } from 'react';
+import type { PropsWithChildren, ReactElement } from 'react';
 import { useState } from 'react';
 
 import error from '@assets/icons/alert-red.svg';
@@ -14,7 +14,7 @@ import { Badge } from './Badge';
 
 interface BannerProps {
   type: BannerType;
-  label: string;
+  label: string | ReactElement;
   badge?: string;
   extended?: boolean;
 }
