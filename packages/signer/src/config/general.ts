@@ -9,4 +9,3 @@ export const KEYTAR_SETTINGS_KEY_NAME = 'Settings Key';
 export const KEYTAR_SALT_NAME = 'Salt';
 
 export const REQUEST_LOGIN_TIMEOUT = 30 * 1000; // 30 seconds
-export const AUTO_LOCK_TIMEOUT = 5 * 60 * 1000; // 5 minutes

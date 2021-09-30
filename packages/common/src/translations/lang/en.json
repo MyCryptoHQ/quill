@@ -203,6 +203,12 @@
     "SHOW_SIGNED_TRANSACTION": "Show Signed Transaction",
     "HIDE_SIGNED_TRANSACTION": "Hide Signed Transaction",
     "ACCOUNTS_EMPTY_HEADER": "You have not yet added an account to the Signer",
-    "ACCOUNTS_EMPTY_BODY": "Add your first account below"
+    "ACCOUNTS_EMPTY_BODY": "Add your first account below",
+    "TIME_MINUTE": "$value minute",
+    "TIME_MINUTES": "$value minutes",
+    "TIME_HOUR": "$value hour",
+    "TIME_HOURS": "$value hours",
+    "SETTINGS": "Settings",
+    "ACCOUNTS": "Accounts"
   }
 }

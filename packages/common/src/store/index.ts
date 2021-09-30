@@ -65,3 +65,8 @@ export { default as uiSlice } from './ui.slice';
 export * from './ui.slice';
 export { default as wsSlice } from './ws.slice';
 export * from './ws.slice';
+export {
+  setAutoLockTimeout,
+  getAutoLockTimeout,
+  default as appSettingsSlice
+} from './appSettings.slice';

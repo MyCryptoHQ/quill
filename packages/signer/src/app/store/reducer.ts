@@ -1,5 +1,6 @@
 import {
   accountsSlice,
+  appSettingsSlice,
   authSlice,
   createPersistReducer,
   flowSlice,
@@ -35,7 +36,11 @@ export const createRootReducer = (history: History) => {
       permissionsSlice.reducer
     ),
     [flowSlice.name]: flowSlice.reducer,
-    [uiSlice.name]: uiSlice.reducer
+    [uiSlice.name]: uiSlice.reducer,
+    [appSettingsSlice.name]: createPersistReducer(
+      { key: appSettingsSlice.name, whitelistedActions: [], whitelistedKeys: [] },
+      appSettingsSlice.reducer
+    )
   });
 
   return wrapRootReducer(reducer);

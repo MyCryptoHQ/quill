@@ -1,15 +1,16 @@
 import { Heading } from '@mycrypto/ui';
-import { setNavigationBack } from '@signer/common';
+import { setNavigationBack, translateRaw } from '@signer/common';
 import React, { useEffect } from 'react';
 
 import { useDispatch } from '@app/store';
 import aboutIcon from '@assets/icons/about.svg';
-import deleteIcon from '@assets/icons/circle-delete.svg';
+import addressBookIcon from '@assets/icons/addressbook.svg';
 import { Container } from '@components';
 import { ROUTE_PATHS } from '@routing';
 
 import { AutoLockSettings } from './AutoLockSettings';
 import { SettingsLink } from './SettingsLink';
+import { SettingsQuit } from './SettingsQuit';
 
 export const Settings = () => {
   const dispatch = useDispatch();
@@ -23,11 +24,15 @@ export const Settings = () => {
   return (
     <Container>
       <Heading fontSize="24px" lineHeight="150%" mb="1">
-        Settings
+        {translateRaw('Settings')}
       </Heading>
-      <SettingsLink icon={deleteIcon} label="Accounts" href={ROUTE_PATHS.ACCOUNTS} />
+      <SettingsLink
+        icon={addressBookIcon}
+        label={translateRaw('ACCOUNTS')}
+        href={ROUTE_PATHS.ACCOUNTS}
+      />
       <AutoLockSettings />
-      <SettingsLink icon={deleteIcon} label="Quit App" href={ROUTE_PATHS.ACCOUNTS} />
+      <SettingsQuit />
       <SettingsLink icon={aboutIcon} label="About" href={ROUTE_PATHS.ACCOUNTS} />
     </Container>
   );

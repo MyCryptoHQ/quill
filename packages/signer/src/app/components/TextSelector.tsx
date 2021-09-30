@@ -4,7 +4,7 @@ import { Box } from '@app/components';
 
 import Selector from './Core/Selector';
 
-interface OptionType<T> {
+export interface OptionType<T> {
   label: string;
   value: T;
 }

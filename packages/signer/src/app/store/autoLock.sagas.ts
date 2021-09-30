@@ -1,8 +1,6 @@
-import { getLoggedIn, logout } from '@signer/common';
+import { getAutoLockTimeout, getLoggedIn, logout } from '@signer/common';
 import { eventChannel } from 'redux-saga';
 import { all, call, delay, put, race, select, take } from 'redux-saga/effects';
-
-import { AUTO_LOCK_TIMEOUT } from '@config';
 
 export function* autoLockSaga() {
   yield all([autoLockWorker()]);
@@ -19,7 +17,8 @@ export function* autoLockWorker() {
 }
 
 export function* delayedLock() {
-  yield delay(AUTO_LOCK_TIMEOUT);
+  const timeout: number = yield select(getAutoLockTimeout);
+  yield delay(timeout);
   const isLoggedIn: boolean = yield select(getLoggedIn);
   if (isLoggedIn) {
     yield put(logout());
