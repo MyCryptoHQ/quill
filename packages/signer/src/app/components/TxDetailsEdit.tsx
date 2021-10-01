@@ -5,6 +5,7 @@ import type { ComponentProps } from 'react';
 import type { FormState } from 'typed-react-form';
 
 import type { HumanReadableTx } from '@app/utils';
+import { sanitizeGasPriceInput } from '@app/utils';
 import { getChain } from '@data';
 
 import { FormInput } from './FormInput';
@@ -75,6 +76,7 @@ export const TxDetailsEdit = ({ form }: { form: FormState<EditTxType> }) => {
         name="gasPrice"
         unit="Gwei"
         form={form}
+        processInput={sanitizeGasPriceInput}
       />
       <ValidatedListener
         form={form}

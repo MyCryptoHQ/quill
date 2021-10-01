@@ -23,3 +23,13 @@ export const fromHumanReadable = (tx: HumanReadableTx) => ({
   value: parseEther(bigify(tx.value).toString(10)).toHexString(),
   nonce: addHexPrefix(bigify(tx.nonce).toString(16))
 });
+
+export const sanitizeGasPriceInput = (input: string) => {
+  const val = input.replace(',', '.');
+
+  const split = val.toString().split('.');
+  if (split.length > 1) {
+    return `${split[0]}.${split[1].substring(0, 9)}`;
+  }
+  return val;
+};
