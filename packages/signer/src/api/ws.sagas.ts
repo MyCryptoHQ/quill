@@ -209,11 +209,19 @@ export function* handleRequest({ socket, request, data }: WebSocketMessage) {
   // Dont serve requests with invalid nonces
   const isValidNonce: boolean = yield call(verifyRequestNonce, jsonRpcRequest, publicKey);
   if (!isValidNonce) {
+    const expectedNonce: number = yield select(getNonce(publicKey));
+
     return socket.send(
       JSON.stringify(
         toJsonRpcResponse({
           id: jsonRpcRequest.id,
-          error: { code: '-32600', message: 'Invalid request nonce' }
+          error: {
+            code: '-32600',
+            message: 'Invalid request nonce',
+            data: {
+              expectedNonce
+            }
+          }
         })
       )
     );
