@@ -35,6 +35,11 @@ describe('Accounts', () => {
     expect(getByText(fAccount.address).textContent).toBeDefined();
   });
 
+  it('renders empty state', async () => {
+    const { getByText } = getComponent(createMockStore({ accounts: { accounts: [] } }));
+    expect(getByText(translateRaw('ACCOUNTS_EMPTY_HEADER')).textContent).toBeDefined();
+  });
+
   it('can delete an account', async () => {
     const { getByTestId, getByText } = getComponent();
     const addressText = getByText(fAccount.address);

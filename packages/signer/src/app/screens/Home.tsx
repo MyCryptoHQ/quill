@@ -30,9 +30,9 @@ export const Home = () => {
   if (queue.length === 0 && txHistory.length === 0) {
     return (
       <>
-        <Container pt="5">
+        <Container pt="4">
           <Box sx={{ textAlign: 'center' }}>
-            <Image alt="Wallet" src={wallet} width="100px" height="100px" />
+            <Image alt="Wallet" src={wallet} />
           </Box>
           <Box maxWidth="80%" mx="auto" sx={{ textAlign: 'center' }}>
             <Heading fontSize="24px" lineHeight="150%" mt="3" mb="2">
