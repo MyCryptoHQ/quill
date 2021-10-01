@@ -85,26 +85,30 @@ export const Accounts = () => {
     return () => dispatch(setNavigationBack(undefined));
   }, []);
 
-  return accounts.length === 0 ? (
-    <>
-      <Container pt="4">
-        <Box sx={{ textAlign: 'center' }}>
-          <Image alt="Wallet" src={wallet} />
-        </Box>
-        <Box maxWidth="80%" mx="auto" sx={{ textAlign: 'center' }}>
-          <Heading fontSize="24px" lineHeight="150%" mt="3" mb="2">
-            {translateRaw('ACCOUNTS_EMPTY_HEADER')}
-          </Heading>
-          <Body variant="muted">{translateRaw('ACCOUNTS_EMPTY_BODY')}</Body>
-        </Box>
-      </Container>
-      <PanelBottom variant="clear">
-        <LinkApp href={ROUTE_PATHS.ADD_ACCOUNT}>
-          <Button>{translateRaw('MENU_ADD_ACCOUNT')}</Button>
-        </LinkApp>
-      </PanelBottom>
-    </>
-  ) : (
+  if (accounts.length === 0) {
+    return (
+      <>
+        <Container pt="4">
+          <Box sx={{ textAlign: 'center' }}>
+            <Image alt="Wallet" src={wallet} />
+          </Box>
+          <Box maxWidth="80%" mx="auto" sx={{ textAlign: 'center' }}>
+            <Heading fontSize="24px" lineHeight="150%" mt="3" mb="2">
+              {translateRaw('ACCOUNTS_EMPTY_HEADER')}
+            </Heading>
+            <Body variant="muted">{translateRaw('ACCOUNTS_EMPTY_BODY')}</Body>
+          </Box>
+        </Container>
+        <PanelBottom variant="clear">
+          <LinkApp href={ROUTE_PATHS.ADD_ACCOUNT}>
+            <Button>{translateRaw('MENU_ADD_ACCOUNT')}</Button>
+          </LinkApp>
+        </PanelBottom>
+      </>
+    );
+  }
+
+  return (
     <Container>
       <Heading fontSize="24px" lineHeight="150%" mb="1">
         {translateRaw('YOUR_ACCOUNTS')}
