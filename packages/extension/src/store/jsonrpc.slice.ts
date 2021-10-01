@@ -1,5 +1,5 @@
 import { FallbackProvider, JsonRpcProvider } from '@ethersproject/providers';
-import type { PayloadAction, Slice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import { all, call, select, takeEvery } from 'redux-saga/effects';
 
@@ -23,7 +23,7 @@ const initialState: JsonRpcState = {
 
 const sliceName = 'jsonrpc';
 
-const slice: Slice<JsonRpcState> = createSlice({
+const slice = createSlice({
   name: sliceName,
   initialState,
   reducers: {

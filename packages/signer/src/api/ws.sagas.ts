@@ -1,5 +1,6 @@
 import type { ActionCreatorWithPayload, PayloadAction } from '@reduxjs/toolkit';
 import type {
+  JsonRPCRequest,
   JsonRPCResponse,
   JsonRPCResult,
   Permission,
@@ -8,15 +9,17 @@ import type {
 } from '@signer/common';
 import {
   denyPermission,
+  getNonce,
   getPermissions,
   grantPermission,
+  incrementNonce,
   JsonRPCMethod,
   requestPermission,
   safeJSONParse,
   updatePermission
 } from '@signer/common';
 import type { IncomingMessage } from 'http';
-import type { EventChannel } from 'redux-saga';
+import type { EventChannel, SagaIterator } from 'redux-saga';
 import { eventChannel } from 'redux-saga';
 import { all, call, fork, put, select, take } from 'redux-saga/effects';
 import WebSocket from 'ws';
@@ -85,7 +88,7 @@ export const validateRequest = (
     return [
       toJsonRpcResponse({
         id: null,
-        error: { code: '-32600', message: 'Invalid Request' }
+        error: { code: '-32600', message: 'Invalid request' }
       }),
       null
     ];
@@ -95,7 +98,7 @@ export const validateRequest = (
     return [
       toJsonRpcResponse({
         id: request.id,
-        error: { code: '-32601', message: 'Unsupported Method' }
+        error: { code: '-32601', message: 'Unsupported method' }
       }),
       null
     ];
@@ -105,7 +108,7 @@ export const validateRequest = (
     return [
       toJsonRpcResponse({
         id: request.id,
-        error: { code: '-32602', message: 'Invalid Params' }
+        error: { code: '-32602', message: 'Invalid params' }
       }),
       null
     ];
@@ -146,6 +149,27 @@ const getOriginHost = (request: IncomingMessage) => {
   }
 };
 
+/**
+ * Verifies the JSON-RPC request nonce based on the ID and public key. Nonces start with 0 and must
+ * be incremented by one for each subsequent request.
+ *
+ * The next required nonce is automatically incremented if the request nonce is valid.
+ */
+export function* verifyRequestNonce(
+  request: JsonRPCRequest,
+  publicKey: string
+): SagaIterator<boolean> {
+  const nonce = typeof request.id === 'string' ? parseInt(request.id, 10) : request.id;
+  const expectedNonce: number = yield select(getNonce(publicKey));
+
+  if (nonce === expectedNonce) {
+    yield put(incrementNonce(publicKey));
+    return true;
+  }
+
+  return false;
+}
+
 export function* handleRequest({ socket, request, data }: WebSocketMessage) {
   const [error, fullRequest] = validateRequest(data);
   if (error) {
@@ -162,22 +186,34 @@ export function* handleRequest({ socket, request, data }: WebSocketMessage) {
       JSON.stringify(
         toJsonRpcResponse({
           id: jsonRpcRequest.id,
-          error: { code: '-32600', message: 'Invalid Request' }
+          error: { code: '-32600', message: 'Invalid request' }
         })
       )
     );
   }
 
-  const isVerified: boolean = yield call(verifyRequest, signature, jsonRpcRequest, publicKey);
-
   // Dont serve invalid signed requests
+  const isVerified: boolean = yield call(verifyRequest, signature, jsonRpcRequest, publicKey);
   if (!isVerified) {
     // @todo Decide what error message to use
     return socket.send(
       JSON.stringify(
         toJsonRpcResponse({
           id: jsonRpcRequest.id,
-          error: { code: '-32600', message: 'Invalid Request' }
+          error: { code: '-32600', message: 'Invalid request' }
+        })
+      )
+    );
+  }
+
+  // Dont serve requests with invalid nonces
+  const isValidNonce: boolean = yield call(verifyRequestNonce, jsonRpcRequest, publicKey);
+  if (!isValidNonce) {
+    return socket.send(
+      JSON.stringify(
+        toJsonRpcResponse({
+          id: jsonRpcRequest.id,
+          error: { code: '-32600', message: 'Invalid request nonce' }
         })
       )
     );
@@ -199,7 +235,7 @@ export function* handleRequest({ socket, request, data }: WebSocketMessage) {
         JSON.stringify(
           toJsonRpcResponse({
             id: jsonRpcRequest.id,
-            error: { code: '4001', message: 'The user rejected the request.' }
+            error: { code: '4001', message: 'The user rejected the request' }
           })
         )
       );

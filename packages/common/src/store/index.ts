@@ -63,3 +63,5 @@ export { default as flowSlice } from './flow.slice';
 export * from './flow.slice';
 export { default as uiSlice } from './ui.slice';
 export * from './ui.slice';
+export { default as wsSlice } from './ws.slice';
+export * from './ws.slice';

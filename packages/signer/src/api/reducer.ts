@@ -6,12 +6,14 @@ import {
   persistenceSlice,
   synchronizationSlice,
   transactionsSlice,
-  wrapRootReducer
+  wrapRootReducer,
+  wsSlice
 } from '@signer/common';
 
 import { persistedReducer as accountsReducer } from './account.persist';
 import { persistedReducer as permissionsReducer } from './permissions.persist';
 import { persistedReducer as transactionsReducer } from './transactions.persist';
+import { persistedReducer as wsReducer } from './ws.persist';
 
 export const createRootReducer = () => {
   const reducer = combineReducers({
@@ -20,7 +22,8 @@ export const createRootReducer = () => {
     [authSlice.name]: authSlice.reducer,
     [accountsSlice.name]: accountsReducer,
     [transactionsSlice.name]: transactionsReducer,
-    [permissionsSlice.name]: permissionsReducer
+    [permissionsSlice.name]: permissionsReducer,
+    [wsSlice.name]: wsReducer
   });
 
   return wrapRootReducer(reducer);

@@ -16,6 +16,7 @@ import slice, {
   handleRequest,
   handleRequestWorker,
   handleResponseWorker,
+  incrementNonce,
   message,
   send,
   setConnected,
@@ -45,6 +46,12 @@ describe('SocketsSlice', () => {
     it('sets the connection status', () => {
       expect(slice.reducer(undefined, setConnected(true)).isConnected).toBe(true);
       expect(slice.reducer(undefined, setConnected(false)).isConnected).toBe(false);
+    });
+  });
+
+  describe('incrementNonce', () => {
+    it('increments the nonce by one', () => {
+      expect(slice.reducer(undefined, incrementNonce()).nonce).toBe(1);
     });
   });
 });
@@ -86,13 +93,18 @@ describe('handleRequestWorker', () => {
         tabId: 0
       })
     )
-      .put(send(request))
-      .call(waitForResponse, 'foo')
-      .dispatch(message({ jsonrpc: '2.0', id: 'foo', result: 'bar' }))
+      .withState({
+        sockets: {
+          nonce: 0
+        }
+      })
+      .put(send({ ...request, id: 0 }))
+      .call(waitForResponse, 0)
+      .dispatch(message({ jsonrpc: '2.0', id: 0, result: 'bar' }))
       .silentRun();
 
     expect(chrome.tabs.sendMessage).toHaveBeenCalledWith(0, {
-      id: 'foo',
+      id: 0,
       target: RelayTarget.Content,
       data: 'bar'
     });
