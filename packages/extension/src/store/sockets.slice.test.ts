@@ -16,6 +16,7 @@ import slice, {
   handleRequest,
   handleRequestWorker,
   handleResponseWorker,
+  incrementNonce,
   message,
   send,
   setConnected,
@@ -45,6 +46,12 @@ describe('SocketsSlice', () => {
     it('sets the connection status', () => {
       expect(slice.reducer(undefined, setConnected(true)).isConnected).toBe(true);
       expect(slice.reducer(undefined, setConnected(false)).isConnected).toBe(false);
+    });
+  });
+
+  describe('incrementNonce', () => {
+    it('increments the nonce by one', () => {
+      expect(slice.reducer(undefined, incrementNonce()).nonce).toBe(1);
     });
   });
 });
