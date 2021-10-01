@@ -98,6 +98,7 @@ export function* waitForResponse(id: string | number) {
  */
 export function* handleRequestWorker({ payload }: ReturnType<typeof handleRequest>) {
   const state: ApplicationState = yield select((state) => state);
+  // The nonce to use as JSON-RPC request ID
   const id = state.sockets.nonce;
 
   const normalizedRequest: JsonRPCRequest = yield call(normalizeRequest, payload.request, state);

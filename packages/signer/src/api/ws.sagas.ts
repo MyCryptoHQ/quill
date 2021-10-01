@@ -150,8 +150,10 @@ const getOriginHost = (request: IncomingMessage) => {
 };
 
 /**
- * Verifies the JSON-RPC request nonce based on the ID and public key. If the nonce is valid, the
- * expected nonce is automatically incremented.
+ * Verifies the JSON-RPC request nonce based on the ID and public key. Nonces start with 0 and must
+ * be incremented by one for each subsequent request.
+ *
+ * The next required nonce is automatically incremented if the request nonce is valid.
  */
 export function* verifyRequestNonce(
   request: JsonRPCRequest,

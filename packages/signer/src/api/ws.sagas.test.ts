@@ -366,6 +366,38 @@ describe('handleRequest', () => {
       .silentRun();
   });
 
+  it("doesn't allow request if the nonce is invalid", async () => {
+    const { params: _, ...accountsRequest } = createJsonRpcRequest(JsonRPCMethod.Accounts);
+    const signedRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      accountsRequest
+    );
+
+    await expectSaga(handleRequest, { socket, request, data: JSON.stringify(signedRequest) })
+      .withState({
+        permissions: { permissions: [{ origin: fRequestOrigin, publicKey: fRequestPublicKey }] },
+        ws: {
+          nonces: {
+            [fRequestPublicKey]: 1
+          }
+        }
+      })
+      .not.put(requestAccounts({ origin: fRequestOrigin, request: accountsRequest }))
+      .silentRun();
+
+    expect(socket.send).toHaveBeenCalledWith(
+      JSON.stringify({
+        jsonrpc: '2.0',
+        id: 0,
+        error: {
+          code: '-32600',
+          message: 'Invalid request nonce'
+        }
+      })
+    );
+  });
+
   it('allows request if permissions approved', async () => {
     const { params: _, ...accountsRequest } = createJsonRpcRequest(JsonRPCMethod.Accounts);
     const signedRequest = await createSignedJsonRpcRequest(

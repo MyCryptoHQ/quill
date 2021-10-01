@@ -4,7 +4,7 @@ import { createPersistReducer, incrementNonce, wsSlice } from '@signer/common';
 const persistConfig: PersistConfig = {
   key: wsSlice.name,
   whitelistedActions: [incrementNonce.type],
-  whitelistedKeys: []
+  whitelistedKeys: ['nonces']
 };
 
 export const persistedReducer = createPersistReducer(persistConfig, wsSlice.reducer);
