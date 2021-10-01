@@ -32,7 +32,7 @@ export const FormInput = <
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const processed = processInput ? processInput(value) : value;
-    setValue(processed as never);
+    setValue((processed as unknown) as T[string & Key]);
   };
 
   return (
