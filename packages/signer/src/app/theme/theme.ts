@@ -111,7 +111,7 @@ const BUTTON_VARIANTS = {
 
 const overrideTheme = {
   colors: {
-    DEFAULT_BACKGROUND: '#fbfbfb',
+    DEFAULT_BACKGROUND: '#ffffff',
 
     // BLUE
     BLUE: '#027796',
