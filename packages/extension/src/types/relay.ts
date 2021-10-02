@@ -45,7 +45,12 @@ export const JsonRpcResponseStruct = object({
   error: optional(
     object({
       code: union([string(), number()]),
-      message: string()
+      message: string(),
+      data: optional(
+        object({
+          expectedNonce: number()
+        })
+      )
     })
   )
 });

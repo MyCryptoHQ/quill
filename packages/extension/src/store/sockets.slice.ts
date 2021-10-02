@@ -51,6 +51,9 @@ const slice = createSlice({
     },
     incrementNonce(state) {
       state.nonce++;
+    },
+    setNonce(state, action: PayloadAction<number>) {
+      state.nonce = action.payload;
     }
   }
 });
@@ -63,7 +66,7 @@ export const handleRequest = createAction<{ request: JsonRPCRequest; tabId: numb
   `${sliceName}/handleRequest`
 );
 
-export const { setPrivateKey, setConnected, incrementNonce } = slice.actions;
+export const { setPrivateKey, setConnected, incrementNonce, setNonce } = slice.actions;
 export default slice;
 
 export function* socketsSaga() {
@@ -96,7 +99,10 @@ export function* waitForResponse(id: string | number) {
 /**
  * Handles JSON-RPC requests sent to the signer.
  */
-export function* handleRequestWorker({ payload }: ReturnType<typeof handleRequest>) {
+export function* handleRequestWorker(
+  { payload }: ReturnType<typeof handleRequest>,
+  retryNonce = false
+): SagaIterator {
   const state: ApplicationState = yield select((state) => state);
   // The nonce to use as JSON-RPC request ID
   const id = state.sockets.nonce;
@@ -107,6 +113,12 @@ export function* handleRequestWorker({ payload }: ReturnType<typeof handleReques
   yield put(incrementNonce());
 
   const response: JsonRpcResponse = yield call(waitForResponse, id);
+  if (isJsonRpcError(response) && !retryNonce && response.error.data?.expectedNonce) {
+    yield put(setNonce(response.error.data.expectedNonce));
+    yield put(handleRequest(payload));
+    return;
+  }
+
   yield call(handleResponseWorker, { request: payload.request, response });
 
   chrome.tabs.sendMessage(payload.tabId, {
