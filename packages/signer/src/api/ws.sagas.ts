@@ -23,11 +23,12 @@ import {
 import type { IncomingMessage } from 'http';
 import type { EventChannel, SagaIterator } from 'redux-saga';
 import { eventChannel } from 'redux-saga';
-import { all, call, delay, fork, put, race, select, take } from 'redux-saga/effects';
+import { all, call, fork, put, race, select, take } from 'redux-saga/effects';
 import WebSocket from 'ws';
 
 import { REQUEST_LOGIN_TIMEOUT, WS_PORT } from '@config';
 import {
+  delay,
   isValidMethod,
   isValidParams,
   isValidRequest,
@@ -134,7 +135,7 @@ export function* waitForLogin() {
 
   // Wait for a second to allow the state to rehydrate
   // @todo: Figure out a better solution for this
-  yield delay(1000);
+  yield call(delay, 1000);
 }
 
 export function* waitForResponse(id: string | number) {
@@ -198,7 +199,7 @@ export function* handleRequest({ socket, request, data }: WebSocketMessage) {
 
   const { timeout } = yield race({
     login: call(waitForLogin),
-    timeout: delay(REQUEST_LOGIN_TIMEOUT)
+    timeout: call(delay, REQUEST_LOGIN_TIMEOUT)
   });
 
   if (timeout) {

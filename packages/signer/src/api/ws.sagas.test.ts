@@ -4,6 +4,7 @@ import {
   grantPermission,
   incrementNonce,
   JsonRPCMethod,
+  loginSuccess,
   requestPermission
 } from '@signer/common';
 import type { IncomingMessage } from 'http';
@@ -18,7 +19,7 @@ import {
   fSignedTx,
   fTxRequest
 } from '@fixtures';
-import { createJsonRpcRequest, createSignedJsonRpcRequest } from '@utils';
+import { createJsonRpcRequest, createSignedJsonRpcRequest, delay } from '@utils';
 
 import {
   createWebSocketServer,
@@ -26,6 +27,7 @@ import {
   requestWatcherWorker,
   validateRequest,
   verifyRequestNonce,
+  waitForLogin,
   waitForPermissions,
   waitForResponse
 } from './ws.sagas';
@@ -158,6 +160,32 @@ describe('validateRequest', () => {
     );
 
     expect(validateRequest(JSON.stringify(signedRequest))).toStrictEqual([null, signedRequest]);
+  });
+});
+
+describe('waitForLogin', () => {
+  it('returns immediately when logged in', async () => {
+    await expectSaga(waitForLogin)
+      .withState({
+        auth: {
+          loggedIn: true
+        }
+      })
+      .not.take(loginSuccess)
+      .silentRun();
+  });
+
+  it('waits for loginSuccess to be dispatched', async () => {
+    await expectSaga(waitForLogin)
+      .withState({
+        auth: {
+          loggedIn: false
+        }
+      })
+      .take(loginSuccess)
+      .dispatch(loginSuccess())
+      .call(delay, 1000)
+      .silentRun();
   });
 });
 

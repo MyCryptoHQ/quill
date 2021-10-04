@@ -1,3 +1,4 @@
+export * from './delay';
 export * from './encryption';
 export * from './hashing';
 export * from './jsonrpc';
