@@ -261,6 +261,9 @@ describe('handleRequest', () => {
           nonces: {
             [fRequestPublicKey]: 0
           }
+        },
+        auth: {
+          loggedIn: true
         }
       })
       .put(requestAccounts({ origin: fRequestOrigin, request: accountsRequest }))
@@ -294,6 +297,9 @@ describe('handleRequest', () => {
           nonces: {
             [fRequestPublicKey]: 0
           }
+        },
+        auth: {
+          loggedIn: true
         }
       })
       .put(requestSignTransaction({ origin: fRequestOrigin, request: fTxRequest }))
@@ -330,6 +336,9 @@ describe('handleRequest', () => {
           nonces: {
             [fRequestPublicKey]: 0
           }
+        },
+        auth: {
+          loggedIn: true
         }
       })
       .put(requestPermission(permission))
@@ -352,6 +361,9 @@ describe('handleRequest', () => {
           nonces: {
             [fRequestPublicKey]: 0
           }
+        },
+        auth: {
+          loggedIn: true
         }
       })
       .put(requestPermission(permission))
@@ -381,6 +393,9 @@ describe('handleRequest', () => {
           nonces: {
             [fRequestPublicKey]: 1
           }
+        },
+        auth: {
+          loggedIn: true
         }
       })
       .not.put(requestAccounts({ origin: fRequestOrigin, request: accountsRequest }))
@@ -416,6 +431,9 @@ describe('handleRequest', () => {
           nonces: {
             [fRequestPublicKey]: 0
           }
+        },
+        auth: {
+          loggedIn: true
         }
       })
       .put(requestPermission(permission))
@@ -432,11 +450,18 @@ describe('handleRequest', () => {
       fRequestPublicKey,
       accountsRequest
     );
+
     await expectSaga(handleRequest, {
       socket,
       request: {} as IncomingMessage,
       data: JSON.stringify(signedRequest)
-    }).silentRun();
+    })
+      .withState({
+        auth: {
+          loggedIn: true
+        }
+      })
+      .silentRun();
 
     expect(socket.send).toHaveBeenCalledWith(
       JSON.stringify({
@@ -461,7 +486,13 @@ describe('handleRequest', () => {
       socket,
       request,
       data: JSON.stringify(invalidSignedRequest)
-    }).silentRun();
+    })
+      .withState({
+        auth: {
+          loggedIn: true
+        }
+      })
+      .silentRun();
 
     expect(socket.send).toHaveBeenCalledWith(
       JSON.stringify({

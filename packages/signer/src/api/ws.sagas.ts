@@ -9,11 +9,13 @@ import type {
 } from '@signer/common';
 import {
   denyPermission,
+  getLoggedIn,
   getNonce,
   getPermissions,
   grantPermission,
   incrementNonce,
   JsonRPCMethod,
+  loginSuccess,
   requestPermission,
   safeJSONParse,
   updatePermission
@@ -21,10 +23,10 @@ import {
 import type { IncomingMessage } from 'http';
 import type { EventChannel, SagaIterator } from 'redux-saga';
 import { eventChannel } from 'redux-saga';
-import { all, call, fork, put, select, take } from 'redux-saga/effects';
+import { all, call, delay, fork, put, race, select, take } from 'redux-saga/effects';
 import WebSocket from 'ws';
 
-import { WS_PORT } from '@config';
+import { REQUEST_LOGIN_TIMEOUT, WS_PORT } from '@config';
 import {
   isValidMethod,
   isValidParams,
@@ -117,6 +119,24 @@ export const validateRequest = (
   return [null, request];
 };
 
+/**
+ * Waits for the user to log in before returning. If the user is already logged in, this returns
+ * immediately. Once the user is logged in, there is a delay of one second to allow the state to
+ * rehydrate.
+ */
+export function* waitForLogin() {
+  const isLoggedIn: boolean = yield select(getLoggedIn);
+  if (isLoggedIn) {
+    return;
+  }
+
+  yield take(loginSuccess);
+
+  // Wait for a second to allow the state to rehydrate
+  // @todo: Figure out a better solution for this
+  yield delay(1000);
+}
+
 export function* waitForResponse(id: string | number) {
   while (true) {
     const { payload }: PayloadAction<JsonRPCResult> = yield take(reply);
@@ -174,6 +194,26 @@ export function* handleRequest({ socket, request, data }: WebSocketMessage) {
   const [error, fullRequest] = validateRequest(data);
   if (error) {
     return socket.send(JSON.stringify(error));
+  }
+
+  const { timeout } = yield race({
+    login: call(waitForLogin),
+    timeout: delay(REQUEST_LOGIN_TIMEOUT)
+  });
+
+  if (timeout) {
+    return socket.send(
+      JSON.stringify(
+        toJsonRpcResponse({
+          id: fullRequest.id,
+          error: {
+            // @todo: See if there is a better error code for this
+            code: '4001',
+            message: 'User rejected request'
+          }
+        })
+      )
+    );
   }
 
   const { signature, publicKey, ...jsonRpcRequest } = fullRequest;
