@@ -32,12 +32,9 @@ export const AutoLockSettings = () => {
   const handlePropagation = (e: MouseEvent) => e.stopPropagation();
 
   return (
-    <SettingsAccordion icon={lockIcon} label="Auto-Lock Timer">
-      <Body>
-        The inactivity timer functionality locks the Signer after you have been idle for a specified
-        period of time. Note: Your password is required to unlock.
-      </Body>
-      <Body mt="2">Lock the Signer after I've been inactive for:</Body>
+    <SettingsAccordion icon={lockIcon} label={translateRaw('AUTO_LOCK_TIMER')}>
+      <Body>{translateRaw('AUTO_LOCK_TIMER_BODY')}</Body>
+      <Body mt="2">{translateRaw('AUTO_LOCK_TIMER_LABEL')}</Body>
       <Box mt="2" onClick={handlePropagation}>
         <TextSelector options={options} value={value} onChange={handleChange} />
       </Box>

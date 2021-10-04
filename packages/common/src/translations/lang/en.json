@@ -213,6 +213,9 @@
     "QUIT_APP": "Quit App",
     "CONFIRM_QUIT": "Confirm Quit",
     "CONFIRM_QUIT_BODY": "Are you sure you want to quit?",
-    "QUIT_NOW": "Quit Now"
+    "QUIT_NOW": "Quit Now",
+    "AUTO_LOCK_TIMER": "Auto-Lock Timer",
+    "AUTO_LOCK_TIMER_BODY": "The inactivity timer functionality locks the Signer after you have been idle for a specified period of time. Note: Your password is required to unlock.",
+    "AUTO_LOCK_TIMER_LABEL": "Lock the Signer after I've been inactive for:"
   }
 }
