@@ -132,6 +132,7 @@ export function* waitForLogin() {
     return;
   }
 
+  // Shows the application window on top to prompt user for login
   yield put(showWindow());
   yield take(loginSuccess);
 
