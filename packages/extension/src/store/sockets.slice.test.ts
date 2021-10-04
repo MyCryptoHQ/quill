@@ -153,7 +153,48 @@ describe('handleRequestWorker', () => {
         })
       )
       .put(setNonce(5))
-      .put(handleRequest({ request, tabId: 0 }))
+      .call(handleRequestWorker, handleRequest({ request, tabId: 0 }), true)
+      .silentRun();
+  });
+
+  it('does not retry if retryNonce is set', async () => {
+    const request = {
+      jsonrpc: '2.0' as const,
+      id: 'foo',
+      method: 'eth_accounts',
+      params: []
+    };
+
+    await expectSaga(
+      handleRequestWorker,
+      handleRequest({
+        request,
+        tabId: 0
+      }),
+      true
+    )
+      .withState({
+        sockets: {
+          nonce: 0
+        }
+      })
+      .put(send({ ...request, id: 0 }))
+      .call(waitForResponse, 0)
+      .dispatch(
+        message({
+          jsonrpc: '2.0',
+          id: 0,
+          error: {
+            code: '-32600',
+            message: 'Invalid request nonce',
+            data: {
+              expectedNonce: 5
+            }
+          }
+        })
+      )
+      .not.put(setNonce(5))
+      .not.call(handleRequestWorker, handleRequest({ request, tabId: 0 }), true)
       .silentRun();
   });
 });

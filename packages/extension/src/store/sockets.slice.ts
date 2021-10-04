@@ -115,7 +115,7 @@ export function* handleRequestWorker(
   const response: JsonRpcResponse = yield call(waitForResponse, id);
   if (isJsonRpcError(response) && !retryNonce && response.error.data?.expectedNonce) {
     yield put(setNonce(response.error.data.expectedNonce));
-    yield put(handleRequest(payload));
+    yield call(handleRequestWorker, handleRequest(payload), true);
     return;
   }
 
