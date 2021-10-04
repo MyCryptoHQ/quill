@@ -20,6 +20,7 @@ import slice, {
   message,
   send,
   setConnected,
+  setNonce,
   setPrivateKey,
   socketRequestWorker,
   socketWorker,
@@ -52,6 +53,12 @@ describe('SocketsSlice', () => {
   describe('incrementNonce', () => {
     it('increments the nonce by one', () => {
       expect(slice.reducer(undefined, incrementNonce()).nonce).toBe(1);
+    });
+  });
+
+  describe('setNonce', () => {
+    it('sets the nonce', () => {
+      expect(slice.reducer(undefined, setNonce(2)).nonce).toBe(2);
     });
   });
 });
@@ -108,6 +115,88 @@ describe('handleRequestWorker', () => {
       target: RelayTarget.Content,
       data: 'bar'
     });
+  });
+
+  it('retries with the correct nonce if the nonce is invalid', async () => {
+    const request = {
+      jsonrpc: '2.0' as const,
+      id: 'foo',
+      method: 'eth_accounts',
+      params: []
+    };
+
+    await expectSaga(
+      handleRequestWorker,
+      handleRequest({
+        request,
+        tabId: 0
+      })
+    )
+      .withState({
+        sockets: {
+          nonce: 0
+        }
+      })
+      .put(send({ ...request, id: 0 }))
+      .call(waitForResponse, 0)
+      .dispatch(
+        message({
+          jsonrpc: '2.0',
+          id: 0,
+          error: {
+            code: '-32600',
+            message: 'Invalid request nonce',
+            data: {
+              expectedNonce: 5
+            }
+          }
+        })
+      )
+      .put(setNonce(5))
+      .call(handleRequestWorker, handleRequest({ request, tabId: 0 }), true)
+      .returns('@@redux-saga/TASK_CANCEL')
+      .silentRun();
+  });
+
+  it('does not retry if retryNonce is set', async () => {
+    const request = {
+      jsonrpc: '2.0' as const,
+      id: 'foo',
+      method: 'eth_accounts',
+      params: []
+    };
+
+    await expectSaga(
+      handleRequestWorker,
+      handleRequest({
+        request,
+        tabId: 0
+      }),
+      true
+    )
+      .withState({
+        sockets: {
+          nonce: 0
+        }
+      })
+      .put(send({ ...request, id: 0 }))
+      .call(waitForResponse, 0)
+      .dispatch(
+        message({
+          jsonrpc: '2.0',
+          id: 0,
+          error: {
+            code: '-32600',
+            message: 'Invalid request nonce',
+            data: {
+              expectedNonce: 5
+            }
+          }
+        })
+      )
+      .not.put(setNonce(5))
+      .not.call(handleRequestWorker, handleRequest({ request, tabId: 0 }), true)
+      .silentRun();
   });
 });
 

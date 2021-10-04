@@ -392,7 +392,10 @@ describe('handleRequest', () => {
         id: 0,
         error: {
           code: '-32600',
-          message: 'Invalid request nonce'
+          message: 'Invalid request nonce',
+          data: {
+            expectedNonce: 1
+          }
         }
       })
     );
