@@ -37,6 +37,7 @@ import {
 } from '@utils';
 
 import { getWalletPermissions, requestWalletPermissions } from './permissions.sagas';
+import { showWindow } from './userAttention.sagas';
 import { reply, requestAccounts, requestSignTransaction } from './ws.slice';
 
 interface WebSocketMessage {
@@ -131,6 +132,7 @@ export function* waitForLogin() {
     return;
   }
 
+  yield put(showWindow());
   yield take(loginSuccess);
 
   // Wait for a second to allow the state to rehydrate

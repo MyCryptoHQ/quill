@@ -11,6 +11,7 @@ import type { IncomingMessage } from 'http';
 import { expectSaga } from 'redux-saga-test-plan';
 import WebSocket from 'ws';
 
+import { showWindow } from '@api/userAttention.sagas';
 import {
   fAccount,
   fRequestOrigin,
@@ -182,6 +183,7 @@ describe('waitForLogin', () => {
           loggedIn: false
         }
       })
+      .put(showWindow())
       .take(loginSuccess)
       .dispatch(loginSuccess())
       .call(delay, 1000)
