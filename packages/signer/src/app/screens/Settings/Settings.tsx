@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 
 import { useDispatch } from '@app/store';
 import addressBookIcon from '@assets/icons/addressbook.svg';
-import deleteIcon from '@assets/icons/circle-delete.svg';
+import quitIcon from '@assets/icons/quit.svg';
 import { Container } from '@components';
 import { ROUTE_PATHS } from '@routing';
 
@@ -34,7 +34,7 @@ export const Settings = () => {
       />
       <AutoLockSettings />
       <SettingsConfirm
-        icon={deleteIcon}
+        icon={quitIcon}
         label={translateRaw('QUIT_APP')}
         heading={translateRaw('CONFIRM_QUIT')}
         body={translateRaw('CONFIRM_QUIT_BODY')}
