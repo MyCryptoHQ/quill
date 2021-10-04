@@ -154,6 +154,7 @@ describe('handleRequestWorker', () => {
       )
       .put(setNonce(5))
       .call(handleRequestWorker, handleRequest({ request, tabId: 0 }), true)
+      .returns('@@redux-saga/TASK_CANCEL')
       .silentRun();
   });
 
