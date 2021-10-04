@@ -209,6 +209,10 @@
     "TIME_HOUR": "$value hour",
     "TIME_HOURS": "$value hours",
     "SETTINGS": "Settings",
-    "ACCOUNTS": "Accounts"
+    "ACCOUNTS": "Accounts",
+    "QUIT_APP": "Quit App",
+    "CONFIRM_QUIT": "Confirm Quit",
+    "CONFIRM_QUIT_BODY": "Are you sure you want to quit?",
+    "QUIT_NOW": "Quit Now"
   }
 }

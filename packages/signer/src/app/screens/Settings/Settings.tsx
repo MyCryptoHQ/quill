@@ -1,16 +1,16 @@
 import { Heading } from '@mycrypto/ui';
-import { setNavigationBack, translateRaw } from '@signer/common';
+import { quitApp, setNavigationBack, translateRaw } from '@signer/common';
 import React, { useEffect } from 'react';
 
 import { useDispatch } from '@app/store';
-import aboutIcon from '@assets/icons/about.svg';
 import addressBookIcon from '@assets/icons/addressbook.svg';
+import deleteIcon from '@assets/icons/circle-delete.svg';
 import { Container } from '@components';
 import { ROUTE_PATHS } from '@routing';
 
 import { AutoLockSettings } from './AutoLockSettings';
+import { SettingsConfirm } from './SettingsConfirm';
 import { SettingsLink } from './SettingsLink';
-import { SettingsQuit } from './SettingsQuit';
 
 export const Settings = () => {
   const dispatch = useDispatch();
@@ -21,6 +21,7 @@ export const Settings = () => {
     return () => dispatch(setNavigationBack(undefined));
   }, []);
 
+  const handleQuit = () => dispatch(quitApp());
   return (
     <Container>
       <Heading fontSize="24px" lineHeight="150%" mb="1">
@@ -32,8 +33,15 @@ export const Settings = () => {
         href={ROUTE_PATHS.ACCOUNTS}
       />
       <AutoLockSettings />
-      <SettingsQuit />
-      <SettingsLink icon={aboutIcon} label="About" href={ROUTE_PATHS.ACCOUNTS} />
+      <SettingsConfirm
+        icon={deleteIcon}
+        label={translateRaw('QUIT_APP')}
+        heading={translateRaw('CONFIRM_QUIT')}
+        body={translateRaw('CONFIRM_QUIT_BODY')}
+        buttonText={translateRaw('QUIT_NOW')}
+        cancelText={translateRaw('CANCEL')}
+        onConfirm={handleQuit}
+      />
     </Container>
   );
 };

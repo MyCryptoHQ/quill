@@ -4,6 +4,7 @@ import type { BrowserWindow } from 'electron';
 import { all } from 'redux-saga/effects';
 
 import { accountsSaga } from './accounts.sagas';
+import { appSettingsSaga } from './appSettings.sagas';
 import { permissionsSaga } from './permissions.sagas';
 import { settingsSaga } from './settings.sagas';
 import { transactionsSaga } from './transactions.sagas';
@@ -21,6 +22,7 @@ export default function* rootSaga(
     transactionsSaga(),
     settingsSaga(),
     permissionsSaga(),
-    userAttentionSaga(window)
+    userAttentionSaga(window),
+    appSettingsSaga()
   ]);
 }

@@ -1,5 +1,5 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { createSelector, createSlice } from '@reduxjs/toolkit';
+import { createAction, createSelector, createSlice } from '@reduxjs/toolkit';
 
 import { AUTO_LOCK_TIMEOUT } from '../config';
 import type { SliceState } from '../types';
@@ -25,6 +25,8 @@ const slice = createSlice({
 });
 
 export const { setAutoLockTimeout } = slice.actions;
+
+export const quitApp = createAction(`${sliceName}/quit`);
 
 export default slice;
 

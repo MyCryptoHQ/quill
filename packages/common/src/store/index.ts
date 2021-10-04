@@ -68,5 +68,6 @@ export * from './ws.slice';
 export {
   setAutoLockTimeout,
   getAutoLockTimeout,
+  quitApp,
   default as appSettingsSlice
 } from './appSettings.slice';
