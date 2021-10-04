@@ -16,6 +16,7 @@ import {
   incrementNonce,
   JsonRPCMethod,
   loginSuccess,
+  rehydratedAllState,
   requestPermission,
   safeJSONParse,
   updatePermission
@@ -23,12 +24,11 @@ import {
 import type { IncomingMessage } from 'http';
 import type { EventChannel, SagaIterator } from 'redux-saga';
 import { eventChannel } from 'redux-saga';
-import { all, call, fork, put, race, select, take } from 'redux-saga/effects';
+import { all, call, delay, fork, put, race, select, take } from 'redux-saga/effects';
 import WebSocket from 'ws';
 
 import { REQUEST_LOGIN_TIMEOUT, WS_PORT } from '@config';
 import {
-  delay,
   isValidMethod,
   isValidParams,
   isValidRequest,
@@ -135,10 +135,7 @@ export function* waitForLogin() {
   // Shows the application window on top to prompt user for login
   yield put(showWindow());
   yield take(loginSuccess);
-
-  // Wait for a second to allow the state to rehydrate
-  // @todo: Figure out a better solution for this
-  yield call(delay, 1000);
+  yield take(rehydratedAllState);
 }
 
 export function* waitForResponse(id: string | number) {
@@ -202,7 +199,7 @@ export function* handleRequest({ socket, request, data }: WebSocketMessage) {
 
   const { timeout } = yield race({
     login: call(waitForLogin),
-    timeout: call(delay, REQUEST_LOGIN_TIMEOUT)
+    timeout: delay(REQUEST_LOGIN_TIMEOUT)
   });
 
   if (timeout) {

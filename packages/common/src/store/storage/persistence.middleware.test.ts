@@ -1,7 +1,14 @@
 import { createAction } from '@reduxjs/toolkit';
 import configureStore from 'redux-mock-store';
 
-import { encryptSettings, fetchSettings, persistenceMiddleware, rehydrateAllState } from '..';
+import {
+  encryptSettings,
+  fetchSettings,
+  persistenceMiddleware,
+  rehydrateAllState,
+  rehydratedAllState,
+  rehydrateState
+} from '..';
 
 const createMockStore = configureStore();
 
@@ -27,6 +34,31 @@ describe('persistenceMiddleware', () => {
 
     expect(next).toHaveBeenCalled();
     expect(store.getActions()).toStrictEqual([fetchSettings('foo'), fetchSettings('bar')]);
+  });
+
+  it('dispatches rehydratedAllState if all state is rehydrated', () => {
+    const next = jest.fn();
+    const store = createMockStore({
+      persistence: {
+        rehydratedKeys: ['foo', 'bar']
+      },
+      foo: {
+        _persistence: {
+          whitelistedActions: [],
+          whitelistedKeys: []
+        }
+      },
+      bar: {
+        _persistence: {
+          whitelistedActions: [],
+          whitelistedKeys: []
+        }
+      }
+    });
+
+    persistenceMiddleware()(store)(next)(rehydrateState());
+
+    expect(store.getActions()).toStrictEqual([rehydratedAllState()]);
   });
 
   it('persists the whitelisted state if a whitelisted action is dispatched', () => {

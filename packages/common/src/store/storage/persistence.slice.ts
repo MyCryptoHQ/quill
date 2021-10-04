@@ -35,6 +35,8 @@ export const rehydrateAllState = createAction<Record<string, unknown>>(
   `${sliceName}/rehydrateAllState`
 );
 
+export const rehydratedAllState = createAction(`${sliceName}/rehydratedAllState`);
+
 export const getPersistenceState = createSelector(
   (state: { persistence: PersistenceState }) => state,
   (state) => state.persistence
