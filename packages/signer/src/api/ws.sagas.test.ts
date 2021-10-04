@@ -4,12 +4,14 @@ import {
   grantPermission,
   incrementNonce,
   JsonRPCMethod,
+  loginSuccess,
   requestPermission
 } from '@signer/common';
 import type { IncomingMessage } from 'http';
 import { expectSaga } from 'redux-saga-test-plan';
 import WebSocket from 'ws';
 
+import { showWindow } from '@api/userAttention.sagas';
 import {
   fAccount,
   fRequestOrigin,
@@ -18,7 +20,7 @@ import {
   fSignedTx,
   fTxRequest
 } from '@fixtures';
-import { createJsonRpcRequest, createSignedJsonRpcRequest } from '@utils';
+import { createJsonRpcRequest, createSignedJsonRpcRequest, delay } from '@utils';
 
 import {
   createWebSocketServer,
@@ -26,6 +28,7 @@ import {
   requestWatcherWorker,
   validateRequest,
   verifyRequestNonce,
+  waitForLogin,
   waitForPermissions,
   waitForResponse
 } from './ws.sagas';
@@ -161,6 +164,33 @@ describe('validateRequest', () => {
   });
 });
 
+describe('waitForLogin', () => {
+  it('returns immediately when logged in', async () => {
+    await expectSaga(waitForLogin)
+      .withState({
+        auth: {
+          loggedIn: true
+        }
+      })
+      .not.take(loginSuccess)
+      .silentRun();
+  });
+
+  it('waits for loginSuccess to be dispatched', async () => {
+    await expectSaga(waitForLogin)
+      .withState({
+        auth: {
+          loggedIn: false
+        }
+      })
+      .put(showWindow())
+      .take(loginSuccess)
+      .dispatch(loginSuccess())
+      .call(delay, 1000)
+      .silentRun();
+  });
+});
+
 describe('waitForResponse', () => {
   it('returns the payload if the request ID matches', async () => {
     await expectSaga(waitForResponse, 1)
@@ -261,6 +291,9 @@ describe('handleRequest', () => {
           nonces: {
             [fRequestPublicKey]: 0
           }
+        },
+        auth: {
+          loggedIn: true
         }
       })
       .put(requestAccounts({ origin: fRequestOrigin, request: accountsRequest }))
@@ -294,6 +327,9 @@ describe('handleRequest', () => {
           nonces: {
             [fRequestPublicKey]: 0
           }
+        },
+        auth: {
+          loggedIn: true
         }
       })
       .put(requestSignTransaction({ origin: fRequestOrigin, request: fTxRequest }))
@@ -315,6 +351,86 @@ describe('handleRequest', () => {
     );
   });
 
+  it('waits for the user to log in', async () => {
+    const { params: _, ...accountsRequest } = createJsonRpcRequest(JsonRPCMethod.Accounts);
+    const signedRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      accountsRequest
+    );
+
+    await expectSaga(handleRequest, { socket, request, data: JSON.stringify(signedRequest) })
+      .withState({
+        permissions: { permissions: [{ origin: fRequestOrigin, publicKey: fRequestPublicKey }] },
+        ws: {
+          nonces: {
+            [fRequestPublicKey]: 0
+          }
+        },
+        auth: {
+          loggedIn: false
+        }
+      })
+      .provide({
+        race: () => ({ login: true })
+      })
+      .put(requestAccounts({ origin: fRequestOrigin, request: accountsRequest }))
+      .call(waitForResponse, accountsRequest.id)
+      .dispatch(
+        reply({
+          id: 0,
+          result: [fAccount.address]
+        })
+      )
+      .silentRun();
+
+    expect(socket.send).toHaveBeenCalledWith(
+      JSON.stringify({
+        jsonrpc: '2.0',
+        id: 0,
+        result: [fAccount.address]
+      })
+    );
+  });
+
+  it('sends an error on login timeout', async () => {
+    const { params: _, ...accountsRequest } = createJsonRpcRequest(JsonRPCMethod.Accounts);
+    const signedRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      accountsRequest
+    );
+
+    await expectSaga(handleRequest, { socket, request, data: JSON.stringify(signedRequest) })
+      .withState({
+        permissions: { permissions: [{ origin: fRequestOrigin, publicKey: fRequestPublicKey }] },
+        ws: {
+          nonces: {
+            [fRequestPublicKey]: 0
+          }
+        },
+        auth: {
+          loggedIn: false
+        }
+      })
+      .provide({
+        race: () => ({ timeout: true })
+      })
+      .not.put(requestAccounts({ origin: fRequestOrigin, request: accountsRequest }))
+      .silentRun();
+
+    expect(socket.send).toHaveBeenCalledWith(
+      JSON.stringify({
+        jsonrpc: '2.0',
+        id: 0,
+        error: {
+          code: '4001',
+          message: 'User rejected request'
+        }
+      })
+    );
+  });
+
   it('waits for permissions if none exist', async () => {
     const { params: _, ...accountsRequest } = createJsonRpcRequest(JsonRPCMethod.Accounts);
     const signedRequest = await createSignedJsonRpcRequest(
@@ -330,6 +446,9 @@ describe('handleRequest', () => {
           nonces: {
             [fRequestPublicKey]: 0
           }
+        },
+        auth: {
+          loggedIn: true
         }
       })
       .put(requestPermission(permission))
@@ -352,6 +471,9 @@ describe('handleRequest', () => {
           nonces: {
             [fRequestPublicKey]: 0
           }
+        },
+        auth: {
+          loggedIn: true
         }
       })
       .put(requestPermission(permission))
@@ -381,6 +503,9 @@ describe('handleRequest', () => {
           nonces: {
             [fRequestPublicKey]: 1
           }
+        },
+        auth: {
+          loggedIn: true
         }
       })
       .not.put(requestAccounts({ origin: fRequestOrigin, request: accountsRequest }))
@@ -416,6 +541,9 @@ describe('handleRequest', () => {
           nonces: {
             [fRequestPublicKey]: 0
           }
+        },
+        auth: {
+          loggedIn: true
         }
       })
       .put(requestPermission(permission))
@@ -432,11 +560,18 @@ describe('handleRequest', () => {
       fRequestPublicKey,
       accountsRequest
     );
+
     await expectSaga(handleRequest, {
       socket,
       request: {} as IncomingMessage,
       data: JSON.stringify(signedRequest)
-    }).silentRun();
+    })
+      .withState({
+        auth: {
+          loggedIn: true
+        }
+      })
+      .silentRun();
 
     expect(socket.send).toHaveBeenCalledWith(
       JSON.stringify({
@@ -461,7 +596,13 @@ describe('handleRequest', () => {
       socket,
       request,
       data: JSON.stringify(invalidSignedRequest)
-    }).silentRun();
+    })
+      .withState({
+        auth: {
+          loggedIn: true
+        }
+      })
+      .silentRun();
 
     expect(socket.send).toHaveBeenCalledWith(
       JSON.stringify({
