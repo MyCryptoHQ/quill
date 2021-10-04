@@ -321,6 +321,86 @@ describe('handleRequest', () => {
     );
   });
 
+  it('waits for the user to log in', async () => {
+    const { params: _, ...accountsRequest } = createJsonRpcRequest(JsonRPCMethod.Accounts);
+    const signedRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      accountsRequest
+    );
+
+    await expectSaga(handleRequest, { socket, request, data: JSON.stringify(signedRequest) })
+      .withState({
+        permissions: { permissions: [{ origin: fRequestOrigin, publicKey: fRequestPublicKey }] },
+        ws: {
+          nonces: {
+            [fRequestPublicKey]: 0
+          }
+        },
+        auth: {
+          loggedIn: false
+        }
+      })
+      .provide({
+        race: () => ({ login: true })
+      })
+      .put(requestAccounts({ origin: fRequestOrigin, request: accountsRequest }))
+      .call(waitForResponse, accountsRequest.id)
+      .dispatch(
+        reply({
+          id: 0,
+          result: [fAccount.address]
+        })
+      )
+      .silentRun();
+
+    expect(socket.send).toHaveBeenCalledWith(
+      JSON.stringify({
+        jsonrpc: '2.0',
+        id: 0,
+        result: [fAccount.address]
+      })
+    );
+  });
+
+  it('sends an error on login timeout', async () => {
+    const { params: _, ...accountsRequest } = createJsonRpcRequest(JsonRPCMethod.Accounts);
+    const signedRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      accountsRequest
+    );
+
+    await expectSaga(handleRequest, { socket, request, data: JSON.stringify(signedRequest) })
+      .withState({
+        permissions: { permissions: [{ origin: fRequestOrigin, publicKey: fRequestPublicKey }] },
+        ws: {
+          nonces: {
+            [fRequestPublicKey]: 0
+          }
+        },
+        auth: {
+          loggedIn: false
+        }
+      })
+      .provide({
+        race: () => ({ timeout: true })
+      })
+      .not.put(requestAccounts({ origin: fRequestOrigin, request: accountsRequest }))
+      .silentRun();
+
+    expect(socket.send).toHaveBeenCalledWith(
+      JSON.stringify({
+        jsonrpc: '2.0',
+        id: 0,
+        error: {
+          code: '4001',
+          message: 'User rejected request'
+        }
+      })
+    );
+  });
+
   it('waits for permissions if none exist', async () => {
     const { params: _, ...accountsRequest } = createJsonRpcRequest(JsonRPCMethod.Accounts);
     const signedRequest = await createSignedJsonRpcRequest(
