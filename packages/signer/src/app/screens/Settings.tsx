@@ -6,12 +6,8 @@ import { useDispatch } from '@app/store';
 import addressBookIcon from '@assets/icons/addressbook.svg';
 import quitIcon from '@assets/icons/quit.svg';
 import resetIcon from '@assets/icons/reset.svg';
-import { Container } from '@components';
+import { AutoLockSettings, Container, SettingsConfirm, SettingsLink } from '@components';
 import { ROUTE_PATHS } from '@routing';
-
-import { AutoLockSettings } from './AutoLockSettings';
-import { SettingsConfirm } from './SettingsConfirm';
-import { SettingsLink } from './SettingsLink';
 
 export const Settings = () => {
   const dispatch = useDispatch();

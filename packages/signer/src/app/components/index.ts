@@ -43,3 +43,4 @@ export * from './Badge';
 export * from './ExtendableButton';
 export * from './CopyableText';
 export * from './TextSelector';
+export * from './Settings';
