@@ -5,6 +5,7 @@ import {
   incrementNonce,
   JsonRPCMethod,
   loginSuccess,
+  rehydratedAllState,
   requestPermission
 } from '@signer/common';
 import type { IncomingMessage } from 'http';
@@ -20,7 +21,7 @@ import {
   fSignedTx,
   fTxRequest
 } from '@fixtures';
-import { createJsonRpcRequest, createSignedJsonRpcRequest, delay } from '@utils';
+import { createJsonRpcRequest, createSignedJsonRpcRequest } from '@utils';
 
 import {
   createWebSocketServer,
@@ -186,7 +187,8 @@ describe('waitForLogin', () => {
       .put(showWindow())
       .take(loginSuccess)
       .dispatch(loginSuccess())
-      .call(delay, 1000)
+      .take(rehydratedAllState)
+      .dispatch(rehydratedAllState())
       .silentRun();
   });
 });

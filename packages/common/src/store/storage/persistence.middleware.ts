@@ -3,9 +3,12 @@ import type { Middleware } from '@reduxjs/toolkit';
 import {
   encryptSettings,
   fetchSettings,
+  getPersisted,
   getWhitelistedActions,
   getWhitelistedActionsByKey,
-  getWhitelistedKeys
+  getWhitelistedKeys,
+  rehydratedAllState,
+  rehydrateState
 } from '..';
 import { getPersistentKeys, rehydrateAllState } from './persistence.slice';
 
@@ -17,10 +20,15 @@ export const persistenceMiddleware = (): Middleware => (store) => (next) => (act
     return next(action);
   }
 
-  // Runs the action to make sure the state is updated before it's persisted
+  // Runs the action to make sure the state is updated
   next(action);
 
   const state = store.getState();
+  if (action.type === rehydrateState.type && getPersisted(state)) {
+    // Dispatch an action when all state is rehydrated
+    return store.dispatch(rehydratedAllState());
+  }
+
   const whitelistedActions = getWhitelistedActions(state);
   if (whitelistedActions.includes(action.type)) {
     const persistentKeys = getPersistentKeys(state);
