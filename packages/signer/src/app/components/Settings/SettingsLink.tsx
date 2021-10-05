@@ -23,7 +23,8 @@ export const SettingsLink = ({
         ':hover': {
           cursor: 'pointer',
           bg: 'BG_GREY_MUTED'
-        }
+        },
+        userSelect: 'none'
       }}
     >
       <Image src={icon} width="20px" height="20px" mr="2" />

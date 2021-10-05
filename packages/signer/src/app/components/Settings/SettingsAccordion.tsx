@@ -28,7 +28,8 @@ export const SettingsAccordion = ({
         ':hover': {
           cursor: 'pointer',
           bg: 'BG_GREY_MUTED'
-        }
+        },
+        userSelect: 'none'
       }}
     >
       <Box variant="horizontal-start">
