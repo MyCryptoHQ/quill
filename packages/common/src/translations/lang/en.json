@@ -216,6 +216,10 @@
     "QUIT_NOW": "Quit Now",
     "AUTO_LOCK_TIMER": "Auto-Lock Timer",
     "AUTO_LOCK_TIMER_BODY": "The inactivity timer functionality locks the Signer after you have been idle for a specified period of time. Note: Your password is required to unlock.",
-    "AUTO_LOCK_TIMER_LABEL": "Lock the Signer after I've been inactive for:"
+    "AUTO_LOCK_TIMER_LABEL": "Lock the Signer after I've been inactive for:",
+    "APP_RESET": "App Reset",
+    "APP_RESET_HEADING": "Confirm App Reset",
+    "APP_RESET_BODY": "Resetting the Signer will clear all of your data and settings. Are you sure you want to do this? This action cannot be reverted.",
+    "RESET_APP_BUTTON": "Reset App"
   }
 }

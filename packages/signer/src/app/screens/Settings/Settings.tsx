@@ -1,10 +1,11 @@
 import { Heading } from '@mycrypto/ui';
-import { quitApp, setNavigationBack, translateRaw } from '@signer/common';
+import { quitApp, reset, setNavigationBack, translateRaw } from '@signer/common';
 import React, { useEffect } from 'react';
 
 import { useDispatch } from '@app/store';
 import addressBookIcon from '@assets/icons/addressbook.svg';
 import quitIcon from '@assets/icons/quit.svg';
+import resetIcon from '@assets/icons/reset.svg';
 import { Container } from '@components';
 import { ROUTE_PATHS } from '@routing';
 
@@ -22,6 +23,7 @@ export const Settings = () => {
   }, []);
 
   const handleQuit = () => dispatch(quitApp());
+  const handleReset = () => dispatch(reset());
   return (
     <Container>
       <Heading fontSize="24px" lineHeight="150%" mb="1">
@@ -33,6 +35,15 @@ export const Settings = () => {
         href={ROUTE_PATHS.ACCOUNTS}
       />
       <AutoLockSettings />
+      <SettingsConfirm
+        icon={resetIcon}
+        label={translateRaw('APP_RESET')}
+        heading={translateRaw('APP_RESET_HEADING')}
+        body={translateRaw('APP_RESET_BODY')}
+        buttonText={translateRaw('RESET_APP_BUTTON')}
+        cancelText={translateRaw('CANCEL')}
+        onConfirm={handleReset}
+      />
       <SettingsConfirm
         icon={quitIcon}
         label={translateRaw('QUIT_APP')}

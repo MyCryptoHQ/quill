@@ -9,26 +9,27 @@ import lockIcon from '@assets/icons/lock.svg';
 
 import { SettingsAccordion } from './SettingsAccordion';
 
-export const AutoLockSettings = () => {
-  const options = [
-    { label: translateRaw('TIME_MINUTE', { $value: '1' }), value: 60000 },
-    { label: translateRaw('TIME_MINUTES', { $value: '3' }), value: 180000 },
-    { label: translateRaw('TIME_MINUTES', { $value: '5' }), value: 300000 },
-    { label: translateRaw('TIME_MINUTES', { $value: '10' }), value: 600000 },
-    { label: translateRaw('TIME_MINUTES', { $value: '15' }), value: 900000 },
-    { label: translateRaw('TIME_MINUTES', { $value: '30' }), value: 1800000 },
-    { label: translateRaw('TIME_MINUTES', { $value: '45' }), value: 2700000 },
-    { label: translateRaw('TIME_HOUR', { $value: '1' }), value: 3600000 },
-    { label: translateRaw('TIME_HOURS', { $value: '3' }), value: 10800000 },
-    { label: translateRaw('TIME_HOURS', { $value: '6' }), value: 21600000 },
-    { label: translateRaw('TIME_HOURS', { $value: '12' }), value: 43200000 }
-  ];
+const options = [
+  { label: translateRaw('TIME_MINUTE', { $value: '1' }), value: 60000 },
+  { label: translateRaw('TIME_MINUTES', { $value: '3' }), value: 180000 },
+  { label: translateRaw('TIME_MINUTES', { $value: '5' }), value: 300000 },
+  { label: translateRaw('TIME_MINUTES', { $value: '10' }), value: 600000 },
+  { label: translateRaw('TIME_MINUTES', { $value: '15' }), value: 900000 },
+  { label: translateRaw('TIME_MINUTES', { $value: '30' }), value: 1800000 },
+  { label: translateRaw('TIME_MINUTES', { $value: '45' }), value: 2700000 },
+  { label: translateRaw('TIME_HOUR', { $value: '1' }), value: 3600000 },
+  { label: translateRaw('TIME_HOURS', { $value: '3' }), value: 10800000 },
+  { label: translateRaw('TIME_HOURS', { $value: '6' }), value: 21600000 },
+  { label: translateRaw('TIME_HOURS', { $value: '12' }), value: 43200000 }
+];
 
+export const AutoLockSettings = () => {
   const dispatch = useDispatch();
   const timeout = useSelector(getAutoLockTimeout);
   const value = options.find((o) => o.value === timeout);
 
   const handleChange = (option: OptionType<number>) => dispatch(setAutoLockTimeout(option.value));
+  // Makes sure that opening the selector doesnt collapse the accordion
   const handlePropagation = (e: MouseEvent) => e.stopPropagation();
 
   return (
