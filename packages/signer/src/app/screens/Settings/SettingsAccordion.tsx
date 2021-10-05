@@ -22,9 +22,9 @@ export const SettingsAccordion = ({
       mt="3"
       p="3"
       onClick={toggleOpen}
+      variant={isOpened ? 'settings.accordion.open' : 'settings.accordion.default'}
       sx={{
         boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.07)',
-        bg: isOpened ? 'BG_GREY_MUTED' : 'WHITE',
         ':hover': {
           cursor: 'pointer',
           bg: 'BG_GREY_MUTED'

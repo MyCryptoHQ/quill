@@ -228,6 +228,16 @@ const overrideTheme = {
         background: 'none',
         color: '#a682ff'
       }
+    },
+    settings: {
+      accordion: {
+        default: {
+          bg: 'WHITE'
+        },
+        open: {
+          bg: 'BG_GREY_MUTED'
+        }
+      }
     }
   },
   buttons: {

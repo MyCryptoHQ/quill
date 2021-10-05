@@ -131,7 +131,7 @@ const customStyles: Styles = {
     },
     height: state.hasValue ? 'auto' : '54px',
     fontSize: '16px',
-    backgroundColor: state.isDisabled ? '#f7f7f7' : 'default',
+    backgroundColor: state.isDisabled ? '#f7f7f7' : 'white',
     paddingLeft: state.hasValue ? 0 : 5
   }),
   input: (provided) => ({
