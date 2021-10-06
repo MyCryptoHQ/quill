@@ -1,7 +1,8 @@
 import { DEFAULT_ETH } from '@mycrypto/wallets';
-import type { SerializedWallet, TAddress } from '@signer/common';
+import type { SerializedWallet, SerializedWalletWithAddress, TAddress } from '@signer/common';
 import {
   addAccount,
+  addGeneratedAccount,
   addSavedAccounts,
   clearAddAccounts,
   fetchAccounts,
@@ -29,6 +30,7 @@ import {
 } from '@fixtures';
 
 import slice, {
+  addGeneratedAccountWorker,
   addSavedAccountsWorker,
   fetchAccount,
   fetchAccountsWorker,
@@ -319,6 +321,44 @@ describe('addSavedAccountsWorker', () => {
       .put(addAccount({ ...fAccount, persistent: true }))
       .call(saveAccountSecrets, account)
       .put(nextFlow())
+      .silentRun();
+  });
+});
+
+describe('addGeneratedAccountWorker', () => {
+  it('adds generated account', async () => {
+    const wallet: SerializedWalletWithAddress = {
+      walletType: WalletType.MNEMONIC,
+      path: DEFAULT_ETH,
+      index: DEFAULT_MNEMONIC_INDEX,
+      mnemonicPhrase: fMnemonicPhrase,
+      address: fAccount.address
+    };
+
+    await expectSaga(addGeneratedAccountWorker, addGeneratedAccount(true))
+      .withState({
+        accounts: {
+          generatedAccount: {
+            mnemonicPhrase: wallet.mnemonicPhrase,
+            address: wallet.address
+          }
+        }
+      })
+      .put(setAddAccounts({ accounts: [wallet], secret: wallet.mnemonicPhrase }))
+      .put(addSavedAccounts(true))
+      .silentRun();
+
+    await expectSaga(addGeneratedAccountWorker, addGeneratedAccount(false))
+      .withState({
+        accounts: {
+          generatedAccount: {
+            mnemonicPhrase: wallet.mnemonicPhrase,
+            address: wallet.address
+          }
+        }
+      })
+      .put(setAddAccounts({ accounts: [wallet], secret: wallet.mnemonicPhrase }))
+      .put(addSavedAccounts(false))
       .silentRun();
   });
 });
