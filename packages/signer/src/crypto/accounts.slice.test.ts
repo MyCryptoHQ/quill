@@ -1,7 +1,9 @@
 import { DEFAULT_ETH } from '@mycrypto/wallets';
-import type { SerializedWallet, TAddress } from '@signer/common';
+import type { SerializedWallet, SerializedWalletWithAddress, TAddress } from '@signer/common';
 import {
   addAccount,
+  addGeneratedAccount,
+  addSavedAccounts,
   clearAddAccounts,
   fetchAccounts,
   fetchAddresses,
@@ -28,7 +30,7 @@ import {
 } from '@fixtures';
 
 import slice, {
-  addSavedAccounts,
+  addGeneratedAccountWorker,
   addSavedAccountsWorker,
   fetchAccount,
   fetchAccountsWorker,
@@ -91,6 +93,19 @@ describe('AccountsSlice', () => {
         clearAddAccounts()
       );
       expect(result.add).toBeUndefined();
+    });
+  });
+
+  describe('setGeneratedAccount()', () => {
+    it('sets generated account', () => {
+      const account = {
+        mnemonicPhrase: 'foo',
+        address: 'bar' as TAddress
+      };
+
+      const result = slice.reducer({}, setGeneratedAccount(account));
+
+      expect(result.generatedAccount).toBe(account);
     });
   });
 });
@@ -319,6 +334,44 @@ describe('addSavedAccountsWorker', () => {
       .put(addAccount({ ...fAccount, persistent: true }))
       .call(saveAccountSecrets, account)
       .put(nextFlow())
+      .silentRun();
+  });
+});
+
+describe('addGeneratedAccountWorker', () => {
+  it('adds generated account', async () => {
+    const wallet: SerializedWalletWithAddress = {
+      walletType: WalletType.MNEMONIC,
+      path: DEFAULT_ETH,
+      index: DEFAULT_MNEMONIC_INDEX,
+      mnemonicPhrase: fMnemonicPhrase,
+      address: fAccount.address
+    };
+
+    await expectSaga(addGeneratedAccountWorker, addGeneratedAccount(true))
+      .withState({
+        accounts: {
+          generatedAccount: {
+            mnemonicPhrase: wallet.mnemonicPhrase,
+            address: wallet.address
+          }
+        }
+      })
+      .put(setAddAccounts({ accounts: [wallet], secret: wallet.mnemonicPhrase }))
+      .put(addSavedAccounts(true))
+      .silentRun();
+
+    await expectSaga(addGeneratedAccountWorker, addGeneratedAccount(false))
+      .withState({
+        accounts: {
+          generatedAccount: {
+            mnemonicPhrase: wallet.mnemonicPhrase,
+            address: wallet.address
+          }
+        }
+      })
+      .put(setAddAccounts({ accounts: [wallet], secret: wallet.mnemonicPhrase }))
+      .put(addSavedAccounts(false))
       .silentRun();
   });
 });

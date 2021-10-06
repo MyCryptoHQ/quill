@@ -1,5 +1,5 @@
 import type { EnhancedStore } from '@reduxjs/toolkit';
-import { translateRaw } from '@signer/common';
+import { addGeneratedAccount, translateRaw } from '@signer/common';
 import type { DeepPartial } from '@signer/common';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { toPng } from 'html-to-image';
@@ -89,23 +89,20 @@ describe('GenerateAccountEnd', () => {
     expect(getAllByText(mnemonicPhrase)).toHaveLength(2);
   });
 
-  it('calls onNext when clicking the button', () => {
-    const onNext = jest.fn();
-    const { getByText } = getComponent(
-      createMockStore({
-        accounts: {
-          generatedAccount: {
-            mnemonicPhrase: 'test test test test test test test test test test test ball',
-            address: '0xc6D5a3c98EC9073B54FA0969957Bd582e8D874bf'
-          }
+  it('dispatches addGeneratedAccount when clicking the button', () => {
+    const mockStore = createMockStore({
+      accounts: {
+        generatedAccount: {
+          mnemonicPhrase: 'test test test test test test test test test test test ball',
+          address: '0xc6D5a3c98EC9073B54FA0969957Bd582e8D874bf'
         }
-      }),
-      onNext
-    );
+      }
+    });
+    const { getByText } = getComponent(mockStore);
 
     const button = getByText(translateRaw('PAPER_WALLET_PRINTED'));
     fireEvent.click(button);
 
-    expect(onNext).toHaveBeenCalledTimes(1);
+    expect(mockStore.getActions()).toContainEqual(addGeneratedAccount(true));
   });
 });

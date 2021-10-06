@@ -15,6 +15,7 @@ export {
   fetchAddresses,
   fetchFailed,
   addSavedAccounts,
+  addGeneratedAccount,
   generateAccount,
   setGeneratedAccount,
   getAccounts,
