@@ -216,15 +216,7 @@ export function* addGeneratedAccountWorker({ payload: persistent }: PayloadActio
     address
   };
 
-  const account = getAccountFromSerializedWallet(wallet, persistent);
+  yield put(setAddAccounts({ accounts: [wallet], secret: mnemonicPhrase }));
 
-  // Remove existing account if present, set persistent to true to wipe saved secret if present too
-  yield put(removeAccount({ ...account, persistent: true }));
-  yield put(addAccount(account));
-
-  if (persistent) {
-    yield call(saveAccountSecrets, wallet);
-  }
-
-  yield put(nextFlow());
+  yield put(addSavedAccounts(persistent));
 }
