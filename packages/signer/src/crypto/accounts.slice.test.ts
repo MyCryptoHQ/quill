@@ -95,6 +95,19 @@ describe('AccountsSlice', () => {
       expect(result.add).toBeUndefined();
     });
   });
+
+  describe('setGeneratedAccount()', () => {
+    it('sets generated account', () => {
+      const account = {
+        mnemonicPhrase: 'foo',
+        address: 'bar' as TAddress
+      };
+
+      const result = slice.reducer({}, setGeneratedAccount(account));
+
+      expect(result.generatedAccount).toBe(account);
+    });
+  });
 });
 
 describe('fetchAccount', () => {
