@@ -12,6 +12,8 @@ import {
   union
 } from 'superstruct';
 
+import type { DistributiveOmit } from './distributive';
+
 // Supported JSON-RPC methods
 export enum JsonRPCMethod {
   RequestPermissions = 'wallet_requestPermissions',
@@ -60,7 +62,10 @@ export const SignTransactionStruct = tuple([
 // @todo Replace with simple `Infer` once superstruct bug is fixed
 // https://github.com/ianstormtaylor/superstruct/issues/804
 export type TSignTransaction = [
-  Omit<Infer<typeof SignTransactionStruct>[0], 'from' | 'to'> & { from?: string; to?: string }
+  DistributiveOmit<Infer<typeof SignTransactionStruct>[0], 'from' | 'to'> & {
+    from?: string;
+    to?: string;
+  }
 ];
 
 export const RequestWalletPermissionsStruct = tuple([

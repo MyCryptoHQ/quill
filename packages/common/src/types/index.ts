@@ -14,3 +14,4 @@ export * from './transactions';
 export * from './uuid';
 export * from './wallet';
 export * from './wallet-type';
+export * from './distributive';

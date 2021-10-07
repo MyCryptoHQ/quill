@@ -1,12 +1,12 @@
 import { hexlify } from '@ethersproject/bytes';
 import { FallbackProvider, JsonRpcProvider } from '@ethersproject/providers';
 import type {
+  DistributiveOptional,
   JsonRPCError,
   JsonRPCRequest,
   JsonRPCResponse,
   TSignTransaction
 } from '@signer/common';
-import type { Optional } from 'utility-types';
 
 import type { ApplicationState } from '../store';
 import type { RelayMessage } from '../types';
@@ -19,7 +19,7 @@ export const toJsonRpcRequest = (message: RelayMessage): JsonRPCRequest => ({
   params: Array.isArray(message.payload.params) ? message.payload.params : []
 });
 
-export type TParams = [Omit<Optional<TSignTransaction[0], 'nonce'>, 'chainId'>];
+export type TParams = [DistributiveOptional<TSignTransaction[0], 'nonce' | 'chainId'>];
 
 export const resolveNonce = async (params: TParams, state: ApplicationState) => {
   if (params[0].nonce) {

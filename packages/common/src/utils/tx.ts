@@ -61,7 +61,8 @@ export const toTransactionRequest = ({
     type === 2
       ? {
           maxFeePerGas: transaction.maxFeePerGas.toHexString(),
-          maxPriorityFeePerGas: transaction.maxPriorityFeePerGas.toHexString()
+          maxPriorityFeePerGas: transaction.maxPriorityFeePerGas.toHexString(),
+          type: 2 as const
         }
       : { gasPrice: transaction.gasPrice.toHexString() };
   return {
