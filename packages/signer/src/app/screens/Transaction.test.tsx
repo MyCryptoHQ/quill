@@ -15,7 +15,14 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import type { ApplicationState } from '@app/store';
-import { fAccount, fAccounts, fSignedTx, getTransactionRequest } from '@fixtures';
+import {
+  fAccount,
+  fAccounts,
+  fSignedTx,
+  fTxRequestEIP1559,
+  getEIP1559TransactionRequest,
+  getTransactionRequest
+} from '@fixtures';
 
 import { Transaction } from './Transaction';
 
@@ -182,5 +189,22 @@ describe('Transaction', () => {
 
     const { findByText } = getComponent(store);
     expect(findByText(fSignedTx)).toBeDefined();
+  });
+
+  it('renders EIP1559 gas params', async () => {
+    const queueTx = makeQueueTx(
+      getEIP1559TransactionRequest(fAccount.address, fTxRequestEIP1559.params[0])
+    );
+    const store = createMockStore({
+      accounts: { accounts: [fAccount] },
+      transactions: {
+        history: [],
+        queue: [queueTx],
+        currentTransaction: queueTx
+      }
+    });
+    const { getByText } = getComponent(store);
+    expect(getByText(translateRaw('MAX_FEE'), { exact: false }).textContent).toBeDefined();
+    expect(getByText(translateRaw('MAX_PRIORITY_FEE'), { exact: false }).textContent).toBeDefined();
   });
 });

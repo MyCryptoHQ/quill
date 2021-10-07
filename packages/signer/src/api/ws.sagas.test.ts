@@ -163,6 +163,35 @@ describe('validateRequest', () => {
 
     expect(validateRequest(JSON.stringify(signedRequest))).toStrictEqual([null, signedRequest]);
   });
+
+  it('returns the parsed JSON-RPC request for valid EIP1559 requests', async () => {
+    const request = {
+      id: 1,
+      jsonrpc: '2.0' as const,
+      method: JsonRPCMethod.SignTransaction,
+      params: [
+        {
+          to: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520',
+          from: '0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520',
+          nonce: '0x1',
+          gas: '0x1',
+          maxFeePerGas: '0x1',
+          maxPriorityFeePerGas: '0x1',
+          data: '0x',
+          value: '0x1',
+          chainId: 3,
+          type: 2
+        }
+      ]
+    };
+    const signedRequest = await createSignedJsonRpcRequest(
+      fRequestPrivateKey,
+      fRequestPublicKey,
+      request
+    );
+
+    expect(validateRequest(JSON.stringify(signedRequest))).toStrictEqual([null, signedRequest]);
+  });
 });
 
 describe('waitForLogin', () => {

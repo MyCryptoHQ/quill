@@ -1,0 +1,19 @@
+{
+  "jsonrpc": "2.0",
+  "id": 0,
+  "method": "eth_signTransaction",
+  "params": [
+    {
+      "nonce": "0x6",
+      "maxFeePerGas": "0x012a05f200",
+      "maxPriorityFeePerGas": "0x3b9aca00",
+      "gas": "0x5208",
+      "from": "0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520",
+      "to": "0xb2bb2b958AFa2e96dab3f3Ce7162b87daEa39017",
+      "value": "0x2386f26fc10000",
+      "data": "0x",
+      "chainId": 3,
+      "type": 2
+    }
+  ]
+}

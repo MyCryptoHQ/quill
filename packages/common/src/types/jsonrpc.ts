@@ -47,7 +47,7 @@ const SignTransactionEIP1559 = object({
   maxPriorityFeePerGas: Hex,
   data: EvenHex,
   value: Hex,
-  type: number(),
+  type: literal(2),
   // Note: this is technically not compliant to the JSON-RPC spec, but since the signer isn't
   // aware of the chain ID otherwise, we need to include it.
   chainId: number()

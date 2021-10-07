@@ -54,6 +54,7 @@ export const toTransactionRequest = ({
   type,
   accessList,
   hash,
+  gasLimit,
   ...transaction
 }: Transaction): UserRequest<TSignTransaction> => {
   const gas =
@@ -73,7 +74,7 @@ export const toTransactionRequest = ({
           ...transaction,
           value: transaction.value.toHexString(),
           ...gas,
-          gas: transaction.gasLimit.toHexString(),
+          gas: gasLimit.toHexString(),
           nonce: addHexPrefix(transaction.nonce.toString(16))
         }
       ]
