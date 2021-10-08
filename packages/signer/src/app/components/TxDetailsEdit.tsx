@@ -68,7 +68,6 @@ export const TxDetailsEdit = ({ form }: { form: FormState<EditTxType> }) => {
   const tx = form.values;
   const chain = getChain(tx.chainId);
   const symbol = chain?.nativeCurrency?.symbol ?? '?';
-  // @todo Type Guard?
   const isEIP1559 = tx.type === 2;
   return (
     <>

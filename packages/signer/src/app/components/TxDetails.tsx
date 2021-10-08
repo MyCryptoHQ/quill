@@ -20,7 +20,6 @@ const isHistoryEntry = (
 export const TxDetails = ({ tx: entry }: { tx: TxQueueEntry | TxHistoryEntry }) => {
   const { tx, offline } = entry;
 
-  // @todo Type Guard?
   const isEIP1559 = tx.type === 2;
 
   const gasPrice = isEIP1559 ? tx.maxFeePerGas : tx.gasPrice;
