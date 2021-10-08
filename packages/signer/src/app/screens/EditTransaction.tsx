@@ -78,9 +78,9 @@ export const EditTransaction = () => {
   const currentAccount = tx && accounts.find((a) => a.address === tx.from);
   const recipientAccount = tx && accounts.find((a) => a.address === tx.to);
   const info = useSelector(getTransactionInfoBannerType);
-  const SCHEMA = getSchema(tx);
+  const schema = getSchema(tx);
 
-  const form = useForm(toHumanReadable(tx), yupValidator(SCHEMA), true);
+  const form = useForm(toHumanReadable(tx), yupValidator(schema), true);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
