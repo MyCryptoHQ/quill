@@ -1,3 +1,4 @@
+import type { DeterministicAddress } from '@mycrypto/wallets';
 import { DEFAULT_ETH } from '@mycrypto/wallets';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSelector, createSlice } from '@reduxjs/toolkit';
@@ -21,7 +22,6 @@ import {
 } from '@signer/common';
 import type {
   AccountsState,
-  GetAddressesResult,
   IAccount,
   SerializedWallet,
   SerializedWalletWithAddress,
@@ -150,7 +150,7 @@ export function* fetchAddressesWorker({ payload }: ReturnType<typeof fetchAddres
   const { wallet, path, limit, offset } = payload;
 
   try {
-    const addresses: GetAddressesResult[] = yield call(getAddresses, wallet, path, limit, offset);
+    const addresses: DeterministicAddress[] = yield call(getAddresses, wallet, path, limit, offset);
     const extendedKey: string = yield call(getExtendedKey, wallet, path);
 
     yield put(setExtendedKey(extendedKey));

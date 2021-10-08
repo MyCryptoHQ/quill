@@ -1,5 +1,3 @@
-import type { DeterministicAddress } from '@mycrypto/wallets';
-
 export interface GetMnemonicAddressArgs {
   dPath: string;
   phrase: string;
@@ -13,5 +11,3 @@ export interface GetMnemonicAddressesArgs {
   offset?: number;
   limit: number;
 }
-
-export type GetAddressesResult = DeterministicAddress;

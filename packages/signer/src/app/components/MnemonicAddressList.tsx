@@ -1,5 +1,5 @@
 import { Blockie, Body } from '@mycrypto/ui';
-import type { GetAddressesResult } from '@signer/common';
+import type { DeterministicAddress } from '@mycrypto/wallets';
 import { Fragment } from 'react';
 
 import { Box, Checkbox } from '@app/components';
@@ -11,9 +11,9 @@ export const MnemonicAddressList = ({
   selectedAccounts,
   toggleSelectedAccount
 }: {
-  addresses: GetAddressesResult[];
+  addresses: DeterministicAddress[];
   selectedAccounts: number[];
-  toggleSelectedAccount(account: GetAddressesResult): void;
+  toggleSelectedAccount(account: DeterministicAddress): void;
 }) => (
   <>
     {addresses.map((address) => {

@@ -1,4 +1,5 @@
 import { Body, Button, Heading } from '@mycrypto/ui';
+import type { DeterministicAddress } from '@mycrypto/wallets';
 import { ALL_DERIVATION_PATHS, DEFAULT_ETH } from '@mycrypto/wallets';
 import { Label } from '@rebass/forms/styled-components';
 import {
@@ -10,7 +11,6 @@ import {
   translateRaw,
   WalletType
 } from '@signer/common';
-import type { GetAddressesResult } from '@signer/common';
 import type { ReactElement } from 'react';
 import { useEffect } from 'react';
 import { AnyListener } from 'typed-react-form';
@@ -35,7 +35,7 @@ const useForm = () =>
   useMnemonicForm({
     offset: 0,
     dPath: DEFAULT_ETH.name,
-    addresses: [] as GetAddressesResult[],
+    addresses: [] as DeterministicAddress[],
     selectedAccounts: [] as number[],
     isSubmitting: false
   });
@@ -103,7 +103,7 @@ const AddAccountMnemonicForm = ({
 
   const handleNext = () => form.setState({ ...form.state, offset: offset + ADDRESSES_PER_PAGE });
 
-  const toggleSelectedAccount = (account: GetAddressesResult) => {
+  const toggleSelectedAccount = (account: DeterministicAddress) => {
     if (selectedAccounts.some((a) => a === account.index)) {
       form.setState({
         ...form.state,
