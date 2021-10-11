@@ -12,6 +12,8 @@ import {
   union
 } from 'superstruct';
 
+import type { DistributiveOmit } from './distributive';
+
 // Supported JSON-RPC methods
 export enum JsonRPCMethod {
   RequestPermissions = 'wallet_requestPermissions',
@@ -25,25 +27,45 @@ const Hex = pattern(string(), /^(?:0x)(?:[a-fA-F0-9]+)?$/);
 const NonPrefixedHex = pattern(string(), /^(?:[a-fA-F0-9]+)?$/);
 export const EvenHex = refine(Hex, 'Even Length', (value) => value.length % 2 === 0);
 
+const SignTransactionLegacy = object({
+  to: optional(Address),
+  from: optional(Address),
+  nonce: Hex,
+  gas: Hex,
+  gasPrice: Hex,
+  data: EvenHex,
+  value: Hex,
+  // Note: this is technically not compliant to the JSON-RPC spec, but since the signer isn't
+  // aware of the chain ID otherwise, we need to include it.
+  chainId: number()
+});
+
+const SignTransactionEIP1559 = object({
+  to: optional(Address),
+  from: optional(Address),
+  nonce: Hex,
+  gas: Hex,
+  maxFeePerGas: Hex,
+  maxPriorityFeePerGas: Hex,
+  data: EvenHex,
+  value: Hex,
+  type: literal(2),
+  // Note: this is technically not compliant to the JSON-RPC spec, but since the signer isn't
+  // aware of the chain ID otherwise, we need to include it.
+  chainId: number()
+});
+
 export const SignTransactionStruct = tuple([
-  object({
-    to: optional(Address),
-    from: optional(Address),
-    nonce: Hex,
-    gas: Hex,
-    gasPrice: Hex,
-    data: EvenHex,
-    value: Hex,
-    // Note: this is technically not compliant to the JSON-RPC spec, but since the signer isn't
-    // aware of the chain ID otherwise, we need to include it.
-    chainId: number()
-  })
+  union([SignTransactionLegacy, SignTransactionEIP1559])
 ]);
 
 // @todo Replace with simple `Infer` once superstruct bug is fixed
 // https://github.com/ianstormtaylor/superstruct/issues/804
 export type TSignTransaction = [
-  Omit<Infer<typeof SignTransactionStruct>[0], 'from' | 'to'> & { from?: string; to?: string }
+  DistributiveOmit<Infer<typeof SignTransactionStruct>[0], 'from' | 'to'> & {
+    from?: string;
+    to?: string;
+  }
 ];
 
 export const RequestWalletPermissionsStruct = tuple([

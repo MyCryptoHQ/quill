@@ -1,5 +1,6 @@
 import { Body, Button } from '@mycrypto/ui';
 import {
+  bigify,
   EvenHex,
   getAccounts,
   getCurrentTransaction,
@@ -8,7 +9,7 @@ import {
   translateRaw,
   update
 } from '@signer/common';
-import type { TxQueueEntry } from '@signer/common';
+import type { TransactionRequest, TxQueueEntry } from '@signer/common';
 import { replace } from 'connected-react-router';
 import type { FormEvent } from 'react';
 import { is } from 'superstruct';
@@ -36,16 +37,38 @@ import {
   GAS_PRICE_GWEI_UPPER_BOUND
 } from '@config';
 
-const SCHEMA = object({
-  value: number().required().min(0),
-  nonce: number().required().min(0),
-  gasPrice: number().required().min(GAS_PRICE_GWEI_LOWER_BOUND).max(GAS_PRICE_GWEI_UPPER_BOUND),
-  gasLimit: number().required().min(GAS_LIMIT_LOWER_BOUND).max(GAS_LIMIT_UPPER_BOUND),
-  chainId: number().required().min(1),
-  data: string()
-    .required()
-    .test('valid-hex', (value) => is(value, EvenHex))
-});
+const getSchema = (tx: TransactionRequest) => {
+  const common = object({
+    value: number().required().min(0),
+    nonce: number().required().min(0),
+    gasLimit: number().required().min(GAS_LIMIT_LOWER_BOUND).max(GAS_LIMIT_UPPER_BOUND),
+    chainId: number().required().min(1),
+    data: string()
+      .required()
+      .test('valid-hex', (value) => is(value, EvenHex))
+  });
+
+  if (tx.type === 2) {
+    return common.shape({
+      maxFeePerGas: number()
+        .required()
+        .min(GAS_PRICE_GWEI_LOWER_BOUND)
+        .max(GAS_PRICE_GWEI_UPPER_BOUND),
+      maxPriorityFeePerGas: number()
+        .required()
+        .min(GAS_PRICE_GWEI_LOWER_BOUND)
+        .max(GAS_PRICE_GWEI_UPPER_BOUND)
+        .test('check-max', translateRaw('PRIORITY_FEE_MAX_ERROR'), function (value) {
+          const maxFeePerGas = this.parent.maxFeePerGas;
+          return bigify(maxFeePerGas).gte(value);
+        })
+    });
+  }
+
+  return common.shape({
+    gasPrice: number().required().min(GAS_PRICE_GWEI_LOWER_BOUND).max(GAS_PRICE_GWEI_UPPER_BOUND)
+  });
+};
 
 export const EditTransaction = () => {
   const accounts = useSelector(getAccounts);
@@ -55,8 +78,9 @@ export const EditTransaction = () => {
   const currentAccount = tx && accounts.find((a) => a.address === tx.from);
   const recipientAccount = tx && accounts.find((a) => a.address === tx.to);
   const info = useSelector(getTransactionInfoBannerType);
+  const schema = getSchema(tx);
 
-  const form = useForm(toHumanReadable(tx), yupValidator(SCHEMA), true);
+  const form = useForm(toHumanReadable(tx), yupValidator(schema), true);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

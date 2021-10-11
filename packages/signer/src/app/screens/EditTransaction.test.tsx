@@ -7,7 +7,7 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import type { ApplicationState } from '@app/store';
-import { fAccount, getTransactionRequest } from '@fixtures';
+import { fAccount, getEIP1559TransactionRequest, getTransactionRequest } from '@fixtures';
 
 import { EditTransaction } from './EditTransaction';
 
@@ -68,6 +68,38 @@ describe('EditTransaction', () => {
         update({
           ...transactionRequest,
           tx: { ...transactionRequest.tx, gasLimit: '0x59d8' },
+          userEdited: true
+        })
+      )
+    );
+  });
+
+  it('updates transaction based on EIP1559 form values', async () => {
+    const tx = makeQueueTx(getEIP1559TransactionRequest(fAccount.address));
+    const mockStore = createMockStore({
+      accounts: {
+        accounts: [fAccount]
+      },
+      transactions: {
+        history: [],
+        queue: [tx],
+        currentTransaction: tx
+      }
+    });
+    const { getByText, container } = getComponent(mockStore);
+    const maxFeePerGas = container.querySelector('input[name="maxFeePerGas"]');
+    expect(maxFeePerGas).toBeDefined();
+    fireEvent.change(maxFeePerGas, { target: { value: 200 } });
+
+    const saveButton = getByText(translateRaw('SAVE_SETTINGS'));
+    expect(saveButton).toBeDefined();
+    fireEvent.click(saveButton);
+
+    await waitFor(() =>
+      expect(mockStore.getActions()).toContainEqual(
+        update({
+          ...tx,
+          tx: { ...tx.tx, maxFeePerGas: '0x2e90edd000' },
           userEdited: true
         })
       )

@@ -1,9 +1,8 @@
-import type { DerivationPath } from '@mycrypto/wallets';
+import type { DerivationPath, DeterministicAddress } from '@mycrypto/wallets';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAction, createSelector, createSlice } from '@reduxjs/toolkit';
 
 import type {
-  GetAddressesResult,
   IAccount,
   SerializedDeterministicWallet,
   SerializedWallet,
@@ -14,7 +13,7 @@ import type {
 
 export interface AccountsState {
   accounts: IAccount[];
-  addresses: GetAddressesResult[];
+  addresses: DeterministicAddress[];
   isFetching: boolean;
   extendedKey?: string;
   fetchError?: string;
@@ -66,7 +65,7 @@ const slice = createSlice({
     clearAddAccounts(state) {
       state.add = undefined;
     },
-    setAddresses(state, action: PayloadAction<GetAddressesResult[]>) {
+    setAddresses(state, action: PayloadAction<DeterministicAddress[]>) {
       state.addresses = action.payload;
       state.isFetching = false;
       state.fetchError = undefined;

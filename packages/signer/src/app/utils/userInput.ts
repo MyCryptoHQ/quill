@@ -5,24 +5,46 @@ import type { TransactionRequest } from '@signer/common';
 
 export type HumanReadableTx = ReturnType<typeof toHumanReadable>;
 
-export const toHumanReadable = (tx: TransactionRequest) => ({
-  ...tx,
-  gasLimit: bigify(tx.gasLimit).toString(10),
-  gasPrice: formatUnits(tx.gasPrice, 'gwei'),
-  // @todo Consider units
-  value: formatEther(tx.value),
-  nonce: bigify(tx.nonce).toString(10),
-  data: hexlify(tx.data)
-});
+export const toHumanReadable = (tx: TransactionRequest) => {
+  const gas =
+    tx.type === 2
+      ? {
+          maxFeePerGas: formatUnits(tx.maxFeePerGas, 'gwei'),
+          maxPriorityFeePerGas: formatUnits(tx.maxPriorityFeePerGas, 'gwei')
+        }
+      : { gasPrice: formatUnits(tx.gasPrice, 'gwei') };
 
-export const fromHumanReadable = (tx: HumanReadableTx) => ({
-  ...tx,
-  gasLimit: addHexPrefix(bigify(tx.gasLimit).toString(16)),
-  gasPrice: parseUnits(bigify(tx.gasPrice).toString(10), 'gwei').toHexString(),
-  // @todo Consider units
-  value: parseEther(bigify(tx.value).toString(10)).toHexString(),
-  nonce: addHexPrefix(bigify(tx.nonce).toString(16))
-});
+  return {
+    ...tx,
+    gasLimit: bigify(tx.gasLimit).toString(10),
+    ...gas,
+    // @todo Consider units
+    value: formatEther(tx.value),
+    nonce: bigify(tx.nonce).toString(10),
+    data: hexlify(tx.data)
+  };
+};
+
+export const fromHumanReadable = (tx: HumanReadableTx) => {
+  const gas =
+    tx.type === 2
+      ? {
+          maxFeePerGas: parseUnits(bigify(tx.maxFeePerGas).toString(10), 'gwei').toHexString(),
+          maxPriorityFeePerGas: parseUnits(
+            bigify(tx.maxPriorityFeePerGas).toString(10),
+            'gwei'
+          ).toHexString()
+        }
+      : { gasPrice: parseUnits(bigify(tx.gasPrice).toString(10), 'gwei').toHexString() };
+  return {
+    ...tx,
+    gasLimit: addHexPrefix(bigify(tx.gasLimit).toString(16)),
+    ...gas,
+    // @todo Consider units
+    value: parseEther(bigify(tx.value).toString(10)).toHexString(),
+    nonce: addHexPrefix(bigify(tx.nonce).toString(16))
+  };
+};
 
 export const sanitizeGasPriceInput = (input: string) => {
   const val = input.replace(',', '.');

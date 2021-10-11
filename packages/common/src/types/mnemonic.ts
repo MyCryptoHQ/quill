@@ -1,5 +1,3 @@
-import type { TAddress } from './address';
-
 export interface GetMnemonicAddressArgs {
   dPath: string;
   phrase: string;
@@ -12,10 +10,4 @@ export interface GetMnemonicAddressesArgs {
   password?: string;
   offset?: number;
   limit: number;
-}
-
-export interface GetAddressesResult {
-  dPath: string;
-  address: TAddress;
-  index: number;
 }

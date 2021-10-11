@@ -2,10 +2,14 @@ import type { TransactionResponse } from '@ethersproject/abstract-provider';
 import type { JsonRPCRequest, TSignTransaction, UserRequest } from '@signer/common';
 
 import { default as ethTxRequest } from './ethTxRequest.json';
+import { default as ethTxRequestEIP1559 } from './ethTxRequestEIP1559.json';
 import { default as ethTxResponse } from './ethTxResponse.json';
 import { fRequestOrigin } from './origin';
 
 export const fTxRequest = (ethTxRequest as unknown) as JsonRPCRequest<TSignTransaction>;
+export const fTxRequestEIP1559 = (ethTxRequestEIP1559 as unknown) as JsonRPCRequest<
+  TSignTransaction
+>;
 export const fTxResponse = ethTxResponse as TransactionResponse;
 
 export const fRawTransaction =
@@ -23,6 +27,23 @@ export const getTransactionRequest = (
     params: [
       {
         ...fTxRequest.params[0],
+        ...tx,
+        from
+      }
+    ]
+  }
+});
+
+export const getEIP1559TransactionRequest = (
+  from: string,
+  tx?: Partial<TSignTransaction[0]>
+): UserRequest<TSignTransaction> => ({
+  origin: fRequestOrigin,
+  request: {
+    ...fTxRequestEIP1559,
+    params: [
+      {
+        ...fTxRequestEIP1559.params[0],
         ...tx,
         from
       }
