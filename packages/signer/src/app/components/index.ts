@@ -37,8 +37,6 @@ export * from './EditableText';
 export * from './NonceBadge';
 export * from './QR';
 export * from './TxDetailsEdit';
-export * from './Banner';
 export * from './ErrorBoundary';
-export * from './Badge';
 export * from './ExtendableButton';
 export * from './CopyableText';
