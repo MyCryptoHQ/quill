@@ -1,10 +1,9 @@
+import { Banner } from '@mycrypto/ui';
 import { InfoBannerType, translateRaw, TxResult } from '@signer/common';
 import type { BannerType } from '@signer/common';
 import type { ReactElement } from 'react';
 
 import { translate } from '@app/translations';
-
-import { Banner } from './index';
 
 const configs: {
   [key in TxResult | InfoBannerType]: {

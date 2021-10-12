@@ -58,8 +58,7 @@ module.exports = merge(common, {
               publicPath: (url) => (isDev ? `main_window/${url}` : url)
             }
           }
-        ],
-        include: [path.resolve(__dirname, '../', 'src', 'app', 'assets')]
+        ]
       }
     ]
   },

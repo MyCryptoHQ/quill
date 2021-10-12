@@ -1,4 +1,4 @@
-import { Body, Button, Heading } from '@mycrypto/ui';
+import { Banner, Body, Button, Heading } from '@mycrypto/ui';
 import type { DeterministicAddress } from '@mycrypto/wallets';
 import { ALL_DERIVATION_PATHS, DEFAULT_ETH } from '@mycrypto/wallets';
 import { Label } from '@rebass/forms/styled-components';
@@ -16,7 +16,6 @@ import { useEffect } from 'react';
 import { AnyListener } from 'typed-react-form';
 
 import {
-  Banner,
   Box,
   DPathSelector,
   MnemonicAddressList,
