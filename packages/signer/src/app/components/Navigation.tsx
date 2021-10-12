@@ -1,4 +1,4 @@
-import { getNavigationBack, logout } from '@signer/common';
+import { getNavigationBack, getQueueLength, logout } from '@signer/common';
 import { getLocation } from 'connected-react-router';
 import type { PropsWithChildren } from 'react';
 import SVG from 'react-inlinesvg';
@@ -10,10 +10,10 @@ import add from '@assets/icons/add.svg';
 import back from '@assets/icons/back.svg';
 import lock from '@assets/icons/lock.svg';
 import settings from '@assets/icons/settings.svg';
-import { Logo } from '@components/Logo';
 import { useDispatch, useSelector } from '@store';
 
 import LinkApp from './Core/LinkApp';
+import { NavigationLogo } from './NavigationLogo';
 
 const NavIcon = ({
   icon,
@@ -55,6 +55,8 @@ export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   const dispatch = useDispatch();
   const backUrl = useSelector(getNavigationBack);
 
+  const queueLength = useSelector(getQueueLength);
+
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -77,7 +79,7 @@ export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
       <NavItem href={ROUTE_PATHS.HOME}>
         <Box variant="horizontal-start">
           <LinkApp href={ROUTE_PATHS.HOME}>
-            <Logo />
+            <NavigationLogo transactionCount={queueLength} />
           </LinkApp>
         </Box>
       </NavItem>
