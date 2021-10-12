@@ -225,6 +225,12 @@
     "APP_RESET_BODY": "Resetting the Signer will clear all of your data and settings. Are you sure you want to do this? This action cannot be reverted.",
     "RESET_APP_BUTTON": "Reset App",
     "CLICK_TO_COPY": "Click to copy",
-    "EDIT_TRANSACTION_DETAILS": "Edit transaction details"
+    "EDIT_TRANSACTION_DETAILS": "Edit transaction details",
+    "PASSWORD_CRITERIA": "For your security, your password must contain the following:",
+    "PASSWORD_CRITERIA_1": "at least 10 characters",
+    "PASSWORD_CRITERIA_2": "1 special character",
+    "PASSWORD_CRITERIA_3": "1 lowercase letter",
+    "PASSWORD_CRITERIA_4": "1 uppercase letter",
+    "PASSWORD_CRITERIA_5": "1 number"
   }
 }
