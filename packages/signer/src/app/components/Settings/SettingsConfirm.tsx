@@ -26,7 +26,7 @@ export const SettingsConfirm = ({
   const [isOpened, setOpened] = useState(false);
   const toggleOpen = () => setOpened(!isOpened);
   return (
-    <SettingsAccordion icon={icon} label={label} isOpen={isOpened} handleOpen={toggleOpen}>
+    <SettingsAccordion icon={icon} label={label} isOpen={isOpened} onOpen={toggleOpen}>
       <Heading fontSize="2" textAlign="center">
         {heading}
       </Heading>

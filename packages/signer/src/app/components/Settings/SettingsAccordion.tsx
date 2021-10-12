@@ -9,21 +9,19 @@ export const SettingsAccordion = ({
   icon,
   label,
   children,
-  handleOpen,
+  onOpen,
   isOpen
 }: {
   icon: string;
   label: string | ReactElement;
   children: string | ReactElement | ReactElement[];
-  handleOpen?(): void;
+  onOpen?(): void;
   isOpen?: boolean;
 }) => {
-  const [isOpenedState, setOpened] = useState(false);
-  const toggleOpen = () => (handleOpen ? handleOpen() : setOpened(!isOpened));
+  const [isOpened, setOpened] = useState(false);
+  const toggleOpen = () => (onOpen ? onOpen() : setOpened(!isOpened));
 
-  const isOpened = isOpen ?? isOpenedState;
-
-  if (isOpened) {
+  if (isOpen ?? isOpened) {
     return (
       <Box
         mt="3"
