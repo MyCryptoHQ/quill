@@ -3112,11 +3112,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mycrypto/ui@npm:1.3.0":
-  version: 1.3.0
-  resolution: "@mycrypto/ui@npm:1.3.0"
+"@mycrypto/ui@npm:1.3.2":
+  version: 1.3.2
+  resolution: "@mycrypto/ui@npm:1.3.2"
   dependencies:
     "@rebass/forms": 4.0.6
+    core-js: 3.18.2
     ethereum-blockies-base64: 1.0.2
     isomorphic-unfetch: 3.1.0
     react-copy-to-clipboard: 5.0.4
@@ -3127,7 +3128,7 @@ __metadata:
     react-dom: ^17.0.0
     react-is: ^17.0.0
     styled-components: ^5.2.3
-  checksum: de771d2b165211016a741836864e531d14d82f2d9fbc3055309581af6adadff576f731d0327cd01bd4608f7554d09ce65abb12021e772a3ec3665e988964cebb
+  checksum: b4c19a4e5ecbbce0f64d4ce57b2cdc91305f149a98b4644cdcec7ad28a988ee044ddc6d3912d3dd6afa5de0669a7828b7e2de29e5eaec95fee06801cebeb0784
   languageName: node
   linkType: hard
 
@@ -7469,6 +7470,13 @@ __metadata:
   version: 3.13.1
   resolution: "core-js-pure@npm:3.13.1"
   checksum: 12f0509d4bca05a221a81a6253dea8a75fa8fe0f9c81ee2db2f655f0a6acc0eea0237ac6d00815f37abf492b2ab543aceb514d8fa847f51faa9086bcf646d1e7
+  languageName: node
+  linkType: hard
+
+"core-js@npm:3.18.2":
+  version: 3.18.2
+  resolution: "core-js@npm:3.18.2"
+  checksum: bcdfca1a0fdf6c404b86a4871a4f7d13c4c64083fad1a818168d8626b492697e0f7ca131571830652a4d5e33b09076fc3aa47a35814503e4a5aa641916fa72a4
   languageName: node
   linkType: hard
 
@@ -17506,7 +17514,7 @@ fsevents@^1.2.7:
     "@fontsource/roboto-mono": 4.2.2
     "@hot-loader/react-dom": 17.0.1
     "@marshallofsound/webpack-asset-relocator-loader": 0.5.0
-    "@mycrypto/ui": 1.3.0
+    "@mycrypto/ui": 1.3.2
     "@mycrypto/wallets": 1.3.4
     "@rebass/forms": 4.0.6
     "@reduxjs/toolkit": 1.6.1
