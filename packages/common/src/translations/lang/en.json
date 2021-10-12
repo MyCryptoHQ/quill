@@ -223,6 +223,7 @@
     "APP_RESET": "App Reset",
     "APP_RESET_HEADING": "Confirm App Reset",
     "APP_RESET_BODY": "Resetting the Signer will clear all of your data and settings. Are you sure you want to do this? This action cannot be reverted.",
-    "RESET_APP_BUTTON": "Reset App"
+    "RESET_APP_BUTTON": "Reset App",
+    "CLICK_TO_COPY": "Click to copy"
   }
 }

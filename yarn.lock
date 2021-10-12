@@ -4231,6 +4231,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-copy-to-clipboard@npm:5.0.1":
+  version: 5.0.1
+  resolution: "@types/react-copy-to-clipboard@npm:5.0.1"
+  dependencies:
+    "@types/react": "*"
+  checksum: 40b9af7d2c1025e970c05ef61694a58876018f8d73c8db9a6bb78287cbb2d797509654ac0c1b6337747803ee99b1209da730b5ddfa6c5857f3742ae29bcf03ff
+  languageName: node
+  linkType: hard
+
 "@types/react-dom@npm:*":
   version: 17.0.6
   resolution: "@types/react-dom@npm:17.0.6"
@@ -17528,6 +17537,7 @@ fsevents@^1.2.7:
     "@types/node-ipc": 9.1.4
     "@types/pbkdf2": 3.1.0
     "@types/react": 16.9.49
+    "@types/react-copy-to-clipboard": 5.0.1
     "@types/react-dom": 16.9.8
     "@types/react-redux": 7.1.9
     "@types/react-router-dom": 5.1.6
@@ -17574,6 +17584,7 @@ fsevents@^1.2.7:
     node-loader: 1.0.1
     qruri: 0.0.4
     react: 17.0.2
+    react-copy-to-clipboard: 5.0.4
     react-dom: 17.0.2
     react-hot-loader: 4.13.0
     react-inlinesvg: 2.2.2
