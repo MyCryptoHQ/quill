@@ -1,8 +1,6 @@
-import { getLoggedIn, logout } from '@signer/common';
+import { AUTO_LOCK_TIMEOUT, getAutoLockTimeout, getLoggedIn, logout } from '@signer/common';
 import { testSaga } from 'redux-saga-test-plan';
 import { call, take } from 'redux-saga/effects';
-
-import { AUTO_LOCK_TIMEOUT } from '@config';
 
 import { autoLockWorker, delayedLock, subscribe } from './autoLock.sagas';
 
@@ -26,6 +24,8 @@ describe('delayedLock', () => {
   it('logs out if not cancelled', async () => {
     testSaga(delayedLock)
       .next()
+      .select(getAutoLockTimeout)
+      .next(AUTO_LOCK_TIMEOUT)
       .delay(AUTO_LOCK_TIMEOUT)
       .next()
       .select(getLoggedIn)
@@ -38,6 +38,8 @@ describe('delayedLock', () => {
   it('doesnt log out if already logged out', async () => {
     testSaga(delayedLock)
       .next()
+      .select(getAutoLockTimeout)
+      .next(AUTO_LOCK_TIMEOUT)
       .delay(AUTO_LOCK_TIMEOUT)
       .next()
       .select(getLoggedIn)

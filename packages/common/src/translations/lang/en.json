@@ -206,6 +206,23 @@
     "SHOW_SIGNED_TRANSACTION": "Show Signed Transaction",
     "HIDE_SIGNED_TRANSACTION": "Hide Signed Transaction",
     "ACCOUNTS_EMPTY_HEADER": "You have not yet added an account to the Signer",
-    "ACCOUNTS_EMPTY_BODY": "Add your first account below"
+    "ACCOUNTS_EMPTY_BODY": "Add your first account below",
+    "TIME_MINUTE": "$value minute",
+    "TIME_MINUTES": "$value minutes",
+    "TIME_HOUR": "$value hour",
+    "TIME_HOURS": "$value hours",
+    "SETTINGS": "Settings",
+    "ACCOUNTS": "Accounts",
+    "QUIT_APP": "Quit App",
+    "CONFIRM_QUIT": "Confirm Quit",
+    "CONFIRM_QUIT_BODY": "Are you sure you want to quit?",
+    "QUIT_NOW": "Quit Now",
+    "AUTO_LOCK_TIMER": "Auto-Lock Timer",
+    "AUTO_LOCK_TIMER_BODY": "The inactivity timer functionality locks the Signer after you have been idle for a specified period of time. Note: Your password is required to unlock.",
+    "AUTO_LOCK_TIMER_LABEL": "Lock the Signer after I've been inactive for:",
+    "APP_RESET": "App Reset",
+    "APP_RESET_HEADING": "Confirm App Reset",
+    "APP_RESET_BODY": "Resetting the Signer will clear all of your data and settings. Are you sure you want to do this? This action cannot be reverted.",
+    "RESET_APP_BUTTON": "Reset App"
   }
 }

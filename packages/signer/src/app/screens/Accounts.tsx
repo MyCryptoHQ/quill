@@ -80,7 +80,7 @@ export const Accounts = () => {
   const accounts = useSelector(getAccounts);
 
   useEffect(() => {
-    dispatch(setNavigationBack(ROUTE_PATHS.HOME));
+    dispatch(setNavigationBack(ROUTE_PATHS.SETTINGS));
 
     return () => dispatch(setNavigationBack(undefined));
   }, []);

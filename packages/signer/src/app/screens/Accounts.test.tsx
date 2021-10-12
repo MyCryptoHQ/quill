@@ -66,7 +66,7 @@ describe('Accounts', () => {
     unmount();
 
     expect(mockStore.getActions()).toStrictEqual([
-      setNavigationBack(ROUTE_PATHS.HOME),
+      setNavigationBack(ROUTE_PATHS.SETTINGS),
       setNavigationBack(undefined)
     ]);
   });
