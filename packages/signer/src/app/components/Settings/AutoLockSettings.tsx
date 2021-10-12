@@ -1,6 +1,5 @@
 import { Body } from '@mycrypto/ui';
 import { getAutoLockTimeout, setAutoLockTimeout, translateRaw } from '@signer/common';
-import type { MouseEvent } from 'react';
 
 import type { OptionType } from '@app/components';
 import { Box, TextSelector } from '@app/components';
@@ -29,14 +28,12 @@ export const AutoLockSettings = () => {
   const value = options.find((o) => o.value === timeout);
 
   const handleChange = (option: OptionType<number>) => dispatch(setAutoLockTimeout(option.value));
-  // Makes sure that opening the selector doesnt collapse the accordion
-  const handlePropagation = (e: MouseEvent) => e.stopPropagation();
 
   return (
     <SettingsAccordion icon={lockIcon} label={translateRaw('AUTO_LOCK_TIMER')}>
       <Body>{translateRaw('AUTO_LOCK_TIMER_BODY')}</Body>
       <Body mt="2">{translateRaw('AUTO_LOCK_TIMER_LABEL')}</Body>
-      <Box mt="2" onClick={handlePropagation}>
+      <Box mt="2">
         <TextSelector options={options} value={value} onChange={handleChange} />
       </Box>
     </SettingsAccordion>
