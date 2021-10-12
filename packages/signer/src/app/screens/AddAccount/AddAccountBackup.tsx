@@ -70,7 +70,7 @@ export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
           </>
         )}
         {accounts.map((account) => (
-          <Panel mb="2">
+          <Panel key={account.address} mb="2">
             <Body fontSize="14px" mb="1">
               {translate('ADDRESS')}
             </Body>
