@@ -87,9 +87,7 @@ export const LoadTransaction = () => {
           {translateRaw('MANUALLY_LOAD_TRANSACTION_DESCRIPTION')}
         </Body>
         <Box mb="2">
-          <Label fontWeight="bold" htmlFor="account">
-            {translateRaw('ACCOUNT')}
-          </Label>
+          <Label htmlFor="account">{translateRaw('ACCOUNT')}</Label>
           <AccountSelector
             currentAccount={form.values.account}
             accounts={accounts}
@@ -99,9 +97,7 @@ export const LoadTransaction = () => {
         </Box>
         <form id="load-transaction-form" onSubmit={handleSubmit}>
           <Box>
-            <Label fontWeight="bold" htmlFor="raw-transaction">
-              {translateRaw('RAW_TRANSACTION_DETAILS')}
-            </Label>
+            <Label htmlFor="raw-transaction">{translateRaw('RAW_TRANSACTION_DETAILS')}</Label>
             <FormTextArea
               form={form}
               id="raw-transaction"
