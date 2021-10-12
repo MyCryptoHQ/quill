@@ -28,13 +28,13 @@ export const SettingsAccordion = ({
         p="3"
         variant="settings.accordion.open"
         sx={{
-          boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.07)',
-          userSelect: 'none'
+          boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.07)'
         }}
       >
         <Box
           onClick={toggleOpen}
           sx={{
+            userSelect: 'none',
             ':hover': {
               cursor: 'pointer',
               bg: 'BG_GREY_MUTED'
