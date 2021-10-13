@@ -1,13 +1,12 @@
 import { Body, Heading } from '@mycrypto/ui';
-import { setNavigationBack, translateRaw } from '@signer/common';
-import { useEffect } from 'react';
+import { translateRaw } from '@signer/common';
 
 import { Box, Container, Image, LinkApp } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import addAccount from '@assets/icons/add-account.svg';
 import generateAccount from '@assets/icons/generate-account.svg';
 import receipt from '@assets/icons/receipt.svg';
-import { useDispatch } from '@store';
+import { useNavigation } from '@hooks';
 
 const MENU_ITEMS = [
   { icon: addAccount, label: translateRaw('MENU_ADD_ACCOUNT'), route: ROUTE_PATHS.ADD_ACCOUNT },
@@ -24,13 +23,7 @@ const MENU_ITEMS = [
 ];
 
 export const Menu = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(setNavigationBack(ROUTE_PATHS.HOME));
-
-    return () => dispatch(setNavigationBack(undefined));
-  }, []);
+  useNavigation(ROUTE_PATHS.HOME);
 
   return (
     <Container>

@@ -1,13 +1,7 @@
 import { Blockie, Body, Button, Copyable, Heading } from '@mycrypto/ui';
 import type { IAccount } from '@signer/common';
-import {
-  getAccounts,
-  removeAccount,
-  setNavigationBack,
-  translateRaw,
-  updateAccount
-} from '@signer/common';
-import { Fragment, useEffect, useState } from 'react';
+import { getAccounts, removeAccount, translateRaw, updateAccount } from '@signer/common';
+import { Fragment, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useDispatch } from '@app/store';
@@ -25,11 +19,13 @@ import {
   LinkApp,
   PanelBottom
 } from '@components';
+import { useNavigation } from '@hooks';
 import { ROUTE_PATHS } from '@routing';
 
 const Account = ({ account }: { account: IAccount }) => {
   const dispatch = useDispatch();
   const [isDeleting, setIsDeleting] = useState(false);
+
   const handleDelete = () => setIsDeleting(true);
   const handleCancel = () => setIsDeleting(false);
   const handleConfirm = () => dispatch(removeAccount(account));
@@ -79,14 +75,9 @@ const Account = ({ account }: { account: IAccount }) => {
 };
 
 export const Accounts = () => {
-  const dispatch = useDispatch();
   const accounts = useSelector(getAccounts);
 
-  useEffect(() => {
-    dispatch(setNavigationBack(ROUTE_PATHS.SETTINGS));
-
-    return () => dispatch(setNavigationBack(undefined));
-  }, []);
+  useNavigation(ROUTE_PATHS.SETTINGS);
 
   if (accounts.length === 0) {
     return (

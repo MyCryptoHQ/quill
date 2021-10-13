@@ -10,6 +10,7 @@ export const ROUTE_PATHS = {
   GENERATE_ACCOUNT: '/generate-account',
   ACCOUNTS: '/accounts',
   SETTINGS: '/settings',
+  ABOUT: '/about',
   FORGOT_PASSWORD: '/forgot-password',
   MENU: '/menu',
   REQUEST_PERMISSION: '/request-permission',

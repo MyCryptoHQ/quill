@@ -1,29 +1,27 @@
 import { Heading } from '@mycrypto/ui';
-import { quitApp, reset, setNavigationBack, translateRaw } from '@signer/common';
-import React, { useEffect } from 'react';
+import { quitApp, reset, translateRaw } from '@signer/common';
+import React from 'react';
 
 import { useDispatch } from '@app/store';
+import aboutIcon from '@assets/icons/about.svg';
 import addressBookIcon from '@assets/icons/addressbook.svg';
 import quitIcon from '@assets/icons/quit.svg';
 import resetIcon from '@assets/icons/reset.svg';
 import { AutoLockSettings, Container, SettingsConfirm, SettingsLink } from '@components';
+import { useNavigation } from '@hooks';
 import { ROUTE_PATHS } from '@routing';
 
 export const Settings = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(setNavigationBack(ROUTE_PATHS.HOME));
-
-    return () => dispatch(setNavigationBack(undefined));
-  }, []);
+  useNavigation(ROUTE_PATHS.HOME);
 
   const handleQuit = () => dispatch(quitApp());
   const handleReset = () => dispatch(reset());
   return (
     <Container>
       <Heading fontSize="24px" lineHeight="150%" mb="1">
-        {translateRaw('Settings')}
+        {translateRaw('SETTINGS')}
       </Heading>
       <SettingsLink
         icon={addressBookIcon}
@@ -49,6 +47,7 @@ export const Settings = () => {
         cancelText={translateRaw('CANCEL')}
         onConfirm={handleQuit}
       />
+      <SettingsLink icon={aboutIcon} label={translateRaw('ABOUT')} href={ROUTE_PATHS.ABOUT} />
     </Container>
   );
 };
