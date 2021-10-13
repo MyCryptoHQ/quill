@@ -1,4 +1,5 @@
-import { Blockie, Body, Button, Heading } from '@mycrypto/ui';
+import { Blockie, Body, Button, Copyable, Heading } from '@mycrypto/ui';
+import type { IAccount } from '@signer/common';
 import {
   getAccounts,
   removeAccount,
@@ -6,7 +7,6 @@ import {
   translateRaw,
   updateAccount
 } from '@signer/common';
-import type { IAccount } from '@signer/common';
 import { Fragment, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -44,13 +44,16 @@ const Account = ({ account }: { account: IAccount }) => {
           placeholder={translateRaw('NO_LABEL')}
           onChange={handleChangeLabel}
         />
-        <Body
-          sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
-          color="GREY_TEXT"
-          fontSize="14px"
-        >
-          {account.address}
-        </Body>
+        <Copyable text={account.address} mr="2">
+          <Body
+            sx={{ overflow: 'hidden', textOverflow: 'ellipsis', cursor: 'pointer' }}
+            color="GREY_TEXT"
+            fontSize="14px"
+            title={translateRaw('CLICK_TO_COPY')}
+          >
+            {account.address}
+          </Body>
+        </Copyable>
       </Box>
       <Link variant="defaultLink" onClick={handleDelete} ml="auto">
         <Flex variant="horizontal-center">
