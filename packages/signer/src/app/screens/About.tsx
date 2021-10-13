@@ -1,11 +1,13 @@
 import type { IconType } from '@mycrypto/ui';
-import { Box, Heading, Icon, IconButton, SubHeading } from '@mycrypto/ui';
+import { Body, Box, Flex, Heading, Icon, IconButton, SubHeading } from '@mycrypto/ui';
 import { translateRaw } from '@signer/common';
 import type { FunctionComponent } from 'react';
 
 import { Container, LinkApp } from '@components';
 import { useNavigation } from '@hooks';
 import { ROUTE_PATHS } from '@routing';
+
+import { version } from '../../../package.json';
 
 export const SOCIAL_LINKS: { icon: IconType; url: string }[] = [
   {
@@ -60,19 +62,20 @@ export const MORE_LINKS: { text: string; icon: IconType; url: string }[] = [
 export const OTHER_PRODUCT_LINKS: { text: string; url: string }[] = [
   {
     text: 'EtherAddressLookup',
-    url: ''
+    url:
+      'https://chrome.google.com/webstore/detail/etheraddresslookup/pdknmigbbbhmllnmgdfalmedcmcefdfn'
   },
   {
     text: 'MoneroVision',
-    url: ''
+    url: 'https://monerovision.com/'
   },
   {
     text: 'CryptoScamDB',
-    url: ''
+    url: 'https://cryptoscamdb.org/'
   },
   {
     text: 'FindETH',
-    url: ''
+    url: 'https://findeth.io/'
   }
 ];
 
@@ -81,9 +84,14 @@ export const About: FunctionComponent = () => {
 
   return (
     <Container>
-      <Heading fontSize="24px" lineHeight="150%" mb="1">
-        {translateRaw('ABOUT_QUILL')}
-      </Heading>
+      <Flex justifyContent="space-between" alignItems="center">
+        <Heading fontSize="24px" lineHeight="150%" mb="1">
+          {translateRaw('ABOUT_QUILL')}
+        </Heading>
+        <Body fontSize="10px" fontWeight="bold">
+          v{version}
+        </Body>
+      </Flex>
 
       <SubHeading sx={{ textTransform: 'uppercase' }} fontSize="14px">
         {translateRaw('GET_SOCIAL')}
@@ -122,8 +130,8 @@ export const About: FunctionComponent = () => {
       </SubHeading>
       <Box sx={{ display: 'grid', gridGap: 3, gridTemplateColumns: 'repeat(2, 1fr)' }}>
         {OTHER_PRODUCT_LINKS.map(({ text, url }) => (
-          <LinkApp href={url} isExternal={true} key={url}>
-            <Icon type="help" />
+          <LinkApp href={url} isExternal={true} key={url} mb="1">
+            <Icon type="external" width="22px" verticalAlign="middle" mr="2" />
             {text}
           </LinkApp>
         ))}
