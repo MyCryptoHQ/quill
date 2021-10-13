@@ -81,7 +81,8 @@ describe('App', () => {
         auth: { initialized: true, loggedIn: false, newUser: true },
         synchronization: { isHandshaken: { [Process.Main]: true } },
         ui: { navigationBack: undefined },
-        router: connectRouter(history)(undefined, undefined)
+        router: connectRouter(history)(undefined, undefined),
+        transactions: { queue: [], history: [] }
       })
     );
 
