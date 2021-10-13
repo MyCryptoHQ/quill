@@ -1,23 +1,22 @@
 import { parse } from '@ethersproject/transactions';
 import { Body, Button, Heading } from '@mycrypto/ui';
+import type { IAccount, TUuid } from '@signer/common';
 import {
   enqueue,
   getAccounts,
   isRawTransaction,
   makeQueueTx,
-  setNavigationBack,
   toTransactionRequest,
   translateRaw
 } from '@signer/common';
-import type { IAccount, TUuid } from '@signer/common';
 import { push } from 'connected-react-router';
 import type { FormEvent } from 'react';
-import { useEffect } from 'react';
 import { useForm, yupValidator } from 'typed-react-form';
 import { object, string } from 'yup';
 
 import { Box, Container, FormError, FormTextArea, Label, PanelBottom } from '@components';
 import { AccountSelector } from '@components/AccountSelector';
+import { useNavigation } from '@hooks';
 import { ROUTE_PATHS } from '@routing';
 import { useDispatch, useSelector } from '@store';
 
@@ -69,11 +68,7 @@ export const LoadTransaction = () => {
 
   const handleSelectAccount = (account: IAccount) => form.setValue('account', account.uuid);
 
-  useEffect(() => {
-    dispatch(setNavigationBack(ROUTE_PATHS.MENU));
-
-    return () => dispatch(setNavigationBack(undefined));
-  }, []);
+  useNavigation(ROUTE_PATHS.MENU);
 
   return (
     <>

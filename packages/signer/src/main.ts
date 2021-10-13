@@ -73,9 +73,9 @@ const createWindow = (): void => {
     event.preventDefault();
 
     const url = new URL(value);
-    if (url.protocol !== 'https:') {
+    if (url.protocol !== 'https:' && url.protocol !== 'mailto:') {
       return console.warn(
-        `Blocked request to open new window '${value}', only HTTPS links are allowed`
+        `Blocked request to open new window '${value}', only HTTPS and mailto links are allowed`
       );
     }
 

@@ -231,6 +231,14 @@
     "PASSWORD_CRITERIA_2": "1 special character",
     "PASSWORD_CRITERIA_3": "1 lowercase letter",
     "PASSWORD_CRITERIA_4": "1 uppercase letter",
-    "PASSWORD_CRITERIA_5": "1 number"
+    "PASSWORD_CRITERIA_5": "1 number",
+    "ABOUT": "About",
+    "ABOUT_QUILL": "About Quill",
+    "GET_SOCIAL": "Get Social",
+    "MORE_FROM_MYCRYPTO": "More from MyCrypto",
+    "OUR_TEAM": "Our Team",
+    "PRESS": "Press",
+    "PRIVACY_POLICY": "Privacy Policy",
+    "OTHER_PRODUCTS": "Other Products"
   }
 }
