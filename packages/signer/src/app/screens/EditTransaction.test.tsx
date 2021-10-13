@@ -59,7 +59,7 @@ describe('EditTransaction', () => {
     expect(gasLimit).toBeDefined();
     fireEvent.change(gasLimit, { target: { value: 23000 } });
 
-    const saveButton = getByText(translateRaw('SAVE_SETTINGS'));
+    const saveButton = getByText(translateRaw('SAVE_TX_DETAILS'));
     expect(saveButton).toBeDefined();
     fireEvent.click(saveButton);
 
@@ -91,7 +91,7 @@ describe('EditTransaction', () => {
     expect(maxFeePerGas).toBeDefined();
     fireEvent.change(maxFeePerGas, { target: { value: 200 } });
 
-    const saveButton = getByText(translateRaw('SAVE_SETTINGS'));
+    const saveButton = getByText(translateRaw('SAVE_TX_DETAILS'));
     expect(saveButton).toBeDefined();
     fireEvent.click(saveButton);
 
@@ -122,7 +122,7 @@ describe('EditTransaction', () => {
     expect(gasLimit).toBeDefined();
     fireEvent.change(gasLimit, { target: { value: 'blabla' } });
 
-    const saveButton = getByText(translateRaw('SAVE_SETTINGS'));
+    const saveButton = getByText(translateRaw('SAVE_TX_DETAILS'));
     expect(saveButton).toBeDefined();
     fireEvent.click(saveButton);
 
