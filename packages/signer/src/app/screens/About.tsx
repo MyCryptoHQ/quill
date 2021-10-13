@@ -19,8 +19,7 @@ export const SOCIAL_LINKS: { icon: IconType; url: string }[] = [
     url: 'https://www.facebook.com/mycryptoHQ/'
   },
   {
-    // @todo: Different icon?
-    icon: 'medium',
+    icon: 'blog',
     url: 'https://blog.mycrypto.com/'
   },
   {
@@ -89,7 +88,7 @@ export const About: FunctionComponent = () => {
           {translateRaw('ABOUT_QUILL')}
         </Heading>
         <Body fontSize="10px" fontWeight="bold">
-          v{version}
+          {/* @todo: Look into versioning */}v{version}
         </Body>
       </Flex>
 
