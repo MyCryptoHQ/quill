@@ -1,4 +1,4 @@
-import { getNavigationBack, getQueueLength, logout } from '@signer/common';
+import { getNavigationBack, logout } from '@signer/common';
 import { getLocation } from 'connected-react-router';
 import type { PropsWithChildren } from 'react';
 import SVG from 'react-inlinesvg';
@@ -55,8 +55,6 @@ export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   const dispatch = useDispatch();
   const backUrl = useSelector(getNavigationBack);
 
-  const queueLength = useSelector(getQueueLength);
-
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -79,7 +77,7 @@ export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
       <NavItem href={ROUTE_PATHS.HOME}>
         <Box variant="horizontal-start">
           <LinkApp href={ROUTE_PATHS.HOME}>
-            <NavigationLogo transactionCount={queueLength} />
+            <NavigationLogo />
           </LinkApp>
         </Box>
       </NavItem>
