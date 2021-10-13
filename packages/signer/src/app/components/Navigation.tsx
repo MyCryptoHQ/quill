@@ -10,10 +10,10 @@ import add from '@assets/icons/add.svg';
 import back from '@assets/icons/back.svg';
 import lock from '@assets/icons/lock.svg';
 import settings from '@assets/icons/settings.svg';
-import { Logo } from '@components/Logo';
 import { useDispatch, useSelector } from '@store';
 
 import LinkApp from './Core/LinkApp';
+import { NavigationLogo } from './NavigationLogo';
 
 const NavIcon = ({
   icon,
@@ -77,7 +77,7 @@ export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
       <NavItem href={ROUTE_PATHS.HOME}>
         <Box variant="horizontal-start">
           <LinkApp href={ROUTE_PATHS.HOME}>
-            <Logo />
+            <NavigationLogo />
           </LinkApp>
         </Box>
       </NavItem>

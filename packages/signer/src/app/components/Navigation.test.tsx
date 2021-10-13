@@ -1,4 +1,5 @@
-import type { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
+import type { EnhancedStore } from '@reduxjs/toolkit';
+import type { DeepPartial } from '@signer/common';
 import { logout } from '@signer/common';
 import { render } from '@testing-library/react';
 import { connectRouter } from 'connected-react-router';
@@ -31,7 +32,10 @@ describe('Navigation', () => {
         loggedIn: true
       },
       ui: {},
-      router: connectRouter(history)(undefined, undefined)
+      router: connectRouter(history)(undefined, undefined),
+      transactions: {
+        queue: []
+      }
     });
 
     const { getByTestId } = getComponent(mockStore);
@@ -50,7 +54,10 @@ describe('Navigation', () => {
       ui: {
         navigationBack: 'foo'
       },
-      router: connectRouter(history)(undefined, undefined)
+      router: connectRouter(history)(undefined, undefined),
+      transactions: {
+        queue: []
+      }
     });
 
     const { getAllByTestId } = getComponent(mockStore);
