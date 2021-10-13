@@ -1,6 +1,6 @@
 import type { EnhancedStore } from '@reduxjs/toolkit';
 import type { DeepPartial } from '@signer/common';
-import { setNavigationBack } from '@signer/common';
+import { setNavigationBack, translateRaw } from '@signer/common';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router';
@@ -25,7 +25,8 @@ const getComponent = (store: EnhancedStore<DeepPartial<ApplicationState>> = crea
 
 describe('About', () => {
   it('renders', async () => {
-    expect(() => getComponent()).not.toThrow();
+    const { findByText } = getComponent();
+    await expect(findByText(translateRaw('ABOUT_QUILL'))).resolves.toBeDefined();
   });
 
   it('sets navigationBack', () => {
