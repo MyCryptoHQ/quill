@@ -2,7 +2,6 @@ import type { IconType } from '@mycrypto/ui';
 import { Box, Heading, Icon, IconButton, SubHeading } from '@mycrypto/ui';
 import { translateRaw } from '@signer/common';
 import type { FunctionComponent } from 'react';
-import React from 'react';
 
 import { Container, LinkApp } from '@components';
 import { useNavigation } from '@hooks';
