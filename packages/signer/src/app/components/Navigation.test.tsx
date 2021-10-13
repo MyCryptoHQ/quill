@@ -1,5 +1,6 @@
-import type { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
-import { logout } from '@signer/common';
+import type { EnhancedStore } from '@reduxjs/toolkit';
+import type { DeepPartial } from '@signer/common';
+import { logout, makeQueueTx } from '@signer/common';
 import { render } from '@testing-library/react';
 import { connectRouter } from 'connected-react-router';
 import { createMemoryHistory } from 'history';
@@ -7,6 +8,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
+import { fAccount, getTransactionRequest } from '@fixtures';
 import type { ApplicationState } from '@store';
 
 import { Navigation } from './Navigation';
@@ -31,7 +33,10 @@ describe('Navigation', () => {
         loggedIn: true
       },
       ui: {},
-      router: connectRouter(history)(undefined, undefined)
+      router: connectRouter(history)(undefined, undefined),
+      transactions: {
+        queue: []
+      }
     });
 
     const { getByTestId } = getComponent(mockStore);
@@ -50,7 +55,10 @@ describe('Navigation', () => {
       ui: {
         navigationBack: 'foo'
       },
-      router: connectRouter(history)(undefined, undefined)
+      router: connectRouter(history)(undefined, undefined),
+      transactions: {
+        queue: []
+      }
     });
 
     const { getAllByTestId } = getComponent(mockStore);
@@ -59,5 +67,24 @@ describe('Navigation', () => {
     );
 
     expect(icon).toBeDefined();
+  });
+
+  it('shows number of pending transactions', () => {
+    const queueTx = makeQueueTx(getTransactionRequest(fAccount.address));
+    const mockStore = createMockStore({
+      auth: {
+        loggedIn: true
+      },
+      ui: {
+        navigationBack: 'foo'
+      },
+      router: connectRouter(history)(undefined, undefined),
+      transactions: {
+        queue: [queueTx]
+      }
+    });
+
+    const { getByText } = getComponent(mockStore);
+    expect(getByText('1')).toBeDefined();
   });
 });
