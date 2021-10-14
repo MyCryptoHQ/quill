@@ -1,10 +1,10 @@
 import path from 'path';
 import { Application } from 'spectron';
 
-const windowsPath = path.join(__dirname, '../../out/signer-win32-x64/signer.exe');
+const windowsPath = path.join(__dirname, '../../out/quill-win32-x64/quill.exe');
 // @todo verify
-const macPath = path.join(__dirname, '../../out/signer-macosx-x64/signer');
-const linuxPath = path.join(__dirname, '../../out/signer-linux-x64/signer');
+const macPath = path.join(__dirname, '../../out/quill-macosx-x64/quill');
+const linuxPath = path.join(__dirname, '../../out/quill-linux-x64/quill');
 
 const appPath = (() => {
   switch (process.platform) {
