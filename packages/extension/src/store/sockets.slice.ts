@@ -1,7 +1,7 @@
+import type { JsonRPCRequest } from '@quill/common';
+import { signJsonRpcRequest } from '@quill/common';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAction, createSlice } from '@reduxjs/toolkit';
-import type { JsonRPCRequest } from '@signer/common';
-import { signJsonRpcRequest } from '@signer/common';
 import stringify from 'fast-json-stable-stringify';
 import type { SagaIterator } from 'redux-saga';
 import { END, eventChannel } from 'redux-saga';
@@ -97,7 +97,7 @@ export function* waitForResponse(id: string | number) {
 }
 
 /**
- * Handles JSON-RPC requests sent to the signer.
+ * Handles JSON-RPC requests sent to Quill.
  */
 export function* handleRequestWorker(
   { payload }: ReturnType<typeof handleRequest>,
@@ -224,7 +224,7 @@ export function* socketWorker(wait?: number): SagaIterator {
 }
 
 /**
- * Changes the icon badge when connected to the signer.
+ * Changes the icon badge when connected to Quill.
  */
 export function* setConnectedWorker({ payload }: ReturnType<typeof setConnected>) {
   if (payload) {

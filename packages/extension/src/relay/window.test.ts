@@ -1,4 +1,4 @@
-import { generateUUID } from '@signer/common';
+import { generateUUID } from '@quill/common';
 
 import { RelayTarget } from '../types';
 import { sleep } from '../utils';

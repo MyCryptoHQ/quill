@@ -6,7 +6,7 @@ import type {
   JsonRPCRequest,
   JsonRPCResponse,
   TSignTransaction
-} from '@signer/common';
+} from '@quill/common';
 
 import type { ApplicationState } from '../store';
 import type { RelayMessage } from '../types';

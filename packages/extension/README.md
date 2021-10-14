@@ -1,6 +1,6 @@
-# `@signer/extension`
+# `@quill/extension`
 
-MyCrypto Signer browser extension, which facilitates communication between the Signer application and webpages.
+MyCrypto Quill browser extension, which facilitates communication between Quill and webpages.
 
 ## Development
 

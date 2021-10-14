@@ -1,9 +1,9 @@
 {
   "scripts": {
-    "start": "yarn build && concurrently --raw -k \"yarn workspaces foreach -i --include signer run start\" \"yarn watch\"",
-    "package": "yarn build && yarn workspaces foreach -i --include signer run package",
-    "make": "yarn build && yarn workspaces foreach -i --include signer run make",
-    "publish": "yarn build && yarn workspaces foreach -i --include signer run publish",
+    "start": "yarn build && concurrently --raw -k \"yarn workspaces foreach -i --include quill run start\" \"yarn watch\"",
+    "package": "yarn build && yarn workspaces foreach -i --include quill run package",
+    "make": "yarn build && yarn workspaces foreach -i --include quill run make",
+    "publish": "yarn build && yarn workspaces foreach -i --include quill run publish",
     "build": "yarn workspaces foreach -i run build",
     "watch": "yarn workspaces foreach -i run watch",
     "lint": "yarn lint:types && yarn lint:source && yarn lint:format && yarn lint:styles",
@@ -16,9 +16,9 @@
     "tsc": "tsc --noEmit",
     "test": "jest --testPathIgnorePatterns e2e",
     "test:coverage": "yarn test --coverage",
-    "test:e2e": "yarn package && cross-env IS_TEST=true jest packages/signer/tests/e2e"
+    "test:e2e": "yarn package && cross-env IS_TEST=true jest packages/quill/tests/e2e"
   },
-  "repository": "https://github.com/MyCryptoHQ/signer.git",
+  "repository": "https://github.com/MyCryptoHQ/quill.git",
   "author": "MyCryptoHQ",
   "license": "MIT",
   "lint-staged": {

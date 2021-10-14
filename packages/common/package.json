@@ -1,5 +1,5 @@
 {
-  "name": "@signer/common",
+  "name": "@quill/common",
   "version": "1.0.0",
   "main": "lib/index.js",
   "types": "types/src/index.d.ts",
