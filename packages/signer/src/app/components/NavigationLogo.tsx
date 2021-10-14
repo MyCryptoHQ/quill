@@ -1,4 +1,4 @@
-import { getQueueLength } from '@signer/common';
+import { getQueueLength } from '@quill/common';
 
 import { useSelector } from '@app/store';
 import logo from '@assets/images/icon.png';

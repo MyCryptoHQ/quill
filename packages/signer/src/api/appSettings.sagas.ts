@@ -1,4 +1,4 @@
-import { quitApp } from '@signer/common';
+import { quitApp } from '@quill/common';
 import { app } from 'electron';
 import { all, call, takeEvery } from 'redux-saga/effects';
 

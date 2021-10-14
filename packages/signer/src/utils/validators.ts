@@ -1,10 +1,10 @@
-import type { JsonRPCRequest, SignedJsonRPCRequest } from '@signer/common';
+import type { JsonRPCRequest, SignedJsonRPCRequest } from '@quill/common';
 import {
   JsonRPCMethod,
   JSONRPCRequestStruct,
   RequestWalletPermissionsStruct,
   SignTransactionStruct
-} from '@signer/common';
+} from '@quill/common';
 import { is, unknown } from 'superstruct';
 
 const paramSchemas = {

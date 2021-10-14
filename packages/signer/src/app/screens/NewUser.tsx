@@ -1,5 +1,5 @@
 import { Body, Button, Heading } from '@mycrypto/ui';
-import { translateRaw } from '@signer/common';
+import { translateRaw } from '@quill/common';
 
 import { Box, Container, LinkApp, Logo, PanelBottom } from '@components';
 import { ROUTE_PATHS } from '@routing';

@@ -1,4 +1,3 @@
-import { combineReducers } from '@reduxjs/toolkit';
 import {
   accountsSlice,
   appSettingsSlice,
@@ -9,7 +8,8 @@ import {
   transactionsSlice,
   wrapRootReducer,
   wsSlice
-} from '@signer/common';
+} from '@quill/common';
+import { combineReducers } from '@reduxjs/toolkit';
 
 import { persistedReducer as accountsReducer } from './account.persist';
 import { persistedReducer as appSettingsReducer } from './appSettings.persist';

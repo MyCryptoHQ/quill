@@ -1,5 +1,5 @@
-import { generateDeterministicAddressUUID } from '@signer/common';
-import type { SerializedWallet, TUuid } from '@signer/common';
+import { generateDeterministicAddressUUID } from '@quill/common';
+import type { SerializedWallet, TUuid } from '@quill/common';
 import { getWallet } from '@wallets/wallet-initialisation';
 import keytar from 'keytar';
 

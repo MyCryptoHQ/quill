@@ -1,6 +1,6 @@
 import { Body, Heading } from '@mycrypto/ui';
-import { getSigningError, translateRaw, WalletType } from '@signer/common';
-import type { IAccountDeterministic } from '@signer/common';
+import { getSigningError, translateRaw, WalletType } from '@quill/common';
+import type { IAccountDeterministic } from '@quill/common';
 import { useEffect } from 'react';
 
 import { Account, ScrollableContainer, SignBottom } from '@app/components';

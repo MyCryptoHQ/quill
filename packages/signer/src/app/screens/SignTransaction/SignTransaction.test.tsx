@@ -1,6 +1,6 @@
+import { makeQueueTx, makeTx, sign, translateRaw, WalletType } from '@quill/common';
+import type { DeepPartial, IAccount, IAccountDeterministic } from '@quill/common';
 import type { EnhancedStore } from '@reduxjs/toolkit';
-import { makeQueueTx, makeTx, sign, translateRaw, WalletType } from '@signer/common';
-import type { DeepPartial, IAccount, IAccountDeterministic } from '@signer/common';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { push } from 'connected-react-router';
 import { Provider } from 'react-redux';

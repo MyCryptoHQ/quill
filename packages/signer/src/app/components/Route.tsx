@@ -1,4 +1,4 @@
-import { getLoggedIn } from '@signer/common';
+import { getLoggedIn } from '@quill/common';
 import type { RouteProps } from 'react-router-dom';
 import { Route as ActualRoute, Redirect } from 'react-router-dom';
 

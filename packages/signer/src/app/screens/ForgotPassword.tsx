@@ -1,5 +1,5 @@
 import { Body, Button, Heading } from '@mycrypto/ui';
-import { reset, translateRaw } from '@signer/common';
+import { reset, translateRaw } from '@quill/common';
 import { push } from 'connected-react-router';
 
 import warning from '@assets/icons/circle-error.svg';

@@ -1,4 +1,4 @@
-import type { JsonRPCRequest } from '@signer/common';
+import type { JsonRPCRequest } from '@quill/common';
 import {
   denyPermission,
   grantPermission,
@@ -7,7 +7,7 @@ import {
   loginSuccess,
   rehydratedAllState,
   requestPermission
-} from '@signer/common';
+} from '@quill/common';
 import type { IncomingMessage } from 'http';
 import { expectSaga } from 'redux-saga-test-plan';
 import WebSocket from 'ws';

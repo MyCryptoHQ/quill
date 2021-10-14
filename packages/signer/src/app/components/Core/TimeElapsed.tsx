@@ -1,4 +1,4 @@
-import { formatTimeDifference } from '@signer/common';
+import { formatTimeDifference } from '@quill/common';
 import { useState } from 'react';
 
 import { useInterval } from '@app/hooks';

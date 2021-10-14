@@ -1,5 +1,5 @@
 import { Body } from '@mycrypto/ui';
-import { translateRaw } from '@signer/common';
+import { translateRaw } from '@quill/common';
 import type { ChangeEvent, DragEvent } from 'react';
 import { useState } from 'react';
 

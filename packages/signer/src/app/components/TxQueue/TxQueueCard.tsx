@@ -1,7 +1,7 @@
 import { formatEther } from '@ethersproject/units';
 import { Banner, Body } from '@mycrypto/ui';
-import { getAccounts, selectTransaction, translateRaw } from '@signer/common';
-import type { TxQueueEntry } from '@signer/common';
+import { getAccounts, selectTransaction, translateRaw } from '@quill/common';
+import type { TxQueueEntry } from '@quill/common';
 
 import { Box, FromToAccount, Image, LinkApp, TimeElapsed } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';

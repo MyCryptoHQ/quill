@@ -1,4 +1,4 @@
-import { JsonRPCMethod } from '@signer/common';
+import { JsonRPCMethod } from '@quill/common';
 
 import { fRequestPrivateKey, fRequestPublicKey } from '@fixtures';
 import { createSignedJsonRpcRequest } from '@utils';

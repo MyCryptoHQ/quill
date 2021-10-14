@@ -1,6 +1,6 @@
 import { Body } from '@mycrypto/ui';
-import { selectTransaction, translateRaw, TxResult } from '@signer/common';
-import type { TxHistoryEntry } from '@signer/common';
+import { selectTransaction, translateRaw, TxResult } from '@quill/common';
+import type { TxHistoryEntry } from '@quill/common';
 
 import { Box, Image } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';

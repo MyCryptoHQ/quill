@@ -6,8 +6,8 @@ import type {
   SerializedOptionalPersistentWallet,
   SerializedWallet,
   TUuid
-} from '@signer/common';
-import { WalletType } from '@signer/common';
+} from '@quill/common';
+import { WalletType } from '@quill/common';
 import { getDeterministicWallet, getWallet } from '@wallets/wallet-initialisation';
 
 import { getPrivateKey } from './secrets';

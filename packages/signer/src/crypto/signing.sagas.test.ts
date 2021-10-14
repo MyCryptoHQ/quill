@@ -6,8 +6,8 @@ import {
   signFailed,
   signSuccess,
   WalletType
-} from '@signer/common';
-import type { SerializedWallet } from '@signer/common';
+} from '@quill/common';
+import type { SerializedWallet } from '@quill/common';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 

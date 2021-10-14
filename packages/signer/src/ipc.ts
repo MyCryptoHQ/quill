@@ -1,4 +1,4 @@
-import { Process } from '@signer/common';
+import { Process } from '@quill/common';
 import type { BrowserWindow, IpcMainEvent } from 'electron';
 import { ipcMain } from 'electron';
 

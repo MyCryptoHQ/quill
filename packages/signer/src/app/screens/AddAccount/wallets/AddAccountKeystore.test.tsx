@@ -1,6 +1,6 @@
+import { fetchAccounts, translateRaw, WalletType } from '@quill/common';
+import type { DeepPartial } from '@quill/common';
 import type { EnhancedStore } from '@reduxjs/toolkit';
-import { fetchAccounts, translateRaw, WalletType } from '@signer/common';
-import type { DeepPartial } from '@signer/common';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router';

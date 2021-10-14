@@ -1,7 +1,7 @@
 import { formatEther, formatUnits } from '@ethersproject/units';
 import { Body } from '@mycrypto/ui';
-import { bigify, translateRaw } from '@signer/common';
-import type { TxHistoryEntry, TxQueueEntry } from '@signer/common';
+import { bigify, translateRaw } from '@quill/common';
+import type { TxHistoryEntry, TxQueueEntry } from '@quill/common';
 
 import { CopyableText } from '@components';
 import { getChain } from '@data';

@@ -1,5 +1,5 @@
-import { getAccounts, getCurrentTransaction, sign, TxResult, WalletType } from '@signer/common';
-import type { IAccount, SerializedWallet } from '@signer/common';
+import { getAccounts, getCurrentTransaction, sign, TxResult, WalletType } from '@quill/common';
+import type { IAccount, SerializedWallet } from '@quill/common';
 import { push } from 'connected-react-router';
 import type { ComponentType } from 'react';
 import { useState } from 'react';

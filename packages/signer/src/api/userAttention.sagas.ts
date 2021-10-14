@@ -1,6 +1,6 @@
+import { requestPermission } from '@quill/common';
 import type { Action } from '@reduxjs/toolkit';
 import { createAction } from '@reduxjs/toolkit';
-import { requestPermission } from '@signer/common';
 import { push } from 'connected-react-router';
 import type { BrowserWindow } from 'electron';
 import { all, call, put, takeEvery } from 'redux-saga/effects';

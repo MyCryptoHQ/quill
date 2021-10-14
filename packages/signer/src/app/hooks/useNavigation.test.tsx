@@ -1,5 +1,5 @@
-import type { DeepPartial } from '@signer/common';
-import { setNavigationBack } from '@signer/common';
+import type { DeepPartial } from '@quill/common';
+import { setNavigationBack } from '@quill/common';
 import { renderHook } from '@testing-library/react-hooks';
 import type { FunctionComponent } from 'react';
 import { Provider } from 'react-redux';

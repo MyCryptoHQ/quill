@@ -7,7 +7,7 @@ import {
   sign,
   translateRaw,
   TxResult
-} from '@signer/common';
+} from '@quill/common';
 import { push } from 'connected-react-router';
 
 import {

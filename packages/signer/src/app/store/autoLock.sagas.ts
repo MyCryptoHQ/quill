@@ -1,4 +1,4 @@
-import { getAutoLockTimeout, getLoggedIn, logout } from '@signer/common';
+import { getAutoLockTimeout, getLoggedIn, logout } from '@quill/common';
 import { eventChannel } from 'redux-saga';
 import { all, call, delay, put, race, select, take } from 'redux-saga/effects';
 

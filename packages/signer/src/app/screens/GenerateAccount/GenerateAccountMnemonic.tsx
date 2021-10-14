@@ -1,5 +1,5 @@
 import { Body, Button, Heading } from '@mycrypto/ui';
-import { generateAccount, getGeneratedMnemonicWords, translateRaw } from '@signer/common';
+import { generateAccount, getGeneratedMnemonicWords, translateRaw } from '@quill/common';
 import { useEffect } from 'react';
 
 import refresh from '@app/assets/icons/refresh.svg';

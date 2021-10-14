@@ -1,4 +1,4 @@
-import { createKeyPair } from '@signer/common';
+import { createKeyPair } from '@quill/common';
 
 import { createStore } from './store';
 

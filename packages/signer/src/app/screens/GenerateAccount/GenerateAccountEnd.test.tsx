@@ -1,6 +1,6 @@
+import { addGeneratedAccount, translateRaw } from '@quill/common';
+import type { DeepPartial } from '@quill/common';
 import type { EnhancedStore } from '@reduxjs/toolkit';
-import { addGeneratedAccount, translateRaw } from '@signer/common';
-import type { DeepPartial } from '@signer/common';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { toPng } from 'html-to-image';
 import { Provider } from 'react-redux';

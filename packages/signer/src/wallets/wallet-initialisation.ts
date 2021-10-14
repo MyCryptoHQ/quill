@@ -1,7 +1,7 @@
 import type { DeterministicWallet, Wallet } from '@mycrypto/wallets';
 import { Keystore, MnemonicPhrase, PrivateKey } from '@mycrypto/wallets';
-import type { SerializedDeterministicWallet, SerializedWallet } from '@signer/common';
-import { WalletType } from '@signer/common';
+import type { SerializedDeterministicWallet, SerializedWallet } from '@quill/common';
+import { WalletType } from '@quill/common';
 
 export const getWallet = async (initialiseWallet: SerializedWallet): Promise<Wallet> => {
   switch (initialiseWallet.walletType) {

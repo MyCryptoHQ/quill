@@ -1,5 +1,5 @@
-import { translateRaw } from '@signer/common';
-import type { IAccount, TUuid } from '@signer/common';
+import { translateRaw } from '@quill/common';
+import type { IAccount, TUuid } from '@quill/common';
 import type { OptionProps } from 'react-select';
 
 import { Account, Selector } from '@components';

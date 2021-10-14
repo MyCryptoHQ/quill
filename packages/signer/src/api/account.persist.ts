@@ -4,8 +4,8 @@ import {
   createPersistReducer,
   removeAccount,
   updateAccount
-} from '@signer/common';
-import type { PersistConfig } from '@signer/common';
+} from '@quill/common';
+import type { PersistConfig } from '@quill/common';
 
 const persistConfig: PersistConfig = {
   key: accountsSlice.name,

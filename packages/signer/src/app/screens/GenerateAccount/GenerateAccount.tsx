@@ -1,4 +1,4 @@
-import { setGeneratedAccount } from '@signer/common';
+import { setGeneratedAccount } from '@quill/common';
 import { push } from 'connected-react-router';
 
 import type { IFlowComponent } from '@components';

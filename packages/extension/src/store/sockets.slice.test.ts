@@ -1,4 +1,4 @@
-import { signJsonRpcRequest } from '@signer/common';
+import { signJsonRpcRequest } from '@quill/common';
 import stringify from 'fast-json-stable-stringify';
 import { chrome } from 'jest-chrome';
 import { WebSocket } from 'mock-socket';
@@ -85,7 +85,7 @@ describe('waitForResponse', () => {
 });
 
 describe('handleRequestWorker', () => {
-  it('sends a request to the signer and sends the response back to the extension', async () => {
+  it('sends a request to Quill and sends the response back to the extension', async () => {
     const request = {
       jsonrpc: '2.0' as const,
       id: 'foo',
@@ -219,7 +219,7 @@ describe('handleResponseWorker', () => {
     ]
   };
 
-  it('handles JSON-RPC responses from the signer', async () => {
+  it('handles JSON-RPC responses from Quill', async () => {
     await expectSaga(handleResponseWorker, {
       request,
       response: {

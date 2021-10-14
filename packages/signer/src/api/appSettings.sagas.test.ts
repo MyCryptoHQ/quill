@@ -1,4 +1,4 @@
-import { quitApp } from '@signer/common';
+import { quitApp } from '@quill/common';
 import { app } from 'electron';
 import { expectSaga } from 'redux-saga-test-plan';
 

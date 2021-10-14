@@ -1,5 +1,5 @@
-import { handshakeSaga, Process } from '@signer/common';
-import type { ReduxIPC } from '@signer/common';
+import { handshakeSaga, Process } from '@quill/common';
+import type { ReduxIPC } from '@quill/common';
 import { all } from 'redux-saga/effects';
 
 import { accountsSaga } from './accounts.slice';

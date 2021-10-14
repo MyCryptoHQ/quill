@@ -1,5 +1,5 @@
 import { Body, Heading } from '@mycrypto/ui';
-import { translateRaw, WalletType } from '@signer/common';
+import { translateRaw, WalletType } from '@quill/common';
 
 import { Box, Image } from '@app/components';
 import keystore from '@assets/icons/keystore.svg';

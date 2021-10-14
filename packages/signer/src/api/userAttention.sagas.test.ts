@@ -1,4 +1,4 @@
-import { requestPermission } from '@signer/common';
+import { requestPermission } from '@quill/common';
 import { push } from 'connected-react-router';
 import type { BrowserWindow } from 'electron';
 import { expectSaga } from 'redux-saga-test-plan';

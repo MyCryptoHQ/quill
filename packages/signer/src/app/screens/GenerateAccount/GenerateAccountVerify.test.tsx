@@ -1,6 +1,6 @@
+import { translateRaw } from '@quill/common';
+import type { DeepPartial } from '@quill/common';
 import type { EnhancedStore } from '@reduxjs/toolkit';
-import { translateRaw } from '@signer/common';
-import type { DeepPartial } from '@signer/common';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { mockRandomForEach } from 'jest-mock-random';
 import { Provider } from 'react-redux';

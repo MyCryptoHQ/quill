@@ -1,7 +1,5 @@
 import type { DeterministicAddress } from '@mycrypto/wallets';
 import { DEFAULT_ETH } from '@mycrypto/wallets';
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { createSelector, createSlice } from '@reduxjs/toolkit';
 import {
   accountsSlice,
   addAccount,
@@ -19,14 +17,16 @@ import {
   setExtendedKey,
   setGeneratedAccount,
   WalletType
-} from '@signer/common';
+} from '@quill/common';
 import type {
   AccountsState,
   IAccount,
   SerializedWallet,
   SerializedWalletWithAddress,
   TAddress
-} from '@signer/common';
+} from '@quill/common';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 import type { SagaIterator } from 'redux-saga';
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 

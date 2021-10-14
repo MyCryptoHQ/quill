@@ -1,5 +1,4 @@
 import type { TransactionRequest } from '@ethersproject/abstract-provider';
-import type { PayloadAction } from '@reduxjs/toolkit';
 import {
   addToHistory,
   dequeue,
@@ -10,8 +9,9 @@ import {
   signFailed,
   signSuccess,
   TxResult
-} from '@signer/common';
-import type { SerializedPersistentAccount, SerializedWallet, TxQueueEntry } from '@signer/common';
+} from '@quill/common';
+import type { SerializedPersistentAccount, SerializedWallet, TxQueueEntry } from '@quill/common';
+import type { PayloadAction } from '@reduxjs/toolkit';
 import { push } from 'connected-react-router';
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 

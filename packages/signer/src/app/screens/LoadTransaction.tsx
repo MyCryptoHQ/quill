@@ -1,6 +1,6 @@
 import { parse } from '@ethersproject/transactions';
 import { Body, Button, Heading } from '@mycrypto/ui';
-import type { IAccount, TUuid } from '@signer/common';
+import type { IAccount, TUuid } from '@quill/common';
 import {
   enqueue,
   getAccounts,
@@ -8,7 +8,7 @@ import {
   makeQueueTx,
   toTransactionRequest,
   translateRaw
-} from '@signer/common';
+} from '@quill/common';
 import { push } from 'connected-react-router';
 import type { FormEvent } from 'react';
 import { useForm, yupValidator } from 'typed-react-form';

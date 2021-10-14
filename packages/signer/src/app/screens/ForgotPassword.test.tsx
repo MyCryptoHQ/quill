@@ -1,5 +1,5 @@
-import { reset, translateRaw } from '@signer/common';
-import type { DeepPartial } from '@signer/common';
+import { reset, translateRaw } from '@quill/common';
+import type { DeepPartial } from '@quill/common';
 import { fireEvent, render } from '@testing-library/react';
 import { push } from 'connected-react-router';
 import { Provider } from 'react-redux';

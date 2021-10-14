@@ -1,4 +1,4 @@
-import { createKeyPair, translateRaw } from '@signer/common';
+import { createKeyPair, translateRaw } from '@quill/common';
 import { app, BrowserWindow, Menu, protocol, shell, Tray } from 'electron';
 import contextMenu from 'electron-context-menu';
 import positioner from 'electron-traywindow-positioner';

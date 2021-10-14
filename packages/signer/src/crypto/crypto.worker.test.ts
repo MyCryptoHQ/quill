@@ -1,4 +1,4 @@
-import { Process, sendPublicKey } from '@signer/common';
+import { Process, sendPublicKey } from '@quill/common';
 
 import { fEncryptionPublicKey } from '@fixtures';
 

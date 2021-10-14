@@ -1,7 +1,7 @@
 import type { BigNumberish } from '@ethersproject/bignumber';
 import { Box } from '@mycrypto/ui';
-import { translateRaw } from '@signer/common';
-import type { IAccount } from '@signer/common';
+import { translateRaw } from '@quill/common';
+import type { IAccount } from '@quill/common';
 
 import type { BoxProps } from '@app/components';
 

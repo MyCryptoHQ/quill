@@ -1,6 +1,6 @@
+import { createKeyPair, Process, synchronizationMiddleware } from '@quill/common';
 import type { ConfigureStoreOptions, EnhancedStore } from '@reduxjs/toolkit';
 import { configureStore } from '@reduxjs/toolkit';
-import { createKeyPair, Process, synchronizationMiddleware } from '@signer/common';
 import { routerMiddleware } from 'connected-react-router';
 import { createHashHistory } from 'history';
 import createSagaMiddleware from 'redux-saga';

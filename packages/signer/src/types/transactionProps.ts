@@ -1,5 +1,5 @@
 import type { TransactionRequest } from '@ethersproject/abstract-provider';
-import type { IAccount, IAccountNonDeterministic, SerializedWallet } from '@signer/common';
+import type { IAccount, IAccountNonDeterministic, SerializedWallet } from '@quill/common';
 
 export interface SignTransactionProps<AccountType extends IAccount = IAccountNonDeterministic> {
   onAccept(wallet: SerializedWallet): void;

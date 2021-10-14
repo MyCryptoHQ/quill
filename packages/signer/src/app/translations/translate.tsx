@@ -1,4 +1,4 @@
-import { translateRaw } from '@signer/common';
+import { translateRaw } from '@quill/common';
 import type { ReactElement } from 'react';
 
 import { TranslateMarkdown } from '@components';

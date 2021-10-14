@@ -1,6 +1,6 @@
 import { hexlify } from '@ethersproject/bytes';
-import { stripHexPrefix } from '@signer/common';
-import type { JsonRPCRequest } from '@signer/common';
+import { stripHexPrefix } from '@quill/common';
+import type { JsonRPCRequest } from '@quill/common';
 import stringify from 'fast-json-stable-stringify';
 import { sign, utils, verify } from 'noble-ed25519';
 

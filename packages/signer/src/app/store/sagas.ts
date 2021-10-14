@@ -1,4 +1,4 @@
-import { handshakeSaga, Process } from '@signer/common';
+import { handshakeSaga, Process } from '@quill/common';
 import { all } from 'redux-saga/effects';
 
 import { ipcBridgeRenderer } from '@bridge';

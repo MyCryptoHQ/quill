@@ -1,6 +1,6 @@
+import type { DeepPartial } from '@quill/common';
+import { logout } from '@quill/common';
 import type { EnhancedStore } from '@reduxjs/toolkit';
-import type { DeepPartial } from '@signer/common';
-import { logout } from '@signer/common';
 import { render } from '@testing-library/react';
 import { connectRouter } from 'connected-react-router';
 import { createMemoryHistory } from 'history';

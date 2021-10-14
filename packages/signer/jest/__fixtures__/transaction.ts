@@ -1,5 +1,5 @@
 import type { TransactionResponse } from '@ethersproject/abstract-provider';
-import type { JsonRPCRequest, TSignTransaction, UserRequest } from '@signer/common';
+import type { JsonRPCRequest, TSignTransaction, UserRequest } from '@quill/common';
 
 import { default as ethTxRequest } from './ethTxRequest.json';
 import { default as ethTxRequestEIP1559 } from './ethTxRequestEIP1559.json';

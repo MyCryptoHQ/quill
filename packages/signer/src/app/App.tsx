@@ -10,7 +10,7 @@ import {
   getLoggedIn,
   getPersisted,
   Process
-} from '@signer/common';
+} from '@quill/common';
 import { useEffect } from 'react';
 import { hot } from 'react-hot-loader';
 import { ThemeProvider } from 'styled-components';

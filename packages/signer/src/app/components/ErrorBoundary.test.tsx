@@ -1,4 +1,4 @@
-import { translateRaw } from '@signer/common';
+import { translateRaw } from '@quill/common';
 import { render } from '@testing-library/react';
 import type { ReactNode } from 'react';
 

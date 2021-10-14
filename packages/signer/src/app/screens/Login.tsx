@@ -1,5 +1,5 @@
 import { Body, Button, Heading } from '@mycrypto/ui';
-import { getLoggingIn, login, translateRaw } from '@signer/common';
+import { getLoggingIn, login, translateRaw } from '@quill/common';
 import type { FormEvent } from 'react';
 import { useEffect } from 'react';
 import { useForm, yupValidator } from 'typed-react-form';

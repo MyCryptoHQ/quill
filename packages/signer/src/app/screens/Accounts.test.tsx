@@ -1,6 +1,6 @@
+import { removeAccount, setNavigationBack, translateRaw } from '@quill/common';
+import type { DeepPartial } from '@quill/common';
 import type { EnhancedStore } from '@reduxjs/toolkit';
-import { removeAccount, setNavigationBack, translateRaw } from '@signer/common';
-import type { DeepPartial } from '@signer/common';
 import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';

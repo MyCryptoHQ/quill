@@ -4,7 +4,7 @@ import {
   permissionsSlice,
   revokePermission,
   updatePermission
-} from '@signer/common';
+} from '@quill/common';
 
 const persistConfig = {
   key: permissionsSlice.name,

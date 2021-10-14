@@ -1,4 +1,4 @@
-import { clearAddAccounts, fetchReset } from '@signer/common';
+import { clearAddAccounts, fetchReset } from '@quill/common';
 import { push } from 'connected-react-router';
 
 import type { IFlowComponent } from '@components';

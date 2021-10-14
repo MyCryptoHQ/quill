@@ -1,7 +1,7 @@
 {
-  "name": "@signer/extension",
+  "name": "@quill/extension",
   "version": "0.1.0",
-  "description": "MyCrypto Signer browser extension",
+  "description": "MyCrypto Quill browser extension",
   "license": "MIT",
   "scripts": {
     "build": "webpack --config ./webpack/production.ts",
@@ -35,8 +35,8 @@
   "dependencies": {
     "@ethersproject/providers": "5.4.3",
     "@ethersproject/transactions": "5.4.0",
+    "@quill/common": "workspace:packages/common",
     "@reduxjs/toolkit": "1.6.1",
-    "@signer/common": "workspace:packages/common",
     "buffer": "6.0.3",
     "crypto-browserify": "3.12.0",
     "fast-json-stable-stringify": "2.1.0",

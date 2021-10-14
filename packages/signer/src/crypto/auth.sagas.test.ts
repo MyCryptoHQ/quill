@@ -8,7 +8,7 @@ import {
   resetSettings,
   setNewUser,
   translateRaw
-} from '@signer/common';
+} from '@quill/common';
 import { push } from 'connected-react-router';
 import keytar from 'keytar';
 import { expectSaga } from 'redux-saga-test-plan';

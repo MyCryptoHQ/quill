@@ -1,6 +1,6 @@
 import { DEFAULT_ETH } from '@mycrypto/wallets';
-import type { TUuid } from '@signer/common';
-import { WalletType } from '@signer/common';
+import type { TUuid } from '@quill/common';
+import { WalletType } from '@quill/common';
 
 import { fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey, fSignedTx } from '@fixtures';
 

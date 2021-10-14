@@ -1,5 +1,5 @@
 import { DEFAULT_ETH } from '@mycrypto/wallets';
-import type { IAccount, TAddress, TUuid, WalletType } from '@signer/common';
+import type { IAccount, TAddress, TUuid, WalletType } from '@quill/common';
 
 export const fAccount: IAccount = {
   uuid: '4be38596-5d9c-5c01-8e04-19d1c726fe24' as TUuid,

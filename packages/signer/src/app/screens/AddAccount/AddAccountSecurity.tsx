@@ -1,5 +1,5 @@
 import { Button, Heading } from '@mycrypto/ui';
-import { nextFlow, translateRaw } from '@signer/common';
+import { nextFlow, translateRaw } from '@quill/common';
 import { useEffect, useRef, useState } from 'react';
 
 import secureIcon from '@assets/icons/secure-purple.svg';

@@ -1,4 +1,4 @@
-import type { JsonRPCRequest } from '@signer/common';
+import type { JsonRPCRequest } from '@quill/common';
 import type { Infer } from 'superstruct';
 import { any, array, number, object, optional, pattern, string, union, unknown } from 'superstruct';
 

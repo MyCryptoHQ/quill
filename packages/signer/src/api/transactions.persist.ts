@@ -1,4 +1,4 @@
-import type { PersistConfig } from '@signer/common';
+import type { PersistConfig } from '@quill/common';
 import {
   addToHistory,
   createPersistReducer,
@@ -6,7 +6,7 @@ import {
   enqueue,
   transactionsSlice,
   update
-} from '@signer/common';
+} from '@quill/common';
 
 const persistConfig: PersistConfig = {
   key: transactionsSlice.name,

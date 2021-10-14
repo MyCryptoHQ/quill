@@ -1,5 +1,5 @@
 import { Body, Button, Heading } from '@mycrypto/ui';
-import { getGeneratedMnemonicWords, getRandomNumbers, translateRaw } from '@signer/common';
+import { getGeneratedMnemonicWords, getRandomNumbers, translateRaw } from '@quill/common';
 import type { FormEvent } from 'react';
 import { useMemo } from 'react';
 import { FormError, useForm, yupValidator } from 'typed-react-form';

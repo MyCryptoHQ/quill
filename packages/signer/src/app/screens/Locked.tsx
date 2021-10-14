@@ -1,4 +1,4 @@
-import { getLoggedIn, getNewUser } from '@signer/common';
+import { getLoggedIn, getNewUser } from '@quill/common';
 import { replace } from 'connected-react-router';
 import { useEffect } from 'react';
 

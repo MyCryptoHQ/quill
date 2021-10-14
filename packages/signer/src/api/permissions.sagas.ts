@@ -1,6 +1,6 @@
+import type { UserRequest } from '@quill/common';
+import { requestPermission } from '@quill/common';
 import { createAction } from '@reduxjs/toolkit';
-import type { UserRequest } from '@signer/common';
-import { requestPermission } from '@signer/common';
 import { replace } from 'connected-react-router';
 import { all, put, takeEvery, takeLatest } from 'redux-saga/effects';
 

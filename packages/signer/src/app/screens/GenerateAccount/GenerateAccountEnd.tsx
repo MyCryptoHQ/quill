@@ -1,5 +1,5 @@
 import { BlockieAddress, Body, Button, Heading } from '@mycrypto/ui';
-import { addGeneratedAccount, getGeneratedAccount, translateRaw, WalletType } from '@signer/common';
+import { addGeneratedAccount, getGeneratedAccount, translateRaw, WalletType } from '@quill/common';
 import { toPng } from 'html-to-image';
 import React, { useEffect, useRef, useState } from 'react';
 

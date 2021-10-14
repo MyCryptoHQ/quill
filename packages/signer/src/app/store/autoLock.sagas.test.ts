@@ -1,4 +1,4 @@
-import { AUTO_LOCK_TIMEOUT, getAutoLockTimeout, getLoggedIn, logout } from '@signer/common';
+import { AUTO_LOCK_TIMEOUT, getAutoLockTimeout, getLoggedIn, logout } from '@quill/common';
 import { testSaga } from 'redux-saga-test-plan';
 import { call, take } from 'redux-saga/effects';
 

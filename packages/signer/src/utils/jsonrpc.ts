@@ -3,7 +3,7 @@ import type {
   JsonRPCRequest,
   JsonRPCResponse,
   SignedJsonRPCRequest
-} from '@signer/common';
+} from '@quill/common';
 
 import { signRequest } from './hashing';
 

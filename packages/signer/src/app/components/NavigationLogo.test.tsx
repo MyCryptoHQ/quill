@@ -1,6 +1,6 @@
+import type { DeepPartial } from '@quill/common';
+import { makeQueueTx } from '@quill/common';
 import type { EnhancedStore } from '@reduxjs/toolkit';
-import type { DeepPartial } from '@signer/common';
-import { makeQueueTx } from '@signer/common';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';

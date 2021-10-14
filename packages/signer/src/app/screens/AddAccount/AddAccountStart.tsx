@@ -1,4 +1,4 @@
-import { fetchReset, WalletType } from '@signer/common';
+import { fetchReset, WalletType } from '@quill/common';
 import type { PropsWithChildren } from 'react';
 import { useEffect, useState } from 'react';
 

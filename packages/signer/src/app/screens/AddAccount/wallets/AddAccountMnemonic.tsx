@@ -1,7 +1,6 @@
 import { Banner, Body, Button, Heading } from '@mycrypto/ui';
 import type { DeterministicAddress } from '@mycrypto/wallets';
 import { ALL_DERIVATION_PATHS, DEFAULT_ETH } from '@mycrypto/wallets';
-import { Label } from '@rebass/forms/styled-components';
 import {
   fetchAccounts,
   fetchAddresses,
@@ -10,7 +9,8 @@ import {
   getExtendedKey,
   translateRaw,
   WalletType
-} from '@signer/common';
+} from '@quill/common';
+import { Label } from '@rebass/forms/styled-components';
 import type { ReactElement } from 'react';
 import { useEffect } from 'react';
 import { AnyListener } from 'typed-react-form';
@@ -146,7 +146,7 @@ const AddAccountMnemonicForm = ({
             </Banner>
 
             <Heading as="h2" fontSize="18px" lineHeight="24px" textAlign="center" mb="2">
-              {translateRaw('ADD_ADDRESS_TO_SIGNER')}
+              {translateRaw('ADD_ADDRESS_TO_QUILL')}
             </Heading>
             <Body mb="3">{translateRaw('SELECT_ADDRESSES_TO_ADD')}</Body>
 

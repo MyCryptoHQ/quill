@@ -1,5 +1,5 @@
-import type { PersistConfig } from '@signer/common';
-import { createPersistReducer, incrementNonce, wsSlice } from '@signer/common';
+import type { PersistConfig } from '@quill/common';
+import { createPersistReducer, incrementNonce, wsSlice } from '@quill/common';
 
 const persistConfig: PersistConfig = {
   key: wsSlice.name,

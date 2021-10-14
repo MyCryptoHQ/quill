@@ -1,5 +1,5 @@
 import { Body, Button, Heading } from '@mycrypto/ui';
-import { translateRaw } from '@signer/common';
+import { translateRaw } from '@quill/common';
 
 import type { IFlowComponentProps } from '@app/components';
 import { Box, Container, LinkApp, Logo, PanelBottom } from '@app/components';

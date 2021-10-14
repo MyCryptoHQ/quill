@@ -8,8 +8,8 @@ import {
   selectTransaction,
   translateRaw,
   update
-} from '@signer/common';
-import type { TransactionRequest, TxQueueEntry } from '@signer/common';
+} from '@quill/common';
+import type { TransactionRequest, TxQueueEntry } from '@quill/common';
 import { replace } from 'connected-react-router';
 import type { FormEvent } from 'react';
 import { is } from 'superstruct';

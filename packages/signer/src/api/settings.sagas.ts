@@ -1,12 +1,12 @@
-import type { PayloadAction } from '@reduxjs/toolkit';
-import type { SettingsValue } from '@signer/common';
+import type { SettingsValue } from '@quill/common';
 import {
   decryptSettings,
   fetchSettings,
   rehydrateEmptyState,
   resetSettings,
   storeEncryptedSettings
-} from '@signer/common';
+} from '@quill/common';
+import type { PayloadAction } from '@reduxjs/toolkit';
 import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 
 import { clearStore, getFromStore, setInStore } from '@utils';

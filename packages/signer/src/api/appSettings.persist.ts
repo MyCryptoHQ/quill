@@ -1,4 +1,4 @@
-import { appSettingsSlice, createPersistReducer, setAutoLockTimeout } from '@signer/common';
+import { appSettingsSlice, createPersistReducer, setAutoLockTimeout } from '@quill/common';
 
 const persistConfig = {
   key: appSettingsSlice.name,

@@ -1,5 +1,5 @@
 import { Body, Heading } from '@mycrypto/ui';
-import { translateRaw } from '@signer/common';
+import { translateRaw } from '@quill/common';
 
 import { Box, Container, Image, LinkApp } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';

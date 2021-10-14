@@ -1,4 +1,4 @@
-import { setNavigationBack } from '@signer/common';
+import { setNavigationBack } from '@quill/common';
 import { useEffect } from 'react';
 
 import { useDispatch } from '@store';

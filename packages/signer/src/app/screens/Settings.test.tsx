@@ -1,12 +1,12 @@
-import type { EnhancedStore } from '@reduxjs/toolkit';
 import {
   AUTO_LOCK_TIMEOUT,
   quitApp,
   setAutoLockTimeout,
   setNavigationBack,
   translateRaw
-} from '@signer/common';
-import type { DeepPartial } from '@signer/common';
+} from '@quill/common';
+import type { DeepPartial } from '@quill/common';
+import type { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';

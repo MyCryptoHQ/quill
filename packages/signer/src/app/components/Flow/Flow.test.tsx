@@ -1,6 +1,6 @@
+import { nextFlow, previousFlow, resetFlow } from '@quill/common';
+import type { DeepPartial } from '@quill/common';
 import type { EnhancedStore } from '@reduxjs/toolkit';
-import { nextFlow, previousFlow, resetFlow } from '@signer/common';
-import type { DeepPartial } from '@signer/common';
 import { fireEvent, render } from '@testing-library/react';
 import { goBack } from 'connected-react-router';
 import { Provider } from 'react-redux';

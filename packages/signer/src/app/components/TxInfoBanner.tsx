@@ -1,6 +1,6 @@
 import { Banner } from '@mycrypto/ui';
-import { InfoBannerType, translateRaw, TxResult } from '@signer/common';
-import type { BannerType } from '@signer/common';
+import { InfoBannerType, translateRaw, TxResult } from '@quill/common';
+import type { BannerType } from '@quill/common';
 import type { ReactElement } from 'react';
 
 import { translate } from '@app/translations';

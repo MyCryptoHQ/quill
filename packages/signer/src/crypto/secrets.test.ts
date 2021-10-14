@@ -1,5 +1,5 @@
-import type { TUuid } from '@signer/common';
-import { WalletType } from '@signer/common';
+import type { TUuid } from '@quill/common';
+import { WalletType } from '@quill/common';
 import keytar from 'keytar';
 
 import { KEYTAR_SALT_NAME, KEYTAR_SERVICE, KEYTAR_SETTINGS_KEY_NAME } from '@config';

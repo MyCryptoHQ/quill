@@ -1,4 +1,3 @@
-import type { EnhancedStore } from '@reduxjs/toolkit';
 import {
   denyCurrentTransaction,
   makeHistoryTx,
@@ -7,8 +6,9 @@ import {
   sign,
   translateRaw,
   TxResult
-} from '@signer/common';
-import type { DeepPartial, IAccount, TSignTransaction } from '@signer/common';
+} from '@quill/common';
+import type { DeepPartial, IAccount, TSignTransaction } from '@quill/common';
+import type { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';

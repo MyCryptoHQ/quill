@@ -1,6 +1,6 @@
 import { Blockie, Body, Flex, Image } from '@mycrypto/ui';
-import { translateRaw, WalletType } from '@signer/common';
-import type { TAddress } from '@signer/common';
+import { translateRaw, WalletType } from '@quill/common';
+import type { TAddress } from '@quill/common';
 import type { PropsWithChildren } from 'react';
 import { forwardRef } from 'react';
 

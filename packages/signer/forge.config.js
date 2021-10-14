@@ -18,7 +18,7 @@ module.exports = {
     {
       name: '@electron-forge/maker-squirrel',
       config: {
-        name: 'signer',
+        name: 'quill',
         certificateFile: process.env.WINDOWS_PFX_FILE,
         certificatePassword: process.env.WINDOWS_PFX_PASSWORD
       }
@@ -64,7 +64,7 @@ module.exports = {
       config: {
         repository: {
           owner: 'MyCryptoHQ',
-          name: 'signer'
+          name: 'quill'
         },
         prerelease: true
       }

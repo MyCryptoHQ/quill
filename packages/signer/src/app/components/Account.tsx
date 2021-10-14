@@ -1,6 +1,6 @@
 import { Blockie, Body } from '@mycrypto/ui';
-import { translateRaw, truncate } from '@signer/common';
-import type { TAddress } from '@signer/common';
+import { translateRaw, truncate } from '@quill/common';
+import type { TAddress } from '@quill/common';
 
 import type { BoxProps } from '@app/components';
 import { Box } from '@app/components';

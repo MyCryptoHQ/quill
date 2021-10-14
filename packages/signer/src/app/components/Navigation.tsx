@@ -1,4 +1,4 @@
-import { getNavigationBack, logout } from '@signer/common';
+import { getNavigationBack, logout } from '@quill/common';
 import { getLocation } from 'connected-react-router';
 import type { PropsWithChildren } from 'react';
 import SVG from 'react-inlinesvg';

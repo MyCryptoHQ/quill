@@ -1,5 +1,5 @@
 import { Heading } from '@mycrypto/ui';
-import { quitApp, reset, translateRaw } from '@signer/common';
+import { quitApp, reset, translateRaw } from '@quill/common';
 import React from 'react';
 
 import { useDispatch } from '@app/store';

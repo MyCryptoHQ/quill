@@ -1,4 +1,4 @@
-import { getFlowStep, nextFlow, previousFlow, resetFlow } from '@signer/common';
+import { getFlowStep, nextFlow, previousFlow, resetFlow } from '@quill/common';
 import { goBack } from 'connected-react-router';
 import { useEffect } from 'react';
 

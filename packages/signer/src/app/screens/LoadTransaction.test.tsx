@@ -1,13 +1,13 @@
 import { parse } from '@ethersproject/transactions';
-import type { EnhancedStore } from '@reduxjs/toolkit';
-import type { DeepPartial } from '@signer/common';
+import type { DeepPartial } from '@quill/common';
 import {
   enqueue,
   makeQueueTx,
   setNavigationBack,
   toTransactionRequest,
   translateRaw
-} from '@signer/common';
+} from '@quill/common';
+import type { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { push } from 'connected-react-router';
 import { Provider } from 'react-redux';

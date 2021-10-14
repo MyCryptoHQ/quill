@@ -1,4 +1,4 @@
-import { translateRaw } from '@signer/common';
+import { translateRaw } from '@quill/common';
 import { fireEvent, render } from '@testing-library/react';
 import type { ComponentProps } from 'react';
 import selectEvent from 'react-select-event';

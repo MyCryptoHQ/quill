@@ -11,7 +11,7 @@ import {
   transactionsSlice,
   uiSlice,
   wrapRootReducer
-} from '@signer/common';
+} from '@quill/common';
 import { connectRouter } from 'connected-react-router';
 import type { History } from 'history';
 import { combineReducers } from 'redux';

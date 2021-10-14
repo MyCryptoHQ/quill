@@ -1,5 +1,5 @@
 import { Button } from '@mycrypto/ui';
-import { fetchAccounts, getAccountError, translateRaw, WalletType } from '@signer/common';
+import { fetchAccounts, getAccountError, translateRaw, WalletType } from '@quill/common';
 import type { ReactElement } from 'react';
 import React, { useEffect } from 'react';
 

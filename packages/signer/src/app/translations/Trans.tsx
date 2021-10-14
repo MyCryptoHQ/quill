@@ -1,4 +1,4 @@
-import { fallbackLanguage, repository } from '@signer/common';
+import { fallbackLanguage, repository } from '@quill/common';
 import type { ReactNode } from 'react';
 import { Fragment } from 'react';
 

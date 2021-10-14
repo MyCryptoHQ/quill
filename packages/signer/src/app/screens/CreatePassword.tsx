@@ -1,5 +1,5 @@
 import { Body, Button, Heading } from '@mycrypto/ui';
-import { createPassword, getLoggingIn, translateRaw } from '@signer/common';
+import { createPassword, getLoggingIn, translateRaw } from '@quill/common';
 import { passwordStrength } from 'check-password-strength';
 import type { FormEvent } from 'react';
 import { useForm, yupValidator } from 'typed-react-form';

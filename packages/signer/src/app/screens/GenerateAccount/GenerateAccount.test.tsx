@@ -1,6 +1,6 @@
+import { setGeneratedAccount } from '@quill/common';
+import type { DeepPartial } from '@quill/common';
 import type { EnhancedStore } from '@reduxjs/toolkit';
-import { setGeneratedAccount } from '@signer/common';
-import type { DeepPartial } from '@signer/common';
 import { render } from '@testing-library/react';
 import { push } from 'connected-react-router';
 import { Provider } from 'react-redux';

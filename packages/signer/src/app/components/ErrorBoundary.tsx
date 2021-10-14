@@ -1,5 +1,5 @@
 import { Heading } from '@mycrypto/ui';
-import { translateRaw } from '@signer/common';
+import { translateRaw } from '@quill/common';
 import type { ErrorInfo, ReactNode } from 'react';
 import { Component } from 'react';
 

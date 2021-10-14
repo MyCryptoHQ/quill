@@ -1,5 +1,5 @@
 import { DEFAULT_ETH } from '@mycrypto/wallets';
-import type { SerializedWallet, SerializedWalletWithAddress, TAddress } from '@signer/common';
+import type { SerializedWallet, SerializedWalletWithAddress, TAddress } from '@quill/common';
 import {
   addAccount,
   addGeneratedAccount,
@@ -15,7 +15,7 @@ import {
   setExtendedKey,
   setGeneratedAccount,
   WalletType
-} from '@signer/common';
+} from '@quill/common';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 

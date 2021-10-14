@@ -1,7 +1,7 @@
 import { DEFAULT_ETH, getFullPath } from '@mycrypto/wallets';
+import { addSavedAccounts, translateRaw, WalletType } from '@quill/common';
+import type { DeepPartial } from '@quill/common';
 import type { EnhancedStore } from '@reduxjs/toolkit';
-import { addSavedAccounts, translateRaw, WalletType } from '@signer/common';
-import type { DeepPartial } from '@signer/common';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { toPng } from 'html-to-image';
 import { Provider } from 'react-redux';

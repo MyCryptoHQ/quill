@@ -1,6 +1,6 @@
 import { BlockieAddress, Body, Button, Heading } from '@mycrypto/ui';
 import { getFullPath } from '@mycrypto/wallets';
-import { addSavedAccounts, getAccountsToAdd, translateRaw, WalletType } from '@signer/common';
+import { addSavedAccounts, getAccountsToAdd, translateRaw, WalletType } from '@quill/common';
 import { toPng } from 'html-to-image';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'rebass/styled-components';

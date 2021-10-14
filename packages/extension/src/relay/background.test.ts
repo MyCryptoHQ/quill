@@ -1,4 +1,4 @@
-import { generateUUID } from '@signer/common';
+import { generateUUID } from '@quill/common';
 import { chrome } from 'jest-chrome';
 
 import { RelayTarget } from '../types';

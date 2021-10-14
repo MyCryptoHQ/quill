@@ -1,6 +1,6 @@
+import { Process, translateRaw } from '@quill/common';
+import type { DeepPartial } from '@quill/common';
 import type { EnhancedStore } from '@reduxjs/toolkit';
-import { Process, translateRaw } from '@signer/common';
-import type { DeepPartial } from '@signer/common';
 import { render, waitFor } from '@testing-library/react';
 import { connectRouter } from 'connected-react-router';
 import { createMemoryHistory } from 'history';

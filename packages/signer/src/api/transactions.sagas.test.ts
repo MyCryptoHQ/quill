@@ -5,7 +5,7 @@ import {
   makeHistoryTx,
   makeQueueTx,
   TxResult
-} from '@signer/common';
+} from '@quill/common';
 import { expectSaga } from 'redux-saga-test-plan';
 
 import { fRequestOrigin, fTxRequest } from '@fixtures';

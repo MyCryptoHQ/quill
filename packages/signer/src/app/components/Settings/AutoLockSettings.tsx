@@ -1,5 +1,5 @@
 import { Body } from '@mycrypto/ui';
-import { getAutoLockTimeout, setAutoLockTimeout, translateRaw } from '@signer/common';
+import { getAutoLockTimeout, setAutoLockTimeout, translateRaw } from '@quill/common';
 
 import type { OptionType } from '@app/components';
 import { Box, TextSelector } from '@app/components';

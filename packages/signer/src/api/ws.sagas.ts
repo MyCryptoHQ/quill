@@ -1,4 +1,3 @@
-import type { ActionCreatorWithPayload, PayloadAction } from '@reduxjs/toolkit';
 import type {
   JsonRPCRequest,
   JsonRPCResponse,
@@ -6,7 +5,7 @@ import type {
   Permission,
   SignedJsonRPCRequest,
   UserRequest
-} from '@signer/common';
+} from '@quill/common';
 import {
   denyPermission,
   getLoggedIn,
@@ -20,7 +19,8 @@ import {
   requestPermission,
   safeJSONParse,
   updatePermission
-} from '@signer/common';
+} from '@quill/common';
+import type { ActionCreatorWithPayload, PayloadAction } from '@reduxjs/toolkit';
 import type { IncomingMessage } from 'http';
 import type { EventChannel, SagaIterator } from 'redux-saga';
 import { eventChannel } from 'redux-saga';

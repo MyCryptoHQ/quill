@@ -3,7 +3,7 @@ import {
   fetchSettings,
   rehydrateEmptyState,
   storeEncryptedSettings
-} from '@signer/common';
+} from '@quill/common';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
 

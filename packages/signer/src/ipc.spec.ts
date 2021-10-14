@@ -1,5 +1,5 @@
 import { createIpc } from '@ipc';
-import { Process } from '@signer/common';
+import { Process } from '@quill/common';
 import type { BrowserWindow } from 'electron';
 
 import { REDUX_CHANNEL } from '@bridge';

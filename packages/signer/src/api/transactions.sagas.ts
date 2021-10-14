@@ -1,5 +1,4 @@
-import type { PayloadAction } from '@reduxjs/toolkit';
-import type { TSignTransaction, TxQueueEntry, UserRequest } from '@signer/common';
+import type { TSignTransaction, TxQueueEntry, UserRequest } from '@quill/common';
 import {
   addToHistory,
   denyCurrentTransaction,
@@ -11,7 +10,8 @@ import {
   makeQueueTx,
   selectTransaction,
   TxResult
-} from '@signer/common';
+} from '@quill/common';
+import type { PayloadAction } from '@reduxjs/toolkit';
 import { all, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
 
 import { reply, requestSignTransaction } from './ws.slice';

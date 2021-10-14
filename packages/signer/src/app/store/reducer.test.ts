@@ -1,4 +1,4 @@
-import { logout, makeQueueTx, setNewUser } from '@signer/common';
+import { logout, makeQueueTx, setNewUser } from '@quill/common';
 import { createHashHistory } from 'history';
 
 import { fAccounts, fRequestOrigin, fTxRequest } from '@fixtures';

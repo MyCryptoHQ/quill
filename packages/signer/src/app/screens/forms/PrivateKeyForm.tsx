@@ -1,5 +1,5 @@
 import { Body } from '@mycrypto/ui';
-import { translateRaw } from '@signer/common';
+import { translateRaw } from '@quill/common';
 import type { FormEvent, ReactNode } from 'react';
 import { useForm, yupValidator } from 'typed-react-form';
 import { object, string } from 'yup';

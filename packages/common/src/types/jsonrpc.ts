@@ -35,7 +35,7 @@ const SignTransactionLegacy = object({
   gasPrice: Hex,
   data: EvenHex,
   value: Hex,
-  // Note: this is technically not compliant to the JSON-RPC spec, but since the signer isn't
+  // Note: this is technically not compliant to the JSON-RPC spec, but since Quill isn't
   // aware of the chain ID otherwise, we need to include it.
   chainId: number()
 });
@@ -50,7 +50,7 @@ const SignTransactionEIP1559 = object({
   data: EvenHex,
   value: Hex,
   type: literal(2),
-  // Note: this is technically not compliant to the JSON-RPC spec, but since the signer isn't
+  // Note: this is technically not compliant to the JSON-RPC spec, but since Quill isn't
   // aware of the chain ID otherwise, we need to include it.
   chainId: number()
 });

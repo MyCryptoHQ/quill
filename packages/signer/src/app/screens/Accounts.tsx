@@ -1,6 +1,6 @@
 import { Blockie, Body, Button, Copyable, Heading } from '@mycrypto/ui';
-import type { IAccount } from '@signer/common';
-import { getAccounts, removeAccount, translateRaw, updateAccount } from '@signer/common';
+import type { IAccount } from '@quill/common';
+import { getAccounts, removeAccount, translateRaw, updateAccount } from '@quill/common';
 import { Fragment, useState } from 'react';
 import { useSelector } from 'react-redux';
 

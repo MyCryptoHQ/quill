@@ -1,4 +1,4 @@
-import type { TxQueueEntry } from '@signer/common';
+import type { TxQueueEntry } from '@quill/common';
 import { Fragment } from 'react';
 
 import { Divider } from '../Divider';

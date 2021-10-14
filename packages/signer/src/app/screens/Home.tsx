@@ -5,7 +5,7 @@ import {
   getQueue,
   getTxHistory,
   translateRaw
-} from '@signer/common';
+} from '@quill/common';
 import { push } from 'connected-react-router';
 import { useEffect } from 'react';
 

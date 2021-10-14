@@ -1,5 +1,5 @@
 import { Button } from '@mycrypto/ui';
-import { translateRaw } from '@signer/common';
+import { translateRaw } from '@quill/common';
 
 import { PanelBottom } from '@app/components';
 

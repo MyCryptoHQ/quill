@@ -1,5 +1,5 @@
-import type { ReduxIPC } from '@signer/common';
-import { handshakeSaga, Process } from '@signer/common';
+import type { ReduxIPC } from '@quill/common';
+import { handshakeSaga, Process } from '@quill/common';
 import type { BrowserWindow } from 'electron';
 import { all } from 'redux-saga/effects';
 

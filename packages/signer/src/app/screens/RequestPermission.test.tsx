@@ -1,5 +1,5 @@
+import { denyPermission, grantPermission, translateRaw, updatePermission } from '@quill/common';
 import type { DeepPartial, EnhancedStore } from '@reduxjs/toolkit';
-import { denyPermission, grantPermission, translateRaw, updatePermission } from '@signer/common';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';

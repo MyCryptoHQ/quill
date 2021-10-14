@@ -1,5 +1,5 @@
-import { translateRaw } from '@signer/common';
-import type { DeepPartial } from '@signer/common';
+import { translateRaw } from '@quill/common';
+import type { DeepPartial } from '@quill/common';
 import { fireEvent, render } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';

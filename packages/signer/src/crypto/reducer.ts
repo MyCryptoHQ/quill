@@ -1,5 +1,5 @@
+import { synchronizationSlice, transactionsSlice, wrapRootReducer } from '@quill/common';
 import { combineReducers } from '@reduxjs/toolkit';
-import { synchronizationSlice, transactionsSlice, wrapRootReducer } from '@signer/common';
 
 import accounts from './accounts.slice';
 

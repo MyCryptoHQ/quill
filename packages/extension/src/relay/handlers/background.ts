@@ -1,5 +1,5 @@
+import { JsonRPCMethod } from '@quill/common';
 import type { EnhancedStore } from '@reduxjs/toolkit';
-import { JsonRPCMethod } from '@signer/common';
 import { is } from 'superstruct';
 
 import type { ApplicationState } from '../../store';

@@ -6,7 +6,7 @@ import {
   hasExistingPermission,
   translateRaw,
   updatePermission
-} from '@signer/common';
+} from '@quill/common';
 import { replace } from 'connected-react-router';
 import { useSelector } from 'react-redux';
 
