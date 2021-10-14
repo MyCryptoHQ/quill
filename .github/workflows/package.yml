@@ -75,11 +75,11 @@ jobs:
         with:
           name: ${{ matrix.os }} build
           path: |
-            packages/signer/out/make/**/*.exe
-            packages/signer/out/make/**/*.rpm
-            packages/signer/out/make/**/*.deb
-            packages/signer/out/make/**/*.zip
-            packages/signer/out/make/**/*.nupkg
+            packages/quill/out/make/**/*.exe
+            packages/quill/out/make/**/*.rpm
+            packages/quill/out/make/**/*.deb
+            packages/quill/out/make/**/*.zip
+            packages/quill/out/make/**/*.nupkg
 
       - name: Make and release
         if: startsWith(github.ref, 'refs/tags/')
