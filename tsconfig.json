@@ -14,7 +14,7 @@
     "strict": false,
     "paths": {
       "*": ["node_modules"],
-      "@signer/*": ["packages/*/src"]
+      "@quill/*": ["packages/*/src"]
     }
   },
   "exclude": ["node_modules"]

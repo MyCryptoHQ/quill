@@ -69,7 +69,7 @@ describe('App', () => {
     );
     await waitFor(() =>
       expect(
-        getByText('There are no transactions in your Signer at this time', { exact: false })
+        getByText('There are no transactions in your Quill at this time', { exact: false })
           .textContent
       ).toBeDefined()
     );
