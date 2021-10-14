@@ -40,4 +40,5 @@ lib/
 coverage/
 types/
 packages/*/types/
+!packages/*/src/types/
 background.js
