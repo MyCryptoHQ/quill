@@ -23,8 +23,3 @@ export const setInStore = (key: string, value: string) => {
   const store = new Store<Record<string, string>>({ name: key });
   store.set(key, value);
 };
-
-export const getAllFromStore = (): Record<string, string> => {
-  const { store } = new Store<Record<string, string>>();
-  return store;
-};
