@@ -65,6 +65,7 @@ const slice = createSlice({
     },
     changePasswordSuccess(state) {
       state.loggingIn = false;
+      state.error = undefined;
     },
     changePasswordFailed(state, action: PayloadAction<string>) {
       state.loggingIn = false;

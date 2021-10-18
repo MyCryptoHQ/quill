@@ -1,4 +1,7 @@
 import slice, {
+  changePassword,
+  changePasswordFailed,
+  changePasswordSuccess,
   createPassword,
   createPasswordFailed,
   createPasswordSuccess,
@@ -151,6 +154,65 @@ describe('authSlice', () => {
     it('sets error to the payload', () => {
       const state = { initialized: true, newUser: true, loggedIn: false, loggingIn: true };
       expect(slice.reducer(state, createPasswordFailed('Foo bar'))).toStrictEqual({
+        ...state,
+        loggingIn: false,
+        error: 'Foo bar'
+      });
+    });
+  });
+
+  describe('changePassword', () => {
+    it('sets logging in to true', () => {
+      expect(
+        slice.reducer(
+          { initialized: true, newUser: true, loggedIn: false, loggingIn: false },
+          changePassword()
+        )
+      ).toStrictEqual({
+        initialized: true,
+        newUser: true,
+        loggedIn: false,
+        loggingIn: true
+      });
+    });
+  });
+
+  describe('changePasswordSuccess', () => {
+    it('sets newUser to false and loggedIn to true', () => {
+      expect(
+        slice.reducer(
+          { initialized: true, newUser: true, loggedIn: false, loggingIn: true },
+          changePasswordSuccess()
+        )
+      ).toStrictEqual({
+        initialized: true,
+        newUser: true,
+        loggedIn: false,
+        loggingIn: false,
+        error: undefined
+      });
+    });
+
+    it('clears the error', () => {
+      expect(
+        slice.reducer(
+          { initialized: true, newUser: true, loggedIn: false, error: 'foo bar', loggingIn: true },
+          changePasswordSuccess()
+        )
+      ).toStrictEqual({
+        initialized: true,
+        newUser: true,
+        loggedIn: false,
+        loggingIn: false,
+        error: undefined
+      });
+    });
+  });
+
+  describe('changePasswordFailed', () => {
+    it('sets error to the payload', () => {
+      const state = { initialized: true, newUser: true, loggedIn: false, loggingIn: true };
+      expect(slice.reducer(state, changePasswordFailed('Foo bar'))).toStrictEqual({
         ...state,
         loggingIn: false,
         error: 'Foo bar'
