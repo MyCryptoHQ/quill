@@ -3132,9 +3132,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mycrypto/wallets@npm:1.3.4":
-  version: 1.3.4
-  resolution: "@mycrypto/wallets@npm:1.3.4"
+"@mycrypto/wallets@npm:1.3.5":
+  version: 1.3.5
+  resolution: "@mycrypto/wallets@npm:1.3.5"
   dependencies:
     "@ethersproject/abstract-provider": 5.4.0
     "@ethersproject/address": 5.4.0
@@ -3156,7 +3156,7 @@ __metadata:
     ethereumjs-wallet: 1.0.1
     superstruct: 0.15.1
     trezor-connect: 8.2.0
-  checksum: 63e0ee061b78694cf31cabc1beaba541c0c6daf803cc15128f8b5cb1833f0be0a9f45cb992bcb7f43f0916e8703f291de0d27edad4c332a92ad831535a0cfb85
+  checksum: 392d5d400ffd70b0dbeeed6e8fcc439dc348417698c44f15bc332f5dd13c9b6836126458255bd0f1ed96898765d15f643edc4bc19371dd4ad4df325ecedd1a6d
   languageName: node
   linkType: hard
 
@@ -3406,7 +3406,7 @@ __metadata:
     "@ethersproject/address": 5.4.0
     "@ethersproject/bytes": 5.4.0
     "@ethersproject/strings": 5.4.0
-    "@mycrypto/wallets": 1.3.4
+    "@mycrypto/wallets": 1.3.5
     "@reduxjs/toolkit": 1.6.1
     "@types/redux-mock-store": 1.0.2
     "@types/redux-saga": 0.10.5
@@ -16016,7 +16016,7 @@ fsevents@^1.2.7:
     "@hot-loader/react-dom": 17.0.1
     "@marshallofsound/webpack-asset-relocator-loader": 0.5.0
     "@mycrypto/ui": 1.4.3
-    "@mycrypto/wallets": 1.3.4
+    "@mycrypto/wallets": 1.3.5
     "@quill/common": "workspace:packages/common"
     "@rebass/forms": 4.0.6
     "@reduxjs/toolkit": 1.6.1
