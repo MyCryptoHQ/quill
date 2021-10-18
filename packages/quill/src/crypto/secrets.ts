@@ -24,7 +24,10 @@ export const init = async (password: string) => {
   await setEncryptionKey(key);
 };
 
-const savePrivateKey = (uuid: TUuid | typeof KEYTAR_SETTINGS_KEY_NAME, privateKey: string) => {
+export const savePrivateKey = (
+  uuid: TUuid | typeof KEYTAR_SETTINGS_KEY_NAME,
+  privateKey: string
+) => {
   const encryptedPKey = encrypt(privateKey, encryptionKey);
   return keytar.setPassword(KEYTAR_SERVICE, uuid, encryptedPKey);
 };
@@ -99,4 +102,8 @@ export const getSalt = async (): Promise<Buffer> => {
   await keytar.setPassword(KEYTAR_SERVICE, KEYTAR_SALT_NAME, newSalt.toString('hex'));
 
   return newSalt;
+};
+
+export const deleteSalt = async () => {
+  await keytar.deletePassword(KEYTAR_SERVICE, KEYTAR_SALT_NAME);
 };

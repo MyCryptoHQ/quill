@@ -7,7 +7,13 @@ import aboutIcon from '@assets/icons/about.svg';
 import addressBookIcon from '@assets/icons/addressbook.svg';
 import quitIcon from '@assets/icons/quit.svg';
 import resetIcon from '@assets/icons/reset.svg';
-import { AutoLockSettings, Container, SettingsConfirm, SettingsLink } from '@components';
+import {
+  AutoLockSettings,
+  ChangePassword,
+  Container,
+  SettingsConfirm,
+  SettingsLink
+} from '@components';
 import { useNavigation } from '@hooks';
 import { ROUTE_PATHS } from '@routing';
 
@@ -27,6 +33,7 @@ export const Settings = () => {
         href={ROUTE_PATHS.ACCOUNTS}
       />
       <AutoLockSettings />
+      <ChangePassword />
       <SettingsConfirm
         icon={resetIcon}
         label={translateRaw('APP_RESET')}

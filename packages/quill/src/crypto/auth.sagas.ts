@@ -1,4 +1,8 @@
+import type { TUuid } from '@quill/common';
 import {
+  changePassword,
+  changePasswordFailed,
+  changePasswordSuccess,
   checkNewUser,
   createPassword,
   createPasswordSuccess,
@@ -17,15 +21,18 @@ import { push } from 'connected-react-router';
 import keytar from 'keytar';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
-import { KEYTAR_SERVICE } from '@config';
+import { KEYTAR_SALT_NAME, KEYTAR_SERVICE } from '@config';
 
 import { ROUTE_PATHS } from '../app/routing';
 import {
   checkSettingsKey,
   clearEncryptionKey,
+  deleteSalt,
+  getPrivateKey,
   getSettingsKey,
   hasSettingsKey,
-  init
+  init,
+  savePrivateKey
 } from './secrets';
 
 export function* authSaga() {
@@ -33,6 +40,7 @@ export function* authSaga() {
     takeLatest(checkNewUser.type, checkNewUserWorker),
     takeLatest(login.type, loginWorker),
     takeLatest(createPassword.type, createPasswordWorker),
+    takeLatest(changePassword.type, changePasswordWorker),
     takeLatest(logout.type, logoutWorker),
     takeLatest(reset.type, resetWorker)
   ]);
@@ -65,6 +73,30 @@ export function* createPasswordWorker({ payload }: PayloadAction<string>) {
   yield put(createPasswordSuccess());
   yield put(rehydrateAllState());
   yield put(push(ROUTE_PATHS.SETUP_ACCOUNT));
+}
+
+export function* changePasswordWorker({ payload }: ReturnType<typeof changePassword>) {
+  try {
+    const credentials: { account: string }[] = yield call(keytar.findCredentials, KEYTAR_SERVICE);
+    const privateKeys: [account: TUuid, privateKey: string][] = yield all(
+      credentials
+        .filter(({ account }) => account !== KEYTAR_SALT_NAME)
+        .map(async ({ account }) => [account, await getPrivateKey(account as TUuid)])
+    );
+
+    // Delete the salt from the keychain so it will generate a new one, and re-initialise the
+    // encryption key.
+    yield call(deleteSalt);
+    yield call(init, payload);
+
+    yield all(
+      privateKeys.map(([account, privateKey]) => call(savePrivateKey, account, privateKey))
+    );
+
+    yield put(changePasswordSuccess());
+  } catch (error) {
+    yield put(changePasswordFailed(error.toString()));
+  }
 }
 
 export function* logoutWorker() {

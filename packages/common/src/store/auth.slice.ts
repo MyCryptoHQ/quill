@@ -60,6 +60,16 @@ const slice = createSlice({
       state.loggingIn = false;
       state.error = action.payload;
     },
+    changePassword(state, _action: PayloadAction<string>) {
+      state.loggingIn = true;
+    },
+    changePasswordSuccess(state) {
+      state.loggingIn = false;
+    },
+    changePasswordFailed(state, action: PayloadAction<string>) {
+      state.loggingIn = false;
+      state.error = action.payload;
+    },
     reset() {
       return { ...initialState, initialized: true };
     }
@@ -77,6 +87,9 @@ export const {
   createPassword,
   createPasswordSuccess,
   createPasswordFailed,
+  changePassword,
+  changePasswordSuccess,
+  changePasswordFailed,
   reset
 } = slice.actions;
 
