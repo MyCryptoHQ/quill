@@ -12,7 +12,7 @@ import { translate } from '@translations';
 
 export const GenerateAccountVerify = ({ onNext, flowHeader }: IFlowComponentProps) => {
   const mnemonicWords = useSelector(getGeneratedMnemonicWords);
-  const [first, second, third] = useMemo(() => getRandomNumbers(24, 3), []);
+  const [first, second, third] = useMemo(() => getRandomNumbers(mnemonicWords.length, 3), []);
 
   const MnemonicWordsSchema = object({
     firstWord: string().is(

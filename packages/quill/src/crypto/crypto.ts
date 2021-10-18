@@ -12,6 +12,8 @@ import { getDeterministicWallet, getWallet } from '@wallets/wallet-initialisatio
 
 import { getPrivateKey } from './secrets';
 
+const MNEMONIC_ENTROPY_BYTES = 16;
+
 const getPersistentWallet = async (uuid: TUuid): Promise<PrivateKey> => {
   const privateKey = await getPrivateKey(uuid);
   if (privateKey == null) {
@@ -50,8 +52,9 @@ export const derivePrivateKey = async (wallet: SerializedWallet) => {
 
 export const createWallet = async (wallet: WalletType) => {
   if (wallet === WalletType.MNEMONIC) {
-    return MnemonicPhrase.create().mnemonicPhrase;
+    return MnemonicPhrase.create(undefined, MNEMONIC_ENTROPY_BYTES).mnemonicPhrase;
   }
+
   throw new Error('Unsupported wallet type');
 };
 
