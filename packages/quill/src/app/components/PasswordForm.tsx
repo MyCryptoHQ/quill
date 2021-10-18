@@ -44,6 +44,7 @@ export const PasswordForm: FunctionComponent<PasswordFormProps> = ({ onSubmit })
 
     await form.validate();
     if (form.error) {
+      console.log(form.values, form.errorMap);
       return;
     }
 

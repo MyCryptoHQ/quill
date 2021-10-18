@@ -19,7 +19,7 @@ export const ChangePassword: FunctionComponent = () => {
       <Body>{translateRaw('CHANGE_PASSWORD_BODY')}</Body>
       <PasswordForm onSubmit={handleSubmit} />
       <Button type="submit" form="create-password-form" loading={loggingIn} mt="3">
-        {translateRaw('CHANGE_PASSWORD')}
+        {translateRaw('CHANGE_PASSWORD_BUTTON')}
       </Button>
     </SettingsAccordion>
   );

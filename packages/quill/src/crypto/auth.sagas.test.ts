@@ -1,4 +1,7 @@
 import {
+  changePassword,
+  changePasswordFailed,
+  changePasswordSuccess,
   createPassword,
   createPasswordSuccess,
   login,
@@ -13,12 +16,14 @@ import { push } from 'connected-react-router';
 import keytar from 'keytar';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
+import { throwError } from 'redux-saga-test-plan/providers';
 
 import { KEYTAR_SERVICE } from '@config';
 import { fAccount } from '@fixtures';
 import { ROUTE_PATHS } from '@routing';
 
 import {
+  changePasswordWorker,
   checkNewUserWorker,
   createPasswordWorker,
   loginWorker,
@@ -28,9 +33,11 @@ import {
 import {
   checkSettingsKey,
   clearEncryptionKey,
+  deleteSalt,
   getSettingsKey,
   hasSettingsKey,
-  init
+  init,
+  savePrivateKey
 } from './secrets';
 
 jest.mock('./secrets');
@@ -92,6 +99,35 @@ describe('createPasswordWorker', () => {
       .call(getSettingsKey)
       .put(createPasswordSuccess())
       .put(push(ROUTE_PATHS.SETUP_ACCOUNT))
+      .silentRun();
+  });
+});
+
+describe('changePasswordWorker', () => {
+  it('changes the password', async () => {
+    (keytar.findCredentials as jest.MockedFunction<
+      typeof keytar.findCredentials
+    >).mockImplementationOnce(async () => [
+      {
+        account: fAccount.uuid,
+        password: 'foo'
+      }
+    ]);
+
+    await expectSaga(changePasswordWorker, changePassword('foo'))
+      .provide([[call.fn(keytar.findCredentials), [{ account: fAccount.uuid }]]])
+      .provide([[call.fn(init), undefined]])
+      .call(deleteSalt)
+      .call(init, 'foo')
+      .call(savePrivateKey, fAccount.uuid, undefined)
+      .put(changePasswordSuccess())
+      .silentRun();
+  });
+
+  it('sets an error', async () => {
+    await expectSaga(changePasswordWorker, changePassword('foo'))
+      .provide([[call.fn(keytar.findCredentials), throwError(new Error('Foo'))]])
+      .put(changePasswordFailed('Error: Foo'))
       .silentRun();
   });
 });
