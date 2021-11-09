@@ -28,37 +28,11 @@ const getComponent = (store: EnhancedStore<DeepPartial<ApplicationState>> = crea
 };
 
 describe('AddAccountSecurity', () => {
-  it('enables the button when scrolled to bottom', async () => {
+  it('goes to the next step', () => {
     const store = createMockStore();
-    const { getByText, getByTestId } = getComponent(store);
+    const { getByText } = getComponent(store);
 
     const button = getByText(translateRaw('ACKNOWLEDGE_AND_CONTINUE'));
-
-    const wrapper = getByTestId('scroll-wrapper');
-    Object.defineProperty(wrapper, 'scrollTop', { configurable: true, value: 0 });
-    Object.defineProperty(wrapper, 'scrollHeight', { configurable: true, value: 1 });
-    fireEvent.scroll(wrapper);
-
-    fireEvent.click(button);
-    expect(store.getActions()).not.toContainEqual(nextFlow());
-
-    Object.defineProperty(wrapper, 'scrollTop', { configurable: true, value: 1 });
-    fireEvent.scroll(wrapper);
-
-    fireEvent.click(button);
-    expect(store.getActions()).toContainEqual(nextFlow());
-  });
-
-  it('enables the button when the window is larger than the content', () => {
-    const store = createMockStore();
-    const { getByText, getByTestId } = getComponent(store);
-
-    const button = getByText(translateRaw('ACKNOWLEDGE_AND_CONTINUE'));
-
-    const wrapper = getByTestId('scroll-wrapper');
-    Object.defineProperty(wrapper, 'scrollHeight', { configurable: true, value: 1 });
-    Object.defineProperty(wrapper, 'clientHeight', { configurable: true, value: 1 });
-    fireEvent.scroll(wrapper);
 
     fireEvent.click(button);
     expect(store.getActions()).toContainEqual(nextFlow());
