@@ -112,7 +112,7 @@ const createTray = () => {
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Quit', role: 'close', click: () => app.quit() }
   ]);
-  tray.setToolTip('Signer');
+  tray.setToolTip(translateRaw('QUILL'));
   tray.on('double-click', toggleWindow);
   tray.on('right-click', () => {
     tray.popUpContextMenu(contextMenu);
