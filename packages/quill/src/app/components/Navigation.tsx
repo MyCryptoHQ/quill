@@ -1,4 +1,5 @@
-import { getNavigationBack, logout } from '@quill/common';
+import { Flex, Heading } from '@mycrypto/ui';
+import { getNavigationBack, logout, translateRaw } from '@quill/common';
 import { getLocation } from 'connected-react-router';
 import type { PropsWithChildren } from 'react';
 import SVG from 'react-inlinesvg';
@@ -60,8 +61,7 @@ export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   };
 
   return (
-    <Box
-      variant="horizontal-start"
+    <Flex
       px="2"
       sx={{
         borderTopLeftRadius: '5px',
@@ -72,32 +72,44 @@ export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
       }}
       width="100%"
       height="65px"
-      overflow="hidden"
+      flexDirection="row"
+      alignItems="center"
     >
-      <NavItem href={ROUTE_PATHS.HOME}>
-        <Box variant="horizontal-start">
-          <LinkApp href={ROUTE_PATHS.HOME}>
-            <NavigationLogo />
-          </LinkApp>
-        </Box>
-      </NavItem>
-      {isLoggedIn && (
-        <Box display="flex" ml="auto" variant="horizontal-start">
-          <NavItem>
-            <NavIcon icon={lock} href="#" onClick={handleLogout} data-testid="lock-button" />
-          </NavItem>
-          <NavItem href={ROUTE_PATHS.SETTINGS}>
-            <NavIcon icon={settings} href={ROUTE_PATHS.SETTINGS} />
-          </NavItem>
-          <NavItem href={ROUTE_PATHS.MENU}>
-            {backUrl ? (
-              <NavIcon icon={back} href={backUrl} />
-            ) : (
-              <NavIcon icon={add} href={ROUTE_PATHS.MENU} />
-            )}
-          </NavItem>
-        </Box>
-      )}
-    </Box>
+      <Flex flex="1" pl="12px">
+        <LinkApp href={ROUTE_PATHS.HOME}>
+          <NavigationLogo />
+        </LinkApp>
+      </Flex>
+      <Flex flex="1" justifyContent="center">
+        <Heading
+          color="white"
+          fontSize="18px"
+          fontWeight="900"
+          letterSpacing="4px"
+          sx={{ textTransform: 'uppercase' }}
+        >
+          {translateRaw('QUILL')}
+        </Heading>
+      </Flex>
+      <Flex flex="1" justifyContent="flex-end">
+        {isLoggedIn && (
+          <>
+            <NavItem>
+              <NavIcon icon={lock} href="#" onClick={handleLogout} data-testid="lock-button" />
+            </NavItem>
+            <NavItem href={ROUTE_PATHS.SETTINGS}>
+              <NavIcon icon={settings} href={ROUTE_PATHS.SETTINGS} />
+            </NavItem>
+            <NavItem href={ROUTE_PATHS.MENU}>
+              {backUrl ? (
+                <NavIcon icon={back} href={backUrl} />
+              ) : (
+                <NavIcon icon={add} href={ROUTE_PATHS.MENU} />
+              )}
+            </NavItem>
+          </>
+        )}
+      </Flex>
+    </Flex>
   );
 };

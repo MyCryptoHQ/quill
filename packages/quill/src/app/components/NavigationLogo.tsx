@@ -6,8 +6,8 @@ import type { ImageProps } from '@components';
 import { Box, Flex, Image } from '@components';
 
 export const NavigationLogo = ({
-  width = '28px',
-  height = '28px',
+  width = '38px',
+  height = '38px',
   ...rest
 }: Omit<ImageProps, 'src'>) => {
   const transactionCount = useSelector(getQueueLength);
