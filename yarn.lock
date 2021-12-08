@@ -3432,7 +3432,7 @@ __metadata:
     babel-plugin-inline-json-import: 0.3.2
     date-fns: 2.22.1
     eciesjs: 0.3.11
-    electron: 13.6.3
+    electron: 14.2.2
     fast-json-stable-stringify: 2.1.0
     noble-ed25519: 1.2.5
     redux-mock-store: 1.5.4
@@ -8713,16 +8713,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron@npm:13.6.3":
-  version: 13.6.3
-  resolution: "electron@npm:13.6.3"
+"electron@npm:14.2.2":
+  version: 14.2.2
+  resolution: "electron@npm:14.2.2"
   dependencies:
     "@electron/get": ^1.0.1
     "@types/node": ^14.6.2
     extract-zip: ^1.0.3
   bin:
     electron: cli.js
-  checksum: b3dca8b46a928ab96f12bb1e144c6d3f75c806a792c1d042cab768cbbda5e61bb019fe0f404cddb5391e392661bbdccffc99441daf652fe8f42c53e02298178a
+  checksum: 32399ba0b7e772d5b5b8ba51b73b8e27f592ec669b996c0ce02676e48dec14ed9e41aa20c510d0b277ca5d60655042a5fe06d887bd6b9e88301e8793dec66afb
   languageName: node
   linkType: hard
 
@@ -16068,7 +16068,7 @@ fsevents@^1.2.7:
     css-loader: 4.2.1
     date-fns: 2.18.0
     eciesjs: 0.3.11
-    electron: 13.6.3
+    electron: 14.2.2
     electron-context-menu: 3.1.0
     electron-log: 4.2.4
     electron-squirrel-startup: 1.0.0

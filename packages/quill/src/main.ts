@@ -64,8 +64,7 @@ const createWindow = (): void => {
       // For security reasons the following params should not be modified
       // https://electronjs.org/docs/tutorial/security#isolation-for-untrusted-content
       nodeIntegration: false,
-      contextIsolation: true,
-      worldSafeExecuteJavaScript: true
+      contextIsolation: true
     }
   });
 
