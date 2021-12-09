@@ -117,7 +117,7 @@
     "copy-webpack-plugin": "6.1.1",
     "csp-html-webpack-plugin": "4.0.0",
     "css-loader": "4.2.1",
-    "electron": "14.2.2",
+    "electron": "16.0.4",
     "file-loader": "6.2.0",
     "fork-ts-checker-webpack-plugin": "5.0.14",
     "html-webpack-plugin": "4.5.0",

@@ -1764,7 +1764,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@electron/get@npm:^1.0.1, @electron/get@npm:^1.12.4, @electron/get@npm:^1.6.0, @electron/get@npm:^1.9.0":
+"@electron/get@npm:^1.12.4, @electron/get@npm:^1.6.0, @electron/get@npm:^1.9.0":
   version: 1.12.4
   resolution: "@electron/get@npm:1.12.4"
   dependencies:
@@ -1783,6 +1783,28 @@ __metadata:
     global-tunnel-ng:
       optional: true
   checksum: e8b3033ce878e05894827e7b488747b9a961335fd050ed31a6d1bdc95f8948154cd8a3da68ef4096ddf84a1c2ea729d862aa88186a99961e63df9303546527c7
+  languageName: node
+  linkType: hard
+
+"@electron/get@npm:^1.13.0":
+  version: 1.13.1
+  resolution: "@electron/get@npm:1.13.1"
+  dependencies:
+    debug: ^4.1.1
+    env-paths: ^2.2.0
+    fs-extra: ^8.1.0
+    global-agent: ^3.0.0
+    global-tunnel-ng: ^2.7.1
+    got: ^9.6.0
+    progress: ^2.0.3
+    semver: ^6.2.0
+    sumchecker: ^3.0.1
+  dependenciesMeta:
+    global-agent:
+      optional: true
+    global-tunnel-ng:
+      optional: true
+  checksum: cae643e014309ed7367f76c0fedc24a016def1d4bec1c1e01923b14eab406b93eadf03a274599f858349d0639be7e68ebddda43b225c2df35b1821bb4a941e88
   languageName: node
   linkType: hard
 
@@ -3432,7 +3454,7 @@ __metadata:
     babel-plugin-inline-json-import: 0.3.2
     date-fns: 2.22.1
     eciesjs: 0.3.11
-    electron: 14.2.2
+    electron: 16.0.4
     fast-json-stable-stringify: 2.1.0
     noble-ed25519: 1.2.5
     redux-mock-store: 1.5.4
@@ -8713,16 +8735,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron@npm:14.2.2":
-  version: 14.2.2
-  resolution: "electron@npm:14.2.2"
+"electron@npm:16.0.4":
+  version: 16.0.4
+  resolution: "electron@npm:16.0.4"
   dependencies:
-    "@electron/get": ^1.0.1
+    "@electron/get": ^1.13.0
     "@types/node": ^14.6.2
     extract-zip: ^1.0.3
   bin:
     electron: cli.js
-  checksum: 32399ba0b7e772d5b5b8ba51b73b8e27f592ec669b996c0ce02676e48dec14ed9e41aa20c510d0b277ca5d60655042a5fe06d887bd6b9e88301e8793dec66afb
+  checksum: 969166a2db23f4915d3ab44f7a6c80fad1fc878805d24ae8667a356068e7853a2672d493df76929f5efddc6c8bc1ae9c381617f86966faccde704846a70d495a
   languageName: node
   linkType: hard
 
@@ -10521,6 +10543,20 @@ fsevents@^1.2.7:
     semver: ^7.3.2
     serialize-error: ^7.0.1
   checksum: 7213b32455cb74c1f3d82b02f5cf6b144ffa111b246f99cc6daab2037bfeb5b2295c20464efcbabfff27905b336fc4ab3599892061f7b131f5136d031fbe6cac
+  languageName: node
+  linkType: hard
+
+"global-agent@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "global-agent@npm:3.0.0"
+  dependencies:
+    boolean: ^3.0.1
+    es6-error: ^4.1.1
+    matcher: ^3.0.0
+    roarr: ^2.15.3
+    semver: ^7.3.2
+    serialize-error: ^7.0.1
+  checksum: bdb023256a346e411a1a9dc71e9f168fae99a89a965d5e4f7adbc97395f7d6a4659ca24733db179e1af41d18ad512ee6ef13d401179cb18cc21a78be1f5ad6f0
   languageName: node
   linkType: hard
 
@@ -16068,7 +16104,7 @@ fsevents@^1.2.7:
     css-loader: 4.2.1
     date-fns: 2.18.0
     eciesjs: 0.3.11
-    electron: 14.2.2
+    electron: 16.0.4
     electron-context-menu: 3.1.0
     electron-log: 4.2.4
     electron-squirrel-startup: 1.0.0
