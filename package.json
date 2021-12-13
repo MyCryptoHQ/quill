@@ -14,9 +14,8 @@
     "lint:styles": "stylelint packages/**/*.tsx",
     "format": "prettier --ignore-path .gitignore --write \"**/*.{js,jsx,ts,tsx,json,yml,html}\"",
     "tsc": "tsc --noEmit",
-    "test": "jest --testPathIgnorePatterns e2e",
-    "test:coverage": "yarn test --coverage",
-    "test:e2e": "yarn package && cross-env IS_TEST=true jest packages/quill/tests/e2e"
+    "test": "jest",
+    "test:coverage": "yarn test --coverage"
   },
   "repository": "https://github.com/MyCryptoHQ/quill.git",
   "author": "MyCryptoHQ",
