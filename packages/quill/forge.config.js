@@ -36,7 +36,7 @@ module.exports = {
     {
       name: '@electron-forge/maker-deb',
       config: {
-        name: 'quill'
+        bin: 'quill'
       }
     },
     {
