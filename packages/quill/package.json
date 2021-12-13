@@ -1,5 +1,5 @@
 {
-  "name": "quill",
+  "name": "@quill/quill",
   "productName": "quill",
   "version": "1.0.0",
   "description": "A tool to sign transactions with Mnemonic Phrases, Private Keys and Keystore files",
