@@ -38,7 +38,9 @@ const WalletTypeButton = ({
           '0px 0.61746px 1.85238px rgba(0, 0, 0, 0.1), 0px 0.61746px 0px rgba(0, 0, 0, 0.05), 0px 0px 0px rgba(0, 0, 0, 0.03);',
         border: selected ? '1px solid #007A99' : 'none',
         flexBasis: '0',
-        flexGrow: '1'
+        flexGrow: '1',
+        minHeight: '100px',
+        justifyContent: 'center'
       }}
       px="2"
       py="2"
@@ -47,7 +49,7 @@ const WalletTypeButton = ({
       data-testid={`select-${type}`}
     >
       <Image src={icon} height="30px" width="30px" />
-      <Body color="BLUE_DARK_SLATE" fontSize="1">
+      <Body color="BLUE_DARK_SLATE" fontSize="1" textAlign="center" lineHeight="15px">
         {label}
       </Body>
     </Box>
