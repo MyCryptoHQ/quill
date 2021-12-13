@@ -71,7 +71,6 @@ module.exports = {
     }
   ],
   electronRebuildConfig: {
-    forceABI: 89,
     onlyModules: ['keytar', 'keccak', 'usb']
   }
 };

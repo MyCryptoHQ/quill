@@ -37,7 +37,7 @@
     }
   },
   "resolutions": {
-    "node-abi": "2.30.0"
+    "node-abi": "3.5.0"
   },
   "private": true,
   "workspaces": [

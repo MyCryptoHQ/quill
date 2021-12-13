@@ -13934,12 +13934,12 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"node-abi@npm:2.30.0":
-  version: 2.30.0
-  resolution: "node-abi@npm:2.30.0"
+"node-abi@npm:3.5.0":
+  version: 3.5.0
+  resolution: "node-abi@npm:3.5.0"
   dependencies:
-    semver: ^5.4.1
-  checksum: d048604a9f5694051a9d23650f4ce2e881d751385d913534c964895fea9849dceb6bffd2a0e0581aa03f5743bd2f3d6de37316bf1ed106f382e4492929806970
+    semver: ^7.3.5
+  checksum: d74f94093317bb3d3719d0fdb062a4a5f3443751e707b0bc231f55ca95a1fcb96bfc6e23928cc1f2b1bd6b178bae2eb06f70007c8672b2caac9c1c9e9f947e4c
   languageName: node
   linkType: hard
 
@@ -15723,7 +15723,7 @@ fsevents@^1.2.7:
     lodash.isequal: 4.5.0
     lodash.merge: 4.6.2
     noble-ed25519: 1.2.1
-    node-abi: 2.30.0
+    node-abi: 3.5.0
     node-ipc: 9.1.4
     node-loader: 1.0.1
     qruri: 0.0.4
