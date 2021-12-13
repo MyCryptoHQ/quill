@@ -1,17 +1,23 @@
 module.exports = {
-  packagerConfig: process.env.SHOULD_SIGN && {
-    osxSign: {
-      identity: 'Developer ID Application: MyCrypto Inc (43RN6VJTB7)',
-      'hardened-runtime': true,
-      'gatekeeper-assess': false,
-      entitlements: 'entitlements.plist',
-      'entitlements-inherit': 'entitlements.plist',
-      'signature-flags': 'library'
-    },
-    osxNotarize: {
-      appleId: process.env.APPLE_ID,
-      appleIdPassword: process.env.APPLE_ID_PASSWORD
-    },
+  packagerConfig: {
+    ...(process.env.SHOULD_SIGN
+      ? {
+          osxSign: {
+            identity: 'Developer ID Application: MyCrypto Inc (43RN6VJTB7)',
+            'hardened-runtime': true,
+            'gatekeeper-assess': false,
+            entitlements: 'entitlements.plist',
+            'entitlements-inherit': 'entitlements.plist',
+            'signature-flags': 'library'
+          },
+          osxNotarize: {
+            appleId: process.env.APPLE_ID,
+            appleIdPassword: process.env.APPLE_ID_PASSWORD
+          }
+        }
+      : {}),
+    name: 'quill',
+    executableName: 'quill',
     packageManager: 'yarn'
   },
   makers: [
