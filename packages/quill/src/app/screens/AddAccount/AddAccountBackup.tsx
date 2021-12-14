@@ -98,7 +98,7 @@ export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
           <Checkbox checked={persistent} onChange={handleToggle} data-testid="toggle-persistence" />
           <Body pl="2">
             {translateRaw('PERSISTENCE_CHECKBOX')}
-            <Tooltip tooltip={translateRaw('PERSISTENCE_CHECKBOX_TOOLTIP')} />
+            <Tooltip tooltip={translateRaw('PERSISTENCE_CHECKBOX_TOOLTIP')} ml="1" />
           </Body>
         </Box>
       </PanelBottom>
