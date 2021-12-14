@@ -60,7 +60,7 @@ export const MnemonicForm = ({
         <Box mt="1">
           <label>
             {translateRaw('MNEMONIC_PASSWORD')}
-            <Tooltip tooltip={translateRaw('SECRET_RECOVERY_PASSPHRASE_TOOLTIP')}>bla</Tooltip>
+            <Tooltip tooltip={translateRaw('SECRET_RECOVERY_PASSPHRASE_TOOLTIP')} />
             <FormInput
               type="text"
               id="password"
