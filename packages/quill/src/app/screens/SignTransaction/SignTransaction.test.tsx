@@ -196,7 +196,7 @@ describe('SignTransaction', () => {
     expect(mnemonicInput).toBeDefined();
     fireEvent.change(mnemonicInput, { target: { value: fMnemonicPhrase } });
 
-    const passwordInput = getByLabelText(translateRaw('MNEMONIC_PASSWORD'));
+    const passwordInput = getByLabelText(translateRaw('MNEMONIC_PASSWORD'), { exact: false });
     fireEvent.change(passwordInput, { target: { value: 'password' } });
 
     fireEvent.click(acceptButton);
