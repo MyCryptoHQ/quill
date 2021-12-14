@@ -17,11 +17,11 @@ export const SetupAccount = () => (
       <Body>{translateRaw('SETUP_ACCOUNT_DESCRIPTION')}</Body>
     </Container>
     <PanelBottom variant="clear">
-      <LinkApp href={ROUTE_PATHS.ADD_ACCOUNT}>
-        <Button mb="3">{translateRaw('ADD_ACCOUNT')}</Button>
-      </LinkApp>
       <LinkApp href={ROUTE_PATHS.GENERATE_ACCOUNT}>
-        <Button variant="inverted">{translateRaw('GENERATE_ACCOUNT')}</Button>
+        <Button mb="3">{translateRaw('GENERATE_ACCOUNT')}</Button>
+      </LinkApp>
+      <LinkApp href={ROUTE_PATHS.ADD_ACCOUNT}>
+        <Button variant="inverted">{translateRaw('ADD_ACCOUNT')}</Button>
       </LinkApp>
     </PanelBottom>
   </>

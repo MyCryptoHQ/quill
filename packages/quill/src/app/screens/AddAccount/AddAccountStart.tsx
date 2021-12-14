@@ -19,7 +19,7 @@ const components = {
 
 export const AddAccountStart = ({
   flowHeader,
-  walletType: defaultWalletType = WalletType.PRIVATE_KEY
+  walletType: defaultWalletType = WalletType.MNEMONIC
 }: PropsWithChildren<Props & IFlowComponentProps>) => {
   const [walletType, setWalletType] = useState(defaultWalletType);
   const dispatch = useDispatch();
