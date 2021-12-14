@@ -1,4 +1,4 @@
-import { BlockieAddress, Body, Button, Heading } from '@mycrypto/ui';
+import { BlockieAddress, Body, Button, Heading, Tooltip } from '@mycrypto/ui';
 import { getFullPath } from '@mycrypto/wallets';
 import { addSavedAccounts, getAccountsToAdd, translateRaw, WalletType } from '@quill/common';
 import { toPng } from 'html-to-image';
@@ -96,7 +96,10 @@ export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
         </Button>
         <Box pt="2" variant="horizontal-start">
           <Checkbox checked={persistent} onChange={handleToggle} data-testid="toggle-persistence" />
-          <Body pl="2">{translateRaw('PERSISTENCE_CHECKBOX')}</Body>
+          <Body pl="2">
+            {translateRaw('PERSISTENCE_CHECKBOX')}
+            <Tooltip tooltip={translateRaw('PERSISTENCE_CHECKBOX_TOOLTIP')}>bla</Tooltip>
+          </Body>
         </Box>
       </PanelBottom>
     </>

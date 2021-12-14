@@ -22,7 +22,8 @@
     "UNKNOWN_NETWORK": "Unknown Network",
     "PASSWORD": "Password",
     "KEYSTORE": "Keystore",
-    "PERSISTENCE_CHECKBOX": "Remember this on my device next time",
+    "PERSISTENCE_CHECKBOX": "Store this encrypted private key in Quill",
+    "PERSISTENCE_CHECKBOX_TOOLTIP": "Select this to securely encrypt and store your private key within Quill. Your key will be remembered so you won't have to import again.",
     "MNEMONIC_PHRASE": "Secret Recovery Phrase",
     "MNEMONIC": "Secret Recovery Phrase",
     "PRIVATE_KEY": "Private Key",
@@ -240,6 +241,7 @@
     "PRESS": "Press",
     "PRIVACY_POLICY": "Privacy Policy",
     "OTHER_PRODUCTS": "Other Products",
-    "QUILL": "Quill"
+    "QUILL": "Quill",
+    "SECRET_RECOVERY_PASSPHRASE_TOOLTIP": "A passphrase is an additional, optional layer of security for secret recovery phrases. This passphrase is not an industry standard, and not all products support it."
   }
 }

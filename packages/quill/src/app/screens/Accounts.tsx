@@ -94,8 +94,11 @@ export const Accounts = () => {
           </Box>
         </Container>
         <PanelBottom variant="clear">
+          <LinkApp href={ROUTE_PATHS.GENERATE_ACCOUNT}>
+            <Button mb="3">{translateRaw('GENERATE_ACCOUNT')}</Button>
+          </LinkApp>
           <LinkApp href={ROUTE_PATHS.ADD_ACCOUNT}>
-            <Button>{translateRaw('MENU_ADD_ACCOUNT')}</Button>
+            <Button variant="inverted">{translateRaw('ADD_ACCOUNT')}</Button>
           </LinkApp>
         </PanelBottom>
       </>
