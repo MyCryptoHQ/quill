@@ -1303,6 +1303,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.15.4":
+  version: 7.16.5
+  resolution: "@babel/runtime@npm:7.16.5"
+  dependencies:
+    regenerator-runtime: ^0.13.4
+  checksum: b105c2a0d3893e3424454ef127fe70a57bbeea976dc90c1cd37cebd9bccd4c55b8b9118195f145557d79408ea0fe211896f8f2221136b5939e1bc0b04115df22
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.10.4, @babel/template@npm:^7.12.13, @babel/template@npm:^7.3.3":
   version: 7.12.13
   resolution: "@babel/template@npm:7.12.13"
@@ -3112,23 +3121,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mycrypto/ui@npm:1.4.3":
-  version: 1.4.3
-  resolution: "@mycrypto/ui@npm:1.4.3"
+"@mycrypto/ui@npm:1.9.5":
+  version: 1.9.5
+  resolution: "@mycrypto/ui@npm:1.9.5"
   dependencies:
     "@rebass/forms": 4.0.6
+    "@types/rebass": 4.0.8
     core-js: 3.18.2
     ethereum-blockies-base64: 1.0.2
     isomorphic-unfetch: 3.1.0
     react-copy-to-clipboard: 5.0.4
     react-inlinesvg: 2.3.0
+    react-popper-tooltip: 4.3.1
     rebass: 4.0.7
   peerDependencies:
     react: ^17.0.0
     react-dom: ^17.0.0
     react-is: ^17.0.0
     styled-components: ^5.2.3
-  checksum: 255de971b1ccc04179d90057ba162eb54e0873db8249e1aedfbb700161c172ea062b2ecf6189af45453cab70eeba68b18f12687aeb5ab539ca7c77af5dbd5e2f
+  checksum: 9c770ed2c6bf60d02ace1a0e02591fd5502c4c1960b57bc71c202191bee668fc7a3dfc6109cc55182dad8b613e1cc2fea6c7867da182117d08a822e12b567557
   languageName: node
   linkType: hard
 
@@ -3394,6 +3405,13 @@ __metadata:
   dependencies:
     "@octokit/openapi-types": ^9.4.0
   checksum: c8df38d339503f4f6affe88138cc1683e8dc3d5c12a09648a0605f75505885b32a3c7e805eeb74c187ec4acc1756e2637008cd9d32e03b3d6bd045b785d74987
+  languageName: node
+  linkType: hard
+
+"@popperjs/core@npm:^2.10.2":
+  version: 2.11.0
+  resolution: "@popperjs/core@npm:2.11.0"
+  checksum: 4c33b4f83f84df67e9b26761c0ae8ebd9cfd0b17c964cedda35519d186bf9cf360a286964c3d5e297e51d24210dc03e7bfab0f575fe342f07b6ca680ef073d78
   languageName: node
   linkType: hard
 
@@ -4362,6 +4380,18 @@ __metadata:
     "@types/styled-system": "*"
     "@types/styled-system__css": "*"
   checksum: 1495da23e47a39eb4b8e0de8b0e7dc104b72a60b85f2865269a85c499b9efad56ed8a8ba12703ffec4080a7849c1992d53b64d49686936f826de33cef67847b1
+  languageName: node
+  linkType: hard
+
+"@types/rebass@npm:4.0.8":
+  version: 4.0.8
+  resolution: "@types/rebass@npm:4.0.8"
+  dependencies:
+    "@types/react": "*"
+    "@types/styled-components": "*"
+    "@types/styled-system": "*"
+    "@types/styled-system__css": "*"
+  checksum: 2cc9d166ba9809e768c14de1e0c784a79c1cfb76914830a2a7c77c5f7667ff57a2025532546e24c82af43ff5eaf5b163705e9f09995fc8a0cb5696f7ce51225c
   languageName: node
   linkType: hard
 
@@ -16015,7 +16045,7 @@ fsevents@^1.2.7:
     "@fontsource/roboto-mono": 4.2.2
     "@hot-loader/react-dom": 17.0.1
     "@marshallofsound/webpack-asset-relocator-loader": 0.5.0
-    "@mycrypto/ui": 1.4.3
+    "@mycrypto/ui": 1.9.5
     "@mycrypto/wallets": 1.3.5
     "@quill/common": "workspace:packages/common"
     "@rebass/forms": 4.0.6
@@ -16200,6 +16230,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"react-fast-compare@npm:^3.0.1":
+  version: 3.2.0
+  resolution: "react-fast-compare@npm:3.2.0"
+  checksum: 6fe65c889eb4f326e97769135f97b3d63ac68737866f9c37f9625c9de4f5eaa9abed6f748eb3fd6a66808392118842916309cab7cfa99c67991f0c837433d6d2
+  languageName: node
+  linkType: hard
+
 "react-from-dom@npm:^0.5.1":
   version: 0.5.1
   resolution: "react-from-dom@npm:0.5.1"
@@ -16315,6 +16352,33 @@ fsevents@^1.2.7:
     "@types/react": ">=16"
     react: ">=16"
   checksum: 9e27eb9efd9288777210a7195720e8eb01880baa3ae3b5e1c7f40e324c052dc68594b62a70e4370b1b1180b6fa8e3e7486dea2d2d182f6fd66a05373164c18a6
+  languageName: node
+  linkType: hard
+
+"react-popper-tooltip@npm:4.3.1":
+  version: 4.3.1
+  resolution: "react-popper-tooltip@npm:4.3.1"
+  dependencies:
+    "@babel/runtime": ^7.15.4
+    "@popperjs/core": ^2.10.2
+    react-popper: ^2.2.5
+  peerDependencies:
+    react: ">=16.6.0"
+    react-dom: ">=16.6.0"
+  checksum: 34122e9f4818f54c84010184f4d2ca6d9e0eb0c8b6e429ea88d7f4a7c021a0a7287534c8a83ea69ebd0bc8ea2dd384eff334b26b1504e8f6efb263be34672748
+  languageName: node
+  linkType: hard
+
+"react-popper@npm:^2.2.5":
+  version: 2.2.5
+  resolution: "react-popper@npm:2.2.5"
+  dependencies:
+    react-fast-compare: ^3.0.1
+    warning: ^4.0.2
+  peerDependencies:
+    "@popperjs/core": ^2.0.0
+    react: ^16.8.0 || ^17
+  checksum: 5cac009001e2a7c640ba931afedbbf33c94a672a3f7c6ef672e55561b72778c6941a09f57156962114b9e47793779728088845fc306c43477ddc645cdb8793ea
   languageName: node
   linkType: hard
 
@@ -19872,6 +19936,15 @@ typescript@4.3.2:
   dependencies:
     loose-envify: ^1.0.0
   checksum: 91371f1e41c301c595b25b3f8df1826925d679b74c34b97284ec01937ee5e96aeaf65e7b78a7e9cbb34526597bf806edc9bf9d8d41314bae59b91526ff6712fa
+  languageName: node
+  linkType: hard
+
+"warning@npm:^4.0.2":
+  version: 4.0.3
+  resolution: "warning@npm:4.0.3"
+  dependencies:
+    loose-envify: ^1.0.0
+  checksum: 20ef5d29ff9c20af3060e504914a00d5a90ce346e75e6691efbedb540481cdc82070c966d75195f812de64bb0bd7f1b02315fcb52469db151c0f15e29002781c
   languageName: node
   linkType: hard
 

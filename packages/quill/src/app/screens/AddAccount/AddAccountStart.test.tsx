@@ -35,7 +35,7 @@ function getComponent(store: EnhancedStore<DeepPartial<ApplicationState>> = mock
 describe('AddAccountStart', () => {
   it('renders', async () => {
     const { getByText } = getComponent();
-    expect(getByText(translateRaw('REVIEW_SECURITY_DETAILS')).textContent).toBeDefined();
+    expect(getByText(translateRaw('NEXT')).textContent).toBeDefined();
   });
 
   it('renders errors from Redux', async () => {

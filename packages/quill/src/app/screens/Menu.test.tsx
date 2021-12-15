@@ -1,4 +1,4 @@
-import { setNavigationBack } from '@quill/common';
+import { setNavigationBack, translateRaw } from '@quill/common';
 import type { DeepPartial } from '@quill/common';
 import type { EnhancedStore } from '@reduxjs/toolkit';
 import { render } from '@testing-library/react';
@@ -26,7 +26,7 @@ const getComponent = (store: EnhancedStore<DeepPartial<ApplicationState>> = crea
 describe('Menu', () => {
   it('renders', async () => {
     const { getByText } = getComponent();
-    expect(getByText('Add or Generate Accounts').textContent).toBeDefined();
+    expect(getByText(translateRaw('MENU_HEADER')).textContent).toBeDefined();
   });
 
   it('sets navigationBack', () => {

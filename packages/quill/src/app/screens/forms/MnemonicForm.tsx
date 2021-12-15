@@ -1,4 +1,4 @@
-import { Body } from '@mycrypto/ui';
+import { Body, Tooltip } from '@mycrypto/ui';
 import { translateRaw } from '@quill/common';
 import type { FormEvent, ReactNode } from 'react';
 import type { DefaultState } from 'typed-react-form';
@@ -60,6 +60,7 @@ export const MnemonicForm = ({
         <Box mt="1">
           <label>
             {translateRaw('MNEMONIC_PASSWORD')}
+            <Tooltip tooltip={translateRaw('SECRET_RECOVERY_PASSPHRASE_TOOLTIP')} ml="1" />
             <FormInput
               type="text"
               id="password"

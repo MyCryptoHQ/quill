@@ -1,6 +1,5 @@
-import type { InputProps } from '@mycrypto/ui';
-import { Input as RebassInput } from '@mycrypto/ui';
-import type { ChangeEvent, KeyboardEvent, WheelEvent } from 'react';
+import { Input as RebassInput } from '@rebass/forms/styled-components';
+import type { ChangeEvent, ComponentProps, KeyboardEvent, WheelEvent } from 'react';
 import type { DefaultError, DefaultState } from 'typed-react-form';
 import { FormInput as ReactFormInput, useListener } from 'typed-react-form';
 import type { FormInputProps } from 'typed-react-form/dist/elements/FormInput';
@@ -18,7 +17,7 @@ export const FormInput = <
   processInput,
   ...rest
 }: Omit<
-  Omit<InputProps, 'form'> & FormInputProps<T, State, Error, Key, Value>,
+  Omit<ComponentProps<typeof RebassInput>, 'form'> & FormInputProps<T, State, Error, Key, Value>,
   'as' | 'variant'
 > & { processInput?(val: string): string }) => {
   const { error, setValue } = useListener(form, name);
