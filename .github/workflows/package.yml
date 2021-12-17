@@ -18,6 +18,9 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
 
+    env:
+      ELECTRON_CONFIG_CACHE: $HOME/.cache/electron
+
     steps:
       - uses: actions/checkout@v2
 

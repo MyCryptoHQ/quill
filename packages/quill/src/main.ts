@@ -54,9 +54,7 @@ const createWindow = (): void => {
     height: HEIGHT,
     fullscreenable: false,
     resizable: isDev,
-    // Spectron fails randomly when the app is frameless
-    // We don't use NODE_ENV as it is controlled by electron-forge
-    frame: process.env.IS_TEST === 'true',
+    frame: false,
     transparent: true,
     webPreferences: {
       devTools: isDev,
@@ -64,8 +62,7 @@ const createWindow = (): void => {
       // For security reasons the following params should not be modified
       // https://electronjs.org/docs/tutorial/security#isolation-for-untrusted-content
       nodeIntegration: false,
-      contextIsolation: true,
-      worldSafeExecuteJavaScript: true
+      contextIsolation: true
     }
   });
 

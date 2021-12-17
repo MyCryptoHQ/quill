@@ -29,11 +29,15 @@ module.exports = {
     },
     {
       name: '@electron-forge/maker-deb',
-      config: {}
+      config: {
+        bin: 'quill'
+      }
     },
     {
       name: '@electron-forge/maker-rpm',
-      config: {}
+      config: {
+        bin: 'quill'
+      }
     }
   ],
   plugins: [
