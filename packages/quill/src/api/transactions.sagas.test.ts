@@ -4,6 +4,7 @@ import {
   enqueue,
   makeHistoryTx,
   makeQueueTx,
+  MAX_QUEUE_LENGTH,
   TxResult
 } from '@quill/common';
 import { expectSaga } from 'redux-saga-test-plan';
@@ -31,7 +32,8 @@ describe('addTransactionWorker', () => {
       .withState({
         auth: {
           loggedIn: true
-        }
+        },
+        transactions: { queue: [] }
       })
       .put(enqueue(makeQueueTx(request)))
       .silentRun();
@@ -40,9 +42,28 @@ describe('addTransactionWorker', () => {
       .withState({
         auth: {
           loggedIn: false
-        }
+        },
+        transactions: { queue: [] }
       })
       .not.put(enqueue(makeQueueTx(request)))
+      .silentRun();
+  });
+
+  it('fails if queue length limit met', async () => {
+    await expectSaga(addTransactionWorker, requestSignTransaction(request))
+      .withState({
+        auth: {
+          loggedIn: true
+        },
+        transactions: { queue: new Array(MAX_QUEUE_LENGTH).fill(makeQueueTx(request)) }
+      })
+      .put(
+        reply({
+          id: request.request.id,
+          // @todo Decide what error message to use
+          error: { code: '-32600', message: 'Invalid request' }
+        })
+      )
       .silentRun();
   });
 });
