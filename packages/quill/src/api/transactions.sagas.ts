@@ -6,8 +6,10 @@ import {
   enqueue,
   getCurrentTransaction,
   getLoggedIn,
+  getQueueLength,
   makeHistoryTx,
   makeQueueTx,
+  QUEUE_LENGTH_MAX,
   selectTransaction,
   TxResult
 } from '@quill/common';
@@ -25,6 +27,17 @@ export function* transactionsSaga() {
 
 export function* addTransactionWorker({ payload }: PayloadAction<UserRequest<TSignTransaction>>) {
   const isLoggedIn: boolean = yield select(getLoggedIn);
+  const queueLength: number = yield select(getQueueLength);
+  if (queueLength >= QUEUE_LENGTH_MAX) {
+    yield put(
+      reply({
+        id: payload.request.id,
+        // @todo Decide what error message to use
+        error: { code: '-32600', message: 'Invalid request' }
+      })
+    );
+    return;
+  }
   if (isLoggedIn) {
     yield put(enqueue(makeQueueTx(payload)));
   }
