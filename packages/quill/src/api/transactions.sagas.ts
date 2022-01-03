@@ -9,7 +9,7 @@ import {
   getQueueLength,
   makeHistoryTx,
   makeQueueTx,
-  QUEUE_LENGTH_MAX,
+  MAX_QUEUE_LENGTH,
   selectTransaction,
   TxResult
 } from '@quill/common';
@@ -28,7 +28,7 @@ export function* transactionsSaga() {
 export function* addTransactionWorker({ payload }: PayloadAction<UserRequest<TSignTransaction>>) {
   const isLoggedIn: boolean = yield select(getLoggedIn);
   const queueLength: number = yield select(getQueueLength);
-  if (queueLength >= QUEUE_LENGTH_MAX) {
+  if (queueLength >= MAX_QUEUE_LENGTH) {
     yield put(
       reply({
         id: payload.request.id,
