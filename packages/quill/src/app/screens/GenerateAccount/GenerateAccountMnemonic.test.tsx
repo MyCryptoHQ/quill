@@ -61,10 +61,10 @@ describe('GenerateAccountMnemonic', () => {
       }
     });
 
-    const { getByDisplayValue } = getComponent(store);
-    expect(getByDisplayValue('foo')).toBeDefined();
-    expect(getByDisplayValue('bar')).toBeDefined();
-    expect(getByDisplayValue('baz')).toBeDefined();
+    const { getByText } = getComponent(store);
+    expect(getByText('foo')).toBeDefined();
+    expect(getByText('bar')).toBeDefined();
+    expect(getByText('baz')).toBeDefined();
   });
 
   it('calls onNext when clicking the button', () => {
