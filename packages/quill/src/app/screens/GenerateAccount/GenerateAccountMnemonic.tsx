@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 import refresh from '@app/assets/icons/refresh.svg';
 import type { IFlowComponentProps } from '@components';
-import { Box, Flex, Image, Input, Link, PanelBottom, ScrollableContainer } from '@components';
+import { Box, Flex, Image, Link, PanelBottom, ScrollableContainer } from '@components';
 import { useDispatch, useSelector } from '@store';
 import { translate } from '@translations';
 
@@ -24,7 +24,7 @@ const Word = ({ index, children }: WordProps) => (
     <Body mx="6px" sx={{ userSelect: 'none' }}>
       {index}.
     </Body>
-    <Input variant="none" disabled={true} value={children} />
+    <Body sx={{ userSelect: 'none' }}>{children}</Body>
   </Flex>
 );
 
@@ -56,7 +56,7 @@ export const GenerateAccountMnemonic = ({ onNext, flowHeader }: IFlowComponentPr
           sx={{
             display: 'grid',
             gridGap: '16px',
-            gridTemplateColumns: '1fr 1fr'
+            gridTemplateColumns: '1fr 1fr 1fr'
           }}
         >
           {mnemonicWords &&
