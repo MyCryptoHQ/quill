@@ -55,7 +55,8 @@ export const GenerateAccountMnemonic = ({ onNext, flowHeader }: IFlowComponentPr
         <Box
           sx={{
             display: 'grid',
-            gridGap: '16px',
+            columnGap: '16px',
+            rowGap: '8px',
             gridTemplateColumns: '1fr 1fr 1fr'
           }}
         >
