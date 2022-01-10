@@ -1,4 +1,4 @@
-import { Input as RebassInput } from '@rebass/forms/styled-components';
+import { Input as RebassInput } from '@mycrypto/ui';
 import type { ChangeEvent, ComponentProps, KeyboardEvent, WheelEvent } from 'react';
 import type { DefaultError, DefaultState } from 'typed-react-form';
 import { FormInput as ReactFormInput, useListener } from 'typed-react-form';
@@ -39,7 +39,7 @@ export const FormInput = <
       as={ReactFormInput}
       form={(form as unknown) as string}
       name={name}
-      variant={error ? 'error' : 'input'}
+      hasError={error != undefined}
       onWheel={handleWheel}
       onKeyDown={handleKeyDown}
       onChange={handleChange}
