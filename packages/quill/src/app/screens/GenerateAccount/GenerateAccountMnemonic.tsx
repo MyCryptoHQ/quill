@@ -46,7 +46,7 @@ export const GenerateAccountMnemonic = ({ onNext, flowHeader }: IFlowComponentPr
     <>
       <ScrollableContainer>
         {flowHeader}
-        <Box sx={{ textAlign: 'center' }} mb="4">
+        <Box sx={{ textAlign: 'center' }} mb="3">
           <Heading fontSize="24px" lineHeight="150%" mb="2">
             {translateRaw('CREATE_MNEMONIC_PHRASE_TITLE')}
           </Heading>
