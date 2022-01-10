@@ -39,7 +39,7 @@ export const FormInput = <
       as={ReactFormInput}
       form={(form as unknown) as string}
       name={name}
-      hasError={error !== undefined}
+      hasError={error != undefined}
       onWheel={handleWheel}
       onKeyDown={handleKeyDown}
       onChange={handleChange}

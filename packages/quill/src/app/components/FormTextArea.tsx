@@ -26,7 +26,7 @@ export const FormTextArea = <
       as={ReactFormTextArea}
       form={(form as unknown) as string}
       name={name}
-      hasError={error !== undefined}
+      hasError={error != undefined}
       {...rest}
     >
       {children}
