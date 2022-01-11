@@ -182,7 +182,8 @@ const overrideTheme = {
       border: '1px solid',
       borderColor: 'GREY_ATHENS',
       boxShadow: '0px -12px 20px rgba(79, 79, 79, 0.11)',
-      padding: '4'
+      paddingY: '24px',
+      paddingX: '4'
     },
     clear: {
       bg: 'DEFAULT_BACKGROUND',
