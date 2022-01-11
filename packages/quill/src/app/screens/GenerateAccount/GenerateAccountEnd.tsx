@@ -1,50 +1,30 @@
 import { BlockieAddress, Body, Button, Heading } from '@mycrypto/ui';
-import { addGeneratedAccount, getGeneratedAccount, translateRaw, WalletType } from '@quill/common';
-import { toPng } from 'html-to-image';
-import React, { useEffect, useRef, useState } from 'react';
+import { getGeneratedAccount, translateRaw } from '@quill/common';
+import React, { useState } from 'react';
 
 import type { IFlowComponentProps } from '@components';
-import { Box, Container, Link, Panel, PanelBottom, PaperWallet } from '@components';
+import { Box, Container, Link, Panel, PanelBottom } from '@components';
 import { DEFAULT_DERIVATION_PATH } from '@config/derivation';
-import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
-import { useDispatch, useSelector } from '@store';
+import { useSelector } from '@store';
 import { translate } from '@translations';
 
-export const GenerateAccountEnd = ({ flowHeader }: IFlowComponentProps) => {
-  const paperWallet = useRef<HTMLDivElement>();
+export const GenerateAccountEnd = ({ flowHeader, onNext }: IFlowComponentProps) => {
   const [showMnemonicPhrase, setShowMnemonicPhrase] = useState(false);
-  const [paperWalletImage, setPaperWalletImage] = useState<string>();
   const { address, mnemonicPhrase } = useSelector(getGeneratedAccount);
-  const dispatch = useDispatch();
 
   const handleClick = () => setShowMnemonicPhrase(!showMnemonicPhrase);
-  const handleNext = () => dispatch(addGeneratedAccount(true));
-
-  useEffect(() => {
-    if (paperWallet.current) {
-      toPng(paperWallet.current).then(setPaperWalletImage);
-    }
-  }, [paperWallet.current]);
 
   return (
     <>
       <Container>
         {flowHeader}
-        <Box sx={{ position: 'absolute', top: '-1000%', left: '-1000%' }}>
-          <PaperWallet
-            ref={paperWallet}
-            address={address}
-            type={WalletType.MNEMONIC}
-            secret={mnemonicPhrase}
-            derivationPath={DEFAULT_DERIVATION_PATH}
-          />
-        </Box>
-        <Box sx={{ textAlign: 'center' }} mb="4">
+        <Box sx={{ textAlign: 'center' }} mb="3">
           <Heading fontSize="24px" lineHeight="150%">
             {translateRaw('NEW_ACCOUNT_TITLE')}
           </Heading>
         </Box>
-        <Panel mb="4">
+        <Body>{translateRaw('GENERATE_ACCOUNT_NOTICE')}</Body>
+        <Panel mt="3">
           <Body fontSize="14px" mb="2">
             {translate('RECOVERY_PHRASE_SECRET')}{' '}
             {showMnemonicPhrase ? (
@@ -65,23 +45,9 @@ export const GenerateAccountEnd = ({ flowHeader }: IFlowComponentProps) => {
             {translate('DERIVATION_PATH')} {DEFAULT_DERIVATION_PATH}
           </Body>
         </Panel>
-        <Body>
-          {translate('PAPER_WALLET_DESCRIPTION', {
-            $link: getKBHelpArticle(KB_HELP_ARTICLE.HOW_TO_BACKUP)
-          })}
-        </Body>
       </Container>
       <PanelBottom variant="clear">
-        <Link
-          data-testid="download-link"
-          href={paperWalletImage}
-          download={`paper-wallet-${address}`}
-        >
-          <Button mb="3">{translateRaw('PRINT_PAPER_WALLET')}</Button>
-        </Link>
-        <Button variant="inverted" onClick={handleNext}>
-          {translateRaw('PAPER_WALLET_PRINTED')}
-        </Button>
+        <Button onClick={onNext}>{translateRaw('NEXT')}</Button>
       </PanelBottom>
     </>
   );

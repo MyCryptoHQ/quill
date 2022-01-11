@@ -11,6 +11,7 @@ import { GenerateAccountEnd } from './GenerateAccountEnd';
 import { GenerateAccountMnemonic } from './GenerateAccountMnemonic';
 import { GenerateAccountStart } from './GenerateAccountStart';
 import { GenerateAccountVerify } from './GenerateAccountVerify';
+import { GenerateAccountPrint } from './GenerateWalletPrint';
 
 const components: IFlowComponent[] = [
   {
@@ -24,6 +25,9 @@ const components: IFlowComponent[] = [
   },
   {
     component: GenerateAccountEnd
+  },
+  {
+    component: GenerateAccountPrint
   }
 ];
 

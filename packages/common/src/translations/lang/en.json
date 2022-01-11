@@ -245,6 +245,10 @@
     "SECRET_RECOVERY_PASSPHRASE_TOOLTIP": "A passphrase is an additional, optional layer of security for secret recovery phrases. This passphrase is not an industry standard, and not all products support it.",
     "BACK": "Back",
     "LOCK": "Lock",
-    "ADD": "Add"
+    "ADD": "Add",
+    "GENERATE_ACCOUNT_NOTICE": "Your secret recovery phrase gives complete and utter access to every account within it, and should remain secret. Next, we'll help you back it up safely.",
+    "GENERATE_ACCOUNT_PRINT_HEADER": "Print or Write Down Your Secret Recovery Phrase",
+    "GENERATE_ACCOUNT_PRINT_BODY_1": "**It is extremely important to have a physical backup of your secret recovery phrase.** This is called a paper wallet.",
+    "GENERATE_ACCOUNT_PRINT_BODY_2": "View your paper wallet and write it down carefully or print it via a hardwired printer."
   }
 }
