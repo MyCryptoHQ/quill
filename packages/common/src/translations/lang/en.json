@@ -242,6 +242,9 @@
     "PRIVACY_POLICY": "Privacy Policy",
     "OTHER_PRODUCTS": "Other Products",
     "QUILL": "Quill",
-    "SECRET_RECOVERY_PASSPHRASE_TOOLTIP": "A passphrase is an additional, optional layer of security for secret recovery phrases. This passphrase is not an industry standard, and not all products support it."
+    "SECRET_RECOVERY_PASSPHRASE_TOOLTIP": "A passphrase is an additional, optional layer of security for secret recovery phrases. This passphrase is not an industry standard, and not all products support it.",
+    "BACK": "Back",
+    "LOCK": "Lock",
+    "ADD": "Add"
   }
 }
