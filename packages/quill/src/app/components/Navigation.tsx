@@ -1,4 +1,4 @@
-import { Flex, Heading } from '@mycrypto/ui';
+import { Flex, Heading, Tooltip } from '@mycrypto/ui';
 import { getNavigationBack, logout, translateRaw } from '@quill/common';
 import { getLocation } from 'connected-react-router';
 import type { PropsWithChildren } from 'react';
@@ -18,27 +18,30 @@ import { NavigationLogo } from './NavigationLogo';
 
 const NavIcon = ({
   icon,
+  tooltip,
   href,
   onClick,
   ...rest
-}: { icon: string; href: string; onClick?(): void } & BoxProps) => (
-  <LinkApp
-    data-testid="nav-icon"
-    href={href}
-    variant="barren"
-    style={{ color: 'white' }}
-    onClick={onClick}
-  >
-    <Box
-      variant="horizontal-start"
-      sx={{
-        '-webkit-app-region': 'no-drag'
-      }}
-      {...rest}
+}: { icon: string; tooltip: string; href: string; onClick?(): void } & BoxProps) => (
+  <Tooltip tooltip={tooltip}>
+    <LinkApp
+      data-testid="nav-icon"
+      href={href}
+      variant="barren"
+      style={{ color: 'white' }}
+      onClick={onClick}
     >
-      <SVG height="20px" width="20px" src={icon} />
-    </Box>
-  </LinkApp>
+      <Box
+        variant="horizontal-start"
+        sx={{
+          '-webkit-app-region': 'no-drag'
+        }}
+        {...rest}
+      >
+        <SVG height="20px" width="20px" src={icon} />
+      </Box>
+    </LinkApp>
+  </Tooltip>
 );
 
 const NavItem = ({ href, children }: PropsWithChildren<{ href?: string }>) => {
@@ -46,7 +49,12 @@ const NavItem = ({ href, children }: PropsWithChildren<{ href?: string }>) => {
   const isActive = href && location.pathname === href;
 
   return (
-    <Box p="12px" backgroundColor={isActive && 'navigation.active'} sx={{ borderRadius: 'badge' }}>
+    <Box
+      p="12px"
+      backgroundColor={isActive && 'navigation.active'}
+      sx={{ borderRadius: 'badge' }}
+      display="flex"
+    >
       {children}
     </Box>
   );
@@ -95,16 +103,26 @@ export const Navigation = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
         {isLoggedIn && (
           <>
             <NavItem>
-              <NavIcon icon={lock} href="#" onClick={handleLogout} data-testid="lock-button" />
+              <NavIcon
+                icon={lock}
+                tooltip={translateRaw('LOCK')}
+                href="#"
+                onClick={handleLogout}
+                data-testid="lock-button"
+              />
             </NavItem>
             <NavItem href={ROUTE_PATHS.SETTINGS}>
-              <NavIcon icon={settings} href={ROUTE_PATHS.SETTINGS} />
+              <NavIcon
+                icon={settings}
+                tooltip={translateRaw('SETTINGS')}
+                href={ROUTE_PATHS.SETTINGS}
+              />
             </NavItem>
             <NavItem href={ROUTE_PATHS.MENU}>
               {backUrl ? (
-                <NavIcon icon={back} href={backUrl} />
+                <NavIcon icon={back} tooltip={translateRaw('BACK')} href={backUrl} />
               ) : (
-                <NavIcon icon={add} href={ROUTE_PATHS.MENU} />
+                <NavIcon icon={add} tooltip={translateRaw('ADD')} href={ROUTE_PATHS.MENU} />
               )}
             </NavItem>
           </>
