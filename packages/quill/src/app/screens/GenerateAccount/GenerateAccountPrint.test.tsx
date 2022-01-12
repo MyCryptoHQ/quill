@@ -9,7 +9,7 @@ import configureStore from 'redux-mock-store';
 
 import type { ApplicationState } from '@store';
 
-import { GenerateAccountEnd } from './GenerateAccountEnd';
+import { GenerateAccountPrint } from './GenerateAccountPrint';
 
 jest.mock('html-to-image', () => ({
   toPng: jest.fn().mockImplementation(async () => 'foo bar')
@@ -24,7 +24,7 @@ const getComponent = (
   return render(
     <MemoryRouter>
       <Provider store={store}>
-        <GenerateAccountEnd
+        <GenerateAccountPrint
           onNext={onNext}
           onPrevious={jest.fn()}
           onReset={jest.fn()}
@@ -35,7 +35,7 @@ const getComponent = (
   );
 };
 
-describe('GenerateAccountEnd', () => {
+describe('GenerateAccountPrint', () => {
   it('renders', () => {
     const { getByText } = getComponent(
       createMockStore({
@@ -47,7 +47,7 @@ describe('GenerateAccountEnd', () => {
         }
       })
     );
-    expect(getByText(translateRaw('NEW_ACCOUNT_TITLE'))).toBeDefined();
+    expect(getByText(translateRaw('GENERATE_ACCOUNT_PRINT_HEADER'))).toBeDefined();
   });
 
   it('generates a paper wallet', async () => {
@@ -64,29 +64,6 @@ describe('GenerateAccountEnd', () => {
 
     await waitFor(() => expect(toPng).toHaveBeenCalled());
     expect(getByTestId('download-link').getAttribute('href')).toBe('foo bar');
-  });
-
-  it('shows the address and mnemonic phrase', () => {
-    const mnemonicPhrase = 'test test test test test test test test test test test ball';
-    const address = '0xc6D5a3c98EC9073B54FA0969957Bd582e8D874bf';
-
-    const { getByText, getAllByText } = getComponent(
-      createMockStore({
-        accounts: {
-          generatedAccount: {
-            mnemonicPhrase,
-            address
-          }
-        }
-      })
-    );
-
-    expect(getAllByText(address)).toBeDefined();
-
-    const button = getByText(translateRaw('CLICK_TO_SHOW'));
-    fireEvent.click(button);
-
-    expect(getAllByText(mnemonicPhrase)).toHaveLength(2);
   });
 
   it('dispatches addGeneratedAccount when clicking the button', () => {

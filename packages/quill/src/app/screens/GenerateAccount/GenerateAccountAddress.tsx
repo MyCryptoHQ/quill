@@ -8,7 +8,7 @@ import { DEFAULT_DERIVATION_PATH } from '@config/derivation';
 import { useSelector } from '@store';
 import { translate } from '@translations';
 
-export const GenerateAccountEnd = ({ flowHeader, onNext }: IFlowComponentProps) => {
+export const GenerateAccountAddress = ({ flowHeader, onNext }: IFlowComponentProps) => {
   const [showMnemonicPhrase, setShowMnemonicPhrase] = useState(false);
   const { address, mnemonicPhrase } = useSelector(getGeneratedAccount);
 
