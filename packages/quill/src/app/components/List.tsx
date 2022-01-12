@@ -28,7 +28,7 @@ export const IconList = ({ children, ...props }: IconListProps & BoxProps) => (
 );
 
 export const ListItem = ({ children, ...props }: TextProps) => (
-  <Body as="li" mb="3" {...props}>
+  <Body as="li" mb="2" sx={{ listStylePosition: 'inside' }} {...props}>
     {children}
   </Body>
 );
