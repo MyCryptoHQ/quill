@@ -28,8 +28,11 @@ export const GenerateAccountAddress = ({ flowHeader, onNext }: IFlowComponentPro
           <Body fontSize="14px" mb="2">
             {translate('RECOVERY_PHRASE_SECRET')}{' '}
             {showMnemonicPhrase ? (
-              <Body fontSize="14px" onClick={handleClick}>
-                {mnemonicPhrase}
+              <Body fontSize="14px">
+                {mnemonicPhrase}{' '}
+                <Link variant="defaultLink" onClick={handleClick}>
+                  {translate('CLICK_TO_HIDE')}
+                </Link>
               </Body>
             ) : (
               <Link variant="defaultLink" onClick={handleClick}>
