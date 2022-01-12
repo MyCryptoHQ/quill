@@ -1,4 +1,4 @@
-import { Body, Button, Heading, Image } from '@mycrypto/ui';
+import { Banner, Body, Button, Heading, Image } from '@mycrypto/ui';
 import { addGeneratedAccount, getGeneratedAccount, translateRaw, WalletType } from '@quill/common';
 import { toPng } from 'html-to-image';
 import React, { useEffect, useRef, useState } from 'react';
@@ -36,11 +36,16 @@ export const GenerateAccountPrint = ({ flowHeader }: IFlowComponentProps) => {
             derivationPath={DEFAULT_DERIVATION_PATH}
           />
         </Box>
-        <Box sx={{ textAlign: 'center' }} mb="3">
-          <Image src={safeWallet} alt="Safe wallet" width="57px" height="67px" />
-          <Heading fontSize="24px" lineHeight="150%">
-            {translateRaw('GENERATE_ACCOUNT_PRINT_HEADER')}
-          </Heading>
+        <Box mb="3">
+          <Banner type="error" label={translateRaw('NEVER_STORE_PAPER_WALLET_DIGITALLY')}>
+            {translate('NEVER_STORE_PAPER_WALLET_DIGITALLY_CONTENT')}
+          </Banner>
+          <Box sx={{ textAlign: 'center' }}>
+            <Image src={safeWallet} alt="Safe wallet" width="57px" height="67px" />
+            <Heading fontSize="24px" lineHeight="150%">
+              {translateRaw('GENERATE_ACCOUNT_PRINT_HEADER')}
+            </Heading>
+          </Box>
         </Box>
         <Body>{translate('GENERATE_ACCOUNT_PRINT_BODY_1')}</Body>
         <Body mt="2">{translate('GENERATE_ACCOUNT_PRINT_BODY_2')}</Body>
