@@ -6,6 +6,7 @@ import { push } from 'connected-react-router';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
+import { ThemeProvider } from 'styled-components';
 
 import type { ApplicationState } from '@app/store';
 import {
@@ -19,6 +20,7 @@ import {
   getTransactionRequest
 } from '@fixtures';
 import { ROUTE_PATHS } from '@routing';
+import { theme } from '@theme';
 
 import { SignTransaction } from './index';
 
@@ -26,11 +28,13 @@ const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
 function getComponent(store: EnhancedStore<DeepPartial<ApplicationState>>) {
   return render(
-    <Router>
-      <Provider store={store}>
-        <SignTransaction />
-      </Provider>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Provider store={store}>
+          <SignTransaction />
+        </Provider>
+      </Router>
+    </ThemeProvider>
   );
 }
 

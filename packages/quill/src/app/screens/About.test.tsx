@@ -5,9 +5,11 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router';
 import configureStore from 'redux-mock-store';
+import { ThemeProvider } from 'styled-components';
 
 import { ROUTE_PATHS } from '@routing';
 import type { ApplicationState } from '@store';
+import { theme } from '@theme';
 
 import { About } from './About';
 
@@ -15,11 +17,13 @@ const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
 const getComponent = (store: EnhancedStore<DeepPartial<ApplicationState>> = createMockStore()) => {
   return render(
-    <Router>
-      <Provider store={store}>
-        <About />
-      </Provider>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Provider store={store}>
+          <About />
+        </Provider>
+      </Router>
+    </ThemeProvider>
   );
 };
 

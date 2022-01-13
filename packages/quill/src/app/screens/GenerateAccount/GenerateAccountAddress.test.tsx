@@ -5,8 +5,10 @@ import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
+import { ThemeProvider } from 'styled-components';
 
 import type { ApplicationState } from '@store';
+import { theme } from '@theme';
 
 import { GenerateAccountAddress } from './GenerateAccountAddress';
 
@@ -17,16 +19,18 @@ const getComponent = (
   onNext = jest.fn()
 ) => {
   return render(
-    <MemoryRouter>
-      <Provider store={store}>
-        <GenerateAccountAddress
-          onNext={onNext}
-          onPrevious={jest.fn()}
-          onReset={jest.fn()}
-          flowHeader={<></>}
-        />
-      </Provider>
-    </MemoryRouter>
+    <ThemeProvider theme={theme}>
+      <MemoryRouter>
+        <Provider store={store}>
+          <GenerateAccountAddress
+            onNext={onNext}
+            onPrevious={jest.fn()}
+            onReset={jest.fn()}
+            flowHeader={<></>}
+          />
+        </Provider>
+      </MemoryRouter>
+    </ThemeProvider>
   );
 };
 

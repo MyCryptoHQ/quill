@@ -2,7 +2,6 @@ import { DEFAULT_ETH } from '@mycrypto/wallets';
 import type { SerializedWallet, SerializedWalletWithAddress, TAddress } from '@quill/common';
 import {
   addAccount,
-  addGeneratedAccount,
   addSavedAccounts,
   clearAddAccounts,
   fetchAccounts,
@@ -105,7 +104,7 @@ describe('AccountsSlice', () => {
 
       const result = slice.reducer({}, setGeneratedAccount(account));
 
-      expect(result.generatedAccount).toBe(account);
+      expect(result.generatedAccount).toStrictEqual({ ...account, persistent: true });
     });
   });
 });
@@ -356,12 +355,13 @@ describe('addGeneratedAccountWorker', () => {
       address: fAccount.address
     };
 
-    await expectSaga(addGeneratedAccountWorker, addGeneratedAccount(true))
+    await expectSaga(addGeneratedAccountWorker)
       .withState({
         accounts: {
           generatedAccount: {
             mnemonicPhrase: wallet.mnemonicPhrase,
-            address: wallet.address
+            address: wallet.address,
+            persistent: true
           }
         }
       })
@@ -369,12 +369,13 @@ describe('addGeneratedAccountWorker', () => {
       .put(addSavedAccounts(true))
       .silentRun();
 
-    await expectSaga(addGeneratedAccountWorker, addGeneratedAccount(false))
+    await expectSaga(addGeneratedAccountWorker)
       .withState({
         accounts: {
           generatedAccount: {
             mnemonicPhrase: wallet.mnemonicPhrase,
-            address: wallet.address
+            address: wallet.address,
+            persistent: false
           }
         }
       })

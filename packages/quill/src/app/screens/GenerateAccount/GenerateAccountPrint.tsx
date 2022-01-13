@@ -15,7 +15,7 @@ export const GenerateAccountPrint = ({ flowHeader }: IFlowComponentProps) => {
   const [paperWalletImage, setPaperWalletImage] = useState<string>();
   const { address, mnemonicPhrase } = useSelector(getGeneratedAccount);
   const dispatch = useDispatch();
-  const handleNext = () => dispatch(addGeneratedAccount(true));
+  const handleNext = () => dispatch(addGeneratedAccount());
 
   useEffect(() => {
     if (paperWallet.current) {

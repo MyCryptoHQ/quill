@@ -1,19 +1,19 @@
 import { BlockieAddress, Body, Button, Heading, Tooltip } from '@mycrypto/ui';
-import { getGeneratedAccount, translateRaw } from '@quill/common';
+import { getGeneratedAccount, setGeneratedAccountPersistent, translateRaw } from '@quill/common';
 import React, { useState } from 'react';
 
 import type { IFlowComponentProps } from '@components';
 import { Box, Checkbox, Container, Link, Panel, PanelBottom } from '@components';
 import { DEFAULT_DERIVATION_PATH } from '@config/derivation';
-import { useSelector } from '@store';
+import { useDispatch, useSelector } from '@store';
 import { translate } from '@translations';
 
 export const GenerateAccountAddress = ({ flowHeader, onNext }: IFlowComponentProps) => {
   const [showMnemonicPhrase, setShowMnemonicPhrase] = useState(false);
-  const [persistent, setPersistent] = useState(true);
-  const { address, mnemonicPhrase } = useSelector(getGeneratedAccount);
+  const { address, mnemonicPhrase, persistent } = useSelector(getGeneratedAccount);
+  const dispatch = useDispatch();
 
-  const handleToggle = () => setPersistent((value) => !value);
+  const handleToggle = () => dispatch(setGeneratedAccountPersistent(!persistent));
   const handleClick = () => setShowMnemonicPhrase(!showMnemonicPhrase);
 
   return (
@@ -54,7 +54,12 @@ export const GenerateAccountAddress = ({ flowHeader, onNext }: IFlowComponentPro
           <Checkbox checked={persistent} onChange={handleToggle} data-testid="toggle-persistence" />
           <Body pl="2">
             {translateRaw('PERSISTENCE_CHECKBOX')}
-            <Tooltip icon="info" fill="LIGHT_BLUE" tooltip={translateRaw('PERSISTENCE_CHECKBOX_TOOLTIP')} ml="1" />
+            <Tooltip
+              icon="info"
+              fill="LIGHT_BLUE"
+              tooltip={translateRaw('PERSISTENCE_CHECKBOX_TOOLTIP')}
+              ml="1"
+            />
           </Body>
         </Box>
       </Container>

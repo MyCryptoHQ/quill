@@ -5,8 +5,10 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
+import { ThemeProvider } from 'styled-components';
 
 import type { ApplicationState } from '@app/store';
+import { theme } from '@theme';
 
 import { AddAccountStart } from './AddAccountStart';
 
@@ -19,16 +21,18 @@ const mockStore = createMockStore({
 
 function getComponent(store: EnhancedStore<DeepPartial<ApplicationState>> = mockStore) {
   return render(
-    <Router>
-      <Provider store={store}>
-        <AddAccountStart
-          onNext={jest.fn()}
-          onPrevious={jest.fn()}
-          onReset={jest.fn()}
-          flowHeader={<></>}
-        />
-      </Provider>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Provider store={store}>
+          <AddAccountStart
+            onNext={jest.fn()}
+            onPrevious={jest.fn()}
+            onReset={jest.fn()}
+            flowHeader={<></>}
+          />
+        </Provider>
+      </Router>
+    </ThemeProvider>
   );
 }
 

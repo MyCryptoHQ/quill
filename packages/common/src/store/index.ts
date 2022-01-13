@@ -18,6 +18,7 @@ export {
   addGeneratedAccount,
   generateAccount,
   setGeneratedAccount,
+  setGeneratedAccountPersistent,
   getAccounts,
   getAccountsToAdd,
   getAddresses,

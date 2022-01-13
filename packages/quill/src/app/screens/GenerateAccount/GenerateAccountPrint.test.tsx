@@ -80,6 +80,6 @@ describe('GenerateAccountPrint', () => {
     const button = getByText(translateRaw('PAPER_WALLET_PRINTED'));
     fireEvent.click(button);
 
-    expect(mockStore.getActions()).toContainEqual(addGeneratedAccount(true));
+    expect(mockStore.getActions()).toContainEqual(addGeneratedAccount());
   });
 });

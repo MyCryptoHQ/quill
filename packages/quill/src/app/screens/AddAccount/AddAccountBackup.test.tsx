@@ -7,9 +7,11 @@ import { toPng } from 'html-to-image';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router';
 import configureStore from 'redux-mock-store';
+import { ThemeProvider } from 'styled-components';
 
 import { fAccount, fMnemonicPhrase, fPrivateKey } from '@fixtures';
 import type { ApplicationState } from '@store';
+import { theme } from '@theme';
 
 import { AddAccountBackup } from './AddAccountBackup';
 
@@ -21,16 +23,18 @@ const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
 const getComponent = (store: EnhancedStore<DeepPartial<ApplicationState>> = createMockStore()) => {
   return render(
-    <Router>
-      <Provider store={store}>
-        <AddAccountBackup
-          onNext={jest.fn()}
-          onPrevious={jest.fn()}
-          onReset={jest.fn()}
-          flowHeader={<></>}
-        />
-      </Provider>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Provider store={store}>
+          <AddAccountBackup
+            onNext={jest.fn()}
+            onPrevious={jest.fn()}
+            onReset={jest.fn()}
+            flowHeader={<></>}
+          />
+        </Provider>
+      </Router>
+    </ThemeProvider>
   );
 };
 

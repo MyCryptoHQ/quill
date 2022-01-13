@@ -217,7 +217,7 @@ describe('AccountSlice', () => {
         setGeneratedAccount(account)
       );
 
-      expect(result.generatedAccount).toBe(account);
+      expect(result.generatedAccount).toStrictEqual({ ...account, persistent: true });
     });
   });
 });

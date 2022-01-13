@@ -63,7 +63,10 @@ const slice = createSlice({
       state,
       action: PayloadAction<{ mnemonicPhrase: string; address: TAddress } | undefined>
     ) {
-      state.generatedAccount = action.payload;
+      state.generatedAccount = action.payload ? { ...action.payload, persistent: true } : undefined;
+    },
+    setGeneratedAccountPersistent(state, action: PayloadAction<boolean>) {
+      state.generatedAccount = { ...state.generatedAccount, persistent: action.payload };
     }
   }
 });
@@ -203,8 +206,12 @@ export function* addSavedAccountsWorker({ payload: persistent }: PayloadAction<b
   yield put(nextFlow());
 }
 
-export function* addGeneratedAccountWorker({ payload: persistent }: PayloadAction<boolean>) {
-  const { address, mnemonicPhrase }: { mnemonicPhrase: string; address: TAddress } = yield select(
+export function* addGeneratedAccountWorker() {
+  const {
+    address,
+    mnemonicPhrase,
+    persistent
+  }: { mnemonicPhrase: string; address: TAddress; persistent: boolean } = yield select(
     getGeneratedAccount
   );
 
