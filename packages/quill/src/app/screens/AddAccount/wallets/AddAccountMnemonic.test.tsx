@@ -6,9 +6,11 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router';
 import configureStore from 'redux-mock-store';
+import { ThemeProvider } from 'styled-components';
 
 import { fMnemonicPhrase } from '@fixtures';
 import type { ApplicationState } from '@store';
+import { theme } from '@theme';
 
 import { AddAccountStart } from '../AddAccountStart';
 
@@ -19,17 +21,19 @@ const mockStore = createMockStore({
 
 const getComponent = (store: EnhancedStore<DeepPartial<ApplicationState>> = mockStore) => {
   return render(
-    <Router>
-      <Provider store={store}>
-        <AddAccountStart
-          walletType={WalletType.MNEMONIC}
-          onNext={jest.fn()}
-          onPrevious={jest.fn()}
-          onReset={jest.fn()}
-          flowHeader={<></>}
-        />
-      </Provider>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Provider store={store}>
+          <AddAccountStart
+            walletType={WalletType.MNEMONIC}
+            onNext={jest.fn()}
+            onPrevious={jest.fn()}
+            onReset={jest.fn()}
+            flowHeader={<></>}
+          />
+        </Provider>
+      </Router>
+    </ThemeProvider>
   );
 };
 

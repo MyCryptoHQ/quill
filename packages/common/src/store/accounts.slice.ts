@@ -24,6 +24,7 @@ export interface AccountsState {
   generatedAccount?: {
     mnemonicPhrase: string;
     address: TAddress;
+    persistent: boolean;
   };
 }
 
@@ -103,7 +104,10 @@ const slice = createSlice({
       state,
       action: PayloadAction<{ mnemonicPhrase: string; address: TAddress } | undefined>
     ) {
-      state.generatedAccount = action.payload;
+      state.generatedAccount = action.payload ? { ...action.payload, persistent: true } : undefined;
+    },
+    setGeneratedAccountPersistent(state, action: PayloadAction<boolean>) {
+      state.generatedAccount = { ...state.generatedAccount, persistent: action.payload };
     }
   }
 });
@@ -120,11 +124,12 @@ export const {
   fetchAddresses,
   fetchFailed,
   fetchReset,
-  setGeneratedAccount
+  setGeneratedAccount,
+  setGeneratedAccountPersistent
 } = slice.actions;
 
 export const addSavedAccounts = createAction<boolean>(`${sliceName}/addSavedAccounts`);
-export const addGeneratedAccount = createAction<boolean>(`${sliceName}/addGeneratedAccount`);
+export const addGeneratedAccount = createAction(`${sliceName}/addGeneratedAccount`);
 export const generateAccount = createAction(`${sliceName}/generateAccount`);
 
 export default slice;

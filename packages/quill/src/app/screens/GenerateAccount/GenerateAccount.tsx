@@ -7,8 +7,9 @@ import { useUnmount } from '@hooks';
 import { ROUTE_PATHS } from '@routing';
 import { useDispatch } from '@store';
 
-import { GenerateAccountEnd } from './GenerateAccountEnd';
+import { GenerateAccountAddress } from './GenerateAccountAddress';
 import { GenerateAccountMnemonic } from './GenerateAccountMnemonic';
+import { GenerateAccountPrint } from './GenerateAccountPrint';
 import { GenerateAccountStart } from './GenerateAccountStart';
 import { GenerateAccountVerify } from './GenerateAccountVerify';
 
@@ -23,7 +24,10 @@ const components: IFlowComponent[] = [
     component: GenerateAccountVerify
   },
   {
-    component: GenerateAccountEnd
+    component: GenerateAccountAddress
+  },
+  {
+    component: GenerateAccountPrint
   }
 ];
 

@@ -14,8 +14,14 @@ import { theme } from '@theme';
 
 import { GenerateAccount } from './GenerateAccount';
 
-jest.mock('./GenerateAccountEnd', () => ({
-  GenerateAccountEnd: ({ onNext }: { onNext(): void }) => (
+jest.mock('./GenerateAccountPrint', () => ({
+  GenerateAccountPrint: ({ onNext }: { onNext(): void }) => (
+    <button data-testid="next-button" onClick={onNext} />
+  )
+}));
+
+jest.mock('./GenerateAccountAddress', () => ({
+  GenerateAccountAddress: ({ onNext }: { onNext(): void }) => (
     <button data-testid="next-button" onClick={onNext} />
   )
 }));
@@ -62,7 +68,7 @@ describe('GenerateAccount', () => {
   });
 
   it('navigates to home when done', () => {
-    const store = createMockStore({ flow: 4 });
+    const store = createMockStore({ flow: 5 });
     getComponent(store);
 
     expect(store.getActions()).toContainEqual(push(ROUTE_PATHS.HOME));

@@ -34,3 +34,8 @@ export const fAccounts: IAccount[] = [
     persistent: false
   }
 ];
+
+export const fGeneratedAccount = {
+  mnemonicPhrase: 'test test test test test test test test test test test ball',
+  address: '0xc6D5a3c98EC9073B54FA0969957Bd582e8D874bf'
+};

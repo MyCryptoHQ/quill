@@ -15,6 +15,7 @@ import slice, {
   setAddresses,
   setExtendedKey,
   setGeneratedAccount,
+  setGeneratedAccountPersistent,
   updateAccount
 } from './accounts.slice';
 
@@ -217,7 +218,39 @@ describe('AccountSlice', () => {
         setGeneratedAccount(account)
       );
 
-      expect(result.generatedAccount).toBe(account);
+      expect(result.generatedAccount).toStrictEqual({ ...account, persistent: true });
+    });
+
+    it('can set to undefined', () => {
+      const generatedAccount = {
+        mnemonicPhrase: 'foo',
+        address: 'bar' as TAddress,
+        persistent: true
+      };
+
+      const result = slice.reducer(
+        { accounts: [], addresses: [], isFetching: false, generatedAccount },
+        setGeneratedAccount(undefined)
+      );
+
+      expect(result.generatedAccount).toBeUndefined();
+    });
+  });
+
+  describe('setGeneratedAccountPersistent()', () => {
+    it('sets generated account', () => {
+      const generatedAccount = {
+        mnemonicPhrase: 'foo',
+        address: 'bar' as TAddress,
+        persistent: true
+      };
+
+      const result = slice.reducer(
+        { accounts: [], addresses: [], isFetching: false, generatedAccount },
+        setGeneratedAccountPersistent(false)
+      );
+
+      expect(result.generatedAccount).toStrictEqual({ ...generatedAccount, persistent: false });
     });
   });
 });

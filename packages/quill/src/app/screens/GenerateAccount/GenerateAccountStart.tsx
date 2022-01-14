@@ -15,7 +15,7 @@ export const GenerateAccountStart = ({ onNext, flowHeader }: IFlowComponentProps
         </Heading>
         <Image alt="Mnemonic Phrase" src={mnemonicPhrase} width="100px" height="100px" mb="3" />
       </Box>
-      <List>
+      <List pl="0">
         <ListItem>{translateRaw('MNEMONIC_DESCRIPTION_1')}</ListItem>
         <ListItem>{translateRaw('MNEMONIC_DESCRIPTION_2')}</ListItem>
         <ListItem>{translateRaw('MNEMONIC_DESCRIPTION_3')}</ListItem>
