@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
+import { fGeneratedAccount } from '@fixtures';
 import type { ApplicationState } from '@store';
 
 import { GenerateAccountPrint } from './GenerateAccountPrint';
@@ -40,10 +41,7 @@ describe('GenerateAccountPrint', () => {
     const { getByText } = getComponent(
       createMockStore({
         accounts: {
-          generatedAccount: {
-            mnemonicPhrase: 'test test test test test test test test test test test ball',
-            address: '0xc6D5a3c98EC9073B54FA0969957Bd582e8D874bf'
-          }
+          generatedAccount: fGeneratedAccount
         }
       })
     );
@@ -54,10 +52,7 @@ describe('GenerateAccountPrint', () => {
     const { getByTestId } = getComponent(
       createMockStore({
         accounts: {
-          generatedAccount: {
-            mnemonicPhrase: 'test test test test test test test test test test test ball',
-            address: '0xc6D5a3c98EC9073B54FA0969957Bd582e8D874bf'
-          }
+          generatedAccount: fGeneratedAccount
         }
       })
     );
@@ -69,10 +64,7 @@ describe('GenerateAccountPrint', () => {
   it('dispatches addGeneratedAccount when clicking the button', () => {
     const mockStore = createMockStore({
       accounts: {
-        generatedAccount: {
-          mnemonicPhrase: 'test test test test test test test test test test test ball',
-          address: '0xc6D5a3c98EC9073B54FA0969957Bd582e8D874bf'
-        }
+        generatedAccount: fGeneratedAccount
       }
     });
     const { getByText } = getComponent(mockStore);

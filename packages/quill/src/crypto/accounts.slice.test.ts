@@ -13,6 +13,7 @@ import {
   setAddresses,
   setExtendedKey,
   setGeneratedAccount,
+  setGeneratedAccountPersistent,
   WalletType
 } from '@quill/common';
 import { expectSaga } from 'redux-saga-test-plan';
@@ -105,6 +106,32 @@ describe('AccountsSlice', () => {
       const result = slice.reducer({}, setGeneratedAccount(account));
 
       expect(result.generatedAccount).toStrictEqual({ ...account, persistent: true });
+    });
+
+    it('can set to undefined', () => {
+      const generatedAccount = {
+        mnemonicPhrase: 'foo',
+        address: 'bar' as TAddress,
+        persistent: true
+      };
+
+      const result = slice.reducer({ generatedAccount }, setGeneratedAccount(undefined));
+
+      expect(result.generatedAccount).toBeUndefined();
+    });
+  });
+
+  describe('setGeneratedAccountPersistent()', () => {
+    it('sets generated account', () => {
+      const generatedAccount = {
+        mnemonicPhrase: 'foo',
+        address: 'bar' as TAddress,
+        persistent: true
+      };
+
+      const result = slice.reducer({ generatedAccount }, setGeneratedAccountPersistent(false));
+
+      expect(result.generatedAccount).toStrictEqual({ ...generatedAccount, persistent: false });
     });
   });
 });

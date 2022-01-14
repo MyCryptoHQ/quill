@@ -7,6 +7,7 @@ import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { ThemeProvider } from 'styled-components';
 
+import { fGeneratedAccount } from '@fixtures';
 import type { ApplicationState } from '@store';
 import { theme } from '@theme';
 
@@ -39,10 +40,7 @@ describe('GenerateAccountAddress', () => {
     const { getByText } = getComponent(
       createMockStore({
         accounts: {
-          generatedAccount: {
-            mnemonicPhrase: 'test test test test test test test test test test test ball',
-            address: '0xc6D5a3c98EC9073B54FA0969957Bd582e8D874bf'
-          }
+          generatedAccount: fGeneratedAccount
         }
       })
     );
@@ -50,26 +48,20 @@ describe('GenerateAccountAddress', () => {
   });
 
   it('shows the address and mnemonic phrase', () => {
-    const mnemonicPhrase = 'test test test test test test test test test test test ball';
-    const address = '0xc6D5a3c98EC9073B54FA0969957Bd582e8D874bf';
-
     const { getByText, getAllByText } = getComponent(
       createMockStore({
         accounts: {
-          generatedAccount: {
-            mnemonicPhrase,
-            address
-          }
+          generatedAccount: fGeneratedAccount
         }
       })
     );
 
-    expect(getAllByText(address)).toBeDefined();
+    expect(getAllByText(fGeneratedAccount.address)).toBeDefined();
 
     const button = getByText(translateRaw('CLICK_TO_SHOW'));
     fireEvent.click(button);
 
-    expect(getAllByText(mnemonicPhrase)).toHaveLength(1);
+    expect(getAllByText(fGeneratedAccount.mnemonicPhrase)).toHaveLength(1);
   });
 
   it('dispatches addGeneratedAccount when clicking the button', () => {
@@ -77,10 +69,7 @@ describe('GenerateAccountAddress', () => {
     const { getByText } = getComponent(
       createMockStore({
         accounts: {
-          generatedAccount: {
-            mnemonicPhrase: 'test test test test test test test test test test test ball',
-            address: '0xc6D5a3c98EC9073B54FA0969957Bd582e8D874bf'
-          }
+          generatedAccount: fGeneratedAccount
         }
       }),
       onNext
