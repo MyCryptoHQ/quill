@@ -19,6 +19,7 @@ import { number, object, string } from 'yup';
 import {
   Box,
   FromToAccount,
+  LinkApp,
   PanelBottom,
   ScrollableContainer,
   TimeElapsed,
@@ -80,6 +81,10 @@ export const EditTransaction = () => {
 
   const form = useForm(toHumanReadable(tx), yupValidator(schema), true);
 
+  const handleCancel = () => {
+    dispatch(replace(ROUTE_PATHS.TX));
+  };
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     await form.validate();
@@ -117,6 +122,11 @@ export const EditTransaction = () => {
         <Button type="submit" form="edit-tx-form">
           {translateRaw('SAVE_TX_DETAILS')}
         </Button>
+        <Box width="100%" pt="3" px="3" sx={{ textAlign: 'center' }}>
+          <LinkApp href="#" onClick={handleCancel}>
+            {translateRaw('CANCEL')}
+          </LinkApp>
+        </Box>
       </PanelBottom>
     </>
   );
