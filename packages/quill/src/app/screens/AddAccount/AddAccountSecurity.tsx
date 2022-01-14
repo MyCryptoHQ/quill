@@ -18,14 +18,12 @@ export const AddAccountSecurity = ({ flowHeader }: IFlowComponentProps) => {
     <>
       <ScrollableContainer>
         {flowHeader}
-        <Heading as="h2" fontSize="24px" lineHeight="36px" textAlign="center" mb="2">
+        <Heading as="h2" fontSize="24px" lineHeight="36px" textAlign="center" mb="3">
           {translateRaw('ADD_ACCOUNT_SECURITY_TITLE')}
         </Heading>
-        <IconList icon={secureIcon} px="3">
-          <ListItem>{translate('ADD_ACCOUNT_SECURITY_DESCRIPTION_1')}</ListItem>
+        <IconList icon={secureIcon} px="3" mt="4">
+          <ListItem mb="40px">{translate('ADD_ACCOUNT_SECURITY_DESCRIPTION_1')}</ListItem>
           <ListItem>{translate('ADD_ACCOUNT_SECURITY_DESCRIPTION_2')}</ListItem>
-          <ListItem>{translate('ADD_ACCOUNT_SECURITY_DESCRIPTION_3')}</ListItem>
-          <ListItem>{translate('ADD_ACCOUNT_SECURITY_DESCRIPTION_4')}</ListItem>
         </IconList>
       </ScrollableContainer>
       <PanelBottom>

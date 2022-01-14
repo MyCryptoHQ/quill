@@ -55,7 +55,7 @@ export const GenerateAccountVerify = ({ onNext, flowHeader }: IFlowComponentProp
     <>
       <Container>
         {flowHeader}
-        <Box sx={{ textAlign: 'center' }} mb="4">
+        <Box sx={{ textAlign: 'center' }} mb="3">
           <Heading fontSize="24px" lineHeight="150%" mb="2">
             {translateRaw('VERIFY_MNEMONIC_PHRASE_TITLE')}
           </Heading>
