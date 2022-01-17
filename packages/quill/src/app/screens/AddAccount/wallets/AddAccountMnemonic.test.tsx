@@ -71,6 +71,7 @@ describe('AddAccountMnemonic', () => {
   it('shows the fetched addresses', async () => {
     const mockStore = createMockStore({
       accounts: {
+        accounts: [],
         addresses: [
           {
             address: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f',
@@ -105,6 +106,7 @@ describe('AddAccountMnemonic', () => {
   it('shows the fetched extended public key', () => {
     const mockStore = createMockStore({
       accounts: {
+        accounts: [],
         addresses: [
           {
             address: '0x2a8aBa3dDD5760EE7BbF03d2294BD6134D0f555f',
