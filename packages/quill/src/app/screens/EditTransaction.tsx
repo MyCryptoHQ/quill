@@ -1,4 +1,4 @@
-import { Body, Button } from '@mycrypto/ui';
+import { Body, Button, Image } from '@mycrypto/ui';
 import {
   bigify,
   EvenHex,
@@ -29,6 +29,7 @@ import {
 import { ROUTE_PATHS } from '@app/routing';
 import { useDispatch, useSelector } from '@app/store';
 import { fromHumanReadable, toHumanReadable } from '@app/utils';
+import edit from '@assets/icons/edit-grey.svg';
 import {
   GAS_LIMIT_LOWER_BOUND,
   GAS_LIMIT_UPPER_BOUND,
@@ -113,12 +114,13 @@ export const EditTransaction = () => {
                 {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
                 <TimeElapsed value={receivedTimestamp} />
               </Body>
+              <Image src={edit} height="20px" width="20px" ml="auto" />
             </Box>
             <TxDetailsEdit form={form} />
           </Box>
         </form>
       </ScrollableContainer>
-      <PanelBottom py="3">
+      <PanelBottom py="24px">
         <Button type="submit" form="edit-tx-form">
           {translateRaw('SAVE_TX_DETAILS')}
         </Button>

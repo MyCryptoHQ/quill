@@ -1,4 +1,4 @@
-import { Body } from '@mycrypto/ui';
+import { Body, Image } from '@mycrypto/ui';
 import {
   denyCurrentTransaction,
   getAccounts,
@@ -22,6 +22,7 @@ import {
 } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import { useDispatch, useSelector } from '@app/store';
+import edit from '@assets/icons/edit.svg';
 
 export const Transaction = () => {
   const dispatch = useDispatch();
@@ -66,15 +67,19 @@ export const Transaction = () => {
               {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
               <TimeElapsed value={receivedTimestamp} />
             </Body>
-          </Box>
-          <TxDetails tx={currentTx} />
-          <Box mt="2" sx={{ textAlign: 'right' }}>
             {result === TxResult.WAITING && (
-              <LinkApp href={ROUTE_PATHS.EDIT_TX} mr="1" height="20px" width="20px">
-                {translateRaw('EDIT_TRANSACTION_DETAILS')}
+              <LinkApp
+                href={ROUTE_PATHS.EDIT_TX}
+                variant="barren"
+                ml="auto"
+                height="20px"
+                width="20px"
+              >
+                <Image src={edit} height="20px" width="20px" />
               </LinkApp>
             )}
           </Box>
+          <TxDetails tx={currentTx} />
         </Box>
       </ScrollableContainer>
       {result === TxResult.WAITING && (
