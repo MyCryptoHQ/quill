@@ -45,6 +45,8 @@ const InputRow = ({ label, unit, form, ...props }: InputRowProps) => (
         <FormInput
           {...props}
           form={form}
+          py="1"
+          width="100%"
           pr={unit && '3rem'}
           sx={{ textAlign: 'right' }}
           css={`
@@ -58,7 +60,11 @@ const InputRow = ({ label, unit, form, ...props }: InputRowProps) => (
             }
           `}
         />
-        {unit && <Body ml="-3rem">{unit}</Body>}
+        {unit && (
+          <Body ml="-3rem" sx={{ zIndex: 2 }}>
+            {unit}
+          </Body>
+        )}
       </Box>
     }
   />
@@ -124,7 +130,7 @@ export const TxDetailsEdit = ({ form }: { form: FormState<EditTxType> }) => {
                 .multipliedBy(bigify(values.gasLimit))
                 .toString()
             )} ${symbol}`}
-            py="1rem"
+            py="2"
           />
         )}
       />
