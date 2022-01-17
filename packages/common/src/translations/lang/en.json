@@ -250,6 +250,7 @@
     "GENERATE_ACCOUNT_PRINT_BODY_2": "View your paper wallet and write it down carefully or print it via a hardwired printer.",
     "CLICK_TO_HIDE": "click to hide",
     "NEVER_STORE_PAPER_WALLET_DIGITALLY": "Never store a paper wallet on your computer or in the cloud",
-    "NEVER_STORE_PAPER_WALLET_DIGITALLY_CONTENT": "Storing a wallet on an internet-connected device or in the cloud creates limitless attack vectors for a malicious actor to steal your secret recovery phrase. **Just don't do it!**"
+    "NEVER_STORE_PAPER_WALLET_DIGITALLY_CONTENT": "Storing a wallet on an internet-connected device or in the cloud creates limitless attack vectors for a malicious actor to steal your secret recovery phrase. **Just don't do it!**",
+    "ACCOUNT_ALREADY_EXISTS_TOOLTIP": "Account already added to Quill"
   }
 }
