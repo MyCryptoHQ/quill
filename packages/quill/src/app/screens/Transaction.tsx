@@ -14,6 +14,7 @@ import {
   Box,
   FromToAccount,
   LinkApp,
+  PanelBottom,
   ScrollableContainer,
   TimeElapsed,
   TransactionBottom,
@@ -95,6 +96,13 @@ export const Transaction = () => {
       </ScrollableContainer>
       {result === TxResult.WAITING && (
         <TransactionBottom disabled={false} handleAccept={handleAccept} handleDeny={handleDeny} />
+      )}
+      {result === TxResult.APPROVED && (
+        <PanelBottom py="24px">
+          <Body fontWeight="bold" textAlign="center">
+            {translateRaw('TRANSACTION_APPROVED_TIP')}
+          </Body>
+        </PanelBottom>
       )}
     </>
   );
