@@ -5,9 +5,11 @@ import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
+import { ThemeProvider } from 'styled-components';
 
 import type { ApplicationState } from '@app/store';
 import { ROUTE_PATHS } from '@routing';
+import { theme } from '@theme';
 
 import { NewUser } from './NewUser';
 
@@ -23,11 +25,13 @@ const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
 function getComponent(history = createMemoryHistory(), store = createMockStore()) {
   return render(
-    <Router history={history}>
-      <Provider store={store}>
-        <NewUser />
-      </Provider>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router history={history}>
+        <Provider store={store}>
+          <NewUser />
+        </Provider>
+      </Router>
+    </ThemeProvider>
   );
 }
 
