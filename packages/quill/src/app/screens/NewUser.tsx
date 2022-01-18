@@ -17,7 +17,7 @@ export const NewUser = () => (
       <Body lineHeight="24px" mb="4">
         {translateRaw('NEW_USER_DESCRIPTION_1')}
       </Body>
-      <Body lineHeight="24px" mb="4">
+      <Body lineHeight="24px" mb="3">
         {translateRaw('NEW_USER_DESCRIPTION_2')}
       </Body>
     </Container>
@@ -25,9 +25,9 @@ export const NewUser = () => (
       <LinkApp href={ROUTE_PATHS.CREATE_PASSWORD} width="100%">
         <Button id="create-password">{translateRaw('CREATE_PASSWORD')}</Button>
       </LinkApp>
-      <InlineMessage type="warning" mt="2">
-        {translate('NEW_USER_DESCRIPTION_3')}
-      </InlineMessage>
+      <Box mt="2">
+        <InlineMessage type="warning">{translate('NEW_USER_DESCRIPTION_3')}</InlineMessage>
+      </Box>
     </PanelBottom>
   </>
 );
