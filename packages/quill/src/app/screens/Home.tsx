@@ -38,7 +38,7 @@ export const Home = () => {
             <Heading fontSize="24px" lineHeight="150%" mt="3" mb="2">
               {translateRaw('HOME_EMPTY_HEADER')}
             </Heading>
-            <Body variant="muted">{translateRaw('HOME_EMPTY_SUBHEADING')}</Body>
+            <Body>{translateRaw('HOME_EMPTY_SUBHEADING')}</Body>
           </Box>
         </Container>
         <PanelBottom variant="clear">

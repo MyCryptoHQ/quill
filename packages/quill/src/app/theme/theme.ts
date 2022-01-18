@@ -120,7 +120,7 @@ const overrideTheme = {
     BLUE_LIGHT: '#007896',
     BLUE_LIGHT_DARKISH: '#006077',
     BLUE_DARK_SLATE: '#163150',
-    BLUE_GREY: '#B5BFC7',
+    BLUE_GREY: '#8F8F8F',
     BLUE_BRIGHT: '#1eb8e7',
 
     // BLACK

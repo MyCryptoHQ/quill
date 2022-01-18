@@ -252,6 +252,7 @@
     "NEVER_STORE_PAPER_WALLET_DIGITALLY": "Never store a paper wallet on your computer or in the cloud",
     "NEVER_STORE_PAPER_WALLET_DIGITALLY_CONTENT": "Storing a wallet on an internet-connected device or in the cloud creates limitless attack vectors for a malicious actor to steal your secret recovery phrase. **Just don't do it!**",
     "ACCOUNT_ALREADY_EXISTS_TOOLTIP": "Account already added to Quill",
-    "HOME": "Home"
+    "HOME": "Home",
+    "TRANSACTION_APPROVED_TIP": "Return to MyCrypto.com to broadcast your transaction"
   }
 }
