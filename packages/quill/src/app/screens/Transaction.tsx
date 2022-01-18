@@ -1,4 +1,4 @@
-import { Body, Image } from '@mycrypto/ui';
+import { Body, Flex, Image } from '@mycrypto/ui';
 import {
   denyCurrentTransaction,
   getAccounts,
@@ -22,6 +22,7 @@ import {
 } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import { useDispatch, useSelector } from '@app/store';
+import back from '@assets/icons/back.svg';
 import edit from '@assets/icons/edit.svg';
 
 export const Transaction = () => {
@@ -57,6 +58,16 @@ export const Transaction = () => {
     <>
       <ScrollableContainer>
         <Box>
+          <Box mb="2">
+            <LinkApp href={ROUTE_PATHS.HOME} variant="barren">
+              <Flex variant="horizontal-start">
+                <Image alt="Back" src={back} width="12px" height="10px" />
+                <Body ml="2" color="LIGHT_BLUE">
+                  {translateRaw('HOME')}
+                </Body>
+              </Flex>
+            </LinkApp>
+          </Box>
           <TxInfoBanner type={info} />
           <FromToAccount
             sender={{ address: tx.from, label: currentAccount?.label }}
