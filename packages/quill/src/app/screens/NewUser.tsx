@@ -1,4 +1,4 @@
-import { Body, Button, Heading } from '@mycrypto/ui';
+import { Body, Button, Heading, InlineMessage } from '@mycrypto/ui';
 import { translateRaw } from '@quill/common';
 
 import { Box, Container, LinkApp, Logo, PanelBottom } from '@components';
@@ -20,12 +20,14 @@ export const NewUser = () => (
       <Body lineHeight="24px" mb="4">
         {translateRaw('NEW_USER_DESCRIPTION_2')}
       </Body>
-      <Body lineHeight="24px">{translate('NEW_USER_DESCRIPTION_3')}</Body>
     </Container>
     <PanelBottom variant="clear">
       <LinkApp href={ROUTE_PATHS.CREATE_PASSWORD} width="100%">
         <Button id="create-password">{translateRaw('CREATE_PASSWORD')}</Button>
       </LinkApp>
+      <InlineMessage type="warning" mt="2">
+        {translate('NEW_USER_DESCRIPTION_3')}
+      </InlineMessage>
     </PanelBottom>
   </>
 );
