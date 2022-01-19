@@ -166,6 +166,28 @@ const overrideTheme = {
       active: '#39506a'
     }
   },
+  fontSizes: ['0.625rem', '0.875rem', '1rem', '1.125rem', '1.25rem', '1.5rem', '1.875rem'],
+  lineHeights: ['1rem', '1.5rem', '2.25rem', '3rem'],
+  text: {
+    heading: {
+      fontSize: 6,
+      lineHeight: 3
+    },
+    subHeading: {
+      fontSize: 5,
+      lineHeight: 2
+    },
+    heading3: {
+      fontSize: 4,
+      lineHeight: 1,
+      color: 'text.secondary',
+      fontWeight: 'heading'
+    },
+    body: {
+      fontSize: 2,
+      lineHeight: 1
+    }
+  },
   radii: { input: '2px', banner: '3px', badge: '4px' },
   variants: {
     ...LINK_VARIANTS,
@@ -259,7 +281,7 @@ export const GlobalStyle = createGlobalStyle`
   :root {
     color: ${(p) => p.theme.colors.BODY};
     font-family: ${(props) => props.theme.fonts.body};
-    font-size: ${(props) => props.theme.fontSizes[2]};
+    font-size: 16px;
     line-height: ${(props) => props.theme.lineHeights[1]};
   }
 `;

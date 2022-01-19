@@ -1,4 +1,4 @@
-import { BlockieAddress, Body, Button, Heading, Tooltip } from '@mycrypto/ui';
+import { BlockieAddress, Body, Button, SubHeading, Tooltip } from '@mycrypto/ui';
 import { getFullPath } from '@mycrypto/wallets';
 import { addSavedAccounts, getAccountsToAdd, translateRaw, WalletType } from '@quill/common';
 import { toPng } from 'html-to-image';
@@ -46,9 +46,9 @@ export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
             }
           />
         </Box>
-        <Heading as="h2" fontSize="24px" lineHeight="36px" my="1" textAlign="center">
+        <SubHeading my="1" textAlign="center">
           {translateRaw('BACKUP_ACCOUNT', { $wallet: translateRaw(accounts[0].walletType) })}
-        </Heading>
+        </SubHeading>
         {accounts[0].walletType === WalletType.MNEMONIC ? (
           <Body mb="2">
             {translate('BACKUP_MNEMONIC_PHRASE', {

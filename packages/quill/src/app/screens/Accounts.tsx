@@ -1,4 +1,4 @@
-import { Blockie, Body, Button, Copyable, Heading } from '@mycrypto/ui';
+import { Blockie, Body, Button, Copyable, SubHeading } from '@mycrypto/ui';
 import type { IAccount } from '@quill/common';
 import { getAccounts, removeAccount, translateRaw, updateAccount } from '@quill/common';
 import { Fragment, useState } from 'react';
@@ -87,9 +87,9 @@ export const Accounts = () => {
             <Image alt="Wallet" src={wallet} />
           </Box>
           <Box maxWidth="80%" mx="auto" sx={{ textAlign: 'center' }}>
-            <Heading fontSize="24px" lineHeight="150%" mt="3" mb="2">
+            <SubHeading mt="3" mb="2">
               {translateRaw('ACCOUNTS_EMPTY_HEADER')}
-            </Heading>
+            </SubHeading>
             <Body variant="muted">{translateRaw('ACCOUNTS_EMPTY_BODY')}</Body>
           </Box>
         </Container>
@@ -107,9 +107,7 @@ export const Accounts = () => {
 
   return (
     <Container>
-      <Heading fontSize="24px" lineHeight="150%" mb="1">
-        {translateRaw('YOUR_ACCOUNTS')}
-      </Heading>
+      <SubHeading mb="1">{translateRaw('YOUR_ACCOUNTS')}</SubHeading>
       {accounts.map((a) => (
         <Fragment key={a.uuid}>
           <Account account={a} />

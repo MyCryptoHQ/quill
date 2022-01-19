@@ -1,4 +1,4 @@
-import { Body, Button, Heading } from '@mycrypto/ui';
+import { Body, Button, SubHeading } from '@mycrypto/ui';
 import { nextFlow, translateRaw } from '@quill/common';
 
 import secureIcon from '@assets/icons/secure-purple.svg';
@@ -18,9 +18,9 @@ export const AddAccountSecurity = ({ flowHeader }: IFlowComponentProps) => {
     <>
       <ScrollableContainer>
         {flowHeader}
-        <Heading as="h2" fontSize="24px" lineHeight="36px" textAlign="center" mb="3">
+        <SubHeading textAlign="center" mb="3">
           {translateRaw('ADD_ACCOUNT_SECURITY_TITLE')}
-        </Heading>
+        </SubHeading>
         <IconList icon={secureIcon} px="3" mt="4">
           <ListItem mb="40px">{translate('ADD_ACCOUNT_SECURITY_DESCRIPTION_1')}</ListItem>
           <ListItem>

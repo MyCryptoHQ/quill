@@ -1,4 +1,4 @@
-import { Body, Button, Heading } from '@mycrypto/ui';
+import { Body, Button, SubHeading } from '@mycrypto/ui';
 import { getGeneratedMnemonicWords, getRandomNumbers, translateRaw } from '@quill/common';
 import type { FormEvent } from 'react';
 import { useMemo } from 'react';
@@ -56,9 +56,7 @@ export const GenerateAccountVerify = ({ onNext, flowHeader }: IFlowComponentProp
       <Container>
         {flowHeader}
         <Box sx={{ textAlign: 'center' }} mb="3">
-          <Heading fontSize="24px" lineHeight="150%" mb="2">
-            {translateRaw('VERIFY_MNEMONIC_PHRASE_TITLE')}
-          </Heading>
+          <SubHeading mb="2">{translateRaw('VERIFY_MNEMONIC_PHRASE_TITLE')}</SubHeading>
           <Body>{translate('VERIFY_MNEMONIC_PHRASE_DESCRIPTION')}</Body>
         </Box>
         <form onSubmit={handleSubmit} id="mnemonic-phrase-verify-form">

@@ -1,4 +1,4 @@
-import { Body, Heading } from '@mycrypto/ui';
+import { Body, SubHeading } from '@mycrypto/ui';
 import { translateRaw, WalletType } from '@quill/common';
 
 import { Box, Image } from '@app/components';
@@ -64,9 +64,9 @@ export const WalletTypeSelector = ({
   setWalletType(t: WalletType): void;
 }) => (
   <>
-    <Heading as="h2" fontSize="24px" lineHeight="36px" textAlign="center" mb="2">
+    <SubHeading textAlign="center" mb="2">
       {translateRaw('ENTER_WALLET_TO_CONTINUE', { $wallet: configs[walletType].label })}
-    </Heading>
+    </SubHeading>
     <Box variant="horizontal-start">
       {Object.entries(configs).map(([type, config]) => (
         <WalletTypeButton

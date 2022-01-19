@@ -1,4 +1,4 @@
-import { Banner, Body, Button, Heading, Image } from '@mycrypto/ui';
+import { Banner, Body, Button, Image, SubHeading } from '@mycrypto/ui';
 import { addGeneratedAccount, getGeneratedAccount, translateRaw, WalletType } from '@quill/common';
 import { toPng } from 'html-to-image';
 import React, { useEffect, useRef, useState } from 'react';
@@ -42,9 +42,7 @@ export const GenerateAccountPrint = ({ flowHeader }: IFlowComponentProps) => {
           </Banner>
           <Box sx={{ textAlign: 'center' }}>
             <Image src={safeWallet} alt="Safe wallet" width="57px" height="67px" />
-            <Heading fontSize="24px" lineHeight="150%">
-              {translateRaw('GENERATE_ACCOUNT_PRINT_HEADER')}
-            </Heading>
+            <SubHeading>{translateRaw('GENERATE_ACCOUNT_PRINT_HEADER')}</SubHeading>
           </Box>
         </Box>
         <Body>{translate('GENERATE_ACCOUNT_PRINT_BODY_1')}</Body>

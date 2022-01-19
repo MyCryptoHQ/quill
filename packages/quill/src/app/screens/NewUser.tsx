@@ -10,7 +10,7 @@ export const NewUser = () => (
     <Container pt="4">
       <Box sx={{ textAlign: 'center' }}>
         <Logo width="100px" height="100px" mx="auto" />
-        <Heading fontSize="30px" lineHeight="48px" mt="3" mb="2">
+        <Heading mt="3" mb="2">
           {translateRaw('NEW_USER_HEADER')}
         </Heading>
       </Box>

@@ -1,4 +1,4 @@
-import { Body, Button, Heading } from '@mycrypto/ui';
+import { Body, Button, SubHeading } from '@mycrypto/ui';
 import {
   getAccountsLength,
   getPersisted,
@@ -35,9 +35,9 @@ export const Home = () => {
             <Image alt="Wallet" src={wallet} />
           </Box>
           <Box maxWidth="80%" mx="auto" sx={{ textAlign: 'center' }}>
-            <Heading fontSize="24px" lineHeight="150%" mt="3" mb="2">
+            <SubHeading variant="heading3" mt="3" mb="2">
               {translateRaw('HOME_EMPTY_HEADER')}
-            </Heading>
+            </SubHeading>
             <Body>{translateRaw('HOME_EMPTY_SUBHEADING')}</Body>
           </Box>
         </Container>
