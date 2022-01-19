@@ -3141,9 +3141,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mycrypto/ui@npm:1.10.1":
-  version: 1.10.1
-  resolution: "@mycrypto/ui@npm:1.10.1"
+"@mycrypto/ui@npm:1.10.2":
+  version: 1.10.2
+  resolution: "@mycrypto/ui@npm:1.10.2"
   dependencies:
     "@rebass/forms": 4.0.6
     "@types/rebass": 4.0.8
@@ -3159,7 +3159,7 @@ __metadata:
     react-dom: ^17.0.0
     react-is: ^17.0.0
     styled-components: ^5.2.3
-  checksum: f1128c995572e963660fd6b34933c333315106ec9142e88d40e2b2951d45b31dfb0809824b33af0ec1025ec5d7eb847fbad42d5e33deaf7c576cecaad5245ab2
+  checksum: 84c2d954ecc380c2c08791b88f5f57f1284a7c6e46912e2a7e9efa04a76673c9301c5d5f75083c3fa8ddec69c0cd55d077c82d41e13bbcc839800b6d332b567e
   languageName: node
   linkType: hard
 
@@ -3533,7 +3533,7 @@ __metadata:
     "@fontsource/roboto-mono": 4.2.2
     "@hot-loader/react-dom": 17.0.1
     "@marshallofsound/webpack-asset-relocator-loader": 0.5.0
-    "@mycrypto/ui": 1.10.1
+    "@mycrypto/ui": 1.10.2
     "@mycrypto/wallets": 1.3.5
     "@quill/common": "workspace:packages/common"
     "@rebass/forms": 4.0.6
