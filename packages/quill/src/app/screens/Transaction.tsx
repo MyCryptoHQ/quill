@@ -75,7 +75,7 @@ export const Transaction = () => {
             recipient={tx.to && { address: tx.to, label: recipientAccount?.label }}
           />
           <Box variant="horizontal-start">
-            <Body fontSize="14px" color="BLUE_GREY" mb="2" mt="2">
+            <Body fontSize="2" color="BLUE_GREY" mb="2" mt="2">
               {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
               <TimeElapsed value={receivedTimestamp} />
             </Body>

@@ -71,12 +71,12 @@ export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
         )}
         {accounts.map((account) => (
           <Panel key={account.address} mb="2">
-            <Body fontSize="14px" mb="1">
+            <Body fontSize="2" mb="1">
               {translate('ADDRESS')}
             </Body>
             <BlockieAddress address={account.address} mb="2" />
             {account.walletType === WalletType.MNEMONIC && (
-              <Body fontSize="14px">
+              <Body fontSize="2">
                 {translate('DERIVATION_PATH')} {getFullPath(account.path, account.index)}
               </Body>
             )}

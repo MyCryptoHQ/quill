@@ -11,7 +11,7 @@ export const AddAccountEnd = ({ onReset }: IFlowComponentProps) => (
     <Container>
       <Box>
         <Logo width="100px" height="100px" icon={checkmark} mx="auto" />
-        <Heading fontSize="30px" lineHeight="48px" mt="4" mb="3" textAlign="center">
+        <Heading mt="4" mb="3" textAlign="center">
           {translateRaw('ADD_ACCOUNT_END_HEADER')}
         </Heading>
         <Body mb="3">{translateRaw('ADD_ACCOUNT_END_BODY_1')}</Body>

@@ -87,7 +87,7 @@ export const About: FunctionComponent = () => {
         <Heading fontSize="24px" lineHeight="150%" mb="1">
           {translateRaw('ABOUT_QUILL')}
         </Heading>
-        <Body fontSize="10px" fontWeight="bold">
+        <Body fontSize="0" fontWeight="bold">
           {/* @todo: Look into versioning */}v{version}
         </Body>
       </Flex>

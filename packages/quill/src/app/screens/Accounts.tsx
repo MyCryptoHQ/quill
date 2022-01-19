@@ -44,7 +44,7 @@ const Account = ({ account }: { account: IAccount }) => {
           <Body
             sx={{ overflow: 'hidden', textOverflow: 'ellipsis', cursor: 'pointer' }}
             color="GREY_TEXT"
-            fontSize="14px"
+            fontSize="2"
             title={translateRaw('CLICK_TO_COPY')}
           >
             {account.address}

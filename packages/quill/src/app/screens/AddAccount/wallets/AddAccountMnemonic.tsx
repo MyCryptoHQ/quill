@@ -145,7 +145,7 @@ const AddAccountMnemonicForm = ({
               </Box>
             </Banner>
 
-            <Heading as="h2" fontSize="18px" lineHeight="24px" textAlign="center" mb="2">
+            <Heading as="h3" variant="heading3" textAlign="center" mb="2">
               {translateRaw('ADD_ADDRESS_TO_QUILL')}
             </Heading>
             <Body mb="3">{translateRaw('SELECT_ADDRESSES_TO_ADD')}</Body>

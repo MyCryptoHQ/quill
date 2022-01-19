@@ -132,13 +132,13 @@ export const PaperWallet = forwardRef(
               <Box sx={{ lineHeight: '0' }}>
                 <QR size={120} data={secret} />
               </Box>
-              <Body fontSize="10px" lineHeight="12px" sx={{ wordBreak: 'break-word' }}>
+              <Body fontSize="0" lineHeight="12px" sx={{ wordBreak: 'break-word' }}>
                 {secret}
               </Body>
             </Box>
             <Flex variant="horizontal-center" width="100%">
               <Image src={alertRed} alt="Share" height="12px" mr="2" />
-              <Body fontSize="10px" color="text.alert">
+              <Body fontSize="0" color="text.alert">
                 {translateRaw('KEEP_THIS_SAFE')}
               </Body>
             </Flex>
@@ -187,11 +187,11 @@ export const PaperWallet = forwardRef(
               <Box sx={{ lineHeight: '0' }}>
                 <QR size={120} data={address} />
               </Box>
-              <Body fontSize="10px">{address}</Body>
+              <Body fontSize="0">{address}</Body>
             </Box>
             <Flex justifyContent="space-between" width="100%">
               <Image src={email} alt="Share" />
-              <Body fontSize="10px" variant="muted">
+              <Body fontSize="0" variant="muted">
                 {translateRaw('SHARE_WITH_YOUR_FRIENDS')}
               </Body>
             </Flex>

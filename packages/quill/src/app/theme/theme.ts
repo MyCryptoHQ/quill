@@ -60,6 +60,7 @@ export const LINK_VARIANTS = {
 
 const BUTTON_VARIANTS = {
   primary: {
+    fontSize: 3,
     p: '3',
     width: '100%',
     bg: 'BLUE_LIGHT',
@@ -80,6 +81,7 @@ const BUTTON_VARIANTS = {
     }
   },
   inverted: {
+    fontSize: 3,
     px: '3',
     py: '14px',
     width: '100%',
@@ -166,25 +168,34 @@ const overrideTheme = {
       active: '#39506a'
     }
   },
-  fontSizes: ['0.625rem', '0.875rem', '1rem', '1.125rem', '1.25rem', '1.5rem', '1.875rem'],
+  fontSizes: [
+    '0.625rem',
+    '0.75rem',
+    '0.875rem',
+    '1rem',
+    '1.125rem',
+    '1.25rem',
+    '1.5rem',
+    '1.875rem'
+  ],
   lineHeights: ['1rem', '1.5rem', '2.25rem', '3rem'],
   text: {
     heading: {
-      fontSize: 6,
+      fontSize: 7,
       lineHeight: 3
     },
     subHeading: {
-      fontSize: 5,
+      fontSize: 6,
       lineHeight: 2
     },
     heading3: {
-      fontSize: 4,
+      fontSize: 5,
       lineHeight: 1,
       color: 'text.secondary',
       fontWeight: 'heading'
     },
     body: {
-      fontSize: 2,
+      fontSize: 3,
       lineHeight: 1
     }
   },
