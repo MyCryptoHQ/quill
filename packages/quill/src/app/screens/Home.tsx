@@ -10,6 +10,7 @@ import { push } from 'connected-react-router';
 import { useEffect } from 'react';
 
 import { Box, Container, Image, LinkApp, PanelBottom, TxHistory, TxQueue } from '@app/components';
+import { translate } from '@app/translations';
 import wallet from '@assets/icons/home.svg';
 import { ROUTE_PATHS } from '@routing';
 import { useDispatch, useSelector } from '@store';
@@ -38,7 +39,7 @@ export const Home = () => {
             <SubHeading variant="heading3" mt="3" mb="2">
               {translateRaw('HOME_EMPTY_HEADER')}
             </SubHeading>
-            <Body>{translateRaw('HOME_EMPTY_SUBHEADING')}</Body>
+            <Body>{translate('HOME_EMPTY_SUBHEADING')}</Body>
           </Box>
         </Container>
         <PanelBottom variant="clear">

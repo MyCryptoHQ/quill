@@ -14,12 +14,8 @@ export const NewUser = () => (
           {translateRaw('NEW_USER_HEADER')}
         </Heading>
       </Box>
-      <Body lineHeight="24px" mb="4">
-        {translateRaw('NEW_USER_DESCRIPTION_1')}
-      </Body>
-      <Body lineHeight="24px" mb="3">
-        {translateRaw('NEW_USER_DESCRIPTION_2')}
-      </Body>
+      <Body mb="4">{translate('NEW_USER_DESCRIPTION_1')}</Body>
+      <Body mb="3">{translateRaw('NEW_USER_DESCRIPTION_2')}</Body>
     </Container>
     <PanelBottom variant="clear">
       <LinkApp href={ROUTE_PATHS.CREATE_PASSWORD} width="100%">

@@ -197,6 +197,14 @@ const overrideTheme = {
     body: {
       fontSize: 3,
       lineHeight: 1
+    },
+    muted: {
+      fontSize: 3,
+      lineHeight: 1
+    },
+    error: {
+      fontSize: 3,
+      lineHeight: 1
     }
   },
   radii: { input: '2px', banner: '3px', badge: '4px' },

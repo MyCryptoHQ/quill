@@ -201,7 +201,7 @@ export const PaperWallet = forwardRef(
       <GridBox>
         <Flex variant="vertical-center" justifyContent="space-between" pt="45px" height="100%">
           <Box sx={{ textAlign: 'center' }}>
-            <Body fontWeight="bold" fontSize="20px" lineHeight="24px" mb="3">
+            <Body fontWeight="bold" fontSize="20px" mb="3">
               {translateRaw('KEEPING_YOUR_CRYPTO_SAFE')}
             </Body>
             <Image src={safeWallet} alt="Safe wallet" />

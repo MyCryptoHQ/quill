@@ -78,9 +78,7 @@ export const LoadTransaction = () => {
             {translateRaw('MANUALLY_LOAD_TRANSACTION_HEADER')}
           </SubHeading>
         </Box>
-        <Body lineHeight="24px" mb="4">
-          {translateRaw('MANUALLY_LOAD_TRANSACTION_DESCRIPTION')}
-        </Body>
+        <Body mb="4">{translateRaw('MANUALLY_LOAD_TRANSACTION_DESCRIPTION')}</Body>
         <Box mb="2">
           <Label htmlFor="account">{translateRaw('ACCOUNT')}</Label>
           <AccountSelector
