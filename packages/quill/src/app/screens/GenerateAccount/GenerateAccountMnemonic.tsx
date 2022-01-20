@@ -1,4 +1,4 @@
-import { Body, Button, Heading } from '@mycrypto/ui';
+import { Body, Button, SubHeading } from '@mycrypto/ui';
 import { generateAccount, getGeneratedMnemonicWords, translateRaw } from '@quill/common';
 import { useEffect } from 'react';
 
@@ -47,9 +47,7 @@ export const GenerateAccountMnemonic = ({ onNext, flowHeader }: IFlowComponentPr
       <ScrollableContainer>
         {flowHeader}
         <Box sx={{ textAlign: 'center' }} mb="3">
-          <Heading fontSize="24px" lineHeight="150%" mb="2">
-            {translateRaw('CREATE_MNEMONIC_PHRASE_TITLE')}
-          </Heading>
+          <SubHeading mb="2">{translateRaw('CREATE_MNEMONIC_PHRASE_TITLE')}</SubHeading>
           <Body>{translate('CREATE_MNEMONIC_PHRASE_DESCRIPTION')}</Body>
         </Box>
         <Box

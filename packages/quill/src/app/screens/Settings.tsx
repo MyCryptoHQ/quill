@@ -1,4 +1,4 @@
-import { Heading } from '@mycrypto/ui';
+import { SubHeading } from '@mycrypto/ui';
 import { quitApp, reset, translateRaw } from '@quill/common';
 import React from 'react';
 
@@ -20,9 +20,7 @@ export const Settings = () => {
   const handleReset = () => dispatch(reset());
   return (
     <Container>
-      <Heading fontSize="24px" lineHeight="150%" mb="1">
-        {translateRaw('SETTINGS')}
-      </Heading>
+      <SubHeading mb="1">{translateRaw('SETTINGS')}</SubHeading>
       <SettingsLink
         icon={addressBookIcon}
         label={translateRaw('ACCOUNTS')}

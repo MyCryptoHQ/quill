@@ -1,4 +1,4 @@
-import { Body } from '@mycrypto/ui';
+import { Body, Flex, Image } from '@mycrypto/ui';
 import {
   denyCurrentTransaction,
   getAccounts,
@@ -14,6 +14,7 @@ import {
   Box,
   FromToAccount,
   LinkApp,
+  PanelBottom,
   ScrollableContainer,
   TimeElapsed,
   TransactionBottom,
@@ -22,6 +23,8 @@ import {
 } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import { useDispatch, useSelector } from '@app/store';
+import back from '@assets/icons/back.svg';
+import edit from '@assets/icons/edit.svg';
 
 export const Transaction = () => {
   const dispatch = useDispatch();
@@ -56,29 +59,50 @@ export const Transaction = () => {
     <>
       <ScrollableContainer>
         <Box>
+          <Box mb="2">
+            <LinkApp href={ROUTE_PATHS.HOME} variant="barren">
+              <Flex variant="horizontal-start">
+                <Image alt="Back" src={back} width="12px" height="10px" />
+                <Body ml="2" color="LIGHT_BLUE">
+                  {translateRaw('HOME')}
+                </Body>
+              </Flex>
+            </LinkApp>
+          </Box>
           <TxInfoBanner type={info} />
           <FromToAccount
             sender={{ address: tx.from, label: currentAccount?.label }}
             recipient={tx.to && { address: tx.to, label: recipientAccount?.label }}
           />
           <Box variant="horizontal-start">
-            <Body fontSize="14px" color="BLUE_GREY" mb="2" mt="2">
+            <Body fontSize="2" color="BLUE_GREY" mb="2" mt="2">
               {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
               <TimeElapsed value={receivedTimestamp} />
             </Body>
-          </Box>
-          <TxDetails tx={currentTx} />
-          <Box mt="2" sx={{ textAlign: 'right' }}>
             {result === TxResult.WAITING && (
-              <LinkApp href={ROUTE_PATHS.EDIT_TX} mr="1" height="20px" width="20px">
-                {translateRaw('EDIT_TRANSACTION_DETAILS')}
+              <LinkApp
+                href={ROUTE_PATHS.EDIT_TX}
+                variant="barren"
+                ml="auto"
+                height="20px"
+                width="20px"
+              >
+                <Image src={edit} height="20px" width="20px" />
               </LinkApp>
             )}
           </Box>
+          <TxDetails tx={currentTx} />
         </Box>
       </ScrollableContainer>
       {result === TxResult.WAITING && (
         <TransactionBottom disabled={false} handleAccept={handleAccept} handleDeny={handleDeny} />
+      )}
+      {result === TxResult.APPROVED && (
+        <PanelBottom py="24px">
+          <Body fontWeight="bold" textAlign="center">
+            {translateRaw('TRANSACTION_APPROVED_TIP')}
+          </Body>
+        </PanelBottom>
       )}
     </>
   );

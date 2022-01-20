@@ -1,4 +1,4 @@
-import { Body, Button, Heading } from '@mycrypto/ui';
+import { Body, Button, SubHeading } from '@mycrypto/ui';
 import { createPassword, getLoggingIn, translateRaw } from '@quill/common';
 import { passwordStrength } from 'check-password-strength';
 import type { FormEvent } from 'react';
@@ -60,9 +60,9 @@ export const CreatePassword = () => {
   return (
     <>
       <ScrollableContainer pt="4">
-        <Heading fontSize="24px" lineHeight="150%" mb="2" textAlign="center">
-          Create a Password
-        </Heading>
+        <SubHeading mb="2" textAlign="center">
+          {translateRaw('CREATE_A_PASSWORD')}
+        </SubHeading>
         <Body>{translate('CREATE_PASSWORD_DESCRIPTION_1')}</Body>
         <form onSubmit={handleSubmit} id="create-password-form">
           <Box width="100%" mt="3">

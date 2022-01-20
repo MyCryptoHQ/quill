@@ -1,4 +1,4 @@
-import { Body, Heading } from '@mycrypto/ui';
+import { Body, SubHeading } from '@mycrypto/ui';
 import { translateRaw } from '@quill/common';
 
 import { Box, Container, Image, LinkApp } from '@app/components';
@@ -27,9 +27,7 @@ export const Menu = () => {
 
   return (
     <Container>
-      <Heading fontSize="24px" lineHeight="150%" mb="2">
-        {translateRaw('MENU_HEADER')}
-      </Heading>
+      <SubHeading mb="2">{translateRaw('MENU_HEADER')}</SubHeading>
       {Object.values(MENU_ITEMS).map((item, i) => (
         <LinkApp key={i} href={item.route}>
           <Box sx={{ boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.07)' }} mb="2">

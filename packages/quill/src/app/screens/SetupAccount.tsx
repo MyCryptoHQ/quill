@@ -1,4 +1,4 @@
-import { Body, Button, Heading } from '@mycrypto/ui';
+import { Body, Button, SubHeading } from '@mycrypto/ui';
 import { translateRaw } from '@quill/common';
 
 import wallet from '@app/assets/icons/wallet.svg';
@@ -11,9 +11,9 @@ export const SetupAccount = () => (
       <Box sx={{ textAlign: 'center' }}>
         <Image alt="Wallet" src={wallet} width="100px" height="100px" />
       </Box>
-      <Heading fontSize="24px" lineHeight="150%" mt="4" mb="2" textAlign="center">
+      <SubHeading mt="4" mb="2" textAlign="center">
         {translateRaw('SETUP_ACCOUNT_HEADER')}
-      </Heading>
+      </SubHeading>
       <Body>{translateRaw('SETUP_ACCOUNT_DESCRIPTION')}</Body>
     </Container>
     <PanelBottom variant="clear">

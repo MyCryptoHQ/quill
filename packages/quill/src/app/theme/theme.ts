@@ -60,6 +60,7 @@ export const LINK_VARIANTS = {
 
 const BUTTON_VARIANTS = {
   primary: {
+    fontSize: 3,
     p: '3',
     width: '100%',
     bg: 'BLUE_LIGHT',
@@ -80,6 +81,7 @@ const BUTTON_VARIANTS = {
     }
   },
   inverted: {
+    fontSize: 3,
     px: '3',
     py: '14px',
     width: '100%',
@@ -120,7 +122,7 @@ const overrideTheme = {
     BLUE_LIGHT: '#007896',
     BLUE_LIGHT_DARKISH: '#006077',
     BLUE_DARK_SLATE: '#163150',
-    BLUE_GREY: '#B5BFC7',
+    BLUE_GREY: '#8F8F8F',
     BLUE_BRIGHT: '#1eb8e7',
 
     // BLACK
@@ -164,6 +166,45 @@ const overrideTheme = {
 
     navigation: {
       active: '#39506a'
+    }
+  },
+  fontSizes: [
+    '0.625rem',
+    '0.75rem',
+    '0.875rem',
+    '1rem',
+    '1.125rem',
+    '1.25rem',
+    '1.5rem',
+    '1.875rem'
+  ],
+  lineHeights: ['1rem', '1.5rem', '2.25rem', '3rem'],
+  text: {
+    heading: {
+      fontSize: 7,
+      lineHeight: 3
+    },
+    subHeading: {
+      fontSize: 6,
+      lineHeight: 2
+    },
+    heading3: {
+      fontSize: 5,
+      lineHeight: 1,
+      color: 'text.secondary',
+      fontWeight: 'heading'
+    },
+    body: {
+      fontSize: 3,
+      lineHeight: 1
+    },
+    muted: {
+      fontSize: 3,
+      lineHeight: 1
+    },
+    error: {
+      fontSize: 3,
+      lineHeight: 1
     }
   },
   radii: { input: '2px', banner: '3px', badge: '4px' },
@@ -259,7 +300,7 @@ export const GlobalStyle = createGlobalStyle`
   :root {
     color: ${(p) => p.theme.colors.BODY};
     font-family: ${(props) => props.theme.fonts.body};
-    font-size: ${(props) => props.theme.fontSizes[2]};
+    font-size: 16px;
     line-height: ${(props) => props.theme.lineHeights[1]};
   }
 `;

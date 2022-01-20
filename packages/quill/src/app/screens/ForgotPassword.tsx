@@ -1,4 +1,4 @@
-import { Body, Button, Heading } from '@mycrypto/ui';
+import { Body, Button, SubHeading } from '@mycrypto/ui';
 import { reset, translateRaw } from '@quill/common';
 import { push } from 'connected-react-router';
 
@@ -24,9 +24,9 @@ export const ForgotPassword = () => {
       <Container pt="4">
         <Flex variant="vertical-center" maxWidth="300px" mx="auto">
           <Image alt="Warning" src={warning} width="100px" height="100px" />
-          <Heading fontSize="4" lineHeight="24px" mt="4" textAlign="center">
+          <SubHeading mt="4" textAlign="center">
             {translateRaw('RESET_HEADING')}
-          </Heading>
+          </SubHeading>
           <Body variant="muted" mt="2" textAlign="center">
             {translateRaw('RESET_DESCRIPTION')}
           </Body>

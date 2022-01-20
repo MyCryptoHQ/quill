@@ -1,4 +1,4 @@
-import { Body, Heading } from '@mycrypto/ui';
+import { Body, SubHeading } from '@mycrypto/ui';
 import { getSigningError, translateRaw, WalletType } from '@quill/common';
 import type { IAccountDeterministic } from '@quill/common';
 import { useEffect } from 'react';
@@ -43,9 +43,9 @@ const SignTransactionMnemonicForm = ({
   return (
     <>
       <ScrollableContainer>
-        <Heading fontSize="24px" lineHeight="150%" mb="2" textAlign="center">
+        <SubHeading mb="2" textAlign="center">
           {translateRaw('SIGNING_WITH_NON_PERSISTED_ACCOUNT_HEADER')}
-        </Heading>
+        </SubHeading>
         <Body mb="3">{translateRaw('SIGNING_WITH_NON_PERSISTED_ACCOUNT_BODY')}</Body>
         <Account
           label={currentAccount.label}

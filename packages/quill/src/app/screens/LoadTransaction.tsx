@@ -1,5 +1,5 @@
 import { parse } from '@ethersproject/transactions';
-import { Body, Button, Heading } from '@mycrypto/ui';
+import { Body, Button, SubHeading } from '@mycrypto/ui';
 import type { IAccount, TUuid } from '@quill/common';
 import {
   enqueue,
@@ -74,13 +74,11 @@ export const LoadTransaction = () => {
     <>
       <Container>
         <Box sx={{ textAlign: 'center' }}>
-          <Heading fontSize="24px" lineHeight="36px" mt="3" mb="2">
+          <SubHeading mt="3" mb="2">
             {translateRaw('MANUALLY_LOAD_TRANSACTION_HEADER')}
-          </Heading>
+          </SubHeading>
         </Box>
-        <Body lineHeight="24px" mb="4">
-          {translateRaw('MANUALLY_LOAD_TRANSACTION_DESCRIPTION')}
-        </Body>
+        <Body mb="4">{translateRaw('MANUALLY_LOAD_TRANSACTION_DESCRIPTION')}</Body>
         <Box mb="2">
           <Label htmlFor="account">{translateRaw('ACCOUNT')}</Label>
           <AccountSelector

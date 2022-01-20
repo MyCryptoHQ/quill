@@ -1,4 +1,4 @@
-import { Body, Button } from '@mycrypto/ui';
+import { Body, Button, Image } from '@mycrypto/ui';
 import {
   bigify,
   EvenHex,
@@ -19,6 +19,7 @@ import { number, object, string } from 'yup';
 import {
   Box,
   FromToAccount,
+  LinkApp,
   PanelBottom,
   ScrollableContainer,
   TimeElapsed,
@@ -28,6 +29,7 @@ import {
 import { ROUTE_PATHS } from '@app/routing';
 import { useDispatch, useSelector } from '@app/store';
 import { fromHumanReadable, toHumanReadable } from '@app/utils';
+import edit from '@assets/icons/edit-grey.svg';
 import {
   GAS_LIMIT_LOWER_BOUND,
   GAS_LIMIT_UPPER_BOUND,
@@ -80,6 +82,10 @@ export const EditTransaction = () => {
 
   const form = useForm(toHumanReadable(tx), yupValidator(schema), true);
 
+  const handleCancel = () => {
+    dispatch(replace(ROUTE_PATHS.TX));
+  };
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     await form.validate();
@@ -104,19 +110,25 @@ export const EditTransaction = () => {
               recipient={tx.to && { address: tx.to, label: recipientAccount?.label }}
             />
             <Box variant="horizontal-start">
-              <Body fontSize="14px" color="BLUE_GREY" mb="2" mt="2">
+              <Body fontSize="2" color="BLUE_GREY" mb="2" mt="2">
                 {translateRaw('REQUEST_ORIGIN', { $origin: origin ?? translateRaw('UNKNOWN') })}{' '}
                 <TimeElapsed value={receivedTimestamp} />
               </Body>
+              <Image src={edit} height="20px" width="20px" ml="auto" />
             </Box>
             <TxDetailsEdit form={form} />
           </Box>
         </form>
       </ScrollableContainer>
-      <PanelBottom py="3">
+      <PanelBottom py="24px">
         <Button type="submit" form="edit-tx-form">
           {translateRaw('SAVE_TX_DETAILS')}
         </Button>
+        <Box width="100%" pt="3" px="3" sx={{ textAlign: 'center' }}>
+          <LinkApp href="#" onClick={handleCancel}>
+            {translateRaw('CANCEL')}
+          </LinkApp>
+        </Box>
       </PanelBottom>
     </>
   );

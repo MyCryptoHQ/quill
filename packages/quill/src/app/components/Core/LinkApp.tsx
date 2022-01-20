@@ -1,3 +1,4 @@
+import { Image } from '@mycrypto/ui';
 import type { FC } from 'react';
 import type { LinkProps as RouterLinkProps } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
@@ -28,6 +29,7 @@ import {
 } from 'styled-system';
 
 import { LINK_VARIANTS } from '@app/theme';
+import linkOut from '@assets/icons/link-out.svg';
 
 type LinkStyleProps = SpaceProps &
   LineHeightProps &
@@ -72,6 +74,7 @@ const SRouterLink = styled(RouterLink)<LinkStyleProps & RouterLinkProps>`
 interface LinkProps {
   readonly href: string;
   readonly isExternal?: boolean;
+  showIcon?: boolean;
   readonly variant?: keyof typeof LINK_VARIANTS;
   onClick?(e: React.MouseEvent<HTMLAnchorElement>): void | undefined;
 }
@@ -85,6 +88,8 @@ const LinkApp: FC<Props> = ({
   variant = 'defaultLink',
   onClick,
   as,
+  showIcon,
+  children,
   ...props
 }) => {
   if (!isExternal && isUrl(href)) {
@@ -98,12 +103,19 @@ const LinkApp: FC<Props> = ({
       variant={variant}
       target="_blank"
       onClick={onClick}
+      display="inline-flex"
+      sx={{ alignItems: 'center' }}
       {...props}
       // @SECURITY set last to avoid override
       rel="noreferrer"
-    />
+    >
+      {children}
+      {showIcon && <Image src={linkOut} height="16px" width="16px" />}
+    </SLink>
   ) : (
-    <SRouterLink as={as} to={href} variant={variant} onClick={onClick} {...props} />
+    <SRouterLink as={as} to={href} variant={variant} onClick={onClick} {...props}>
+      {children}
+    </SRouterLink>
   );
 };
 

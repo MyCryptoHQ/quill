@@ -27,7 +27,7 @@ export const SettingsConfirm = ({
   const toggleOpen = () => setOpened(!isOpened);
   return (
     <SettingsAccordion icon={icon} label={label} isOpen={isOpened} onOpen={toggleOpen}>
-      <Heading fontSize="2" textAlign="center">
+      <Heading fontSize="3" textAlign="center">
         {heading}
       </Heading>
       <Body mb="3">{body}</Body>

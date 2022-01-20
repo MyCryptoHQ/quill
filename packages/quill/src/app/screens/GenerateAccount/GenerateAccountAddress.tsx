@@ -1,4 +1,4 @@
-import { BlockieAddress, Body, Button, Heading, Tooltip } from '@mycrypto/ui';
+import { BlockieAddress, Body, Button, SubHeading, Tooltip } from '@mycrypto/ui';
 import { getGeneratedAccount, setGeneratedAccountPersistent, translateRaw } from '@quill/common';
 import React, { useState } from 'react';
 
@@ -21,16 +21,14 @@ export const GenerateAccountAddress = ({ flowHeader, onNext }: IFlowComponentPro
       <Container>
         {flowHeader}
         <Box sx={{ textAlign: 'center' }} mb="3">
-          <Heading fontSize="24px" lineHeight="150%">
-            {translateRaw('NEW_ACCOUNT_TITLE')}
-          </Heading>
+          <SubHeading>{translateRaw('NEW_ACCOUNT_TITLE')}</SubHeading>
         </Box>
         <Body>{translateRaw('GENERATE_ACCOUNT_NOTICE')}</Body>
         <Panel mt="3">
-          <Body fontSize="14px" mb="2">
+          <Body fontSize="2" mb="2">
             {translate('RECOVERY_PHRASE_SECRET')}{' '}
             {showMnemonicPhrase ? (
-              <Body fontSize="14px">
+              <Body fontSize="2">
                 {mnemonicPhrase}{' '}
                 <Link variant="defaultLink" onClick={handleClick}>
                   {translate('CLICK_TO_HIDE')}
@@ -42,11 +40,11 @@ export const GenerateAccountAddress = ({ flowHeader, onNext }: IFlowComponentPro
               </Link>
             )}
           </Body>
-          <Body fontSize="14px" mb="1">
+          <Body fontSize="2" mb="1">
             {translate('ADDRESS')}
           </Body>
           <BlockieAddress address={address} mb="2" />
-          <Body fontSize="14px">
+          <Body fontSize="2">
             {translate('DERIVATION_PATH')} {DEFAULT_DERIVATION_PATH}
           </Body>
         </Panel>

@@ -13,7 +13,7 @@ const TranslateMarkdown = ({ source }: Props) => {
       disallowedTypes={['html']}
       renderers={{
         root: Fragment,
-        link: (props) => <LinkApp isExternal={true} {...props} />,
+        link: (props) => <LinkApp isExternal={true} showIcon={true} {...props} />,
         paragraph: Fragment // Remove <p> added by react-markdown.
       }}
     >

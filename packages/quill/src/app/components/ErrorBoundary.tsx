@@ -1,4 +1,4 @@
-import { Heading } from '@mycrypto/ui';
+import { SubHeading } from '@mycrypto/ui';
 import { translateRaw } from '@quill/common';
 import type { ErrorInfo, ReactNode } from 'react';
 import { Component } from 'react';
@@ -34,9 +34,7 @@ export class ErrorBoundary extends Component<
       return (
         <Container>
           <Logo width="100px" height="100px" icon={error} fillIcon={false} mx="auto" />
-          <Heading as="h2" fontSize="1.5rem" textAlign="center">
-            {translateRaw('SOMETHING_WENT_WRONG')}
-          </Heading>
+          <SubHeading textAlign="center">{translateRaw('SOMETHING_WENT_WRONG')}</SubHeading>
           <details style={{ whiteSpace: 'pre-wrap' }}>
             {this.state.error && this.state.error.toString()}
             <br />

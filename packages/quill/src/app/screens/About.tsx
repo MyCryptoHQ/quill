@@ -1,5 +1,5 @@
 import type { IconType } from '@mycrypto/ui';
-import { Body, Box, Flex, Heading, Icon, IconButton, SubHeading } from '@mycrypto/ui';
+import { Body, Box, Flex, Icon, IconButton, SubHeading } from '@mycrypto/ui';
 import { translateRaw } from '@quill/common';
 import type { FunctionComponent } from 'react';
 
@@ -84,10 +84,8 @@ export const About: FunctionComponent = () => {
   return (
     <Container>
       <Flex justifyContent="space-between" alignItems="center">
-        <Heading fontSize="24px" lineHeight="150%" mb="1">
-          {translateRaw('ABOUT_QUILL')}
-        </Heading>
-        <Body fontSize="10px" fontWeight="bold">
+        <SubHeading mb="1">{translateRaw('ABOUT_QUILL')}</SubHeading>
+        <Body fontSize="0" fontWeight="bold">
           {/* @todo: Look into versioning */}v{version}
         </Body>
       </Flex>
