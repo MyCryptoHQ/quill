@@ -2,10 +2,12 @@ import { makeHistoryTx, makeQueueTx, translateRaw, TxResult, update } from '@qui
 import type { DeepPartial } from '@quill/common';
 import type { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render, waitFor } from '@testing-library/react';
+import { replace } from 'connected-react-router';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
+import { ROUTE_PATHS } from '@app/routing';
 import type { ApplicationState } from '@app/store';
 import { fAccount, getEIP1559TransactionRequest, getTransactionRequest } from '@fixtures';
 
@@ -210,5 +212,26 @@ describe('EditTransaction', () => {
     });
     const { getByText } = getComponent(store);
     expect(getByText(translateRaw('NONCE_OUT_OF_ORDER')).textContent).toBeDefined();
+  });
+
+  it('allows a user to cancel editing a tx', async () => {
+    const tx = makeQueueTx(getEIP1559TransactionRequest(fAccount.address));
+    const mockStore = createMockStore({
+      accounts: {
+        accounts: [fAccount]
+      },
+      transactions: {
+        history: [],
+        queue: [tx],
+        currentTransaction: tx
+      }
+    });
+    const { getByText } = getComponent(mockStore);
+
+    const cancelButton = getByText(translateRaw('CANCEL'));
+    expect(cancelButton).toBeDefined();
+    fireEvent.click(cancelButton);
+
+    await waitFor(() => expect(mockStore.getActions()).toContainEqual(replace(ROUTE_PATHS.TX)));
   });
 });

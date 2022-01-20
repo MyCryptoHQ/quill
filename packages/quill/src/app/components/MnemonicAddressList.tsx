@@ -25,7 +25,9 @@ export const MnemonicAddressList = ({
       {addresses.map((address) => {
         const existingAddress = accounts.some((a) => a.address === address.address);
         const toggle = () => {
-          if (!existingAddress) toggleSelectedAccount(address);
+          if (!existingAddress) {
+            toggleSelectedAccount(address);
+          }
         };
         return (
           <Fragment key={address.dPath}>
