@@ -1,4 +1,4 @@
-import { Banner, Body, Button, Heading } from '@mycrypto/ui';
+import { Banner, Body, Button } from '@mycrypto/ui';
 import type { DeterministicAddress } from '@mycrypto/wallets';
 import { ALL_DERIVATION_PATHS, DEFAULT_ETH } from '@mycrypto/wallets';
 import {
@@ -18,6 +18,7 @@ import { AnyListener } from 'typed-react-form';
 import {
   Box,
   DPathSelector,
+  Heading3,
   MnemonicAddressList,
   PanelBottom,
   ScrollableContainer,
@@ -145,9 +146,9 @@ const AddAccountMnemonicForm = ({
               </Box>
             </Banner>
 
-            <Heading as="h3" variant="heading3" textAlign="center" mb="2">
+            <Heading3 textAlign="center" mb="2">
               {translateRaw('ADD_ADDRESS_TO_QUILL')}
-            </Heading>
+            </Heading3>
             <Body mb="3">{translateRaw('SELECT_ADDRESSES_TO_ADD')}</Body>
 
             <Label htmlFor="derivation-path-selector">{translateRaw('NETWORK_PATH')}</Label>

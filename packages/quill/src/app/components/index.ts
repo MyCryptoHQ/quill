@@ -42,3 +42,4 @@ export * from './ExtendableButton';
 export * from './CopyableText';
 export * from './TextSelector';
 export * from './Settings';
+export * from './Heading3';

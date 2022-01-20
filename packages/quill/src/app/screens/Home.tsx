@@ -1,4 +1,4 @@
-import { Body, Button, SubHeading } from '@mycrypto/ui';
+import { Body, Button } from '@mycrypto/ui';
 import {
   getAccountsLength,
   getPersisted,
@@ -9,7 +9,16 @@ import {
 import { push } from 'connected-react-router';
 import { useEffect } from 'react';
 
-import { Box, Container, Image, LinkApp, PanelBottom, TxHistory, TxQueue } from '@app/components';
+import {
+  Box,
+  Container,
+  Heading3,
+  Image,
+  LinkApp,
+  PanelBottom,
+  TxHistory,
+  TxQueue
+} from '@app/components';
 import { translate } from '@app/translations';
 import wallet from '@assets/icons/home.svg';
 import { ROUTE_PATHS } from '@routing';
@@ -36,9 +45,9 @@ export const Home = () => {
             <Image alt="Wallet" src={wallet} />
           </Box>
           <Box maxWidth="80%" mx="auto" sx={{ textAlign: 'center' }}>
-            <SubHeading variant="heading3" mt="3" mb="2">
+            <Heading3 mt="3" mb="2">
               {translateRaw('HOME_EMPTY_HEADER')}
-            </SubHeading>
+            </Heading3>
             <Body>{translate('HOME_EMPTY_SUBHEADING')}</Body>
           </Box>
         </Container>
