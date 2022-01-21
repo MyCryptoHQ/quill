@@ -258,6 +258,7 @@
     "CONNECT_QUILL_TO_MYCRYPTO": "Connect Quill to MyCrypto",
     "PENDING": "Pending",
     "DENIED": "Denied",
-    "APPROVED": "Approved"
+    "APPROVED": "Approved",
+    "PAGINATION": "Page $current of $total"
   }
 }

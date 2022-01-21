@@ -17,8 +17,7 @@ import {
   LinkApp,
   PanelBottom,
   TxHistory,
-  TxHistoryStats,
-  TxQueue
+  TxHistoryStats
 } from '@app/components';
 import { translate } from '@app/translations';
 import wallet from '@assets/icons/home.svg';
@@ -72,8 +71,7 @@ export const Home = () => {
         <Image alt="Wallet" src={wallet} />
       </Box>
       <TxHistoryStats />
-      <TxQueue queue={queue} />
-      <TxHistory history={txHistory} />
+      <TxHistory />
     </Container>
   );
 };
