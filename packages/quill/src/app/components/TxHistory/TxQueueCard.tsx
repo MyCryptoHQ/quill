@@ -1,5 +1,5 @@
 import { formatEther } from '@ethersproject/units';
-import { Banner, Body } from '@mycrypto/ui';
+import { Badge, Banner, Body, Flex } from '@mycrypto/ui';
 import { getAccounts, selectTransaction, translateRaw } from '@quill/common';
 import type { TxQueueEntry } from '@quill/common';
 
@@ -28,17 +28,9 @@ export const TxQueueCard = ({ item, first }: { item: TxQueueEntry; first: boolea
       p="2"
       sx={{ boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.07)', borderRadius: '3px' }}
     >
-      <Banner
-        type="clear"
-        label={translateRaw('HOME_TX_RESULT_WAITING')}
-        badge={first && translateRaw('NEW')}
-      />
-      <Box variant="horizontal-start" mt="2">
-        <FromToAccount
-          sender={{ address: tx.from, label: currentAccount?.label }}
-          recipient={tx.to && { address: tx.to, label: recipientAccount?.label }}
-          nonce={tx.nonce}
-        />
+      <Flex variant="horizontal-start">
+        {first && <Badge type="clear">{translateRaw('NEW')}</Badge>}
+        <Banner type="clear" label={translateRaw('HOME_TX_RESULT_WAITING')} />
         <LinkApp
           href={ROUTE_PATHS.TX}
           ml="auto"
@@ -49,6 +41,13 @@ export const TxQueueCard = ({ item, first }: { item: TxQueueEntry; first: boolea
             <Image height="24px" width="24px" src={squareArrow} />
           </Box>
         </LinkApp>
+      </Flex>
+      <Box variant="horizontal-start" mt="2">
+        <FromToAccount
+          sender={{ address: tx.from, label: currentAccount?.label }}
+          recipient={tx.to && { address: tx.to, label: recipientAccount?.label }}
+          nonce={tx.nonce}
+        />
       </Box>
       <Box variant="horizontal-start" mt="1">
         <Body fontSize="1" fontWeight="bold">
