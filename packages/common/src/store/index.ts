@@ -48,6 +48,8 @@ export {
   getTransactionInfoBannerType,
   update,
   getAccountNonce,
+  getApprovedTransactionsLength,
+  getDeniedTransactionsLength,
   default as transactionsSlice
 } from './transactions.slice';
 export {

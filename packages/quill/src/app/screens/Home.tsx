@@ -17,6 +17,7 @@ import {
   LinkApp,
   PanelBottom,
   TxHistory,
+  TxHistoryStats,
   TxQueue
 } from '@app/components';
 import { translate } from '@app/translations';
@@ -67,6 +68,10 @@ export const Home = () => {
 
   return (
     <Container>
+      <Box sx={{ textAlign: 'center' }}>
+        <Image alt="Wallet" src={wallet} />
+      </Box>
+      <TxHistoryStats />
       <TxQueue queue={queue} />
       <TxHistory history={txHistory} />
     </Container>

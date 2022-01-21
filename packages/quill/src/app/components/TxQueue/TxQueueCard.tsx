@@ -6,7 +6,7 @@ import type { TxQueueEntry } from '@quill/common';
 import { Box, FromToAccount, Image, LinkApp, TimeElapsed } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import { useDispatch, useSelector } from '@app/store';
-import circleArrow from '@assets/icons/circle-arrow.svg';
+import squareArrow from '@assets/icons/square-arrow-filled.svg';
 import { getChain } from '@data';
 
 export const TxQueueCard = ({ item, first }: { item: TxQueueEntry; first: boolean }) => {
@@ -23,7 +23,11 @@ export const TxQueueCard = ({ item, first }: { item: TxQueueEntry; first: boolea
   const handleSelect = () => dispatch(selectTransaction(item));
 
   return (
-    <Box pt={first ? '0' : '16px'} pb="16px">
+    <Box
+      mt={first ? '0' : '16px'}
+      p="2"
+      sx={{ boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.07)', borderRadius: '3px' }}
+    >
       <Banner
         type="clear"
         label={translateRaw('HOME_TX_RESULT_WAITING')}
@@ -42,7 +46,7 @@ export const TxQueueCard = ({ item, first }: { item: TxQueueEntry; first: boolea
           onClick={handleSelect}
         >
           <Box variant="horizontal-start">
-            <Image height="20px" width="20px" src={circleArrow} />
+            <Image height="24px" width="24px" src={squareArrow} />
           </Box>
         </LinkApp>
       </Box>

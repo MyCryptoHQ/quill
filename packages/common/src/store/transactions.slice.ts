@@ -71,6 +71,20 @@ export const getApprovedTransactions = createSelector(getTxHistory, (history) =>
   history.filter((h) => h.result === TxResult.APPROVED)
 );
 
+export const getApprovedTransactionsLength = createSelector(
+  getApprovedTransactions,
+  (history) => history.length
+);
+
+export const getDeniedTransactions = createSelector(getTxHistory, (history) =>
+  history.filter((h) => h.result === TxResult.DENIED)
+);
+
+export const getDeniedTransactionsLength = createSelector(
+  getDeniedTransactions,
+  (history) => history.length
+);
+
 export const getAccountNonce = (account: TAddress, chainId: number) =>
   createSelector(getApprovedTransactions, (transactions) =>
     transactions

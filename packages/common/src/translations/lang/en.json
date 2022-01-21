@@ -255,6 +255,9 @@
     "HOME": "Home",
     "TRANSACTION_APPROVED_TIP": "Return to MyCrypto.com to broadcast your transaction",
     "CREATE_A_PASSWORD": "Create a Password",
-    "CONNECT_QUILL_TO_MYCRYPTO": "Connect Quill to MyCrypto"
+    "CONNECT_QUILL_TO_MYCRYPTO": "Connect Quill to MyCrypto",
+    "PENDING": "Pending",
+    "DENIED": "Denied",
+    "APPROVED": "Approved"
   }
 }
