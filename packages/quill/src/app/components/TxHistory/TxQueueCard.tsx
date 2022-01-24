@@ -24,6 +24,7 @@ export const TxQueueCard = ({ item, first }: { item: TxQueueEntry; first: boolea
 
   return (
     <Box
+      data-testid="pending-tx"
       mt={first ? '0' : '16px'}
       p="3"
       sx={{ boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.07)', borderRadius: 'banner' }}

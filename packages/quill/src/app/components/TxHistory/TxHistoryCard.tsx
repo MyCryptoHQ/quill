@@ -18,7 +18,7 @@ export const TxHistoryCard = ({ item }: { item: TxHistoryEntry }) => {
   const handleSelect = () => dispatch(selectTransaction(item));
 
   return (
-    <Box variant="horizontal-start" p="3">
+    <Box variant="horizontal-start" p="3" data-testid={isApproved ? 'approved-tx' : 'denied-tx'}>
       <Image height="20px" width="20px" src={isApproved ? approved : denied} mr="8px" />
       <Body fontSize="1" fontWeight="bold" color="BLUE_GREY">
         {result}

@@ -15,7 +15,7 @@ export interface PaginationProps {
 export const Pagination = ({ page, totalPages, onNext, onBack }: PaginationProps) => (
   <Flex variant="horizontal-center" mt="2">
     {page > 0 && (
-      <LinkApp href="#" onClick={onBack} p="2">
+      <LinkApp data-testid="pagination-back" href="#" onClick={onBack} p="2">
         <Image src={arrow} sx={{ transform: 'rotate(180deg)' }} />
       </LinkApp>
     )}
@@ -26,7 +26,7 @@ export const Pagination = ({ page, totalPages, onNext, onBack }: PaginationProps
       })}
     </Body>
     {page < totalPages - 1 && (
-      <LinkApp href="#" onClick={onNext} p="2">
+      <LinkApp data-testid="pagination-next" href="#" onClick={onNext} p="2">
         <Image src={arrow} />
       </LinkApp>
     )}

@@ -30,7 +30,7 @@ const mockStore = createMockStore({
   },
   transactions: {
     queue: [queueTx, { ...queueTx, id: 2 }],
-    history: [historyTx, historyTx]
+    history: [historyTx, historyTx, historyTx, historyTx, makeHistoryTx(queueTx, TxResult.APPROVED)]
   },
   persistence: {
     rehydratedKeys: []
@@ -85,5 +85,25 @@ describe('Home', () => {
     getComponent(store);
 
     expect(store.getActions()).toContainEqual(push(ROUTE_PATHS.SETUP_ACCOUNT));
+  });
+
+  it('allows user to switch pages', async () => {
+    const { getByTestId, queryAllByTestId } = getComponent();
+
+    expect(queryAllByTestId('pending-tx')).toHaveLength(2);
+    expect(queryAllByTestId('denied-tx')).toHaveLength(3);
+    expect(queryAllByTestId('approved-tx')).toHaveLength(0);
+
+    fireEvent.click(getByTestId('pagination-next'));
+
+    expect(queryAllByTestId('pending-tx')).toHaveLength(0);
+    expect(queryAllByTestId('denied-tx')).toHaveLength(1);
+    expect(queryAllByTestId('approved-tx')).toHaveLength(1);
+
+    fireEvent.click(getByTestId('pagination-back'));
+
+    expect(queryAllByTestId('pending-tx')).toHaveLength(2);
+    expect(queryAllByTestId('denied-tx')).toHaveLength(3);
+    expect(queryAllByTestId('approved-tx')).toHaveLength(0);
   });
 });
