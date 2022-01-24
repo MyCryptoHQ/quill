@@ -1,4 +1,4 @@
-import { Blockie, Body } from '@mycrypto/ui';
+import { Blockie, Body, Copyable } from '@mycrypto/ui';
 import { translateRaw, truncate } from '@quill/common';
 import type { TAddress } from '@quill/common';
 
@@ -15,10 +15,20 @@ export const Account = ({
   <Box bg="GREY_LIGHTEST" p="10px" variant="horizontal-start" {...props}>
     <Blockie height="32px" width="32px" minWidth="32px" address={address} />
     <Box pl="1">
-      <Body fontSize="3">{label ?? translateRaw('NO_LABEL')}</Body>
-      <Body sx={{ overflow: 'hidden', textOverflow: 'ellipsis', color: addressColor }}>
-        {shouldTruncate ? truncate(address) : address}
+      <Body
+        fontSize="3"
+        sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+      >
+        {label ?? translateRaw('NO_LABEL')}
       </Body>
+      <Copyable text={address} mr="2">
+        <Body
+          fontSize="1"
+          sx={{ overflow: 'hidden', textOverflow: 'ellipsis', color: addressColor }}
+        >
+          {shouldTruncate ? truncate(address) : address}
+        </Body>
+      </Copyable>
     </Box>
   </Box>
 );

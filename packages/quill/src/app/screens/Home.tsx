@@ -16,6 +16,7 @@ import {
   Image,
   LinkApp,
   PanelBottom,
+  ScrollableContainer,
   TxHistory,
   TxHistoryStats
 } from '@app/components';
@@ -66,12 +67,12 @@ export const Home = () => {
   }
 
   return (
-    <Container>
+    <ScrollableContainer>
       <Box sx={{ textAlign: 'center' }}>
         <Image alt="Wallet" src={wallet} />
       </Box>
       <TxHistoryStats />
       <TxHistory />
-    </Container>
+    </ScrollableContainer>
   );
 };

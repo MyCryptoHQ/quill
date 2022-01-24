@@ -25,8 +25,10 @@ export const Pagination = ({ page, totalPages, onNext, onBack }: PaginationProps
         $total: totalPages.toString()
       })}
     </Body>
-    <LinkApp href="#" onClick={onNext} p="2">
-      <Image src={arrow} />
-    </LinkApp>
+    {page < totalPages - 1 && (
+      <LinkApp href="#" onClick={onNext} p="2">
+        <Image src={arrow} />
+      </LinkApp>
+    )}
   </Flex>
 );
