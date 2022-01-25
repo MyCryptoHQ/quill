@@ -1,9 +1,9 @@
-import { Body, Button, SubHeading } from '@mycrypto/ui';
+import { Body, Button, PasswordStrength, SubHeading } from '@mycrypto/ui';
 import { createPassword, getLoggingIn, translateRaw } from '@quill/common';
-import { passwordStrength } from 'check-password-strength';
-import type { FormEvent } from 'react';
-import { useForm, yupValidator } from 'typed-react-form';
+import { FormEvent, useEffect } from 'react';
+import { AnyListener, useForm, yupValidator } from 'typed-react-form';
 import { object, ref, string } from 'yup';
+import zxcvbn from 'zxcvbn';
 
 import warning from '@assets/icons/circle-warning.svg';
 import {
@@ -13,26 +13,51 @@ import {
   FormInput,
   Image,
   Label,
-  List,
-  ListItem,
   PanelBottom,
   ScrollableContainer
 } from '@components';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
 import { useDispatch, useSelector } from '@store';
 import { translate } from '@translations';
-import { PasswordStrength } from '@types';
 
 const SCHEMA = object({
-  password: string()
-    .required(translateRaw('PASSWORD_EMPTY'))
-    .test('strong-password', translateRaw('PASSWORD_TOO_WEAK'), (value) => {
-      return passwordStrength(value).id === PasswordStrength.STRONG;
-    }),
+  password: string().required(translateRaw('PASSWORD_EMPTY')),
   passwordConfirmation: string()
     .required(translateRaw('PASSWORD_EMPTY'))
     .is([ref('password')], translateRaw('PASSWORDS_NOT_EQUAL'))
 });
+
+const PW_SCORE_REQUIREMENT = 2;
+
+const PasswordStrengthComponent = ({ form }) => {
+  return (
+    <AnyListener
+      form={form}
+      render={(form) => {
+        const password = form.values.password;
+        const error = form.errorMap.password;
+        const result = zxcvbn(password);
+
+        useEffect(() => {
+          form.setError(
+            'password',
+            result.score < PW_SCORE_REQUIREMENT && 'Password strength too low'
+          );
+        }, [password]);
+
+        console.log(result);
+        return (
+          <>
+            <PasswordStrength strength={result.score} mt="2" height="6px" />
+            <Body fontSize="1" lineHeight="14px" mt="2">
+              {result.feedback.warning ?? error}
+            </Body>
+          </>
+        );
+      }}
+    />
+  );
+};
 
 export const CreatePassword = () => {
   const dispatch = useDispatch();
@@ -68,28 +93,9 @@ export const CreatePassword = () => {
           <Box width="100%" mt="3">
             <Label htmlFor="password">{translateRaw('ENTER_PASSWORD')}</Label>
             <FormInput id="password" name="password" type="password" form={form} />
-            <FormError name="password" form={form} />
+            <PasswordStrengthComponent form={form} />
           </Box>
-          <Box width="100%" mt="2" color="BLUE_GREY">
-            <Body color="inherit">{translateRaw('PASSWORD_CRITERIA')}</Body>
-            <List>
-              <ListItem mb="0" color="inherit">
-                {translateRaw('PASSWORD_CRITERIA_1')}
-              </ListItem>
-              <ListItem mb="0" color="inherit">
-                {translateRaw('PASSWORD_CRITERIA_2')}
-              </ListItem>
-              <ListItem mb="0" color="inherit">
-                {translateRaw('PASSWORD_CRITERIA_3')}
-              </ListItem>
-              <ListItem mb="0" color="inherit">
-                {translateRaw('PASSWORD_CRITERIA_4')}
-              </ListItem>
-              <ListItem mb="0" color="inherit">
-                {translateRaw('PASSWORD_CRITERIA_5')}
-              </ListItem>
-            </List>
-          </Box>
+          <Box width="100%" mt="2" color="BLUE_GREY"></Box>
           <Box width="100%" mt="3">
             <Label htmlFor="passwordConfirmation">{translateRaw('CONFIRM_PASSWORD')}</Label>
             <FormInput
