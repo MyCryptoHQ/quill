@@ -23,8 +23,8 @@ export const Pagination = ({ page, totalPages, onNext, onBack }: PaginationProps
     </Flex>
     <Body fontSize="1" mx="4" sx={{ textTransform: 'uppercase' }}>
       {translateRaw('PAGINATION', {
-        $current: (page + 1).toString(),
-        $total: totalPages.toString()
+        $current: `${page + 1}`,
+        $total: `${totalPages}`
       })}
     </Body>
     <Flex flex="1" justifyContent="flex-start">
