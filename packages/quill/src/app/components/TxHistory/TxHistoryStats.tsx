@@ -17,7 +17,7 @@ export const TxHistoryStats = () => {
   const deniedLength = useSelector(getDeniedTransactionsLength);
 
   return (
-    <Flex justifyContent="space-around" mt="1" mb="2" p="2" bg="rgba(232, 234, 237, 0.3)">
+    <Flex justifyContent="space-around" mt="1" mb="2" p="2" bg="GREY_ATHENS_MUTED">
       <Flex alignItems="center">
         <Image height="20px" width="20px" src={pending} mr="8px" />
         <Body fontSize="1" fontWeight="bold" sx={{ textTransform: 'uppercase' }}>

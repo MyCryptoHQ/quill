@@ -132,6 +132,8 @@ const overrideTheme = {
     BG_GREY: '#C4C4C4',
     BG_GREY_MUTED: '#F6F8FA',
     GREY_ATHENS: '#e8eaed',
+    // Same color but with less opacity
+    GREY_ATHENS_MUTED: 'rgba(232, 234, 237, 0.3)',
     GREY_LIGHTEST: '#f7f7f7',
     GREY_LIGHTER: '#e5ecf3',
     GREY_LIGHT: '#d8d8d8',
