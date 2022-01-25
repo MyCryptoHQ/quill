@@ -1,3 +1,4 @@
+import type { TxHistoryEntry, TxQueueEntry } from '@quill/common';
 import { getQueue, getTxHistory, isHistoryTx } from '@quill/common';
 import { Fragment, useState } from 'react';
 
@@ -8,7 +9,9 @@ import { Pagination } from '../Pagination';
 import { TxHistoryCard } from './TxHistoryCard';
 import { TxQueueCard } from './TxQueueCard';
 
-const ENTRIES_PER_PAGE = 5;
+const PENDING_HEIGHT = 178;
+const HISTORY_HEIGHT = 56;
+const MAX_HEIGHT = PENDING_HEIGHT * 5;
 
 export const TxHistory = () => {
   const [page, setPage] = useState(0);
@@ -21,19 +24,25 @@ export const TxHistory = () => {
     .sort((a, b) => b.actionTakenTimestamp - a.actionTakenTimestamp);
 
   const combinedHistory = [...sortedQueue, ...sortedHistory];
-  const totalPages = Math.ceil(combinedHistory.length / ENTRIES_PER_PAGE);
-  const historyPage = combinedHistory.slice(
-    page * ENTRIES_PER_PAGE,
-    page * ENTRIES_PER_PAGE + ENTRIES_PER_PAGE
-  );
+  const groupedHistory = combinedHistory.reduce<(TxQueueEntry | TxHistoryEntry)[][]>((acc, cur) => {
+    const height = isHistoryTx(cur) ? HISTORY_HEIGHT : PENDING_HEIGHT;
+    const existingPage = acc[acc.length - 1] ?? [];
+    const existingHeight = existingPage.reduce(
+      (sum, tx) => sum + (isHistoryTx(tx) ? HISTORY_HEIGHT : PENDING_HEIGHT),
+      0
+    );
 
-  const handleBack = () => {
-    setPage((page) => page - 1);
-  };
+    if (existingHeight + height <= MAX_HEIGHT) {
+      return [...acc.slice(0, -1), [...existingPage, cur]];
+    }
+    return [...acc, [cur]];
+  }, []);
+  const totalPages = groupedHistory.length;
+  const historyPage = groupedHistory[page];
 
-  const handleNext = () => {
-    setPage((page) => page + 1);
-  };
+  const handleBack = () => setPage((page) => page - 1);
+
+  const handleNext = () => setPage((page) => page + 1);
 
   return (
     <>
