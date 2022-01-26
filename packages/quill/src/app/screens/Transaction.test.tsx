@@ -13,8 +13,10 @@ import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
+import { ThemeProvider } from 'styled-components';
 
 import type { ApplicationState } from '@app/store';
+import { theme } from '@app/theme';
 import {
   fAccount,
   fAccounts,
@@ -30,11 +32,13 @@ const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
 function getComponent(store: EnhancedStore<DeepPartial<ApplicationState>>) {
   return render(
-    <Router>
-      <Provider store={store}>
-        <Transaction />
-      </Provider>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Provider store={store}>
+          <Transaction />
+        </Provider>
+      </Router>
+    </ThemeProvider>
   );
 }
 

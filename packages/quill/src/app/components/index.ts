@@ -6,7 +6,6 @@ export * from './Core';
 export { Box, Flex, Image, Link, ImageProps, BoxProps, FlexProps } from 'rebass/styled-components';
 export { Input, Label, Textarea, Select } from '@rebass/forms/styled-components';
 
-export * from './TxQueue';
 export * from './TxHistory';
 export * from './FromToAccount';
 export * from './Account';

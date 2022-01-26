@@ -1,9 +1,10 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { parse } from '@ethersproject/transactions';
 
-import { fAccounts, fRawTransaction, fSignedTx, fTxRequest } from '../__fixtures__';
-import { JsonRPCMethod } from '../types';
-import { isRawTransaction, makeTx, toTransactionRequest } from './tx';
+import { isHistoryTx, makeQueueTx } from '.';
+import { fAccounts, fRawTransaction, fRequestOrigin, fSignedTx, fTxRequest } from '../__fixtures__';
+import { JsonRPCMethod, TxResult } from '../types';
+import { isRawTransaction, makeHistoryTx, makeTx, toTransactionRequest } from './tx';
 
 describe('makeTx', () => {
   it('extracts tx from json rpc request', () => {
@@ -83,5 +84,17 @@ describe('isRawTransaction', () => {
   it('returns false on valid raw tx', () => {
     expect(isRawTransaction('0x00')).toBe(false);
     expect(isRawTransaction(fSignedTx)).toBe(false);
+  });
+});
+
+describe('isHistoryTx', () => {
+  const request = { origin: fRequestOrigin, request: fTxRequest };
+  it('returns true on history txs', () => {
+    expect(isHistoryTx(makeHistoryTx(makeQueueTx(request), TxResult.APPROVED))).toBe(true);
+    expect(isHistoryTx(makeHistoryTx(makeQueueTx(request), TxResult.DENIED))).toBe(true);
+  });
+
+  it('returns false on queue tx', () => {
+    expect(isHistoryTx(makeQueueTx(request))).toBe(false);
   });
 });

@@ -29,8 +29,14 @@ const mockStore = createMockStore({
     accounts: [fAccount]
   },
   transactions: {
-    queue: [queueTx, { ...queueTx, id: 2 }],
-    history: [historyTx, historyTx]
+    queue: [
+      queueTx,
+      { ...queueTx, id: 2 },
+      { ...queueTx, id: 3 },
+      { ...queueTx, id: 4 },
+      { ...queueTx, id: 5 }
+    ],
+    history: [historyTx, historyTx, historyTx, historyTx, makeHistoryTx(queueTx, TxResult.APPROVED)]
   },
   persistence: {
     rehydratedKeys: []
@@ -55,8 +61,10 @@ describe('Home', () => {
     expect(getAllByText('WAITING ON ACTION', { exact: false })).toBeDefined();
     expect(getAllByText('DENIED', { exact: false })).toBeDefined();
 
-    fireEvent.click(getAllByTestId('select-tx-history')[0]);
     fireEvent.click(getByTestId(`select-tx-${queueTx.id}`));
+
+    fireEvent.click(getByTestId('pagination-next'));
+    fireEvent.click(getAllByTestId('select-tx-history')[0]);
 
     expect(mockStore.getActions()).toContainEqual(selectTransaction(queueTx));
     expect(mockStore.getActions()).toContainEqual(selectTransaction(historyTx));
@@ -85,5 +93,25 @@ describe('Home', () => {
     getComponent(store);
 
     expect(store.getActions()).toContainEqual(push(ROUTE_PATHS.SETUP_ACCOUNT));
+  });
+
+  it('allows user to switch pages', async () => {
+    const { getByTestId, queryAllByTestId } = getComponent();
+
+    expect(queryAllByTestId('pending-tx')).toHaveLength(5);
+    expect(queryAllByTestId('denied-tx')).toHaveLength(0);
+    expect(queryAllByTestId('approved-tx')).toHaveLength(0);
+
+    fireEvent.click(getByTestId('pagination-next'));
+
+    expect(queryAllByTestId('pending-tx')).toHaveLength(0);
+    expect(queryAllByTestId('denied-tx')).toHaveLength(4);
+    expect(queryAllByTestId('approved-tx')).toHaveLength(1);
+
+    fireEvent.click(getByTestId('pagination-back'));
+
+    expect(queryAllByTestId('pending-tx')).toHaveLength(5);
+    expect(queryAllByTestId('denied-tx')).toHaveLength(0);
+    expect(queryAllByTestId('approved-tx')).toHaveLength(0);
   });
 });

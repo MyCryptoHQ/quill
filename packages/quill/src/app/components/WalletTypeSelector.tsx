@@ -33,7 +33,7 @@ const WalletTypeButton = ({
       bg="BG_GREY_MUTED"
       onClick={handleSelect}
       sx={{
-        borderRadius: '3px',
+        borderRadius: 'banner',
         boxShadow:
           '0px 0.61746px 1.85238px rgba(0, 0, 0, 0.1), 0px 0.61746px 0px rgba(0, 0, 0, 0.05), 0px 0px 0px rgba(0, 0, 0, 0.03);',
         border: selected ? '1px solid #007A99' : 'none',

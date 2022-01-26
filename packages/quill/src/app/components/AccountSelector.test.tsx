@@ -2,13 +2,19 @@ import { translateRaw } from '@quill/common';
 import { fireEvent, render } from '@testing-library/react';
 import type { ComponentProps } from 'react';
 import selectEvent from 'react-select-event';
+import { ThemeProvider } from 'styled-components';
 
+import { theme } from '@app/theme';
 import { fAccount, fAccounts } from '@fixtures';
 
 import { AccountSelector } from './AccountSelector';
 
 const getComponent = (props: ComponentProps<typeof AccountSelector>) => {
-  return render(<AccountSelector {...props} />);
+  return render(
+    <ThemeProvider theme={theme}>
+      <AccountSelector {...props} />
+    </ThemeProvider>
+  );
 };
 
 describe('AccountSelector', () => {

@@ -20,17 +20,17 @@ export const FromToAccount = ({
   'nonce'
 >) => (
   <Box variant="horizontal-start" {...props}>
-    <Box mr="1">
+    <Box mr="2" width="100%">
       <Box variant="horizontal-start" color="text.secondary">
         {translateRaw('SENDER')}
         {nonce && <NonceBadge nonce={nonce} />}
       </Box>
-      <Account address={sender.address} label={sender.label} truncate={true} pr="4" />
+      <Account address={sender.address} label={sender.label} truncate={true} />
     </Box>
     {recipient && (
-      <Box ml="1">
+      <Box ml="2" width="100%">
         {translateRaw('RECIPIENT')}
-        <Account address={recipient.address} label={recipient.label} truncate={true} pr="4" />
+        <Account address={recipient.address} label={recipient.label} truncate={true} />
       </Box>
     )}
   </Box>

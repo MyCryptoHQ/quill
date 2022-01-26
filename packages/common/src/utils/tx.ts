@@ -47,6 +47,9 @@ export const makeHistoryTx = (
   actionTakenTimestamp: Date.now()
 });
 
+export const isHistoryTx = (tx: TxHistoryEntry | TxQueueEntry): tx is TxHistoryEntry =>
+  tx.result !== TxResult.WAITING;
+
 export const toTransactionRequest = ({
   r,
   s,

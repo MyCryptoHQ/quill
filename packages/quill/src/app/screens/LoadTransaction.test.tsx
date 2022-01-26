@@ -13,7 +13,9 @@ import { push } from 'connected-react-router';
 import { Provider } from 'react-redux';
 import selectEvent from 'react-select-event';
 import configureStore from 'redux-mock-store';
+import { ThemeProvider } from 'styled-components';
 
+import { theme } from '@app/theme';
 import { fAccounts, fRawTransaction } from '@fixtures';
 import { ROUTE_PATHS } from '@routing';
 import { LoadTransaction } from '@screens/LoadTransaction';
@@ -25,9 +27,11 @@ const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
 const getComponent = (store: EnhancedStore<DeepPartial<ApplicationState>>) => {
   return render(
-    <Provider store={store}>
-      <LoadTransaction />
-    </Provider>
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <LoadTransaction />
+      </Provider>
+    </ThemeProvider>
   );
 };
 

@@ -71,6 +71,9 @@ export const EditableText = ({
             onClick={handleEdit}
             fontSize="3"
             sx={{
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
               borderBottomWidth: '1px',
               borderBottomColor: 'transparent',
               borderBottomStyle: 'solid',

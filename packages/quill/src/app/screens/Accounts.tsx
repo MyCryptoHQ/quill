@@ -33,7 +33,7 @@ const Account = ({ account }: { account: IAccount }) => {
 
   return !isDeleting ? (
     <Box variant="horizontal-start" py="24px">
-      <Blockie address={account.address} width="32px" mr="6px" />
+      <Blockie address={account.address} minWidth="32px" width="32px" mr="6px" />
       <Box>
         <EditableText
           value={account.label}
@@ -55,6 +55,7 @@ const Account = ({ account }: { account: IAccount }) => {
         <Flex variant="horizontal-center">
           <Image
             src={deleteIcon}
+            minWidth="20px"
             width="20px"
             height="20px"
             data-testid={`delete-${account.address}`}
