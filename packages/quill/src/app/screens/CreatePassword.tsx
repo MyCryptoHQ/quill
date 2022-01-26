@@ -49,12 +49,13 @@ const PasswordStrengthComponent = <
   const { error, value } = useListener(form, name);
   const result = zxcvbn((value as unknown) as string);
   const strength = Math.max(result.score - 1, 0);
+  const warning = result.feedback.warning;
 
   return (
     <Box mt="2" {...rest}>
       <PasswordStrength strength={strength} height="6px" />
       <Body fontSize="1" lineHeight="14px" mt="2">
-        {result.feedback.warning ?? error}
+        {warning.length > 0 ? warning : error}
       </Body>
     </Box>
   );
