@@ -37,7 +37,8 @@ export const GenerateAccountVerify = ({ onNext, flowHeader }: IFlowComponentProp
     },
     yupValidator(MnemonicWordsSchema, {
       abortEarly: false
-    })
+    }),
+    true
   );
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
