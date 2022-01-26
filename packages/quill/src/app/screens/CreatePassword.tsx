@@ -41,7 +41,9 @@ export const CreatePassword = () => {
       password: '',
       passwordConfirmation: ''
     },
-    yupValidator(SCHEMA),
+    yupValidator(SCHEMA, {
+      abortEarly: false
+    }),
     true
   );
   const loggingIn = useSelector(getLoggingIn);
