@@ -42,3 +42,4 @@ export * from './CopyableText';
 export * from './TextSelector';
 export * from './Settings';
 export * from './Heading3';
+export * from './FormPasswordStrength';

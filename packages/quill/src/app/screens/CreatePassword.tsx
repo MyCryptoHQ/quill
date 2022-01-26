@@ -1,9 +1,7 @@
-import type { BoxProps } from '@mycrypto/ui';
-import { Body, Button, PasswordStrength, SubHeading } from '@mycrypto/ui';
+import { Body, Button, SubHeading } from '@mycrypto/ui';
 import { createPassword, getLoggingIn, translateRaw } from '@quill/common';
 import type { FormEvent } from 'react';
-import type { DefaultError, DefaultState, FormInputProps } from 'typed-react-form';
-import { useForm, useListener, yupValidator } from 'typed-react-form';
+import { useForm, yupValidator } from 'typed-react-form';
 import { object, ref, string } from 'yup';
 import zxcvbn from 'zxcvbn';
 
@@ -13,6 +11,7 @@ import {
   Flex,
   FormError,
   FormInput,
+  FormPasswordStrength,
   Image,
   Label,
   PanelBottom,
@@ -34,32 +33,6 @@ const SCHEMA = object({
 });
 
 const PW_SCORE_REQUIREMENT = 2;
-
-const PasswordStrengthComponent = <
-  T,
-  Key extends keyof T,
-  Value extends T[Key] | T[Key][keyof T[Key]],
-  State extends DefaultState = DefaultState,
-  Error extends string = DefaultError
->({
-  form,
-  name,
-  ...rest
-}: Omit<Omit<BoxProps, 'form'> & FormInputProps<T, State, Error, Key, Value>, 'as'>) => {
-  const { error, value } = useListener(form, name);
-  const result = zxcvbn((value as unknown) as string);
-  const strength = Math.max(result.score - 1, 0);
-  const warning = result.feedback.warning;
-
-  return (
-    <Box mt="2" {...rest}>
-      <PasswordStrength strength={strength} height="6px" />
-      <Body fontSize="1" lineHeight="14px" mt="2">
-        {warning.length > 0 ? warning : error}
-      </Body>
-    </Box>
-  );
-};
 
 export const CreatePassword = () => {
   const dispatch = useDispatch();
@@ -95,7 +68,7 @@ export const CreatePassword = () => {
           <Box width="100%" mt="3">
             <Label htmlFor="password">{translateRaw('ENTER_PASSWORD')}</Label>
             <FormInput id="password" name="password" type="password" form={form} />
-            <PasswordStrengthComponent form={form} name="password" />
+            <FormPasswordStrength form={form} name="password" />
           </Box>
           <Box width="100%" mt="2" color="BLUE_GREY"></Box>
           <Box width="100%" mt="3">
