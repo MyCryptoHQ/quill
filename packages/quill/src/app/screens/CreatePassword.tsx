@@ -21,7 +21,7 @@ import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config/helpArticles';
 import { useDispatch, useSelector } from '@store';
 import { translate } from '@translations';
 
-const PW_SCORE_REQUIREMENT = 3; // @todo Decide if this should 4?
+const PW_SCORE_REQUIREMENT = 4;
 
 const SCHEMA = object({
   password: string()
