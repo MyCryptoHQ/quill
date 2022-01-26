@@ -1,7 +1,9 @@
+import type { BoxProps } from '@mycrypto/ui';
 import { Body, Button, PasswordStrength, SubHeading } from '@mycrypto/ui';
 import { createPassword, getLoggingIn, translateRaw } from '@quill/common';
-import { FormEvent, useEffect } from 'react';
-import { AnyListener, useForm, yupValidator } from 'typed-react-form';
+import type { FormEvent } from 'react';
+import type { DefaultError, DefaultState, FormInputProps } from 'typed-react-form';
+import { useForm, useListener, yupValidator } from 'typed-react-form';
 import { object, ref, string } from 'yup';
 import zxcvbn from 'zxcvbn';
 
@@ -21,7 +23,11 @@ import { useDispatch, useSelector } from '@store';
 import { translate } from '@translations';
 
 const SCHEMA = object({
-  password: string().required(translateRaw('PASSWORD_EMPTY')),
+  password: string()
+    .required(translateRaw('PASSWORD_EMPTY'))
+    .test('strong-password', translateRaw('PASSWORD_TOO_WEAK'), (value) => {
+      return zxcvbn(value).score >= PW_SCORE_REQUIREMENT;
+    }),
   passwordConfirmation: string()
     .required(translateRaw('PASSWORD_EMPTY'))
     .is([ref('password')], translateRaw('PASSWORDS_NOT_EQUAL'))
@@ -29,33 +35,28 @@ const SCHEMA = object({
 
 const PW_SCORE_REQUIREMENT = 2;
 
-const PasswordStrengthComponent = ({ form }) => {
+const PasswordStrengthComponent = <
+  T,
+  Key extends keyof T,
+  Value extends T[Key] | T[Key][keyof T[Key]],
+  State extends DefaultState = DefaultState,
+  Error extends string = DefaultError
+>({
+  form,
+  name,
+  ...rest
+}: Omit<Omit<BoxProps, 'form'> & FormInputProps<T, State, Error, Key, Value>, 'as'>) => {
+  const { error, value } = useListener(form, name);
+  const result = zxcvbn((value as unknown) as string);
+  const strength = Math.max(result.score - 1, 0);
+
   return (
-    <AnyListener
-      form={form}
-      render={(form) => {
-        const password = form.values.password;
-        const error = form.errorMap.password;
-        const result = zxcvbn(password);
-
-        useEffect(() => {
-          form.setError(
-            'password',
-            result.score < PW_SCORE_REQUIREMENT && 'Password strength too low'
-          );
-        }, [password]);
-
-        console.log(result);
-        return (
-          <>
-            <PasswordStrength strength={result.score} mt="2" height="6px" />
-            <Body fontSize="1" lineHeight="14px" mt="2">
-              {result.feedback.warning ?? error}
-            </Body>
-          </>
-        );
-      }}
-    />
+    <Box mt="2" {...rest}>
+      <PasswordStrength strength={strength} height="6px" />
+      <Body fontSize="1" lineHeight="14px" mt="2">
+        {result.feedback.warning ?? error}
+      </Body>
+    </Box>
   );
 };
 
@@ -93,7 +94,7 @@ export const CreatePassword = () => {
           <Box width="100%" mt="3">
             <Label htmlFor="password">{translateRaw('ENTER_PASSWORD')}</Label>
             <FormInput id="password" name="password" type="password" form={form} />
-            <PasswordStrengthComponent form={form} />
+            <PasswordStrengthComponent form={form} name="password" />
           </Box>
           <Box width="100%" mt="2" color="BLUE_GREY"></Box>
           <Box width="100%" mt="3">
