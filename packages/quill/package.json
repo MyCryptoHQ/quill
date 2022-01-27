@@ -39,7 +39,6 @@
     "@rebass/forms": "4.0.6",
     "@reduxjs/toolkit": "1.6.1",
     "bignumber.js": "9.0.1",
-    "check-password-strength": "2.0.2",
     "connected-react-router": "6.9.1",
     "date-fns": "2.18.0",
     "eciesjs": "0.3.11",
