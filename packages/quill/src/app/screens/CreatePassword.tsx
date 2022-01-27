@@ -72,7 +72,6 @@ export const CreatePassword = () => {
             <FormInput id="password" name="password" type="password" form={form} />
             <FormPasswordStrength form={form} name="password" />
           </Box>
-          <Box width="100%" mt="2" color="BLUE_GREY"></Box>
           <Box width="100%" mt="3">
             <Label htmlFor="passwordConfirmation">{translateRaw('CONFIRM_PASSWORD')}</Label>
             <FormInput

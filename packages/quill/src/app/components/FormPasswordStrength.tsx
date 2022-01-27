@@ -1,5 +1,6 @@
 import type { BoxProps } from '@mycrypto/ui';
 import { Body, Box, PasswordStrength } from '@mycrypto/ui';
+import { useMemo } from 'react';
 import type { DefaultError, DefaultState, FormInputProps } from 'typed-react-form';
 import { useListener } from 'typed-react-form';
 import zxcvbn from 'zxcvbn';
@@ -16,7 +17,9 @@ export const FormPasswordStrength = <
   ...rest
 }: Omit<Omit<BoxProps, 'form'> & FormInputProps<T, State, Error, Key, Value>, 'as'>) => {
   const { error, value } = useListener(form, name);
-  const result = zxcvbn((value as unknown) as string);
+
+  const result = useMemo(() => zxcvbn((value as unknown) as string), [value]);
+
   const strength = Math.max(result.score - 1, 0);
   const warning = result.feedback.warning;
 
