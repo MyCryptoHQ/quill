@@ -109,7 +109,7 @@ export const About: FunctionComponent = () => {
       </SubHeading>
       <Box mb="1">
         {MORE_LINKS.map(({ text, url, icon }) => (
-          <LinkApp href={url} isExternal={true} key={url}>
+          <LinkApp href={url} isExternal={true} key={url} display="block">
             <IconButton
               icon={icon}
               width="100%"
