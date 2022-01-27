@@ -3141,9 +3141,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mycrypto/ui@npm:1.10.4":
-  version: 1.10.4
-  resolution: "@mycrypto/ui@npm:1.10.4"
+"@mycrypto/ui@npm:1.11.1":
+  version: 1.11.1
+  resolution: "@mycrypto/ui@npm:1.11.1"
   dependencies:
     "@rebass/forms": 4.0.6
     "@types/rebass": 4.0.8
@@ -3159,7 +3159,7 @@ __metadata:
     react-dom: ^17.0.0
     react-is: ^17.0.0
     styled-components: ^5.2.3
-  checksum: 684ba88c9f01ba39f747d20f80aee36ffaedaf26256ff5a24130f8cf36e9ba9deda090c4f6040da39658c2005f1767b580213ba8c0cad684dbcdc4e1d816310a
+  checksum: bbc8dd5ee611f7729da90a0d6eb6a00143fc86b71fda5f651b2d29f97c516cd50889f5d6507634478e88e4207a497928e14e679a511ebd5203006d4a67ba755d
   languageName: node
   linkType: hard
 
@@ -3533,7 +3533,7 @@ __metadata:
     "@fontsource/roboto-mono": 4.2.2
     "@hot-loader/react-dom": 17.0.1
     "@marshallofsound/webpack-asset-relocator-loader": 0.5.0
-    "@mycrypto/ui": 1.10.4
+    "@mycrypto/ui": 1.11.1
     "@mycrypto/wallets": 1.3.5
     "@quill/common": "workspace:packages/common"
     "@rebass/forms": 4.0.6
@@ -3559,10 +3559,10 @@ __metadata:
     "@types/uuid": 3.4.0
     "@types/webpack-env": 1.15.3
     "@types/ws": 7.2.6
+    "@types/zxcvbn": 4.4.1
     babel-loader: 8.2.2
     babel-plugin-styled-components: 1.12.0
     bignumber.js: 9.0.1
-    check-password-strength: 2.0.2
     connected-react-router: 6.9.1
     copy-webpack-plugin: 6.1.1
     csp-html-webpack-plugin: 4.0.0
@@ -3623,6 +3623,7 @@ __metadata:
     webpack-merge: 5.1.4
     ws: 7.4.6
     yup: 0.32.9
+    zxcvbn: 4.4.2
   languageName: unknown
   linkType: soft
 
@@ -4768,6 +4769,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: de89460f6bc272f9169013f1b8add1b46e4f0740b74700d6b3422078a2f3b38de7993c24e4752312f549406898451f4de8598b4168d2a4a6f546fa9bdc09c959
+  languageName: node
+  linkType: hard
+
+"@types/zxcvbn@npm:4.4.1":
+  version: 4.4.1
+  resolution: "@types/zxcvbn@npm:4.4.1"
+  checksum: cf045fcc840d404cff48cd8aced686bd227e48b4174a0a538e6f2b3f338f9c3671665fa0cd440599f7b9e3be264b3476bbda29932af47558f92b2e23dacdf63e
   languageName: node
   linkType: hard
 
@@ -6868,13 +6876,6 @@ __metadata:
   version: 0.7.0
   resolution: "chardet@npm:0.7.0"
   checksum: b71a4ee4648489291af86418b96247824a8c1ee4f4f95d6268967fb40e9fbf70500e72fb737d5186a23cf98c8a02b91d68cb2f426d7428e92883af9d31a037ec
-  languageName: node
-  linkType: hard
-
-"check-password-strength@npm:2.0.2":
-  version: 2.0.2
-  resolution: "check-password-strength@npm:2.0.2"
-  checksum: 79641f215ec53b4b8b01a647e578ab97990615eecedd2227e0219bb257f9aa61a4c90fd2523e117973d41db1b5f3531ffafa0f8813c8f64b7dc7b2774f679f9c
   languageName: node
   linkType: hard
 
@@ -20237,5 +20238,12 @@ typescript@4.3.2:
   version: 1.0.5
   resolution: "zwitch@npm:1.0.5"
   checksum: 5005166809cfe1f87a75aa8186a606414482c9c7fccff523a621a94ea4b22c7e60599c0cf47669df9946c4a1dea342ebf5d512cbeeacd567814382fee122a3a0
+  languageName: node
+  linkType: hard
+
+"zxcvbn@npm:4.4.2":
+  version: 4.4.2
+  resolution: "zxcvbn@npm:4.4.2"
+  checksum: 007bc474780b85e065faa60dff5ff934665dd5efbedf317bf2c42b63d527fcba641879cde1f3c040ceb147a59ba489aa267c64206857fe923032cab5b54e6117
   languageName: node
   linkType: hard
