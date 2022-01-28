@@ -1,7 +1,8 @@
 import { removeAccount, setNavigationBack, translateRaw } from '@quill/common';
 import type { DeepPartial } from '@quill/common';
 import type { EnhancedStore } from '@reduxjs/toolkit';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
+import { push } from 'connected-react-router';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
@@ -39,9 +40,10 @@ describe('Accounts', () => {
     expect(getByText(fAccount.address).textContent).toBeDefined();
   });
 
-  it('renders empty state', async () => {
-    const { getByText } = getComponent(createMockStore({ accounts: { accounts: [] } }));
-    expect(getByText(translateRaw('ACCOUNTS_EMPTY_HEADER')).textContent).toBeDefined();
+  it('redirects when no accounts available', async () => {
+    const store = createMockStore({ accounts: { accounts: [] } });
+    getComponent(store);
+    await waitFor(() => expect(store.getActions()).toContainEqual(push(ROUTE_PATHS.SETUP_ACCOUNT)));
   });
 
   it('can delete an account', async () => {

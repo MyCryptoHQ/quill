@@ -1,12 +1,12 @@
-import { Blockie, Body, Button, Copyable, SubHeading } from '@mycrypto/ui';
+import { Blockie, Body, Copyable, SubHeading } from '@mycrypto/ui';
 import type { IAccount } from '@quill/common';
 import { getAccounts, removeAccount, translateRaw, updateAccount } from '@quill/common';
-import { Fragment, useState } from 'react';
+import { push } from 'connected-react-router';
+import { Fragment, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useDispatch } from '@app/store';
 import deleteIcon from '@assets/icons/circle-delete.svg';
-import wallet from '@assets/icons/sad-wallet.svg';
 import {
   Box,
   Container,
@@ -15,9 +15,7 @@ import {
   EditableText,
   Flex,
   Image,
-  Link,
-  LinkApp,
-  PanelBottom
+  Link
 } from '@components';
 import { useNavigation } from '@hooks';
 import { ROUTE_PATHS } from '@routing';
@@ -76,35 +74,16 @@ const Account = ({ account }: { account: IAccount }) => {
 };
 
 export const Accounts = () => {
+  const dispatch = useDispatch();
   const accounts = useSelector(getAccounts);
 
   useNavigation(ROUTE_PATHS.SETTINGS);
 
-  if (accounts.length === 0) {
-    return (
-      <>
-        <Container pt="4">
-          <Box sx={{ textAlign: 'center' }}>
-            <Image alt="Wallet" src={wallet} />
-          </Box>
-          <Box maxWidth="80%" mx="auto" sx={{ textAlign: 'center' }}>
-            <SubHeading mt="3" mb="2">
-              {translateRaw('ACCOUNTS_EMPTY_HEADER')}
-            </SubHeading>
-            <Body variant="muted">{translateRaw('ACCOUNTS_EMPTY_BODY')}</Body>
-          </Box>
-        </Container>
-        <PanelBottom variant="clear">
-          <LinkApp href={ROUTE_PATHS.GENERATE_ACCOUNT}>
-            <Button mb="3">{translateRaw('GENERATE_ACCOUNT')}</Button>
-          </LinkApp>
-          <LinkApp href={ROUTE_PATHS.ADD_ACCOUNT}>
-            <Button variant="inverted">{translateRaw('ADD_ACCOUNT')}</Button>
-          </LinkApp>
-        </PanelBottom>
-      </>
-    );
-  }
+  useEffect(() => {
+    if (accounts.length === 0) {
+      dispatch(push(ROUTE_PATHS.SETUP_ACCOUNT));
+    }
+  });
 
   return (
     <Container>
