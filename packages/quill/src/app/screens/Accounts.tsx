@@ -83,7 +83,7 @@ export const Accounts = () => {
     if (accounts.length === 0) {
       dispatch(push(ROUTE_PATHS.SETUP_ACCOUNT));
     }
-  });
+  }, [accounts.length]);
 
   return (
     <Container>
