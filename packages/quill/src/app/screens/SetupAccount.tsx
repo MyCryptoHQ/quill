@@ -1,20 +1,22 @@
-import { Body, Button, SubHeading } from '@mycrypto/ui';
+import { Body, Box, Button, SubHeading } from '@mycrypto/ui';
 import { translateRaw } from '@quill/common';
 
-import wallet from '@app/assets/icons/wallet.svg';
-import { Box, Container, Image, LinkApp, PanelBottom } from '@components';
+import wallet from '@app/assets/icons/home.svg';
+import { Container, Image, LinkApp, PanelBottom } from '@components';
 import { ROUTE_PATHS } from '@routing';
 
 export const SetupAccount = () => (
   <>
     <Container pt="4">
       <Box sx={{ textAlign: 'center' }}>
-        <Image alt="Wallet" src={wallet} width="100px" height="100px" />
+        <Image alt="Wallet" src={wallet} />
       </Box>
-      <SubHeading mt="4" mb="2" textAlign="center">
-        {translateRaw('SETUP_ACCOUNT_HEADER')}
-      </SubHeading>
-      <Body>{translateRaw('SETUP_ACCOUNT_DESCRIPTION')}</Body>
+      <Box maxWidth="80%" mx="auto" sx={{ textAlign: 'center' }}>
+        <SubHeading mt="3" mb="2">
+          {translateRaw('SETUP_ACCOUNT_HEADER')}
+        </SubHeading>
+        <Body variant="muted">{translateRaw('SETUP_ACCOUNT_DESCRIPTION')}</Body>
+      </Box>
     </Container>
     <PanelBottom variant="clear">
       <LinkApp href={ROUTE_PATHS.GENERATE_ACCOUNT}>
