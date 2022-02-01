@@ -5,7 +5,7 @@ import type { DefaultState } from 'typed-react-form';
 import { useForm, yupValidator } from 'typed-react-form';
 import { object, string } from 'yup';
 
-import { Box, FormError, FormInput, FormTextArea, Image } from '@app/components';
+import { Box, FormError, FormInput, Image, MnemonicInput } from '@app/components';
 import warning from '@assets/icons/circle-warning.svg';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config';
 import { translate } from '@translations';
@@ -47,7 +47,7 @@ export const MnemonicForm = ({
   return (
     <form onSubmit={handleSubmit} id="mnemonic-phrase-form">
       <Box>
-        <FormTextArea
+        <MnemonicInput
           data-testid="mnemonic-input"
           name="mnemonic"
           id="mnemonic"
@@ -62,7 +62,7 @@ export const MnemonicForm = ({
             {translateRaw('MNEMONIC_PASSWORD')}
             <Tooltip tooltip={translateRaw('SECRET_RECOVERY_PASSPHRASE_TOOLTIP')} ml="1" />
             <FormInput
-              type="text"
+              type="password"
               id="password"
               name="password"
               form={form}

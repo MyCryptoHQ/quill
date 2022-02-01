@@ -43,3 +43,5 @@ export * from './TextSelector';
 export * from './Settings';
 export * from './Heading3';
 export * from './FormPasswordStrength';
+export * from './MnemonicInput';
+export * from './PrivateKeyInput';
