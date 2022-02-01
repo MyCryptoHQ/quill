@@ -54,7 +54,7 @@ export const KeystoreForm = ({
               name="password"
               id="password"
               form={form}
-              type="text"
+              type="password"
               placeholder={translateRaw('KEYSTORE_PASSWORD_PLACEHOLDER')}
               mt="2"
             />

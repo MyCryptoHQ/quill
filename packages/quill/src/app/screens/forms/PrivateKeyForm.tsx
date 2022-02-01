@@ -4,7 +4,7 @@ import type { FormEvent, ReactNode } from 'react';
 import { useForm, yupValidator } from 'typed-react-form';
 import { object, string } from 'yup';
 
-import { Box, FormError, FormInput, Image } from '@app/components';
+import { Box, FormError, Image, PrivateKeyInput } from '@app/components';
 import warning from '@assets/icons/circle-warning.svg';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config';
 import { translate } from '@translations';
@@ -42,8 +42,7 @@ export const PrivateKeyForm = ({
 
   return (
     <form onSubmit={handleSubmit} id="private-key-form">
-      <FormInput
-        type="text"
+      <PrivateKeyInput
         id="privateKey"
         name="privateKey"
         form={form}

@@ -68,6 +68,22 @@ describe('AddAccountMnemonic', () => {
     );
   });
 
+  it('can toggle to show mnemonic', async () => {
+    const { getByDisplayValue, getByTestId } = getComponent();
+
+    const mnemonicInput = getByTestId('mnemonic-input');
+    expect(mnemonicInput).toBeDefined();
+    fireEvent.change(mnemonicInput, { target: { value: fMnemonicPhrase } });
+
+    expect(getByDisplayValue(fMnemonicPhrase).getAttribute('type')).toBe('password');
+
+    const toggle = getByTestId('mnemonic-toggle');
+    expect(toggle).toBeDefined();
+    await act(() => fireEvent.click(toggle));
+
+    expect(getByDisplayValue(fMnemonicPhrase).getAttribute('type')).toBeNull();
+  });
+
   it('shows the fetched addresses', async () => {
     const mockStore = createMockStore({
       accounts: {
