@@ -27,7 +27,6 @@ export const PrivateKeyInput = <
       <FormInput
         type={hidden ? 'password' : 'text'}
         {...props}
-        py="1"
         width="100%"
         pr="2rem"
         sx={{ textAlign: 'right' }}

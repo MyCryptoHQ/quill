@@ -29,14 +29,13 @@ export const MnemonicInput = <
         <FormInput
           {...props}
           type="password"
-          py="1"
           width="100%"
           pr={'2rem'}
           sx={{ textAlign: 'right' }}
         />
       ) : (
         // @ts-expect-error Props don't match up 100%
-        <FormTextArea {...props} py="1" width="100%" pr={'2rem'} sx={{ textAlign: 'right' }} />
+        <FormTextArea {...props} width="100%" pr={'2rem'} sx={{ textAlign: 'right' }} />
       )}
       <Image src={hidden ? show : hide} ml="-2rem" sx={{ zIndex: 2 }} onClick={handleToggle} />
     </Box>
