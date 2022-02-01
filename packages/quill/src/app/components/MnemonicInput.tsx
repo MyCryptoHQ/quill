@@ -31,7 +31,13 @@ export const MnemonicInput = <
         // @ts-expect-error Props don't match up 100%
         <FormTextArea {...props} width="100%" pr="2rem" style={{ resize: 'none' }} />
       )}
-      <Image src={hidden ? show : hide} ml="-2rem" sx={{ zIndex: 2 }} onClick={handleToggle} />
+      <Image
+        data-testid="mnemonic-toggle"
+        src={hidden ? show : hide}
+        ml="-2rem"
+        sx={{ zIndex: 2 }}
+        onClick={handleToggle}
+      />
     </Box>
   );
 };
