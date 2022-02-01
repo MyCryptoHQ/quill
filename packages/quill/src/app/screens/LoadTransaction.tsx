@@ -96,7 +96,7 @@ export const LoadTransaction = () => {
               id="raw-transaction"
               name="transaction"
               placeholder={translateRaw('RAW_TRANSACTION_PLACEHOLDER')}
-              sx={{ resize: 'vertical' }}
+              style={{ resize: 'vertical' }}
             />
             <FormError name="transaction" form={form} />
           </Box>

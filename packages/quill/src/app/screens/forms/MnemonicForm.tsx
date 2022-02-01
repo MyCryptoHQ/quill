@@ -53,7 +53,6 @@ export const MnemonicForm = ({
           id="mnemonic"
           form={form}
           placeholder={translateRaw('MNEMONIC_PHRASE_PLACEHOLDER')}
-          sx={{ resize: 'none', height: '140px' }}
           my="2"
         />
         <FormError name="mnemonic" form={form} />

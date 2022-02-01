@@ -26,16 +26,10 @@ export const MnemonicInput = <
   return (
     <Box variant="horizontal-start" width="100%">
       {hidden ? (
-        <FormInput
-          {...props}
-          type="password"
-          width="100%"
-          pr={'2rem'}
-          sx={{ textAlign: 'right' }}
-        />
+        <FormInput {...props} type="password" width="100%" pr="2rem" />
       ) : (
         // @ts-expect-error Props don't match up 100%
-        <FormTextArea {...props} width="100%" pr={'2rem'} sx={{ textAlign: 'right' }} />
+        <FormTextArea {...props} width="100%" pr="2rem" style={{ resize: 'none' }} />
       )}
       <Image src={hidden ? show : hide} ml="-2rem" sx={{ zIndex: 2 }} onClick={handleToggle} />
     </Box>

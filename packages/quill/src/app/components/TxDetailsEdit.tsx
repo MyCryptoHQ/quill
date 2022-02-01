@@ -143,7 +143,7 @@ export const TxDetailsEdit = ({ form }: { form: FormState<EditTxType> }) => {
         form={form}
       />
       <BlockRow label={translateRaw('DATA')} hideDivider={true}>
-        <FormTextArea id="data" name="data" form={form} />
+        <FormTextArea id="data" name="data" form={form} style={{ resize: 'vertical' }} />
       </BlockRow>
       {tx.type && tx.type > 0 && <Row label={translateRaw('TX_TYPE')} value={tx.type} />}
     </>

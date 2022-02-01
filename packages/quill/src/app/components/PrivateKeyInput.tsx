@@ -24,13 +24,7 @@ export const PrivateKeyInput = <
 
   return (
     <Box variant="horizontal-start" width="100%">
-      <FormInput
-        type={hidden ? 'password' : 'text'}
-        {...props}
-        width="100%"
-        pr="2rem"
-        sx={{ textAlign: 'right' }}
-      />
+      <FormInput type={hidden ? 'password' : 'text'} {...props} width="100%" pr="2rem" />
       <Image src={hidden ? show : hide} ml="-2rem" sx={{ zIndex: 2 }} onClick={handleToggle} />
     </Box>
   );
