@@ -152,7 +152,7 @@
     "ALLOW_THIS_SITE": "Allow this site to:",
     "PERMISSION_LIST_1": "View the addresses of your accounts (required)",
     "ACKNOWLEDGE_AND_CONTINUE": "Acknowledge and Continue",
-    "CONTINUE_ADD_ACCOUNT": "My Phrase is Stored Safely, Add Account",
+    "CONTINUE_ADD_ACCOUNT": "My $type is Stored Safely, Add Account",
     "ADD_ACCOUNT_SECURITY_TITLE": "Addressing Security for Quill",
     "ADD_ACCOUNT_SECURITY_DESCRIPTION_1": "Storing an account within this application will **ONLY** store the private key for that respective account.",
     "ADD_ACCOUNT_SECURITY_DESCRIPTION_2_PART_1": "If you lose your private key or secret recovery phrase for any account,",
@@ -257,6 +257,7 @@
     "PENDING": "Pending",
     "DENIED": "Denied",
     "APPROVED": "Approved",
-    "PAGINATION": "Page $current of $total"
+    "PAGINATION": "Page $current of $total",
+    "PHRASE": "Phrase"
   }
 }

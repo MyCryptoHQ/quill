@@ -96,7 +96,9 @@ describe('AddAccountBackup', () => {
     });
     const { getByText, getByTestId } = getComponent(store);
 
-    const button = getByText(translateRaw('CONTINUE_ADD_ACCOUNT'));
+    const button = getByText(
+      translateRaw('CONTINUE_ADD_ACCOUNT', { $type: translateRaw('PRIVATE_KEY') })
+    );
     fireEvent.click(button);
 
     expect(store.getActions()).toContainEqual(addSavedAccounts(true));
