@@ -6,7 +6,7 @@ import { Box } from '@components';
 export const Wrapper = forwardRef(({ children, ...props }: BoxProps, ref) => (
   <Box
     ref={ref}
-    overflowY="scroll"
+    overflowY="auto"
     flex="1"
     backgroundColor="DEFAULT_BACKGROUND"
     data-testid="scroll-wrapper"
