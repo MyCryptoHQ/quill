@@ -30,6 +30,8 @@ export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
     }
   }, [paperWallet.current]);
 
+  const walletType = accounts[0].walletType;
+
   return (
     <>
       <ScrollableContainer>
@@ -38,18 +40,17 @@ export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
           <PaperWallet
             ref={paperWallet}
             address={accounts[0].address}
-            type={accounts[0].walletType}
+            type={walletType}
             secret={secret}
             derivationPath={
-              accounts[0].walletType === WalletType.MNEMONIC &&
-              getFullPath(accounts[0].path, accounts[0].index)
+              walletType === WalletType.MNEMONIC && getFullPath(accounts[0].path, accounts[0].index)
             }
           />
         </Box>
         <SubHeading my="1" textAlign="center">
-          {translateRaw('BACKUP_ACCOUNT', { $wallet: translateRaw(accounts[0].walletType) })}
+          {translateRaw('BACKUP_ACCOUNT', { $wallet: translateRaw(walletType) })}
         </SubHeading>
-        {accounts[0].walletType === WalletType.MNEMONIC ? (
+        {walletType === WalletType.MNEMONIC ? (
           <Body mb="2">
             {translate('BACKUP_MNEMONIC_PHRASE', {
               $link: getKBHelpArticle(KB_HELP_ARTICLE.HOW_TO_BACKUP)
@@ -92,7 +93,9 @@ export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
           <Button mb="2">{translateRaw('PRINT_PAPER_WALLET')}</Button>
         </Link>
         <Button mb="2" variant="inverted" onClick={handleAdd}>
-          {translateRaw('CONTINUE_ADD_ACCOUNT')}
+          {translateRaw('CONTINUE_ADD_ACCOUNT', {
+            $type: translateRaw(walletType === WalletType.MNEMONIC ? 'PHRASE' : walletType)
+          })}
         </Button>
         <Box pt="2" variant="horizontal-start">
           <Checkbox checked={persistent} onChange={handleToggle} data-testid="toggle-persistence" />
