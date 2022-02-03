@@ -14,15 +14,20 @@ import { translate } from '@translations';
 
 interface BlockProps {
   title?: string;
+  backgroundColor?: string;
 }
 
-const Block = ({ title, children }: PropsWithChildren<BlockProps>) => (
+const Block = ({
+  title,
+  children,
+  backgroundColor = 'border.dark'
+}: PropsWithChildren<BlockProps>) => (
   <Flex
     variant="vertical-start"
     width="100%"
     height="100%"
-    backgroundColor="border.dark"
-    sx={{ border: '5px solid', borderColor: 'border.dark', borderRadius: '8px' }}
+    backgroundColor={backgroundColor}
+    sx={{ border: '5px solid', borderColor: backgroundColor, borderRadius: '8px' }}
   >
     {title && (
       <Box pt="9px" pb="14px" width="100%">
@@ -47,7 +52,6 @@ const NotesBlock = ({ title, children }: PropsWithChildren<BlockProps>) => (
     variant="vertical-start"
     width="100%"
     height="100%"
-    backgroundColor="BG_GREY_MUTED"
     sx={{ border: '5px solid', borderColor: 'border.dark', borderRadius: '8px' }}
   >
     {title && (
@@ -121,6 +125,7 @@ export const PaperWallet = forwardRef(
     >
       <GridBox inverted={true}>
         <Block
+          backgroundColor="text.alert"
           title={
             type === WalletType.MNEMONIC
               ? translateRaw('MNEMONIC_PHRASE')
@@ -128,17 +133,17 @@ export const PaperWallet = forwardRef(
           }
         >
           <Flex variant="vertical-start" justifyContent="space-between" height="100%">
-            <Box>
+            <Box mt="2">
               <Box sx={{ lineHeight: '0' }}>
                 <QR size={120} data={secret} />
               </Box>
-              <Body fontSize="0" lineHeight="12px" sx={{ wordBreak: 'break-word' }}>
+              <Body mt="2" fontSize="0" lineHeight="12px" sx={{ wordBreak: 'break-word' }}>
                 {secret}
               </Body>
             </Box>
             <Flex variant="horizontal-center" width="100%">
               <Image src={alertRed} alt="Share" height="12px" mr="2" />
-              <Body fontSize="0" color="text.alert">
+              <Body fontSize="2" color="text.alert">
                 {translateRaw('KEEP_THIS_SAFE')}
               </Body>
             </Flex>
@@ -183,11 +188,13 @@ export const PaperWallet = forwardRef(
       <GridBox>
         <Block title={translateRaw('PUBLIC_ADDRESS')}>
           <Flex variant="vertical-start" justifyContent="space-between" height="100%">
-            <Box flex="1">
+            <Box mt="2" flex="1">
               <Box sx={{ lineHeight: '0' }}>
                 <QR size={120} data={address} />
               </Box>
-              <Body fontSize="0">{address}</Body>
+              <Body mt="2" fontSize="0">
+                {address}
+              </Body>
             </Box>
             <Flex justifyContent="space-between" width="100%">
               <Image src={email} alt="Share" />
