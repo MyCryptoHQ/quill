@@ -45,7 +45,7 @@ export const KeystoreForm = ({
   return (
     <form onSubmit={handleSubmit} id="keystore-form">
       <Box>
-        <FormFileInput name="keystore" form={form} my="2" />
+        <FormFileInput name="keystore" form={form} mb="2" />
         <FormError name="keystore" form={form} />
         <Box mt="2">
           <label>

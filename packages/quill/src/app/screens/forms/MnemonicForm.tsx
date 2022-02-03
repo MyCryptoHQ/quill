@@ -53,7 +53,7 @@ export const MnemonicForm = ({
           id="mnemonic"
           form={form}
           placeholder={translateRaw('MNEMONIC_PHRASE_PLACEHOLDER')}
-          my="2"
+          mb="2"
         />
         <FormError name="mnemonic" form={form} />
         <Box mt="1">

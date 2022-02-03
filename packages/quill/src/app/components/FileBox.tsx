@@ -48,7 +48,7 @@ export const FileBox = ({
       onDrop={handleDrop}
     >
       <Box
-        p="60px"
+        p="48px"
         sx={{
           borderWidth: '2px',
           borderStyle: 'dashed',

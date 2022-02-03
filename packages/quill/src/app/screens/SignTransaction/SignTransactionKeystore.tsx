@@ -50,6 +50,7 @@ const SignTransactionKeystoreForm = ({
           bg="none"
           p="0"
           addressColor="GREY_TEXT"
+          mb="2"
         />
         <KeystoreForm form={form} onSubmit={handleSubmit} />
       </ScrollableContainer>
