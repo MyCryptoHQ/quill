@@ -170,7 +170,7 @@ const AddAccountMnemonicForm = ({
           </Box>
         )}
       </ScrollableContainer>
-      <PanelBottom>
+      <PanelBottom variant={addresses.length === 0 ? 'clear' : undefined}>
         {addresses.length === 0 ? (
           <Button type="submit" form="mnemonic-phrase-form">
             {translateRaw('NEXT')}

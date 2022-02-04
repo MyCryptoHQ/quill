@@ -85,7 +85,7 @@ export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
           </Panel>
         ))}
       </ScrollableContainer>
-      <PanelBottom>
+      <PanelBottom variant={accounts.length === 1 ? 'clear' : undefined}>
         <Link
           data-testid="download-link"
           href={paperWalletImage}

@@ -47,14 +47,15 @@ export const MnemonicForm = ({
   return (
     <form onSubmit={handleSubmit} id="mnemonic-phrase-form">
       <Box>
-        <MnemonicInput
-          data-testid="mnemonic-input"
-          name="mnemonic"
-          id="mnemonic"
-          form={form}
-          placeholder={translateRaw('MNEMONIC_PHRASE_PLACEHOLDER')}
-          mb="2"
-        />
+        <Box mb="2">
+          <MnemonicInput
+            data-testid="mnemonic-input"
+            name="mnemonic"
+            id="mnemonic"
+            form={form}
+            placeholder={translateRaw('MNEMONIC_PHRASE_PLACEHOLDER')}
+          />
+        </Box>
         <FormError name="mnemonic" form={form} />
         <Box mt="1">
           <label>

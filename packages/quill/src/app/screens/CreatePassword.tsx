@@ -92,7 +92,7 @@ export const CreatePassword = () => {
           </Flex>
         </form>
       </ScrollableContainer>
-      <PanelBottom>
+      <PanelBottom variant="clear">
         <Button type="submit" form="create-password-form" loading={loggingIn}>
           {translateRaw('CREATE_PASSWORD')}
         </Button>
