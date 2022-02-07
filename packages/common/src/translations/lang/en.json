@@ -74,6 +74,8 @@
     "ADD_ACCOUNT_END_HEADER": "You've Successfully Imported Account(s) into Quill!",
     "ADD_ACCOUNT_END_BODY_1": "You have successfully added your address(es) to Quill. Next, you must add this/these addresses to your dashboard at app.mycrypto.com.",
     "ADD_ACCOUNT_END_BODY_2": "Return to the browser window where you launched Quill to complete this next step.",
+    "GENERATE_ACCOUNT_END_HEADER": "You've Successfully Created an Account in Quill!",
+    "GENERATE_ACCOUNT_END_BODY_1": "You have successfully created an address in Quill. Next, you must add this address to your dashboard at app.mycrypto.com.",
     "BACK_TO_HOME": "Go to Quill Home",
     "ADD_ANOTHER_ACCOUNT": "Add Another Account",
     "PRIVATE_KEY_EMPTY": "Please enter a private key",

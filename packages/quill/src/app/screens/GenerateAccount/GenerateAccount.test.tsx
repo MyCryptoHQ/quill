@@ -68,7 +68,7 @@ describe('GenerateAccount', () => {
   });
 
   it('navigates to home when done', () => {
-    const store = createMockStore({ flow: 5 });
+    const store = createMockStore({ flow: 6 });
     getComponent(store);
 
     expect(store.getActions()).toContainEqual(push(ROUTE_PATHS.HOME));
