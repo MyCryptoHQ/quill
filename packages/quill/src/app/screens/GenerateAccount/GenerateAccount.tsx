@@ -8,6 +8,7 @@ import { ROUTE_PATHS } from '@routing';
 import { useDispatch } from '@store';
 
 import { GenerateAccountAddress } from './GenerateAccountAddress';
+import { GenerateAccountEnd } from './GenerateAccountEnd';
 import { GenerateAccountMnemonic } from './GenerateAccountMnemonic';
 import { GenerateAccountPrint } from './GenerateAccountPrint';
 import { GenerateAccountStart } from './GenerateAccountStart';
@@ -28,6 +29,9 @@ const components: IFlowComponent[] = [
   },
   {
     component: GenerateAccountPrint
+  },
+  {
+    component: GenerateAccountEnd
   }
 ];
 
