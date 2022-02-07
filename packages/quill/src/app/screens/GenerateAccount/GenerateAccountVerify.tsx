@@ -61,7 +61,7 @@ export const GenerateAccountVerify = ({ onNext, flowHeader }: IFlowComponentProp
           <Body>{translate('VERIFY_MNEMONIC_PHRASE_DESCRIPTION')}</Body>
         </Box>
         <form onSubmit={handleSubmit} id="mnemonic-phrase-verify-form">
-          <Box mt="3">
+          <Box mt="2">
             <Label htmlFor="firstWord">
               <Body>
                 {translate('WHAT_IS_NTH_WORD', { $nth: translateRaw(`ORDINAL_${first + 1}`) })}
@@ -70,7 +70,7 @@ export const GenerateAccountVerify = ({ onNext, flowHeader }: IFlowComponentProp
             <FormInput id="firstWord" name="firstWord" data-testid="firstWord" form={form} />
             <FormError name="firstWord" form={form} />
           </Box>
-          <Box mt="3">
+          <Box mt="2">
             <Label htmlFor="secondWord">
               <Body>
                 {translate('WHAT_IS_NTH_WORD', { $nth: translateRaw(`ORDINAL_${second + 1}`) })}
@@ -79,7 +79,7 @@ export const GenerateAccountVerify = ({ onNext, flowHeader }: IFlowComponentProp
             <FormInput id="secondWord" name="secondWord" data-testid="secondWord" form={form} />
             <FormError name="secondWord" form={form} />
           </Box>
-          <Box mt="3">
+          <Box mt="2">
             <Label htmlFor="thirdWord">
               <Body>
                 {translate('WHAT_IS_NTH_WORD', { $nth: translateRaw(`ORDINAL_${third + 1}`) })}
