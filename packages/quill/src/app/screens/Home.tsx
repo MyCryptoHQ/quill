@@ -11,7 +11,6 @@ import { useEffect } from 'react';
 
 import {
   Box,
-  Container,
   Heading3,
   Image,
   LinkApp,
@@ -38,20 +37,25 @@ export const Home = () => {
     }
   }, [isPersisted]);
 
-  if (queue.length === 0 && txHistory.length === 0) {
-    return (
-      <>
-        <Container pt="4">
-          <Box sx={{ textAlign: 'center' }}>
-            <Image alt="Wallet" src={wallet} />
-          </Box>
-          <Box maxWidth="80%" mx="auto" sx={{ textAlign: 'center' }}>
+  return (
+    <>
+      <ScrollableContainer>
+        <Box sx={{ textAlign: 'center' }}>
+          <Image alt="Wallet" src={wallet} />
+        </Box>
+        <TxHistoryStats />
+        {queue.length > 0 || txHistory.length > 0 ? (
+          <TxHistory />
+        ) : (
+          <Box mt="5" maxWidth="80%" mx="auto" sx={{ textAlign: 'center' }}>
             <Heading3 mt="3" mb="2">
               {translateRaw('HOME_EMPTY_HEADER')}
             </Heading3>
             <Body>{translate('HOME_EMPTY_SUBHEADING')}</Body>
           </Box>
-        </Container>
+        )}
+      </ScrollableContainer>
+      {queue.length === 0 && txHistory.length === 0 && (
         <PanelBottom variant="clear">
           <LinkApp href={ROUTE_PATHS.ADD_ACCOUNT}>
             <Button variant="inverted" mb="3">
@@ -62,17 +66,7 @@ export const Home = () => {
             <Button variant="inverted">{translateRaw('PASTE_UNSIGNED_TRANSACTION')}</Button>
           </LinkApp>
         </PanelBottom>
-      </>
-    );
-  }
-
-  return (
-    <ScrollableContainer>
-      <Box sx={{ textAlign: 'center' }}>
-        <Image alt="Wallet" src={wallet} />
-      </Box>
-      <TxHistoryStats />
-      <TxHistory />
-    </ScrollableContainer>
+      )}
+    </>
   );
 };
