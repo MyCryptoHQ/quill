@@ -5,19 +5,18 @@ import path from 'path';
 
 export const getStorePath = () => path.join(app.getPath('userData'), 'config.json');
 
+const store = new Store<Record<string, string | null>>();
+
 export const clearStore = async () => {
-  const store = new Store();
   store.clear();
 
   await fs.unlink(getStorePath());
 };
 
 export const getFromStore = (key: string): string | null => {
-  const store = new Store<Record<string, string | null>>();
   return store.get(key);
 };
 
 export const setInStore = (key: string, value: string) => {
-  const store = new Store<Record<string, string>>();
   store.set(key, value);
 };

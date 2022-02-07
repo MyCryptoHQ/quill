@@ -194,8 +194,9 @@ export function* addSavedAccountsWorker({ payload: persistent }: PayloadAction<b
   for (const wallet of accounts) {
     const account = getAccountFromSerializedWallet(wallet, persistent);
 
-    // Remove existing account if present, set persistent to true to wipe saved secret if present too
-    yield put(removeAccount({ ...account, persistent: true }));
+    // Wipe existing secret if present
+    yield call(deleteAccountSecrets, account.uuid);
+
     yield put(addAccount(account));
 
     if (persistent) {

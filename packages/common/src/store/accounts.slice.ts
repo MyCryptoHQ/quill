@@ -41,9 +41,13 @@ const slice = createSlice({
   initialState,
   reducers: {
     addAccount(state, action: PayloadAction<IAccount>) {
-      state.accounts.push(action.payload);
-      state.fetchError = undefined;
-      state.isFetching = false;
+      return {
+        ...state,
+        fetchError: undefined,
+        isFetching: false,
+        // Overwrite existing account if present
+        accounts: [...state.accounts.filter((a) => a.uuid !== action.payload.uuid), action.payload]
+      };
     },
     removeAccount(state, action: PayloadAction<IAccount>) {
       // This reducer can be called when an account does not exist with this UUID, hence why this
