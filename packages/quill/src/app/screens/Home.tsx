@@ -1,4 +1,4 @@
-import { Body, Button } from '@mycrypto/ui';
+import { Body } from '@mycrypto/ui';
 import {
   getAccountsLength,
   getPersisted,
@@ -13,8 +13,6 @@ import {
   Box,
   Heading3,
   Image,
-  LinkApp,
-  PanelBottom,
   ScrollableContainer,
   TxHistory,
   TxHistoryStats
@@ -38,35 +36,21 @@ export const Home = () => {
   }, [isPersisted]);
 
   return (
-    <>
-      <ScrollableContainer>
-        <Box sx={{ textAlign: 'center' }}>
-          <Image alt="Wallet" src={wallet} />
+    <ScrollableContainer>
+      <Box sx={{ textAlign: 'center' }}>
+        <Image alt="Wallet" src={wallet} />
+      </Box>
+      <TxHistoryStats />
+      {queue.length > 0 || txHistory.length > 0 ? (
+        <TxHistory />
+      ) : (
+        <Box mt="5" maxWidth="80%" mx="auto" sx={{ textAlign: 'center' }}>
+          <Heading3 mt="3" mb="2">
+            {translateRaw('HOME_EMPTY_HEADER')}
+          </Heading3>
+          <Body>{translate('HOME_EMPTY_SUBHEADING')}</Body>
         </Box>
-        <TxHistoryStats />
-        {queue.length > 0 || txHistory.length > 0 ? (
-          <TxHistory />
-        ) : (
-          <Box mt="5" maxWidth="80%" mx="auto" sx={{ textAlign: 'center' }}>
-            <Heading3 mt="3" mb="2">
-              {translateRaw('HOME_EMPTY_HEADER')}
-            </Heading3>
-            <Body>{translate('HOME_EMPTY_SUBHEADING')}</Body>
-          </Box>
-        )}
-      </ScrollableContainer>
-      {queue.length === 0 && txHistory.length === 0 && (
-        <PanelBottom variant="clear">
-          <LinkApp href={ROUTE_PATHS.ADD_ACCOUNT}>
-            <Button variant="inverted" mb="3">
-              {translateRaw('ADD_ANOTHER_ACCOUNT')}
-            </Button>
-          </LinkApp>
-          <LinkApp href={ROUTE_PATHS.LOAD_UNSIGNED_TRANSACTION}>
-            <Button variant="inverted">{translateRaw('PASTE_UNSIGNED_TRANSACTION')}</Button>
-          </LinkApp>
-        </PanelBottom>
       )}
-    </>
+    </ScrollableContainer>
   );
 };
