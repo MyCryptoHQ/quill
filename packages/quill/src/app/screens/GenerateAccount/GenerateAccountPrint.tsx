@@ -48,7 +48,7 @@ export const GenerateAccountPrint = ({ flowHeader }: IFlowComponentProps) => {
         <Body>{translate('GENERATE_ACCOUNT_PRINT_BODY_1')}</Body>
         <Body mt="2">{translate('GENERATE_ACCOUNT_PRINT_BODY_2')}</Body>
       </ScrollableContainer>
-      <PanelBottom>
+      <PanelBottom variant="clear">
         <Link
           data-testid="download-link"
           href={paperWalletImage}

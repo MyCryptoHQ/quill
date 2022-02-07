@@ -31,7 +31,7 @@ export const AddAccountSecurity = ({ flowHeader }: IFlowComponentProps) => {
           </ListItem>
         </IconList>
       </ScrollableContainer>
-      <PanelBottom>
+      <PanelBottom variant="clear">
         <Button onClick={handleClick}>{translateRaw('ACKNOWLEDGE_AND_CONTINUE')}</Button>
       </PanelBottom>
     </>

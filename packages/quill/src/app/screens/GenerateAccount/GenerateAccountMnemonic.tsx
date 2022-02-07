@@ -66,7 +66,7 @@ export const GenerateAccountMnemonic = ({ onNext, flowHeader }: IFlowComponentPr
             ))}
         </Box>
       </ScrollableContainer>
-      <PanelBottom>
+      <PanelBottom variant="clear">
         <Button onClick={onNext} mb="3">
           {translateRaw('CONFIRM_MNEMONIC_PHRASE')}
         </Button>

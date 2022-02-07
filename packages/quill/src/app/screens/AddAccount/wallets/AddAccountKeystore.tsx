@@ -57,7 +57,7 @@ const AddAccountKeystoreForm = ({
         <WalletTypeSelector walletType={WalletType.KEYSTORE} setWalletType={setWalletType} />
         <KeystoreForm form={form} onSubmit={handleSubmit} />
       </ScrollableContainer>
-      <PanelBottom>
+      <PanelBottom variant="clear">
         <Button type="submit" form="keystore-form">
           {translateRaw('REVIEW_SECURITY_DETAILS')}
         </Button>

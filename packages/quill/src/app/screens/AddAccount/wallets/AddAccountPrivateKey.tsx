@@ -51,7 +51,7 @@ const AddAccountPrivateKeyForm = ({
         <WalletTypeSelector walletType={WalletType.PRIVATE_KEY} setWalletType={setWalletType} />
         <PrivateKeyForm form={form} onSubmit={handleSubmit} />
       </ScrollableContainer>
-      <PanelBottom>
+      <PanelBottom variant="clear">
         <Button type="submit" form="private-key-form">
           {translateRaw('REVIEW_SECURITY_DETAILS')}
         </Button>

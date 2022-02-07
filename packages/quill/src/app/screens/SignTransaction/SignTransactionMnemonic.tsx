@@ -54,6 +54,7 @@ const SignTransactionMnemonicForm = ({
           bg="none"
           p="0"
           addressColor="GREY_TEXT"
+          mb="2"
         />
         <MnemonicForm form={form} onSubmit={handleSubmit} />
       </ScrollableContainer>

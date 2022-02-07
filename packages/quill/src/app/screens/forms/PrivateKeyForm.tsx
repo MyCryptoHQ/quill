@@ -42,13 +42,15 @@ export const PrivateKeyForm = ({
 
   return (
     <form onSubmit={handleSubmit} id="private-key-form">
-      <PrivateKeyInput
-        id="privateKey"
-        name="privateKey"
-        form={form}
-        data-testid="private-key-input"
-        placeholder={translateRaw('PRIVATE_KEY_PLACEHOLDER')}
-      />
+      <Box mb="2">
+        <PrivateKeyInput
+          id="privateKey"
+          name="privateKey"
+          form={form}
+          data-testid="private-key-input"
+          placeholder={translateRaw('PRIVATE_KEY_PLACEHOLDER')}
+        />
+      </Box>
       <FormError name="privateKey" form={form} />
       <Box mt="2" variant="horizontal-start">
         <Image src={warning} width="20px" height="20px" minWidth="20px" alt="Warning" mr="2" />

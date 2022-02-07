@@ -1,6 +1,6 @@
-export const WS_PORT = 8000;
+export const WS_PORT = 8000; // @todo Choose something else
 
-export const HEIGHT = 600;
+export const HEIGHT = 650;
 export const WIDTH = 460;
 
 export const KEYTAR_SERVICE = 'MyCrypto Quill';
