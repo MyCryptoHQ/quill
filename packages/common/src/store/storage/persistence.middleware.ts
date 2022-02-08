@@ -30,7 +30,6 @@ export const persistenceMiddleware = (): Middleware => (store) => (next) => (act
     return store.dispatch(rehydratedAllState());
   }
 
-  console.log(action.type);
   const whitelistedActions = getWhitelistedActions(state);
   if (whitelistedActions.includes(action.type)) {
     const persistentKeys = getPersistentKeys(state);
@@ -53,6 +52,5 @@ const debouncedPersistenceMiddleware = keyDebounce((key: string, store: Middlewa
     return target;
   }, {});
 
-  console.log(key, 'Encrypting settings', newState);
   store.dispatch(encryptSettings({ key, value: newState }));
 }, 1000);

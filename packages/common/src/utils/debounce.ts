@@ -13,10 +13,7 @@ export const keyDebounce = <Fn extends (key: string, ...args: unknown[]) => unkn
       fn(key, ...args);
     };
 
-    console.log(key, args);
-
     if (timeouts[key]) {
-      console.log('Found existing timeout', key);
       clearTimeout(timeouts[key]);
     }
 
