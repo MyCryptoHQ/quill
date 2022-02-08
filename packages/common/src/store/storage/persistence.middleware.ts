@@ -10,7 +10,7 @@ import {
   rehydratedAllState,
   rehydrateState
 } from '..';
-import { keyDebounce } from '../../utils';
+import { keyDebounce } from '../../utils/debounce';
 import { getPersistentKeys, rehydrateAllState } from './persistence.slice';
 
 export const persistenceMiddleware = (): Middleware => (store) => (next) => (action) => {

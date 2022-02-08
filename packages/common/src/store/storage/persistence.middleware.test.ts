@@ -13,6 +13,7 @@ import {
 const createMockStore = configureStore();
 
 describe('persistenceMiddleware', () => {
+  jest.useFakeTimers();
   it('dispatches fetchSettings if the action is rehydrateAllState', () => {
     const next = jest.fn();
     const store = createMockStore({
@@ -83,6 +84,8 @@ describe('persistenceMiddleware', () => {
     expect(store.getActions()).toHaveLength(0);
 
     persistenceMiddleware()(store)(next)(fooAction());
+
+    jest.runAllTimers();
 
     expect(next).toHaveBeenCalled();
     expect(store.getActions()).toStrictEqual([
