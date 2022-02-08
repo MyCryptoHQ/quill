@@ -40,7 +40,7 @@ const slice = createSlice({
   name: sliceName,
   initialState,
   reducers: {
-    addAccount(state, action: PayloadAction<IAccount>) {
+    addAccount(state, action: PayloadAction<IAccount>): AccountsState {
       return {
         ...state,
         fetchError: undefined,
@@ -49,7 +49,7 @@ const slice = createSlice({
         accounts: [...state.accounts.filter((a) => a.uuid !== action.payload.uuid), action.payload]
       };
     },
-    removeAccount(state, action: PayloadAction<IAccount>) {
+    removeAccount(state, action: PayloadAction<IAccount>): AccountsState {
       // This reducer can be called when an account does not exist with this UUID, hence why this
       // reducer is written differently that the others
       return { ...state, accounts: state.accounts.filter((a) => a.uuid !== action.payload.uuid) };
