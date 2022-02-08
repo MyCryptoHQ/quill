@@ -17,8 +17,13 @@ import { clearStore, getFromStore, setInStore } from '@utils';
 describe('resetSettingsWorker', () => {
   it('clears the store', async () => {
     await expectSaga(resetSettingsWorker)
+      .withState({
+        accounts: {
+          _persistence: { whitelistedActions: ['addAccount'], whitelistedKeys: ['accounts'] }
+        }
+      })
       .provide([[call.fn(clearStore), jest.fn()]])
-      .call(clearStore)
+      .call(clearStore, ['accounts'])
       .silentRun();
   });
 });

@@ -7,6 +7,7 @@ import {
   fetchAccounts,
   fetchAddresses,
   fetchFailed,
+  generateDeterministicAddressUUID,
   nextFlow,
   removeAccount,
   setAddAccounts,
@@ -346,7 +347,7 @@ describe('addSavedAccountsWorker', () => {
           }
         }
       })
-      .put(removeAccount({ ...fAccount, persistent: true }))
+      .call(deleteAccountSecrets, generateDeterministicAddressUUID(account.address))
       .put(addAccount({ ...fAccount, persistent: false }))
       .put(nextFlow())
       .silentRun();
@@ -364,7 +365,7 @@ describe('addSavedAccountsWorker', () => {
           }
         }
       })
-      .put(removeAccount({ ...fAccount, persistent: true }))
+      .call(deleteAccountSecrets, generateDeterministicAddressUUID(account.address))
       .put(addAccount({ ...fAccount, persistent: true }))
       .call(saveAccountSecrets, account)
       .put(nextFlow())

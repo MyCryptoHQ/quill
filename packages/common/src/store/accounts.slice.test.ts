@@ -34,6 +34,15 @@ describe('AccountSlice', () => {
 
       expect(result.accounts).toStrictEqual([fAccount]);
     });
+
+    it('overwrites existing account', () => {
+      const result = slice.reducer(
+        { accounts: [fAccount], addresses: [], isFetching: false },
+        addAccount(fAccount)
+      );
+
+      expect(result.accounts).toStrictEqual([fAccount]);
+    });
   });
 
   describe('removeAccount()', () => {

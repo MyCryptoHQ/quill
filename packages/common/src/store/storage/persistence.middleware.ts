@@ -1,4 +1,4 @@
-import type { Middleware } from '@reduxjs/toolkit';
+import type { Middleware, MiddlewareAPI } from '@reduxjs/toolkit';
 
 import {
   encryptSettings,
@@ -10,6 +10,7 @@ import {
   rehydratedAllState,
   rehydrateState
 } from '..';
+import { keyDebounce } from '../../utils/debounce';
 import { getPersistentKeys, rehydrateAllState } from './persistence.slice';
 
 export const persistenceMiddleware = (): Middleware => (store) => (next) => (action) => {
@@ -36,15 +37,20 @@ export const persistenceMiddleware = (): Middleware => (store) => (next) => (act
       getWhitelistedActionsByKey(key)(state).includes(action.type)
     );
 
-    const whitelistedKeys = getWhitelistedKeys(key)(state);
-    const newState = Object.keys(state[key]).reduce((target, current) => {
-      if (whitelistedKeys.includes(current)) {
-        return { ...target, [current]: state[key][current] };
-      }
-
-      return target;
-    }, {});
-
-    store.dispatch(encryptSettings({ key, value: newState }));
+    debouncedPersistenceMiddleware(key, store);
   }
 };
+
+const debouncedPersistenceMiddleware = keyDebounce((key: string, store: MiddlewareAPI) => {
+  const state = store.getState();
+  const whitelistedKeys = getWhitelistedKeys(key)(state);
+  const newState = Object.keys(state[key]).reduce((target, current) => {
+    if (whitelistedKeys.includes(current)) {
+      return { ...target, [current]: state[key][current] };
+    }
+
+    return target;
+  }, {});
+
+  store.dispatch(encryptSettings({ key, value: newState }));
+}, 1000);
