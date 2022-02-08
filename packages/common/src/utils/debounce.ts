@@ -6,14 +6,17 @@ export const keyDebounce = <Fn extends (key: string, ...args: unknown[]) => unkn
   fn: Fn,
   timeout: number = 1000
 ) => {
-  const timeouts: Record<string, number> = {};
+  const timeouts: Record<string, NodeJS.Timeout> = {};
 
   return (key: string, ...args: Parameters<OmitFirst<Fn>>) => {
     const execute = () => {
       fn(key, ...args);
     };
 
+    console.log(key, args);
+
     if (timeouts[key]) {
+      console.log('Found existing timeout', key);
       clearTimeout(timeouts[key]);
     }
 

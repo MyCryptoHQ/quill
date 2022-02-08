@@ -11,3 +11,4 @@ export * from './synchronization';
 export * from './truncate';
 export * from './tx';
 export * from './uuid';
+export * from './debounce';
