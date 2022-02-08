@@ -3,6 +3,8 @@ import Store from 'electron-store';
 import { promises as fs } from 'fs';
 import path from 'path';
 
+import { keyDebounce } from '@utils/debounce';
+
 export const getStorePath = (key: string) => path.join(app.getPath('userData'), `${key}.json`);
 
 export const clearStore = async (keys: string[]) => {
@@ -19,7 +21,7 @@ export const getFromStore = (key: string): string | null => {
   return store.get(key);
 };
 
-export const setInStore = (key: string, value: string) => {
+export const setInStore = keyDebounce((key: string, value: string) => {
   const store = new Store<Record<string, string>>({ name: key });
   store.set(key, value);
-};
+}, 1000);

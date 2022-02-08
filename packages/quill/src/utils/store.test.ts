@@ -5,6 +5,7 @@ import path from 'path';
 import { clearStore, getFromStore, getStorePath, setInStore } from './store';
 
 jest.mock('electron-store');
+jest.useFakeTimers();
 
 jest.mock('fs', () => ({
   ...jest.requireActual('fs'),
@@ -52,6 +53,8 @@ describe('getFromStore', () => {
 describe('setInStore', () => {
   it('sets value in store', async () => {
     await setInStore('foo', 'bar');
+
+    jest.runAllTimers();
 
     const store = (Store as jest.MockedClass<typeof Store>).mock.instances[0];
     expect(store.set).toHaveBeenCalledWith('foo', 'bar');
