@@ -2,12 +2,13 @@ import type { SettingsValue } from '@quill/common';
 import {
   decryptSettings,
   fetchSettings,
+  getPersistentKeys,
   rehydrateEmptyState,
   resetSettings,
   storeEncryptedSettings
 } from '@quill/common';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects';
+import { all, call, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
 
 import { clearStore, getFromStore, setInStore } from '@utils';
 
@@ -20,7 +21,8 @@ export function* settingsSaga() {
 }
 
 export function* resetSettingsWorker() {
-  yield call(clearStore);
+  const keys: string[] = yield select(getPersistentKeys);
+  yield call(clearStore, keys);
 }
 
 export function* fetchSettingsWorker({ payload }: PayloadAction<string>) {

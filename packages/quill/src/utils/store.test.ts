@@ -25,17 +25,17 @@ afterEach(() => {
 
 describe('getStorePath', () => {
   it('returns the path to the store', () => {
-    expect(getStorePath()).toBe(path.join('foo', 'config.json'));
+    expect(getStorePath('accounts')).toBe(path.join('foo', 'accounts.json'));
   });
 });
 
 describe('clearStore', () => {
   it('clears the store', async () => {
-    await clearStore();
+    await clearStore(['accounts']);
 
     const store = (Store as jest.MockedClass<typeof Store>).mock.instances[0];
 
-    expect(fs.unlink).toHaveBeenCalledWith(getStorePath());
+    expect(fs.unlink).toHaveBeenCalledWith(getStorePath('accounts'));
     expect(store.clear).toHaveBeenCalled();
   });
 });
