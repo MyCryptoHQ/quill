@@ -17,3 +17,4 @@ export { EditTransaction } from './EditTransaction';
 export { LoadTransaction } from './LoadTransaction';
 export { Settings } from './Settings';
 export { About } from './About';
+export { ChangePassword } from './ChangePassword';

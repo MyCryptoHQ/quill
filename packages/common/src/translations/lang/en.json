@@ -260,6 +260,12 @@
     "DENIED": "Denied",
     "APPROVED": "Approved",
     "PAGINATION": "Page $current of $total",
-    "PHRASE": "Phrase"
+    "PHRASE": "Phrase",
+    "CHANGE_PASSWORD": "Change Password",
+    "CHANGE_YOUR_PASSWORD": "Change Your Password",
+    "CHANGE_PASSWORD_BODY": "To change your password, you will need to enter your current password below.",
+    "ENTER_CURRENT_PASSWORD": "Enter Current Password",
+    "NEW_PASSWORD": "New Password",
+    "CONFIRM_NEW_PASSWORD": "Confirm New Password"
   }
 }

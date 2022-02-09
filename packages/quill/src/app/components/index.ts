@@ -45,4 +45,3 @@ export * from './Heading3';
 export * from './FormPasswordStrength';
 export * from './MnemonicInput';
 export * from './PrivateKeyInput';
-export * from './PasswordForm';

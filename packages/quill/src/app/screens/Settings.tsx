@@ -5,15 +5,10 @@ import React from 'react';
 import { useDispatch } from '@app/store';
 import aboutIcon from '@assets/icons/about.svg';
 import addressBookIcon from '@assets/icons/addressbook.svg';
+import keyIcon from '@assets/icons/key.svg';
 import quitIcon from '@assets/icons/quit.svg';
 import resetIcon from '@assets/icons/reset.svg';
-import {
-  AutoLockSettings,
-  ChangePassword,
-  Container,
-  SettingsConfirm,
-  SettingsLink
-} from '@components';
+import { AutoLockSettings, Container, SettingsConfirm, SettingsLink } from '@components';
 import { useNavigation } from '@hooks';
 import { ROUTE_PATHS } from '@routing';
 
@@ -33,7 +28,11 @@ export const Settings = () => {
         href={ROUTE_PATHS.ACCOUNTS}
       />
       <AutoLockSettings />
-      <ChangePassword />
+      <SettingsLink
+        icon={keyIcon}
+        label={translateRaw('CHANGE_PASSWORD')}
+        href={ROUTE_PATHS.CHANGE_PASSWORD}
+      />
       <SettingsConfirm
         icon={resetIcon}
         label={translateRaw('APP_RESET')}

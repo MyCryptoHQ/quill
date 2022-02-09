@@ -4,9 +4,12 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
+import { ThemeProvider } from 'styled-components';
 
-import { ChangePassword } from '@components';
 import type { ApplicationState } from '@store';
+import { theme } from '@theme';
+
+import { ChangePassword } from './ChangePassword';
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
 
@@ -14,7 +17,9 @@ const getComponent = (store: EnhancedStore<DeepPartial<ApplicationState>>) => {
   return render(
     <MemoryRouter>
       <Provider store={store}>
-        <ChangePassword />
+        <ThemeProvider theme={theme}>
+          <ChangePassword />
+        </ThemeProvider>
       </Provider>
     </MemoryRouter>
   );
@@ -30,16 +35,16 @@ describe('ChangePassword', () => {
 
     const { getByLabelText, getByText } = getComponent(mockStore);
 
-    const accordion = getByText(translateRaw('CHANGE_PASSWORD'));
-    await waitFor(() => accordion.click());
+    const currentPasswordInput = getByLabelText(translateRaw('ENTER_CURRENT_PASSWORD'));
+    fireEvent.change(currentPasswordInput, { target: { value: RANDOM_PASSWORD } });
 
-    const passwordInput = getByLabelText(translateRaw('ENTER_PASSWORD'));
+    const passwordInput = getByLabelText(translateRaw('NEW_PASSWORD'));
     fireEvent.change(passwordInput, { target: { value: RANDOM_PASSWORD } });
 
-    const passwordConfirmationInput = getByLabelText(translateRaw('CONFIRM_PASSWORD'));
+    const passwordConfirmationInput = getByLabelText(translateRaw('CONFIRM_NEW_PASSWORD'));
     fireEvent.change(passwordConfirmationInput, { target: { value: RANDOM_PASSWORD } });
 
-    const createButton = getByText(translateRaw('CHANGE_PASSWORD_BUTTON'));
+    const createButton = getByText(translateRaw('CHANGE_PASSWORD'));
     expect(createButton).toBeDefined();
     fireEvent.click(createButton);
 
