@@ -125,6 +125,7 @@ describe('changePasswordWorker', () => {
       .call(init, 'foo')
       .call(savePrivateKey, fAccount.uuid, undefined)
       .put(changePasswordSuccess())
+      .put(push(ROUTE_PATHS.HOME))
       .silentRun();
   });
 

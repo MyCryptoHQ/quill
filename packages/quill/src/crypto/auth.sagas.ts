@@ -101,6 +101,7 @@ export function* changePasswordWorker({ payload }: ReturnType<typeof changePassw
     );
 
     yield put(changePasswordSuccess());
+    yield put(push(ROUTE_PATHS.HOME));
   } catch (error) {
     console.error(error);
     yield put(changePasswordFailed(error.toString()));
