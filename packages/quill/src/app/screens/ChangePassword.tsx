@@ -22,17 +22,19 @@ const SCHEMA = object({
   currentPassword: string().required(translateRaw('PASSWORD_EMPTY'))
 });
 
+const initialValues = {
+  currentPassword: '',
+  password: '',
+  passwordConfirmation: ''
+};
+
 export const ChangePassword: FunctionComponent = () => {
   const dispatch = useDispatch();
   const loggingIn = useSelector(getLoggingIn);
   const error = useSelector((state) => state.auth.error);
 
   const form = useForm(
-    {
-      currentPassword: '',
-      password: '',
-      passwordConfirmation: ''
-    },
+    initialValues,
     yupValidator(PASSWORD_SCHEMA.concat(SCHEMA), {
       abortEarly: false
     }),
