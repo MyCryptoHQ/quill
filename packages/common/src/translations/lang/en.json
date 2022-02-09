@@ -266,6 +266,7 @@
     "CHANGE_PASSWORD_BODY": "To change your password, you will need to enter your current password below.",
     "ENTER_CURRENT_PASSWORD": "Enter Current Password",
     "NEW_PASSWORD": "New Password",
-    "CONFIRM_NEW_PASSWORD": "Confirm New Password"
+    "CONFIRM_NEW_PASSWORD": "Confirm New Password",
+    "CURRENT_PASSWORD_NOT_EQUAL": "The password you entered does not match your current password."
   }
 }

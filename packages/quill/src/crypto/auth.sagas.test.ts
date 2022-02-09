@@ -16,7 +16,6 @@ import { push } from 'connected-react-router';
 import keytar from 'keytar';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
-import { throwError } from 'redux-saga-test-plan/providers';
 
 import { KEYTAR_SERVICE } from '@config';
 import { fAccount } from '@fixtures';
@@ -33,6 +32,7 @@ import {
 import {
   checkSettingsKey,
   clearEncryptionKey,
+  comparePassword,
   deleteSalt,
   getSettingsKey,
   hasSettingsKey,
@@ -114,9 +114,13 @@ describe('changePasswordWorker', () => {
       }
     ]);
 
-    await expectSaga(changePasswordWorker, changePassword('foo'))
+    await expectSaga(
+      changePasswordWorker,
+      changePassword({ currentPassword: 'foo', password: 'foo' })
+    )
       .provide([[call.fn(keytar.findCredentials), [{ account: fAccount.uuid }]]])
       .provide([[call.fn(init), undefined]])
+      .provide([[call.fn(comparePassword), true]])
       .call(deleteSalt)
       .call(init, 'foo')
       .call(savePrivateKey, fAccount.uuid, undefined)
@@ -125,9 +129,12 @@ describe('changePasswordWorker', () => {
   });
 
   it('sets an error', async () => {
-    await expectSaga(changePasswordWorker, changePassword('foo'))
-      .provide([[call.fn(keytar.findCredentials), throwError(new Error('Foo'))]])
-      .put(changePasswordFailed('Error: Foo'))
+    await expectSaga(
+      changePasswordWorker,
+      changePassword({ currentPassword: 'foo', password: 'foo' })
+    )
+      .provide([[call.fn(comparePassword), false]])
+      .put(changePasswordFailed(translateRaw('CURRENT_PASSWORD_NOT_EQUAL')))
       .silentRun();
   });
 });

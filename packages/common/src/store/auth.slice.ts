@@ -60,7 +60,7 @@ const slice = createSlice({
       state.loggingIn = false;
       state.error = action.payload;
     },
-    changePassword(state, _action: PayloadAction<string>) {
+    changePassword(state, _action: PayloadAction<{ currentPassword: string; password: string }>) {
       state.loggingIn = true;
     },
     changePasswordSuccess(state) {

@@ -27,6 +27,7 @@ import { ROUTE_PATHS } from '../app/routing';
 import {
   checkSettingsKey,
   clearEncryptionKey,
+  comparePassword,
   deleteSalt,
   getPrivateKey,
   getSettingsKey,
@@ -77,6 +78,12 @@ export function* createPasswordWorker({ payload }: PayloadAction<string>) {
 
 export function* changePasswordWorker({ payload }: ReturnType<typeof changePassword>) {
   try {
+    const isEqual: boolean = yield call(comparePassword, payload.currentPassword);
+    if (!isEqual) {
+      yield put(changePasswordFailed(translateRaw('CURRENT_PASSWORD_NOT_EQUAL')));
+      return;
+    }
+
     const credentials: { account: string }[] = yield call(keytar.findCredentials, KEYTAR_SERVICE);
     const privateKeys: [account: TUuid, privateKey: string][] = yield all(
       credentials
@@ -87,7 +94,7 @@ export function* changePasswordWorker({ payload }: ReturnType<typeof changePassw
     // Delete the salt from the keychain so it will generate a new one, and re-initialise the
     // encryption key.
     yield call(deleteSalt);
-    yield call(init, payload);
+    yield call(init, payload.password);
 
     yield all(
       privateKeys.map(([account, privateKey]) => call(savePrivateKey, account, privateKey))
@@ -95,6 +102,7 @@ export function* changePasswordWorker({ payload }: ReturnType<typeof changePassw
 
     yield put(changePasswordSuccess());
   } catch (error) {
+    console.error(error);
     yield put(changePasswordFailed(error.toString()));
   }
 }

@@ -36,7 +36,7 @@ describe('ChangePassword', () => {
     const { getByLabelText, getByText } = getComponent(mockStore);
 
     const currentPasswordInput = getByLabelText(translateRaw('ENTER_CURRENT_PASSWORD'));
-    fireEvent.change(currentPasswordInput, { target: { value: RANDOM_PASSWORD } });
+    fireEvent.change(currentPasswordInput, { target: { value: 'foo' } });
 
     const passwordInput = getByLabelText(translateRaw('NEW_PASSWORD'));
     fireEvent.change(passwordInput, { target: { value: RANDOM_PASSWORD } });
@@ -49,7 +49,9 @@ describe('ChangePassword', () => {
     fireEvent.click(createButton);
 
     await waitFor(() =>
-      expect(mockStore.getActions()).toContainEqual(changePassword(RANDOM_PASSWORD))
+      expect(mockStore.getActions()).toContainEqual(
+        changePassword({ currentPassword: 'foo', password: RANDOM_PASSWORD })
+      )
     );
   });
 });

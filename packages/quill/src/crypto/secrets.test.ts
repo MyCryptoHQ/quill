@@ -6,6 +6,7 @@ import { KEYTAR_SALT_NAME, KEYTAR_SERVICE, KEYTAR_SETTINGS_KEY_NAME } from '@con
 
 import {
   checkSettingsKey,
+  comparePassword,
   deleteAccountSecrets,
   getPrivateKey,
   getSalt,
@@ -174,5 +175,13 @@ describe('getSalt', () => {
     );
 
     await expect(getSalt()).resolves.toStrictEqual(Buffer.from(salt, 'hex'));
+  });
+});
+
+describe('comparePassword', () => {
+  it('compares a password with the current used password', async () => {
+    await init('foo');
+    await expect(comparePassword('foo')).resolves.toBe(true);
+    await expect(comparePassword('bar')).resolves.toBe(false);
   });
 });

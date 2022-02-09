@@ -43,7 +43,12 @@ export const ChangePassword: FunctionComponent = () => {
       return;
     }
 
-    dispatch(changePassword(form.values.password));
+    dispatch(
+      changePassword({
+        currentPassword: form.values.currentPassword,
+        password: form.values.password
+      })
+    );
   };
 
   return (

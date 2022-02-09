@@ -107,3 +107,15 @@ export const getSalt = async (): Promise<Buffer> => {
 export const deleteSalt = async () => {
   await keytar.deletePassword(KEYTAR_SERVICE, KEYTAR_SALT_NAME);
 };
+
+/**
+ * Checks if `password` is equal to the current used password.
+ *
+ * @param password The password to check.
+ */
+export const comparePassword = async (password: string) => {
+  const salt = await getSalt();
+  const key = await hashPassword(password, salt);
+
+  return encryptionKey.compare(key) === 0;
+};
