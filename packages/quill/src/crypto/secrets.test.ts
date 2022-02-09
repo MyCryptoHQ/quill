@@ -8,6 +8,7 @@ import {
   checkSettingsKey,
   comparePassword,
   deleteAccountSecrets,
+  deleteSalt,
   getPrivateKey,
   getSalt,
   getSettingsKey,
@@ -175,6 +176,13 @@ describe('getSalt', () => {
     );
 
     await expect(getSalt()).resolves.toStrictEqual(Buffer.from(salt, 'hex'));
+  });
+});
+
+describe('deleteSalt', () => {
+  it('deletes the salt', async () => {
+    await deleteSalt();
+    expect(keytar.deletePassword).toHaveBeenCalledWith(KEYTAR_SERVICE, KEYTAR_SALT_NAME);
   });
 });
 

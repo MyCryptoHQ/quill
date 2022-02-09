@@ -54,4 +54,34 @@ describe('ChangePassword', () => {
       )
     );
   });
+
+  it('validates the input', async () => {
+    const mockStore = createMockStore({
+      auth: {}
+    });
+
+    const { getByText } = getComponent(mockStore);
+
+    const createButton = getByText(translateRaw('CHANGE_PASSWORD'));
+    expect(createButton).toBeDefined();
+    fireEvent.click(createButton);
+
+    await waitFor(() =>
+      expect(mockStore.getActions()).not.toContainEqual(
+        changePassword({ currentPassword: 'foo', password: RANDOM_PASSWORD })
+      )
+    );
+  });
+
+  it('shows errors', async () => {
+    const mockStore = createMockStore({
+      auth: {
+        error: 'Error: foo'
+      }
+    });
+
+    const { getByText } = getComponent(mockStore);
+
+    await waitFor(() => expect(getByText('Error: foo')).toBeDefined());
+  });
 });

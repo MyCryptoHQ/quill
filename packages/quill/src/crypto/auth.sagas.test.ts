@@ -16,6 +16,7 @@ import { push } from 'connected-react-router';
 import keytar from 'keytar';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
+import { throwError } from 'redux-saga-test-plan/providers';
 
 import { KEYTAR_SERVICE } from '@config';
 import { fAccount } from '@fixtures';
@@ -130,6 +131,14 @@ describe('changePasswordWorker', () => {
   });
 
   it('sets an error', async () => {
+    await expectSaga(
+      changePasswordWorker,
+      changePassword({ currentPassword: 'foo', password: 'foo' })
+    )
+      .provide([[call.fn(comparePassword), throwError(new Error('foo'))]])
+      .put(changePasswordFailed('Error: foo'))
+      .silentRun();
+
     await expectSaga(
       changePasswordWorker,
       changePassword({ currentPassword: 'foo', password: 'foo' })
