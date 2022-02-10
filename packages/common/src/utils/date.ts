@@ -1,4 +1,4 @@
-import { formatDistanceStrict } from 'date-fns';
+import { differenceInMinutes, formatDistanceStrict } from 'date-fns';
 
 export const formatTimeDifference = (a: number, b: number = Date.now()) =>
   formatDistanceStrict(a, b, { addSuffix: true });
@@ -18,3 +18,5 @@ export const formatTimeDifferenceShort = (a: number, b: number = Date.now()) =>
     (acc, [key, value]) => acc.replace(` ${key}s`, value).replace(` ${key}`, value),
     formatTimeDifference(a, b)
   );
+
+export const getMinuteDifference = (a: number, b: number) => differenceInMinutes(a, b);

@@ -1,9 +1,11 @@
-import { Body, Flex, Image } from '@mycrypto/ui';
+import { Body, Button, Flex, Image } from '@mycrypto/ui';
 import {
   denyCurrentTransaction,
   getAccounts,
   getCurrentTransaction,
+  getMinuteDifference,
   getTransactionInfoBannerType,
+  isHistoryTx,
   sign,
   translateRaw,
   TxResult
@@ -55,6 +57,10 @@ export const Transaction = () => {
     dispatch(denyCurrentTransaction());
   };
 
+  const handleViewSigned = () => {
+    dispatch(push(ROUTE_PATHS.VIEW_SIGNED_TRANSACTION));
+  };
+
   return (
     <>
       <ScrollableContainer>
@@ -97,11 +103,17 @@ export const Transaction = () => {
       {result === TxResult.WAITING && (
         <TransactionBottom disabled={false} handleAccept={handleAccept} handleDeny={handleDeny} />
       )}
-      {result === TxResult.APPROVED && (
+      {result === TxResult.APPROVED && isHistoryTx(currentTx) && (
         <PanelBottom py="24px">
-          <Body fontWeight="bold" textAlign="center">
-            {translateRaw('TRANSACTION_APPROVED_TIP')}
-          </Body>
+          {getMinuteDifference(Date.now(), currentTx.actionTakenTimestamp) >= 5 ? (
+            <Button variant="inverted" onClick={handleViewSigned}>
+              {translateRaw('VIEW_SIGNED_TX')}
+            </Button>
+          ) : (
+            <Body fontWeight="bold" textAlign="center">
+              {translateRaw('TRANSACTION_APPROVED_TIP')}
+            </Body>
+          )}
         </PanelBottom>
       )}
     </>
