@@ -35,14 +35,22 @@ export const savePrivateKey = (
 export const getPrivateKey = async (uuid: TUuid | typeof KEYTAR_SETTINGS_KEY_NAME) => {
   const result = await keytar.getPassword(KEYTAR_SERVICE, uuid);
   if (result) {
-    try {
-      return decrypt(result, encryptionKey);
-    } catch {
-      return null;
-    }
+    return decrypt(result, encryptionKey);
   }
 
   return null;
+};
+
+/**
+ * A safe version of the function above, which does not throw an error if the private key cannot be
+ * decrypted.
+ */
+export const safeGetPrivateKey = async (uuid: TUuid | typeof KEYTAR_SETTINGS_KEY_NAME) => {
+  try {
+    return getPrivateKey(uuid);
+  } catch {
+    return null;
+  }
 };
 
 export const deleteAccountSecrets = async (uuid: TUuid) => {

@@ -29,10 +29,10 @@ import {
   clearEncryptionKey,
   comparePassword,
   deleteSalt,
-  getPrivateKey,
   getSettingsKey,
   hasSettingsKey,
   init,
+  safeGetPrivateKey,
   savePrivateKey
 } from './secrets';
 
@@ -77,8 +77,7 @@ export function* createPasswordWorker({ payload }: PayloadAction<string>) {
 }
 
 export function* getAccountPrivateKey(account: TUuid) {
-  const privateKey: string | null = yield call(getPrivateKey, account);
-
+  const privateKey: string | null = yield call(safeGetPrivateKey, account);
   if (privateKey) {
     return [account, privateKey];
   }
@@ -116,7 +115,6 @@ export function* changePasswordWorker({ payload }: ReturnType<typeof changePassw
     yield put(changePasswordSuccess());
     yield put(push(ROUTE_PATHS.HOME));
   } catch (error) {
-    console.error(error);
     yield put(changePasswordFailed(error.toString()));
   }
 }
