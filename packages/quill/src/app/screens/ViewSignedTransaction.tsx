@@ -2,14 +2,7 @@ import { Body, Flex, Image, SubHeading } from '@mycrypto/ui';
 import type { TxHistoryEntry } from '@quill/common';
 import { getCurrentTransaction, translateRaw } from '@quill/common';
 
-import {
-  Box,
-  CopyableText,
-  ExtendableButton,
-  LinkApp,
-  QR,
-  ScrollableContainer
-} from '@app/components';
+import { Box, CopyableText, LinkApp, QR, ScrollableContainer } from '@app/components';
 import { ROUTE_PATHS } from '@app/routing';
 import { useSelector } from '@app/store';
 import { translate } from '@app/translations';
@@ -37,17 +30,13 @@ export const ViewSignedTransaction = () => {
             {translateRaw('VIEW_SIGNED_TX_HEADER')}
           </SubHeading>
         </Box>
-        <Body mb="4">{translate('VIEW_SIGNED_TX_DESCRIPTION')}</Body>
+        <Body mb="3">{translate('VIEW_SIGNED_TX_DESCRIPTION')}</Body>
         {signedTx && (
-          <ExtendableButton
-            title={translateRaw('SHOW_SIGNED_TRANSACTION')}
-            extendedTitle={translateRaw('HIDE_SIGNED_TRANSACTION')}
-            extended={true}
-          >
+          <>
             <CopyableText>{signedTx}</CopyableText>
             {/* @todo: Test how much data can fit into QR */}
             <QR data={signedTx} size="200px" mt="2" mx="auto" display="block" />
-          </ExtendableButton>
+          </>
         )}
       </Box>
     </ScrollableContainer>
