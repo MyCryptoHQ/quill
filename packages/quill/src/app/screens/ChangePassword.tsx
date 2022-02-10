@@ -18,9 +18,11 @@ import { PASSWORD_SCHEMA } from '@screens/CreatePassword';
 import { useDispatch, useSelector } from '@store';
 import { translate } from '@translations';
 
-const SCHEMA = object({
-  currentPassword: string().required(translateRaw('PASSWORD_EMPTY'))
-});
+const SCHEMA = PASSWORD_SCHEMA.concat(
+  object({
+    currentPassword: string().required(translateRaw('PASSWORD_EMPTY'))
+  })
+);
 
 const initialValues = {
   currentPassword: '',
@@ -35,7 +37,7 @@ export const ChangePassword: FunctionComponent = () => {
 
   const form = useForm(
     initialValues,
-    yupValidator(PASSWORD_SCHEMA.concat(SCHEMA), {
+    yupValidator(SCHEMA, {
       abortEarly: false
     }),
     true

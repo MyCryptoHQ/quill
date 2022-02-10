@@ -76,6 +76,16 @@ export function* createPasswordWorker({ payload }: PayloadAction<string>) {
   yield put(push(ROUTE_PATHS.SETUP_ACCOUNT));
 }
 
+export function* getAccountPrivateKey(account: TUuid) {
+  const privateKey: string | null = yield call(getPrivateKey, account);
+
+  if (privateKey) {
+    return [account, privateKey];
+  }
+
+  return null;
+}
+
 export function* changePasswordWorker({ payload }: ReturnType<typeof changePassword>) {
   try {
     const isEqual: boolean = yield call(comparePassword, payload.currentPassword);
@@ -84,11 +94,12 @@ export function* changePasswordWorker({ payload }: ReturnType<typeof changePassw
       return;
     }
 
-    const credentials: { account: string }[] = yield call(keytar.findCredentials, KEYTAR_SERVICE);
-    const privateKeys: [account: TUuid, privateKey: string][] = yield all(
+    const credentials: { account: TUuid }[] = yield call(keytar.findCredentials, KEYTAR_SERVICE);
+
+    const privateKeys: ([account: TUuid, privateKey: string] | null)[] = yield all(
       credentials
         .filter(({ account }) => account !== KEYTAR_SALT_NAME)
-        .map(async ({ account }) => [account, await getPrivateKey(account as TUuid)])
+        .map(({ account }) => call(getAccountPrivateKey, account))
     );
 
     // Delete the salt from the keychain so it will generate a new one, and re-initialise the
@@ -97,12 +108,15 @@ export function* changePasswordWorker({ payload }: ReturnType<typeof changePassw
     yield call(init, payload.password);
 
     yield all(
-      privateKeys.map(([account, privateKey]) => call(savePrivateKey, account, privateKey))
+      privateKeys
+        .filter(Boolean)
+        .map(([account, privateKey]) => call(savePrivateKey, account, privateKey))
     );
 
     yield put(changePasswordSuccess());
     yield put(push(ROUTE_PATHS.HOME));
   } catch (error) {
+    console.error(error);
     yield put(changePasswordFailed(error.toString()));
   }
 }

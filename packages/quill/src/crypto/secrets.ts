@@ -35,7 +35,11 @@ export const savePrivateKey = (
 export const getPrivateKey = async (uuid: TUuid | typeof KEYTAR_SETTINGS_KEY_NAME) => {
   const result = await keytar.getPassword(KEYTAR_SERVICE, uuid);
   if (result) {
-    return decrypt(result, encryptionKey);
+    try {
+      return decrypt(result, encryptionKey);
+    } catch {
+      return null;
+    }
   }
 
   return null;
@@ -104,9 +108,7 @@ export const getSalt = async (): Promise<Buffer> => {
   return newSalt;
 };
 
-export const deleteSalt = async () => {
-  await keytar.deletePassword(KEYTAR_SERVICE, KEYTAR_SALT_NAME);
-};
+export const deleteSalt = () => keytar.deletePassword(KEYTAR_SERVICE, KEYTAR_SALT_NAME);
 
 /**
  * Checks if `password` is equal to the current used password.
