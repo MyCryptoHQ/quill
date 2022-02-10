@@ -180,23 +180,6 @@ describe('Transaction', () => {
     expect(getByText(translateRaw('NONCE_OUT_OF_ORDER')).textContent).toBeDefined();
   });
 
-  it('renders the signature for offline transactions', async () => {
-    const queueTx = makeQueueTx(getTransactionRequest(fAccount.address), true);
-    const history = makeHistoryTx(queueTx, TxResult.APPROVED, fSignedTx);
-
-    const store = createMockStore({
-      accounts: { accounts: [fAccount] },
-      transactions: {
-        history: [],
-        queue: [],
-        currentTransaction: history
-      }
-    });
-
-    const { findByText } = getComponent(store);
-    expect(findByText(fSignedTx)).toBeDefined();
-  });
-
   it('renders EIP1559 gas params', async () => {
     const queueTx = makeQueueTx(
       getEIP1559TransactionRequest(fAccount.address, fTxRequestEIP1559.params[0])

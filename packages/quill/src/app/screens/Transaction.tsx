@@ -32,7 +32,7 @@ export const Transaction = () => {
   const dispatch = useDispatch();
   const accounts = useSelector(getAccounts);
   const currentTx = useSelector(getCurrentTransaction);
-  const { tx, receivedTimestamp, result, origin } = currentTx;
+  const { tx, receivedTimestamp, result, origin, offline } = currentTx;
   const currentAccount = tx && accounts.find((a) => a.address === tx.from);
   const recipientAccount = tx && accounts.find((a) => a.address === tx.to);
   const info = useSelector(getTransactionInfoBannerType);
@@ -105,7 +105,7 @@ export const Transaction = () => {
       )}
       {result === TxResult.APPROVED && isHistoryTx(currentTx) && (
         <PanelBottom py="24px">
-          {getMinuteDifference(Date.now(), currentTx.actionTakenTimestamp) >= 5 ? (
+          {offline || getMinuteDifference(Date.now(), currentTx.actionTakenTimestamp) >= 5 ? (
             <Button variant="inverted" onClick={handleViewSigned}>
               {translateRaw('VIEW_SIGNED_TX')}
             </Button>
