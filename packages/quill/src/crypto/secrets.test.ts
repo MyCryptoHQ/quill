@@ -14,6 +14,7 @@ import {
   getSettingsKey,
   hasSettingsKey,
   init,
+  safeGetPrivateKey,
   saveAccountSecrets
 } from './secrets';
 
@@ -70,6 +71,25 @@ describe('getPrivateKey', () => {
     );
 
     return expect(getPrivateKey(uuid)).resolves.toBeNull();
+  });
+});
+
+describe('safeGetPrivateKey', () => {
+  it('returns decrypted private key', async () => {
+    await init(password);
+    const response = await safeGetPrivateKey(uuid);
+
+    expect(keytar.getPassword).toHaveBeenCalledWith(KEYTAR_SERVICE, uuid);
+    expect(response).toBe(privateKey);
+  });
+
+  it('does not throw on errors', async () => {
+    (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>).mockImplementationOnce(
+      async () => 'foo'
+    );
+
+    await init(password);
+    await expect(safeGetPrivateKey(uuid)).resolves.toBeNull();
   });
 });
 

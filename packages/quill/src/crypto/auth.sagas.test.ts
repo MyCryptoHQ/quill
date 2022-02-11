@@ -26,6 +26,7 @@ import {
   changePasswordWorker,
   checkNewUserWorker,
   createPasswordWorker,
+  getAccountPrivateKey,
   loginWorker,
   logoutWorker,
   resetWorker
@@ -105,6 +106,30 @@ describe('createPasswordWorker', () => {
   });
 });
 
+describe('getAccountPrivateKey', () => {
+  it('returns the UUID and private key for an account', async () => {
+    (safeGetPrivateKey as jest.MockedFunction<typeof safeGetPrivateKey>).mockImplementation(
+      async () => fPrivateKey
+    );
+
+    await expectSaga(getAccountPrivateKey, fAccount.uuid)
+      .call(safeGetPrivateKey, fAccount.uuid)
+      .returns([fAccount.uuid, fPrivateKey])
+      .silentRun();
+  });
+
+  it('returns null for accounts that cannot be decrypted', async () => {
+    (safeGetPrivateKey as jest.MockedFunction<typeof safeGetPrivateKey>).mockImplementation(
+      async () => null
+    );
+
+    await expectSaga(getAccountPrivateKey, fAccount.uuid)
+      .call(safeGetPrivateKey, fAccount.uuid)
+      .returns(null)
+      .silentRun();
+  });
+});
+
 describe('changePasswordWorker', () => {
   it('changes the password', async () => {
     (keytar.findCredentials as jest.MockedFunction<
@@ -113,12 +138,21 @@ describe('changePasswordWorker', () => {
       {
         account: fAccount.uuid,
         password: 'foo'
+      },
+      {
+        account: fAccount.uuid,
+        password: 'foo'
+      },
+      {
+        account: fAccount.uuid,
+        password: 'foo'
       }
     ]);
 
-    (safeGetPrivateKey as jest.MockedFunction<typeof safeGetPrivateKey>).mockImplementation(
-      async () => fPrivateKey
-    );
+    (safeGetPrivateKey as jest.MockedFunction<typeof safeGetPrivateKey>)
+      .mockImplementationOnce(async () => fPrivateKey)
+      .mockImplementationOnce(async () => null)
+      .mockImplementationOnce(async () => fPrivateKey);
 
     await expectSaga(
       changePasswordWorker,
@@ -129,6 +163,7 @@ describe('changePasswordWorker', () => {
       .provide([[call.fn(comparePassword), true]])
       .call(deleteSalt)
       .call(init, 'foo')
+      .call(savePrivateKey, fAccount.uuid, fPrivateKey)
       .call(savePrivateKey, fAccount.uuid, fPrivateKey)
       .put(changePasswordSuccess())
       .put(push(ROUTE_PATHS.HOME))

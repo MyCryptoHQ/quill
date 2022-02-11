@@ -47,7 +47,7 @@ export const getPrivateKey = async (uuid: TUuid | typeof KEYTAR_SETTINGS_KEY_NAM
  */
 export const safeGetPrivateKey = async (uuid: TUuid | typeof KEYTAR_SETTINGS_KEY_NAME) => {
   try {
-    return getPrivateKey(uuid);
+    return await getPrivateKey(uuid);
   } catch {
     return null;
   }

@@ -1,5 +1,5 @@
 import { Body, Button, Heading } from '@mycrypto/ui';
-import { getLoggingIn, login, translateRaw } from '@quill/common';
+import { getAuthError, getLoggingIn, login, translateRaw } from '@quill/common';
 import type { FormEvent } from 'react';
 import { useEffect } from 'react';
 import { useForm, yupValidator } from 'typed-react-form';
@@ -28,7 +28,7 @@ const initialValues = { password: '' };
 
 export const Login = () => {
   const form = useForm(initialValues, yupValidator(SCHEMA), true);
-  const error = useSelector((state) => state.auth.error);
+  const error = useSelector(getAuthError);
   const loggingIn = useSelector(getLoggingIn);
   const dispatch = useDispatch();
 

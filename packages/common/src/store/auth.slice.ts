@@ -115,3 +115,8 @@ export const getNewUser = createSelector(
   (state: SliceState<typeof slice>) => state.auth,
   (auth) => auth.newUser
 );
+
+export const getAuthError = createSelector(
+  (state: SliceState<typeof slice>) => state.auth,
+  (auth) => auth.error
+);

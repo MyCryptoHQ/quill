@@ -1,5 +1,5 @@
 import { Body, Button, InlineMessage, SubHeading } from '@mycrypto/ui';
-import { changePassword, getLoggingIn, translateRaw } from '@quill/common';
+import { changePassword, getAuthError, getLoggingIn, translateRaw } from '@quill/common';
 import { Label } from '@rebass/forms/styled-components';
 import type { FormEvent, FunctionComponent } from 'react';
 import { useEffect } from 'react';
@@ -33,7 +33,7 @@ const initialValues = {
 export const ChangePassword: FunctionComponent = () => {
   const dispatch = useDispatch();
   const loggingIn = useSelector(getLoggingIn);
-  const error = useSelector((state) => state.auth.error);
+  const error = useSelector(getAuthError);
 
   const form = useForm(
     initialValues,
