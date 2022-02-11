@@ -2,6 +2,7 @@ import {
   About,
   Accounts,
   AddAccount,
+  ChangePassword,
   CreatePassword,
   EditTransaction,
   ForgotPassword,
@@ -84,6 +85,12 @@ export const ROUTES: Record<string, Route> = {
   LOAD_UNSIGNED_TRANSACTION: {
     path: ROUTE_PATHS.LOAD_UNSIGNED_TRANSACTION,
     component: LoadTransaction,
+    exact: true,
+    requireLogin: true
+  },
+  CHANGE_PASSWORD: {
+    path: ROUTE_PATHS.CHANGE_PASSWORD,
+    component: ChangePassword,
     exact: true,
     requireLogin: true
   }

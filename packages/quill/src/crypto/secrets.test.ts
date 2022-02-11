@@ -6,12 +6,15 @@ import { KEYTAR_SALT_NAME, KEYTAR_SERVICE, KEYTAR_SETTINGS_KEY_NAME } from '@con
 
 import {
   checkSettingsKey,
+  comparePassword,
   deleteAccountSecrets,
+  deleteSalt,
   getPrivateKey,
   getSalt,
   getSettingsKey,
   hasSettingsKey,
   init,
+  safeGetPrivateKey,
   saveAccountSecrets
 } from './secrets';
 
@@ -68,6 +71,25 @@ describe('getPrivateKey', () => {
     );
 
     return expect(getPrivateKey(uuid)).resolves.toBeNull();
+  });
+});
+
+describe('safeGetPrivateKey', () => {
+  it('returns decrypted private key', async () => {
+    await init(password);
+    const response = await safeGetPrivateKey(uuid);
+
+    expect(keytar.getPassword).toHaveBeenCalledWith(KEYTAR_SERVICE, uuid);
+    expect(response).toBe(privateKey);
+  });
+
+  it('does not throw on errors', async () => {
+    (keytar.getPassword as jest.MockedFunction<typeof keytar.getPassword>).mockImplementationOnce(
+      async () => 'foo'
+    );
+
+    await init(password);
+    await expect(safeGetPrivateKey(uuid)).resolves.toBeNull();
   });
 });
 
@@ -174,5 +196,20 @@ describe('getSalt', () => {
     );
 
     await expect(getSalt()).resolves.toStrictEqual(Buffer.from(salt, 'hex'));
+  });
+});
+
+describe('deleteSalt', () => {
+  it('deletes the salt', async () => {
+    await deleteSalt();
+    expect(keytar.deletePassword).toHaveBeenCalledWith(KEYTAR_SERVICE, KEYTAR_SALT_NAME);
+  });
+});
+
+describe('comparePassword', () => {
+  it('compares a password with the current used password', async () => {
+    await init('foo');
+    await expect(comparePassword('foo')).resolves.toBe(true);
+    await expect(comparePassword('bar')).resolves.toBe(false);
   });
 });

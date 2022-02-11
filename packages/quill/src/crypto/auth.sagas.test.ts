@@ -1,4 +1,7 @@
 import {
+  changePassword,
+  changePasswordFailed,
+  changePasswordSuccess,
   createPassword,
   createPasswordSuccess,
   login,
@@ -13,14 +16,17 @@ import { push } from 'connected-react-router';
 import keytar from 'keytar';
 import { expectSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
+import { throwError } from 'redux-saga-test-plan/providers';
 
 import { KEYTAR_SERVICE } from '@config';
-import { fAccount } from '@fixtures';
+import { fAccount, fEncryptionPrivateKey, fPrivateKey } from '@fixtures';
 import { ROUTE_PATHS } from '@routing';
 
 import {
+  changePasswordWorker,
   checkNewUserWorker,
   createPasswordWorker,
+  getAccountPrivateKey,
   loginWorker,
   logoutWorker,
   resetWorker
@@ -28,9 +34,13 @@ import {
 import {
   checkSettingsKey,
   clearEncryptionKey,
+  comparePassword,
+  deleteSalt,
   getSettingsKey,
   hasSettingsKey,
-  init
+  init,
+  safeGetPrivateKey,
+  savePrivateKey
 } from './secrets';
 
 jest.mock('./secrets');
@@ -92,6 +102,89 @@ describe('createPasswordWorker', () => {
       .call(getSettingsKey)
       .put(createPasswordSuccess())
       .put(push(ROUTE_PATHS.SETUP_ACCOUNT))
+      .silentRun();
+  });
+});
+
+describe('getAccountPrivateKey', () => {
+  it('returns the UUID and private key for an account', async () => {
+    (safeGetPrivateKey as jest.MockedFunction<typeof safeGetPrivateKey>).mockImplementation(
+      async () => fPrivateKey
+    );
+
+    await expectSaga(getAccountPrivateKey, fAccount.uuid)
+      .call(safeGetPrivateKey, fAccount.uuid)
+      .returns([fAccount.uuid, fPrivateKey])
+      .silentRun();
+  });
+
+  it('returns null for accounts that cannot be decrypted', async () => {
+    (safeGetPrivateKey as jest.MockedFunction<typeof safeGetPrivateKey>).mockImplementation(
+      async () => null
+    );
+
+    await expectSaga(getAccountPrivateKey, fAccount.uuid)
+      .call(safeGetPrivateKey, fAccount.uuid)
+      .returns(null)
+      .silentRun();
+  });
+});
+
+describe('changePasswordWorker', () => {
+  it('changes the password', async () => {
+    (keytar.findCredentials as jest.MockedFunction<
+      typeof keytar.findCredentials
+    >).mockImplementationOnce(async () => [
+      {
+        account: fAccount.uuid,
+        password: 'foo'
+      },
+      {
+        account: fAccount.uuid,
+        password: 'foo'
+      },
+      {
+        account: fAccount.uuid,
+        password: 'foo'
+      }
+    ]);
+
+    (safeGetPrivateKey as jest.MockedFunction<typeof safeGetPrivateKey>)
+      .mockImplementationOnce(async () => fPrivateKey)
+      .mockImplementationOnce(async () => null)
+      .mockImplementationOnce(async () => fEncryptionPrivateKey);
+
+    await expectSaga(
+      changePasswordWorker,
+      changePassword({ currentPassword: 'foo', password: 'foo' })
+    )
+      .provide([[call.fn(keytar.findCredentials), [{ account: fAccount.uuid }]]])
+      .provide([[call.fn(init), undefined]])
+      .provide([[call.fn(comparePassword), true]])
+      .call(deleteSalt)
+      .call(init, 'foo')
+      .call(savePrivateKey, fAccount.uuid, fPrivateKey)
+      .call(savePrivateKey, fAccount.uuid, fEncryptionPrivateKey)
+      .put(changePasswordSuccess())
+      .put(push(ROUTE_PATHS.HOME))
+      .silentRun();
+  });
+
+  it('sets an error', async () => {
+    await expectSaga(
+      changePasswordWorker,
+      changePassword({ currentPassword: 'foo', password: 'foo' })
+    )
+      .provide([[call.fn(comparePassword), throwError(new Error('foo'))]])
+      .put(changePasswordFailed('Error: foo'))
+      .silentRun();
+
+    await expectSaga(
+      changePasswordWorker,
+      changePassword({ currentPassword: 'foo', password: 'foo' })
+    )
+      .provide([[call.fn(comparePassword), false]])
+      .put(changePasswordFailed(translateRaw('CURRENT_PASSWORD_NOT_EQUAL')))
       .silentRun();
   });
 });

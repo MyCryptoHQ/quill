@@ -8,7 +8,7 @@ import {
   fetchAccounts,
   setAddAccounts
 } from './accounts.slice';
-import { createPassword, login } from './auth.slice';
+import { changePassword, createPassword, login } from './auth.slice';
 import { decryptSettings, encryptSettings } from './settings.slice';
 import { sign } from './signing.slice';
 import synchronization, {
@@ -34,7 +34,8 @@ export const CRYPTO_ACTIONS = [
   decryptSettings.type,
   setAddAccounts.type,
   clearAddAccounts.type,
-  addSavedAccounts.type
+  addSavedAccounts.type,
+  changePassword.type
 ];
 
 export const CRYPTO_RENDERER_ACTIONS = [setAddAccounts.type, clearAddAccounts.type];

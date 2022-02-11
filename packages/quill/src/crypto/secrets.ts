@@ -24,7 +24,10 @@ export const init = async (password: string) => {
   await setEncryptionKey(key);
 };
 
-const savePrivateKey = (uuid: TUuid | typeof KEYTAR_SETTINGS_KEY_NAME, privateKey: string) => {
+export const savePrivateKey = (
+  uuid: TUuid | typeof KEYTAR_SETTINGS_KEY_NAME,
+  privateKey: string
+) => {
   const encryptedPKey = encrypt(privateKey, encryptionKey);
   return keytar.setPassword(KEYTAR_SERVICE, uuid, encryptedPKey);
 };
@@ -36,6 +39,18 @@ export const getPrivateKey = async (uuid: TUuid | typeof KEYTAR_SETTINGS_KEY_NAM
   }
 
   return null;
+};
+
+/**
+ * A safe version of the function above, which does not throw an error if the private key cannot be
+ * decrypted.
+ */
+export const safeGetPrivateKey = async (uuid: TUuid | typeof KEYTAR_SETTINGS_KEY_NAME) => {
+  try {
+    return await getPrivateKey(uuid);
+  } catch {
+    return null;
+  }
 };
 
 export const deleteAccountSecrets = async (uuid: TUuid) => {
@@ -99,4 +114,18 @@ export const getSalt = async (): Promise<Buffer> => {
   await keytar.setPassword(KEYTAR_SERVICE, KEYTAR_SALT_NAME, newSalt.toString('hex'));
 
   return newSalt;
+};
+
+export const deleteSalt = () => keytar.deletePassword(KEYTAR_SERVICE, KEYTAR_SALT_NAME);
+
+/**
+ * Checks if `password` is equal to the current used password.
+ *
+ * @param password The password to check.
+ */
+export const comparePassword = async (password: string) => {
+  const salt = await getSalt();
+  const key = await hashPassword(password, salt);
+
+  return encryptionKey.compare(key) === 0;
 };

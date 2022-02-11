@@ -23,7 +23,7 @@ import { translate } from '@translations';
 
 const PW_SCORE_REQUIREMENT = 4;
 
-const SCHEMA = object({
+export const PASSWORD_SCHEMA = object({
   password: string()
     .required(translateRaw('PASSWORD_EMPTY'))
     .test('strong-password', translateRaw('PASSWORD_TOO_WEAK'), (value) => {
@@ -41,7 +41,7 @@ export const CreatePassword = () => {
       password: '',
       passwordConfirmation: ''
     },
-    yupValidator(SCHEMA, {
+    yupValidator(PASSWORD_SCHEMA, {
       abortEarly: false
     }),
     true

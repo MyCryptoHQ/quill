@@ -26,6 +26,9 @@ const mockStore = createMockStore({
   },
   appSettings: {
     autoLockTimeout: AUTO_LOCK_TIMEOUT
+  },
+  auth: {
+    loggingIn: false
   }
 });
 
@@ -49,6 +52,9 @@ describe('Settings', () => {
     const mockStore = createMockStore({
       appSettings: {
         autoLockTimeout: AUTO_LOCK_TIMEOUT
+      },
+      auth: {
+        loggingIn: false
       }
     });
     const { getByText } = getComponent(mockStore);
@@ -69,6 +75,9 @@ describe('Settings', () => {
     const mockStore = createMockStore({
       appSettings: {
         autoLockTimeout: AUTO_LOCK_TIMEOUT
+      },
+      auth: {
+        loggingIn: false
       }
     });
     const { getByText } = getComponent(mockStore);
@@ -84,6 +93,9 @@ describe('Settings', () => {
     const mockStore = createMockStore({
       appSettings: {
         autoLockTimeout: AUTO_LOCK_TIMEOUT
+      },
+      auth: {
+        loggingIn: false
       }
     });
 
