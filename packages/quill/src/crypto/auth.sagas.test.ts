@@ -19,7 +19,7 @@ import { call } from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
 
 import { KEYTAR_SERVICE } from '@config';
-import { fAccount, fPrivateKey } from '@fixtures';
+import { fAccount, fEncryptionPrivateKey, fPrivateKey } from '@fixtures';
 import { ROUTE_PATHS } from '@routing';
 
 import {
@@ -152,7 +152,7 @@ describe('changePasswordWorker', () => {
     (safeGetPrivateKey as jest.MockedFunction<typeof safeGetPrivateKey>)
       .mockImplementationOnce(async () => fPrivateKey)
       .mockImplementationOnce(async () => null)
-      .mockImplementationOnce(async () => fPrivateKey);
+      .mockImplementationOnce(async () => fEncryptionPrivateKey);
 
     await expectSaga(
       changePasswordWorker,
@@ -164,7 +164,7 @@ describe('changePasswordWorker', () => {
       .call(deleteSalt)
       .call(init, 'foo')
       .call(savePrivateKey, fAccount.uuid, fPrivateKey)
-      .call(savePrivateKey, fAccount.uuid, fPrivateKey)
+      .call(savePrivateKey, fAccount.uuid, fEncryptionPrivateKey)
       .put(changePasswordSuccess())
       .put(push(ROUTE_PATHS.HOME))
       .silentRun();
