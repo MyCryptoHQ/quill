@@ -5,7 +5,7 @@ import { WalletType } from '@quill/common';
 import { fKeystore, fKeystorePassword, fMnemonicPhrase, fPrivateKey, fSignedTx } from '@fixtures';
 
 import { createWallet, getAddress, getAddresses, signTransaction } from './crypto';
-import { getPrivateKey } from './secrets';
+import { safeGetPrivateKey } from './secrets';
 
 jest.unmock('@bridge');
 
@@ -59,7 +59,7 @@ jest.mock('electron-store', () => {
 
 const mockPrivateKey = fPrivateKey;
 jest.mock('./secrets', () => ({
-  getPrivateKey: jest.fn().mockImplementation(() => mockPrivateKey)
+  safeGetPrivateKey: jest.fn().mockImplementation(() => mockPrivateKey)
 }));
 
 describe('signTransaction', () => {
@@ -102,11 +102,13 @@ describe('signTransaction', () => {
       )
     ).resolves.toBe(fSignedTx);
 
-    expect(getPrivateKey).toHaveBeenCalledWith('709879a4-2241-4c07-8c83-16048e47d502');
+    expect(safeGetPrivateKey).toHaveBeenCalledWith('709879a4-2241-4c07-8c83-16048e47d502');
   });
 
   it('throws if persistent account doesnt exist', async () => {
-    (getPrivateKey as jest.MockedFunction<typeof getPrivateKey>).mockImplementationOnce(() => null);
+    (safeGetPrivateKey as jest.MockedFunction<typeof safeGetPrivateKey>).mockImplementationOnce(
+      () => null
+    );
 
     return expect(
       signTransaction(
