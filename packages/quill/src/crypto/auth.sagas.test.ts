@@ -7,6 +7,7 @@ import {
   login,
   loginFailed,
   loginSuccess,
+  logout,
   rehydrateAllState,
   resetSettings,
   setNewUser,
@@ -166,7 +167,7 @@ describe('changePasswordWorker', () => {
       .call(savePrivateKey, fAccount.uuid, fPrivateKey)
       .call(savePrivateKey, fAccount.uuid, fEncryptionPrivateKey)
       .put(changePasswordSuccess())
-      .put(push(ROUTE_PATHS.HOME))
+      .put(logout())
       .silentRun();
   });
 
