@@ -3,7 +3,6 @@ import {
   denyCurrentTransaction,
   getAccounts,
   getCurrentTransaction,
-  getMinuteDifference,
   getTransactionInfoBannerType,
   isHistoryTx,
   sign,
@@ -11,6 +10,7 @@ import {
   TxResult
 } from '@quill/common';
 import { push } from 'connected-react-router';
+import { differenceInMinutes } from 'date-fns';
 
 import {
   Box,
@@ -105,15 +105,14 @@ export const Transaction = () => {
       )}
       {result === TxResult.APPROVED && isHistoryTx(currentTx) && (
         <PanelBottom py="24px">
-          {offline || getMinuteDifference(Date.now(), currentTx.actionTakenTimestamp) >= 5 ? (
-            <Button variant="inverted" onClick={handleViewSigned}>
-              {translateRaw('VIEW_SIGNED_TX')}
-            </Button>
-          ) : (
-            <Body fontWeight="bold" textAlign="center">
+          {!offline && differenceInMinutes(Date.now(), currentTx.actionTakenTimestamp) < 5 && (
+            <Body fontWeight="bold" textAlign="center" mb="2">
               {translateRaw('TRANSACTION_APPROVED_TIP')}
             </Body>
           )}
+          <Button variant="inverted" onClick={handleViewSigned}>
+            {translateRaw('VIEW_SIGNED_TX')}
+          </Button>
         </PanelBottom>
       )}
     </>
