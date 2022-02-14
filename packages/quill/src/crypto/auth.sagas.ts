@@ -113,7 +113,7 @@ export function* changePasswordWorker({ payload }: ReturnType<typeof changePassw
     );
 
     yield put(changePasswordSuccess());
-    yield put(push(ROUTE_PATHS.HOME));
+    yield put(logout());
   } catch (error) {
     yield put(changePasswordFailed(error.toString()));
   }
