@@ -10,12 +10,12 @@ import type {
 import { WalletType } from '@quill/common';
 import { getDeterministicWallet, getWallet } from '@wallets/wallet-initialisation';
 
-import { getPrivateKey } from './secrets';
+import { safeGetPrivateKey } from './secrets';
 
 const MNEMONIC_ENTROPY_BYTES = 16;
 
 const getPersistentWallet = async (uuid: TUuid): Promise<PrivateKey> => {
-  const privateKey = await getPrivateKey(uuid);
+  const privateKey = await safeGetPrivateKey(uuid);
   if (privateKey == null) {
     throw new Error('Saved Private Key is invalid');
   }
