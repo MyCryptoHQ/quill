@@ -10,11 +10,13 @@ import {
 import type { DeepPartial, IAccount, TSignTransaction } from '@quill/common';
 import type { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render } from '@testing-library/react';
+import { push } from 'connected-react-router';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { ThemeProvider } from 'styled-components';
 
+import { ROUTE_PATHS } from '@app/routing';
 import type { ApplicationState } from '@app/store';
 import { theme } from '@app/theme';
 import {
@@ -178,23 +180,6 @@ describe('Transaction', () => {
     expect(getByText(translateRaw('NONCE_OUT_OF_ORDER')).textContent).toBeDefined();
   });
 
-  it('renders the signature for offline transactions', async () => {
-    const queueTx = makeQueueTx(getTransactionRequest(fAccount.address), true);
-    const history = makeHistoryTx(queueTx, TxResult.APPROVED, fSignedTx);
-
-    const store = createMockStore({
-      accounts: { accounts: [fAccount] },
-      transactions: {
-        history: [],
-        queue: [],
-        currentTransaction: history
-      }
-    });
-
-    const { findByText } = getComponent(store);
-    expect(findByText(fSignedTx)).toBeDefined();
-  });
-
   it('renders EIP1559 gas params', async () => {
     const queueTx = makeQueueTx(
       getEIP1559TransactionRequest(fAccount.address, fTxRequestEIP1559.params[0])
@@ -210,5 +195,31 @@ describe('Transaction', () => {
     const { getByText } = getComponent(store);
     expect(getByText(translateRaw('MAX_FEE'), { exact: false }).textContent).toBeDefined();
     expect(getByText(translateRaw('MAX_PRIORITY_FEE'), { exact: false }).textContent).toBeDefined();
+  });
+
+  it('allows user to view signed tx', async () => {
+    const queueTx = makeQueueTx(
+      getEIP1559TransactionRequest(fAccount.address, fTxRequestEIP1559.params[0])
+    );
+    const history = {
+      ...makeHistoryTx(queueTx, TxResult.APPROVED, fSignedTx),
+      actionTakenTimestamp: 0
+    };
+    const store = createMockStore({
+      accounts: { accounts: [fAccount] },
+      transactions: {
+        history: [history],
+        queue: [],
+        currentTransaction: history
+      }
+    });
+    const { getByText } = getComponent(store);
+
+    const button = getByText(translateRaw('VIEW_SIGNED_TX'));
+    expect(button.textContent).toBeDefined();
+
+    fireEvent.click(button);
+
+    expect(store.getActions()).toContainEqual(push(ROUTE_PATHS.VIEW_SIGNED_TRANSACTION));
   });
 });

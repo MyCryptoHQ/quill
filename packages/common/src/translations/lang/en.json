@@ -267,6 +267,10 @@
     "ENTER_CURRENT_PASSWORD": "Enter Current Password",
     "NEW_PASSWORD": "New Password",
     "CONFIRM_NEW_PASSWORD": "Confirm New Password",
-    "CURRENT_PASSWORD_NOT_EQUAL": "The password you entered does not match your current password."
+    "CURRENT_PASSWORD_NOT_EQUAL": "The password you entered does not match your current password.",
+    "VIEW_SIGNED_TX": "View Signed Transaction",
+    "TX_SUMMARY": "Transaction Summary",
+    "VIEW_SIGNED_TX_HEADER": "Signed Transaction",
+    "VIEW_SIGNED_TX_DESCRIPTION": "This page allows you to view your signed transaction. This can be useful if a problem occurred when broadcasting the transaction. To broadcast manually, please insert the following data in [MyCrypto](https://app.mycrypto.com/broadcast-transaction)"
   }
 }

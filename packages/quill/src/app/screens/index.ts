@@ -18,3 +18,4 @@ export { LoadTransaction } from './LoadTransaction';
 export { Settings } from './Settings';
 export { About } from './About';
 export { ChangePassword } from './ChangePassword';
+export { ViewSignedTransaction } from './ViewSignedTransaction';

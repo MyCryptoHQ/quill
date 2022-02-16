@@ -3,22 +3,15 @@ import { Body } from '@mycrypto/ui';
 import { bigify, translateRaw } from '@quill/common';
 import type { TxHistoryEntry, TxQueueEntry } from '@quill/common';
 
-import { CopyableText } from '@components';
 import { getChain } from '@data';
 
 import { CodeBlock } from './CodeBlock';
-import { Box, ExtendableButton, QR } from './index';
+import { Box } from './index';
 import { TxDetailsBlockRow as BlockRow } from './TxDetailsBlockRow';
 import { TxDetailsRow as Row } from './TxDetailsRow';
 
-const isHistoryEntry = (
-  transaction: TxQueueEntry | TxHistoryEntry
-): transaction is TxHistoryEntry => {
-  return !!(transaction as TxHistoryEntry).signedTx;
-};
-
 export const TxDetails = ({ tx: entry }: { tx: TxQueueEntry | TxHistoryEntry }) => {
-  const { tx, offline } = entry;
+  const { tx } = entry;
 
   const isEIP1559 = tx.type === 2;
 
@@ -28,21 +21,9 @@ export const TxDetails = ({ tx: entry }: { tx: TxQueueEntry | TxHistoryEntry }) 
   const symbol = chain?.nativeCurrency?.symbol ?? '?';
   const network = chain?.name ?? translateRaw('UNKNOWN_NETWORK');
   const data = entry.tx.data?.toString() ?? '0x';
-  const signedTx = isHistoryEntry(entry) && entry.signedTx;
 
   return (
     <>
-      {offline && signedTx && (
-        <ExtendableButton
-          title={translateRaw('SHOW_SIGNED_TRANSACTION')}
-          extendedTitle={translateRaw('HIDE_SIGNED_TRANSACTION')}
-        >
-          <CopyableText>{signedTx}</CopyableText>
-          {/* @todo: Test how much data can fit into QR */}
-          <QR data={signedTx} size="200px" mt="2" mx="auto" display="block" />
-        </ExtendableButton>
-      )}
-
       {/** @todo Consider units */}
       <Row label={translateRaw('TX_DETAILS_AMOUNT')} value={`${formatEther(tx.value)} ${symbol}`} />
       <Row label={translateRaw('NETWORK')} value={`${network} (${tx.chainId.toString()})`} />

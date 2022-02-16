@@ -1,14 +1,16 @@
-import { Body, Flex, Image } from '@mycrypto/ui';
+import { Body, Button, Flex, Image } from '@mycrypto/ui';
 import {
   denyCurrentTransaction,
   getAccounts,
   getCurrentTransaction,
   getTransactionInfoBannerType,
+  isHistoryTx,
   sign,
   translateRaw,
   TxResult
 } from '@quill/common';
 import { push } from 'connected-react-router';
+import { differenceInMinutes } from 'date-fns';
 
 import {
   Box,
@@ -30,7 +32,7 @@ export const Transaction = () => {
   const dispatch = useDispatch();
   const accounts = useSelector(getAccounts);
   const currentTx = useSelector(getCurrentTransaction);
-  const { tx, receivedTimestamp, result, origin } = currentTx;
+  const { tx, receivedTimestamp, result, origin, offline } = currentTx;
   const currentAccount = tx && accounts.find((a) => a.address === tx.from);
   const recipientAccount = tx && accounts.find((a) => a.address === tx.to);
   const info = useSelector(getTransactionInfoBannerType);
@@ -53,6 +55,10 @@ export const Transaction = () => {
 
   const handleDeny = () => {
     dispatch(denyCurrentTransaction());
+  };
+
+  const handleViewSigned = () => {
+    dispatch(push(ROUTE_PATHS.VIEW_SIGNED_TRANSACTION));
   };
 
   return (
@@ -97,11 +103,16 @@ export const Transaction = () => {
       {result === TxResult.WAITING && (
         <TransactionBottom disabled={false} handleAccept={handleAccept} handleDeny={handleDeny} />
       )}
-      {result === TxResult.APPROVED && (
+      {result === TxResult.APPROVED && isHistoryTx(currentTx) && (
         <PanelBottom py="24px">
-          <Body fontWeight="bold" textAlign="center">
-            {translateRaw('TRANSACTION_APPROVED_TIP')}
-          </Body>
+          {!offline && differenceInMinutes(Date.now(), currentTx.actionTakenTimestamp) < 5 && (
+            <Body fontWeight="bold" textAlign="center" mb="2">
+              {translateRaw('TRANSACTION_APPROVED_TIP')}
+            </Body>
+          )}
+          <Button variant="inverted" onClick={handleViewSigned}>
+            {translateRaw('VIEW_SIGNED_TX')}
+          </Button>
         </PanelBottom>
       )}
     </>

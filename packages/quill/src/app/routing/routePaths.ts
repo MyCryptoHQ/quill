@@ -15,5 +15,6 @@ export const ROUTE_PATHS = {
   MENU: '/menu',
   REQUEST_PERMISSION: '/request-permission',
   LOAD_UNSIGNED_TRANSACTION: '/load-unsigned-transaction',
-  CHANGE_PASSWORD: '/change-password'
+  CHANGE_PASSWORD: '/change-password',
+  VIEW_SIGNED_TRANSACTION: '/view-signed-transaction'
 };

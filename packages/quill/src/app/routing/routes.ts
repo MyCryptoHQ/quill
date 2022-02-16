@@ -15,7 +15,8 @@ import {
   Settings,
   SetupAccount,
   SignTransaction,
-  Transaction
+  Transaction,
+  ViewSignedTransaction
 } from '@screens';
 import type { Route } from '@types';
 
@@ -91,6 +92,12 @@ export const ROUTES: Record<string, Route> = {
   CHANGE_PASSWORD: {
     path: ROUTE_PATHS.CHANGE_PASSWORD,
     component: ChangePassword,
+    exact: true,
+    requireLogin: true
+  },
+  VIEW_SIGNED_TRANSACTION: {
+    path: ROUTE_PATHS.VIEW_SIGNED_TRANSACTION,
+    component: ViewSignedTransaction,
     exact: true,
     requireLogin: true
   }
