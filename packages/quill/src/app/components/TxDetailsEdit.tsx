@@ -1,8 +1,9 @@
 import { formatEther, parseUnits } from '@ethersproject/units';
-import { Body } from '@mycrypto/ui';
+import { Body, Box } from '@mycrypto/ui';
 import { bigify, translateRaw } from '@quill/common';
 import type { ComponentProps } from 'react';
 import type { FormState } from 'typed-react-form';
+import { useListener } from 'typed-react-form';
 
 import type { HumanReadableTx } from '@app/utils';
 import { sanitizeGasPriceInput } from '@app/utils';
@@ -10,7 +11,6 @@ import { getChain } from '@data';
 
 import { FormInput } from './FormInput';
 import { FormTextArea } from './FormTextArea';
-import { Box } from './index';
 import { TxDetailsBlockRow as BlockRow } from './TxDetailsBlockRow';
 import { TxDetailsRow as Row } from './TxDetailsRow';
 import { ValidatedListener } from './ValidatedListener';
@@ -36,45 +36,57 @@ type InputRowProps = {
   value?: EditTxType[keyof EditTxType];
 } & Omit<ComponentProps<typeof FormInput>, 'form'>;
 
-const InputRow = ({ label, unit, form, ...props }: InputRowProps) => (
-  <Row
-    py="2"
-    label={label}
-    value={
-      <Box variant="horizontal-start" width="45%">
-        <FormInput
-          {...props}
-          form={form}
-          py="1"
-          width="100%"
-          pr={unit && '3rem'}
-          sx={{ textAlign: 'right' }}
-          css={`
-            ::-webkit-inner-spin-button {
-              -webkit-appearance: none;
-              margin: 0;
-            }
-            ::-webkit-outer-spin-button {
-              -webkit-appearance: none;
-              margin: 0;
-            }
-          `}
-        />
-        {unit && (
-          <Body ml="-3rem" sx={{ zIndex: 2 }}>
-            {unit}
-          </Body>
-        )}
-      </Box>
-    }
-  />
-);
+const InputRow = ({ label, unit, form, name, ...props }: InputRowProps) => {
+  const { error } = useListener(form, name);
+
+  return (
+    <Row
+      py="2"
+      label={label}
+      value={
+        <Box width="45%">
+          <Box variant="horizontal-start">
+            <FormInput
+              {...props}
+              form={form}
+              name={name}
+              py="1"
+              width="100%"
+              pr={unit && '3rem'}
+              sx={{ textAlign: 'right' }}
+              css={`
+                ::-webkit-inner-spin-button {
+                  -webkit-appearance: none;
+                  margin: 0;
+                }
+
+                ::-webkit-outer-spin-button {
+                  -webkit-appearance: none;
+                  margin: 0;
+                }
+              `}
+            />
+            {unit && (
+              <Body ml="-3rem" sx={{ zIndex: 2 }}>
+                {unit}
+              </Body>
+            )}
+          </Box>
+          {error && <Body variant="error">{translateRaw('INVALID_INPUT')}</Body>}
+        </Box>
+      }
+    />
+  );
+};
 
 export const TxDetailsEdit = ({ form }: { form: FormState<EditTxType> }) => {
   const tx = form.values;
   const chain = getChain(tx.chainId);
   const symbol = chain?.nativeCurrency?.symbol ?? '?';
   const isEIP1559 = tx.type === 2;
+
+  const { error } = useListener(form, 'data');
+
   return (
     <>
       <InputRow
@@ -144,6 +156,7 @@ export const TxDetailsEdit = ({ form }: { form: FormState<EditTxType> }) => {
       />
       <BlockRow label={translateRaw('DATA')} hideDivider={true}>
         <FormTextArea id="data" name="data" form={form} style={{ resize: 'vertical' }} />
+        {error && <Body variant="error">{translateRaw('INVALID_INPUT')}</Body>}
       </BlockRow>
       {tx.type && tx.type > 0 && <Row label={translateRaw('TX_TYPE')} value={tx.type} />}
     </>
