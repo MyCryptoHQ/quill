@@ -10,25 +10,39 @@ export const Account = ({
   address,
   truncate: shouldTruncate,
   addressColor,
+  copyable = true,
   ...props
-}: { address: TAddress; label?: string; truncate: boolean; addressColor?: string } & BoxProps) => (
-  <Box bg="GREY_LIGHTEST" p="10px" variant="horizontal-start" {...props}>
-    <Blockie height="32px" width="32px" minWidth="32px" address={address} />
-    <Box pl="1">
-      <Body
-        fontSize="3"
-        sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
-      >
-        {label ?? translateRaw('NO_LABEL')}
-      </Body>
-      <Copyable text={address} mr="2">
+}: {
+  address: TAddress;
+  label?: string;
+  truncate: boolean;
+  addressColor?: string;
+  copyable?: boolean;
+} & BoxProps) => {
+  const account = (
+    <Body fontSize="1" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', color: addressColor }}>
+      {shouldTruncate ? truncate(address) : address}
+    </Body>
+  );
+
+  return (
+    <Box bg="GREY_LIGHTEST" p="10px" variant="horizontal-start" {...props}>
+      <Blockie height="32px" width="32px" minWidth="32px" address={address} />
+      <Box pl="1">
         <Body
-          fontSize="1"
-          sx={{ overflow: 'hidden', textOverflow: 'ellipsis', color: addressColor }}
+          fontSize="3"
+          sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
         >
-          {shouldTruncate ? truncate(address) : address}
+          {label ?? translateRaw('NO_LABEL')}
         </Body>
-      </Copyable>
+        {copyable ? (
+          <Copyable text={address} mr="2">
+            {account}
+          </Copyable>
+        ) : (
+          account
+        )}
+      </Box>
     </Box>
-  </Box>
-);
+  );
+};

@@ -19,13 +19,14 @@ const AccountOption = ({ data, selectOption }: OptionProps<IAccount>) => {
       label={data.label}
       truncate={false}
       bg="none"
+      copyable={false}
       onClick={handleSelect}
     />
   );
 };
 
 const AccountValue = ({ value }: { value: IAccount }) => (
-  <Account address={value.address} label={value.label} truncate={true} bg="none" />
+  <Account address={value.address} label={value.label} truncate={true} bg="none" copyable={false} />
 );
 
 export const AccountSelector = ({ currentAccount, accounts, onChange }: Props) => {
