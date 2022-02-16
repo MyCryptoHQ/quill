@@ -80,7 +80,12 @@ export const EditTransaction = () => {
   const info = useSelector(getTransactionInfoBannerType);
   const schema = getSchema(tx);
 
-  const form = useForm(toHumanReadable(tx), yupValidator(schema), true);
+  const form = useForm(
+    toHumanReadable(tx),
+    yupValidator(schema, { abortEarly: false }),
+    true,
+    true
+  );
 
   const handleCancel = () => {
     dispatch(replace(ROUTE_PATHS.TX));

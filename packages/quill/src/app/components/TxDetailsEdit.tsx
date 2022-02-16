@@ -85,6 +85,8 @@ export const TxDetailsEdit = ({ form }: { form: FormState<EditTxType> }) => {
   const symbol = chain?.nativeCurrency?.symbol ?? '?';
   const isEIP1559 = tx.type === 2;
 
+  const { error } = useListener(form, 'data');
+
   return (
     <>
       <InputRow
@@ -154,6 +156,7 @@ export const TxDetailsEdit = ({ form }: { form: FormState<EditTxType> }) => {
       />
       <BlockRow label={translateRaw('DATA')} hideDivider={true}>
         <FormTextArea id="data" name="data" form={form} style={{ resize: 'vertical' }} />
+        {error && <Body variant="error">{translateRaw('INVALID_INPUT')}</Body>}
       </BlockRow>
       {tx.type && tx.type > 0 && <Row label={translateRaw('TX_TYPE')} value={tx.type} />}
     </>
