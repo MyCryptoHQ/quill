@@ -19,6 +19,7 @@ const AccountOption = ({ data, selectOption }: OptionProps<IAccount>) => {
       label={data.label}
       truncate={false}
       bg="none"
+      copyable={false}
       onClick={handleSelect}
     />
   );
