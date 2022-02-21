@@ -3591,6 +3591,7 @@ __metadata:
     node-abi: 3.5.0
     node-ipc: 9.1.4
     node-loader: 1.0.1
+    qr-scanner: 1.4.0
     qruri: 0.0.4
     react: 17.0.2
     react-dom: 17.0.2
@@ -4343,6 +4344,13 @@ __metadata:
   version: 2.4.0
   resolution: "@types/normalize-package-data@npm:2.4.0"
   checksum: 6d077e73be7ac6227b678829c7bd765607136cdef537fd4ee7f368d9302a651aea924254d69826663322048436d90d6e7c679c9aa99c4824a687c568aab8ce4f
+  languageName: node
+  linkType: hard
+
+"@types/offscreencanvas@npm:^2019.6.4":
+  version: 2019.6.4
+  resolution: "@types/offscreencanvas@npm:2019.6.4"
+  checksum: 6c24439e5ec85c899435cc12ce904e43e6597c614a6b78832363ccbcbf9ec725512a165cf35a35e36a52125b6f2930a627d3dd517952398d061dc2f4b7332876
   languageName: node
   linkType: hard
 
@@ -15748,6 +15756,15 @@ fsevents@^1.2.7:
   dependencies:
     escape-goat: ^2.0.0
   checksum: b300d979e1bcc388b0aabe723e9bd7f6598f02a10e66b693b9dde6249f68ad95e93804a1511dbbafd172e404b837d60c49ebdd152e3e94909dc282ca4ba285e8
+  languageName: node
+  linkType: hard
+
+"qr-scanner@npm:1.4.0":
+  version: 1.4.0
+  resolution: "qr-scanner@npm:1.4.0"
+  dependencies:
+    "@types/offscreencanvas": ^2019.6.4
+  checksum: 0686484adc9880d07021d400aa2ae4d9ce02afe829f5a6c6ea1e8c03131e3a2bc91d5b9d22be8413d912cc7230ca3e8fff84aa7d37b8f1b1d8ad288fa5be6ad1
   languageName: node
   linkType: hard
 
