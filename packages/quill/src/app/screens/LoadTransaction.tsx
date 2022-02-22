@@ -10,12 +10,12 @@ import {
   translateRaw
 } from '@quill/common';
 import { push } from 'connected-react-router';
-import QrScanner from 'qr-scanner';
 import type { FormEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { useForm, yupValidator } from 'typed-react-form';
 import { object, string } from 'yup';
 
+import { hasCamera } from '@app/utils';
 import { Box, FormError, FormTextArea, Label, PanelBottom, ScrollableContainer } from '@components';
 import { AccountSelector } from '@components/AccountSelector';
 import { Scanner } from '@components/Scanner';
@@ -39,7 +39,7 @@ export const LoadTransaction = () => {
   const [isScannerEnabled, setScannerEnabled] = useState(false);
 
   useEffect(() => {
-    QrScanner.hasCamera().then(setScannerEnabled).catch(console.error);
+    hasCamera().then(setScannerEnabled).catch(console.error);
   }, []);
 
   const form = useForm<{ transaction: string; account: TUuid }>(
@@ -124,7 +124,7 @@ export const LoadTransaction = () => {
           </>
         )}
       </ScrollableContainer>
-      <PanelBottom>
+      <PanelBottom variant="clear">
         <Button onClick={handleToggleScanner} mb="2" disabled={!isScannerEnabled}>
           {isScanner ? translateRaw('ENTER_SIGNED_TRANSACTION_MANUALLY') : translateRaw('SCAN_QR')}
         </Button>
