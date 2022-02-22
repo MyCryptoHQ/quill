@@ -3546,6 +3546,7 @@ __metadata:
     "@types/lodash.merge": 4.6.6
     "@types/node-ipc": 9.1.4
     "@types/pbkdf2": 3.1.0
+    "@types/qrcode.react": ^1.0.2
     "@types/react": 16.9.49
     "@types/react-dom": 16.9.8
     "@types/react-redux": 7.1.9
@@ -3592,6 +3593,7 @@ __metadata:
     node-ipc: 9.1.4
     node-loader: 1.0.1
     qr-scanner: 1.4.0
+    qrcode.react: 1.0.1
     qruri: 0.0.4
     react: 17.0.2
     react-dom: 17.0.2
@@ -4381,6 +4383,15 @@ __metadata:
   version: 15.7.3
   resolution: "@types/prop-types@npm:15.7.3"
   checksum: bd0eab69d5120ad3784d0c9985f902653d5924707a7f2b3702a330e762dfd61b6494954cb54ad0c52b918ffd6f1e7e27c9270e4442bc15250de348596f2f60cb
+  languageName: node
+  linkType: hard
+
+"@types/qrcode.react@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@types/qrcode.react@npm:1.0.2"
+  dependencies:
+    "@types/react": "*"
+  checksum: 539a944bd362d49b6261897c34e1ea57185e7bf054ef20731f8d298918114d4fabf43df84f2faf25df465fdaa72039bc96d06b5a855d933c94299d1c49cae184
   languageName: node
   linkType: hard
 
@@ -15765,6 +15776,26 @@ fsevents@^1.2.7:
   dependencies:
     "@types/offscreencanvas": ^2019.6.4
   checksum: 0686484adc9880d07021d400aa2ae4d9ce02afe829f5a6c6ea1e8c03131e3a2bc91d5b9d22be8413d912cc7230ca3e8fff84aa7d37b8f1b1d8ad288fa5be6ad1
+  languageName: node
+  linkType: hard
+
+"qr.js@npm:0.0.0":
+  version: 0.0.0
+  resolution: "qr.js@npm:0.0.0"
+  checksum: 83e1d6140ec8781d0def39a70d7ef9e7a7ff455697d8e078b86aeeb773dd33fd5235d4f94710b871fc3cfdefb806165503b8241cd4cd9b18a4b9b4160f48db43
+  languageName: node
+  linkType: hard
+
+"qrcode.react@npm:1.0.1":
+  version: 1.0.1
+  resolution: "qrcode.react@npm:1.0.1"
+  dependencies:
+    loose-envify: ^1.4.0
+    prop-types: ^15.6.0
+    qr.js: 0.0.0
+  peerDependencies:
+    react: ^15.5.3 || ^16.0.0 || ^17.0.0
+  checksum: add74eb8a1a6967054bdcc090c0e858338be5e89c5cf6659827037e9bf297c0fafff5e47371288fa7ec863ee9620ed291b1564e3cd978d22e8be5d502a759d68
   languageName: node
   linkType: hard
 

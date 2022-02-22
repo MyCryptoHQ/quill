@@ -4,6 +4,7 @@ import { toPng } from 'html-to-image';
 import React, { useEffect, useRef, useState } from 'react';
 
 import safeWallet from '@assets/icons/safe-wallet.svg';
+import secretImage from '@assets/images/secret.png';
 import type { IFlowComponentProps } from '@components';
 import { Box, Link, PanelBottom, PaperWallet, ScrollableContainer } from '@components';
 import { DEFAULT_DERIVATION_PATH } from '@config/derivation';
@@ -16,18 +17,23 @@ export const GenerateAccountPrint = ({ flowHeader }: IFlowComponentProps) => {
   const { address, mnemonicPhrase } = useSelector(getGeneratedAccount);
   const dispatch = useDispatch();
   const handleNext = () => dispatch(addGeneratedAccount());
+  const [isLoaded, setLoaded] = useState(false);
+
+  const handleLoad = () => setLoaded(true);
 
   useEffect(() => {
-    if (paperWallet.current) {
+    if (isLoaded && paperWallet.current) {
       toPng(paperWallet.current).then(setPaperWalletImage);
     }
-  }, [paperWallet.current]);
+  }, [paperWallet.current, isLoaded]);
 
   return (
     <>
       <ScrollableContainer>
         {flowHeader}
         <Box sx={{ position: 'absolute', top: '-1000%', left: '-1000%' }}>
+          {/* Without this the 'secret' image isn't always shown on the QR */}
+          <Image src={secretImage} display="none" onLoad={handleLoad} />
           <PaperWallet
             ref={paperWallet}
             address={address}
@@ -54,7 +60,9 @@ export const GenerateAccountPrint = ({ flowHeader }: IFlowComponentProps) => {
           href={paperWalletImage}
           download={`paper-wallet-${address}`}
         >
-          <Button mb="3">{translateRaw('PRINT_PAPER_WALLET')}</Button>
+          <Button mb="3" disabled={!isLoaded}>
+            {translateRaw('PRINT_PAPER_WALLET')}
+          </Button>
         </Link>
         <Button variant="inverted" onClick={handleNext}>
           {translateRaw('PAPER_WALLET_PRINTED')}
