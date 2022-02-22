@@ -126,7 +126,7 @@ export const LoadTransaction = () => {
       </ScrollableContainer>
       <PanelBottom variant="clear">
         <Button onClick={handleToggleScanner} mb="2" disabled={!isScannerEnabled}>
-          {isScanner ? translateRaw('ENTER_SIGNED_TRANSACTION_MANUALLY') : translateRaw('SCAN_QR')}
+          {isScanner ? translateRaw('ENTER_RAW_TRANSACTION_MANUALLY') : translateRaw('SCAN_QR')}
         </Button>
         <Button type="submit" form="load-transaction-form">
           {translateRaw('LOAD_TRANSACTION')}
