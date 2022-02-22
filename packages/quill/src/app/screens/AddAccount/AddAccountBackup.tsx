@@ -1,10 +1,11 @@
-import { BlockieAddress, Body, Button, SubHeading, Tooltip } from '@mycrypto/ui';
+import { BlockieAddress, Body, Button, Image, SubHeading, Tooltip } from '@mycrypto/ui';
 import { getFullPath } from '@mycrypto/wallets';
 import { addSavedAccounts, getAccountsToAdd, translateRaw, WalletType } from '@quill/common';
 import { toPng } from 'html-to-image';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'rebass/styled-components';
 
+import secretImage from '@assets/images/secret.png';
 import type { IFlowComponentProps } from '@components';
 import { Box, Checkbox, Panel, PanelBottom, PaperWallet, ScrollableContainer } from '@components';
 import { getKBHelpArticle, KB_HELP_ARTICLE } from '@config';
@@ -17,6 +18,9 @@ export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
   const { accounts, secret } = useSelector(getAccountsToAdd);
   const [persistent, setPersistent] = useState(true);
   const [paperWalletImage, setPaperWalletImage] = useState<string>();
+  const [isLoaded, setLoaded] = useState(false);
+
+  const handleLoad = () => setLoaded(true);
 
   const handleToggle = () => setPersistent((value) => !value);
 
@@ -25,10 +29,10 @@ export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
   };
 
   useEffect(() => {
-    if (paperWallet.current) {
+    if (isLoaded && paperWallet.current) {
       toPng(paperWallet.current).then(setPaperWalletImage);
     }
-  }, [paperWallet.current]);
+  }, [paperWallet.current, isLoaded]);
 
   const walletType = accounts[0].walletType;
 
@@ -37,6 +41,8 @@ export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
       <ScrollableContainer>
         {flowHeader}
         <Box sx={{ position: 'absolute', top: '-1000%', left: '-1000%' }}>
+          {/* Without this the 'secret' image isn't always shown on the QR */}
+          <Image src={secretImage} display="none" onLoad={handleLoad} />
           <PaperWallet
             ref={paperWallet}
             address={accounts[0].address}
@@ -91,7 +97,9 @@ export const AddAccountBackup = ({ flowHeader }: IFlowComponentProps) => {
           href={paperWalletImage}
           download={`paper-wallet-${accounts[0].address}`}
         >
-          <Button mb="2">{translateRaw('PRINT_PAPER_WALLET')}</Button>
+          <Button mb="2" disabled={!isLoaded}>
+            {translateRaw('PRINT_PAPER_WALLET')}
+          </Button>
         </Link>
         <Button mb="2" variant="inverted" onClick={handleAdd}>
           {translateRaw('CONTINUE_ADD_ACCOUNT', {

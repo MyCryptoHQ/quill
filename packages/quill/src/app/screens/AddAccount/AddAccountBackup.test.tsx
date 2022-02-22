@@ -1,9 +1,11 @@
+import { Image } from '@mycrypto/ui';
 import { DEFAULT_ETH, getFullPath } from '@mycrypto/wallets';
 import { addSavedAccounts, translateRaw, WalletType } from '@quill/common';
 import type { DeepPartial } from '@quill/common';
 import type { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { toPng } from 'html-to-image';
+import type { SyntheticEvent } from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router';
 import configureStore from 'redux-mock-store';
@@ -17,6 +19,11 @@ import { AddAccountBackup } from './AddAccountBackup';
 
 jest.mock('html-to-image', () => ({
   toPng: jest.fn().mockImplementation(async () => 'foo bar')
+}));
+
+jest.mock('@mycrypto/ui', () => ({
+  ...jest.requireActual('@mycrypto/ui'),
+  Image: jest.fn().mockReturnValue(null)
 }));
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
@@ -37,6 +44,10 @@ const getComponent = (store: EnhancedStore<DeepPartial<ApplicationState>> = crea
     </ThemeProvider>
   );
 };
+
+beforeEach(() => {
+  jest.clearAllMocks();
+});
 
 describe('AddAccountBackup', () => {
   it('shows the address of the account to add', () => {
@@ -126,6 +137,10 @@ describe('AddAccountBackup', () => {
         }
       })
     );
+
+    const mock = Image as jest.MockedFunction<typeof Image>;
+    const onLoad = mock.mock.calls[0][0].onLoad;
+    onLoad({} as SyntheticEvent<HTMLImageElement, Event>);
 
     await waitFor(() => expect(toPng).toHaveBeenCalled());
     expect(getByTestId('download-link').getAttribute('href')).toBe('foo bar');

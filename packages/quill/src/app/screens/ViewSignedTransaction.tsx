@@ -35,7 +35,7 @@ export const ViewSignedTransaction = () => {
           <>
             <CopyableText>{signedTx}</CopyableText>
             {/* @todo: Test how much data can fit into QR */}
-            <QR data={signedTx} size="200px" mt="2" mx="auto" display="block" />
+            <QR data={signedTx} size={200} mt="2" mx="auto" display="block" />
           </>
         )}
       </Box>

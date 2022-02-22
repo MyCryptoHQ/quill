@@ -1,8 +1,10 @@
+import { Image } from '@mycrypto/ui';
 import { addGeneratedAccount, translateRaw } from '@quill/common';
 import type { DeepPartial } from '@quill/common';
 import type { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { toPng } from 'html-to-image';
+import type { SyntheticEvent } from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
@@ -14,6 +16,11 @@ import { GenerateAccountPrint } from './GenerateAccountPrint';
 
 jest.mock('html-to-image', () => ({
   toPng: jest.fn().mockImplementation(async () => 'foo bar')
+}));
+
+jest.mock('@mycrypto/ui', () => ({
+  ...jest.requireActual('@mycrypto/ui'),
+  Image: jest.fn().mockReturnValue(null)
 }));
 
 const createMockStore = configureStore<DeepPartial<ApplicationState>>();
@@ -36,6 +43,10 @@ const getComponent = (
   );
 };
 
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
 describe('GenerateAccountPrint', () => {
   it('renders', () => {
     const { getByText } = getComponent(
@@ -56,6 +67,10 @@ describe('GenerateAccountPrint', () => {
         }
       })
     );
+
+    const mock = Image as jest.MockedFunction<typeof Image>;
+    const onLoad = mock.mock.calls[0][0].onLoad;
+    onLoad({} as SyntheticEvent<HTMLImageElement, Event>);
 
     await waitFor(() => expect(toPng).toHaveBeenCalled());
     expect(getByTestId('download-link').getAttribute('href')).toBe('foo bar');

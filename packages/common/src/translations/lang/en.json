@@ -272,6 +272,9 @@
     "TX_SUMMARY": "Transaction Summary",
     "VIEW_SIGNED_TX_HEADER": "Signed Transaction",
     "VIEW_SIGNED_TX_DESCRIPTION": "This page allows you to view your signed transaction. This can be useful if a problem occurred when broadcasting the transaction. To broadcast manually, please insert the following data in [MyCrypto](https://app.mycrypto.com/broadcast-transaction)",
-    "INVALID_INPUT": "Invalid input"
+    "INVALID_INPUT": "Invalid input",
+    "SCAN_QR": "Scan QR Code",
+    "INVALID_RAW_TRANSACTION_QR": "Unable to process QR code",
+    "ENTER_RAW_TRANSACTION_MANUALLY": "Enter Raw Transaction"
   }
 }

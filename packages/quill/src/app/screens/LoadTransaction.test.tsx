@@ -9,7 +9,9 @@ import {
 } from '@quill/common';
 import type { EnhancedStore } from '@reduxjs/toolkit';
 import { fireEvent, render, waitFor } from '@testing-library/react';
+import type { Result } from '@zxing/library';
 import { push } from 'connected-react-router';
+import { QrReader } from 'react-qr-reader';
 import { Provider } from 'react-redux';
 import selectEvent from 'react-select-event';
 import configureStore from 'redux-mock-store';
@@ -20,6 +22,14 @@ import { fAccounts, fRawTransaction } from '@fixtures';
 import { ROUTE_PATHS } from '@routing';
 import { LoadTransaction } from '@screens/LoadTransaction';
 import type { ApplicationState } from '@store';
+
+jest.mock('@app/utils/camera', () => ({
+  hasCamera: jest.fn().mockResolvedValue(true)
+}));
+
+jest.mock('react-qr-reader', () => ({
+  QrReader: jest.fn().mockReturnValue(null)
+}));
 
 Date.now = jest.fn(() => 1607602775360);
 
@@ -100,5 +110,30 @@ describe('LoadTransaction', () => {
       setNavigationBack(ROUTE_PATHS.MENU),
       setNavigationBack(undefined)
     ]);
+  });
+
+  it('shows the QR scanner', async () => {
+    const mockStore = createMockStore({
+      accounts: {
+        accounts: []
+      }
+    });
+
+    const { getByText, getByTestId } = getComponent(mockStore);
+
+    // Need to wait for a bit for the scanner button to become enabled
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    const button = getByText(translateRaw('SCAN_QR'));
+    fireEvent.click(button);
+
+    expect(getByTestId('scanner')).toBeDefined();
+
+    const mock = QrReader as jest.MockedFunction<typeof QrReader>;
+    const handleDecode = mock.mock.calls[0][0].onResult!;
+
+    handleDecode({ getText: () => fRawTransaction } as Result);
+
+    expect(() => getByTestId('scanner')).toThrow();
   });
 });

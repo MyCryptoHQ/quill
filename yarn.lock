@@ -3546,6 +3546,7 @@ __metadata:
     "@types/lodash.merge": 4.6.6
     "@types/node-ipc": 9.1.4
     "@types/pbkdf2": 3.1.0
+    "@types/qrcode.react": 1.0.2
     "@types/react": 16.9.49
     "@types/react-dom": 16.9.8
     "@types/react-redux": 7.1.9
@@ -3591,6 +3592,7 @@ __metadata:
     node-abi: 3.5.0
     node-ipc: 9.1.4
     node-loader: 1.0.1
+    qrcode.react: 1.0.1
     qruri: 0.0.4
     react: 17.0.2
     react-dom: 17.0.2
@@ -3598,6 +3600,7 @@ __metadata:
     react-inlinesvg: 2.2.2
     react-is: 17.0.2
     react-markdown: 5.0.3
+    react-qr-reader: 3.0.0-beta-1
     react-redux: 7.2.4
     react-router: 5.2.0
     react-router-dom: 5.2.0
@@ -4373,6 +4376,15 @@ __metadata:
   version: 15.7.3
   resolution: "@types/prop-types@npm:15.7.3"
   checksum: bd0eab69d5120ad3784d0c9985f902653d5924707a7f2b3702a330e762dfd61b6494954cb54ad0c52b918ffd6f1e7e27c9270e4442bc15250de348596f2f60cb
+  languageName: node
+  linkType: hard
+
+"@types/qrcode.react@npm:1.0.2":
+  version: 1.0.2
+  resolution: "@types/qrcode.react@npm:1.0.2"
+  dependencies:
+    "@types/react": "*"
+  checksum: 539a944bd362d49b6261897c34e1ea57185e7bf054ef20731f8d298918114d4fabf43df84f2faf25df465fdaa72039bc96d06b5a855d933c94299d1c49cae184
   languageName: node
   linkType: hard
 
@@ -5316,6 +5328,40 @@ __metadata:
   version: 4.2.2
   resolution: "@xtuc/long@npm:4.2.2"
   checksum: ec09a359f98e9f8c47bf6c965e73b520a1a65e93f1febf6472babc8b6b0b425a2084452be103da5be11aec8c502ecfa29400713d55ef774579d04f691db44a2d
+  languageName: node
+  linkType: hard
+
+"@zxing/browser@npm:0.0.7":
+  version: 0.0.7
+  resolution: "@zxing/browser@npm:0.0.7"
+  dependencies:
+    "@zxing/text-encoding": ^0.9.0
+  peerDependencies:
+    "@zxing/library": ^0.18.3
+  dependenciesMeta:
+    "@zxing/text-encoding":
+      optional: true
+  checksum: 4daa62f828c39c40254c076c64018e9de69954be577a54e44e5d42bf3675edf090b98bef5662cdbbfce15e62b4d2ebeaff6fb310673db0f016b2b11dd65d0b8c
+  languageName: node
+  linkType: hard
+
+"@zxing/library@npm:^0.18.3":
+  version: 0.18.6
+  resolution: "@zxing/library@npm:0.18.6"
+  dependencies:
+    "@zxing/text-encoding": ~0.9.0
+    ts-custom-error: ^3.0.0
+  dependenciesMeta:
+    "@zxing/text-encoding":
+      optional: true
+  checksum: 27e87cf882084a5295976b25975eae3604935bbcf66b2be962f97d99e416b61b93302f305f00d98bd7271467cef5aa4dcda6d918e9cacc65c2b407f9c3780bf7
+  languageName: node
+  linkType: hard
+
+"@zxing/text-encoding@npm:^0.9.0, @zxing/text-encoding@npm:~0.9.0":
+  version: 0.9.0
+  resolution: "@zxing/text-encoding@npm:0.9.0"
+  checksum: c0f32e38c97363c73385db84dba7c645da843348b14615c65781742a393118e86abced6b824ac2351f59f31066714b2155083557afa8bd07f0180a50edf0a7d8
   languageName: node
   linkType: hard
 
@@ -15751,6 +15797,26 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"qr.js@npm:0.0.0":
+  version: 0.0.0
+  resolution: "qr.js@npm:0.0.0"
+  checksum: 83e1d6140ec8781d0def39a70d7ef9e7a7ff455697d8e078b86aeeb773dd33fd5235d4f94710b871fc3cfdefb806165503b8241cd4cd9b18a4b9b4160f48db43
+  languageName: node
+  linkType: hard
+
+"qrcode.react@npm:1.0.1":
+  version: 1.0.1
+  resolution: "qrcode.react@npm:1.0.1"
+  dependencies:
+    loose-envify: ^1.4.0
+    prop-types: ^15.6.0
+    qr.js: 0.0.0
+  peerDependencies:
+    react: ^15.5.3 || ^16.0.0 || ^17.0.0
+  checksum: add74eb8a1a6967054bdcc090c0e858338be5e89c5cf6659827037e9bf297c0fafff5e47371288fa7ec863ee9620ed291b1564e3cd978d22e8be5d502a759d68
+  languageName: node
+  linkType: hard
+
 "qruri@npm:0.0.4":
   version: 0.0.4
   resolution: "qruri@npm:0.0.4"
@@ -16063,6 +16129,20 @@ fsevents@^1.2.7:
     "@popperjs/core": ^2.0.0
     react: ^16.8.0 || ^17
   checksum: 5cac009001e2a7c640ba931afedbbf33c94a672a3f7c6ef672e55561b72778c6941a09f57156962114b9e47793779728088845fc306c43477ddc645cdb8793ea
+  languageName: node
+  linkType: hard
+
+"react-qr-reader@npm:3.0.0-beta-1":
+  version: 3.0.0-beta-1
+  resolution: "react-qr-reader@npm:3.0.0-beta-1"
+  dependencies:
+    "@zxing/browser": 0.0.7
+    "@zxing/library": ^0.18.3
+    rollup: ^2.67.2
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0
+    react-dom: ^16.8.0 || ^17.0.0
+  checksum: a3b65269107bdd2a41dc9211280918a760eb4b1c63cc437e14a327b9f9463b26966f3a8cd4d12a57090417e441a8af9fb41b47e9feefa7e49b32e6f1ab093013
   languageName: node
   linkType: hard
 
@@ -16863,6 +16943,20 @@ fsevents@^1.2.7:
     semver-compare: ^1.0.0
     sprintf-js: ^1.1.2
   checksum: 14f4920920e9e39717ce9cd2203694a0cfed06723d16328990c1507d768daed6b9256f58cc61e96ccebc93378a6f50af7982debee03bf88c04eddf8bf45d1897
+  languageName: node
+  linkType: hard
+
+"rollup@npm:^2.67.2":
+  version: 2.68.0
+  resolution: "rollup@npm:2.68.0"
+  dependencies:
+    fsevents: ~2.3.2
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    rollup: dist/bin/rollup
+  checksum: 64c0cf93195f21d7c0e90c871b2fd88bfb36cad9f5f65fa61259e6f150b77d4100be5aa78eb70c3680c25fbe74d557216102d8dd82354bef101827b81207a971
   languageName: node
   linkType: hard
 
@@ -18749,6 +18843,13 @@ fsevents@^1.2.7:
   version: 1.0.5
   resolution: "trough@npm:1.0.5"
   checksum: c116d9e7ddb7d9eca4ebe4c6acb4d909829e97824d9a79caec8af0899120e55b9a8311a7821706864728fbdc72b38644ca25e9357de28a50a10ed4bd8e5d6234
+  languageName: node
+  linkType: hard
+
+"ts-custom-error@npm:^3.0.0":
+  version: 3.2.0
+  resolution: "ts-custom-error@npm:3.2.0"
+  checksum: 0e865d875cc5095aad9a165950b693d48e9a7921a1a5c1575096797a29447c4f0cb24c9d1cbb0aec7ed1d27bcbdc9a6d4acffd71050dc8b45deb31b960a10126
   languageName: node
   linkType: hard
 

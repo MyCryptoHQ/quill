@@ -9,6 +9,7 @@ import alert from '@assets/icons/alert.svg';
 import email from '@assets/icons/email.svg';
 import safeWallet from '@assets/icons/safe-wallet.svg';
 import logo from '@assets/images/logo-paper-wallet.svg';
+import secretImage from '@assets/images/secret.png';
 import { Box, LinkApp, QR } from '@components';
 import { translate } from '@translations';
 
@@ -135,7 +136,7 @@ export const PaperWallet = forwardRef(
           <Flex variant="vertical-start" justifyContent="space-between" height="100%">
             <Box mt="2">
               <Box sx={{ lineHeight: '0' }}>
-                <QR size={120} data={secret} />
+                <QR size={120} data={secret} imageSrc={secretImage} />
               </Box>
               <Body mt="2" fontSize="0" lineHeight="12px" sx={{ wordBreak: 'break-word' }}>
                 {secret}
