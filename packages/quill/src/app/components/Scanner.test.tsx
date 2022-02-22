@@ -24,7 +24,7 @@ describe('Scanner', () => {
     const handleDecode = mock.mock.calls[0][0].onResult!;
 
     handleDecode({ getText: () => 'foo' } as Result);
-    expect(getByText(translateRaw('INVALID_SIGNED_TRANSACTION_QR'))).toBeDefined();
+    expect(getByText(translateRaw('INVALID_RAW_TRANSACTION_QR'))).toBeDefined();
 
     handleDecode({ getText: () => fRawTransaction } as Result);
     expect(onScan).toHaveBeenCalledWith(fRawTransaction);
