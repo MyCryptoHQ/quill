@@ -37,7 +37,7 @@ export const Scanner: FunctionComponent<ScannerProps> = ({ onScan }) => {
         <QrReader
           constraints={{ facingMode: 'environment', aspectRatio: { ideal: 1 } }}
           onResult={handleDecode}
-          containerStyle={{ width: '100%' }}
+          containerStyle={{ width: '80%', margin: 'auto' }}
         />
         {error && <Body variant="error">{error}</Body>}
       </Box>

@@ -94,11 +94,11 @@ export const LoadTransaction = () => {
             {translateRaw('MANUALLY_LOAD_TRANSACTION_HEADER')}
           </SubHeading>
         </Box>
-        <Body mb="2">{translateRaw('MANUALLY_LOAD_TRANSACTION_DESCRIPTION')}</Body>
         {isScanner ? (
           <Scanner onScan={handleScan} />
         ) : (
           <>
+            <Body mb="2">{translateRaw('MANUALLY_LOAD_TRANSACTION_DESCRIPTION')}</Body>
             <Box mb="2">
               <Label htmlFor="account">{translateRaw('ACCOUNT')}</Label>
               <AccountSelector
