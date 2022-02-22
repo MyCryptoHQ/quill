@@ -54,8 +54,8 @@ export const LoadTransaction = () => {
 
   const handleToggleScanner = () => setScanner((value) => !value);
 
-  const handleScan = (signedTransaction: string) => {
-    form.setValue('transaction', signedTransaction);
+  const handleScan = (rawTransaction: string) => {
+    form.setValue('transaction', rawTransaction);
     setScanner(false);
   };
 
